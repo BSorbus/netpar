@@ -1,0 +1,223 @@
+<% input_disabled ||= false  
+   #if input_disabled is not passed to the partial it doesn't crash. 
+   # We default it to false 
+%>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
+
+      <div class="form-group col-sm-6">
+        <p><strong><%= Customer.human_attribute_name(:name) %></strong></p>
+        <h5><%= @customer.name %></h5>
+      </div>
+
+      <div class="form-group col-sm-4">
+        <p><strong><%= Customer.human_attribute_name(:given_names) %></strong></p>
+        <h5><%= @customer.given_names %></h5>
+      </div>
+
+      <div class="form-group col-sm-2">
+        <p><strong><%= Customer.human_attribute_name(:human) %></strong></p>
+        <h5><%= @customer.human? ? 'Tak' : 'Nie' %></h5>
+      </div>
+
+    </div>  <!-- /row -->
+  </div>  <!-- /col-sm-12 -->
+</div>  <!-- /row -->
+
+<hr class="hr-without-padding">
+
+<div class="row">
+  <div class="col-sm-6">
+    <small class="help-block"><%=t 'help_block_text.customer.form.address' %></small>
+    <div class="row">
+      <div class="form-group col-sm-2">
+        <p><strong><%= Customer.human_attribute_name(:address_postal_code) %></strong></p>
+        <h5><%= @customer.address_postal_code %></h5>
+      </div>
+
+      <div class="form-group col-sm-8">
+        <p><strong><%= Customer.human_attribute_name(:address_city) %></strong></p>
+        <h5><%= @customer.address_city %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-8">
+        <p><strong><%= Customer.human_attribute_name(:address_street) %></strong></p>
+        <h5><%= @customer.address_street %></h5>
+      </div>
+      <div class="form-group col-sm-2">
+        <p><strong><%= Customer.human_attribute_name(:address_house) %></strong></p>
+        <h5><%= @customer.address_house %></h5>
+      </div>
+      <div class="form-group col-sm-2">
+        <p><strong><%= Customer.human_attribute_name(:address_number) %></strong></p>
+        <h5><%= @customer.address_number %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-8">
+        <p><strong><%= Customer.human_attribute_name(:address_post_office) %></strong></p>
+        <h5><%= @customer.address_post_office %></h5>
+      </div>
+      <div class="form-group col-sm-4">
+        <p><strong><%= Customer.human_attribute_name(:address_pobox) %></strong></p>
+        <h5><%= @customer.address_pobox %></h5>
+     </div>
+    </div>
+
+
+  </div> <!-- /col-sm-6 -->
+
+  <div class="col-sm-6">
+    <small class="help-block"><%=t 'help_block_text.customer.form.c_address' %></small>
+    <div class="row">
+      <div class="form-group col-sm-2">
+        <p><strong><%= Customer.human_attribute_name(:c_address_postal_code) %></strong></p>
+        <h5><%= @customer.c_address_postal_code %></h5>
+      </div>
+
+      <div class="form-group col-sm-8">
+        <p><strong><%= Customer.human_attribute_name(:c_address_city) %></strong></p>
+        <h5><%= @customer.c_address_city %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-8">
+        <p><strong><%= Customer.human_attribute_name(:c_address_street) %></strong></p>
+        <h5><%= @customer.c_address_street %></h5>
+      </div>
+      <div class="form-group col-sm-2">
+        <p><strong><%= Customer.human_attribute_name(:c_address_house) %></strong></p>
+        <h5><%= @customer.c_address_house %></h5>
+      </div>
+      <div class="form-group col-sm-2">
+        <p><strong><%= Customer.human_attribute_name(:c_address_number) %></strong></p>
+        <h5><%= @customer.c_address_number %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-8">
+        <p><strong><%= Customer.human_attribute_name(:c_address_post_office) %></strong></p>
+        <h5><%= @customer.c_address_post_office %></h5>
+      </div>
+      <div class="form-group col-sm-4">
+        <p><strong><%= Customer.human_attribute_name(:c_address_pobox) %></strong></p>
+        <h5><%= @customer.c_address_pobox %></h5>
+      </div>
+    </div>
+
+  </div> <!-- /col-sm-6 -->
+</div> <!-- /row -->
+
+<hr>
+
+<div class="row">
+  <div class="col-sm-6">
+
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <p><strong><%= Customer.human_attribute_name(:birth_date) %></strong></p>
+        <h5><%= @customer.birth_date %></h5>
+      </div>
+
+      <div class="form-group col-sm-8">
+        <p><strong><%= Customer.human_attribute_name(:birth_place) %></strong></p>
+        <h5><%= @customer.birth_place %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <p><strong><%= Customer.human_attribute_name(:fathers_name) %></strong></p>
+        <h5><%= @customer.fathers_name %></h5>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <p><strong><%= Customer.human_attribute_name(:mothers_name) %></strong></p>
+        <h5><%= @customer.mothers_name %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <p><strong><%= Customer.human_attribute_name(:nationality_id) %></strong></p>
+        <h5><%= @customer.nationality.fullname %></h5>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <p><strong><%= Customer.human_attribute_name(:citizenship_id) %></strong></p>
+        <h5><%= @customer.citizenship.fullname %></h5>
+      </div>
+    </div>
+
+  </div> <!-- /col-sm-6 -->
+  <div class="col-sm-6">
+
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <p><strong><%= Customer.human_attribute_name(:pesel) %></strong></p>
+        <h5><%= @customer.pesel %></h5>
+      </div>
+
+      <div class="form-group col-sm-4">
+        <p><strong><%= Customer.human_attribute_name(:nip) %></strong></p>
+        <h5><%= @customer.nip %></h5>
+      </div>
+
+      <div class="form-group col-sm-4">
+        <p><strong><%= Customer.human_attribute_name(:regon) %></strong></p>
+        <h5><%= @customer.regon %></h5>
+      </div>
+    </div>
+
+    <div class="form-group">
+        <p><strong><%= Customer.human_attribute_name(:note) %></strong></p>
+      <h5><%= @customer.note %></h5>
+    </div>
+
+  </div> <!-- /col-sm-6 -->
+
+</div> <!-- /row -->
+
+
+<% if input_disabled %>
+  <!-- for "Show" -->
+  <div class="row">
+
+    <%= link_to t('Index', default: t("helpers.links.index")), customers_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+
+    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+
+
+    <% if policy(@customer).destroy? %>
+      <%= link_to t('Delete', default: t("helpers.links.destroy")), customer_path(@customer),
+                          method: :delete,
+                          data: { confirm: t('helpers.links.confirm_destroy', data: @customer.fullname) },
+                          :class => "btn btn-danger glyphicon glyphicon-trash" %>
+    <% end %>
+    <% if policy(@customer).edit? %>
+      <%= link_to t('Edit', default: t("helpers.links.edit")), edit_customer_path(@customer), 
+                        :class => "btn btn-primary glyphicon glyphicon-edit" %>  
+
+      <% end %>
+    <% if policy(@customer).merge? %>
+      <button class="btn btn-warning glyphicon glyphicon-link pull-right" type="button" data-toggle="collapse" data-target=".link-form" aria-expanded="false" > Scalanie kartotek
+      </button>
+    <% end %>
+  </div> <!-- /row -->
+
+<% else %>
+  <!-- form "New"/"Edit" -->
+<% end %>
+
+<div class="row link-form collapse">
+
+  <%= render partial: "merge", locals: {destination: @customer} %>
+
+</div> <!-- /row attach-form collapse -->

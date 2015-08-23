@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <%= image_tag attachments['logo.png'].url %>
+    <h3>Witaj <%= @user.email %>!</h3>
+  	<p>Gratulujemy!</p>
+  	<p>Zarejestrowałeś się w programie <strong>NetPAR</strong>. Aby zakończyć proces rejestracji musisz aktywować swoje konto wybierając link poniżej:</p>
+  	<p><%= link_to 'Aktywuj konto', confirmation_url(@resource, confirmation_token: @token) %></p>
+    <br>
+    <hr>
+    <p><small>
+      Ta wiadomość została wysłana autoamtycznie. Proszę nie odpisywać.
+    </small></p>
+    <hr>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<div class="col-sm-12">
+  <h3><span class="glyphicon glyphicon-user" aria-hidden="true"> 
+    <%= t "pages.customer.index.title" %>  
+    </span>
+  </h3>
+</div> <!--/col-sm-12 -->
+
+
+<div class="col-sm-12">
+  <table id="customers" class="hover cell-border" data-source="<%= datatables_index_customers_path(format: :json) %>">
+    <thead>
+      <tr>
+        <th> 0 ID </th>
+        <th> 1 Name</th>
+        <th> 2 Given names</th>
+        <th> 3 Address city</th>
+        <th> 4 Address street</th>
+        <th> 5 Address house</th>
+        <th> 6 Address number</th>
+        <th> 7 Pesel</th>
+        <th> 8 Nip</th>
+        <th> 9 Regon</th>
+      </tr>
+    </thead>
+
+    <tbody>
+       <!--data from JSON -->
+    </tbody>
+  </table>
+</div> <!--/col-sm-12 -->
+
+
+<div class="col-sm-12">
+  <div class="row">
+    <% if policy(:customer).new? %>
+      <%= link_to t('New', default: t("helpers.links.new")), new_customer_path, 
+                          :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
+    <% end %>
+  </div> <!--/row -->
+</div> <!--/col-sm-12 -->
+
+
+

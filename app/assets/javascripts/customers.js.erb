@@ -1,0 +1,96 @@
+$(document).ready(function() {
+  var oCustomertable = $('#customers').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    ajax: { 
+      url: $('#customers').data('source'),
+      type: "POST"
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
+    columns: [
+      { "targets": [0],
+        "title": "ID",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [1],
+        "title": "<%= Customer.human_attribute_name('name') %>" }, 
+      { "targets": [2],
+        "title": "<%= Customer.human_attribute_name('given_names') %>" }, 
+      { "targets": [3],
+        "title": "<%= Customer.human_attribute_name('address_city') %>" }, 
+      { "targets": [4],
+        "title": "<%= Customer.human_attribute_name('address_street') %>" }, 
+      { "targets": [5],
+        "title": "<%= Customer.human_attribute_name('address_house') %>" }, 
+      { "targets": [6],
+        "title": "<%= Customer.human_attribute_name('address_number') %>" }, 
+      { "targets": [7],
+        "title": "Pesel" }, 
+      { "targets": [8],
+        "title": "Nip" }, 
+      { "targets": [9],
+        "title": "Regon" }
+    ],
+    order: [[ 1, "asc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+ 
+
+
+});
+
+
+function displayHumanFields() {
+  var list = document.getElementsByClassName("human");
+  for (var i = 0; i < list.length; i++) {
+    list[i].style.display="";
+  };
+  var list = document.getElementsByClassName("no-human");
+  for (var i = 0; i < list.length; i++) {
+    list[i].style.display="none";
+  };
+
+};
+
+function displayNoHumanFields() {
+  var list = document.getElementsByClassName("human");
+  for (var i = 0; i < list.length; i++) {
+    list[i].style.display="none";
+  };
+  var list = document.getElementsByClassName("no-human");
+  for (var i = 0; i < list.length; i++) {
+    list[i].style.display="";
+  };
+};
+
+
+$(document).ready(function(){
+
+  $("#human_switch").on("click", function(){
+    if ($('#human_switch').is(':checked')) {
+      displayHumanFields();
+    } else {
+      displayNoHumanFields()
+    }
+  });    
+
+
+  if ($("#human_switch").length > 0) {
+    if ($('#human_switch').is(':checked')) {
+      displayHumanFields();
+    } 
+    else {
+      displayNoHumanFields()      
+    }
+  };
+
+
+    
+});
+

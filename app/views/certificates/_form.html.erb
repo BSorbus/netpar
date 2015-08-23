@@ -1,0 +1,140 @@
+<% input_disabled ||= false  
+   #if input_disabled is not passed to the partial it doesn't crash. 
+   # We default it to false 
+%>
+
+<% if @certificate.errors.any? %>
+  <div id="error_explanation" class="panel panel-danger">
+    <div class="panel-body">
+      <ul>
+      <% @certificate.errors.full_messages.each do |msg| %>
+        <li><h5><%= msg %></h5></li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
+
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
+
+      <div class="form-group col-sm-4">
+        <%= f.label :number, class: 'control-label' %>
+        <%= f.text_field :number, autofocus: true, class: 'form-control input-sm', placeholder: t('placeholder_text.certificate.form.number'), disabled: input_disabled %>
+      </div>
+
+      <div class="form-group col-sm-2">
+        <%= f.label :date_of_issue, class: 'control-label' %>
+        <%= f.text_field :date_of_issue, class: 'datepicker form-control input-sm', disabled: input_disabled %>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <%= f.label :customer_id, class: "control-label" %>
+        <%= f.hidden_field :customer_id,
+                          class: "form-control input-sm customer_select", 
+                          placeholder: "Wybierz Klienta",
+                          style: "width:100%" %>
+        <small class="help-block"><%=t 'help_block_text.select2_customer' %></small>
+      </div>
+
+
+    </div>  <!-- /row -->
+  </div>  <!-- /col-sm-12 -->
+</div>  <!-- /row -->
+
+<hr>
+
+<div class="row">
+  <div class="col-sm-6">
+
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <%= f.label :valid_thru, class: 'control-label' %>
+        <%= f.text_field :valid_thru, class: 'datepicker form-control input-sm', disabled: input_disabled %>
+      </div>
+      <div class="control-group col-sm-8">
+        <%= f.label :certificate_status, class: 'control-label' %>
+        <%= f.select :certificate_status, 
+                  options_for_select([['Duplikat', 'D'],
+                                      ['Nowe', 'N'],
+                                      ['Odnowione', 'O'], 
+                                      ['Skreślone (nieważne)', 'S'], 
+                                      ['Wymienione (odnowione)', 'W']], 
+                  selected: @certificate.certificate_status), { include_blank: false }, class: 'form-control input-sm', disabled: input_disabled %>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <%= f.label :division_id, class: 'control-label' %>
+          <%= f.select( :division_id, 
+              Division.only_category_scope(params[:category_service]).by_name.collect {|p| [ p.name, p.id ]},
+              { include_blank: false, multiple: false }, class: 'form-control input-sm', disabled: input_disabled ) %>
+    </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <%= f.label :exam_id, class: "control-label" %>
+        <%= f.hidden_field :exam_id,
+                          class: "form-control input-sm exam_select_#{params[:category_service]}", 
+                          placeholder: "Wybierz Sesję egzaminacyjną",
+                          style: "width:100%" %>
+        <small class="help-block"><%=t 'help_block_text.select2_exam' %></small>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <%= f.label :note, class: 'control-label' %>
+        <%= f.text_area :note, :rows => 4, :cols => 50, class: 'form-control input-sm', disabled: input_disabled %>
+      </div>
+    </div>
+
+
+  </div> <!-- /col-sm-6 -->
+
+  <div class="col-sm-6">
+
+  <% if @certificate.documents.where(fileattach_content_type: 'image/jpeg').any? %> 
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><%= Document.human_attribute_name('fileattach') %></p>
+        <% case params[:category_service] %>
+        <% when 'l' %>
+          <%= image_tag attachment_url(@certificate.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 875, 615, format: "jpg") %>
+        <% when 'm' %>
+          <%= image_tag attachment_url(@certificate.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 435, 615, format: "jpg") %>
+        <% when 'r' %>
+          <%= image_tag attachment_url(@certificate.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 435, 615, format: "jpg") %>
+        <% end %>
+      </div>
+    </div> <!-- /row -->
+
+    <% end %> <!-- /any? -->
+
+  </div> <!-- /col-sm-6 -->
+</div> <!-- /row -->
+
+<hr>
+
+
+<% if input_disabled %>
+  <!-- for "Show" -->
+<% else %>
+  <!-- form "New"/"Edit" -->
+  <div class="row">
+
+    <%= link_to t('Index', default: t("helpers.links.index")), certificates_path(params[:category_service]), :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+
+    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+  </div> <!-- /row -->
+
+<% end %>
+

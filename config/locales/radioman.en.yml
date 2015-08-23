@@ -1,0 +1,169 @@
+en:
+  home: 'Home'
+  content_title: "Radio amateurs"
+  restricted_area: "Restricted area!"
+  pages: 
+    visitors:
+      index:
+        title: 'Welcome to the online registry'
+        title_sub: 'the Amateur Radio Authorizations'
+        sub_individuals: 'Private persons'
+        sub_individuals_text: 'A list of authorizations issued for private persons'
+        sub_clubs: 'Legal entity'
+        sub_clubs_text: 'A list of authorizations issued for legal entity'
+        sub_mfree_individuals: 'Individual automatic stations'
+        sub_mfree_individuals_text: 'A list of authorizations issued for private persons'
+        sub_mfree_clubs: 'Club automatic stations'
+        sub_mfree_clubs_text: 'A list of authorizations issued for legal entity'
+    user:
+      index:
+        title: 'Users'
+      show:
+        title: 'User'
+    role:
+      index:
+        title: 'Role'
+      show:
+        title: 'Role'
+      new:
+        title: 'New Role'
+    department:
+      index:
+        title: 'Departments'
+      show:
+        title: 'Department'
+      new:
+        title: 'New Department'
+    customer:
+      index:
+        title: 'Customers'
+      show:
+        title: 'Customer'
+        other_stations: "Other club stations within a radius of 25km :"
+      new:
+        title: ' New Customer'
+    footer:
+      contact: 'Contact:'
+      links: 'Links:'
+      links_www1_title: 'UKE'
+      links_www1: 'http://en.uke.gov.pl'
+      links_www2_title: 'Radio licence'
+      links_www2: 'http://www.en.uke.gov.pl/radio-licence-19'
+      links_www3_title: 'Amateur Radio Authorization'
+      links_www3: 'http://www.en.uke.gov.pl/amateur-radio-authorization-for-the-foreign-citizens-121'
+  link_to:
+    roles: 'Roles'
+    departments: 'Departments'
+    customers: 'Klienci'
+  pundit:
+    default: ' SECURITY: Access denied!'
+    role_policy:
+      index?: ' SECURITY: You cannot watch list of roles!'
+      show?: ' SECURITY: You cannot watch this role!'
+      update?: ' SECURITY: You cannot edit this role!'
+      create?: ' SECURITY: You cannot create roles!'
+      destroy?: ' SECURITY: You cannot destroy roles!'
+    user_policy:
+      update?: 'You cannot edit this post!'
+      create?: 'You cannot create posts!'
+  activerecord:
+    models:
+      role: 'Role'
+      user: 'User'
+      department: 'Department'
+      customer: 'Customer'
+    messages:
+      successfull:
+        created: '"%{data}" was successfully created.'
+        updated: '"%{data}" was successfully updated.'
+        destroyed: '"%{data}" was successfully destroyed.'
+        add_role: 'Successfully added "%{child}" to "%{parent}".'
+        remove_role: 'Successfully removed "%{child}" from "%{parent}".'
+      error:
+        destroyed: 'Wystąpił błąd w czasie usuwania wpisu "%{data}".'
+    attributes:
+      role:
+        name: 'Nazwa'
+        activities: 'Działania'
+      user:
+        name: 'Name'
+        email: 'Email'
+        password: 'Password'
+        password_confirmation: 'Password confirmation'
+        current_password: 'Current password'
+        department_id: 'Department'
+      department:
+        short: 'Short'
+        name: 'Name'
+        address_city: 'City'
+        address_street: 'Street'
+        address_house: 'House'
+        address_number: 'Number'
+        address_postal_code: 'Postal code'
+        phone: 'Phone'
+        fax: 'Fax'
+        email: 'Email'
+        director: 'Director'
+      customer:
+        human: 'A natural person?'
+        name: 'Name'
+        given_names: 'Given names'
+        address_city: 'City'
+        address_street: 'Street'
+        address_house: 'House'
+        address_number: 'Number'
+        address_postal_code: 'Postal code'
+        c_address_city: 'C.- City'
+        c_address_street: 'C.- Street'
+        c_address_house: 'C.- House'
+        c_address_number: 'C.- Number'
+        c_address_postal_code: 'C.- Postal code'
+        nip: 'Nip'
+        regon: 'Regon'
+        pesel: 'Pesel'
+        nationality_id: 'Nationality'
+        citizenship_id: 'Citizenship'
+        birth_date: 'Birth date'
+        birth_place: 'Borth place'
+        fathers_name: 'Fathers name'
+        mothers_name: 'Mothers name'
+        phone: 'Telefon'
+        fax: 'Fax'
+        email: 'Email'
+        note: 'Uwagi'
+  tooltip:
+    show: 'Pokaż'
+    edit: 'Edycja'
+    destroy: 'Usuń'
+  placeholder_text:
+    role:
+      form:
+        name: 'eg. Customer Manager'
+        activities: 'eg. {customer:index, customer:show, customer:create, customer:update, customer:delete}'
+    user:
+      form:
+        name: 'eg. Jan Kowalski'
+        email: 'eg. j.kowalski@uke.gov.pl'
+    department:
+      show:
+      form:
+        short: 'eg.: UKE-DZC'
+        name: 'eg.: Artex-Software Sp z o.o.'
+      index:
+  help_block_text:
+    map_info: 'Caution! The program establishes the latitude and longitude using Geocoder and Google Maps. Presentations on the map should be regarded solely as information approximate.'
+    user:
+      form:
+        email: 'email must be from the domain "@uke.gov.pl"'
+    role:
+      form:
+        activities: 'format: {model:action, ... } eg. {customer:index, customer:show, customer:create, customer:update, customer:delete}'
+  flash:
+    actions:
+      create:
+        notice: "%{resource_name} was successfully created."
+      update:
+        notice: "%{resource_name} was successfully updated."
+      destroy:
+        notice: "%{resource_name} was successfully destroyed."
+        alert: "%{resource_name} could not be destroyed."

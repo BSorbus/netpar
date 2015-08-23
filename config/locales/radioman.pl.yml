@@ -1,0 +1,401 @@
+pl:
+  home: 'Strona główna'
+  content_title: "Netpar"
+  restricted_area: "Obszar ograniczony!"
+  pages:
+    visitors:
+      index:
+        title: 'Zapraszamy do programu NetPAR'
+        title_sub: 'amatorskie pozwolenia radiowe i świadectwa LOT, MOR, RA'
+        sub_individuals: 'Osoby fizyczne'
+        sub_individuals_text: 'Wykaz pozwoleń wydanych osobom fizycznym'
+        sub_clubs: 'Podmioty prawne'
+        sub_clubs_text: 'Wykaz pozwoleń wydanych podmiotom prawnym'
+        sub_mfree_individuals: 'Osoby fizyczne - urządzenia bezobsługowe'
+        sub_mfree_individuals_text: 'Wykaz pozwoleń wydanych osobom fizycznym'
+        sub_mfree_clubs: 'Podmioty prawne - urządzenia bezobsługowe'
+        sub_mfree_clubs_text: 'Wykaz pozwoleń wydanych podmiotom prawnym'
+    user:
+      index:
+        title: 'Użytkownicy'
+      show:
+        title: 'Użytkownik'
+    role:
+      index:
+        title: 'Role'
+      show:
+        title: 'Rola'
+      edit:
+        title: 'Rola - edycja danych'
+      new:
+        title: 'Nowa Rola'
+    department:
+      index:
+        title: 'Oddziały'
+      show:
+        title: 'Oddział'
+      edit:
+        title: 'Oddział - edycja danych'
+      new:
+        title: 'Nowy Oddział'
+    certificate:
+      index:
+        title: 'Świadectwa'
+      form:
+        or_input_remote_url: '...lub wybierz'
+    certificate_l:
+      index:
+        title: 'Świadectwa LOT'
+      show:
+        title: 'Świadectwo LOT'
+      edit:
+        title: 'Świadectwo LOT - edycja danych'
+      new:
+        title: ' Nowe Świadectwo - LOT'
+    certificate_m:
+      index:
+        title: 'Świadectwa MOR'
+      show:
+        title: 'Świadectwo MOR'
+      edit:
+        title: 'Świadectwo MOR - edycja danych'
+      new:
+        title: ' Nowe Świadectwo - MOR'
+    certificate_r:
+      index:
+        title: 'Świadectwa RA'
+      show:
+        title: 'Świadectwo RA'
+      edit:
+        title: 'Świadectwo RA - edycja danych'
+      new:
+        title: ' Nowe Świadectwo - RA'
+    exam_l:
+      index:
+        title: 'Egzaminy LOT'
+      show:
+        title: 'Egzamin LOT'
+      edit:
+        title: 'Egzamin LOT - edycja danych'
+      new:
+        title: ' Nowy Egzamin LOT'
+    exam_m:
+      index:
+        title: 'Egzaminy MOR'
+      show:
+        title: 'Egzamin MOR'
+      edit:
+        title: 'Egzamin MOR - edycja danych'
+      new:
+        title: ' Nowy Egzamin MOR'
+    exam_r:
+      index:
+        title: 'Egzaminy RA'
+      show:
+        title: 'Egzamin RA'
+      edit:
+        title: 'Egzamin RA - edycja danych'
+      new:
+        title: ' Nowy Egzamin RA'
+    customer:
+      index:
+        title: 'Klienci'
+      show:
+        title: 'Klient'
+        other_stations: "Inne stacje klubowe w promieniu 25 km :"
+      new:
+        title: ' Nowy Klient'
+    license:
+      index:
+        title: 'Pozwolenia'
+      show:
+        title: 'Pozwolenie'
+      edit:
+        title: 'Pozwolenie - edycja danych'
+      new:
+        title: ' Nowe Pozwolenie'
+    individual:
+      index:
+        title: 'Pozwolenia Indywidualne'
+      show:
+        title: 'Pozwolenie Indywidualne'
+      edit:
+        title: 'Pozwolenie Indywidualne - edycja danych'
+      new:
+        title: ' Nowe Pozwolenie Indywidualne'
+    club:
+      index:
+        title: 'Pozwolenia Klubowe'
+      show:
+        title: 'Pozwolenie Klubowe'
+      edit:
+        title: 'Pozwolenie Klubowe - edycja danych'
+      new:
+        title: ' Nowe Pozwolenie Klubowe'
+    footer:
+      contact: 'Kontakt:'
+      links: 'Zobacz też:'
+      links_www1_title: 'UKE'
+      links_www1: 'http://uke.gov.pl'
+      links_www2_title: 'świadectwa i pozwolenia radiowe'
+      links_www2: 'http://uke.gov.pl/pozwolenia-radiowe-11784'
+      links_www3_title: 'Służba amatorska'
+      links_www3: 'http://uke.gov.pl/pozwolenie-radiowe-sluzba-amatorska-4266'
+  link_to:
+    roles: 'Role'
+    departments: 'Oddziały'
+    customers: 'Klienci'
+    certificates: 'Świadectwa'
+    certificates_l: 'Świadectwa LOT'
+    certificates_m: 'Świadectwa MOR'
+    certificates_r: 'Świadectwa RA'
+    exams: 'Egzaminy'
+    exams_l: 'Egzaminy LOT'
+    exams_m: 'Egzaminy MOR'
+    exams_r: 'Egzaminy RA'
+    individuals: 'Pozwolenia Indywidualne'
+  pundit:
+    default: ' BRAK UPRAWNIEŃ: Nie można wykonać tej czynności!'
+    role_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy ról!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów roli!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych ról!'
+      create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć ról!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać ról!'
+      add_remove_role_user?: ' BRAK UPRAWNIEŃ: Nie możesz do ról dowawać ani usuwać użytkowników!'
+    user_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy użytkowników!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów użytkownika!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych użytkowników!'
+      create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć użytkowników!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać użytkowników!'
+      add_remove_role_user?: ' BRAK UPRAWNIEŃ: Nie możesz użytkownikom dodwać ani usuwać ról!'
+    department_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy oddziałów!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów oddziału!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych oddziału!'
+      create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć oddziałów!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać oddziałów!'
+    customer_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy klientów!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów klienta!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych klienta!'
+      create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć klientów!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać klientów!'
+    certificate_policy:
+      index_l?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy świadectw LOT!'
+      show_l?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów świadectwa LOT!'
+      update_l?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych świadectwa LOT!'
+      create_l?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć świadectw LOT!'
+      destroy_l?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać świadectw LOT!'
+      index_m?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy świadectw MOR!'
+      show_m?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów świadectwa MOR!'
+      update_m?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych świadectwa MOR!'
+      create_m?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć świadectw MOR!'
+      destroy_m?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać świadectw MOR!'
+      index_r?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy świadectw RA!'
+      show_r?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów świadectwa RA!'
+      update_r?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych świadectwa RA!'
+      create_r?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć świadectw RA!'
+      destroy_r?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać świadectw RA!'
+    exam_policy:
+      index_l?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy sesji egzaminacyjnych LOT!'
+      show_l?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów sesji egzaminacyjnej LOT!'
+      update_l?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych sesji egzaminacyjnej LOT!'
+      create_l?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć sesji egzaminacyjnych LOT!'
+      destroy_l?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać sesji egzaminacyjnych LOT!'
+      index_m?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy sesji egzaminacyjnych MOR!'
+      show_m?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów sesji egzaminacyjnej MOR!'
+      update_m?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych sesji egzaminacyjnej MOR!'
+      create_m?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć sesji egzaminacyjnych MOR!'
+      destroy_m?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać sesji egzaminacyjnych MOR!'
+      index_r?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy sesji egzaminacyjnych RA!'
+      show_r?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów sesji egzaminacyjnej RA!'
+      update_r?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych sesji egzaminacyjnej RA!'
+      create_r?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć sesji egzaminacyjnych RA!'
+      destroy_r?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać sesji egzaminacyjnych RA!'
+  activerecord:
+    models:
+      role: 'Rola'
+      user: 'Użytkownik'
+      department: 'Oddział'
+      certificate: 'Świadectwo'
+      exam: 'Egazamin'
+      customer: 'Klient'
+      document: 'Załącznik'
+      individual: 'Pozwolenie Indywidualne'
+    messages:
+      successfull:
+        created: 'Wpis: "%{data}" został pomyślnie utworzony.'
+        updated: 'Wpis: "%{data}" został pomyślnie zaktualizowany.'
+        destroyed: 'Wpis: "%{data}" został pomyślnie usunięty.'
+        add_role: 'Użytkownikowi "%{parent}" pomyślnie dodano rolę "%{child}".'
+        remove_role: 'Użytkownikowi "%{parent}" została pomyślnie usunięta rola "%{child}".'
+        attach_file: 'Załącznik "%{child}" pomyślnie dołączono do "%{parent}".'
+        remove_attach_file: 'Pomyślnie usunięto "%{child}" załączony do "%{parent}".'
+        merge: 'Pomyślnie przyłączono do "%{parent}" dokumenty powiązane dotychczas z "%{child}".'
+      error:
+        destroyed: 'Wystąpił błąd w czasie usuwania wpisu "%{data}".'
+        created: 'Wystąpił błąd w czasie dodawania nowego wpisu".'
+        merge: 'Wystąpił błąd w czasie scalania danych z kartoteką: "%{data}". Być może nie wybrałeś kartoteki do scalenia lub kartoteka źródłowa jest tożsama z docelową'
+      notice:
+        no_records: 'Brak dokumentu!'
+    attributes:
+      role:
+        name: 'Nazwa'
+        activities: 'Działania'
+      user:
+        name: 'Imię i Nazwisko'
+        email: 'Email'
+        password: 'Hasło'
+        password_confirmation: 'Potwórz hasło'
+        current_password: 'Aktualne hasło'
+        department_id: 'Oddział'
+      department:
+        short: 'Skrót'
+        name: 'Nazwa'
+        address_city: 'Miejscowość'
+        address_street: 'Ulica'
+        address_house: 'Dom'
+        address_number: 'Lokal'
+        address_postal_code: 'Kod'
+        phone: 'Telefon'
+        fax: 'Fax'
+        email: 'Email'
+        director: 'Dyrektor'
+      document:
+        fileattach: 'Załącznik'
+        fileattach_filename: 'Nazwa pliku'
+        fileattach_content_type: 'Typ'
+        fileattach_size: 'Rozmiar'
+        remote_fileattach_url: 'Zdalna ścieżka URL'
+        remove_fileattach: 'Usuń załączony plik'
+      certificate:
+        number: 'Numer'
+        date_of_issue: 'Data wydania'
+        valid_thru: 'Ważne do'
+        certificate_status: 'Status'
+        division_id: 'Typ świadectwa'
+        exam_id: 'Egzamin'
+        customer_id: 'Klient'
+        category: 'Kategoria'
+        note: 'Uwagi'
+      individual:
+        number: 'Numer'
+        date_of_issue: 'Data wydania'
+        valid_thru: 'Ważne do'
+        license_status: 'Status'
+        application_date: 'Data wniosku'
+        call_sign: 'Znak'
+        customer_id: 'Klient'
+        category: 'Kategoria'
+        transmitter_power: 'Moc [W]'
+        certificate_number: 'Nr świadectwa'
+        certificate_date_of_issue: 'Data świadectwa'
+        certificate_id: 'Świadectwo'
+        payment_code: 'KOD PŁATNOŚCI'
+        payment_date: 'Data wpłaty'
+        payment_id: 'Płatność'
+        station_city: 'Miejscowość (stacja)'
+        station_street: 'Ulica (st)'
+        station_house: 'Dom (st)'
+        station_noumber: 'Lokal (st)'
+        customer_id: 'Klient'
+        note: 'Uwagi'
+      exam:
+        number: 'Numer'
+        date_exam: 'Data'
+        place_exam: 'Miejscowość'
+        chairman: 'Przewodniczący'
+        secretary: 'Sekretarz'
+        committee_member1: 'Członek 1'
+        committee_member2: 'Członek 2'
+        committee_member3: 'Członek 3'
+        category: 'Kategoria'
+        note: 'Uwagi'
+      customer:
+        human: 'Osoba fizyczna'
+        name: 'Nazwisko (Nazwa)'
+        given_names: 'Imiona'
+        address_city: 'Miejscowość'
+        address_street: 'Ulica'
+        address_house: 'Dom'
+        address_number: 'Lokal'
+        address_postal_code: 'Kod'
+        address_post_office: 'Poczta'
+        address_pobox: 'Skrytka'
+        c_address_city: 'Miejscowość (k)'
+        c_address_street: 'Ulica (k)'
+        c_address_house: 'Dom (k)'
+        c_address_number: 'Lokal (k)'
+        c_address_postal_code: 'Kod (k)'
+        c_address_post_office: 'Poczta (k)'
+        c_address_pobox: 'Skrytka (k)'
+        nip: 'Nip'
+        regon: 'Regon'
+        pesel: 'Pesel'
+        nationality_id: 'Narodowość'
+        citizenship_id: 'Obywatelstwo'
+        birth_date: 'Data urodzenia'
+        birth_place: 'Miejsce urodzenia'
+        fathers_name: 'Imię ojca'
+        mothers_name: 'Imię matki'
+        phone: 'Telefon'
+        fax: 'Fax'
+        email: 'Email'
+        note: 'Uwagi'
+  tooltip:
+    show: 'Pokaż'
+    edit: 'Edycja'
+    destroy: 'Usuń'
+    download: 'Zapisz na dysk'
+  placeholder_text:
+    role:
+      form:
+        name: 'np. Menadżer Klientów'
+        activities: 'np. {customer:index,customer:show,customer:create,customer:update,customer:delete}'
+    user:
+      form:
+        name: 'np. Jan Kowalski'
+        email: 'np. j.kowalski@uke.gov.pl'
+    department:
+      show:
+      form:
+        short: 'np. UKE-BY'
+        name: 'np. Urząd Komunikacji Elektronicznej Oddział w Bydgoszczy'
+      index:
+    exam:
+      show:
+      form:
+        number: 'np. 1/1/2015'
+      index:
+    certificate:
+      show:
+      form:
+        number: 'np. 1/1/2015'
+      index:
+  help_block_text:
+    map_info: 'Uwaga! Program ustala szerokość i długość geograficzną wykorzystując Geocoder i Google Maps. Prezentacje na mapie należy traktować wylącznie jako informacje przybliżone.'
+    select2_customer: 'Wyszukiwanie po: Nazwisko, Imię, Miejscowość, Pesel. Warunki złożone oddzielane spacją np. Kow Jan Warsza'
+    select2_exam: 'Wyszukiwanie po: Numer, Miejscowość, Data (format: YYYY-MM-DD). Warunki złożone oddzielane spacją np. Warsza 2015-08'
+    document:
+      attach_title_small: 'Lista załączników'
+    user:
+      form:
+        email: 'email musi być z domeny "@uke.gov.pl"'
+    role:
+      form:
+        activities: 'format: {model:akcja,...} np.: {customer:index,customer:show,customer:create,customer:update,customer:delete} Uwaga! Nie wstawiaj spacji!'
+    customer:
+      form:
+        address: 'Adres'
+        c_address: 'Adres korespondencyjny'
+  flash:
+    actions:
+      create:
+        notice: "%{resource_name} was successfully created."
+      update:
+        notice: "%{resource_name} was successfully updated."
+      destroy:
+        notice: "%{resource_name} was successfully destroyed."
+        alert: "%{resource_name} could not be destroyed."

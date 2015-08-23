@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-sm-1">
+    <%= image_tag('airplane.png') %>
+    <%= t "pages.certificate_l.index.title" %>
+  </div> <!--/col-sm-1 -->
+
+  <div class="col-sm-11">
+
+    <div class="col-sm-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th> </th>
+            <th><%= Certificate.human_attribute_name(:number) %></th>
+            <th><%= Certificate.human_attribute_name(:date_of_issue) %></th>
+            <th><%= Certificate.human_attribute_name(:valid_thru) %></th>
+            <th><%= Certificate.human_attribute_name(:certificate_status) %></th>
+            <th><%= Certificate.human_attribute_name(:division_id) %></th>
+            <th><%= Certificate.human_attribute_name(:exam_id) %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @customer.certificates.only_category_l.order(date_of_issue: :desc).each do |certificate| %>
+              <tr>
+                <td>
+                  <%= link_to (image_tag (attachment_url(certificate.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 87, 61, format: "jpg"))), 
+                      certificate_path(certificate, category_service: certificate.category.downcase) if certificate.documents.where(fileattach_content_type: 'image/jpeg').any? %>
+                </td>
+                <td><%= link_to certificate.number, certificate_path(certificate, category_service: certificate.category.downcase) %></td>
+                <td><%= certificate.date_of_issue %></td>
+                <td><%= certificate.valid_thru %></td>
+                <td><%= certificate.certificate_status %></td>
+                <td><%= certificate.division.name %></td>
+                <td><%= link_to certificate.exam.fullname, exam_path(certificate.exam, category_service:  certificate.exam.category.downcase) %></td>
+              </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div> <!--/col-sm-12 -->
+
+    <div class="col-sm-12">
+      <div class="row">
+        <% if policy(:certificate).new_l? %>
+          <%= link_to t('New', default: t("helpers.links.new")), new_certificate_path(category_service: 'l', customer_id: @customer.id), 
+                              :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
+        <% end %>
+      </div> <!--/row -->
+    </div> <!--/col-sm-12 -->
+
+  </div> <!--/col-sm-11 -->
+  <div class="row">
+    <br>
+  </div> <!--/col-sm-12 -->
+</div> <!--/row -->

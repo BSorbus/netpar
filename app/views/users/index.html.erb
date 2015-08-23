@@ -1,0 +1,26 @@
+<div class="container">
+  <h3><span class="glyphicon glyphicon-heart" aria-hidden="true"> 
+    <%= t "pages.user.index.title" %>  
+    </span>
+  </h3>
+
+
+  <div class="col-sm-12">
+    <table id="users" class="hover cell-border" data-source="<%= datatables_index_users_path(format: :json) %>">
+      <thead>
+        <tr>
+          <th> 0 ID </th>
+          <th> 1 name </th>
+          <th> 2 email </th>
+          <th> 3 department.short </th>
+        </tr>
+      </thead>
+
+      <tbody>
+         <!--data from JSON -->
+      </tbody>
+    </table>
+  </div> <!--/col-sm-12 -->
+
+
+</div>

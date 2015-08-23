@@ -1,0 +1,118 @@
+<% input_disabled ||= false  
+   #if input_disabled is not passed to the partial it doesn't crash. 
+   # We default it to false 
+%>
+
+<% if @exam.errors.any? %>
+  <div id="error_explanation" class="panel panel-danger">
+    <div class="panel-body">
+      <ul>
+      <% @exam.errors.full_messages.each do |msg| %>
+        <li><h5><%= msg %></h5></li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
+
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
+
+      <div class="form-group col-sm-4">
+        <%= f.label :number, class: 'control-label' %>
+        <%= f.text_field :number, autofocus: true, class: 'form-control input-sm', placeholder: t('placeholder_text.exam.form.number'), disabled: input_disabled %>
+      </div>
+
+      <div class="form-group col-sm-2">
+        <%= f.label :date_exam, class: 'control-label' %>
+        <%= f.text_field :date_exam, class: 'datepicker form-control input-sm', disabled: input_disabled %>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <%= f.label :place_exam, class: 'control-label' %>
+        <%= f.text_field :place_exam, class: 'form-control input-sm', disabled: input_disabled %>
+      </div>
+
+    </div>  <!-- /row -->
+  </div>  <!-- /col-sm-12 -->
+</div>  <!-- /row -->
+
+<hr>
+
+<div class="row">
+  <div class="col-sm-6">
+
+    <div class="row">
+      <div class="form-group col-sm-8">
+        <%= f.label :chairman, class: 'control-label' %>
+        <%= f.text_field :chairman, class: 'form-control input-sm', disabled: input_disabled %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-8">
+        <%= f.label :secretary, class: 'control-label' %>
+        <%= f.text_field :secretary, class: 'form-control input-sm', disabled: input_disabled %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-8">
+        <%= f.label :committee_member1, class: 'control-label' %>
+        <%= f.text_field :committee_member1, class: 'form-control input-sm', disabled: input_disabled %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-8">
+        <%= f.label :committee_member2, class: 'control-label' %>
+        <%= f.text_field :committee_member2, class: 'form-control input-sm', disabled: input_disabled %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-8">
+        <%= f.label :committee_member3, class: 'control-label' %>
+        <%= f.text_field :committee_member3, class: 'form-control input-sm', disabled: input_disabled %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-8">
+        <%= f.label :note, class: 'control-label' %>
+        <%= f.text_area :note, :rows => 4, :cols => 50, class: 'form-control input-sm', disabled: input_disabled %>
+      </div>
+    </div>
+
+
+
+  </div> <!-- /col-sm-6 -->
+
+  <div class="col-sm-6">
+
+
+  </div> <!-- /col-sm-6 -->
+</div> <!-- /row -->
+
+<hr>
+
+
+<% if input_disabled %>
+  <!-- for "Show" -->
+<% else %>
+  <!-- form "New"/"Edit" -->
+  <div class="row">
+    <%= link_to t('Index', default: t("helpers.links.index")), exams_path(params[:category_service]), :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+
+    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+  </div> <!-- /row -->
+
+<% end %>
+  
+
+
+

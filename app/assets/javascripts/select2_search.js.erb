@@ -1,0 +1,147 @@
+$(document).ready(function() {
+  $('.customer_select').select2({
+    minimumInputLength: 2,
+    allowClear: false,
+    ajax: {
+      url: "/customers/select2_index.json",
+      dataType: 'json',
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        var more = (page * 10) < data.total_count;
+        var customers = $.map( data.customers, function(customer, i) {
+          return { id: customer.id, text: customer.fullname_and_address_and_pesel_nip };
+        });
+        return { results: customers, more: more };
+      }
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/customers/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ id: data_from_json.id, text: data_from_json.fullname_and_address_and_pesel_nip });
+        });
+      }
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+
+  $('.exam_select_l').select2({
+    minimumInputLength: 2,
+    allowClear: false,
+    ajax: {
+      url: "/l/exams/select2_index.json",
+      dataType: 'json',
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        var more = (page * 10) < data.total_count;
+        var exams = $.map( data.exams, function(exam, i) {
+          return { id: exam.id, text: exam.fullname };
+        });
+        return { results: exams, more: more };
+      }
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/l/exams/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+
+  $('.exam_select_m').select2({
+    minimumInputLength: 2,
+    allowClear: false,
+    ajax: {
+      url: "/m/exams/select2_index.json",
+      dataType: 'json',
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        var more = (page * 10) < data.total_count;
+        var exams = $.map( data.exams, function(exam, i) {
+          return { id: exam.id, text: exam.fullname };
+        });
+        return { results: exams, more: more };
+      }
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/m/exams/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+
+  $('.exam_select_r').select2({
+    minimumInputLength: 2,
+    allowClear: false,
+    ajax: {
+      url: "/r/exams/select2_index.json",
+      dataType: 'json',
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        var more = (page * 10) < data.total_count;
+        var exams = $.map( data.exams, function(exam, i) {
+          return { id: exam.id, text: exam.fullname };
+        });
+        return { results: exams, more: more };
+      }
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/r/exams/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+
+});
+

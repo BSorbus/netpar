@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="col-sm-12">
+    <div class="row">
+      <h3><span class="glyphicon glyphicon-sunglasses" aria-hidden="true"> 
+        <%= t "pages.role.index.title" %>  
+        </span>
+      </h3>
+      <div class="column">
+        <table class="table table-hover">
+          <tbody>
+            <% @roles.each do |role| %>
+              <tr>
+                <%= render role %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div> <!--/row -->
+  </div> <!--/col-sm-12 -->
+  <div class="col-sm-12">
+    <div class="row">
+      <% if policy(:role).new? %>
+        <%= link_to t('New', default: t("helpers.links.new")), new_role_path, 
+                            :class => 'btn btn-primary glyphicon glyphicon-plus pull-right' %> 
+      <% end %>
+    </div> <!--/row -->
+  </div> <!--/col-sm-12 -->
+</div> <!--/coontainer -->

@@ -1,0 +1,32 @@
+<div class="authpanel">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title"><%= t('devise.sessions.form.new.title') %></h3> <!-- Sign in -->
+    </div>
+    <div class="panel-body">
+
+      <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :role => 'form'}) do |f| %>
+        
+        <%#= devise_error_messages! %>
+
+        <div class="form-group">
+          <%= f.label :email, class: 'control-label' %>
+          <%= f.text_field :email, :autofocus => true, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :password, class: 'control-label' %>
+          <%= f.password_field :password, class: 'form-control' %>
+        </div>
+        <% if devise_mapping.rememberable? -%>
+          <%= f.check_box :remember_me %> <%= f.label :remember_me %>
+        <% end -%>
+
+        <%= f.submit t('devise.sessions.form.new.button_submit'), :class => 'btn btn-primary pull-right' %> <!-- Button: "Sign in" -->
+
+    </div>
+    <div class="panel-footer">
+      <%= render "devise/shared/links" %>  
+    </div>
+      <% end %><!-- /form_for -->
+  </div><!-- /panel panel-primary -->
+</div><!-- /authpanel -->

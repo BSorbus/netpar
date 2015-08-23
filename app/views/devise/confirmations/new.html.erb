@@ -1,0 +1,40 @@
+<div class="authpanel">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title"><%= t('devise.confirmations.form.new.title') %></h3> <!-- Resend confirmation instructions -->
+    </div>
+    <div class="panel-body">
+
+			<%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
+
+        <p><%= t('devise.confirmations.form.new.header_text') %></p>
+				<%#= devise_error_messages! %>
+
+			  <%#= f.error_notification %>
+			  <%#= f.full_error :confirmation_token %>
+
+        <% if resource.errors.any? %>
+          <div id="error_explanation" class="panel panel-danger">
+            <div class="panel-body">
+              <ul>
+              <% resource.errors.full_messages.each do |msg| %>
+                <li><h5><%= msg %></h5></li>
+              <% end %>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="form-group">
+          <%= f.label :email, class: 'control-label' %>
+          <%= f.text_field :email, :autofocus => true, class: 'form-control' %>
+        </div>
+
+        <%= f.submit t('devise.confirmations.form.new.button_submit'), :class => 'btn btn-primary pull-right' %> <!-- Button: "'Resend confirmation instructions'" -->
+    </div>
+    <div class="panel-footer">
+      <%= render "devise/shared/links" %>  
+    </div>
+      <% end %><!-- /form_for -->
+  </div><!-- /panel panel-primary -->
+</div><!-- /authpanel -->

@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-sm-1">
+    <%= image_tag('individual.png') %>
+    <%= t "pages.individual.index.title" %>
+  </div> <!--/col-sm-1 -->
+
+  <div class="col-sm-11">
+
+    <div class="col-sm-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th> </th>
+            <th><%= Individual.human_attribute_name(:number) %></th>
+            <th><%= Individual.human_attribute_name(:date_of_issue) %></th>
+            <th><%= Individual.human_attribute_name(:valid_thru) %></th>
+            <th><%= Individual.human_attribute_name(:license_status) %></th>
+            <th><%= Individual.human_attribute_name(:call_sign) %></th>
+            <th><%= Individual.human_attribute_name(:category) %></th>
+            <th><%= Individual.human_attribute_name(:transmitter_power) %></th>
+            <th><%= Individual.human_attribute_name(:certificate_id) %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @customer.individuals.order(date_of_issue: :desc).each do |individual| %>
+              <tr>
+                <td>
+                  <%= link_to (image_tag (attachment_url(individual.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 54, 77, format: "jpg"))), 
+                      individual_path(individual) if individual.documents.where(fileattach_content_type: 'image/jpeg').any? %>
+                </td>
+                <td><%= link_to individual.number, individual_path(individual) %></td>
+                <td><%= individual.date_of_issue %></td>
+                <td><%= individual.valid_thru %></td>
+                <td><%= individual.license_status %></td>
+                <td><%= individual.call_sign %></td>
+                <td><%= individual.category %></td>
+                <td><%= individual.transmitter_power %></td>
+                <td><%= link_to individual.certificate.fullname, certificate_path(individual.certificate, category_service: individual.certificate.category.downcase) if individual.certificate.present? %></td>
+              </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div> <!--/col-sm-12 -->
+
+    <div class="col-sm-12">
+      <div class="row">
+        <% if policy(:individual).new? %>
+          <%= link_to t('New', default: t("helpers.links.new")), new_individual_path(customer_id: @customer.id), 
+                              :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
+        <% end %>
+      </div> <!--/row -->
+    </div> <!--/col-sm-12 -->
+
+  </div> <!--/col-sm-11 -->
+  <div class="row">
+    <br>
+  </div> <!--/col-sm-12 -->
+</div>

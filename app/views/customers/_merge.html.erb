@@ -1,0 +1,48 @@
+<br>
+<hr>
+
+<div class="row">
+  <div class="col-sm-12">
+
+    <div class="col-sm-6">
+      <blockquote class="bg-warning">
+        <p class="text-danger">Uwaga! Scalanie Kartotek</p>
+          <footer class="bg-warning">Operacja "scalania kartotek" polega na przyłączeniu do kartoteki, którą właśnie oglądasz, dokumentów (świadectw i pozwoleń) dowiązanych do innej i skasowaniu kartoteki z której przeniesiono dokumenty.<br>
+          Scalanie kartotek należy wykonywać tylko wtedy, gdy mamy <strong>całkowią pewność</strong>, że powielone kartoteki dotyczą dokładnie tego samego Klienta.
+          </footer>
+      </blockquote>
+    </div> <!-- /.col-sm-6 -->
+
+    <div class="col-sm-6">
+
+
+      <%= form_tag(controller: "customers", action: "merge") do %>
+
+         <div class="row">
+          <div class="form-group col-sm-12">
+            <%= label_tag(:source_id, "Kartoteka do scalenia (usunięcia)") %>
+            <%= hidden_field_tag :source_id, nil,
+                              class: "form-control input-sm customer_select", 
+                              placeholder: "Wybierz Klienta",
+                              style: "width:100%" %>
+            <small class="help-block"><%=t 'help_block_text.select2_customer' %></small>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <%= submit_tag "Scal kartoteki", data: { confirm: t('helpers.links.confirm') }, class: 'btn btn-danger' %>
+          </div> <!-- /.col-sm-12 -->
+        </div> <!-- /row -->
+
+      <% end %>
+
+
+
+
+    </div> <!-- /.col-sm-6 -->
+
+  </div> <!-- /.col-sm-12 -->
+</div> <!-- / class="row" -->    
+
+<hr>

@@ -1,0 +1,53 @@
+<%- if devise_mapping.omniauthable? %>
+  <ul class="list-inline center">
+
+  <%- resource_class.omniauth_providers.each do |provider| %>
+
+  <!--  alias_method :facebook, :all
+        alias_method :twitter, :all
+        alias_method :linkedin, :all
+        alias_method :github, :all
+        alias_method :passthru, :all
+        alias_method :google_oauth2, :all -->
+
+    <!-- usuwam Twittera poniewaz nie podaje maila -->
+    <% case provider.to_s %>
+    <% when 'facebook' %>
+      <li><%= link_to image_tag("Facebook.png", height: '32', width: '32'), omniauth_authorize_path(resource_name, provider), title: 'Facebook', rel: 'tooltip'  %></li>
+    <% when 'linkedin' %>
+      <li><%= link_to image_tag("Linkedin.png", height: '32', width: '32'), omniauth_authorize_path(resource_name, provider), title: 'Linkedin', rel: 'tooltip'  %></li>
+    <% when 'github' %>
+      <li><%= link_to image_tag("Github.png", height: '32', width: '32'), omniauth_authorize_path(resource_name, provider), title: 'GitHub', rel: 'tooltip'  %></li>
+    <% when 'passthru' %>
+      <li><%= link_to "P #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider) %></li>
+    <% when 'google_oauth2' %>
+      <li><%= link_to image_tag("Google+.png", height: '32', width: '32'), omniauth_authorize_path(resource_name, provider), title: 'Google+', rel: 'tooltip'  %></li>
+    <% else %>
+      <li><%= link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider) %></li>
+    <% end %>
+
+
+  <% end -%>
+  </ul>
+<% end -%>
+
+
+<%- if controller_name != 'sessions' %>
+  <%= link_to t('devise.link_to.sign_in'), new_session_path(resource_name) %><br />
+<% end -%>
+
+<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+  <%= link_to t('devise.link_to.sign_up'), new_registration_path(resource_name) %><br />
+<% end -%>
+
+<%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
+  <%= link_to t('devise.link_to.new_password'), new_password_path(resource_name) %><br />
+<% end -%>
+
+<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+  <%= link_to t('devise.link_to.new_confirmation'), new_confirmation_path(resource_name) %><br />
+<% end -%>
+
+<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+  <%= link_to t('devise.link_to.new_unlock'), new_unlock_path(resource_name) %><br />
+<% end -%>

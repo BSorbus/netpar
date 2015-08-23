@@ -1,0 +1,14 @@
+<div class="col-sm-12">
+  <table class="table table-hover">
+    <tbody>
+      <% @department.users.by_name.each do |user| %>
+        <tr>
+          <td class="col-md-5"><%= link_to user.name, user_path(user) %></td>
+          <td class="col-md-5"><%= link_to user.email, user_path(user) %></td>
+          <td class="col-md-2"><%= user.department.short %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div> <!--/col-sm-12 -->
+

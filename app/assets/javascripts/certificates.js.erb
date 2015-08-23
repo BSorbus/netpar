@@ -1,0 +1,107 @@
+$(document).ready(function() {
+  var oCertificateTable = $('#certificates').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    ajax: { 
+      url: $('#certificates').data('source'),
+      type: "POST"
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
+    columns: [
+      { "targets": [0],
+        "title": "ID",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [1],
+        "title": "<%= Document.human_attribute_name('fileattach') %>",
+        "visible": true,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [2],
+        "title": "<%= Certificate.human_attribute_name('number') %>" }, 
+      { "targets": [3],
+        "title": "<%= Certificate.human_attribute_name('date_of_issue') %>" }, 
+      { "targets": [4],
+        "title": "<%= Certificate.human_attribute_name('valid_thru') %>" }, 
+      { "targets": [5],
+        "title": "<%= Certificate.human_attribute_name('certificate_status') %>" }, 
+      { "targets": [6],
+        "title": "<%= Certificate.human_attribute_name('division_id') %>" }, 
+      { "targets": [7],
+        "title": "<%= Certificate.human_attribute_name('customer_id') %>" }, 
+      { "targets": [8],
+        "title": "<%= Certificate.human_attribute_name('exam_id') %>" }, 
+      { "targets": [9],
+        "title": "<%= Certificate.human_attribute_name('category') %>" }
+    ],
+    order: [[ 3, "desc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+ 
+
+  var oExamCertificateTable = $('#exam-certificates').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    ajax: { 
+      url: $('#exam-certificates').data('source'),
+      type: "POST"
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    columns: [
+      { "targets": [0],
+        "title": "ID",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [1],
+        "title": "<%= Document.human_attribute_name('fileattach') %>",
+        "visible": true,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [2],
+        "title": "<%= Certificate.human_attribute_name('number') %>" }, 
+      { "targets": [3],
+        "title": "<%= Certificate.human_attribute_name('date_of_issue') %>" }, 
+      { "targets": [4],
+        "title": "<%= Certificate.human_attribute_name('valid_thru') %>" }, 
+      { "targets": [5],
+        "title": "<%= Certificate.human_attribute_name('certificate_status') %>" }, 
+      { "targets": [6],
+        "title": "<%= Certificate.human_attribute_name('division_id') %>" }, 
+      { "targets": [7],
+        "title": "<%= Certificate.human_attribute_name('customer_id') %>" }, 
+      { "targets": [8],
+        "title": "<%= Certificate.human_attribute_name('exam_id') %>" }, 
+      { "targets": [9],
+        "title": "<%= Certificate.human_attribute_name('category') %>" }
+    ],
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#collapse_certificates" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
+    order: [[ 3, "desc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+  // jezeli nastepuje wyswietlenie panelu, to zaladuj dane
+  $('#collapse_certificates').on('shown.bs.collapse', function (){
+    oExamCertificateTable.ajax.reload();
+    oExamCertificateTable.draw();
+  });
+
+ 
+  
+});

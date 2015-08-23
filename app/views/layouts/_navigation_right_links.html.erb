@@ -1,0 +1,39 @@
+<%# add navigation links to this file %>
+<% if user_signed_in? %>
+  <% if policy(:user).index? %>
+    <li><%= link_to users_path do %>
+    	<span class="glyphicon glyphicon-heart"></span>&nbsp;<%=t "devise.link_to.users" %>
+      <% end %>
+    </li>
+  <% end %>
+
+  <% if policy(:department).index? %>
+    <li><%= link_to departments_path do %>
+      <span class="glyphicon glyphicon-flag"></span>&nbsp;<%=t "link_to.departments" %>
+      <% end %>
+    </li>
+  <% end %>
+
+  <% if policy(:role).index? %>
+    <li><%= link_to roles_path do %>
+      <span class="glyphicon glyphicon-sunglasses"></span>&nbsp;<%=t "link_to.roles" %>
+      <% end %>
+    </li>
+  <% end %>
+
+  <li><%= link_to edit_user_registration_path do %>
+    <span class="glyphicon glyphicon-edit"></span>&nbsp;<%= current_user.name %>
+    <% end %>
+  </li>
+  <li><%= link_to destroy_user_session_path, :method=>'delete' do %>
+    <span class="glyphicon glyphicon-log-out"></span>&nbsp;<%=t "devise.link_to.sign_out" %>
+    <% end %>
+  </li>
+<% else %>
+  <% if request_from_the_security_area? %>
+    <li><%= link_to new_user_session_path do %>
+      <span class="glyphicon glyphicon-log-in"></span>&nbsp;<%=t "devise.link_to.sign_in" %>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>

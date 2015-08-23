@@ -1,0 +1,73 @@
+<%= form_for [@role], :html => { :role => 'form role' } do |f| %>
+
+  <% input_disabled ||= false  
+     #if input_disabled is not passed to the partial it doesn't crash. 
+     # We default it to false 
+  %>
+
+  <% if @role.errors.any? %>
+    <div id="error_explanation" class="panel panel-danger">
+      <div class="panel-body">
+        <ul>
+        <% @role.errors.full_messages.each do |msg| %>
+          <li><h5><%= msg %></h5></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+
+        <div class="form-group col-sm-12">
+          <%= f.label :name, class: 'control-label' %>
+          <h5><%= @role.name %></h5>
+        </div>
+
+      </div>  <!-- /row -->
+      <hr>
+    </div>  <!-- /col-sm-12 -->
+  </div>  <!-- /row -->
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+
+        <div class="form-group col-sm-12">
+           <%= f.label :activities, class: 'control-label' %>
+          <h5><%= @role.activities %></h5>
+        </div>
+
+      </div>
+    </div> <!-- /col-sm-6 -->
+  </div> <!-- /row -->
+
+  <hr>
+
+
+  <%= link_to t('Index', default: t("helpers.links.index")), roles_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+
+  <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+
+  <% if input_disabled %>
+    <!-- for "Show" -->
+
+    <% if policy(@role).destroy? %>
+      <%= link_to t('Delete', default: t("helpers.links.destroy")), role_path(@role),
+                          method: :delete,
+                          data: { confirm: t('helpers.links.confirm_destroy', data: @role.name) }, 
+                          :class => "btn btn-danger glyphicon glyphicon-trash" %>
+    <% end %>
+
+    <% if policy(@role).edit? %>
+      <%= link_to t('Edit', default: t("helpers.links.edit")), edit_role_path(@role), 
+                      :class => "btn btn-primary glyphicon glyphicon-edit" %>  
+    <% end %>
+  <% else %>
+    <!-- form "New"/"Edit" -->
+  <% end %>
+  
+<% end %>
+

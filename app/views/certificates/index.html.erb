@@ -1,0 +1,43 @@
+<div class="col-sm-12">
+  <h3><span class="glyphicon glyphicon-certificate" aria-hidden="true"> 
+    <%= t "pages.certificate_#{params[:category_service]}.index.title" %>  
+    </span>
+  </h3>
+</div> <!--/col-sm-12 -->
+
+
+<div class="col-sm-12">
+  <table id="certificates" class="hover cell-border" data-source="<%= datatables_index_certificates_path(format: :json) %>">
+    <thead>
+      <tr>
+        <th> 0 ID </th>
+        <th> 1 IMAGE-PATH</th>
+        <th> 2 Number</th>
+        <th> 3 Date of issue</th>
+        <th> 4 Valid thru</th>
+        <th> 5 certificate_status</th>
+        <th> 6 division.name</th>
+        <th> 7 customer.fullname</th>
+        <th> 8 certificate.fullnumber</th>
+        <th> 9 Category</th>
+      </tr>
+    </thead>
+
+    <tbody>
+       <!--data from JSON -->
+    </tbody>
+  </table>
+</div> <!--/col-sm-12 -->
+
+
+<div class="col-sm-12">
+  <div class="row">
+
+    <% if certificate_policy_check(:certificate, params[:category_service], 'new') %>
+      <%= link_to t('New', default: t("helpers.links.new")), new_certificate_path(params[:category_service]), 
+                          :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
+
+    <% end %>
+
+  </div> <!--/row -->
+</div> <!--/col-sm-12 -->

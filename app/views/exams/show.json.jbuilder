@@ -1,0 +1,1 @@
+json.extract! @exam, :id, :number, :date_exam, :place_exam, :fullname, :chairman, :secretary, :committee_member1, :committee_member2, :committee_member3, :category, :note, :user_id, :created_at, :updated_at

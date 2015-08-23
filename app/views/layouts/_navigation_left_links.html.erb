@@ -1,0 +1,60 @@
+<%# add navigation links to this file %>
+<% if user_signed_in? %>
+
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=t "link_to.certificates" %> <span class="caret"></span></a>
+
+    <ul class="dropdown-menu">
+      <% if policy(:certificate).index_l? %>
+        <li><%= link_to certificates_path( category_service: "l") do %>
+          <span class="glyphicon glyphicon-certificate"></span>&nbsp;<%=t "link_to.certificates_l" %>
+          <% end %>
+        </li>
+      <% end %>
+      <% if policy(:certificate).index_m? %>
+        <li><%= link_to certificates_path( category_service: "m") do %>
+          <span class="glyphicon glyphicon-certificate"></span>&nbsp;<%=t "link_to.certificates_m" %>
+          <% end %>
+        </li>
+      <% end %>
+      <% if policy(:certificate).index_r? %>
+        <li><%= link_to certificates_path( category_service: "r") do %>
+          <span class="glyphicon glyphicon-certificate"></span>&nbsp;<%=t "link_to.certificates_r" %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </li>
+
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=t "link_to.exams" %> <span class="caret"></span></a>
+
+    <ul class="dropdown-menu">
+      <% if policy(:exam).index_l? %>
+        <li><%= link_to exams_path( category_service: "l") do %>
+          <span class="glyphicon glyphicon-education"></span>&nbsp;<%=t "link_to.exams_l" %>
+          <% end %>
+        </li>
+      <% end %>
+      <% if policy(:exam).index_m? %>
+        <li><%= link_to exams_path( category_service: "m") do %>
+          <span class="glyphicon glyphicon-education"></span>&nbsp;<%=t "link_to.exams_m" %>
+          <% end %>
+        </li>
+      <% end %>
+      <% if policy(:exam).index_r? %>
+        <li><%= link_to exams_path( category_service: "r") do %>
+          <span class="glyphicon glyphicon-education"></span>&nbsp;<%=t "link_to.exams_r" %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </li>
+
+  <% if policy(:customer).index? %>
+    <li><%= link_to customers_path do %>
+    	<span class="glyphicon glyphicon-user"></span>&nbsp;<%=t "link_to.customers" %>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>

@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+      <br>
+      <%= image_tag("logo2.png", :class => "img img-responsive" ) %> 
+    </div>
+    <div class="col-sm-3">
+      <h5><%= t('pages.footer.contact') %></h5>
+        <ul><h6><i class="glyphicon glyphicon-envelope"></i> <%= mail_to "uke@uke.gov.pl" %></h6></ul>
+        <ul><h6><i class="glyphicon glyphicon-envelope"></i> <%= mail_to "netpar@uke.gov.pl" %></h6></ul>
+        <ul><h6><i class="glyphicon glyphicon-earphone"></i> 22 53 49 190 </h6></ul>
+    </div>
+    <div class="col-sm-3">
+      <h5><%= t('pages.footer.links') %></h5>
+        <ul><h6><i class="glyphicon glyphicon-globe"></i> <%= link_to(t('pages.footer.links_www1_title'), t('pages.footer.links_www1'), target: "_blank") %></h6></ul>
+        <ul><h6><i class="glyphicon glyphicon-globe"></i> <%= link_to(t('pages.footer.links_www2_title'), t('pages.footer.links_www2'), target: "_blank") %></h6></ul>
+        <ul><h6><i class="glyphicon glyphicon-globe"></i> <%= link_to(t('pages.footer.links_www3_title'), t('pages.footer.links_www3'), target: "_blank") %></h6></ul>
+    </div>
+    <div class="col-sm-3">
+      <%= image_tag("antena.jpg", :class => "img img-responsive" ) %> 
+      <h5 class="pull-right"><small>&copy; UKE-BI-WUSA (B&J) 2015</small></h5>
+    </div>
+  </div>
+</div>

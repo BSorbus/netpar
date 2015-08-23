@@ -1,0 +1,18 @@
+<td>
+  <%= link_to user.name, user %>
+  <%= link_to user.email, user %>
+</td>
+<td>
+  <%= form_for(user) do |f| %>
+    <%= f.collection_select :department_id, Department.by_name, :id, :short, {include_blank: true}, { multiple: false } %>
+    <%= f.submit 'Change Department', :class => 'button-xs' %>
+  <% end %>
+</td>
+
+<td><%= user.last_sign_in_at.present? ? user.last_sign_in_at.strftime("%Y-%m-%d %H:%M") : '' %></td>
+<td><%= user.last_sign_in_ip %></td>
+<td><%= user.current_sign_in_at.present? ? user.current_sign_in_at.strftime("%Y-%m-%d %H:%M") : '' %></td>
+<td><%= user.current_sign_in_ip %></td>
+<td>
+  <%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'button-xs') unless user == current_user %>
+</td>

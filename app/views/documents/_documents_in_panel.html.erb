@@ -1,0 +1,108 @@
+  <!-- Załączniki -->
+  <div class="row">
+    <div class="col-sm-11 col-sm-offset-1">
+      <div class="panel panel-attach">
+        <div class="panel-heading">
+          <div class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_attach" >
+              <span class="glyphicon glyphicon-paperclip"> Załączniki</span>
+              <i class="indicator glyphicon glyphicon-chevron-right  pull-right"></i>
+            </a>
+          </div>
+        </div>
+        <div id="collapse_attach" class="panel-collapse collapse"> <!-- id="collapse_scan_and_print" -->
+          <div class="panel-body">
+            <div class="col-sm-12">
+
+              <div class="col-sm-7">
+
+                <%#= render partial: "documents/documents", documentable: attach_parent %>
+                <div class="col-sm-12">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th><%= Document.human_attribute_name(:fileattach_filename) %></th>
+                        <th><%= Document.human_attribute_name(:fileattach_content_type) %></th>
+                        <th><%= Document.human_attribute_name(:fileattach_size) %></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <% documentable.documents.each do |document| %>
+                        <tr>
+                          <td>
+                            <!--"Show" as download-->
+                            <%= link_to document.fileattach_filename, document_path(document), title: t('tooltip.download'), rel: 'tooltip' %>
+                           </td>
+                          <td><%= document.fileattach_content_type %></td>
+                          <td><%= number_to_human_size(document.fileattach_size) %></td>
+                          <td>
+                            <%= link_to ' ', document_path(document),
+                                            method: :delete,
+                                            data: { confirm: t('helpers.links.confirm_destroy', data: document.fileattach_filename) }, 
+                                            :class => "glyphicon glyphicon-trash", title: t('tooltip.destroy'), rel: 'tooltip' %>
+                          </td>
+
+
+                        </tr>
+                      <% end %>
+                    </tbody>
+
+                  </table>
+                </div> <!--/col-sm-12 -->
+
+
+
+
+
+
+              </div> <!-- /col-sm-7 -->
+
+              <div class="col-sm-5">
+
+                <%#= render partial: "documents/form", locals: {documentable: attach_parent} %>
+                <%= form_for [documentable, Document.new] do |f| %>
+
+                  <div class="form-group col-sm-12">
+
+                    <%= f.label :fileattach, class: 'control-label' %><br>
+                    <%= f.attachment_field :fileattach, direct: true, class: 'form-control input-sm' %>
+
+                    <br>
+                    <p><%=t "pages.certificate.form.or_input_remote_url"%></p>
+                 
+                    <%= f.label :remote_fileattach_url, class: 'control-label' %><br>
+                    <%= f.text_field :remote_fileattach_url, class: 'form-control input-sm' %>
+
+                  </div>
+
+                  <div class="col-sm-12">
+
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;" id="progress_load">
+                        <span class="sr-only"></span>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="col-sm-12">
+                    <%= f.submit nil, class: 'btn btn-primary pull-right' %>
+                  </div> <!-- /row -->
+
+                <% end %>
+
+
+
+
+
+              </div> <!-- /col-sm-6 -->
+
+
+            </div> <!--/class="col-sm-12" -->
+          </div> <!-- /panel-body -->
+        </div> <!-- /id="collapse_scan_and_print" -->
+      </div> <!-- /panel -->
+    </div> <!-- /col-sm-11 col-sm-offset-1 -->
+  </div> <!-- /row -->

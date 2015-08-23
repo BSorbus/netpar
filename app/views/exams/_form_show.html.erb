@@ -1,0 +1,129 @@
+<% input_disabled ||= false  
+   #if input_disabled is not passed to the partial it doesn't crash. 
+   # We default it to false 
+%>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
+
+      <div class="form-group col-sm-4">
+        <p><strong><%= Exam.human_attribute_name(:number) %></strong></p>
+        <h5><%= @exam.number %></h5>
+      </div>
+
+      <div class="form-group col-sm-2">
+        <p><strong><%= Exam.human_attribute_name(:date_exam) %></strong></p>
+        <h5><%= @exam.date_exam %></h5>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <p><strong><%= Exam.human_attribute_name(:place_exam) %></strong></p>
+        <h5><%= @exam.place_exam %></h5>
+      </div>
+
+    </div>  <!-- /row -->
+  </div>  <!-- /col-sm-12 -->
+</div>  <!-- /row -->
+
+<hr>
+
+<div class="row">
+  <div class="col-sm-6">
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= Exam.human_attribute_name(:chairman) %></strong></p>
+        <h5><%= @exam.chairman %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= Exam.human_attribute_name(:secretary) %></strong></p>
+        <h5><%= @exam.secretary %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= Exam.human_attribute_name(:committee_member1) %></strong></p>
+        <h5><%= @exam.committee_member1 %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= Exam.human_attribute_name(:committee_member2) %></strong></p>
+        <h5><%= @exam.committee_member2 %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= Exam.human_attribute_name(:committee_member3) %></strong></p>
+        <h5><%= @exam.committee_member3 %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= Exam.human_attribute_name(:note) %></strong></p>
+        <h5><%= @exam.note %></h5>
+      </div>
+    </div>
+
+  </div> <!-- /col-sm-6 -->
+
+  <div class="col-sm-6">
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <%  @attach = @exam.documents.where(fileattach_content_type: ['image/jpeg', 'application/pdf']).last %>
+
+        <% if @attach.present? %>
+          <p><strong><%= Document.human_attribute_name(:fileattach) %></strong></p>
+
+          <%= image_tag get_fileattach_as_image(@attach, 'e') %>
+
+          <br>
+          <small><%= @attach.fileattach_filename %></small>
+
+        <% end %>
+
+      </div> <!-- /form-group col-sm-12 -->
+
+    </div> <!-- /row -->
+
+  </div> <!-- /col-sm-6 -->
+</div> <!-- /row -->
+
+<hr>
+
+
+<% if input_disabled %>
+  <!-- for "Show" -->
+  <div class="row">
+
+    <%= link_to t('Index', default: t("helpers.links.index")), exams_path(params[:category_service]), :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+
+    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+
+    <% if exam_policy_check(@exam, params[:category_service], 'destroy') %>
+      <%= link_to t('Delete', default: t("helpers.links.destroy")), exam_path(@exam, category_service: @exam.category.downcase),
+                          method: :delete,
+                          data: { confirm: t('helpers.links.confirm_destroy', data: @exam.fullname) }, 
+                          :class => "btn btn-danger glyphicon glyphicon-trash" %>
+    <% end %>
+
+    <% if exam_policy_check(@exam, params[:category_service], 'edit') %>
+      <%= link_to t('Edit', default: t("helpers.links.edit")), edit_exam_path(@exam, category_service: @exam.category.downcase), 
+                          :class => 'btn btn-primary glyphicon glyphicon-edit' %> 
+    <% end %>
+
+  </div> <!-- /row -->
+
+
+<% else %>
+  <!-- form "New"/"Edit" -->
+<% end %>

@@ -1,0 +1,38 @@
+<div class="col-sm-12">
+  <div class="row">  <!--row -->
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-10">
+      <blockquote>
+        <h5>Wydruki generowane w tym widoku ograniczone są tylko do pozycji <strong><%= @certificate.fullname %></strong>.</h5>
+      </blockquote>
+    </div> <!-- /.col-sm-12 -->
+  </div> <!-- /.row -->
+
+  <hr>
+
+  <div class="row">  <!--dla Klienta -->
+    <div class="col-sm-2">
+      <p class="lead">dla Klienta</p>
+    </div><!-- /.col-sm-2 -->
+  
+    <% if certificate_policy_check(@certificate, params[:category_service], 'print') %>
+      <div class="col-sm-2">
+        <div class="folded"><h3><%= @certificate.number %></h3></div>
+        <%= link_to image_tag("certificate_#{params[:category_service]}.jpg", :class => "img-thumbnail" ), 
+              to_pdf_certificate_path(@certificate, category_service: @certificate.category.downcase, :format => "pdf"), 
+              :target => "_blank" %>  
+
+        <h5>Wydruk dokumentu do pdf</h5>
+      </div><!-- /.col-sm-2 -->
+    <% end %>
+
+  </div class="row">  <!--/dla Klienta -->
+
+  <div class="row">  <!--/Historia -->
+    <div class="col-sm-2">
+      <p class="lead">Historia wpisów</p>
+    </div><!-- /.col-sm-2 -->
+  </div class="row">  <!--/Historia -->
+
+</div> <!--/col-sm-12 -->

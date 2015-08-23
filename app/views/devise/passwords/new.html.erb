@@ -1,0 +1,38 @@
+<div class="authpanel">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title"><%= t('devise.passwords.form.new.title') %></h3> <!-- Forgot your password? -->
+    </div>
+    <div class="panel-body">
+
+      <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, :role => 'form'}) do |f| %>
+        <p><%= t('devise.passwords.form.new.header_text') %></p>
+
+        <%#= devise_error_messages! %>
+
+        <% if resource.errors.any? %>
+          <div id="error_explanation" class="panel panel-danger">
+            <div class="panel-body">
+              <ul>
+              <% resource.errors.full_messages.each do |msg| %>
+                <li><h5><%= msg %></h5></li>
+              <% end %>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+    
+        <div class="form-group">
+          <%= f.label :email, class: 'control-label' %>
+          <%= f.text_field :email, :autofocus => true, class: 'form-control' %>
+        </div>
+
+         <%= f.submit t('devise.passwords.form.new.button_submit'), :class => 'btn btn-primary pull-right' %> <!-- Button: "Reset Password" -->
+      <% end %>
+
+    </div>
+    <div class="panel-footer">
+      <%= t('devise.passwords.form.new.footer_text') %>
+    </div>
+  </div><!-- /panel panel-primary -->
+</div><!-- /authpanel -->
