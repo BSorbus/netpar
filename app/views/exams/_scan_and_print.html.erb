@@ -1,0 +1,62 @@
+<div class="col-sm-12">
+  <div class="row">  <!--row -->
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-10">
+      <blockquote>
+        <h5>Wydruki generowane w tym widoku ograniczone są tylko do pozycji <strong><%= @exam.fullname %></strong>.
+            Mogą zawierać też listy zbiorcze dotyczące tego Egzaminu</h5>
+      </blockquote>
+    </div> <!-- /.col-sm-12 -->
+  </div> <!-- /.row -->
+
+  <hr>
+
+  <div class="row">  <!--dla Egzaminu -->
+    <div class="col-sm-2">
+      <p class="lead">Sesja Egzaminacyjna</p>
+    </div><!-- /.col-sm-2 -->
+  
+
+    <% if exam_policy_check(@exam, params[:category_service], 'print') %>
+      <div class="col-sm-2">
+
+        <h5>Wydruk listy obecności</h5>
+      </div><!-- /.col-sm-2 -->
+    <% end %>
+
+    <% if exam_policy_check(@exam, params[:category_service], 'print') %>
+      <div class="col-sm-2">
+
+        <h5>Wydruk protokołu</h5>
+      </div><!-- /.col-sm-2 -->
+    <% end %>
+
+
+  </div class="row">  <!--/dla Egzaminu -->
+
+
+  <div class="row">  <!--dla Świadectwa -->
+    <div class="col-sm-2">
+      <p class="lead">Świadectwa</p>
+    </div><!-- /.col-sm-2 -->
+  
+    <% if certificate_policy_check(:certificate, params[:category_service], 'print') %>
+      <div class="col-sm-2">
+        <%= link_to image_tag("certificate_#{params[:category_service]}.jpg", :class => "img-thumbnail" ), 
+              certificate_to_pdf_exam_path(@exam, category_service: @exam.category.downcase, :format => "pdf"), 
+              :target => "_blank" %>  
+
+        <h5>Wydruk świadectw</h5>
+      </div><!-- /.col-sm-2 -->
+    <% end %>
+
+  </div class="row">  <!--/dla Świadectwa -->
+
+  <div class="row">  <!--/Historia -->
+    <div class="col-sm-2">
+      <p class="lead">Historia wpisów</p>
+    </div><!-- /.col-sm-2 -->
+  </div class="row">  <!--/Historia -->
+
+</div> <!--/col-sm-12 -->

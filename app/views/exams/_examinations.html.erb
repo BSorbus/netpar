@@ -9,7 +9,9 @@
           <th> 4 division.name</th>
           <th> 5 exam_resoult</th>
           <th> 6 note</th>
-          <th> 7 Category</th>
+          <th> 7 certificate.number</th>
+          <th> 8 Category</th>
+          <th> 9 Akcje</th>
         </tr>
       </thead>
 
@@ -24,7 +26,7 @@
     <div class="row">
 
       <% if examination_policy_check(:examination, params[:category_service], 'new') %>
-        <%= link_to t('New', default: t("helpers.links.new")), new_examination_path(params[:category_service], exam_id: @exam.id), 
+        <%= link_to t('New', default: t("helpers.links.new")), new_examination_path(params[:category_service], exam_id: @exam.id, back_url: exam_path(params[:category_service], @exam) ), 
                               :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
       <% end  %> 
 

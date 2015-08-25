@@ -33,7 +33,7 @@ class CertificatesController < ApplicationController
   end
 
 
-  def to_pdf
+  def certificate_to_pdf
     case params[:category_service]
       when 'l'
         authorize :certificate, :print_l?

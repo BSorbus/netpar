@@ -15,8 +15,10 @@
             <th><%= Examination.human_attribute_name(:division_id) %></th>
             <th><%= Examination.human_attribute_name(:examination_resoult) %></th>
             <th><%= Examination.human_attribute_name(:exam_id) %></th>
+            <th><%= Examination.human_attribute_name(:certificate_id) %></th>
             <th><%= Examination.human_attribute_name(:note) %></th>
             <th><%= Examination.human_attribute_name(:category) %></th>
+            <th>Akcje</th>
           </tr>
         </thead>
 
@@ -30,9 +32,24 @@
                 <td><%= examination.examination_category_name %></td>
                 <td><%= examination.division.name %></td>
                 <td><%= examination.examination_resoult_name %></td>
-                <td><%= link_to examination.exam.fullname, exam_path(examination.exam, category_service:  examination.exam.category.downcase) %></td>
+                <td>
+                  <%= link_to examination.exam.fullname, exam_path(examination.exam, category_service:  examination.exam.category.downcase) %>
+                </td>
+                <td>
+                  <%= link_to examination.certificate.fullname, certificate_path(examination.certificate, category_service: examination.certificate.category.downcase) if examination.certificate.present? %>
+                </td>
                 <td><%= examination.note %></td>
                 <td><%= examination.category %></td>
+                <td>
+                  <%= link_to ' ', examination_path(examination, category_service: examination.category.downcase, back_url: customer_path(@customer)), 
+                        :class => "glyphicon glyphicon-eye-open", title: t('tooltip.show'), rel: 'tooltip' %>
+                    
+                  <%= link_to ' ', examination_path(examination, category_service: examination.category.downcase, back_url: customer_path(@customer)),
+                        method: :delete,
+                        data: { confirm: t('helpers.links.confirm_destroy', data: examination.fullname) }, 
+                        :class => "glyphicon glyphicon-trash", title: t('tooltip.destroy'), rel: 'tooltip' %>
+
+                </td>
               </tr>
           <% end %>
 
@@ -43,7 +60,7 @@
     <div class="col-sm-12">
       <div class="row">
         <% if examination_policy_check(:examination, category_service, 'new') %>
-          <%= link_to t('New', default: t("helpers.links.new")), new_examination_path(category_service: category_service, customer_id: @customer.id), 
+          <%= link_to t('New', default: t("helpers.links.new")), new_examination_path(category_service: category_service, customer_id: @customer.id, back_url: customer_path(@customer)), 
                               :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
         <% end %>
       </div> <!--/row -->

@@ -16,6 +16,7 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
                               Division.name
                               Examination.examination_resoult
                               Examination.note
+                              Certificate.number
                               Examination.category 
                             )
   end
@@ -48,8 +49,18 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
         record.examination_category_name,
         record.division.name,
         record.examination_resoult_name,
-        link_to(record.note, @view.examination_path(params[:category_service], record)),
-        record.category 
+        record.note,
+        record.certificate.present? ? link_to(record.certificate.number, @view.certificate_path(record.certificate.category.downcase, record.certificate)) : '',
+        #record.certificate.present? ? record.certificate.number : '',
+        record.category, 
+        link_to(' ', @view.examination_path(params[:category_service], record, back_url: @view.exam_path(params[:category_service], record.exam)), 
+                        class: 'glyphicon glyphicon-eye-open', title: 'Pokaż', rel: 'tooltip') + 
+                    " " +
+        link_to(' ', @view.examination_path(params[:category_service], record, back_url: @view.exam_path(params[:category_service], record.exam)), 
+                        method: :delete, 
+                        data: { confirm: "Czy na pewno chcesz usunąć ten wpis?" }, 
+                        class: "glyphicon glyphicon-trash", title: 'Usuń', rel: 'tooltip')  
+
       ]
     end
   end
@@ -66,7 +77,7 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    Examination.joins(:division, :customer, :exam).where(exam_id: options[:only_for_current_exam_id]).includes(:division, :customer, :exam).references(:division, :customer, :exam).all
+    Examination.joins(:division, :customer, :exam).where(exam_id: options[:only_for_current_exam_id]).includes(:division, :customer, :exam, :certificate).references(:division, :customer, :exam, :certificate).all
   end
 
   # ==== Insert 'presenter'-like methods below if necessary

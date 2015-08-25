@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150824132435) do
+ActiveRecord::Schema.define(version: 20150825184149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -240,8 +240,10 @@ ActiveRecord::Schema.define(version: 20150824132435) do
     t.integer  "user_id"
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
+    t.integer  "certificate_id"
   end
 
+  add_index "examinations", ["certificate_id"], name: "index_examinations_on_certificate_id", using: :btree
   add_index "examinations", ["customer_id"], name: "index_examinations_on_customer_id", using: :btree
   add_index "examinations", ["division_id"], name: "index_examinations_on_division_id", using: :btree
   add_index "examinations", ["exam_id"], name: "index_examinations_on_exam_id", using: :btree
@@ -371,6 +373,7 @@ ActiveRecord::Schema.define(version: 20150824132435) do
   add_foreign_key "dirty_customers", "users"
   add_foreign_key "dirty_individuals", "dirty_customers"
   add_foreign_key "dirty_individuals", "users"
+  add_foreign_key "examinations", "certificates"
   add_foreign_key "examinations", "customers"
   add_foreign_key "examinations", "divisions"
   add_foreign_key "examinations", "exams"

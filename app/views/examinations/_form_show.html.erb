@@ -84,20 +84,18 @@
   <!-- for "Show" -->
   <div class="row">
 
-    <%= link_to t('Index', default: t("helpers.links.index")), exam_path(params[:category_service], @examination.exam), :class => 'btn btn-default glyphicon glyphicon-th-list' %>
-
-    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+    <%= link_to t('Back', default: t("helpers.links.back")), back_url, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
 
 
     <% if examination_policy_check(@examination, params[:category_service], 'destroy') %>
-        <%= link_to t('Delete', default: t("helpers.links.destroy")), examination_path(@examination, category_service: @examination.category.downcase),
+        <%= link_to t('Delete', default: t("helpers.links.destroy")), examination_path(@examination, category_service: @examination.category.downcase, back_url: params[:back_url]),
                             method: :delete,
                             data: { confirm: t('helpers.links.confirm_destroy', data: @examination.fullname) }, 
                             :class => "btn btn-danger glyphicon glyphicon-trash" %>
     <% end %>
 
     <% if examination_policy_check(@examination, params[:category_service], 'edit') %>
-        <%= link_to t('Edit', default: t("helpers.links.edit")), edit_examination_path(@examination, category_service: @examination.category.downcase), 
+        <%= link_to t('Edit', default: t("helpers.links.edit")), edit_examination_path(@examination, category_service: @examination.category.downcase, back_url: params[:back_url]), 
                             :class => 'btn btn-primary glyphicon glyphicon-edit' %> 
     <% end %>
 

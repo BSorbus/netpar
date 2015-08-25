@@ -4,6 +4,8 @@ class Examination < ActiveRecord::Base
   belongs_to :customer
   belongs_to :user
 
+  belongs_to :certificate
+
   has_many :documents, as: :documentable, :source_type => "Examination"
 
 

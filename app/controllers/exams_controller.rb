@@ -48,6 +48,42 @@ class ExamsController < ApplicationController
     end
   end
 
+  def certificate_to_pdf
+    @exam = Exam.find(params[:id])
+    case params[:category_service]
+      when 'l'
+        authorize :certificate, :print_l?
+      when 'm'
+        authorize :certificate, :print_m?
+      when 'r'
+        authorize :certificate, :print_r?
+    end    
+
+    @certificates_all = Certificate.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
+
+    if @certificates_all.empty?
+      redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
+    else
+      respond_to do |format|
+        format.pdf do
+          case params[:category_service]
+            when 'l'
+              pdf = PdfCertificatesL.new(@certificates_all, view_context)
+            when 'm'
+              pdf = PdfCertificatesM.new(@certificates_all, view_context)
+            when 'r'
+              pdf = PdfCertificatesR.new(@certificates_all, view_context)
+          end    
+          #pdf = PdfCertificatesL.new(@certificates_all, view_context)
+          send_data pdf.render,
+          filename: "Certificate_#{params[:category_service]}__#{@exam.fullname}.pdf",
+          type: "application/pdf",
+          disposition: "inline"   
+        end
+      end
+    end 
+  end
+
   # GET /exams/1
   # GET /exams/1.json
   def show

@@ -398,6 +398,7 @@ pl:
         customer_id: 'Klient'
         category: 'Kategoria'
         note: 'Uwagi'
+        certificate_id: 'Otrzymał świadectwo'
   tooltip:
     show: 'Pokaż'
     edit: 'Edycja'

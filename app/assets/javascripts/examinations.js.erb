@@ -28,11 +28,30 @@ $(document).ready(function() {
       { "targets": [4],
         "title": "<%= Examination.human_attribute_name('division_id') %>" }, 
       { "targets": [5],
-        "title": "<%= Examination.human_attribute_name('examination_resoult') %>" }, 
+        "title": "<%= Examination.human_attribute_name('examination_resoult') %>", 
+        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+          // sData - wartosc celi, oData - wiersza
+          if (oData[5] == 'Pozytywny' ) {
+            $(nTd).css('background-color', '#DFF0D8'); 
+          }
+          else if (oData[5] == 'Negatywny z prawem do powtórki' ) {
+            $(nTd).css('background-color', '#FFFACD'); 
+          }
+          else if (oData[5] == 'Negatywny bez prawa do powtórki' ) {
+            $(nTd).css('background-color', '#FF8C8C'); 
+          }
+        }
+      }, 
       { "targets": [6],
         "title": "<%= Examination.human_attribute_name('note') %>" }, 
       { "targets": [7],
-        "title": "<%= Examination.human_attribute_name('category') %>" }
+        "title": "<%= Examination.human_attribute_name('certificate_id') %>" }, 
+      { "targets": [8],
+        "title": "<%= Examination.human_attribute_name('category') %>" },
+      { "targets": [9],
+        "title": "Akcje",
+        "searchable": false,
+        "sortable": false } 
     ],
     preDrawCallback: function( settings ) {
       // jezeli panel nie jest widoczny, to przerwij ładowanie danych

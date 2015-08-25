@@ -35,6 +35,11 @@ class ExaminationsController < ApplicationController
       when 'r'
         authorize @examination, :show_r?
     end    
+
+    respond_to do |format|
+      format.json
+      format.html { render :show, locals: { back_url: params[:back_url]} }
+    end
   end
 
   # GET /examinations/new
@@ -57,6 +62,10 @@ class ExaminationsController < ApplicationController
       when 'r'
         authorize @examination, :new_r?
     end    
+    respond_to do |format|
+      format.json
+      format.html { render :new, locals: { back_url: params[:back_url]} }
+    end
   end
 
   # GET /examinations/1/edit
@@ -69,6 +78,10 @@ class ExaminationsController < ApplicationController
       when 'r'
         authorize @examination, :edit_r?
     end    
+    respond_to do |format|
+      format.json
+      format.html { render :edit, locals: { back_url: params[:back_url]} }
+    end
   end
 
   # POST /examinations
@@ -87,10 +100,10 @@ class ExaminationsController < ApplicationController
 
     respond_to do |format|
       if @examination.save
-        format.html { redirect_to examination_path(@examination, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.created', data: @examination.id) }
+        format.html { redirect_to examination_path(@examination, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.created', data: @examination.id) }
         format.json { render :show, status: :created, location: @examination }
       else
-        format.html { render :new }
+        format.html { render :new, locals: { back_url: params[:back_url]} }
         format.json { render json: @examination.errors, status: :unprocessable_entity }
       end
     end
@@ -109,10 +122,10 @@ class ExaminationsController < ApplicationController
     end    
     respond_to do |format|
       if @examination.update(examination_params)
-        format.html { redirect_to examination_path(@examination, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.updated', data: @examination.fullname) }
+        format.html { redirect_to examination_path(@examination, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.updated', data: @examination.fullname) }
         format.json { render :show, status: :ok, location: @examination }
       else
-        format.html { render :edit }
+        format.html { render :edit, locals: { back_url: params[:back_url]} }
         format.json { render json: @examination.errors, status: :unprocessable_entity }
       end
     end
@@ -131,7 +144,7 @@ class ExaminationsController < ApplicationController
     end    
 
     if @examination.destroy
-      redirect_to examinations_url, notice: t('activerecord.messages.successfull.destroyed', data: @examination.fullname)
+      redirect_to params[:back_url], notice: t('activerecord.messages.successfull.destroyed', data: @examination.fullname)
     else 
       flash[:alert] = t('activerecord.messages.error.destroyed', data: @examination.fullname)
       render :show
@@ -154,6 +167,6 @@ class ExaminationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def examination_params
-      params.require(:examination).permit(:examination_category, :division_id, :examination_resoult, :exam_id, :customer_id, :note, :category, :exam_id, :user_id)
+      params.require(:examination).permit(:examination_category, :division_id, :examination_resoult, :exam_id, :customer_id, :certificate_id, :note, :category, :exam_id, :user_id)
     end
 end
