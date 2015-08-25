@@ -1,0 +1,57 @@
+$(document).ready(function() {
+  var oExamExaminationsTable = $('#exam-examinations').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    ajax: { 
+      url: $('#exam-examinations').data('source'),
+      type: "POST"
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    columns: [
+      { "targets": [0],
+        "title": "ID",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [1],
+        "title": "<%= Document.human_attribute_name('fileattach') %>",
+        "visible": true,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [2],
+        "title": "<%= Examination.human_attribute_name('customer_id') %>" }, 
+      { "targets": [3],
+        "title": "<%= Examination.human_attribute_name('examination_category') %>" }, 
+      { "targets": [4],
+        "title": "<%= Examination.human_attribute_name('division_id') %>" }, 
+      { "targets": [5],
+        "title": "<%= Examination.human_attribute_name('examination_resoult') %>" }, 
+      { "targets": [6],
+        "title": "<%= Examination.human_attribute_name('note') %>" }, 
+      { "targets": [7],
+        "title": "<%= Examination.human_attribute_name('category') %>" }
+    ],
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#collapse_examinations" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
+    order: [[ 2, "asc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+  // jezeli nastepuje wyswietlenie panelu, to zaladuj dane
+  $('#collapse_examinations').on('shown.bs.collapse', function (){
+    oExamExaminationsTable.ajax.reload();
+    oExamExaminationsTable.draw();
+  });
+
+ 
+  
+});

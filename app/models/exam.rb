@@ -1,9 +1,13 @@
 class Exam < ActiveRecord::Base
   belongs_to :user
   has_many :certificates
+  has_many :examinations
+
+
 
   has_many :documents, as: :documentable
   has_many :customers, through: :certificates
+  has_many :customers, through: :examinations
 
   validates :number, presence: true,
                     length: { in: 1..30 },

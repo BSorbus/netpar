@@ -27,6 +27,36 @@
   </div> <!-- /row -->
 
 
+  <!-- Examinations-->
+  <div class="row">
+    <div class="col-sm-11 col-sm-offset-1">
+      <div class="panel panel-examination">
+        <div class="panel-heading">
+          <div class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_examinations" >
+              <span class="glyphicon glyphicon-check">&nbsp;<%= t "pages.examination.index_for_exam.title" %></span>
+              <i class="indicator glyphicon glyphicon-chevron-right  pull-right"></i>
+            </a>
+          </div>
+        </div>
+        <div id="collapse_examinations" class="panel-collapse collapse"> <!-- id="collapse_examinations" -->
+          <div class="panel-body">
+            <div class="col-sm-12">
+
+              <% if examination_policy_check(:examination, params[:category_service], 'index') %>
+                <%= render 'examinations' %>
+              <% else %>
+                <p><%= t "pundit.examination_policy.index_#{params[:category_service]}?" %></p>
+              <% end %>
+
+            </div> <!--/class="col-sm-12" -->
+          </div> <!-- /panel-body -->
+        </div> <!-- /id="collapse_examinations" -->
+      </div> <!-- /panel -->
+    </div> <!-- /col-sm-11 col-sm-offset-1 -->
+  </div> <!-- /row -->
+
+
   <!-- Certificates-->
   <div class="row">
     <div class="col-sm-11 col-sm-offset-1">

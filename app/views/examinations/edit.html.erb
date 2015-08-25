@@ -2,10 +2,10 @@
 <!-- Dane -->
 <div class="row">
   <div class="col-sm-12">
-    <div class="panel panel-certificate">
+    <div class="panel panel-examination">
       <div class="panel-heading">
         <div class="panel-title">
-	        <span class="glyphicon glyphicon-certificate">&nbsp;<%=t "pages.certificate_#{params[:category_service]}.edit.title"%>:&nbsp;<%= @certificate.fullname %></span>    
+	        <span class="glyphicon glyphicon-check">&nbsp;<%=t "pages.examination.edit.title"%>:&nbsp;<%= @examination.fullname %></span>    
         </div>
       </div>
         <div class="panel-body">
@@ -14,7 +14,7 @@
           </div> <!--/col-sm-1-->
 
           <div class="col-sm-11">
-						<%= form_for @certificate, url: certificate_path(@certificate, category_service: params[:category_service]) do |f| %>
+						<%= form_for @examination, url: examination_path(@examination, category_service: params[:category_service]) do |f| %>
 						  <%= render 'form', f: f %>
 						<% end %>
           </div> <!--/col-sm-11 col-sm-offset-1-->

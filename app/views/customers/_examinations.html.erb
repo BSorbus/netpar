@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-sm-1">
+    <%= image_tag("#{image}") %>
+    <%= t "pages.examination_#{category_service}.index.title" %>
+  </div> <!--/col-sm-1 -->
+
+  <div class="col-sm-11">
+
+    <div class="col-sm-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th> </th>
+            <th><%= Examination.human_attribute_name(:examination_category) %></th>
+            <th><%= Examination.human_attribute_name(:division_id) %></th>
+            <th><%= Examination.human_attribute_name(:examination_resoult) %></th>
+            <th><%= Examination.human_attribute_name(:exam_id) %></th>
+            <th><%= Examination.human_attribute_name(:note) %></th>
+            <th><%= Examination.human_attribute_name(:category) %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% exam_collection.each do |examination| %>
+              <tr>
+                <td>
+                  <%= link_to (image_tag (attachment_url(examination.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 87, 61, format: "jpg"))), 
+                      examination_path(examination, category_service: examination.category.downcase) if examination.documents.where(fileattach_content_type: 'image/jpeg').any? %>
+                </td>
+                <td><%= examination.examination_category_name %></td>
+                <td><%= examination.division.name %></td>
+                <td><%= examination.examination_resoult_name %></td>
+                <td><%= link_to examination.exam.fullname, exam_path(examination.exam, category_service:  examination.exam.category.downcase) %></td>
+                <td><%= examination.note %></td>
+                <td><%= examination.category %></td>
+              </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div> <!--/col-sm-12 -->
+
+    <div class="col-sm-12">
+      <div class="row">
+        <% if examination_policy_check(:examination, category_service, 'new') %>
+          <%= link_to t('New', default: t("helpers.links.new")), new_examination_path(category_service: category_service, customer_id: @customer.id), 
+                              :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
+        <% end %>
+      </div> <!--/row -->
+    </div> <!--/col-sm-12 -->
+
+  </div> <!--/col-sm-11 -->
+</div> <!--/row -->
+<div class="row">
+  <hr>
+</div> <!--/col-sm-12 -->

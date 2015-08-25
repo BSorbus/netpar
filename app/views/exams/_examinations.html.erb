@@ -1,0 +1,32 @@
+  <div class="col-sm-12">
+    <table id="exam-examinations" class="hover cell-border" data-source="<%= datatables_index_exam_examinations_path(exam_id: @exam.id, format: :json) %>">
+      <thead>
+        <tr>
+          <th> 0 ID </th> 
+          <th> 1 IMAGE-PATH</th>
+          <th> 2 customer.fullname</th>
+          <th> 3 exam_category</th>
+          <th> 4 division.name</th>
+          <th> 5 exam_resoult</th>
+          <th> 6 note</th>
+          <th> 7 Category</th>
+        </tr>
+      </thead>
+
+      <tbody>
+         <!--data from JSON -->
+      </tbody>
+    </table>
+  </div> <!--/col-sm-12 -->
+
+
+  <div class="col-sm-12">
+    <div class="row">
+
+      <% if examination_policy_check(:examination, params[:category_service], 'new') %>
+        <%= link_to t('New', default: t("helpers.links.new")), new_examination_path(params[:category_service], exam_id: @exam.id), 
+                              :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
+      <% end  %> 
+
+    </div> <!--/row -->
+  </div> <!--/col-sm-12 -->

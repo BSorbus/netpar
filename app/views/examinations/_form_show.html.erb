@@ -1,0 +1,117 @@
+<% input_disabled ||= false  
+   #if input_disabled is not passed to the partial it doesn't crash. 
+   # We default it to false 
+%>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
+
+      <div class="form-group col-sm-2">
+        <p><strong><%= Examination.human_attribute_name(:examination_category) %></strong></p>
+        <h5><%= @examination.examination_category_name %></h5>
+      </div>
+
+      <div class="form-group col-sm-7">
+        <p><strong><%= Examination.human_attribute_name(:division_id) %></strong></p>
+        <h5><%= @examination.division.name %></h5>
+      </div>
+
+      <div class="form-group col-sm-3">
+        <p><strong><%= Examination.human_attribute_name(:examination_resoult) %></strong></p>
+        <h5><%= @examination.examination_resoult_name %></h5>
+      </div>
+
+    </div>  <!-- /row -->
+  </div>  <!-- /col-sm-12 -->
+</div>  <!-- /row -->
+
+<hr>
+
+<div class="row">
+  <div class="col-sm-6">
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= Examination.human_attribute_name(:exam_id) %></strong></p>
+        <h5><%= link_to @examination.exam.fullname, exam_path(@examination.exam.category.downcase, @examination.exam) %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= Examination.human_attribute_name(:customer_id) %></strong></p>
+        <h5><%= link_to @examination.customer.fullname_and_address, customer_path(@examination.customer) %></h5>
+      </div>
+    </div>
+
+     <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= Examination.human_attribute_name(:note) %></strong></p>
+        <h5><%= @examination.note %></h5>
+      </div>
+    </div>
+
+  </div> <!-- /col-sm-6 -->
+
+  <div class="col-sm-6">
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <%  @attach = @examination.documents.where(fileattach_content_type: ['image/jpeg']).last %>
+
+        <% if @attach.present? %>
+          <p><strong><%= Document.human_attribute_name(:fileattach) %></strong></p>
+
+          <%= image_tag get_fileattach_as_image(@attach, params[:category_service]) %>
+
+          <br>
+          <small><%= @attach.fileattach_filename %></small>
+
+        <% end %>
+
+      </div> <!-- /form-group col-sm-12 -->
+
+    </div> <!-- /row -->
+
+  </div> <!-- /col-sm-6 -->
+</div> <!-- /row -->
+
+<hr>
+
+
+<% if input_disabled %>
+  <!-- for "Show" -->
+  <div class="row">
+
+    <%= link_to t('Index', default: t("helpers.links.index")), exam_path(params[:category_service], @examination.exam), :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+
+    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+
+
+    <% if examination_policy_check(@examination, params[:category_service], 'destroy') %>
+        <%= link_to t('Delete', default: t("helpers.links.destroy")), examination_path(@examination, category_service: @examination.category.downcase),
+                            method: :delete,
+                            data: { confirm: t('helpers.links.confirm_destroy', data: @examination.fullname) }, 
+                            :class => "btn btn-danger glyphicon glyphicon-trash" %>
+    <% end %>
+
+    <% if examination_policy_check(@examination, params[:category_service], 'edit') %>
+        <%= link_to t('Edit', default: t("helpers.links.edit")), edit_examination_path(@examination, category_service: @examination.category.downcase), 
+                            :class => 'btn btn-primary glyphicon glyphicon-edit' %> 
+    <% end %>
+
+
+    <%# if examination_policy_check(@examination, params[:category_service], 'print') %>
+        <%#= link_to t('Print', default: t("helpers.links.print")), 
+                            to_pdf_examination_path(@examination, category_service: @examination.category.downcase, :format => "pdf"), 
+                            :target => "_blank", :class => 'btn btn-primary glyphicon glyphicon-print' %> 
+    <%# end %>
+
+  </div> <!-- /row -->
+
+
+<% else %>
+  <!-- form "New"/"Edit" -->
+<% end %>
+

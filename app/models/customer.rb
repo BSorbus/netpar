@@ -11,6 +11,9 @@ class Customer < ActiveRecord::Base
   has_many :certificates
   has_many :certificated_documentable, through: :certificates, source: :documents
 
+  has_many :examinations
+  has_many :examinationed_documentable, through: :examinations, source: :documents
+
   has_many :exams, through: :certificates
   has_many :examed_documentable, through: :exams, source: :documents
 
@@ -121,6 +124,7 @@ class Customer < ActiveRecord::Base
   def join_with_another(source_customer)
     unless self.id == source_customer.id
       source_customer.certificates.update_all(customer_id: self.id)
+      source_customer.individuals.update_all(customer_id: self.id)
       source_customer.destroy!
     end
   end

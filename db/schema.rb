@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150822182704) do
+ActiveRecord::Schema.define(version: 20150824132435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -229,6 +229,24 @@ ActiveRecord::Schema.define(version: 20150822182704) do
 
   add_index "documents", ["documentable_type", "documentable_id"], name: "index_documents_on_documentable_type_and_documentable_id", using: :btree
 
+  create_table "examinations", force: :cascade do |t|
+    t.string   "examination_category", limit: 1, default: "Z", null: false
+    t.integer  "division_id"
+    t.string   "examination_resoult",  limit: 1
+    t.integer  "exam_id"
+    t.integer  "customer_id"
+    t.text     "note"
+    t.string   "category",             limit: 1
+    t.integer  "user_id"
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+  end
+
+  add_index "examinations", ["customer_id"], name: "index_examinations_on_customer_id", using: :btree
+  add_index "examinations", ["division_id"], name: "index_examinations_on_division_id", using: :btree
+  add_index "examinations", ["exam_id"], name: "index_examinations_on_exam_id", using: :btree
+  add_index "examinations", ["user_id"], name: "index_examinations_on_user_id", using: :btree
+
   create_table "exams", force: :cascade do |t|
     t.string   "number",            limit: 30, default: "",  null: false
     t.date     "date_exam"
@@ -353,6 +371,10 @@ ActiveRecord::Schema.define(version: 20150822182704) do
   add_foreign_key "dirty_customers", "users"
   add_foreign_key "dirty_individuals", "dirty_customers"
   add_foreign_key "dirty_individuals", "users"
+  add_foreign_key "examinations", "customers"
+  add_foreign_key "examinations", "divisions"
+  add_foreign_key "examinations", "exams"
+  add_foreign_key "examinations", "users"
   add_foreign_key "exams", "users"
   add_foreign_key "individuals", "certificates"
   add_foreign_key "individuals", "customers"

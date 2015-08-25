@@ -79,6 +79,7 @@ class CertificatesController < ApplicationController
       when 'r'
         authorize @certificate, :show_r?
     end    
+
   end
 
   # GET /certificates/new
@@ -100,6 +101,7 @@ class CertificatesController < ApplicationController
       when 'r'
         authorize @certificate, :new_r?
     end    
+
   end
 
   # GET /certificates/1/edit
@@ -112,6 +114,7 @@ class CertificatesController < ApplicationController
       when 'r'
         authorize @certificate, :edit_r?
     end    
+
   end
 
   # POST /certificates

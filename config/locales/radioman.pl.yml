@@ -105,6 +105,26 @@ pl:
         other_stations: "Inne stacje klubowe w promieniu 25 km :"
       new:
         title: ' Nowy Klient'
+    examination:
+      index_for_exam:
+        title: 'Osoby Egzaminowane'
+      index_for_customer:
+        title: 'Udział w Egzaminach'
+      show:
+        title: 'Osoba w Egzaminie'
+      edit:
+        title: 'Osoba w Egzaminie - edycja danych'
+      new:
+        title: ' Nowa Osoba w Egzaminie'
+    examination_l:
+      index:
+        title: 'Egzaminy LOT'
+    examination_m:
+      index:
+        title: 'Egzaminy MOR'
+    examination_r:
+      index:
+        title: 'Egzaminy RA'
     license:
       index:
         title: 'Pozwolenia'
@@ -132,6 +152,15 @@ pl:
         title: 'Pozwolenie Klubowe - edycja danych'
       new:
         title: ' Nowe Pozwolenie Klubowe'
+    transmitter:
+      index:
+        title: 'Pozwolenia Urządzeń Bezobsługowych'
+      show:
+        title: 'Pozwolenie Urządzenia Bezobsługowego'
+      edit:
+        title: 'Pozwolenie Urządzenia Bezobsługowego - edycja danych'
+      new:
+        title: ' Nowe Pozwolenie Urządzenia Bezobsługowego'
     footer:
       contact: 'Kontakt:'
       links: 'Zobacz też:'
@@ -214,6 +243,22 @@ pl:
       update_r?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych sesji egzaminacyjnej RA!'
       create_r?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć sesji egzaminacyjnych RA!'
       destroy_r?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać sesji egzaminacyjnych RA!'
+    examination_policy:
+      index_l?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy osób egzaminowanych LOT!'
+      show_l?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółowych informacji o egzaminie LOT danej osoby!'
+      update_l?: ' BRAK UPRAWNIEŃ: Nie możesz edytować szczegółowych informacji o egzaminie LOT danej osoby!'
+      create_l?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć szczegółowych informacji o osobie przystępującej do egzaminu LOT!'
+      destroy_l?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać szczegółowych informacji o osobie przystępującej do egzaminu LOT!'
+      index_m?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy osób egzaminowanych MOR!'
+      show_m?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółowych informacji o egzaminie MOR danej osoby!'
+      update_m?: ' BRAK UPRAWNIEŃ: Nie możesz edytować szczegółowych informacji o egzaminie MOR danej osoby!'
+      create_m?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć szczegółowych informacji o osobie przystępującej do egzaminu MOR!'
+      destroy_m?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać szczegółowych informacji o osobie przystępującej do egzaminu MOR!'
+      index_r?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy osób egzaminowanych RA!'
+      show_r?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółowych informacji o egzaminie RA danej osoby!'
+      update_r?: ' BRAK UPRAWNIEŃ: Nie możesz edytować szczegółowych informacji o egzaminie RA danej osoby!'
+      create_r?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć szczegółowych informacji o osobie przystępującej do egzaminu RA!'
+      destroy_r?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać szczegółowych informacji o osobie przystępującej do egzaminu RA!'
   activerecord:
     models:
       role: 'Rola'
@@ -224,6 +269,7 @@ pl:
       customer: 'Klient'
       document: 'Załącznik'
       individual: 'Pozwolenie Indywidualne'
+      examination: 'Osoba Egazaminowana'
     messages:
       successfull:
         created: 'Wpis: "%{data}" został pomyślnie utworzony.'
@@ -343,6 +389,14 @@ pl:
         phone: 'Telefon'
         fax: 'Fax'
         email: 'Email'
+        note: 'Uwagi'
+      examination:
+        examination_category: 'Rodzaj egzaminu'
+        division_id: 'Typ świadectwa'
+        examination_resoult: 'Wynik egzaminu'
+        exam_id: 'Sesja egzaminacyjna'
+        customer_id: 'Klient'
+        category: 'Kategoria'
         note: 'Uwagi'
   tooltip:
     show: 'Pokaż'

@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-1">
-    <%= image_tag('airplane.png') %>
-    <%= t "pages.certificate_l.index.title" %>
+    <%= image_tag("#{image}") %>
+    <%= t "pages.certificate_#{category_service}.index.title" %>
   </div> <!--/col-sm-1 -->
 
   <div class="col-sm-11">
@@ -21,7 +21,7 @@
         </thead>
 
         <tbody>
-          <% @customer.certificates.only_category_l.order(date_of_issue: :desc).each do |certificate| %>
+          <% cert_collection.order(date_of_issue: :desc).each do |certificate| %>
               <tr>
                 <td>
                   <%= link_to (image_tag (attachment_url(certificate.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 87, 61, format: "jpg"))), 
@@ -42,15 +42,15 @@
 
     <div class="col-sm-12">
       <div class="row">
-        <% if policy(:certificate).new_l? %>
-          <%= link_to t('New', default: t("helpers.links.new")), new_certificate_path(category_service: 'l', customer_id: @customer.id), 
+        <% if examination_policy_check(:certificate, category_service, 'new') %>
+          <%= link_to t('New', default: t("helpers.links.new")), new_certificate_path(category_service: category_service, customer_id: @customer.id), 
                               :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
         <% end %>
       </div> <!--/row -->
     </div> <!--/col-sm-12 -->
 
   </div> <!--/col-sm-11 -->
-  <div class="row">
-    <br>
-  </div> <!--/col-sm-12 -->
 </div> <!--/row -->
+<div class="row">
+  <hr>
+</div> <!--/col-sm-12 -->

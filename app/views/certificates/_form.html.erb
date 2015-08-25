@@ -3,6 +3,7 @@
    # We default it to false 
 %>
 
+
 <% if @certificate.errors.any? %>
   <div id="error_explanation" class="panel panel-danger">
     <div class="panel-body">
@@ -71,7 +72,7 @@
     <div class="row">
       <div class="form-group col-sm-12">
         <%= f.label :division_id, class: 'control-label' %>
-          <%= f.select( :division_id, 
+        <%= f.select( :division_id, 
               Division.only_category_scope(params[:category_service]).by_name.collect {|p| [ p.name, p.id ]},
               { include_blank: false, multiple: false }, class: 'form-control input-sm', disabled: input_disabled ) %>
     </div>

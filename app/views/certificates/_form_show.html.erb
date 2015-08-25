@@ -113,12 +113,6 @@
     <% end %>
 
 
-    <% if certificate_policy_check(@certificate, params[:category_service], 'print') %>
-        <%= link_to t('Print', default: t("helpers.links.print")), 
-                            to_pdf_certificate_path(@certificate, category_service: @certificate.category.downcase, :format => "pdf"), 
-                            :target => "_blank", :class => 'btn btn-primary glyphicon glyphicon-print' %> 
-    <% end %>
-
   </div> <!-- /row -->
 
 
