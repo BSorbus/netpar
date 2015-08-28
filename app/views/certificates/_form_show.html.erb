@@ -17,9 +17,14 @@
         <h5><%= @certificate.date_of_issue %></h5>
       </div>
 
-      <div class="form-group col-sm-6">
-        <p><strong><%= Certificate.human_attribute_name(:customer_id) %></strong></p>
-        <h5><%= link_to @certificate.customer.fullname_and_address, customer_path(@certificate.customer) %></h5>
+      <div class="form-group col-sm-2">
+        <p><strong><%= Certificate.human_attribute_name(:valid_thru) %></strong></p>
+        <h5><%= @certificate.valid_thru %></h5>
+      </div>
+
+      <div class="form-group col-sm-4">
+        <p><strong><%= Certificate.human_attribute_name(:certificate_status) %></strong></p>
+        <h5><%= @certificate.certificate_status_name %></h5>
       </div>
 
     </div>  <!-- /row -->
@@ -32,17 +37,6 @@
   <div class="col-sm-6">
 
     <div class="row">
-      <div class="form-group col-sm-4">
-        <p><strong><%= Certificate.human_attribute_name(:valid_thru) %></strong></p>
-        <h5><%= @certificate.valid_thru %></h5>
-      </div>
-      <div class="form-group col-sm-8">
-        <p><strong><%= Certificate.human_attribute_name(:certificate_status) %></strong></p>
-        <h5><%= @certificate.certificate_status_name %></h5>
-      </div>
-    </div>
-
-    <div class="row">
       <div class="form-group col-sm-12">
         <p><strong><%= Certificate.human_attribute_name(:division_id) %></strong></p>
         <h5><%= @certificate.division.name %></h5>
@@ -51,8 +45,15 @@
 
     <div class="row">
       <div class="form-group col-sm-12">
+        <p><strong><%= Certificate.human_attribute_name(:customer_id) %></strong></p>
+        <h5><%= link_to @certificate.customer.fullname_and_address, customer_path(@certificate.customer) %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
         <p><strong><%= Certificate.human_attribute_name(:exam_id) %></strong></p>
-        <h5><%= link_to @certificate.exam.fullname, exam_path(params[:category_service], @certificate.exam) %></h5>
+        <h5><%= link_to @certificate.exam.fullname, exam_path(@certificate.exam.category.downcase, @certificate.exam) %></h5>
       </div>
     </div>
 
@@ -69,15 +70,12 @@
 
     <div class="row">
       <div class="form-group col-sm-12">
-        <%  @attach = @certificate.documents.where(fileattach_content_type: ['image/jpeg']).last %>
+        <%  @attach = @certificate.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last %>
 
         <% if @attach.present? %>
-          <p><strong><%= Document.human_attribute_name(:fileattach) %></strong></p>
+          <p><strong><%= Document.human_attribute_name(:fileattach) %>: </strong><small><%= @attach.fileattach_filename %></small></p>
 
-          <%= image_tag get_fileattach_as_image(@attach, params[:category_service]) %>
-
-          <br>
-          <small><%= @attach.fileattach_filename %></small>
+          <%= link_to image_tag( get_fileattach_as_image(@attach, params[:category_service]), class: "img-thumbnail" ), attachment_url(@attach, :fileattach), target: "_blank" %>
 
         <% end %>
 
@@ -97,18 +95,18 @@
 
     <%= link_to t('Index', default: t("helpers.links.index")), certificates_path(params[:category_service]), :class => 'btn btn-default glyphicon glyphicon-th-list' %>
 
-    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+    <%= link_to t('Back', default: t("helpers.links.back")), back_url, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
 
 
     <% if certificate_policy_check(@certificate, params[:category_service], 'destroy') %>
-        <%= link_to t('Delete', default: t("helpers.links.destroy")), certificate_path(@certificate, category_service: @certificate.category.downcase),
+        <%= link_to t('Delete', default: t("helpers.links.destroy")), certificate_path(@certificate, category_service: @certificate.category.downcase, back_url: back_url),
                             method: :delete,
                             data: { confirm: t('helpers.links.confirm_destroy', data: @certificate.fullname) }, 
                             :class => "btn btn-danger glyphicon glyphicon-trash" %>
     <% end %>
 
     <% if certificate_policy_check(@certificate, params[:category_service], 'edit') %>
-        <%= link_to t('Edit', default: t("helpers.links.edit")), edit_certificate_path(@certificate, category_service: @certificate.category.downcase), 
+        <%= link_to t('Edit', default: t("helpers.links.edit")), edit_certificate_path(@certificate, category_service: @certificate.category.downcase, back_url: back_url), 
                             :class => 'btn btn-primary glyphicon glyphicon-edit' %> 
     <% end %>
 

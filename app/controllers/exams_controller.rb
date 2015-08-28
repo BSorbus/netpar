@@ -48,7 +48,7 @@ class ExamsController < ApplicationController
     end
   end
 
-  def certificate_to_pdf
+  def certificates_to_pdf
     @exam = Exam.find(params[:id])
     case params[:category_service]
       when 'l'
@@ -76,7 +76,79 @@ class ExamsController < ApplicationController
           end    
           #pdf = PdfCertificatesL.new(@certificates_all, view_context)
           send_data pdf.render,
-          filename: "Certificate_#{params[:category_service]}__#{@exam.fullname}.pdf",
+          filename: "Certificates_#{params[:category_service]}_#{@exam.fullname}.pdf",
+          type: "application/pdf",
+          disposition: "inline"   
+        end
+      end
+    end 
+  end
+
+  def examination_cards_to_pdf
+    @exam = Exam.find(params[:id])
+    case params[:category_service]
+      when 'l'
+        authorize :examination, :print_l?
+      when 'm'
+        authorize :examination, :print_m?
+      when 'r'
+        authorize :examination, :print_r?
+    end    
+
+    @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
+
+    if @examinations_all.empty?
+      redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
+    else
+      respond_to do |format|
+        format.pdf do
+          case params[:category_service]
+            when 'l'
+              pdf = PdfExaminationCardsL.new(@examinations_all, @exam, view_context)
+            when 'm'
+              pdf = PdfExaminationCardsM.new(@examinations_all, @exam, view_context)
+            when 'r'
+              pdf = PdfExaminationCardsR.new(@examinations_all, @exam, view_context)
+          end    
+          #pdf = PdfCertificatesL.new(@certificates_all, view_context)
+          send_data pdf.render,
+          filename: "Examination_Cards_#{params[:category_service]}_#{@exam.number}.pdf",
+          type: "application/pdf",
+          disposition: "inline"   
+        end
+      end
+    end 
+  end
+
+  def examination_protocol_to_pdf
+    @exam = Exam.find(params[:id])
+    case params[:category_service]
+      when 'l'
+        authorize :examination, :print_l?
+      when 'm'
+        authorize :examination, :print_m?
+      when 'r'
+        authorize :examination, :print_r?
+    end    
+
+    @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
+
+    if @examinations_all.empty?
+      redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
+    else
+      respond_to do |format|
+        format.pdf do
+          case params[:category_service]
+            when 'l'
+              pdf = PdfExaminationProtocolL.new(@examinations_all, @exam, view_context)
+            when 'm'
+              pdf = PdfExaminationProtocolM.new(@examinations_all, @exam, view_context)
+            when 'r'
+              pdf = PdfExaminationProtocolR.new(@examinations_all, @exam, view_context)
+          end    
+          #pdf = PdfCertificatesL.new(@certificates_all, view_context)
+          send_data pdf.render,
+          filename: "Examination_Protocol_#{params[:category_service]}_#{@exam.number}.pdf",
           type: "application/pdf",
           disposition: "inline"   
         end

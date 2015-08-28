@@ -80,9 +80,11 @@ $(document).ready(function() {
       { "targets": [7],
         "title": "<%= Certificate.human_attribute_name('customer_id') %>" }, 
       { "targets": [8],
-        "title": "<%= Certificate.human_attribute_name('exam_id') %>" }, 
+        "title": "<%= Certificate.human_attribute_name('category') %>" },
       { "targets": [9],
-        "title": "<%= Certificate.human_attribute_name('category') %>" }
+        "title": "Akcje",
+        "searchable": false,
+        "sortable": false } 
     ],
     preDrawCallback: function( settings ) {
       // jezeli panel nie jest widoczny, to przerwij ładowanie danych

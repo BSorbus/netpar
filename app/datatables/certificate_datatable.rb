@@ -48,7 +48,7 @@ class CertificateDatatable < AjaxDatatablesRails::Base
         #record.document_image_id? ? '<img src="' + get_attach_path(record)+ '">' : ' ',
         # OK
         #record.document_image_id? ? '<a href="/' + record.category.downcase + '/certificates/' + record.id.to_s + '"><img src="' + get_attach_path(record) + '"></a>' : ' ',
-        record.documents.where(fileattach_content_type: 'image/jpeg').any? ? '<a href="/' + record.category.downcase + '/certificates/' + record.id.to_s + '"><img src="' + get_attach_path(record)+ '"></a>' : ' ',
+        record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).any? ? '<a href="/' + record.category.downcase + '/certificates/' + record.id.to_s + '"><img src="' + get_attach_path(record)+ '"></a>' : ' ',
         link_to(record.number, @view.certificate_path(record.category.downcase, record)),
         record.date_of_issue,
         record.valid_thru,
@@ -64,11 +64,11 @@ class CertificateDatatable < AjaxDatatablesRails::Base
   def get_attach_path(record)
     case record.category.downcase
     when 'l'
-      attachment_url(record.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 87, 61, format: 'jpg')
+      attachment_url(record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last, :fileattach, :fill, 87, 61, format: 'jpg')
     when 'm'
-      attachment_url(record.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 54, 77, format: 'jpg')
+      attachment_url(record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last, :fileattach, :fill, 54, 77, format: 'jpg')
     when 'r'
-      attachment_url(record.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 54, 77, format: 'jpg')
+      attachment_url(record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last, :fileattach, :fill, 54, 77, format: 'jpg')
     end  
   end
 

@@ -68,7 +68,7 @@ class IndividualDatatable < AjaxDatatablesRails::Base
   end
 
   def get_attach_path(record)
-    attachment_url(record.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 54, 77, format: 'jpg')
+    attachment_url(record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png']).last, :fileattach, :fill, 54, 77, format: 'jpg')
   end
 
   def get_raw_records

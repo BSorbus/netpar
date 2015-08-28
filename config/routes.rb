@@ -16,10 +16,13 @@ Rails.application.routes.draw do
     resources :exams do
       post 'datatables_index', on: :collection
       get 'select2_index', on: :collection
-      get 'certificate_to_pdf', on: :member
+      get 'certificates_to_pdf', on: :member
+      get 'examination_cards_to_pdf', on: :member
+      get 'examination_protocol_to_pdf', on: :member
     end
     resources :examinations do
       post 'datatables_index_exam', on: :collection # for Exam
+      get 'examination_card_to_pdf', on: :member
     end
   end
 

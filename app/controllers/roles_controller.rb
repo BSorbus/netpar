@@ -28,7 +28,7 @@ class RolesController < ApplicationController
   # POST /roles
   # POST /roles.json
   def create
-    @role = Department.new(role_params)
+    @role = Role.new(role_params)
     authorize @role, :create?
 
     respond_to do |format|

@@ -79,15 +79,12 @@
 
     <div class="row">
       <div class="form-group col-sm-12">
-        <%  @attach = @exam.documents.where(fileattach_content_type: ['image/jpeg', 'application/pdf']).last %>
+        <%  @attach = @exam.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last %>
 
         <% if @attach.present? %>
-          <p><strong><%= Document.human_attribute_name(:fileattach) %></strong></p>
+          <p><strong><%= Document.human_attribute_name(:fileattach) %>: </strong><small><%= @attach.fileattach_filename %></small></p>
 
-          <%= image_tag get_fileattach_as_image(@attach, 'e') %>
-
-          <br>
-          <small><%= @attach.fileattach_filename %></small>
+          <%= link_to image_tag( get_fileattach_as_image(@attach, params[:category_service]), class: "img-thumbnail" ), attachment_url(@attach, :fileattach), target: "_blank" %>
 
         <% end %>
 

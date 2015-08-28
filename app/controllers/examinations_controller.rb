@@ -42,6 +42,42 @@ class ExaminationsController < ApplicationController
     end
   end
 
+  def examination_card_to_pdf
+    case params[:category_service]
+      when 'l'
+        authorize :examination, :print_l?
+      when 'm'
+        authorize :examination, :print_m?
+      when 'r'
+        authorize :examination, :print_r?
+    end    
+
+    # where(id: param[:id]) czyli pojedynczy rekord @examinations_all -> @examination ale jako lista 
+    @examination = Examination.joins(:customer).references(:customer).where(id: params[:id]).all
+
+    if @examination.empty?
+      redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
+    else
+      respond_to do |format|
+        format.pdf do
+          case params[:category_service]
+            when 'l'
+              pdf = PdfExaminationCardsL.new(@examination, @examination.first.exam, view_context)
+            when 'm'
+              pdf = PdfExaminationCardsM.new(@examination, @examination.first.exam, view_context)
+            when 'r'
+              pdf = PdfExaminationCardsR.new(@examination, @examination.first.exam, view_context)
+          end    
+          #pdf = PdfCertificatesL.new(@certificates_all, view_context)
+          send_data pdf.render,
+          filename: "Examination_Card_#{params[:category_service]}_#{@examination.first.exam.number}_#{@examination.first.customer.fullname}.pdf",
+          type: "application/pdf",
+          disposition: "inline"   
+        end
+      end
+    end 
+  end
+
   # GET /examinations/new
   def new
     @examination = Examination.new
@@ -62,6 +98,7 @@ class ExaminationsController < ApplicationController
       when 'r'
         authorize @examination, :new_r?
     end    
+
     respond_to do |format|
       format.json
       format.html { render :new, locals: { back_url: params[:back_url]} }
@@ -77,7 +114,8 @@ class ExaminationsController < ApplicationController
         authorize @examination, :edit_m?
       when 'r'
         authorize @examination, :edit_r?
-    end    
+    end   
+
     respond_to do |format|
       format.json
       format.html { render :edit, locals: { back_url: params[:back_url]} }
@@ -111,7 +149,7 @@ class ExaminationsController < ApplicationController
 
   # PATCH/PUT /examinations/1
   # PATCH/PUT /examinations/1.json
- def update
+  def update
     case params[:category_service]
       when 'l'
         authorize @examination, :update_l?

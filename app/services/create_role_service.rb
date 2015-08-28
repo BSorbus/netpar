@@ -55,10 +55,52 @@ class CreateRoleService
     end
   end
 
+  # exam_l
+  def exam_l_manager
+    role = Role.find_or_create_by!(name: "Sekretarz Sesji Egzaminacyjnych Świadectw Lotniczych") do |role|
+      role.activities += %w(exam_l:index exam_l:show exam_l:create exam_l:update exam_l:delete exam_l:print)
+      role.save!
+    end
+  end
+  def exam_l_observer
+    role = Role.find_or_create_by!(name: "Obserwator Sesji Egzaminacyjnych Świadectw Lotniczych") do |role|
+      role.activities += %w(exam_l:index exam_l:show)
+      role.save!
+    end
+  end
+
+  # exam_m
+  def exam_m_manager
+    role = Role.find_or_create_by!(name: "Sekretarz Sesji Egzaminacyjnych Świadectw Morskich") do |role|
+      role.activities += %w(exam_m:index exam_m:show exam_m:create exam_m:update exam_m:delete exam_m:print)
+      role.save!
+    end
+  end
+  def exam_m_observer
+    role = Role.find_or_create_by!(name: "Obserwator Sesji Egzaminacyjnych Świadectw Morskich") do |role|
+      role.activities += %w(exam_m:index exam_m:show)
+      role.save!
+    end
+  end
+
+  # exam_r
+  def exam_r_manager
+    role = Role.find_or_create_by!(name: "Sekretarz Sesji Egzaminacyjnych Świadectw Radioamtorskich") do |role|
+      role.activities += %w(exam_r:index exam_r:show exam_r:create exam_r:update exam_r:delete exam_r:print)
+      role.save!
+    end
+  end
+  def exam_r_observer
+    role = Role.find_or_create_by!(name: "Obserwator Sesji Egzaminacyjnych Świadectw Radioamtorskich") do |role|
+      role.activities += %w(exam_r:index exam_r:show)
+      role.save!
+    end
+  end
+
   # certificate_l
   def certificate_l_manager
     role = Role.find_or_create_by!(name: "Menadżer Świadectw Lotniczych") do |role|
-      role.activities += %w(certificate_l:index certificate_l:show certificate_l:create certificate_l:update certificate_l:delete)
+      role.activities += %w(certificate_l:index certificate_l:show certificate_l:create certificate_l:update certificate_l:delete certificate_l:print)
       role.save!
     end
   end
@@ -72,7 +114,7 @@ class CreateRoleService
   # certificate_m
   def certificate_m_manager
     role = Role.find_or_create_by!(name: "Menadżer Świadectw Morskich") do |role|
-      role.activities += %w(certificate_m:index certificate_m:show certificate_m:create certificate_m:update certificate_m:delete)
+      role.activities += %w(certificate_m:index certificate_m:show certificate_m:create certificate_m:update certificate_m:delete certificate_m:print)
       role.save!
     end
   end
@@ -86,7 +128,7 @@ class CreateRoleService
   # certificate_r
   def certificate_r_manager
     role = Role.find_or_create_by!(name: "Menadżer Świadectw Radioamtorskich") do |role|
-      role.activities += %w(certificate_r:index certificate_r:show certificate_r:create certificate_r:update certificate_r:delete)
+      role.activities += %w(certificate_r:index certificate_r:show certificate_r:create certificate_r:update certificate_r:delete certificate_r:print)
       role.save!
     end
   end
@@ -100,7 +142,7 @@ class CreateRoleService
   # license
   def license_manager
     role = Role.find_or_create_by!(name: "Menadżer Pozwoleń") do |role|
-      role.activities += %w(license:index license:show license:create license:update license:delete)
+      role.activities += %w(license:index license:show license:create license:update license:delete license:print)
       role.save!
     end
   end

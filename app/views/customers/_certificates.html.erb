@@ -17,6 +17,7 @@
             <th><%= Certificate.human_attribute_name(:certificate_status) %></th>
             <th><%= Certificate.human_attribute_name(:division_id) %></th>
             <th><%= Certificate.human_attribute_name(:exam_id) %></th>
+            <th>Akcje</th>
           </tr>
         </thead>
 
@@ -24,15 +25,34 @@
           <% cert_collection.order(date_of_issue: :desc).each do |certificate| %>
               <tr>
                 <td>
-                  <%= link_to (image_tag (attachment_url(certificate.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 87, 61, format: "jpg"))), 
-                      certificate_path(certificate, category_service: certificate.category.downcase) if certificate.documents.where(fileattach_content_type: 'image/jpeg').any? %>
+                  <% @attach = certificate.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last %>
+
+                  <% if @attach.present? %>
+                    <%= link_to image_tag( get_fileattach_as_small_image(@attach, certificate.category.downcase) ), 
+                        certificate_path(certificate, category_service: certificate.category.downcase, back_url: customer_path(@customer)) %>
+                  <% end %>
+
                 </td>
-                <td><%= link_to certificate.number, certificate_path(certificate, category_service: certificate.category.downcase) %></td>
+                <td>
+                  <%= link_to certificate.number, certificate_path(certificate, category_service: certificate.category.downcase, back_url: customer_path(@customer)) %>
+                </td>
                 <td><%= certificate.date_of_issue %></td>
                 <td><%= certificate.valid_thru %></td>
                 <td><%= certificate.certificate_status %></td>
                 <td><%= certificate.division.name %></td>
-                <td><%= link_to certificate.exam.fullname, exam_path(certificate.exam, category_service:  certificate.exam.category.downcase) %></td>
+                <td>
+                  <%= link_to certificate.exam.fullname, exam_path(certificate.exam, category_service:  certificate.exam.category.downcase, back_url: customer_path(@customer)) %>
+                </td>
+                <td>
+                  <%= link_to ' ', certificate_path(certificate, category_service: certificate.category.downcase, back_url: customer_path(@customer)), 
+                        :class => "glyphicon glyphicon-eye-open", title: t('tooltip.show'), rel: 'tooltip' %>
+                    
+                  <%= link_to ' ', certificate_path(certificate, category_service: certificate.category.downcase, back_url: customer_path(@customer)),
+                        method: :delete,
+                        data: { confirm: t('helpers.links.confirm_destroy', data: certificate.fullname) }, 
+                        :class => "glyphicon glyphicon-trash", title: t('tooltip.destroy'), rel: 'tooltip' %>
+
+                </td>
               </tr>
           <% end %>
 
@@ -42,8 +62,8 @@
 
     <div class="col-sm-12">
       <div class="row">
-        <% if examination_policy_check(:certificate, category_service, 'new') %>
-          <%= link_to t('New', default: t("helpers.links.new")), new_certificate_path(category_service: category_service, customer_id: @customer.id), 
+        <% if certificate_policy_check(:certificate, category_service, 'new') %>
+          <%= link_to t('New', default: t("helpers.links.new")), new_certificate_path(category_service: category_service, customer_id: @customer.id, back_url: customer_path(@customer)), 
                               :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
         <% end %>
       </div> <!--/row -->

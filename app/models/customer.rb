@@ -19,14 +19,14 @@ class Customer < ActiveRecord::Base
 
 
 
-  validates :name, presence: true,
-                    length: { in: 1..160 }
+#  validates :name, presence: true,
+#                    length: { in: 1..160 }
 #  validates :given_names, presence: true,
 #                    length: { in: 1..50 }, if: :is_human? 
-  validates :address_city, presence: true,
-                    length: { in: 1..50 }
-  validates :pesel, length: { is: 11 }, numericality: true, 
-                    uniqueness: { case_sensitive: false }, allow_blank: true
+#  validates :address_city, presence: true,
+#                    length: { in: 1..50 }
+#  validates :pesel, length: { is: 11 }, numericality: true, 
+#                    uniqueness: { case_sensitive: false }, allow_blank: true
 #  validates :birth_date, presence: true, if: :is_human?
 #  validate :check_pesel_and_birth_date, unless: "pesel.blank?"
 

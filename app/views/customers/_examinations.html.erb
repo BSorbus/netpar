@@ -26,17 +26,22 @@
           <% exam_collection.each do |examination| %>
               <tr>
                 <td>
-                  <%= link_to (image_tag (attachment_url(examination.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 87, 61, format: "jpg"))), 
-                      examination_path(examination, category_service: examination.category.downcase) if examination.documents.where(fileattach_content_type: 'image/jpeg').any? %>
+                  <% @attach = examination.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last %>
+
+                  <% if @attach.present? %>
+                    <%= link_to image_tag( get_fileattach_as_small_image(@attach, 'e')   ), 
+                        examination_path(examination, category_service: examination.category.downcase, back_url: customer_path(@customer)) %>
+                  <% end %>
+
                 </td>
                 <td><%= examination.examination_category_name %></td>
                 <td><%= examination.division.name %></td>
                 <td><%= examination.examination_resoult_name %></td>
                 <td>
-                  <%= link_to examination.exam.fullname, exam_path(examination.exam, category_service:  examination.exam.category.downcase) %>
+                  <%= link_to examination.exam.fullname, exam_path(examination.exam, category_service:  examination.exam.category.downcase, back_url: customer_path(@customer)) %>
                 </td>
                 <td>
-                  <%= link_to examination.certificate.fullname, certificate_path(examination.certificate, category_service: examination.certificate.category.downcase) if examination.certificate.present? %>
+                  <%= link_to examination.certificate.fullname, certificate_path(examination.certificate, category_service: examination.certificate.category.downcase, back_url: customer_path(@customer)) if examination.certificate.present? %>
                 </td>
                 <td><%= examination.note %></td>
                 <td><%= examination.category %></td>
@@ -49,6 +54,9 @@
                         data: { confirm: t('helpers.links.confirm_destroy', data: examination.fullname) }, 
                         :class => "glyphicon glyphicon-trash", title: t('tooltip.destroy'), rel: 'tooltip' %>
 
+                </td>
+                <td>
+                  
                 </td>
               </tr>
           <% end %>

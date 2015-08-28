@@ -9,9 +9,9 @@ class Exam < ActiveRecord::Base
   has_many :customers, through: :certificates
   has_many :customers, through: :examinations
 
-  validates :number, presence: true,
-                    length: { in: 1..30 },
-                    :uniqueness => { :case_sensitive => false, :scope => [:category] }
+#  validates :number, presence: true,
+#                    length: { in: 1..30 },
+#                    :uniqueness => { :case_sensitive => false, :scope => [:category] }
 
 	scope :only_category_l, -> { where(category: "L") }
 	scope :only_category_m, -> { where(category: "M") }
@@ -21,6 +21,10 @@ class Exam < ActiveRecord::Base
 
   def fullname
     "#{number}, z dn. #{date_exam}, #{place_exam}"
+  end
+
+  def place_and_date
+    "#{place_exam}, dn. #{date_exam}"
   end
 
   scope :finder_exam, ->(q, cat) { where( my_sql("#{cat}", "#{q}") ) }

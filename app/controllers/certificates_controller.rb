@@ -78,8 +78,12 @@ class CertificatesController < ApplicationController
         authorize @certificate, :show_m?
       when 'r'
         authorize @certificate, :show_r?
-    end    
-
+    end   
+     
+    respond_to do |format|
+      format.json
+      format.html { render :show, locals: { back_url: params[:back_url]} }
+    end
   end
 
   # GET /certificates/new
@@ -102,6 +106,10 @@ class CertificatesController < ApplicationController
         authorize @certificate, :new_r?
     end    
 
+    respond_to do |format|
+      format.json
+      format.html { render :new, locals: { back_url: params[:back_url]} }
+    end
   end
 
   # GET /certificates/1/edit
@@ -114,7 +122,11 @@ class CertificatesController < ApplicationController
       when 'r'
         authorize @certificate, :edit_r?
     end    
-
+     
+    respond_to do |format|
+      format.json
+      format.html { render :edit, locals: { back_url: params[:back_url]} }
+    end
   end
 
   # POST /certificates
@@ -133,10 +145,10 @@ class CertificatesController < ApplicationController
 
     respond_to do |format|
       if @certificate.save
-        format.html { redirect_to certificate_path(@certificate, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.created', data: @certificate.number) }
+        format.html { redirect_to certificate_path(@certificate, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.created', data: @certificate.number) }
         format.json { render :show, status: :created, location: @certificate }
       else
-        format.html { render :new }
+        format.html { render :new, locals: { back_url: params[:back_url]} }
         format.json { render json: @certificate.errors, status: :unprocessable_entity }
       end
     end
@@ -155,10 +167,10 @@ class CertificatesController < ApplicationController
     end    
     respond_to do |format|
       if @certificate.update(certificate_params)
-        format.html { redirect_to certificate_path(@certificate, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.updated', data: @certificate.number) }
+        format.html { redirect_to certificate_path(@certificate, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.updated', data: @certificate.number) }
         format.json { render :show, status: :ok, location: @certificate }
       else
-        format.html { render :edit }
+        format.html { render :edit, locals: { back_url: params[:back_url]} }
         format.json { render json: @certificate.errors, status: :unprocessable_entity }
       end
     end
@@ -177,7 +189,7 @@ class CertificatesController < ApplicationController
     end    
 
     if @certificate.destroy
-      redirect_to certificates_url, notice: t('activerecord.messages.successfull.destroyed', data: @certificate.number)
+      redirect_to params[:back_url], notice: t('activerecord.messages.successfull.destroyed', data: @certificate.number)
     else 
       flash[:alert] = t('activerecord.messages.error.destroyed', data: @certificate.number)
       render :show

@@ -44,19 +44,19 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
         #record.document_image_id? ? '<img src="' + get_attach_path(record)+ '">' : ' ',
         # OK
         #record.document_image_id? ? '<a href="/' + record.category.downcase + '/certificates/' + record.id.to_s + '"><img src="' + get_attach_path(record)+ '"></a>' : ' ',
-        record.documents.where(fileattach_content_type: 'image/jpeg').any? ? '<a href="/' + record.category.downcase + '/examinations/' + record.id.to_s + '"><img src="' + get_attach_path(record)+ '"></a>' : ' ',
+        record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).any? ? '<a href="/' + record.category.downcase + '/examinations/' + record.id.to_s + '"><img src="' + get_attach_path(record)+ '"></a>' : ' ',
         link_to(record.customer.fullname_and_address, @view.customer_path(record.customer)),
         record.examination_category_name,
-        record.division.name,
+        record.division.name + " (" + record.division.short_name + ")",
         record.examination_resoult_name,
         record.note,
         record.certificate.present? ? link_to(record.certificate.number, @view.certificate_path(record.certificate.category.downcase, record.certificate)) : '',
         #record.certificate.present? ? record.certificate.number : '',
         record.category, 
-        link_to(' ', @view.examination_path(params[:category_service], record, back_url: @view.exam_path(params[:category_service], record.exam)), 
+        link_to(' ', @view.examination_path(record.category.downcase, record, back_url: @view.exam_path(record.exam.category.downcase, record.exam)), 
                         class: 'glyphicon glyphicon-eye-open', title: 'Pokaż', rel: 'tooltip') + 
                     " " +
-        link_to(' ', @view.examination_path(params[:category_service], record, back_url: @view.exam_path(params[:category_service], record.exam)), 
+        link_to(' ', @view.examination_path(record.category.downcase, record, back_url: @view.exam_path(record.exam.category.downcase, record.exam)), 
                         method: :delete, 
                         data: { confirm: "Czy na pewno chcesz usunąć ten wpis?" }, 
                         class: "glyphicon glyphicon-trash", title: 'Usuń', rel: 'tooltip')  
@@ -68,11 +68,11 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
   def get_attach_path(record)
     case record.category.downcase
     when 'l'
-      attachment_url(record.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 87, 61, format: 'jpg')
+      attachment_url(record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last, :fileattach, :fill, 87, 61, format: 'jpg')
     when 'm'
-      attachment_url(record.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 54, 77, format: 'jpg')
+      attachment_url(record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last, :fileattach, :fill, 54, 77, format: 'jpg')
     when 'r'
-      attachment_url(record.documents.where(fileattach_content_type: 'image/jpeg').last, :fileattach, :fill, 54, 77, format: 'jpg')
+      attachment_url(record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last, :fileattach, :fill, 54, 77, format: 'jpg')
     end  
   end
 

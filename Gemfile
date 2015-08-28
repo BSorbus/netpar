@@ -60,3 +60,6 @@ gem 'rmagick'
 gem "refile", require: ["refile/rails", "refile/image_processing"]
 gem "refile-mini_magick"
 gem 'refile-postgres'
+
+#gem 'yomu'
+#gem 'pdf-reader'

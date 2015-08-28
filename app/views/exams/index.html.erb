@@ -34,7 +34,7 @@
   <div class="row">
 
     <% if exam_policy_check(:exam, params[:category_service], 'new') %>
-      <%= link_to t('New', default: t("helpers.links.new")), new_exam_path(params[:category_service]), 
+      <%= link_to t('New', default: t("helpers.links.new")), new_exam_path(params[:category_service], back_url: exams_path(params[:category_service])), 
                           :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
     <% end %>
 

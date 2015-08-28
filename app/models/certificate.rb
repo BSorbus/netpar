@@ -9,9 +9,9 @@ class Certificate < ActiveRecord::Base
 
   has_many :documents, as: :documentable, :source_type => "Certificate"
 
-  validates :number, presence: true,
-                    length: { in: 1..30 },
-                    uniqueness: { :case_sensitive => false, :scope => [:category] }
+#  validates :number, presence: true,
+#                    length: { in: 1..30 },
+#                    uniqueness: { :case_sensitive => false, :scope => [:category] }
 
 
 #  validates  :division, presence: true

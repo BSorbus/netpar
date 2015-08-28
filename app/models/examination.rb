@@ -37,7 +37,7 @@ class Examination < ActiveRecord::Base
     when 'P'
       'Pozytywny'
     when '', nil
-      '?'
+      ''
     else
       'Error !'
     end  

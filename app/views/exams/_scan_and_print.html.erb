@@ -12,28 +12,32 @@
 
   <hr>
 
-  <div class="row">  <!--dla Egzaminu -->
+  <div class="row">  <!--dla Świadectwa -->
     <div class="col-sm-2">
-      <p class="lead">Sesja Egzaminacyjna</p>
+      <p class="lead">Sesja egzaminacyjna</p>
     </div><!-- /.col-sm-2 -->
   
-
-    <% if exam_policy_check(@exam, params[:category_service], 'print') %>
+    <% if examination_policy_check(:examination, params[:category_service], 'print') %>
       <div class="col-sm-2">
+        <%= link_to image_tag("examination_card_#{params[:category_service]}.jpg", :class => "img-thumbnail" ), 
+              examination_cards_to_pdf_exam_path(@exam, category_service: @exam.category.downcase, :format => "pdf"), 
+              :target => "_blank" %>  
 
-        <h5>Wydruk listy obecności</h5>
+        <h5>Karty egzaminacyjne</h5>
       </div><!-- /.col-sm-2 -->
     <% end %>
 
-    <% if exam_policy_check(@exam, params[:category_service], 'print') %>
+    <% if examination_policy_check(:examination, params[:category_service], 'print') %>
       <div class="col-sm-2">
+        <%= link_to image_tag("examination_protocol_#{params[:category_service]}.jpg", :class => "img-thumbnail" ), 
+              examination_protocol_to_pdf_exam_path(@exam, category_service: @exam.category.downcase, :format => "pdf"), 
+              :target => "_blank" %>  
 
-        <h5>Wydruk protokołu</h5>
+        <h5>Protokół sesji egzaminacyjnej</h5>
       </div><!-- /.col-sm-2 -->
     <% end %>
 
-
-  </div class="row">  <!--/dla Egzaminu -->
+  </div class="row">  <!--/dla Świadectwa -->
 
 
   <div class="row">  <!--dla Świadectwa -->
@@ -44,10 +48,10 @@
     <% if certificate_policy_check(:certificate, params[:category_service], 'print') %>
       <div class="col-sm-2">
         <%= link_to image_tag("certificate_#{params[:category_service]}.jpg", :class => "img-thumbnail" ), 
-              certificate_to_pdf_exam_path(@exam, category_service: @exam.category.downcase, :format => "pdf"), 
+              certificates_to_pdf_exam_path(@exam, category_service: @exam.category.downcase, :format => "pdf"), 
               :target => "_blank" %>  
 
-        <h5>Wydruk świadectw</h5>
+        <h5>Świadectwa</h5>
       </div><!-- /.col-sm-2 -->
     <% end %>
 

@@ -34,7 +34,7 @@
   <div class="row">
 
     <% if certificate_policy_check(:certificate, params[:category_service], 'new') %>
-      <%= link_to t('New', default: t("helpers.links.new")), new_certificate_path(params[:category_service]), 
+      <%= link_to t('New', default: t("helpers.links.new")), new_certificate_path(params[:category_service], back_url: certificates_path(params[:category_service])), 
                           :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
 
     <% end %>

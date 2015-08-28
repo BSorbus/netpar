@@ -8,15 +8,15 @@ class ExamPolicy < ApplicationPolicy
   end
 
   def index_l?
-    user_activities.include? 'certificate_l:index'
+    user_activities.include? 'exam_l:index'
   end
 
   def index_m?
-    user_activities.include? 'certificate_m:index'
+    user_activities.include? 'exam_m:index'
   end
 
   def index_r?
-    user_activities.include? 'certificate_r:index'
+    user_activities.include? 'exam_r:index'
   end
 
   def index?
@@ -25,15 +25,15 @@ class ExamPolicy < ApplicationPolicy
   end
 
   def show_l?
-    user_activities.include? 'certificate_l:show'
+    user_activities.include? 'exam_l:show'
   end
 
   def show_m?
-    user_activities.include? 'certificate_m:show'
+    user_activities.include? 'exam_m:show'
   end
 
   def show_r?
-    user_activities.include? 'certificate_r:show'
+    user_activities.include? 'exam_r:show'
   end
 
   def show?
@@ -42,15 +42,15 @@ class ExamPolicy < ApplicationPolicy
   end
 
   def new_l?
-    user_activities.include? 'certificate_l:create'
+    user_activities.include? 'exam_l:create'
   end
 
   def new_m?
-    user_activities.include? 'certificate_m:create'
+    user_activities.include? 'exam_m:create'
   end
 
   def new_r?
-    user_activities.include? 'certificate_r:create'
+    user_activities.include? 'exam_r:create'
   end
 
   def new?
@@ -76,15 +76,15 @@ class ExamPolicy < ApplicationPolicy
   end
 
   def edit_l?
-    user_activities.include? 'certificate_l:update'
+    user_activities.include? 'exam_l:update'
   end
 
   def edit_m?
-    user_activities.include? 'certificate_m:update'
+    user_activities.include? 'exam_m:update'
   end
 
   def edit_r?
-    user_activities.include? 'certificate_r:update'
+    user_activities.include? 'exam_r:update'
   end
 
   def edit?
@@ -108,21 +108,33 @@ class ExamPolicy < ApplicationPolicy
   end
 
   def destroy_l?
-    user_activities.include? 'certificate_l:delete'
+    user_activities.include? 'exam_l:delete'
   end
  
   def destroy_m?
-    user_activities.include? 'certificate_m:delete'
+    user_activities.include? 'exam_m:delete'
   end
  
   def destroy_r?
-    user_activities.include? 'certificate_r:delete'
+    user_activities.include? 'exam_r:delete'
   end
  
   def destroy?
     false
   end
- 
+
+  def print_l?
+    user_activities.include? 'exam_l:show'
+  end
+
+  def print_m?
+    user_activities.include? 'exam_m:show'
+  end
+
+  def print_r?
+    user_activities.include? 'exam_r:show'
+  end
+  
  
   class Scope < Struct.new(:user, :scope)
     def resolve

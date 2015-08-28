@@ -15,7 +15,7 @@
 
           <div class="col-sm-11">
 						<%= form_for @certificate, url: certificate_path(@certificate, category_service: params[:category_service]) do |f| %>
-						  <%= render 'form', f: f %>
+						  <%= render 'form', f: f, back_url: back_url %>
 						<% end %>
           </div> <!--/col-sm-11 col-sm-offset-1-->
     

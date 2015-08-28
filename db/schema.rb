@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150825184149) do
+ActiveRecord::Schema.define(version: 20150828083345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,8 +24,8 @@ ActiveRecord::Schema.define(version: 20150825184149) do
     t.integer  "division_id"
     t.integer  "exam_id"
     t.integer  "customer_id"
-    t.string   "category"
     t.text     "note"
+    t.string   "category"
     t.integer  "user_id"
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
@@ -210,6 +210,7 @@ ActiveRecord::Schema.define(version: 20150825184149) do
     t.string   "short"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.string   "short_name"
   end
 
   add_index "divisions", ["english_name", "category"], name: "index_divisions_on_english_name_and_category", unique: true, using: :btree
@@ -333,6 +334,16 @@ ActiveRecord::Schema.define(version: 20150825184149) do
   add_index "roles_users", ["role_id", "user_id"], name: "index_roles_users_on_role_id_and_user_id", unique: true, using: :btree
   add_index "roles_users", ["user_id", "role_id"], name: "index_roles_users_on_user_id_and_role_id", unique: true, using: :btree
 
+  create_table "subjects", force: :cascade do |t|
+    t.integer  "item"
+    t.string   "name"
+    t.integer  "division_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "subjects", ["division_id"], name: "index_subjects_on_division_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -382,5 +393,6 @@ ActiveRecord::Schema.define(version: 20150825184149) do
   add_foreign_key "individuals", "certificates"
   add_foreign_key "individuals", "customers"
   add_foreign_key "individuals", "users"
+  add_foreign_key "subjects", "divisions"
   add_foreign_key "users", "departments"
 end

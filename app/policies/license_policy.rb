@@ -1,4 +1,4 @@
-class IndividualPolicy < ApplicationPolicy
+class LicensePolicy < ApplicationPolicy
   attr_reader :user, :model
 
   def initialize(user, model)
