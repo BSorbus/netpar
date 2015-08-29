@@ -5,7 +5,7 @@ class ExamDatatable < AjaxDatatablesRails::Base
   # include AjaxDatatablesRails::Extensions::WillPaginate
   # include AjaxDatatablesRails::Extensions::SimplePaginator
 
-  def_delegators :@view, :link_to, :h, :mailto, :attachment_url
+  def_delegators :@view, :link_to, :h, :mailto, :attachment_url, :image_tag, :get_fileattach_as_small_image
 
   def sortable_columns
     # list columns inside the Array in string dot notation.
@@ -45,8 +45,11 @@ class ExamDatatable < AjaxDatatablesRails::Base
     # comma separated list of the values for each cell of a table row
     # example: record.attribute,
     records.map do |record|
+      attach = record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last 
+
       [
         record.id,
+        attach.present? ? link_to( image_tag( get_fileattach_as_small_image(attach, record.category.downcase) ), @view.exam_path(params[:category_service], record)) : '',
         link_to(record.number, @view.exam_path(record.category.downcase, record)),
         record.date_exam,
         record.place_exam,

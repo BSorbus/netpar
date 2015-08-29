@@ -26,6 +26,8 @@
     </div> <!-- /col-sm-12-->
   </div> <!-- /row -->
 
+  <%= render partial: "documents/documents_in_panel", locals: {documentable: @exam} %>
+
 
   <!-- Examinations-->
   <div class="row">
@@ -85,8 +87,6 @@
       </div> <!-- /panel -->
     </div> <!-- /col-sm-11 col-sm-offset-1 -->
   </div> <!-- /row -->
-
-  <%= render partial: "documents/documents_in_panel", locals: {documentable: @exam} %>
 
   <!-- Wydruki -->
   <div class="row">

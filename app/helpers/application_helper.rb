@@ -58,7 +58,7 @@ module ApplicationHelper
     when 'application/pdf'
       #attachment_url(attach, :fileattach, :fill, horizontal_small_size(for_service), vertical_small_size(for_service), format: "pdf")
 
-      asset_path("pdf.png")
+      asset_path("pdf_small.png")
 
     else      
       asset_path("logo.png")

@@ -5,7 +5,7 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
   # include AjaxDatatablesRails::Extensions::WillPaginate
   # include AjaxDatatablesRails::Extensions::SimplePaginator
 
-  def_delegators :@view, :link_to, :h, :mailto, :attachment_url
+  def_delegators :@view, :link_to, :h, :mailto, :attachment_url, :image_tag, :get_fileattach_as_small_image
 
   def sortable_columns
     # list columns inside the Array in string dot notation.
@@ -39,12 +39,12 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
     # comma separated list of the values for each cell of a table row
     # certificateple: record.attribute,
     records.map do |record|
+
+      attach = record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last 
+
       [
         record.id,
-        #record.document_image_id? ? '<img src="' + get_attach_path(record)+ '">' : ' ',
-        # OK
-        #record.document_image_id? ? '<a href="/' + record.category.downcase + '/certificates/' + record.id.to_s + '"><img src="' + get_attach_path(record)+ '"></a>' : ' ',
-        record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).any? ? '<a href="/' + record.category.downcase + '/examinations/' + record.id.to_s + '"><img src="' + get_attach_path(record)+ '"></a>' : ' ',
+        attach.present? ? link_to( image_tag( get_fileattach_as_small_image(attach, params[:category_service]) ), @view.examination_path(params[:category_service], record, back_url: @view.exam_path(record.exam.category.downcase, record.exam))) : '',
         link_to(record.customer.fullname_and_address, @view.customer_path(record.customer)),
         record.examination_category_name,
         record.division.name + " (" + record.division.short_name + ")",
@@ -63,17 +63,6 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
 
       ]
     end
-  end
-
-  def get_attach_path(record)
-    case record.category.downcase
-    when 'l'
-      attachment_url(record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last, :fileattach, :fill, 87, 61, format: 'jpg')
-    when 'm'
-      attachment_url(record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last, :fileattach, :fill, 54, 77, format: 'jpg')
-    when 'r'
-      attachment_url(record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last, :fileattach, :fill, 54, 77, format: 'jpg')
-    end  
   end
 
   def get_raw_records

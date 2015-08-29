@@ -26,6 +26,7 @@
     </div> <!-- /col-sm-12-->
   </div> <!-- /row -->
 
+  <%= render partial: "documents/documents_in_panel", locals: {documentable: @customer} %>
 
   <!-- Examinations-->
   <div class="row">
@@ -127,7 +128,6 @@
     </div> <!-- /row -->
   <% end %>
 
-  <%= render partial: "documents/documents_in_panel", locals: {documentable: @customer} %>
 
   <!-- Wydruki -->
   <div class="row">

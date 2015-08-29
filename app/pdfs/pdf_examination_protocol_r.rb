@@ -9,14 +9,7 @@ class PdfExaminationProtocolR < Prawn::Document
     @examinations = examinations
     @exam = exam
     @view = view
-    #@kuku = @examinations.map(&:division_id)
-    #@kuku = Division.where(id: @examinations.map(&:division_id)).all.map(&:short_name)
-    #@kuku = Division.where(id: @examinations.map(&:division_id)).order(:short_name).all.map(&:short_name)
-    #@kuku = Division.where(id: @examinations.map(&:division_id)).order(:short_name).all.map { |s| "#{s.short_name}" }
-    #@kuku = Division.where(id: @examinations.map(&:division_id).uniq).order(:short_name).all.pluck(:short_name)
-    #@kuku = Division.where(id: @examinations.map(&:division_id).uniq).order(:short_name).all.map { |s| "#{s.short_name}" }
-    #@kuku = Division.where(id: @examinations.map(&:division_id).uniq).order(:short_name).all.pluck(:short_name).inspect
-    @divisions_str = Division.where(id: @examinations.map(&:division_id).uniq).order(:short_name).all.map(&:short_name).join(', ')
+    @divisions_str = Division.where(id: @examinations.map(&:division_id).uniq).order(:short_name).map(&:short_name).join(', ')
 
     font_families.update("DejaVu Sans" => {
       :normal => "#{Rails.root}/app/assets/fonts/DejaVuSans.ttf", 
@@ -46,31 +39,58 @@ class PdfExaminationProtocolR < Prawn::Document
       else
         table( table_data,
               :header => true,
-              :column_widths => [20, 300, 100, 105],
+              :column_widths => [23, 170, 56, 214, 62],
               #:row_colors => ["ffffff", "c2ced7"],
               :cell_style => { size: 8, :border_width => 0.5 }
             ) do
           columns(0).align = :right
           columns(1).align = :left
           columns(2).align = :left
-          row(0).font_style = :bold 
+          #row(0).font_style = :bold 
           row(0).align = :left 
-          #row(0).background_color = "#FF0000"
+          row(0).background_color = "C0C0C0"
         end             
       end
+      display_total_table  
     end  
   end
 
-
-  def table_data
+  def table_data_ok
     @lp = 0
-    table_data ||= [["Lp",
-                     "Przedmiot",
-                     "Ocena (słownie)",
-                     "Podpis egzaminatora"]] + 
+    table_data ||= [
+                    ["Lp.",
+                     "Nazwisko i imię",
+                     "Rodzaj świadectwa",
+                     "Ocena z przedmiotów w/g karty egzaminacyjnej",
+                     "Wynik egzaminu"]
+                    ] + 
                      @examinations.map { |p| [ 
                         next_lp, 
                         p.customer.fullname,
+                        p.division.short_name,
+                        "",
+                        p.examination_resoult_name
+                      ] }
+  end
+
+  def table_data
+    @lp = 0
+    table_data ||= [["Lp.",
+                     "Nazwisko i imię",
+                     "Rodzaj świadectwa",
+                     "Ocena z przedmiotów w/g karty egzaminacyjnej",
+                     "Wynik egzaminu"], 
+                     ["LP",
+                      "NAME",
+                      "RODZAJ",
+                      "OCENA",
+                      "WYNIK"
+                     ] 
+                     ] + 
+                     @examinations.map { |p| [ 
+                        next_lp, 
+                        p.customer.fullname,
+                        p.division.short_name,
                         "",
                         p.examination_resoult_name
                       ] }
@@ -79,6 +99,15 @@ class PdfExaminationProtocolR < Prawn::Document
   def next_lp
     @lp = @lp +1
     return @lp 
+  end
+
+
+  def display_total_table
+    move_down 20
+    text "Członkowie Komisji Egzaminacyjnej", :align => :center
+    move_down 10
+    text "Przewodniczący sesji: #{@exam.chairman}"
+    text "Sekretarz sesji:      #{@exam.secretary}"
   end
 
 
