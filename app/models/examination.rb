@@ -4,7 +4,7 @@ class Examination < ActiveRecord::Base
   belongs_to :customer
   belongs_to :user
 
-  belongs_to :certificate
+  belongs_to :certificate 
 
   has_many :documents, as: :documentable, :source_type => "Examination"
 
@@ -41,6 +41,28 @@ class Examination < ActiveRecord::Base
     else
       'Error !'
     end  
+  end
+
+  def generate_certificate
+    exam = self.exam
+
+    new_certificate = exam.certificates.create(number: next_certificate_number(self.category, self.division), date_of_issue: Time.zone.today, user: exam.user, customer: self.customer, division: self.division, category: exam.category)
+    self.certificate = new_certificate
+    self.save! 
+  end
+
+  def next_certificate_number(category, division)
+    case category
+    when 'M'
+      # TODO grupuj numeracje 
+      next_nr = Certificate.get_next_number_certificate(category, division)
+      "#{division.number_prefix}#{next_nr}"
+    when 'L', 'R'
+      next_nr = Certificate.get_next_number_certificate(category, division)
+      "#{division.number_prefix}#{next_nr}"
+    else
+      'Error !'
+    end
   end
 
 

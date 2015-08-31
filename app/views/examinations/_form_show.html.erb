@@ -45,7 +45,7 @@
       </div>
     </div>
 
-     <div class="row">
+    <div class="row">
       <div class="form-group col-sm-12">
         <p><strong><%= Examination.human_attribute_name(:note) %></strong></p>
         <h5><%= @examination.note %></h5>
@@ -95,6 +95,12 @@
         <%= link_to t('Edit', default: t("helpers.links.edit")), edit_examination_path(@examination, category_service: @examination.category.downcase, back_url: back_url), 
                             :class => 'btn btn-primary glyphicon glyphicon-edit' %> 
     <% end %>
+
+<!--
+    <%# if @examination.examination_resoult == 'P' && @examination.certificate.blank? && certificate_policy_check(:certificate, params[:category_service], 'new') %>
+      <button id="examination-generate-certificate-and-refresh" ajax-path="<%= generating_certificate_examination_path(params[:category_service], @examination) %>" class="btn btn-success glyphicon glyphicon-certificate pull-right"><%= t('Generating', default: t("link_to.generating_certificate")) %></button>
+    <%# end  %> 
+-->
 
 
     <%# if examination_policy_check(@examination, params[:category_service], 'print') %>

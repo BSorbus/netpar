@@ -91,7 +91,7 @@ class PdfExaminationCardsM < Prawn::Document
     move_down 35
     text "KOMISJA EGZAMINACYJNA", size: 13, :align => :center    
     text "DO SPRAW OPERATORÓW URZĄDZEŃ RADIOWYCH", size: 13, :align => :center    
-    text "W SŁUŻBIE RADIOKOMUNIKACYJNEJ AMATORSKIEJ ", size: 13, :align => :center    
+    text "W SŁUŻBIE RADIOKOMUNIKACYJNEJ MORSKIEJ I ŻEGLUGI ŚRÓDLĄDOWEJ", size: 13, :align => :center    
   end
 
 

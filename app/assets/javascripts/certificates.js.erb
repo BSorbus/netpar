@@ -45,7 +45,7 @@ $(document).ready(function() {
   });
  
 
-  var oExamCertificateTable = $('#exam-certificates').DataTable({
+  var oExamCertificatesTable = $('#exam-certificates').DataTable({
     responsive: true,
     processing: true,
     serverSide: true,
@@ -100,8 +100,8 @@ $(document).ready(function() {
 
   // jezeli nastepuje wyswietlenie panelu, to zaladuj dane
   $('#collapse_certificates').on('shown.bs.collapse', function (){
-    oExamCertificateTable.ajax.reload();
-    oExamCertificateTable.draw();
+    oExamCertificatesTable.ajax.reload();
+    oExamCertificatesTable.draw();
   });
 
  

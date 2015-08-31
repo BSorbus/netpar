@@ -30,5 +30,10 @@
                               :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
       <% end  %> 
 
+      <% if @exam.examinations.where(examination_resoult: 'P', certificate: nil).any? && certificate_policy_check(:certificate, params[:category_service], 'new') %>
+        <button id="exam-examinations-generate-certificate-and-refresh" ajax-path="<%= generating_certificates_exam_path(params[:category_service], @exam) %>" class="btn btn-success glyphicon glyphicon-certificate pull-right"><%= t('Generating', default: t("link_to.generating_certificates")) %></button>
+      <% end  %> 
+
+
     </div> <!--/row -->
   </div> <!--/col-sm-12 -->

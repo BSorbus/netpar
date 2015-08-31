@@ -72,5 +72,20 @@ $(document).ready(function() {
   });
 
  
+
+   $('#exam-examinations-generate-certificate-and-refresh').click(function() {
+    $.ajax({
+      url: $(this).attr('ajax-path'),
+      type: 'PATCH',
+      async: false
+    });
+    oExamExaminationsTable.ajax.reload();
+    oExamExaminationsTable.order([7, 'asc']);
+    oExamExaminationsTable.draw();
+
+
+  });
+
+
   
 });

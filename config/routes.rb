@@ -19,10 +19,12 @@ Rails.application.routes.draw do
       get 'certificates_to_pdf', on: :member
       get 'examination_cards_to_pdf', on: :member
       get 'examination_protocol_to_pdf', on: :member
+      patch 'generating_certificates', on: :member
     end
     resources :examinations do
       post 'datatables_index_exam', on: :collection # for Exam
       get 'examination_card_to_pdf', on: :member
+      patch 'generating_certificate', on: :member
     end
   end
 

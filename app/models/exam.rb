@@ -51,4 +51,19 @@ class Exam < ActiveRecord::Base
   end
 
 
+  def generate_all_certificates
+    #for_generate_examinations = self.examinations.where(certificate: nil, examination_resoult: 'P').all? 
+
+    for_generate_examinations =  Examination.joins(:division, :customer, :exam).where(exam_id: self.id, certificate: nil, examination_resoult: 'P').
+                                  includes(:division, :customer, :exam, :certificate).references(:division, :customer, :exam, :certificate).order("customers.name, customers.given_names").all
+
+
+    for_generate_examinations.each do |examination|
+
+      examination.generate_certificate
+
+    end
+
+  end
+
 end

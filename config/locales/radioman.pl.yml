@@ -183,6 +183,8 @@ pl:
     exams_m: 'Egzaminy MOR'
     exams_r: 'Egzaminy RA'
     individuals: 'Pozwolenia Indywidualne'
+    generating_certificate: " Generuj Świadectwo"
+    generating_certificates: " Generuj Świadectwa"
   pundit:
     default: ' BRAK UPRAWNIEŃ: Nie można wykonać tej czynności!'
     role_policy:
@@ -398,7 +400,7 @@ pl:
         customer_id: 'Klient'
         category: 'Kategoria'
         note: 'Uwagi'
-        certificate_id: 'Otrzymał świadectwo'
+        certificate_id: 'Wygenerowano świadectwo'
   tooltip:
     show: 'Pokaż'
     edit: 'Edycja'
@@ -419,15 +421,31 @@ pl:
         short: 'np. UKE-BY'
         name: 'np. Urząd Komunikacji Elektronicznej Oddział w Bydgoszczy'
       index:
-    exam:
-      show:
+    exam_l:
       form:
-        number: 'np. 1/1/2015'
+        number: 'np. 123/2015/L'
       index:
-    certificate:
+    exam_m:
+      form:
+        number: 'np. 123/2015/M'
+      index:
+    exam_r:
       show:
       form:
-        number: 'np. 1/1/2015'
+        number: 'np. 123/2015/A'
+      index:
+    certificate_l:
+      form:
+        number: 'np. L-00123'
+      index:
+    certificate_m:
+      form:
+        number: 'np. GS-00123'
+      index:
+    certificate_r:
+      show:
+      form:
+        number: 'np. A-00123'
       index:
   help_block_text:
     map_info: 'Uwaga! Program ustala szerokość i długość geograficzną wykorzystując Geocoder i Google Maps. Prezentacje na mapie należy traktować wylącznie jako informacje przybliżone.'

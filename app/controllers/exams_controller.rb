@@ -1,6 +1,6 @@
 class ExamsController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, except: [:index, :datatables_index, :select2_index]
+  after_action :verify_authorized, except: [:index, :datatables_index, :select2_index, :generating_certificates]
 
   before_action :set_exam, only: [:show, :edit, :update, :destroy]
 
@@ -261,6 +261,21 @@ class ExamsController < ApplicationController
       render :show
     end      
   end
+
+  def generating_certificates 
+    @exam = Exam.find(params[:id]) 
+
+
+#    @examinations = Examination.joins(:division, :customer, :exam).where(exam_id: params[:id]).includes(:division, :customer, :exam, :certificate).
+#                                references(:division, :customer, :exam, :certificate).order("customers.name, customers.given_names").all
+
+    # wywołanie funkcji JS, by nie odświeżać całej strony
+    @exam.generate_all_certificates
+    #flash.now[:notice] = t('activerecord.messages.successfull.numbering', data: @insurance.number)
+    #flash[:notice] = t('activerecord.messages.successfull.numbering', data: @insurance.number)
+    render :nothing => true and return
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

@@ -51,7 +51,7 @@ class CertificateDatatable < AjaxDatatablesRails::Base
         link_to(record.number, @view.certificate_path(record.category.downcase, record)),
         record.date_of_issue,
         record.valid_thru,
-        record.certificate_status,
+        record.certificate_status_name,
         record.division.name,
         link_to(record.customer.fullname_and_address, @view.customer_path(record.customer)),
         link_to(record.exam.fullname, @view.exam_path(record.category.downcase, record.exam)),
