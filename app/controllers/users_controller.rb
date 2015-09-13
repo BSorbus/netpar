@@ -2,7 +2,8 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index]
 
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :lock, :unlock]
+
 
 #  def index
 #    @users = User.order(:name).all
@@ -25,6 +26,8 @@ class UsersController < ApplicationController
 
   def show
     authorize @user, :show?
+    # przepych
+    # Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :show, user: current_user, parameters: {})
   end
 
   # GET /departments/1/edit
@@ -48,6 +51,9 @@ class UsersController < ApplicationController
     
     respond_to do |format|
       if @user.update_attributes(secure_params)
+
+        Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :update, user: current_user, parameters: @user.previous_changes.to_hash)
+
         format.html { redirect_to @user, notice: t('activerecord.messages.successfull.updated', data: @user.name) }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -58,11 +64,48 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    authorize user, :destroy?
+    authorize @user, :destroy?
     
-    user.destroy
-    redirect_to users_path, :notice => "User deleted."
+    u = @user
+    cu = current_user
+    if @user.destroy
+      Work.create!(trackable_id: u.id, trackable_type: 'User', action: :destroy, user: cu, parameters: {name: u.name, email: u.email})
+      redirect_to users_url, notice: t('activerecord.messages.successfull.destroyed', data: u.fullname_and_id)
+    else 
+      flash[:alert] = t('activerecord.messages.error.destroyed', data: u.fullname_and_id)
+      render :show
+    end      
   end
+
+  def lock
+    authorize @user, :update?
+
+    @user.soft_delete
+    if @user.save
+      Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :account_lock, user: current_user, 
+        parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: @user.id, name: @user.name, email: @user.email})
+      redirect_to @user, notice: t('activerecord.messages.successfull.locking_user', data: @user.fullname_and_id)
+    else 
+      flash.now[:error] = t('activerecord.messages.error.locking_user', data: @user.fullname_and_id)
+      render :show 
+    end         
+  end
+
+  def unlock
+    authorize @user, :update?
+
+    @user.deleted_at = nil
+    if @user.save
+      Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :account_unlock, user: current_user, 
+        parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: @user.id, name: @user.name, email: @user.email})
+      redirect_to @user, notice: t('activerecord.messages.successfull.unlocking_user', data: @user.fullname_and_id)
+    else 
+      flash.now[:error] = t('activerecord.messages.error.unlocking_user', data: @user.fullname_and_id)
+      render :show 
+    end         
+  end
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

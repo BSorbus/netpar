@@ -30,6 +30,7 @@ pl:
       timeout: "Sesja wygasła, zaloguj się ponownie by kontynuować."
       unauthenticated: "Aby kontynuować musisz się zalogować."
       unconfirmed: "Aby kontynuować musisz aktywować swoje konto."
+      deleted_account: "Konto zostało usunięte lub zablokowane!"  
     mailer:
       confirmation_instructions:
         subject: "Instrukcja aktywacji konta"

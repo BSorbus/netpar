@@ -1,18 +1,32 @@
 class Exam < ActiveRecord::Base
   belongs_to :user
-  has_many :certificates
-  has_many :examinations
+  has_many :certificates, dependent: :destroy
+  has_many :examinations, dependent: :destroy
 
+  has_many :examiners, dependent: :destroy  
 
+  accepts_nested_attributes_for :examiners,
+                                reject_if: proc { |attributes| attributes['name'].blank? },
+                                allow_destroy: true
 
-  has_many :documents, as: :documentable
+  validates_associated :examiners
+
+  has_many :works, as: :trackable
+
+  has_many :documents, as: :documentable, dependent: :destroy
   has_many :customers, through: :certificates
   has_many :customers, through: :examinations
 
-#  validates :number, presence: true,
-#                    length: { in: 1..30 },
-#                    :uniqueness => { :case_sensitive => false, :scope => [:category] }
 
+
+  # validates
+  validates :number, presence: true,
+                    length: { in: 1..30 },
+                    :uniqueness => { :case_sensitive => false, :scope => [:category] }
+
+
+
+  # scopes
 	scope :only_category_l, -> { where(category: "L") }
 	scope :only_category_m, -> { where(category: "M") }
 	scope :only_category_r, -> { where(category: "R") }
@@ -21,6 +35,10 @@ class Exam < ActiveRecord::Base
 
   def fullname
     "#{number}, z dn. #{date_exam}, #{place_exam}"
+  end
+
+  def fullname_and_id
+    "#{number}, z dn. #{date_exam}, #{place_exam} (#{id})"
   end
 
   def place_and_date
@@ -51,16 +69,15 @@ class Exam < ActiveRecord::Base
   end
 
 
-  def generate_all_certificates
-    #for_generate_examinations = self.examinations.where(certificate: nil, examination_resoult: 'P').all? 
+  def generate_all_certificates(gen_user_id)
+    #for_generate_examinations = self.examinations.where(certificate: nil, examination_result: 'P').all? 
 
-    for_generate_examinations =  Examination.joins(:division, :customer, :exam).where(exam_id: self.id, certificate: nil, examination_resoult: 'P').
+    for_generate_examinations =  Examination.joins(:division, :customer, :exam).where(exam_id: self.id, certificate: nil, examination_result: 'P').
                                   includes(:division, :customer, :exam, :certificate).references(:division, :customer, :exam, :certificate).order("customers.name, customers.given_names").all
-
 
     for_generate_examinations.each do |examination|
 
-      examination.generate_certificate
+      examination.generate_certificate(gen_user_id)
 
     end
 

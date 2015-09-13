@@ -42,6 +42,10 @@ class CustomersController < ApplicationController
     if (params[:source_id]).present? && not(params[:source_id] == params[:id])
       @source = Customer.find(params[:source_id])
       @customer.join_with_another(@source)
+
+      @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :merge, user: current_user, 
+                              parameters: {source: @source.fullname_and_id, destination: @customer.fullname_and_id})
+
       redirect_to @customer, notice: t('activerecord.messages.successfull.merge', parent: @customer.fullname_and_id, child: @source.fullname_and_id)
     else
       redirect_to @customer, alert: t('activerecord.messages.error.merge', data: @customer.fullname_and_id)
@@ -52,6 +56,13 @@ class CustomersController < ApplicationController
   # GET /customers/1.json
   def show
     authorize @customer, :show?
+
+    respond_to do |format|
+      format.json
+      format.html { render :show, locals: { back_url: params[:back_url]} }
+    end
+    # przepych
+    # @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :show, user: current_user, parameters: {})
   end
 
   # GET /customers/new
@@ -70,10 +81,13 @@ class CustomersController < ApplicationController
   # POST /customers.json
   def create
     @customer = Customer.new(customer_params)
+    @customer.user = current_user
     authorize @customer, :create?
 
     respond_to do |format|
       if @customer.save
+        @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :create, user: current_user, parameters: @customer.attributes.to_hash)
+
         format.html { redirect_to @customer, notice: t('activerecord.messages.successfull.created', data: @customer.fullname) }
         format.json { render :show, status: :created, location: @customer }
       else
@@ -87,9 +101,11 @@ class CustomersController < ApplicationController
   # PATCH/PUT /customers/1.json
   def update
     authorize @customer, :update?
-    
+
     respond_to do |format|
       if @customer.update(customer_params)
+        @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :update, user: current_user, parameters: @customer.previous_changes.to_hash)
+
         format.html { redirect_to @customer, notice: t('activerecord.messages.successfull.updated', data: @customer.fullname) }
         format.json { render :show, status: :ok, location: @customer }
       else
@@ -105,6 +121,8 @@ class CustomersController < ApplicationController
     authorize @customer, :destroy?
 
     if @customer.destroy
+      Work.create!(trackable: @customer, action: :destroy, user: current_user)
+
       redirect_to customers_url, notice: t('activerecord.messages.successfull.destroyed', data: @customer.fullname)
     else 
       flash[:alert] = t('activerecord.messages.error.destroyed', data: @customer.fullname)

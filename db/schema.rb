@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150831183638) do
+ActiveRecord::Schema.define(version: 20150913142213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20150831183638) do
     t.integer  "division_id"
     t.integer  "exam_id"
     t.integer  "customer_id"
-    t.text     "note"
+    t.text     "note",                          default: ""
     t.string   "category"
     t.integer  "user_id"
     t.datetime "created_at",                                  null: false
@@ -32,10 +32,13 @@ ActiveRecord::Schema.define(version: 20150831183638) do
     t.integer  "code"
   end
 
+  add_index "certificates", ["category"], name: "index_certificates_on_category", using: :btree
   add_index "certificates", ["customer_id"], name: "index_certificates_on_customer_id", using: :btree
+  add_index "certificates", ["date_of_issue"], name: "index_certificates_on_date_of_issue", using: :btree
   add_index "certificates", ["division_id"], name: "index_certificates_on_division_id", using: :btree
   add_index "certificates", ["exam_id"], name: "index_certificates_on_exam_id", using: :btree
   add_index "certificates", ["number", "category"], name: "index_certificates_on_number_and_category", unique: true, using: :btree
+  add_index "certificates", ["number"], name: "index_certificates_on_number", using: :btree
   add_index "certificates", ["user_id"], name: "index_certificates_on_user_id", using: :btree
 
   create_table "citizenships", force: :cascade do |t|
@@ -50,34 +53,34 @@ ActiveRecord::Schema.define(version: 20150831183638) do
   create_table "customers", force: :cascade do |t|
     t.boolean  "human",                             default: true, null: false
     t.string   "name",                  limit: 160, default: "",   null: false
-    t.string   "given_names",           limit: 50
-    t.string   "address_city",          limit: 50
-    t.string   "address_street",        limit: 50
-    t.string   "address_house",         limit: 10
-    t.string   "address_number",        limit: 10
-    t.string   "address_postal_code",   limit: 6
-    t.string   "address_post_office",   limit: 50
-    t.string   "address_pobox",         limit: 10
-    t.string   "c_address_city",        limit: 50
-    t.string   "c_address_street",      limit: 50
-    t.string   "c_address_house",       limit: 10
-    t.string   "c_address_number",      limit: 10
-    t.string   "c_address_postal_code", limit: 6
-    t.string   "c_address_post_office", limit: 50
-    t.string   "c_address_pobox",       limit: 10
-    t.string   "nip",                   limit: 13
-    t.string   "regon",                 limit: 9
-    t.string   "pesel",                 limit: 11
-    t.integer  "nationality_id"
-    t.integer  "citizenship_id"
+    t.string   "given_names",           limit: 50,  default: ""
+    t.string   "address_city",          limit: 50,  default: ""
+    t.string   "address_street",        limit: 50,  default: ""
+    t.string   "address_house",         limit: 10,  default: ""
+    t.string   "address_number",        limit: 10,  default: ""
+    t.string   "address_postal_code",   limit: 6,   default: ""
+    t.string   "address_post_office",   limit: 50,  default: ""
+    t.string   "address_pobox",         limit: 10,  default: ""
+    t.string   "c_address_city",        limit: 50,  default: ""
+    t.string   "c_address_street",      limit: 50,  default: ""
+    t.string   "c_address_house",       limit: 10,  default: ""
+    t.string   "c_address_number",      limit: 10,  default: ""
+    t.string   "c_address_postal_code", limit: 6,   default: ""
+    t.string   "c_address_post_office", limit: 50,  default: ""
+    t.string   "c_address_pobox",       limit: 10,  default: ""
+    t.string   "nip",                   limit: 13,  default: ""
+    t.string   "regon",                 limit: 9,   default: ""
+    t.string   "pesel",                 limit: 11,  default: ""
+    t.integer  "nationality_id",                    default: 2
+    t.integer  "citizenship_id",                    default: 2
     t.date     "birth_date"
-    t.string   "birth_place",           limit: 50
-    t.string   "fathers_name",          limit: 50
-    t.string   "mothers_name",          limit: 50
-    t.string   "phone",                 limit: 50
-    t.string   "fax",                   limit: 50
-    t.string   "email",                 limit: 50
-    t.text     "note"
+    t.string   "birth_place",           limit: 50,  default: ""
+    t.string   "fathers_name",          limit: 50,  default: ""
+    t.string   "mothers_name",          limit: 50,  default: ""
+    t.string   "phone",                 limit: 50,  default: ""
+    t.string   "fax",                   limit: 50,  default: ""
+    t.string   "email",                 limit: 50,  default: ""
+    t.text     "note",                              default: ""
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -85,6 +88,7 @@ ActiveRecord::Schema.define(version: 20150831183638) do
   end
 
   add_index "customers", ["address_city"], name: "index_customers_on_address_city", using: :btree
+  add_index "customers", ["birth_date"], name: "index_customers_on_birth_date", using: :btree
   add_index "customers", ["citizenship_id"], name: "index_customers_on_citizenship_id", using: :btree
   add_index "customers", ["given_names"], name: "index_customers_on_given_names", using: :btree
   add_index "customers", ["name"], name: "index_customers_on_name", using: :btree
@@ -98,14 +102,14 @@ ActiveRecord::Schema.define(version: 20150831183638) do
     t.string   "short",               limit: 10,  default: "", null: false
     t.string   "name",                limit: 100, default: "", null: false
     t.string   "address_city",        limit: 50,  default: "", null: false
-    t.string   "address_street",      limit: 50
-    t.string   "address_house",       limit: 10
-    t.string   "address_number",      limit: 10
-    t.string   "address_postal_code", limit: 6
-    t.string   "phone",               limit: 50
-    t.string   "fax",                 limit: 50
-    t.string   "email",               limit: 50
-    t.string   "director",            limit: 50
+    t.string   "address_street",      limit: 50,  default: "", null: false
+    t.string   "address_house",       limit: 10,  default: "", null: false
+    t.string   "address_number",      limit: 10,  default: ""
+    t.string   "address_postal_code", limit: 6,   default: "", null: false
+    t.string   "phone",               limit: 50,  default: ""
+    t.string   "fax",                 limit: 50,  default: ""
+    t.string   "email",               limit: 50,  default: ""
+    t.string   "director",            limit: 50,  default: ""
     t.string   "code"
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
@@ -234,10 +238,10 @@ ActiveRecord::Schema.define(version: 20150831183638) do
   create_table "examinations", force: :cascade do |t|
     t.string   "examination_category", limit: 1, default: "Z", null: false
     t.integer  "division_id"
-    t.string   "examination_resoult",  limit: 1
+    t.string   "examination_result",   limit: 1
     t.integer  "exam_id"
     t.integer  "customer_id"
-    t.text     "note"
+    t.text     "note",                           default: ""
     t.string   "category",             limit: 1
     t.integer  "user_id"
     t.datetime "created_at",                                   null: false
@@ -251,25 +255,46 @@ ActiveRecord::Schema.define(version: 20150831183638) do
   add_index "examinations", ["exam_id"], name: "index_examinations_on_exam_id", using: :btree
   add_index "examinations", ["user_id"], name: "index_examinations_on_user_id", using: :btree
 
+  create_table "examiners", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "exam_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "examiners", ["exam_id"], name: "index_examiners_on_exam_id", using: :btree
+
   create_table "exams", force: :cascade do |t|
-    t.string   "number",            limit: 30, default: "",  null: false
+    t.string   "number",     limit: 30, default: "",  null: false
     t.date     "date_exam"
-    t.string   "place_exam",        limit: 50
-    t.string   "chairman",          limit: 50
-    t.string   "secretary",         limit: 50
-    t.string   "committee_member1", limit: 50
-    t.string   "committee_member2", limit: 50
-    t.string   "committee_member3", limit: 50
-    t.string   "category",          limit: 1,  default: "R", null: false
-    t.text     "note"
+    t.string   "place_exam", limit: 50, default: ""
+    t.string   "chairman",   limit: 50, default: ""
+    t.string   "secretary",  limit: 50, default: ""
+    t.string   "category",   limit: 1,  default: "R", null: false
+    t.text     "note",                  default: ""
     t.integer  "user_id"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.integer  "code"
   end
 
+  add_index "exams", ["date_exam"], name: "index_exams_on_date_exam", using: :btree
   add_index "exams", ["number", "category"], name: "index_exams_on_number_and_category", unique: true, using: :btree
   add_index "exams", ["user_id"], name: "index_exams_on_user_id", using: :btree
+
+  create_table "grades", force: :cascade do |t|
+    t.integer  "examination_id"
+    t.integer  "subject_id"
+    t.string   "grade_result",   default: ""
+    t.integer  "user_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "grades", ["examination_id", "subject_id"], name: "index_grades_on_examination_id_and_subject_id", unique: true, using: :btree
+  add_index "grades", ["examination_id"], name: "index_grades_on_examination_id", using: :btree
+  add_index "grades", ["subject_id"], name: "index_grades_on_subject_id", using: :btree
+  add_index "grades", ["user_id"], name: "index_grades_on_user_id", using: :btree
 
   create_table "individuals", force: :cascade do |t|
     t.string   "number",                    limit: 30, default: "", null: false
@@ -365,12 +390,27 @@ ActiveRecord::Schema.define(version: 20150831183638) do
     t.string   "name"
     t.integer  "department_id"
     t.integer  "code"
+    t.datetime "deleted_at"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["department_id"], name: "index_users_on_department_id", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "works", force: :cascade do |t|
+    t.integer  "trackable_id"
+    t.string   "trackable_type"
+    t.string   "trackable_url"
+    t.integer  "user_id"
+    t.string   "action"
+    t.text     "parameters"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "works", ["trackable_type", "trackable_id"], name: "index_works_on_trackable_type_and_trackable_id", using: :btree
+  add_index "works", ["user_id"], name: "index_works_on_user_id", using: :btree
 
   add_foreign_key "certificates", "customers"
   add_foreign_key "certificates", "divisions"
@@ -390,7 +430,11 @@ ActiveRecord::Schema.define(version: 20150831183638) do
   add_foreign_key "examinations", "divisions"
   add_foreign_key "examinations", "exams"
   add_foreign_key "examinations", "users"
+  add_foreign_key "examiners", "exams"
   add_foreign_key "exams", "users"
+  add_foreign_key "grades", "examinations"
+  add_foreign_key "grades", "subjects"
+  add_foreign_key "grades", "users"
   add_foreign_key "individuals", "certificates"
   add_foreign_key "individuals", "customers"
   add_foreign_key "individuals", "users"

@@ -13,7 +13,7 @@
             <th> </th>
             <th><%= Examination.human_attribute_name(:examination_category) %></th>
             <th><%= Examination.human_attribute_name(:division_id) %></th>
-            <th><%= Examination.human_attribute_name(:examination_resoult) %></th>
+            <th><%= Examination.human_attribute_name(:examination_result) %></th>
             <th><%= Examination.human_attribute_name(:exam_id) %></th>
             <th><%= Examination.human_attribute_name(:certificate_id) %></th>
             <th><%= Examination.human_attribute_name(:note) %></th>
@@ -36,7 +36,7 @@
                 </td>
                 <td><%= examination.examination_category_name %></td>
                 <td><%= examination.division.name %></td>
-                <td><%= examination.examination_resoult_name %></td>
+                <td><%= examination.examination_result_name %></td>
                 <td>
                   <%= link_to examination.exam.fullname, exam_path(examination.exam, category_service:  examination.exam.category.downcase, back_url: customer_path(@customer)) %>
                 </td>

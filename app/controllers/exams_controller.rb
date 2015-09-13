@@ -81,6 +81,8 @@ class ExamsController < ApplicationController
           disposition: "inline"   
         end
       end
+      @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
+                        parameters: {pdf_type: 'certificates', filename: "Certificates_#{params[:category_service]}_#{@exam.fullname}.pdf"})
     end 
   end
 
@@ -117,6 +119,8 @@ class ExamsController < ApplicationController
           disposition: "inline"   
         end
       end
+      @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
+                        parameters: {pdf_type: 'examination_cards', filename: "Examination_Cards_#{params[:category_service]}_#{@exam.number}.pdf"})
     end 
   end
 
@@ -153,6 +157,9 @@ class ExamsController < ApplicationController
           disposition: "inline"   
         end
       end
+      @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
+                        parameters: {pdf_type: 'examination_protocol', filename: "Examination_Protocol_#{params[:category_service]}_#{@exam.number}.pdf"})
+
     end 
   end
 
@@ -167,12 +174,22 @@ class ExamsController < ApplicationController
       when 'r'
         authorize @exam, :show_r?
     end    
+
+    respond_to do |format|
+      format.json
+      format.html { render :show, locals: { back_url: params[:back_url]} }
+    end
+    # przepych
+    # @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :show, user: current_user, parameters: {})
   end
 
   # GET /exams/new
   def new
     @exam = Exam.new
     @exam.category = (params[:category_service]).upcase
+    #@exam.examiners.new
+    #@exam.examiners.new
+    (1..8).each { @exam.examiners.build }
     case params[:category_service]
       when 'l'
         authorize @exam, :new_l?
@@ -185,6 +202,11 @@ class ExamsController < ApplicationController
 
   # GET /exams/1/edit
   def edit
+    count = @exam.examiners.size
+    add_empty = 8 - count
+    add_empty += 1 if count >= 8
+    #@exam.examiners.build
+    (1..add_empty).each { @exam.examiners.build }
     case params[:category_service]
       when 'l'
         authorize @exam, :edit_l?
@@ -211,6 +233,13 @@ class ExamsController < ApplicationController
 
     respond_to do |format|
       if @exam.save
+        h_examiners = {}
+        @exam.examiners.order(:name).each_with_index do |examiner, i|
+          h_examiners["name_#{i+1}"] = examiner.name
+        end
+
+        @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :create, user: current_user, parameters: {exam: @exam.attributes.to_hash, examiners: h_examiners})
+
         format.html { redirect_to exam_path(@exam, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.created', data: @exam.number) }
         format.json { render :show, status: :created, location: @exam }
       else
@@ -233,6 +262,13 @@ class ExamsController < ApplicationController
     end    
     respond_to do |format|
       if @exam.update(exam_params)
+        h_examiners = {}
+        @exam.examiners.order(:name).each_with_index do |examiner, i|
+          h_examiners["name_#{i+1}"] = examiner.name
+        end
+ 
+        @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :update, user: current_user, parameters: {exam: @exam.previous_changes.to_hash, examiners: h_examiners})
+
         format.html { redirect_to exam_path(@exam, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.updated', data: @exam.number) }
         format.json { render :show, status: :ok, location: @exam }
       else
@@ -255,6 +291,7 @@ class ExamsController < ApplicationController
     end    
 
     if @exam.destroy
+      Work.create!(trackable: @exam, action: :destroy, user: current_user)
       redirect_to exams_url, notice: t('activerecord.messages.successfull.destroyed', data: @exam.number)
     else 
       flash[:alert] = t('activerecord.messages.error.destroyed', data: @exam.number)
@@ -265,12 +302,8 @@ class ExamsController < ApplicationController
   def generating_certificates 
     @exam = Exam.find(params[:id]) 
 
-
-#    @examinations = Examination.joins(:division, :customer, :exam).where(exam_id: params[:id]).includes(:division, :customer, :exam, :certificate).
-#                                references(:division, :customer, :exam, :certificate).order("customers.name, customers.given_names").all
-
-    # wywołanie funkcji JS, by nie odświeżać całej strony
-    @exam.generate_all_certificates
+    # wywołanie funkcji z JS, by nie odświeżać całej strony
+    @exam.generate_all_certificates(current_user.id)
     #flash.now[:notice] = t('activerecord.messages.successfull.numbering', data: @insurance.number)
     #flash[:notice] = t('activerecord.messages.successfull.numbering', data: @insurance.number)
     render :nothing => true and return
@@ -285,6 +318,6 @@ class ExamsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def exam_params
-      params.require(:exam).permit(:number, :date_exam, :place_exam, :chairman, :secretary, :committee_member1, :committee_member2, :committee_member3, :category, :note, :user_id)
+      params.require(:exam).permit(:number, :date_exam, :place_exam, :chairman, :secretary, :category, :note, :user_id, examiners_attributes: [:id, :name, :_destroy])
     end
 end

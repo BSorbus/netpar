@@ -102,15 +102,17 @@
   <hr>
 
 
-  <%= link_to t('Index', default: t("helpers.links.index")), departments_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
-
-  <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
-
   <% if input_disabled %>
     <!-- for "Show" -->
   <% else %>
     <!-- form "New"/"Edit" -->
-    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <div class="row">
+      <%= link_to t('Index', default: t("helpers.links.index")), departments_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+
+      <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+    </div> <!-- /row -->
   <% end %>
   
 <% end %>

@@ -15,7 +15,8 @@ class DepartmentsController < ApplicationController
   # GET /departments/1.json
   def show
     authorize @department, :show?
-    #authorize :role, :show?  
+    # przepych
+    # @department.works.create!(trackable_url: "#{department_path(@department)}", action: :show, user: current_user, parameters: {})
   end
 
   # GET /departments/new
@@ -38,6 +39,8 @@ class DepartmentsController < ApplicationController
 
     respond_to do |format|
       if @department.save
+        @department.works.create!(trackable_url: "#{department_path(@department)}", action: :create, user: current_user, parameters: @department.attributes.to_hash)
+
         format.html { redirect_to @department, notice: t('activerecord.messages.successfull.created', data: @department.short) }
         format.json { render :show, status: :created, location: @department }
       else
@@ -54,6 +57,8 @@ class DepartmentsController < ApplicationController
     
     respond_to do |format|
       if @department.update(department_params)
+        @department.works.create!(trackable_url: "#{department_path(@department)}", action: :update, user: current_user, parameters: @department.previous_changes.to_hash)
+
         format.html { redirect_to @department, notice: t('activerecord.messages.successfull.updated', data: @department.short) }
         format.json { render :show, status: :ok, location: @department }
       else
@@ -69,6 +74,7 @@ class DepartmentsController < ApplicationController
     authorize @department, :destroy?
 
     if @department.destroy
+      Work.create!(trackable: @department, action: :destroy, user: current_user)
       redirect_to departments_url, notice: t('activerecord.messages.successfull.destroyed', data: @department.short)
     else 
       flash[:alert] = t('activerecord.messages.error.destroyed', data: @department.short)

@@ -32,14 +32,12 @@
   <div class="col-sm-6">
 
     <div class="row">
-      <div class="form-group col-sm-12">
+      <div class="form-group col-sm-6">
         <p><strong><%= Exam.human_attribute_name(:chairman) %></strong></p>
         <h5><%= @exam.chairman %></h5>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="form-group col-sm-12">
+      <div class="form-group col-sm-6">
         <p><strong><%= Exam.human_attribute_name(:secretary) %></strong></p>
         <h5><%= @exam.secretary %></h5>
       </div>
@@ -47,24 +45,21 @@
 
     <div class="row">
       <div class="form-group col-sm-12">
-        <p><strong><%= Exam.human_attribute_name(:committee_member1) %></strong></p>
-        <h5><%= @exam.committee_member1 %></h5>
+        <p><strong>Członkowie komisji:</strong></p>
+
+        <table class="table table-hover">
+          <tbody>
+            <% @exam.examiners.order(:name).each do |examiner| %>
+              <tr>
+                <td><%= examiner.name %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
       </div>
     </div>
 
-    <div class="row">
-      <div class="form-group col-sm-12">
-        <p><strong><%= Exam.human_attribute_name(:committee_member2) %></strong></p>
-        <h5><%= @exam.committee_member2 %></h5>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="form-group col-sm-12">
-        <p><strong><%= Exam.human_attribute_name(:committee_member3) %></strong></p>
-        <h5><%= @exam.committee_member3 %></h5>
-      </div>
-    </div>
 
     <div class="row">
       <div class="form-group col-sm-12">
@@ -72,6 +67,8 @@
         <h5><%= @exam.note %></h5>
       </div>
     </div>
+
+
 
   </div> <!-- /col-sm-6 -->
 
@@ -101,7 +98,6 @@
 <% if input_disabled %>
   <!-- for "Show" -->
   <div class="row">
-
     <%= link_to t('Index', default: t("helpers.links.index")), exams_path(params[:category_service]), :class => 'btn btn-default glyphicon glyphicon-th-list' %>
 
     <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
@@ -117,10 +113,7 @@
       <%= link_to t('Edit', default: t("helpers.links.edit")), edit_exam_path(@exam, category_service: @exam.category.downcase), 
                           :class => 'btn btn-primary glyphicon glyphicon-edit' %> 
     <% end %>
-
   </div> <!-- /row -->
-
-
 <% else %>
   <!-- form "New"/"Edit" -->
 <% end %>

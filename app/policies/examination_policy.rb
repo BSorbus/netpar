@@ -124,17 +124,28 @@ class ExaminationPolicy < ApplicationPolicy
   end
  
   def print_l?
-    user_activities.include? 'exam_l:show'
+    user_activities.include? 'exam_l:print'
   end
 
   def print_m?
-    user_activities.include? 'exam_m:show'
+    user_activities.include? 'exam_m:print'
   end
 
   def print_r?
-    user_activities.include? 'exam_r:show'
+    user_activities.include? 'exam_r:print'
   end
  
+  def work_l?
+    user_activities.include? 'exam_l:work'
+  end
+
+  def work_m?
+    user_activities.include? 'exam_m:work'
+  end
+
+  def work_r?
+    user_activities.include? 'exam_r:work'
+  end
  
   class Scope < Struct.new(:user, :scope)
     def resolve

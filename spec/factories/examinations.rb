@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :examination do
     examination_category "MyString"
 division nil
-examination_resoult "MyString"
+examination_result "MyString"
 exam nil
 customer nil
 note "MyText"

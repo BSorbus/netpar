@@ -2,7 +2,7 @@ class CertificatesController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index, :datatables_index_exam]
 
-  before_action :set_certificate, only: [:show, :edit, :update, :destroy]
+  before_action :set_certificate, only: [:show, :edit, :update, :destroy, :certificate_to_pdf]
 
   # GET /certificates
   # GET /certificates.json
@@ -60,11 +60,14 @@ class CertificatesController < ApplicationController
           end    
           #pdf = PdfCertificatesL.new(@certificates_all, view_context)
           send_data pdf.render,
-          filename: "Certificate_#{params[:category_service]}__#{@certificates_all.first.number}.pdf",
+          filename: "Certificate_#{params[:category_service]}_#{@certificates_all.first.number}.pdf",
           type: "application/pdf",
           disposition: "inline"   
         end
       end
+      @certificate.works.create!(trackable_url: "#{certificate_path(@certificate, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
+                        parameters: {pdf_type: 'certificate', filename: "Certificate_#{params[:category_service]}_#{@certificates_all.first.number}.pdf"})
+
     end 
   end
 
@@ -84,6 +87,8 @@ class CertificatesController < ApplicationController
       format.json
       format.html { render :show, locals: { back_url: params[:back_url]} }
     end
+    # przepych
+    # @certificate.works.create!(trackable_url: "#{certificate_path(@certificate, category_service: params[:category_service])}", action: :show, user: current_user, parameters: {})
   end
 
   # GET /certificates/new
@@ -145,6 +150,8 @@ class CertificatesController < ApplicationController
 
     respond_to do |format|
       if @certificate.save
+        @certificate.works.create!(trackable_url: "#{certificate_path(@certificate, category_service: params[:category_service])}", action: :create, user: current_user, parameters: @certificate.attributes.to_hash)
+
         format.html { redirect_to certificate_path(@certificate, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.created', data: @certificate.number) }
         format.json { render :show, status: :created, location: @certificate }
       else
@@ -165,8 +172,11 @@ class CertificatesController < ApplicationController
       when 'r'
         authorize @certificate, :update_r?
     end    
+
     respond_to do |format|
       if @certificate.update(certificate_params)
+        @certificate.works.create!(trackable_url: "#{certificate_path(@certificate, category_service: params[:category_service])}", action: :update, user: current_user, parameters: @certificate.previous_changes.to_hash)
+
         format.html { redirect_to certificate_path(@certificate, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.updated', data: @certificate.number) }
         format.json { render :show, status: :ok, location: @certificate }
       else
@@ -188,8 +198,10 @@ class CertificatesController < ApplicationController
         authorize @certificate, :destroy_r?
     end    
 
+    exam = @certificate.exam
     if @certificate.destroy
-      redirect_to params[:back_url], notice: t('activerecord.messages.successfull.destroyed', data: @certificate.number)
+      Work.create!(trackable: @certificate, action: :destroy, user: current_user)
+      redirect_to (params[:back_url]).present? ? params[:back_url] : exam_path(exam, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.destroyed', data: @certificate.number)
     else 
       flash[:alert] = t('activerecord.messages.error.destroyed', data: @certificate.number)
       render :show

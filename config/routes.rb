@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
 
 
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
+
   resources :users do
+    resources :documents, module: :users, only: [:create]
     post 'datatables_index', on: :collection
+    patch 'lock', on: :member
+    patch 'unlock', on: :member
   end
 
 
@@ -54,15 +61,19 @@ Rails.application.routes.draw do
     resources :documents, module: :individuals, only: [:create]
   end
 
-  #resources :documents, only: [:destroy]
-  resources :documents, only: [:show, :destroy]
-
-
   resources :departments
 
   resources :roles do
-  	resources :users, only: [:create, :destroy], controller: 'roles/users' do
-  	end
+  	resources :users, only: [:create, :destroy], controller: 'roles/users'
+  end
+
+  #resources :documents, only: [:destroy]
+  resources :documents, only: [:show, :destroy]
+
+  resources :works, only: [:index] do
+    post 'datatables_index', on: :collection # for User
+    post 'datatables_index_trackable', on: :collection # for Trackable
+    post 'datatables_index_user', on: :collection # for User
   end
 
   root to: 'visitors#index'

@@ -102,30 +102,9 @@
 
   </div> <!-- /col-sm-6 -->
 
-  <div class="col-sm-6">
-
-  <% if @certificate.documents.where(fileattach_content_type: 'image/jpeg').any? %> 
-    <div class="row">
-      <div class="form-group col-sm-12">
-        <p><%= Document.human_attribute_name('fileattach') %></p>
-        <% case params[:category_service] %>
-        <% when 'l' %>
-          <%= image_tag attachment_url(@certificate.documents.where(fileattach_content_type: ['image/jpeg', 'image/png']).last, :fileattach, :fill, 875, 615, format: "jpg") %>
-        <% when 'm' %>
-          <%= image_tag attachment_url(@certificate.documents.where(fileattach_content_type: ['image/jpeg', 'image/png']).last, :fileattach, :fill, 435, 615, format: "jpg") %>
-        <% when 'r' %>
-          <%= image_tag attachment_url(@certificate.documents.where(fileattach_content_type: ['image/jpeg', 'image/png']).last, :fileattach, :fill, 435, 615, format: "jpg") %>
-        <% end %>
-      </div>
-    </div> <!-- /row -->
-
-    <% end %> <!-- /any? -->
-
-  </div> <!-- /col-sm-6 -->
 </div> <!-- /row -->
 
 <hr>
-
 
 <% if input_disabled %>
   <!-- for "Show" -->

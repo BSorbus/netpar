@@ -16,7 +16,7 @@ $(document).ready(function() {
       results: function(data, page) {
         var more = (page * 10) < data.total_count;
         var customers = $.map( data.customers, function(customer, i) {
-          return { id: customer.id, text: customer.fullname_and_address_and_pesel_nip };
+          return { id: customer.id, text: customer.fullname_and_address_and_pesel_nip_and_birth_date };
         });
         return { results: customers, more: more };
       }
@@ -26,7 +26,7 @@ $(document).ready(function() {
       if (id!=="") {
         $.get("/customers/"+id+".json", function(data_from_json) {
           if(data_from_json)
-            callback({ id: data_from_json.id, text: data_from_json.fullname_and_address_and_pesel_nip });
+            callback({ id: data_from_json.id, text: data_from_json.fullname_and_address_and_pesel_nip_and_birth_date });
         });
       }
     },

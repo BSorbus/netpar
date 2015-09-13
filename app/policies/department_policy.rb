@@ -38,6 +38,9 @@ class DepartmentPolicy < ApplicationPolicy
     #user.admin? or user.power_user?
   end
  
+  def work?
+    user_activities.include? 'department:work'
+  end
  
   class Scope < Struct.new(:user, :scope)
     def resolve

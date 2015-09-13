@@ -4,6 +4,7 @@ class Customer < ActiveRecord::Base
   belongs_to :user
 
   has_many :documents, as: :documentable
+  has_many :works, as: :trackable
 
   has_many :individuals
   has_many :individualed_documentable, through: :individuals, source: :documents
@@ -19,8 +20,8 @@ class Customer < ActiveRecord::Base
 
 
 
-#  validates :name, presence: true,
-#                    length: { in: 1..160 }
+  validates :name, presence: true,
+                    length: { in: 1..160 }
 #  validates :given_names, presence: true,
 #                    length: { in: 1..50 }, if: :is_human? 
 #  validates :address_city, presence: true,
@@ -40,7 +41,7 @@ class Customer < ActiveRecord::Base
     p = Pesel.new(pesel)
     errors.add(:pesel, ' - Błędny numer') unless p.valid?
     if p.valid? 
-       errors.add(:birth_date, " niezgodna z datą zapisaną w numerze PESEL (#{p.birth_date})") unless p.birth_date == birth_date
+      errors.add(:birth_date, " niezgodna z datą zapisaną w numerze PESEL (#{p.birth_date})") unless p.birth_date == birth_date
     end
   end
 
@@ -65,12 +66,15 @@ class Customer < ActiveRecord::Base
   end
 
   def fullname_and_address_and_pesel_nip
-    res = "#{name} #{given_names}, #{address_city}"
-    res +=  ", ul.#{address_street}" if address_street.present?
-    res +=  " #{address_house}" if address_house.present?
-    res +=  "/#{address_number}" if address_number.present?
+    res = fullname_and_address
     res +=  ", #{pesel}" if pesel.present?
     res +=  ", #{nip}" if nip.present?
+    res
+  end
+
+  def fullname_and_address_and_pesel_nip_and_birth_date
+    res = fullname_and_address_and_pesel_nip
+    res +=  ", ur.#{birth_date}" if birth_date.present?
     res
   end
 
@@ -86,38 +90,40 @@ class Customer < ActiveRecord::Base
 
   scope :finder_customer, ->(q) { where( my_sql("#{q}") ) }
 
-#  def self.my_sql(query_str)
-#    array_params_query = query_str.split
-#    sql_string = ""
-#    array_params_query.each_with_index do |par, index|
-#      sql_string += " AND " unless index == 0
-#      sql_string += one_param_sql(par)
-#    end
-#    sql_string
-#  end
-#
-#  def self.one_param_sql(query_str)
-#    "(customers.name ilike '%#{query_str}%' or 
-#      customers.given_names ilike '%#{query_str}%' or 
-#      customers.address_city ilike '%#{query_str}%' or 
-#      customers.pesel ilike '%#{query_str}%')"
-#  end
-
-
   def self.my_sql(query_str)
-    query_str.split.map { |par| one_param_sql(par) }.join(" AND ")
+    array_params_query = query_str.split
+    sql_string = ""
+    array_params_query.each_with_index do |par, index|
+      sql_string += " AND " unless index == 0
+      sql_string += one_param_sql(par)
+    end
+    sql_string
   end
 
   def self.one_param_sql(query_str)
-    escaped_query_str = sanitize("%#{query_str}%")
-
-    "(" + %w(name given_names address_city).map { |column| "customers.#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
+    "(customers.name ilike '%#{query_str}%' or 
+      customers.given_names ilike '%#{query_str}%' or 
+      customers.address_city ilike '%#{query_str}%' or 
+      to_char(customers.birth_date,'YYYY-mm-dd') ilike '%#{query_str}%' or 
+      customers.pesel ilike '%#{query_str}%')"
   end
+
+
+# To działa dobrze:
+#  def self.my_sql(query_str)
+#    query_str.split.map { |par| one_param_sql(par) }.join(" AND ")
+#  end
+#
+#  def self.one_param_sql(query_str)
+#    escaped_query_str = sanitize("%#{query_str}%")
+#
+#    "(" + %w(name given_names address_city).map { |column| "customers.#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
+#  end
 
 
   # odblokuj, gdy w kontrolerze cesz użyc .as_json
   def as_json(options)
-    { id: id, fullname_and_address_and_pesel_nip: fullname_and_address_and_pesel_nip }
+    { id: id, fullname_and_address_and_pesel_nip_and_birth_date: fullname_and_address_and_pesel_nip_and_birth_date }
   end
 
 

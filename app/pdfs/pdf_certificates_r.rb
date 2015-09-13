@@ -4,8 +4,16 @@ class PdfCertificatesR < Prawn::Document
     # New document, A4 paper, landscaped
     # pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)
     # wiec komentuje super() i ...
-    super(:page_size => "A4", :page_layout => :portrait)
+    super(:page_size => "A5", :page_layout => :portrait)
     #super()
+
+    # margin 0,5 ich ok 36 punktów
+    # A4 595.28 x 841.89
+    # A5 419.53 x 595.28
+    # B5 498.90 x 708.66 
+
+
+
     @certificates = certificates
     @view = view
 
@@ -20,11 +28,11 @@ class PdfCertificatesR < Prawn::Document
     length_certificates = @certificates.size
 
     @certificates.each_with_index do |certificate, i|
-      logo
-      title
-      header_left_corner(certificate)
-      data
-      footer
+      #logo
+      #title
+      header_center(certificate)
+      data(certificate)
+      #footer
       start_new_page if ((i+1) < length_certificates)
     end
 
@@ -44,25 +52,25 @@ class PdfCertificatesR < Prawn::Document
     text "ŚWIADECTWO RADIOAMATORSKIE", size: 16, :align => :center    
   end
 
-  def header_left_corner(certificate)
-    move_down 30
-    #text insurance.fullname, :align => :center
-    text "Numer #{certificate.number}", :style => :bold
-    text "Wydane #{certificate.date_of_issue}", :style => :bold
-    move_down 20
-    text "Dla:", size: 10, :style => :italic
-    text "#{certificate.customer.fullname_and_address}", :style => :bold
+  def header_center(certificate)
+    text_box "#{certificate.number}",                                                             :at => [ 180, 350], :width => 219, :height => 12, size: 11, :align => :left
+    text_box "#{certificate.customer.given_names} #{certificate.customer.name.mb_chars.upcase}",  :at => [   0, 320], :width => 347, :height => 12, size: 11, :align => :center
+    text_box "#{certificate.customer.birth_date.strftime("%d.%m.%Y")}",                           :at => [   0, 290], :width => 347, :height => 12, size: 11, :align => :center
+    text_box "#{certificate.date_of_issue.strftime("%d.%m.%Y")}",                                 :at => [   0, 260], :width => 347, :height => 12, size: 11, :align => :center
   end
 
 
 
-  def data
-    move_down 30
-    text "Na podstawie, ............. tadam, tadam, tadam, tadam, .......... ............." +
-         "zaświadcza się ............. tadam, tadam, tadam, tadam, ........., " +
-         "itd, itd, ......."
-    draw_text "." * 80, :at => [310, 300], size: 6
-    draw_text "data i czytelny podpis  ", :at => [340, 290], size: 7, :style => :italic
+  def data(certificate)
+    prezes = Department.find(1)
+    text_box "#{prezes.address_street_and_house_and_number}",                                     :at => [   0, 120], :width => 347, :height => 12, size: 9, :align => :center
+
+    text_box "#{prezes.address_postal_code} #{prezes.address_city}",                              :at => [   0, 100], :width => 347, :height => 12, size: 9, :align => :center
+    text_box "#{prezes.phone}",                                                                   :at => [   0, 100], :width => 150, :height => 12, size: 9, :align => :left
+    text_box "#{prezes.fax}",                                                                     :at => [ 200, 100], :width => 150, :height => 12, size: 9, :align => :right
+
+    text_box "#{certificate.user.department.phone}",                                              :at => [   0,  80], :width => 150, :height => 12, size: 9, :align => :left
+    text_box "#{certificate.user.department.fax}",                                                :at => [ 200,  80], :width => 150, :height => 12, size: 9, :align => :right
   end
 
   def footer

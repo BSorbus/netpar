@@ -26,6 +26,10 @@
     </div> <!-- /col-sm-12-->
   </div> <!-- /row -->
 
+  <% if policy(:department).work? %>
+    <%#= render partial: "works" %>
+    <%= render partial: "works/works_in_panel", locals: {trackable_type: 'Department', trackable_id: @department.id} %>
+  <% end %>
 
   <!-- Użytkownicy-->
   <div class="row">

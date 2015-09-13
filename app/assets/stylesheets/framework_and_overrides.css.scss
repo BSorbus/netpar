@@ -111,6 +111,7 @@ hr {
   color: white; 
 }
 
+ 
 .panel-license {
   border-color: #ddd  
 }
@@ -133,6 +134,14 @@ hr {
 .panel-attach > .panel-heading {
   background: #89877a;
   color: white; 
+}
+
+.panel-work {
+  border-color: #ddd  
+}
+.panel-work > .panel-heading {
+  background: #DCDCDC; //Gainsboro  
+  color: black; 
 }
 
 .panel-print {

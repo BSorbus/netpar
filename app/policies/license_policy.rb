@@ -37,6 +37,15 @@ class LicensePolicy < ApplicationPolicy
     user_activities.include? 'license:delete'
     #user.admin? or user.power_user?
   end
+
+  def print?
+    user_activities.include? 'license:print'
+  end
+
+  def work?
+    user_activities.include? 'license:work'
+  end
+ 
  
  
   class Scope < Struct.new(:user, :scope)

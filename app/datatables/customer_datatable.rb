@@ -17,6 +17,7 @@ class CustomerDatatable < AjaxDatatablesRails::Base
                               Customer.address_street 
                               Customer.address_house 
                               Customer.address_number 
+                              Customer.birth_date 
                               Customer.pesel 
                               Customer.nip 
                               Customer.regon 
@@ -31,8 +32,7 @@ class CustomerDatatable < AjaxDatatablesRails::Base
                               Customer.given_names 
                               Customer.address_city 
                               Customer.address_street 
-                              Customer.address_house 
-                              Customer.address_number 
+                              Customer.birth_date 
                               Customer.pesel 
                               Customer.nip 
                               Customer.regon 
@@ -53,6 +53,7 @@ class CustomerDatatable < AjaxDatatablesRails::Base
         record.address_street,
         record.address_house,
         record.address_number,
+        record.birth_date,
         record.pesel,
         record.nip,
         record.regon      

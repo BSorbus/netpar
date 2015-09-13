@@ -18,8 +18,8 @@
       </div>
 
       <div class="form-group col-sm-3">
-        <p><strong><%= Examination.human_attribute_name(:examination_resoult) %></strong></p>
-        <h5><%= @examination.examination_resoult_name %></h5>
+        <p><strong><%= Examination.human_attribute_name(:examination_result) %></strong></p>
+        <h5><%= @examination.examination_result_name %></h5>
       </div>
 
     </div>  <!-- /row -->
@@ -29,7 +29,7 @@
 <hr>
 
 <div class="row">
-  <div class="col-sm-6">
+  <div class="col-sm-7">
 
     <div class="row">
       <div class="form-group col-sm-12">
@@ -45,6 +45,33 @@
       </div>
     </div>
 
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong>Oceny:</strong></p>
+
+        <table class="table table-hover">
+          <tbody>
+            <% @examination.grades.order(:id).each do |grade| %>
+              <tr>
+                <td><%= grade.subject.item %></td>
+                <td><%= grade.subject.name %></td>
+                <% if    grade.grade_result == 'P' %>
+                  <td class="success"><%= grade.grade_result_name %></td>
+                <% elsif grade.grade_result == 'N'%>
+                  <td class="danger"><%= grade.grade_result_name %></td>
+                <% else %>
+                  <td ><%= grade.grade_result_name %></td>
+                <% end %>                
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+
     <div class="row">
       <div class="form-group col-sm-12">
         <p><strong><%= Examination.human_attribute_name(:note) %></strong></p>
@@ -54,7 +81,7 @@
 
   </div> <!-- /col-sm-6 -->
 
-  <div class="col-sm-6">
+  <div class="col-sm-5">
 
     <div class="row">
       <div class="form-group col-sm-12">
@@ -97,7 +124,7 @@
     <% end %>
 
 <!--
-    <%# if @examination.examination_resoult == 'P' && @examination.certificate.blank? && certificate_policy_check(:certificate, params[:category_service], 'new') %>
+    <%# if @examination.examination_result == 'P' && @examination.certificate.blank? && certificate_policy_check(:certificate, params[:category_service], 'new') %>
       <button id="examination-generate-certificate-and-refresh" ajax-path="<%= generating_certificate_examination_path(params[:category_service], @examination) %>" class="btn btn-success glyphicon glyphicon-certificate pull-right"><%= t('Generating', default: t("link_to.generating_certificate")) %></button>
     <%# end  %> 
 -->
@@ -110,8 +137,6 @@
     <%# end %>
 
   </div> <!-- /row -->
-
-
 <% else %>
   <!-- form "New"/"Edit" -->
 <% end %>

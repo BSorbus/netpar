@@ -46,47 +46,46 @@
   <div class="col-sm-6">
 
     <div class="row">
-      <div class="form-group col-sm-8">
+      <div class="form-group col-sm-6">
         <%= f.label :chairman, class: 'control-label' %>
         <%= f.text_field :chairman, class: 'form-control input-sm', disabled: input_disabled %>
       </div>
-    </div>
-
-    <div class="row">
-      <div class="form-group col-sm-8">
+      <div class="form-group col-sm-6">
         <%= f.label :secretary, class: 'control-label' %>
         <%= f.text_field :secretary, class: 'form-control input-sm', disabled: input_disabled %>
       </div>
     </div>
 
-    <div class="row">
-      <div class="form-group col-sm-8">
-        <%= f.label :committee_member1, class: 'control-label' %>
-        <%= f.text_field :committee_member1, class: 'form-control input-sm', disabled: input_disabled %>
-      </div>
-    </div>
 
     <div class="row">
-      <div class="form-group col-sm-8">
-        <%= f.label :committee_member2, class: 'control-label' %>
-        <%= f.text_field :committee_member2, class: 'form-control input-sm', disabled: input_disabled %>
+      <div class="col-sm-6">
+        <p><strong>Członkowie komisji:</strong></p>
       </div>
     </div>
+    <%= f.fields_for :examiners do |e| %>
 
-    <div class="row">
-      <div class="form-group col-sm-8">
-        <%= f.label :committee_member3, class: 'control-label' %>
-        <%= f.text_field :committee_member3, class: 'form-control input-sm', disabled: input_disabled %>
+      <div class="row">
+        <div class="form-group col-sm-6">
+          <%#= e.label :name, class: 'control-label' %>
+          <%= e.text_field :name, class: 'form-control input-sm', disabled: input_disabled %>
+
+          <% unless @exam.new_record? %>
+            <%= e.check_box :_destroy %>
+            <%= e.label :_destroy, 'usuń' %>
+          <% end%>
+
+        </div>
       </div>
-    </div>
+
+    <% end %>
+
 
     <div class="row">
-      <div class="form-group col-sm-8">
+      <div class="form-group col-sm-12">
         <%= f.label :note, class: 'control-label' %>
         <%= f.text_area :note, :rows => 4, :cols => 50, class: 'form-control input-sm', disabled: input_disabled %>
       </div>
     </div>
-
 
 
   </div> <!-- /col-sm-6 -->
@@ -110,7 +109,6 @@
     <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
     <%= f.submit nil, :class => 'btn btn-primary' %>
   </div> <!-- /row -->
-
 <% end %>
   
 

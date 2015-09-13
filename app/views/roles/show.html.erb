@@ -26,6 +26,11 @@
     </div> <!-- /col-sm-12-->
   </div> <!-- /row -->
 
+  <%# if certificate_policy_check(@certificate, params[:category_service], 'edit') %>
+  <% if policy(:role).work? %>
+    <%#= render partial: "works" %>
+    <%= render partial: "works/works_in_panel", locals: {trackable_type: 'Role', trackable_id: @role.id} %>
+  <% end %>
 
   <!-- Użytkownicy-->
   <div class="row">
@@ -83,4 +88,3 @@
 
 
 </div> <!-- /class="panel-group" id="myaccordion" -->
-

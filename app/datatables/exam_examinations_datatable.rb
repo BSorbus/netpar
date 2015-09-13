@@ -14,7 +14,7 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
                               Customer.name
                               Examination.examination_category
                               Division.name
-                              Examination.examination_resoult
+                              Examination.examination_result
                               Examination.note
                               Certificate.number
                               Examination.category 
@@ -48,7 +48,7 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
         link_to(record.customer.fullname_and_address, @view.customer_path(record.customer)),
         record.examination_category_name,
         record.division.name + " (" + record.division.short_name + ")",
-        record.examination_resoult_name,
+        record.examination_result_name,
         record.note,
         record.certificate.present? ? link_to(record.certificate.number, @view.certificate_path(record.certificate.category.downcase, record.certificate)) : '',
         #record.certificate.present? ? record.certificate.number : '',

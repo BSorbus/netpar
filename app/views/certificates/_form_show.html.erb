@@ -92,7 +92,6 @@
 <% if input_disabled %>
   <!-- for "Show" -->
   <div class="row">
-
     <%= link_to t('Index', default: t("helpers.links.index")), certificates_path(params[:category_service]), :class => 'btn btn-default glyphicon glyphicon-th-list' %>
 
     <%= link_to t('Back', default: t("helpers.links.back")), back_url, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
@@ -109,11 +108,7 @@
         <%= link_to t('Edit', default: t("helpers.links.edit")), edit_certificate_path(@certificate, category_service: @certificate.category.downcase, back_url: back_url), 
                             :class => 'btn btn-primary glyphicon glyphicon-edit' %> 
     <% end %>
-
-
   </div> <!-- /row -->
-
-
 <% else %>
   <!-- form "New"/"Edit" -->
 <% end %>

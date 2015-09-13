@@ -3,6 +3,12 @@ user = CreateAdminService.new.call
 puts 'CREATED ADMIN USER: ' << user.email
 
 
+role = CreateRoleService.new.work_observer
+puts 'CREATED ROLE: ' << role.name
+user.roles << role
+puts "ADD ROLE: #{role.name}   TO USER: #{user.email}"
+
+
 role = CreateRoleService.new.role_manager
 puts 'CREATED ROLE: ' << role.name
 user.roles << role

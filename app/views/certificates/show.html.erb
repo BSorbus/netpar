@@ -26,6 +26,11 @@
     </div> <!-- /col-sm-12-->
   </div> <!-- /row -->
 
+  <% if certificate_policy_check(@certificate, params[:category_service], 'work') %>
+    <%#= render partial: "works" %>
+    <%= render partial: "works/works_in_panel", locals: {trackable_type: 'Certificate', trackable_id: @certificate.id} %>
+  <% end %>
+
   <%= render partial: "documents/documents_in_panel", locals: {documentable: @certificate} %>
 
   <!-- Wydruki -->
@@ -52,6 +57,5 @@
       </div> <!-- /panel -->
     </div> <!-- /col-sm-11 col-sm-offset-1 -->
   </div> <!-- /row -->
-
 
 </div> <!-- /class="panel-group" id="myaccordion" -->

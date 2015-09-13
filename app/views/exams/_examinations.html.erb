@@ -7,7 +7,7 @@
           <th> 2 customer.fullname</th>
           <th> 3 exam_category</th>
           <th> 4 division.name</th>
-          <th> 5 exam_resoult</th>
+          <th> 5 exam_result</th>
           <th> 6 note</th>
           <th> 7 certificate.number</th>
           <th> 8 Category</th>
@@ -30,10 +30,9 @@
                               :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
       <% end  %> 
 
-      <% if @exam.examinations.where(examination_resoult: 'P', certificate: nil).any? && certificate_policy_check(:certificate, params[:category_service], 'new') %>
+      <% if @exam.examinations.where(examination_result: 'P', certificate: nil).any? && certificate_policy_check(:certificate, params[:category_service], 'new') %>
         <button id="exam-examinations-generate-certificate-and-refresh" ajax-path="<%= generating_certificates_exam_path(params[:category_service], @exam) %>" class="btn btn-success glyphicon glyphicon-certificate pull-right"><%= t('Generating', default: t("link_to.generating_certificates")) %></button>
       <% end  %> 
-
 
     </div> <!--/row -->
   </div> <!--/col-sm-12 -->

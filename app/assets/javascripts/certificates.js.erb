@@ -6,7 +6,15 @@ $(document).ready(function() {
     deferRender: true,
     ajax: { 
       url: $('#certificates').data('source'),
-      type: "POST"
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
     },
     pagingType: "full_numbers",
     lengthMenu: [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
@@ -52,7 +60,15 @@ $(document).ready(function() {
     deferRender: true,
     ajax: { 
       url: $('#exam-certificates').data('source'),
-      type: "POST"
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
     },
     pagingType: "full_numbers",
     lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
@@ -107,3 +123,4 @@ $(document).ready(function() {
  
   
 });
+

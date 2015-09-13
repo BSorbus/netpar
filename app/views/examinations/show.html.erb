@@ -26,6 +26,11 @@
     </div> <!-- /col-sm-12-->
   </div> <!-- /row -->
 
+  <% if examination_policy_check(@examination, params[:category_service], 'work') %>
+    <%#= render partial: "works" %>
+    <%= render partial: "works/works_in_panel", locals: {trackable_type: 'Examination', trackable_id: @examination.id} %>
+  <% end %>
+
   <%= render partial: "documents/documents_in_panel", locals: {documentable: @examination} %>
 
   <!-- Wydruki -->

@@ -24,24 +24,6 @@ class ExaminationsController < ApplicationController
     end
   end
 
-  # GET /examinations/1
-  # GET /examinations/1.json
-  def show
-    case params[:category_service]
-      when 'l'
-        authorize @examination, :show_l?
-      when 'm'
-        authorize @examination, :show_m?
-      when 'r'
-        authorize @examination, :show_r?
-    end    
-
-    respond_to do |format|
-      format.json
-      format.html { render :show, locals: { back_url: params[:back_url]} }
-    end
-  end
-
   def examination_card_to_pdf
     case params[:category_service]
       when 'l'
@@ -75,8 +57,31 @@ class ExaminationsController < ApplicationController
           disposition: "inline"   
         end
       end
+      @examination.first.works.create!(trackable_url: "#{examination_path(@examination, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
+                        parameters: {pdf_type: 'examination_card', filename: "Examination_Card_#{params[:category_service]}_#{@examination.first.exam.number}_#{@examination.first.customer.fullname}.pdf"})
+
     end 
   end
+
+  # GET /examinations/1
+  # GET /examinations/1.json
+  def show
+    case params[:category_service]
+      when 'l'
+        authorize @examination, :show_l?
+      when 'm'
+        authorize @examination, :show_m?
+      when 'r'
+        authorize @examination, :show_r?
+    end    
+
+    respond_to do |format|
+      format.json
+      format.html { render :show, locals: { back_url: params[:back_url]} }
+    end
+    # przepych
+    # @examination.works.create!(trackable_url: "#{examination_path(@examination, category_service: params[:category_service])}", action: :show, user: current_user, parameters: {})
+ end
 
   # GET /examinations/new
   def new
@@ -107,6 +112,9 @@ class ExaminationsController < ApplicationController
 
   # GET /examinations/1/edit
   def edit
+#    count = @examination.grades.size
+#    (1..count).each { @examination.grades.build }
+
     case params[:category_service]
       when 'l'
         authorize @examination, :edit_l?
@@ -138,7 +146,13 @@ class ExaminationsController < ApplicationController
 
     respond_to do |format|
       if @examination.save
-        format.html { redirect_to examination_path(@examination, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.created', data: @examination.id) }
+        @examination.division.subjects.order(:item).each do |subject|
+          @examination.grades.create!(user: @examination.user, subject: subject)
+        end
+
+        @examination.works.create!(trackable_url: "#{examination_path(@examination, category_service: params[:category_service])}", action: :create, user: current_user, parameters: @examination.attributes.to_hash)
+
+        format.html { redirect_to examination_path(@examination, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.created', data: @examination.fullname) }
         format.json { render :show, status: :created, location: @examination }
       else
         format.html { render :new, locals: { back_url: params[:back_url]} }
@@ -160,6 +174,15 @@ class ExaminationsController < ApplicationController
     end    
     respond_to do |format|
       if @examination.update(examination_params)
+
+        h_grades = {}
+        @examination.grades.order(:id).each do |grade|
+          h_grades["#{grade.subject.name}"] = grade.grade_result
+        end
+ 
+        @examination.works.create!(trackable_url: "#{examination_path(@examination, category_service: params[:category_service])}", action: :update, user: current_user, 
+          parameters: {examination: @examination.previous_changes.to_hash, grades: h_grades})
+
         format.html { redirect_to examination_path(@examination, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.updated', data: @examination.fullname) }
         format.json { render :show, status: :ok, location: @examination }
       else
@@ -181,8 +204,10 @@ class ExaminationsController < ApplicationController
         authorize @examination, :destroy_r?
     end    
 
+    exam = @examination.exam
     if @examination.destroy
-      redirect_to params[:back_url], notice: t('activerecord.messages.successfull.destroyed', data: @examination.fullname)
+      Work.create!(trackable: @examination, action: :destroy, user: current_user)
+      redirect_to (params[:back_url]).present? ? params[:back_url] : exam_path(exam, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.destroyed', data: @examination.fullname)
     else 
       flash[:alert] = t('activerecord.messages.error.destroyed', data: @examination.fullname)
       render :show
@@ -205,6 +230,6 @@ class ExaminationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def examination_params
-      params.require(:examination).permit(:examination_category, :division_id, :examination_resoult, :exam_id, :customer_id, :certificate_id, :note, :category, :exam_id, :user_id)
+      params.require(:examination).permit(:examination_category, :division_id, :examination_result, :exam_id, :customer_id, :certificate_id, :note, :category, :exam_id, :user_id, grades_attributes: [:id, :grade_result])
     end
 end

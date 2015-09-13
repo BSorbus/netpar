@@ -3,4 +3,10 @@ class Document < ActiveRecord::Base
 
   attachment :fileattach
 
+  has_many :works, as: :trackable
+
+  def fullname_and_id
+    "#{fileattach_filename} (#{id})"
+  end
+
 end

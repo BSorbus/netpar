@@ -12,8 +12,11 @@ class UserDatatable < AjaxDatatablesRails::Base
     # Example: 'users.email'
     @sortable_columns ||= %w( 
                               User.name 
-                              User.email 
+                              User.email
+                              User.current_sign_in_ip
+                              User.current_sign_in_at
                               Department.short  
+                              User.deleted_at
                             )
   end
 
@@ -23,7 +26,10 @@ class UserDatatable < AjaxDatatablesRails::Base
     @searchable_columns ||= %w(
                               User.name 
                               User.email 
+                              User.current_sign_in_ip
+                              User.current_sign_in_at
                               Department.short  
+                              User.deleted_at
                             )
   end
 
@@ -37,7 +43,10 @@ class UserDatatable < AjaxDatatablesRails::Base
         record.id,
         record.name.present? ? link_to(record.name, @view.user_path(record)) : '',
         link_to(record.email, @view.user_path(record)),
-        record.department.present? ? link_to(record.department.short, @view.department_path(record.department)) : ''
+        record.current_sign_in_ip,
+        record.current_sign_in_at.present? ? record.current_sign_in_at.strftime("%Y-%m-%d %H:%M") : '' ,
+        record.department.present? ? link_to(record.department.short, @view.department_path(record.department)) : '',
+        record.deleted_at.present? ? record.deleted_at.strftime("%Y-%m-%d %H:%M") : '' ,
       ]
     end
   end

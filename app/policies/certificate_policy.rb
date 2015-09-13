@@ -123,15 +123,28 @@ class CertificatePolicy < ApplicationPolicy
   end
 
   def print_l?
-    user_activities.include? 'certificate_l:show'
+    user_activities.include? 'certificate_l:print'
   end
 
   def print_m?
-    user_activities.include? 'certificate_m:show'
+    user_activities.include? 'certificate_m:print'
   end
 
   def print_r?
-    user_activities.include? 'certificate_r:show'
+    user_activities.include? 'certificate_r:print'
+  end
+ 
+ 
+  def work_l?
+    user_activities.include? 'certificate_l:work'
+  end
+
+  def work_m?
+    user_activities.include? 'certificate_m:work'
+  end
+
+  def work_r?
+    user_activities.include? 'certificate_r:work'
   end
  
  

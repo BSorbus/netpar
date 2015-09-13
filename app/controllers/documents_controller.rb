@@ -1,6 +1,6 @@
 class DocumentsController < ApplicationController
   before_action :authenticate_user!
-  #after_action :verify_authorized, except: [:index]
+  #after_action :verify_authorized, except: [:index, :datatables_index, :datatables_index_exam]
 
   def show
     @document = Document.find(params[:id])
@@ -11,6 +11,8 @@ class DocumentsController < ApplicationController
       filename: @document.fileattach_filename,
       type: @document.fileattach_content_type, 
       disposition: "attachment"              
+
+    @document.works.create!(trackable_url: "#{document_path(@document)}", action: :download, user: current_user, parameters: @document.attributes.to_hash)
   end
 
   def create
@@ -18,6 +20,8 @@ class DocumentsController < ApplicationController
 
     respond_to do |format|
       if @document.save
+        @document.works.create!(trackable_url: "#{document_path(@document)}", action: :upload, user: current_user, parameters: @document.attributes.to_hash)
+
         format.html { redirect_to :back, notice: t('activerecord.messages.successfull.attach_file', parent: @document.documentable.fullname, child: @document.fileattach_filename) }
       else
         format.html { redirect_to :back, alert: t('activerecord.messages.error.created') }        
@@ -40,6 +44,7 @@ class DocumentsController < ApplicationController
   def destroy
     @document = Document.find(params[:id])
     if @document.destroy
+      Work.create!(trackable: @document, action: :destroy, user: current_user, parameters: @document.attributes.to_hash)
       redirect_to :back, notice: t('activerecord.messages.successfull.remove_attach_file', parent: @document.documentable.fullname, child: @document.fileattach_filename)
     else 
       redirect_to :back, alert: t('activerecord.messages.error.destroyed', data: @document.fileattach_filename)        

@@ -42,6 +42,10 @@ class CustomerPolicy < ApplicationPolicy
     #user.admin? or user.power_user?
   end
  
+  def work?
+    user_activities.include? 'customer:work'
+  end
+
  
   class Scope < Struct.new(:user, :scope)
     def resolve

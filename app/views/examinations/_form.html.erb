@@ -36,16 +36,16 @@
         <%= f.label :division_id, class: 'control-label' %>
         <%= f.select( :division_id, 
               Division.only_category_scope(params[:category_service]).by_name.collect {|p| [ "#{p.name} (#{p.short_name})", p.id ]},
-              { include_blank: false, multiple: false }, class: 'form-control input-sm', disabled: input_disabled ) %>
+              { include_blank: false, multiple: false }, class: 'form-control input-sm', disabled: @examination.new_record? ? false : true) %>
       </div>
 
       <div class="control-group col-sm-3">
-        <%= f.label :examination_resoult, class: 'control-label' %>
-        <%= f.select :examination_resoult, 
+        <%= f.label :examination_result, class: 'control-label' %>
+        <%= f.select :examination_result, 
                   options_for_select([['Negatywny bez prawa do powtórki', 'B'],
                                       ['Negatywny z prawem do powtórki', 'N'],
                                       ['Pozytywny', 'P']], 
-                  selected: @examination.examination_resoult), { include_blank: true }, class: 'form-control input-sm', disabled: input_disabled %>
+                  selected: @examination.examination_result), { include_blank: true }, class: 'form-control input-sm', disabled: input_disabled %>
       </div>
 
 
@@ -56,10 +56,10 @@
 <hr>
 
 <div class="row">
-  <div class="col-sm-6">
+  <div class="col-sm-12">
 
     <div class="row">
-      <div class="form-group col-sm-12">
+      <div class="form-group col-sm-9">
         <%= f.label :exam_id, class: "control-label" %>
         <%= f.hidden_field :exam_id,
                           class: "form-control input-sm exam_select_#{params[:category_service]}", 
@@ -70,7 +70,7 @@
     </div>
 
     <div class="row">
-      <div class="form-group col-sm-12">
+      <div class="form-group col-sm-9">
         <%= f.label :customer_id, class: "control-label" %>
         <%= f.hidden_field :customer_id,
                           class: "form-control input-sm customer_select", 
@@ -80,8 +80,37 @@
       </div>
     </div>
 
+
+
     <div class="row">
-      <div class="form-group col-sm-12">
+      <div class="col-sm-12">
+        <p><strong>Oceny:</strong></p>
+      </div>
+    </div>
+    <%= f.fields_for :grades do |g| %>
+
+      <div class="row">
+        <div class="form-group col-sm-9">
+          <%#= f.label :subject_id, class: 'control-label' %>
+          <%= g.select( :subject_id, 
+                Subject.all.collect {|p| [ "#{p.name}", p.id ]},
+                { include_blank: false, multiple: false }, class: 'form-control input-sm', disabled: true ) %>
+        </div>
+        <div class="form-group col-sm-3">
+          <%= g.select :grade_result, 
+                    options_for_select([['Negatywny', 'N'],
+                                        ['Pozytywny', 'P']], selected: g.object.grade_result), 
+                    { include_blank: true }, class: 'form-control input-sm', disabled: input_disabled %>
+
+        </div>
+
+      </div>
+
+    <% end %>
+
+
+    <div class="row">
+      <div class="form-group col-sm-6">
         <%= f.label :note, class: 'control-label' %>
         <%= f.text_area :note, :rows => 4, :cols => 50, class: 'form-control input-sm', disabled: input_disabled %>
       </div>
@@ -90,26 +119,6 @@
 
   </div> <!-- /col-sm-6 -->
 
-  <div class="col-sm-6">
-
-  <% if @examination.documents.where(fileattach_content_type: 'image/jpeg').any? %> 
-    <div class="row">
-      <div class="form-group col-sm-12">
-        <p><%= Document.human_attribute_name('fileattach') %></p>
-        <% case params[:category_service] %>
-        <% when 'l' %>
-          <%= image_tag attachment_url(@examination.documents.where(fileattach_content_type: ['image/jpeg', 'image/png']).last, :fileattach, :fill, 875, 615, format: "jpg") %>
-        <% when 'm' %>
-          <%= image_tag attachment_url(@examination.documents.where(fileattach_content_type: ['image/jpeg', 'image/png']).last, :fileattach, :fill, 435, 615, format: "jpg") %>
-        <% when 'r' %>
-          <%= image_tag attachment_url(@examination.documents.where(fileattach_content_type: ['image/jpeg', 'image/png']).last, :fileattach, :fill, 435, 615, format: "jpg") %>
-        <% end %>
-      </div>
-    </div> <!-- /row -->
-
-    <% end %> <!-- /any? -->
-
-  </div> <!-- /col-sm-6 -->
 </div> <!-- /row -->
 
 <hr>

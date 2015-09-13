@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :request_from_the_security_area?
 
-
   def restricted_area
     unless request_from_the_security_area?
       flash[:error] = t "restricted_area"
@@ -61,7 +60,5 @@ class ApplicationController < ActionController::Base
 
     return allowed
   end
-
-
 
 end

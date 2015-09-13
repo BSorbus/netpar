@@ -1,0 +1,245 @@
+$(document).ready(function() {
+  var oWorkTable = $('#works').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    ajax: { 
+      url: $('#works').data('source'),
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
+    columns: [
+      { "targets": [0],
+        "title": "ID",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [1],
+        "title": "<%= Work.human_attribute_name('created_at') %>" }, 
+      { "targets": [2],
+        "title": "<%= Work.human_attribute_name('owner_type') %>" }, 
+      { "targets": [3],
+        "title": "<%= Work.human_attribute_name('action') %>" , 
+        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+          // sData - wartosc celi, oData - wiersza
+          if (oData[3] == 'sign_in' ) {
+            $(nTd).css('background-color', '#DFF0D8'); 
+          }
+          else if (oData[3] == 'sign_out' ) {
+            $(nTd).css('background-color', '#DFF0D8'); 
+          }
+          else if (oData[3] == 'sign_up' ) {
+            $(nTd).css('background-color', '#FFFFE0'); //LightYellow    #FFFFE0  '#FF5819
+          }
+          else if (oData[3] == 'account_confirmation' ) {
+            $(nTd).css('background-color', '#FFFACD'); //LemonChiffon   #FFFACD
+          }
+          else if (oData[3] == 'account_lock' ) {
+            $(nTd).css('background-color', '#FFC04D'); //Orange mix 
+          }
+          else if (oData[3] == 'account_unlock' ) {
+            $(nTd).css('background-color', '#FFC04D'); //Orange mix
+          }
+          else if (oData[3] == 'unauthenticated' ) {
+            $(nTd).css('background-color', '#FF8C8C'); //Red mix
+          }
+        }
+      }, 
+      { "targets": [4],
+        "title": "<%= Work.human_attribute_name('trackable_type') %>" }, 
+      { "targets": [5],
+        "title": "<%= Work.human_attribute_name('trackable_id') %>" }, 
+      { "targets": [6],
+        "sortable": false,
+        "title": "<%= Work.human_attribute_name('parameters') %>" }
+    ],
+    order: [[ 1, "desc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+
+
+  var oTrackableWorksTable = $('#trackable-works').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    ajax: { 
+      url: $('#trackable-works').data('source'),
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    columns: [
+      { "targets": [0],
+        "title": "ID",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [1],
+        "title": "<%= Work.human_attribute_name('created_at') %>" }, 
+      { "targets": [2],
+        "title": "<%= Work.human_attribute_name('owner_type') %>" }, 
+      { "targets": [3],
+        "title": "<%= Work.human_attribute_name('action') %>" , 
+        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+          // sData - wartosc celi, oData - wiersza
+          if (oData[3] == 'sign_in' ) {
+            $(nTd).css('background-color', '#DFF0D8'); 
+          }
+          else if (oData[3] == 'sign_out' ) {
+            $(nTd).css('background-color', '#DFF0D8'); 
+          }
+          else if (oData[3] == 'sign_up' ) {
+            $(nTd).css('background-color', '#FFFFE0'); //LightYellow    #FFFFE0  '#FF5819
+          }
+          else if (oData[3] == 'account_confirmation' ) {
+            $(nTd).css('background-color', '#FFFACD'); //LemonChiffon   #FFFACD
+          }
+          else if (oData[3] == 'account_lock' ) {
+            $(nTd).css('background-color', '#FFC04D'); //Orange mix 
+          }
+          else if (oData[3] == 'account_unlock' ) {
+            $(nTd).css('background-color', '#FFC04D'); //Orange mix
+          }
+          else if (oData[3] == 'unauthenticated' ) {
+            $(nTd).css('background-color', '#FF8C8C'); //Red mix
+          }
+        }
+      }, 
+      { "targets": [4],
+        "title": "<%= Work.human_attribute_name('trackable_type') %>" }, 
+      { "targets": [5],
+        "title": "<%= Work.human_attribute_name('trackable_id') %>" }, 
+      { "targets": [6],
+        "sortable": false,
+        "title": "<%= Work.human_attribute_name('parameters') %>" }
+    ],
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#collapse_works" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
+    order: [[ 1, "desc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+  // jezeli nastepuje wyswietlenie panelu, to zaladuj dane
+  $('#collapse_works').on('shown.bs.collapse', function (){
+    oTrackableWorksTable.ajax.reload();
+    oTrackableWorksTable.draw();
+  });
+
+
+ 
+
+  var oUserWorksTable = $('#user-works').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    ajax: { 
+      url: $('#user-works').data('source'),
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    columns: [
+      { "targets": [0],
+        "title": "ID",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [1],
+        "title": "<%= Work.human_attribute_name('created_at') %>" }, 
+      { "targets": [2],
+        "title": "<%= Work.human_attribute_name('owner_type') %>" }, 
+      { "targets": [3],
+        "title": "<%= Work.human_attribute_name('action') %>" , 
+        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+          // sData - wartosc celi, oData - wiersza
+          if (oData[3] == 'sign_in' ) {
+            $(nTd).css('background-color', '#DFF0D8'); 
+          }
+          else if (oData[3] == 'sign_out' ) {
+            $(nTd).css('background-color', '#DFF0D8'); 
+          }
+          else if (oData[3] == 'sign_up' ) {
+            $(nTd).css('background-color', '#FFFFE0'); //LightYellow    #FFFFE0  '#FF5819
+          }
+          else if (oData[3] == 'account_confirmation' ) {
+            $(nTd).css('background-color', '#FFFACD'); //LemonChiffon   #FFFACD
+          }
+          else if (oData[3] == 'account_lock' ) {
+            $(nTd).css('background-color', '#FFC04D'); //Orange mix 
+          }
+          else if (oData[3] == 'account_unlock' ) {
+            $(nTd).css('background-color', '#FFC04D'); //Orange mix
+          }
+          else if (oData[3] == 'unauthenticated' ) {
+            $(nTd).css('background-color', '#FF8C8C'); //Red mix
+          }
+        }
+      }, 
+      { "targets": [4],
+        "title": "<%= Work.human_attribute_name('trackable_type') %>" }, 
+      { "targets": [5],
+        "title": "<%= Work.human_attribute_name('trackable_id') %>" }, 
+      { "targets": [6],
+        "sortable": false,
+        "title": "<%= Work.human_attribute_name('parameters') %>" }
+    ],
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#collapse_works_inspect" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
+    order: [[ 1, "desc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+  // jezeli nastepuje wyswietlenie panelu, to zaladuj dane
+  $('#collapse_works_inspect').on('shown.bs.collapse', function (){
+    oUserWorksTable.ajax.reload();
+    oUserWorksTable.draw();
+  });
+
+ 
+  
+  
+});
+

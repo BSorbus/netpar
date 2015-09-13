@@ -7,7 +7,15 @@ $(document).ready(function() {
     scrollX: true,
     ajax: { 
       url: $('#users').data('source'),
-      type: "POST"
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
     },
     pagingType: "full_numbers",
     lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
@@ -20,9 +28,15 @@ $(document).ready(function() {
       { "targets": [1],
         "title": "<%= User.human_attribute_name('name') %>" }, 
       { "targets": [2],
-        "title": "Email" }, 
+        "title": "<%= User.human_attribute_name('email') %>" }, 
       { "targets": [3],
-        "title": "<%= User.human_attribute_name('department_id') %>" } 
+        "title": "<%= User.human_attribute_name('current_sign_in_ip') %>" }, 
+      { "targets": [4],
+        "title": "<%= User.human_attribute_name('current_sign_in_at') %>" }, 
+      { "targets": [5],
+        "title": "<%= User.human_attribute_name('department_id') %>" }, 
+      { "targets": [6],
+        "title": "<%= User.human_attribute_name('deleted_at') %>" } 
     ],
     order: [[ 1, "asc" ]],
     language: {

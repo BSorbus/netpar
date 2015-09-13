@@ -1,12 +1,12 @@
 class CreateExaminations < ActiveRecord::Migration
   def change
     create_table :examinations do |t|
-      t.string :examination_category, limit: 1, null: false, default: "Z"
+      t.string :examination_category,           limit: 1, null: false, default: "Z"
       t.references :division, index: true, foreign_key: true
-      t.string :examination_resoult, limit: 1
+      t.string :examination_result, limit: 1
       t.references :exam, index: true, foreign_key: true
       t.references :customer, index: true, foreign_key: true
-      t.text :note
+      t.text :note,                                                   default: ""
       t.string :category, limit: 1
       t.references :user, index: true, foreign_key: true
 

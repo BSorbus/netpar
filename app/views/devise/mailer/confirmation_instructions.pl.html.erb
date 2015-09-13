@@ -5,7 +5,7 @@
   </head>
   <body>
     <%= image_tag attachments['logo.png'].url %>
-    <h3>Witaj <%= @user.email %>!</h3>
+    <h3>Witaj <%= @user.name %> (<%= @user.email %>)!</h3>
   	<p>Gratulujemy!</p>
   	<p>Zarejestrowałeś się w programie <strong>NetPAR</strong>. Aby zakończyć proces rejestracji musisz aktywować swoje konto wybierając link poniżej:</p>
   	<p><%= link_to 'Aktywuj konto', confirmation_url(@resource, confirmation_token: @token) %></p>
