@@ -103,6 +103,8 @@ pl:
       show:
         title: 'Klient'
         other_stations: "Inne stacje klubowe w promieniu 25 km :"
+      edit:
+        title: ' Klient - edycja danych'
       new:
         title: ' Nowy Klient'
     examination:
@@ -346,7 +348,9 @@ pl:
         certificate_status: 'Status'
         division_id: 'Typ świadectwa'
         exam_id: 'Egzamin'
+        exam: 'Egzamin'
         customer_id: 'Klient'
+        customer: 'Klient'
         category: 'Kategoria'
         note: 'Uwagi'
       individual:
@@ -418,9 +422,12 @@ pl:
       examination:
         examination_category: 'Rodzaj egzaminu'
         division_id: 'Typ świadectwa'
+        division: 'Typ świadectwa'
         examination_result: 'Wynik egzaminu'
         exam_id: 'Sesja egzaminacyjna'
+        exam: 'Sesja egzaminacyjna'
         customer_id: 'Klient'
+        customer: 'Klient'
         category: 'Kategoria'
         note: 'Uwagi'
         certificate_id: 'Wygenerowano świadectwo'

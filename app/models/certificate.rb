@@ -8,14 +8,18 @@ class Certificate < ActiveRecord::Base
   has_many :works, as: :trackable
   has_many :documents, as: :documentable, :source_type => "Certificate", dependent: :destroy
 
+
+
+  # validates
   validates :number, presence: true,
                     length: { in: 1..30 },
                     uniqueness: { :case_sensitive => false, :scope => [:category] }
 
-#  validates  :division, presence: true
-#  validates  :exam, presence: true
-#  validates  :customer, presence: true
-#  validates  :user, presence: true
+  validates :date_of_issue, presence: true
+  validates :division, presence: true
+  validates :customer, presence: true
+  validates :exam, presence: true
+  validates :user, presence: true
 
   before_save { self.number = number.upcase }
   

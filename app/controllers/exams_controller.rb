@@ -222,6 +222,7 @@ class ExamsController < ApplicationController
   def create
     @exam = Exam.new(exam_params)
     @exam.category = (params[:category_service]).upcase
+    @exam.user = current_user
     case params[:category_service]
       when 'l'
         authorize @exam, :create_l?
@@ -252,6 +253,7 @@ class ExamsController < ApplicationController
   # PATCH/PUT /exams/1
   # PATCH/PUT /exams/1.json
   def update
+    @exam.user = current_user
     case params[:category_service]
       when 'l'
         authorize @exam, :update_l?
@@ -260,6 +262,7 @@ class ExamsController < ApplicationController
       when 'r'
         authorize @exam, :update_r?
     end    
+
     respond_to do |format|
       if @exam.update(exam_params)
         h_examiners = {}

@@ -35,6 +35,7 @@ class DepartmentsController < ApplicationController
   # POST /departments.json
   def create
     @department = Department.new(department_params)
+    @department.user = current_user
     authorize @department, :create?
 
     respond_to do |format|
@@ -53,6 +54,7 @@ class DepartmentsController < ApplicationController
   # PATCH/PUT /departments/1
   # PATCH/PUT /departments/1.json
   def update
+    @department.user = current_user
     authorize @department, :update?
     
     respond_to do |format|

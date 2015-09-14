@@ -100,6 +100,7 @@ class CustomersController < ApplicationController
   # PATCH/PUT /customers/1
   # PATCH/PUT /customers/1.json
   def update
+    @customer.user = current_user
     authorize @customer, :update?
 
     respond_to do |format|

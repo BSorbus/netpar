@@ -6,9 +6,9 @@ class Grade < ActiveRecord::Base
   def grade_result_name
     case grade_result
     when 'N'
-      'Negatywny'
+      'Negatywna'
     when 'P'
-      'Pozytywny'
+      'Pozytywna'
     when '', nil
       ''
     else

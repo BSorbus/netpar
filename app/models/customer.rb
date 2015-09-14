@@ -78,6 +78,11 @@ class Customer < ActiveRecord::Base
     res
   end
 
+  def birth_date_and_place
+    str = birth_date.present? ? birth_date.strftime("%d.%m.%Y") : "" 
+    "#{str} #{birth_place}"
+  end
+
 
 #  scope :finder_customer, ->(q) { where("(customers.name ilike :q or customers.given_names ilike :q 
 #      or customers.address_city ilike :q or customers.pesel ilike :q)", q: "%#{q}%") }

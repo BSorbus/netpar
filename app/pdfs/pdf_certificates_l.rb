@@ -3,9 +3,24 @@ class PdfCertificatesL < Prawn::Document
   def initialize(certificates, view)
     # New document, A4 paper, landscaped
     # pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)
+    # super(:page_size => [105mm, 150mm], :page_layout => :portrait)
     # wiec komentuje super() i ...
-    super(:page_size => "A4", :page_layout => :portrait)
+  # super(:page_size => [105mm, 150mm], :page_layout => :portrait)
+    super(:page_size => [297, 425], :page_layout => :landscape)
     #super()
+                        #297,637795276
+                              #425,196850394
+    #def mm2pt(mm)
+    #    return mm*(72 / 25.4)
+    #end
+
+    # margin 0,5 ich ok 36 punktów
+    # A4 595.28 x 841.89
+    # A5 419.53 x 595.28
+    # B5 498.90 x 708.66 
+
+
+
     @certificates = certificates
     @view = view
 
@@ -20,54 +35,19 @@ class PdfCertificatesL < Prawn::Document
     length_certificates = @certificates.size
 
     @certificates.each_with_index do |certificate, i|
-      logo
-      title
-      header_left_corner(certificate)
-      data
-      footer
+      data(certificate)
       start_new_page if ((i+1) < length_certificates)
     end
 
   end
 
 
-  def logo
-    #logopath =  "#{Rails.root}/app/assets/images/pop_logo.png"
-    #image logopath, :width => 197, :height => 91
-    #image "#{Rails.root}/app/assets/images/pop_logo.png", :at => [430, 760]
-    image "#{Rails.root}/app/assets/images/orzel.jpg", :height => 50, :position => :center
+  def data(certificate)
+    text_box "No. #{certificate.number}",                                                                     :at => [  40, 235], :width => 200, :height => 12, size: 11, :align => :left, :style => :bold
+    text_box "#{certificate.customer.given_names} #{certificate.customer.name.mb_chars.upcase}",              :at => [ 190, 210], :width => 200, :height => 12, size:  9, :align => :center, :style => :bold
+    text_box "#{certificate.customer.birth_date_and_place}",                                                  :at => [ 190, 180], :width => 200, :height => 12, size:  8, :align => :center
+    text_box "#{certificate.user.department.address_city} #{certificate.date_of_issue.strftime('%d.%m.%Y')}", :at => [ 190, 100], :width => 200, :height => 12, size:  8, :align => :center
   end
 
-  def title
-    #draw_text "OSWIADCZENIE UBEZPIECZONEGO", :at => [100, 475], size: 22    
-    move_down 100
-    text "ŚWIADECTWO LOTNICZE", size: 16, :align => :center    
-  end
-
-  def header_left_corner(certificate)
-    move_down 30
-    #text insurance.fullname, :align => :center
-    text "Numer #{certificate.number}", :style => :bold
-    text "Wydane #{certificate.date_of_issue}", :style => :bold
-    move_down 20
-    text "Dla:", size: 10, :style => :italic
-    text "#{certificate.customer.fullname_and_address}", :style => :bold
-  end
-
-
-
-  def data
-    move_down 30
-    text "Na podstawie, ............. tadam, tadam, tadam, tadam, .......... ............." +
-         "zaświadcza się ............. tadam, tadam, tadam, tadam, ........., " +
-         "itd, itd, ......."
-    draw_text "." * 80, :at => [310, 300], size: 6
-    draw_text "data i czytelny podpis  ", :at => [340, 290], size: 7, :style => :italic
-  end
-
-  def footer
-    stroke_line [0, 10], [525,10], self.line_width = 0.1
-    text "wygenerowano z programu https://#{Rails.application.secrets.domain_name}  © UKE-BI-WUSA (B&J) 2015", size: 6, :style => :italic, :align => :right, :valign => :bottom  
-  end
 
 end

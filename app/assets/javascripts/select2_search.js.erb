@@ -1,10 +1,11 @@
 $(document).ready(function() {
   $('.customer_select').select2({
-    minimumInputLength: 2,
+    minimumInputLength: 3,
     allowClear: false,
     ajax: {
       url: "/customers/select2_index.json",
       dataType: 'json',
+      quietMillis: 250,
       type: 'GET',
       data: function(term, page) {
         return {
@@ -36,11 +37,12 @@ $(document).ready(function() {
 
 
   $('.exam_select_l').select2({
-    minimumInputLength: 2,
+    minimumInputLength: 3,
     allowClear: false,
     ajax: {
       url: "/l/exams/select2_index.json",
       dataType: 'json',
+      quietMillis: 250,
       type: 'GET',
       data: function(term, page) {
         return {
@@ -72,11 +74,12 @@ $(document).ready(function() {
 
 
   $('.exam_select_m').select2({
-    minimumInputLength: 2,
+    minimumInputLength: 3,
     allowClear: false,
     ajax: {
       url: "/m/exams/select2_index.json",
       dataType: 'json',
+      quietMillis: 250,
       type: 'GET',
       data: function(term, page) {
         return {
@@ -108,11 +111,12 @@ $(document).ready(function() {
 
 
   $('.exam_select_r').select2({
-    minimumInputLength: 2,
+    minimumInputLength: 3,
     allowClear: false,
     ajax: {
       url: "/r/exams/select2_index.json",
       dataType: 'json',
+      quietMillis: 250,
       type: 'GET',
       data: function(term, page) {
         return {

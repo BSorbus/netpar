@@ -139,6 +139,7 @@ class CertificatesController < ApplicationController
   def create
     @certificate = Certificate.new(certificate_params)
     @certificate.category = (params[:category_service]).upcase
+    @certificate.user = current_user
     case params[:category_service]
       when 'l'
         authorize @certificate, :create_l?
@@ -164,6 +165,7 @@ class CertificatesController < ApplicationController
   # PATCH/PUT /certificates/1
   # PATCH/PUT /certificates/1.json
   def update
+    @certificate.user = current_user
     case params[:category_service]
       when 'l'
         authorize @certificate, :update_l?

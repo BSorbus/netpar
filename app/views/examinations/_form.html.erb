@@ -39,7 +39,7 @@
               { include_blank: false, multiple: false }, class: 'form-control input-sm', disabled: @examination.new_record? ? false : true) %>
       </div>
 
-      <div class="control-group col-sm-3">
+      <div class="form-group col-sm-3">
         <%= f.label :examination_result, class: 'control-label' %>
         <%= f.select :examination_result, 
                   options_for_select([['Negatywny bez prawa do powtórki', 'B'],
@@ -98,8 +98,8 @@
         </div>
         <div class="form-group col-sm-3">
           <%= g.select :grade_result, 
-                    options_for_select([['Negatywny', 'N'],
-                                        ['Pozytywny', 'P']], selected: g.object.grade_result), 
+                    options_for_select([['Negatywna', 'N'],
+                                        ['Pozytywna', 'P']], selected: g.object.grade_result), 
                     { include_blank: true }, class: 'form-control input-sm', disabled: input_disabled %>
 
         </div>

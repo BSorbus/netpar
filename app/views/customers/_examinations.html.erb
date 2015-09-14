@@ -36,8 +36,15 @@
                 </td>
                 <td><%= examination.examination_category_name %></td>
                 <td><%= examination.division.name %></td>
-                <td><%= examination.examination_result_name %></td>
-                <td>
+
+                <% if    examination.examination_result == 'P' %> <!-- pozytywny -->
+                  <td class="success"><%= examination.examination_result_name %></td>
+                <% elsif examination.examination_result == 'B'%> <!-- negatywny bez prawa do powtórki -->
+                  <td class="danger"><%= examination.examination_result_name %></td>
+                <% else %>
+                  <td ><%= examination.examination_result_name %></td>
+                <% end %>                
+               <td>
                   <%= link_to examination.exam.fullname, exam_path(examination.exam, category_service:  examination.exam.category.downcase, back_url: customer_path(@customer)) %>
                 </td>
                 <td>

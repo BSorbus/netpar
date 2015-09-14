@@ -13,6 +13,8 @@ module Features
       fill_in 'Email', with: email
       fill_in 'Password', with: password
       click_button 'Sign in'
+      #fill_in 'Hasło', with: password
+      #click_button 'Zaloguj się'
     end
   end
 end
