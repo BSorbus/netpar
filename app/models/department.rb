@@ -7,7 +7,7 @@ class Department < ActiveRecord::Base
 
   # validates
   validates :short, presence: true,
-                    length: { in: 1..10 },
+                    length: { in: 1..15 },
                     uniqueness: { case_sensitive: false }
   validates :name, presence: true,
                     length: { in: 1..100 },

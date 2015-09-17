@@ -1,10 +1,18 @@
 class PdfCertificatesR < Prawn::Document
 
-  def initialize(certificates, view)
+  def initialize(certificates, view, author, title)
     # New document, A4 paper, landscaped
     # pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)
     # wiec komentuje super() i ...
-    super(:page_size => "A5", :page_layout => :portrait)
+    super(:page_size => "A5", 
+          :page_layout => :portrait,
+          :info => {
+                      :Title        => title,
+                      :Author       => author,
+                      :Subject      => "",
+                      :CreationDate => Time.now,
+                    }
+          )
     #super()
 
     # margin 0,5 ich ok 36 punktów

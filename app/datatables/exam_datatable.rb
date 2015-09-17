@@ -16,7 +16,6 @@ class ExamDatatable < AjaxDatatablesRails::Base
                               Exam.place_exam
                               Exam.chairman
                               Exam.secretary
-                              Exam.category 
                             )
   end
 
@@ -29,7 +28,6 @@ class ExamDatatable < AjaxDatatablesRails::Base
                               Exam.place_exam
                               Exam.chairman
                               Exam.secretary
-                              Exam.category 
                             )
   end
 

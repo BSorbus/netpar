@@ -50,17 +50,18 @@ img {
 }
 
 
-hr {
-  //border-color: red;
-  margin-top: 3px;  /*default: 20px; */
-  margin-bottom: 15px;
-}
-
 .hr-without-padding {
   margin-top: 3px;  /*default: 20px; */
   margin-bottom: 0px;
 }
 
+.spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -64px;
+  margin-left: -64px;  
+}
 
 .panel-user {
   border-color: #ddd  

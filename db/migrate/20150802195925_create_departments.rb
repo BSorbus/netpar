@@ -1,7 +1,7 @@
 class CreateDepartments < ActiveRecord::Migration
   def change
     create_table :departments do |t|
-      t.string :short,                            limit: 10, null: false, default: ""
+      t.string :short,                            limit: 15, null: false, default: ""
       t.string :name,                             limit: 100, null: false, default: ""
       t.string :address_city,                     limit: 50, null: false, default: ""
       t.string :address_street,                   limit: 50, null: false, default: "" 

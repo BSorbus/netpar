@@ -17,7 +17,6 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
                               Examination.examination_result
                               Examination.note
                               Certificate.number
-                              Examination.category 
                             )
   end
 

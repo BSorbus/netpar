@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 20150913142213) do
   add_index "customers", ["user_id"], name: "index_customers_on_user_id", using: :btree
 
   create_table "departments", force: :cascade do |t|
-    t.string   "short",               limit: 10,  default: "", null: false
+    t.string   "short",               limit: 15,  default: "", null: false
     t.string   "name",                limit: 100, default: "", null: false
     t.string   "address_city",        limit: 50,  default: "", null: false
     t.string   "address_street",      limit: 50,  default: "", null: false

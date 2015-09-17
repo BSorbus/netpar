@@ -48,25 +48,28 @@ class CertificatesController < ApplicationController
     if @certificates_all.empty?
       redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
     else
+      documentname = "Certificate_#{params[:category_service]}_#{@certificates_all.first.number}.pdf"
+      author = "#{current_user.name} (#{current_user.email})"
+
       respond_to do |format|
         format.pdf do
           case params[:category_service]
             when 'l'
-              pdf = PdfCertificatesL.new(@certificates_all, view_context)
+              pdf = PdfCertificatesL.new(@certificates_all, view_context, author, documentname)
             when 'm'
-              pdf = PdfCertificatesM.new(@certificates_all, view_context)
+              pdf = PdfCertificatesM.new(@certificates_all, view_context, author, documentname)
             when 'r'
-              pdf = PdfCertificatesR.new(@certificates_all, view_context)
+              pdf = PdfCertificatesR.new(@certificates_all, view_context, author, documentname)
           end    
           #pdf = PdfCertificatesL.new(@certificates_all, view_context)
           send_data pdf.render,
-          filename: "Certificate_#{params[:category_service]}_#{@certificates_all.first.number}.pdf",
+          filename: documentname,
           type: "application/pdf",
           disposition: "inline"   
         end
       end
       @certificate.works.create!(trackable_url: "#{certificate_path(@certificate, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
-                        parameters: {pdf_type: 'certificate', filename: "Certificate_#{params[:category_service]}_#{@certificates_all.first.number}.pdf"})
+                        parameters: {pdf_type: 'certificate', filename: "#{documentname}"})
 
     end 
   end
@@ -95,6 +98,8 @@ class CertificatesController < ApplicationController
   def new
     @certificate = Certificate.new
     @certificate.category = (params[:category_service]).upcase
+    @certificate.number = Certificate.next_certificate_number(params[:category_service], nil)
+    @certificate.date_of_issue = DateTime.now.to_date
 
     @exam = load_exam
     @certificate.exam = @exam

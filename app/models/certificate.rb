@@ -5,6 +5,7 @@ class Certificate < ActiveRecord::Base
   belongs_to :user
 
   has_one :examination, dependent: :nullify
+
   has_many :works, as: :trackable
   has_many :documents, as: :documentable, :source_type => "Certificate", dependent: :destroy
 
@@ -14,16 +15,22 @@ class Certificate < ActiveRecord::Base
   validates :number, presence: true,
                     length: { in: 1..30 },
                     uniqueness: { :case_sensitive => false, :scope => [:category] }
-
   validates :date_of_issue, presence: true
   validates :division, presence: true
   validates :customer, presence: true
   validates :exam, presence: true
   validates :user, presence: true
+  validates :category, inclusion: { in: %w(L M R) }
+  validate  :valid_thru_if_not_blank_must_more_date_of_issue, unless: "valid_thru.blank?"
+
+ 
+  def valid_thru_if_not_blank_must_more_date_of_issue
+    if valid_thru.present? && valid_thru < date_of_issue
+      errors.add(:valid_thru, "nie może być mniejsza od daty wydania")
+    end
+  end 
 
   before_save { self.number = number.upcase }
-  
-
 
   # scopes
 	scope :only_category_l, -> { where(category: "L") }
@@ -50,6 +57,35 @@ class Certificate < ActiveRecord::Base
       'Skreślone (nieważne)' 
     when 'W'
       'Wymienione (odnowione)' 
+    end
+  end
+
+  def self.next_certificate_number(category, division)
+    case category.upcase
+    when 'M'
+      # TODO grupuj numeracje 
+      next_nr = Certificate.get_next_number_certificate(category, division)
+      if division.present?
+        "#{division.number_prefix}#{next_nr}"
+      else
+        "#{category.upcase}-#{next_nr}"       
+      end
+    when 'L'
+      next_nr = Certificate.get_next_number_certificate(category, division)
+      if division.present?
+        "#{division.number_prefix}#{next_nr}"
+      else
+        "L-#{next_nr}"       
+      end
+    when 'R'
+      next_nr = Certificate.get_next_number_certificate(category, division)
+      if division.present?
+        "#{division.number_prefix}#{next_nr}"
+      else
+        "-#{next_nr}"       
+      end
+    else
+      'Error !'
     end
   end
 

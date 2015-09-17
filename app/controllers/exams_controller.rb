@@ -64,25 +64,28 @@ class ExamsController < ApplicationController
     if @certificates_all.empty?
       redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
     else
+      documentname = "Certificates_#{params[:category_service]}_#{@exam.fullname}.pdf"
+      author = "#{current_user.name} (#{current_user.email})"
+
       respond_to do |format|
         format.pdf do
           case params[:category_service]
             when 'l'
-              pdf = PdfCertificatesL.new(@certificates_all, view_context)
+              pdf = PdfCertificatesL.new(@certificates_all, view_context, author, documentname)
             when 'm'
-              pdf = PdfCertificatesM.new(@certificates_all, view_context)
+              pdf = PdfCertificatesM.new(@certificates_all, view_context, author, documentname)
             when 'r'
-              pdf = PdfCertificatesR.new(@certificates_all, view_context)
+              pdf = PdfCertificatesR.new(@certificates_all, view_context, author, documentname)
           end    
           #pdf = PdfCertificatesL.new(@certificates_all, view_context)
           send_data pdf.render,
-          filename: "Certificates_#{params[:category_service]}_#{@exam.fullname}.pdf",
+          filename: documentname,
           type: "application/pdf",
           disposition: "inline"   
         end
       end
       @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
-                        parameters: {pdf_type: 'certificates', filename: "Certificates_#{params[:category_service]}_#{@exam.fullname}.pdf"})
+                        parameters: {pdf_type: 'certificates', filename: "#{documentname}"})
     end 
   end
 

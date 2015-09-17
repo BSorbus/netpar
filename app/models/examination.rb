@@ -62,27 +62,13 @@ class Examination < ActiveRecord::Base
   def generate_certificate(gen_user_id)
     exam = self.exam
 
-    new_certificate = exam.certificates.create(number: next_certificate_number(self.category, self.division), date_of_issue: Time.zone.today, user_id: gen_user_id, customer: self.customer, division: self.division, category: exam.category)
+    new_certificate = exam.certificates.create(number: Certificate.next_certificate_number(self.category, self.division), date_of_issue: Time.zone.today, user_id: gen_user_id, customer: self.customer, division: self.division, category: exam.category)
     self.certificate = new_certificate
     self.save! 
     new_certificate.works.create( trackable_url: "#{Rails.application.routes.url_helpers.certificate_path(new_certificate, category_service: new_certificate.category.downcase)}", action: :generate_certificate, user_id: gen_user_id, parameters: new_certificate.attributes.to_hash )
     #new_certificate.works.create( trackable_url: "#{certificate_path(new_certificate, category_service: new_certificate.category.downcase)}", action: :generate_certificate, user_id: gen_user_id, parameters: {number: new_certificate.number} )
     #Work.create!(trackable: new_certificate, action: :generate_certificate, user_id: gen_user_id, parameters: {number: new_certificate.number} ) 
 
-  end
-
-  def next_certificate_number(category, division)
-    case category
-    when 'M'
-      # TODO grupuj numeracje 
-      next_nr = Certificate.get_next_number_certificate(category, division)
-      "#{division.number_prefix}#{next_nr}"
-    when 'L', 'R'
-      next_nr = Certificate.get_next_number_certificate(category, division)
-      "#{division.number_prefix}#{next_nr}"
-    else
-      'Error !'
-    end
   end
 
 

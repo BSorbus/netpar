@@ -73,7 +73,7 @@ module ApplicationHelper
     when 'm'
       435
     when 'r'
-      435
+      297 #435
     when 'e'
       435
     else
@@ -88,7 +88,7 @@ module ApplicationHelper
     when 'm'
       615
     when 'r'
-      615
+      420 #615
     when 'e'
       615
     else

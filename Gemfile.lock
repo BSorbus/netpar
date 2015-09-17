@@ -40,7 +40,7 @@ GEM
     ajax-datatables-rails (0.3.1)
       railties (>= 3.1)
     arel (6.0.3)
-    autoprefixer-rails (6.0.2)
+    autoprefixer-rails (6.0.3)
       execjs
       json
     bcrypt (3.1.10)
@@ -111,7 +111,7 @@ GEM
     gmaps4rails (2.1.2)
     haml (4.0.7)
       tilt
-    highline (1.7.3)
+    highline (1.7.6)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     i18n (0.7.0)
@@ -215,7 +215,6 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
-    rmagick (2.15.4)
     rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
     rspec-expectations (3.3.1)
@@ -333,10 +332,9 @@ DEPENDENCIES
   refile
   refile-mini_magick
   refile-postgres
-  rmagick
   rspec-rails
   sass-rails (~> 5.0)
-  select2-rails
+  select2-rails (= 3.5.9.3)
   selenium-webdriver
   spring
   spring-commands-rspec

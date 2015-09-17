@@ -18,7 +18,6 @@ class ExamCertificatesDatatable < AjaxDatatablesRails::Base
                               Division.name
                               Customer.name
                               Exam.number
-                              Certificate.category 
                             )
   end
 

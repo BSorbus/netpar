@@ -40,7 +40,10 @@ $(document).ready(function() {
       { "targets": [6],
         "title": "<%= Exam.human_attribute_name('secretary') %>" }, 
       { "targets": [7],
-        "title": "<%= Exam.human_attribute_name('category') %>" }
+        "title": "<%= Exam.human_attribute_name('category') %>",
+        "visible": false,
+        "searchable": false,
+        "sortable": false } 
     ],
     order: [[ 3, "desc" ]],
     language: {

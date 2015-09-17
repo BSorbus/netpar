@@ -1,130 +1,116 @@
-<%= form_for [@department], :html => { :role => 'form department' } do |f| %>
+<% input_disabled ||= false  
+   #if input_disabled is not passed to the partial it doesn't crash. 
+   # We default it to false 
+%>
 
-  <% input_disabled ||= false  
-     #if input_disabled is not passed to the partial it doesn't crash. 
-     # We default it to false 
-  %>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
 
-  <% if @department.errors.any? %>
-    <div id="error_explanation" class="panel panel-danger">
-      <div class="panel-body">
-        <ul>
-        <% @department.errors.full_messages.each do |msg| %>
-          <li><h5><%= msg %></h5></li>
-        <% end %>
-        </ul>
+      <div class="form-group col-sm-2">
+        <p><strong><%= Department.human_attribute_name(:short) %></strong></p>
+        <h5><%= @department.short %></h5>
+      </div>
+
+      <div class="form-group col-sm-10">
+        <p><strong><%= Department.human_attribute_name(:name) %></strong></p>
+        <h5><%= @department.name %></h5>
+      </div>
+
+    </div>  <!-- /row -->
+  </div>  <!-- /col-sm-12 -->
+</div>  <!-- /row -->
+
+<hr>
+
+<div class="row">
+  <div class="col-sm-6">
+
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <p><strong><%= Department.human_attribute_name(:address_postal_code) %></strong></p>
+        <h5><%= @department.address_postal_code %></h5>
+      </div>
+
+      <div class="form-group col-sm-8">
+        <p><strong><%= Department.human_attribute_name(:address_city) %></strong></p>
+        <h5><%= @department.address_city %></h5>
       </div>
     </div>
-  <% end %>
 
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="row">
-
-        <div class="form-group col-sm-2">
-          <%= f.label :short, class: 'control-label' %>
-          <h5><%= @department.short %></h5>
-        </div>
-
-        <div class="form-group col-sm-10">
-          <%= f.label :name, class: 'control-label' %>
-          <h5><%= @department.name %></h5>
-        </div>
-
-      </div>  <!-- /row -->
-      <hr>
-    </div>  <!-- /col-sm-12 -->
-  </div>  <!-- /row -->
-
-  <div class="row">
-    <div class="col-sm-6">
-
-      <div class="row">
-        <div class="form-group col-sm-2">
-          <%= f.label :address_postal_code, class: 'control-label' %>
-          <h5><%= @department.address_postal_code %></h5>
-        </div>
-
-        <div class="form-group col-sm-8">
-          <%= f.label :address_city, class: 'control-label' %>
-          <h5><%= @department.address_city %></h5>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="form-group col-sm-8">
-          <%= f.label :address_street, class: 'control-label' %>
-          <h5><%= @department.address_street %></h5>
-        </div>
-        <div class="form-group col-sm-2">
-          <%= f.label :address_house, class: 'control-label' %>
-          <h5><%= @department.address_house %></h5>
-        </div>
-        <div class="form-group col-sm-2">
-          <%= f.label :address_number, class: 'control-label' %>
-          <h5><%= @department.address_number %></h5>
-        </div>
-      </div>
-
-    </div> <!-- /col-sm-6 -->
-
-    <div class="col-sm-6">
-
-      <div class="row">
-        <div class="form-group col-sm-3">
-          <%= f.label :phone, class: 'control-label' %>
-          <h5><%= @department.phone %></h5>
-        </div>
-        <div class="form-group col-sm-3">
-          <%= f.label :fax, class: 'control-label' %>
-          <h5><%= @department.fax %></h5>
-        </div>
-        <div class="form-group col-sm-6">
-          <%= f.label :email, class: 'control-label' %>
-          <h5><%= @department.email %></h5>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="form-group col-sm-6">
-          <%= f.label :director, class: 'control-label' %>
-          <h5><%= @department.director %></h5>
-        </div>
-        <div class="form-group col-sm-4">
-          <%= f.label :code, class: 'control-label' %>
-          <h5><%= @department.code %></h5>
-        </div>
-      </div>
-
-    </div> <!-- /col-sm-6 -->
-  </div> <!-- /row -->
-
-  <hr>
-
-  <% if input_disabled %>
-    <!-- for "Show" -->
     <div class="row">
-      <%= link_to t('Index', default: t("helpers.links.index")), departments_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+      <div class="form-group col-sm-8">
+        <p><strong><%= Department.human_attribute_name(:address_street) %></strong></p>
+        <h5><%= @department.address_street %></h5>
+      </div>
+      <div class="form-group col-sm-2">
+        <p><strong><%= Department.human_attribute_name(:address_house) %></strong></p>
+        <h5><%= @department.address_house %></h5>
+      </div>
+      <div class="form-group col-sm-2">
+        <p><strong><%= Department.human_attribute_name(:address_number) %></strong></p>
+        <h5><%= @department.address_number %></h5>
+      </div>
+    </div>
 
-      <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+  </div> <!-- /col-sm-6 -->
+
+  <div class="col-sm-6">
+
+    <div class="row">
+      <div class="form-group col-sm-3">
+        <p><strong><%= Department.human_attribute_name(:phone) %></strong></p>
+        <h5><%= @department.phone %></h5>
+      </div>
+      <div class="form-group col-sm-3">
+        <p><strong><%= Department.human_attribute_name(:fax) %></strong></p>
+        <h5><%= @department.fax %></h5>
+      </div>
+      <div class="form-group col-sm-6">
+        <p><strong><%= Department.human_attribute_name(:email) %></strong></p>
+        <h5><%= @department.email %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <p><strong><%= Department.human_attribute_name(:director) %></strong></p>
+        <h5><%= @department.director %></h5>
+      </div>
+      <div class="form-group col-sm-4">
+        <p><strong><%= Department.human_attribute_name(:code) %></strong></p>
+        <h5><%= @department.code %></h5>
+      </div>
+    </div>
+
+  </div> <!-- /col-sm-6 -->
+</div> <!-- /row -->
+
+<hr>
+
+<% if input_disabled %>
+  <!-- for "Show" -->
+  <div class="row">
+    <%= link_to t('Index', default: t("helpers.links.index")), departments_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+
+    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
 
 
-      <% if policy(@department).destroy? %>
-        <%= link_to t('Delete', default: t("helpers.links.destroy")), department_path(@department),
-                            method: :delete,
-                            data: { confirm: t('helpers.links.confirm_destroy', data: @department.short) }, 
-                            :class => "btn btn-danger glyphicon glyphicon-trash" %>
-      <% end %>
+    <% if policy(@department).destroy? %>
+      <%= link_to t('Delete', default: t("helpers.links.destroy")), department_path(@department),
+                          method: :delete,
+                          data: { confirm: t('helpers.links.confirm_destroy', data: @department.short) }, 
+                          :class => "btn btn-danger glyphicon glyphicon-trash" %>
+    <% end %>
 
-      <% if policy(@department).edit? %>
-        <%= link_to t('Edit', default: t("helpers.links.edit")), edit_department_path(@department), 
-                        :class => "btn btn-primary glyphicon glyphicon-edit" %>  
-      <% end %>
-    </div> <!-- /row -->
-  <% else %>
-    <!-- form "New"/"Edit" -->
-  <% end %>
-  
+    <% if policy(@department).edit? %>
+      <%= link_to t('Edit', default: t("helpers.links.edit")), edit_department_path(@department), 
+                      :class => "btn btn-primary glyphicon glyphicon-edit" %>  
+    <% end %>
+  </div> <!-- /row -->
+<% else %>
+  <!-- form "New"/"Edit" -->
 <% end %>
+  
 
 

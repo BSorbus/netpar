@@ -41,7 +41,7 @@ group :test do
   gem 'selenium-webdriver'
 end
 
-gem 'select2-rails'
+gem 'select2-rails', '3.5.9.3'
 gem 'kaminari'
 #gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 gem 'jquery-datatables-rails'
@@ -56,7 +56,8 @@ gem 'pesel' #https://github.com/macuk/pesel
 gem 'geocoder'
 gem 'gmaps4rails'
 
-gem 'rmagick'
+#gem 'rmagick'
+#gem 'rtesseract' #OCR
 gem "refile", require: ["refile/rails", "refile/image_processing"]
 gem "refile-mini_magick"
 gem 'refile-postgres'

@@ -44,7 +44,10 @@ $(document).ready(function() {
       { "targets": [8],
         "title": "<%= Certificate.human_attribute_name('exam_id') %>" }, 
       { "targets": [9],
-        "title": "<%= Certificate.human_attribute_name('category') %>" }
+        "title": "<%= Certificate.human_attribute_name('category') %>",
+        "visible": false,
+        "searchable": false,
+        "sortable": false } 
     ],
     order: [[ 3, "desc" ]],
     language: {
@@ -96,7 +99,10 @@ $(document).ready(function() {
       { "targets": [7],
         "title": "<%= Certificate.human_attribute_name('customer_id') %>" }, 
       { "targets": [8],
-        "title": "<%= Certificate.human_attribute_name('category') %>" },
+        "title": "<%= Certificate.human_attribute_name('category') %>",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
       { "targets": [9],
         "title": "Akcje",
         "searchable": false,
