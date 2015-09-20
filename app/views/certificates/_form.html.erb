@@ -114,7 +114,7 @@
 
     <%= link_to t('Index', default: t("helpers.links.index")), certificates_path(params[:category_service]), :class => 'btn btn-default glyphicon glyphicon-th-list' %>
 
-    <%= link_to t('Back', default: t("helpers.links.back")), back_url, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
 
     <%= f.submit nil, :class => 'btn btn-primary' %>
   </div> <!-- /row -->

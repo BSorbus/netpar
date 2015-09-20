@@ -5,6 +5,10 @@ $font-size-base: 14px;
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+
+//  @import "font-awesome-sprockets";
+//  @import "font-awesome";
+  
 //bez tego nie wyswietla icon nawigacji po lewej stronie w GoogleMaps
 #map img {
   max-width: none;
@@ -228,6 +232,10 @@ $FooterColor            : #777;
 $FooterBorder           : #E7E7E7;       
 
 
+.pre-footer{
+  margin-top:  -30px;
+}
+
 footer{
   background-color: $FooterBackground;
   border-color: $FooterBorder;
@@ -241,11 +249,12 @@ footer{
 main {
   @extend .container;
   background-color: #eee;
-  padding-bottom: 50px;
+  padding-bottom: 15px;
   font-size: 12px;
   width: 100%;
   margin-top: 52px; // accommodate the navbar 51, 52 if hover:border-bottom 
   }
+
 section {
   @extend .row;
   margin-top: 20px;

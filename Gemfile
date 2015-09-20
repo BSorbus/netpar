@@ -56,12 +56,12 @@ gem 'pesel' #https://github.com/macuk/pesel
 gem 'geocoder'
 gem 'gmaps4rails'
 
-#gem 'rmagick'
-#gem 'rtesseract' #OCR
+gem 'rmagick'
+gem 'rtesseract' #OCR
 gem "refile", require: ["refile/rails", "refile/image_processing"]
 gem "refile-mini_magick"
 gem 'refile-postgres'
 
-
+#gem 'font-awesome-sass'
 #gem 'yomu'
 #gem 'pdf-reader'

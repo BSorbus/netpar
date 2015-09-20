@@ -22,6 +22,9 @@
     <header>
       <%= render 'layouts/navigation' %>
     </header>
+    <carousel>
+      <%= yield(:carousel) %>
+    </carousel>
     <main role="main">
       <%= render 'layouts/messages' %>       
       <%= yield %>
