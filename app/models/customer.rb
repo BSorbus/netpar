@@ -1,3 +1,50 @@
+# Represents Client UKE
+#  create_table "customers", force: :cascade do |t|
+#    t.boolean  "human",                             default: true, null: false
+#    t.string   "name",                  limit: 160, default: "",   null: false
+#    t.string   "given_names",           limit: 50,  default: ""
+#    t.string   "address_city",          limit: 50,  default: ""
+#    t.string   "address_street",        limit: 50,  default: ""
+#    t.string   "address_house",         limit: 10,  default: ""
+#    t.string   "address_number",        limit: 10,  default: ""
+#    t.string   "address_postal_code",   limit: 6,   default: ""
+#    t.string   "address_post_office",   limit: 50,  default: ""
+#    t.string   "address_pobox",         limit: 10,  default: ""
+#    t.string   "c_address_city",        limit: 50,  default: ""
+#    t.string   "c_address_street",      limit: 50,  default: ""
+#    t.string   "c_address_house",       limit: 10,  default: ""
+#    t.string   "c_address_number",      limit: 10,  default: ""
+#    t.string   "c_address_postal_code", limit: 6,   default: ""
+#    t.string   "c_address_post_office", limit: 50,  default: ""
+#    t.string   "c_address_pobox",       limit: 10,  default: ""
+#    t.string   "nip",                   limit: 13,  default: ""
+#    t.string   "regon",                 limit: 9,   default: ""
+#    t.string   "pesel",                 limit: 11,  default: ""
+#    t.integer  "nationality_id",                    default: 2
+#    t.integer  "citizenship_id",                    default: 2
+#    t.date     "birth_date"
+#    t.string   "birth_place",           limit: 50,  default: ""
+#    t.string   "fathers_name",          limit: 50,  default: ""
+#    t.string   "mothers_name",          limit: 50,  default: ""
+#    t.string   "phone",                 limit: 50,  default: ""
+#    t.string   "fax",                   limit: 50,  default: ""
+#    t.string   "email",                 limit: 50,  default: ""
+#    t.text     "note",                              default: ""
+#    t.integer  "user_id"
+#    t.datetime "created_at"
+#    t.datetime "updated_at"
+#  end
+#  add_index "customers", ["address_city"], name: "index_customers_on_address_city", using: :btree
+#  add_index "customers", ["birth_date"], name: "index_customers_on_birth_date", using: :btree
+#  add_index "customers", ["citizenship_id"], name: "index_customers_on_citizenship_id", using: :btree
+#  add_index "customers", ["given_names"], name: "index_customers_on_given_names", using: :btree
+#  add_index "customers", ["name"], name: "index_customers_on_name", using: :btree
+#  add_index "customers", ["nationality_id"], name: "index_customers_on_nationality_id", using: :btree
+#  add_index "customers", ["nip"], name: "index_customers_on_nip", using: :btree
+#  add_index "customers", ["pesel"], name: "index_customers_on_pesel", using: :btree
+#  add_index "customers", ["regon"], name: "index_customers_on_regon", using: :btree
+#  add_index "customers", ["user_id"], name: "index_customers_on_user_id", using: :btree
+#
 class Customer < ActiveRecord::Base
   belongs_to :nationality
   belongs_to :citizenship
@@ -84,57 +131,47 @@ class Customer < ActiveRecord::Base
   end
 
 
-#  scope :finder_customer, ->(q) { where("(customers.name ilike :q or customers.given_names ilike :q 
-#      or customers.address_city ilike :q or customers.pesel ilike :q)", q: "%#{q}%") }
+  scope :finder_customer, ->(q) { where( create_sql_string("#{q}") ) }
 
-#  scope :finder_customer, ->(q) { where('((((CAST("customers"."name" AS VARCHAR) ILIKE :q 
-#      OR CAST("customers"."given_names" AS VARCHAR) ILIKE :q) 
-#      OR CAST("customers"."address_city" AS VARCHAR) ILIKE :q) 
-#      OR CAST("customers"."pesel" AS VARCHAR) ILIKE :q) 
-#      OR CAST("customers"."nip" AS VARCHAR) ILIKE :q)', q: "%#{q}%") }
 
-  scope :finder_customer, ->(q) { where( my_sql("#{q}") ) }
-
-  def self.my_sql(query_str)
-    array_params_query = query_str.split
-    sql_string = ""
-    array_params_query.each_with_index do |par, index|
-      sql_string += " AND " unless index == 0
-      sql_string += one_param_sql(par)
-    end
-    sql_string
+  # Method create SQL query string for finder select2: "customer_select"
+  # * parameters   :
+  #   * +query_str+ -> string for search. 
+  #   Ex.: "kowal warsz"
+  # * result   :
+  #   * +sql_string+ -> string for SQL WHERE... 
+  #   Ex.: "((customers.name ilike '%kowal%' OR customers.given_names ilike '%kowal%' OR customers.address_city ilike '%kowal%' OR customers.pesel ilike '%kowal%' OR to_char(customers.birth_date,'YYYY-mm-dd') ilike '%kowal%') AND (customers.name ilike '%warsz%' OR customers.given_names ilike '%warsz%' OR customers.address_city ilike '%warsz%' OR customers.pesel ilike '%warsz%' OR to_char(customers.birth_date,'YYYY-mm-dd') ilike '%warsz%'))"
+  #
+  def self.create_sql_string(query_str)
+    query_str.split.map { |par| one_param_sql(par) }.join(" AND ")
   end
 
+  # Method for glue parameters in create_sql_string
+  # * parameters   :
+  #   * +query_str+ -> word for search. 
+  #   Ex.: "kowal"
+  # * result   :
+  #   * +sql_string+ -> SQL string query for one word 
+  #   Ex.: "(customers.name ilike '%kowal%' OR customers.given_names ilike '%kowal%' OR customers.address_city ilike '%kowal%' OR customers.pesel ilike '%kowal%' OR to_char(customers.birth_date,'YYYY-mm-dd') ilike '%kowal%')"
+  #
   def self.one_param_sql(query_str)
-    "(customers.name ilike '%#{query_str}%' or 
-      customers.given_names ilike '%#{query_str}%' or 
-      customers.address_city ilike '%#{query_str}%' or 
-      to_char(customers.birth_date,'YYYY-mm-dd') ilike '%#{query_str}%' or 
-      customers.pesel ilike '%#{query_str}%')"
+    escaped_query_str = sanitize("%#{query_str}%")
+
+    "(" + %w(customers.name customers.given_names customers.address_city customers.pesel to_char(customers.birth_date,'YYYY-mm-dd')).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
   end
 
-
-# To działa dobrze:
-#  def self.my_sql(query_str)
-#    query_str.split.map { |par| one_param_sql(par) }.join(" AND ")
-#  end
-#
-#  def self.one_param_sql(query_str)
-#    escaped_query_str = sanitize("%#{query_str}%")
-#
-#    "(" + %w(name given_names address_city).map { |column| "customers.#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
-#  end
-
-
-  # odblokuj, gdy w kontrolerze cesz użyc .as_json
   def as_json(options)
     { id: id, fullname_and_address_and_pesel_nip_and_birth_date: fullname_and_address_and_pesel_nip_and_birth_date }
   end
 
-
+  # method for joining Customer records
+  # * paramaters   :
+  #   * +source_customer+ -> instance object class Customer for merge with self
+  #
   def join_with_another(source_customer)
     unless self.id == source_customer.id
       source_customer.certificates.update_all(customer_id: self.id)
+      source_customer.examinations.update_all(customer_id: self.id)
       source_customer.individuals.update_all(customer_id: self.id)
       source_customer.destroy!
     end

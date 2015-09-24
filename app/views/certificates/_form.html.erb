@@ -27,6 +27,7 @@
       <div class="form-group col-sm-4">
         <%= f.label :number, class: 'control-label' %>
         <%= f.text_field :number, autofocus: true, class: 'form-control input-sm', placeholder: t("placeholder_text.certificate_#{params[:category_service]}.form.number"), disabled: input_disabled %>
+        <small class="help-block"><%=t 'help_block_text.certificate.form.number' %></small>
       </div>
 
       <div class="form-group col-sm-2">

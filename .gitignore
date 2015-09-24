@@ -28,6 +28,8 @@ config/secrets.*
 /source_images/*
 /log/*
 /tmp/*
+/doc/*
+doc/*
 
 # various artifacts
 **.war

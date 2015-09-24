@@ -65,7 +65,7 @@ class PdfExaminationCardsM < Prawn::Document
                      "Przedmiot",
                      "Ocena (słownie)",
                      "Podpis egzaminatora"]] + 
-                     examination.division.subjects.map { |p| [ 
+                     examination.division.subjects.order(:item).map { |p| [ 
                         p.item, 
                         p.name,
                         "",

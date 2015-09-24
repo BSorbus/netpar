@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-#ruby '2.2.1'
+# ruby '2.2.1'
 gem 'rails', '4.2.3'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -9,7 +9,6 @@ gem 'jquery-turbolinks'
 gem 'jquery-ui-rails', '~> 5.0.2'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
-#gem 'mysql2'
 gem 'pg'
 group :development, :test do
   gem 'byebug'
@@ -43,21 +42,18 @@ end
 
 gem 'select2-rails', '3.5.9.3'
 gem 'kaminari'
-#gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 gem 'jquery-datatables-rails'
-#gem 'ajax-datatables-rails', git: 'git://github.com/antillas21/ajax-datatables-rails.git', branch: 'master'
-# gdy z GitHub jak powyżej, to są problemy z ikonami sortowania
+gem 'ajax-datatables-rails'
 
 gem 'prawn'
 gem 'prawn-table'
 
-gem 'ajax-datatables-rails'
 gem 'pesel' #https://github.com/macuk/pesel
 gem 'geocoder'
 gem 'gmaps4rails'
 
-gem 'rmagick'
-gem 'rtesseract' #OCR
+# gem 'rmagick'
+# gem 'rtesseract' #OCR
 gem "refile", require: ["refile/rails", "refile/image_processing"]
 gem "refile-mini_magick"
 gem 'refile-postgres'

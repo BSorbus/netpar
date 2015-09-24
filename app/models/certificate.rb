@@ -1,3 +1,27 @@
+# Represents Certificate for Customer
+#  create_table "certificates", force: :cascade do |t|
+#    t.string   "number",             limit: 30, default: "",  null: false
+#    t.date     "date_of_issue"
+#    t.date     "valid_thru"
+#    t.string   "certificate_status", limit: 1,  default: "N", null: false
+#    t.integer  "division_id"
+#    t.integer  "exam_id"
+#    t.integer  "customer_id"
+#    t.text     "note",                          default: ""
+#    t.string   "category"
+#    t.integer  "user_id"
+#    t.datetime "created_at",                                  null: false
+#    t.datetime "updated_at",                                  null: false
+#  end
+#  add_index "certificates", ["category"], name: "index_certificates_on_category", using: :btree
+#  add_index "certificates", ["customer_id"], name: "index_certificates_on_customer_id", using: :btree
+#  add_index "certificates", ["date_of_issue"], name: "index_certificates_on_date_of_issue", using: :btree
+#  add_index "certificates", ["division_id"], name: "index_certificates_on_division_id", using: :btree
+#  add_index "certificates", ["exam_id"], name: "index_certificates_on_exam_id", using: :btree
+#  add_index "certificates", ["number", "category"], name: "index_certificates_on_number_and_category", unique: true, using: :btree
+#  add_index "certificates", ["number"], name: "index_certificates_on_number", using: :btree
+#  add_index "certificates", ["user_id"], name: "index_certificates_on_user_id", using: :btree
+#
 class Certificate < ActiveRecord::Base
   belongs_to :division
   belongs_to :exam
@@ -60,40 +84,34 @@ class Certificate < ActiveRecord::Base
     end
   end
 
-  def self.next_certificate_number(category, division)
-    case category.upcase
-    when 'M'
-      # TODO grupuj numeracje 
-      next_nr = Certificate.get_next_number_certificate(category, division)
-      if division.present?
-        "#{division.number_prefix}#{next_nr}"
-      else
-        "#{category.upcase}-#{next_nr}"       
-      end
-    when 'L'
-      next_nr = Certificate.get_next_number_certificate(category, division)
-      if division.present?
-        "#{division.number_prefix}#{next_nr}"
-      else
-        "L-#{next_nr}"       
-      end
-    when 'R'
-      next_nr = Certificate.get_next_number_certificate(category, division)
-      if division.present?
-        "#{division.number_prefix}#{next_nr}"
-      else
-        "-#{next_nr}"       
-      end
-    else
-      'Error !'
-    end
+  def self.next_certificate_number(service, division)
+    division_scope = scope_numbering_groups(division) 
+    next_nr = Certificate.get_next_number_certificate(service, division)
+    next_nr_with_zeros = "0000#{next_nr}"
+    "#{division.number_prefix}#{next_nr_with_zeros.last(5)}"
   end
 
-  def self.get_next_number_certificate(service, divis)
-    #ret_val = connection.execute("SELECT max(abs(to_number(certificates.number,'999999999'))) AS max_cert FROM certificates WHERE certificates.category = 'R'")
-    
-    q_res = Certificate.find_by_sql( ["SELECT max(abs(to_number(certificates.number,'999999999'))) AS number FROM certificates WHERE certificates.category = ?", service.upcase] ).first.number
+  def self.get_next_number_certificate(service, division_scope)
+    #q_res = Certificate.find_by_sql( ["SELECT max(abs(to_number(certificates.number,'999999999'))) AS number FROM certificates WHERE certificates.category = ?", service.upcase] ).first.number
+    q_res = Certificate.find_by_sql( ["SELECT max(abs(to_number(certificates.number,'999999999'))) AS number FROM certificates WHERE certificates.category = ? AND division_id IN (?)", service.upcase, division_scope] ).first.number    
     q_res.to_f.round(0) + 1 
+  end
+
+  def self.scope_numbering_groups(division)
+    case division.id
+    when 1..8         # wspólna numeracja dla całego zakresu  "L"
+      [1,2,3,4,5,6,7,8]
+    when 9..15        # numeracja dla "M" jest podzielona na grupy
+      [9,10,11,12,13,14,15]   # 9-G1E, 10-G2E, 11-GG, 12-GR, 13-GL, 14-GS, 15-MA  
+    when 16           
+      [16]                    # 16-GC
+    when 17           
+      [17]                    # 17-IW
+    when 18..21       # wspólna numeracja dla całego zakresu "R"
+      [18,19,20,21]   # 18-A, 19-B, 20-C, 21-D
+    else 
+      []      
+    end
   end
 
 end

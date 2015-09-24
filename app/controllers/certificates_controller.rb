@@ -98,7 +98,6 @@ class CertificatesController < ApplicationController
   def new
     @certificate = Certificate.new
     @certificate.category = (params[:category_service]).upcase
-    @certificate.number = Certificate.next_certificate_number(params[:category_service], nil)
     @certificate.date_of_issue = DateTime.now.to_date
 
     @exam = load_exam
@@ -145,6 +144,8 @@ class CertificatesController < ApplicationController
     @certificate = Certificate.new(certificate_params)
     @certificate.category = (params[:category_service]).upcase
     @certificate.user = current_user
+    @certificate.number = Certificate.next_certificate_number(params[:category_service], @certificate.division) if @certificate.number.empty?
+
     case params[:category_service]
       when 'l'
         authorize @certificate, :create_l?
