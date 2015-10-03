@@ -2,15 +2,17 @@ Rails.application.routes.draw do
 
 
   devise_for :users, controllers: {
+    passwords: 'users/passwords',
     sessions: 'users/sessions',
-    registrations: 'users/registrations'
+    registrations: 'users/registrations',
+    unlocks: 'users/unlocks'
   }
 
   resources :users do
     resources :documents, module: :users, only: [:create]
     post 'datatables_index', on: :collection
-    patch 'lock', on: :member
-    patch 'unlock', on: :member
+    patch 'account_off', on: :member
+    patch 'account_on', on: :member
   end
 
 
@@ -23,9 +25,10 @@ Rails.application.routes.draw do
     resources :exams do
       post 'datatables_index', on: :collection
       get 'select2_index', on: :collection
-      get 'certificates_to_pdf', on: :member
       get 'examination_cards_to_pdf', on: :member
       get 'examination_protocol_to_pdf', on: :member
+      get 'certificates_to_pdf', on: :member
+      get 'envelopes_to_pdf', on: :member
       patch 'generating_certificates', on: :member
     end
     resources :examinations do
@@ -53,6 +56,7 @@ Rails.application.routes.draw do
     post 'datatables_index', on: :collection
     get 'select2_index', on: :collection
     post 'merge', on: :member
+    get 'envelope_to_pdf', on: :member
     resources :documents, module: :customers, only: [:create]
   end
 

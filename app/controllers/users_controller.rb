@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index]
 
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :lock, :unlock]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :account_off, :account_on]
 
 
 #  def index
@@ -77,30 +77,30 @@ class UsersController < ApplicationController
     end      
   end
 
-  def lock
+  def account_off
     authorize @user, :update?
 
     @user.soft_delete
     if @user.save
-      Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :account_lock, user: current_user, 
+      Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :account_off, user: current_user, 
         parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: @user.id, name: @user.name, email: @user.email})
-      redirect_to @user, notice: t('activerecord.messages.successfull.locking_user', data: @user.fullname_and_id)
+      redirect_to @user, notice: t('activerecord.messages.successfull.account_off', data: @user.fullname_and_id)
     else 
-      flash.now[:error] = t('activerecord.messages.error.locking_user', data: @user.fullname_and_id)
+      flash.now[:error] = t('activerecord.messages.error.account_off', data: @user.fullname_and_id)
       render :show 
     end         
   end
 
-  def unlock
+  def account_on
     authorize @user, :update?
 
     @user.deleted_at = nil
     if @user.save
-      Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :account_unlock, user: current_user, 
+      Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :account_on, user: current_user, 
         parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: @user.id, name: @user.name, email: @user.email})
-      redirect_to @user, notice: t('activerecord.messages.successfull.unlocking_user', data: @user.fullname_and_id)
+      redirect_to @user, notice: t('activerecord.messages.successfull.account_on', data: @user.fullname_and_id)
     else 
-      flash.now[:error] = t('activerecord.messages.error.unlocking_user', data: @user.fullname_and_id)
+      flash.now[:error] = t('activerecord.messages.error.account_on', data: @user.fullname_and_id)
       render :show 
     end         
   end

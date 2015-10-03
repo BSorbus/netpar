@@ -208,6 +208,23 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <%= f.label :phone, class: 'control-label' %>
+          <%= f.text_field :phone, class: 'form-control input-sm', disabled: input_disabled %>
+        </div>
+
+        <div class="form-group col-sm-4">
+          <%= f.label :fax, class: 'control-label' %>
+          <%= f.text_field :fax, class: 'form-control input-sm', disabled: input_disabled %>
+        </div>
+
+        <div class="form-group col-sm-4">
+          <%= f.label :email, class: 'control-label' %>
+          <%= f.text_field :email, class: 'form-control input-sm', disabled: input_disabled %>
+        </div>
+      </div>
+
       <div class="form-group">
         <%= f.label :note, class: 'control-label' %>
         <%= f.text_area :note, :rows => 4, :cols => 50, class: 'form-control input-sm', disabled: input_disabled %>

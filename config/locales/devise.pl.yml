@@ -11,7 +11,7 @@ pl:
       new_confirmation: 'Nie otrzymałeś instrukcji aktywacji konta?'
       new_unlock: 'Nie otrzymałeś instrukcji odblokowania konta?'
     confirmations:
-      confirmed: "Twoje konto zostało aktywowane. Zostałeś pomyślnie zalogowany."
+      confirmed: "Twoje konto zostało aktywowane. Zaloguj się."
       send_instructions: "Za chwilę otrzymasz email z instrukcją jak aktywować konto."
       send_paranoid_instructions: "Jeśli Twój adres email istnieje w naszej bazie, za chwilę powinieneś otrzymać instrukcję jak aktywować konto."
       form:
@@ -26,18 +26,19 @@ pl:
       invalid: "Błędny login lub hasło."
       invalid_token: "Błędny token aktywacyjny."
       locked: "Twoje konto jest zablokowane."
+      last_attempt: "Masz jeszcze jedną próbę, zanim konto zostanie zablokowane!"
       not_found_in_database: "Błędny login lub hasło."
       timeout: "Sesja wygasła, zaloguj się ponownie by kontynuować."
       unauthenticated: "Aby kontynuować musisz się zalogować."
       unconfirmed: "Aby kontynuować musisz aktywować swoje konto."
-      deleted_account: "Konto zostało usunięte lub zablokowane!"  
+      deleted_account: "Konto zostało usunięte lub wyłączone!"  
     mailer:
       confirmation_instructions:
-        subject: "Instrukcja aktywacji konta"
+        subject: "NetPAR 2015 - Instrukcja aktywacji konta"
       reset_password_instructions:
-        subject: "Instrukcja zresetowania hasła."
+        subject: "NetPAR 2015 - Instrukcja zresetowania hasła."
       unlock_instructions:
-        subject: "Instrukcja odblokowania konta"
+        subject: "NetPAR 2015 - Instrukcja odblokowania konta"
     omniauth_callbacks:
       failure: "Logowanie przez konto %{kind} zakończyło się błędem: \"%{reason}\"."
       success: "Zalogowałeś się pomyślnie przez konto %{kind}."
@@ -78,14 +79,26 @@ pl:
       user:
         signed_in: "Zostałeś zalogowany."
         signed_out: "Zostałeś wylogowany."
+        already_signed_out: "Jesteś pomyślnie wylogowany."
       form:
         new: 
           title: 'Zaloguj się'
           button_submit: 'Zaloguj się'
+    password_expired:
+      form:
+        show: 
+          title: 'Zmień hasło' 
+          header_text: 'Twoje hasło wygasło. Podaj teraz nowe hasło, powtórz je i zapisz aby zmiana hasła została dokonana'
     unlocks:
       send_instructions: "Za chwilę otrzymasz wiadomość email z instrukcją jak odblokować konto."
       send_paranoid_instructions: "Jeżeli Twoje konto istnieje, otrzymasz wiadomość emial z instrukcją jak odblokować konto."
-      unlocked: "Twoje konto została pomyślnie odblokowane. Zaloguj się by kontynuować."
+      unlocked: "Twoje konto zostało pomyślnie odblokowane. Zaloguj się by kontynuować."
+      form:
+        new: 
+          title: 'Nie dostałeś instrukcji odblokowania konta?' 
+          header_text: 'Wyślemy na Twój email instrukcję odblokowania konta'
+          button_submit: 'Wyślij instrukcję'
+          footer_text: 'Twój email musi być zarejestrowany'
   errors:
     messages:
       already_confirmed: "już został aktywowany, proszę spróbować się zalogować."

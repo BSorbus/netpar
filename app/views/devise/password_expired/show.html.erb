@@ -1,0 +1,54 @@
+<div class="authpanel">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title"><%= t('devise.password_expired.form.show.title') %></h3> <!-- Edit <%#= resource_name.to_s.humanize %> -->
+    </div>
+    <div class="panel-body">
+
+      <%= form_for(resource, :as => resource_name, :url => [resource_name, :password_expired], :html => { :method => :put }) do |f| %>
+
+      <p><%= t('devise.password_expired.form.show.header_text') %></p>
+      <%#= devise_error_messages! %>
+
+      <% if resource.errors.any? %>
+        <div id="error_explanation" class="panel panel-danger">
+          <div class="panel-body">
+            <ul>
+            <% resource.errors.full_messages.each do |msg| %>
+              <li><h5><%= msg %></h5></li>
+            <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
+      <fieldset>
+        <div class="form-group">
+          <%= f.label :password, class: 'control-label' %>
+          <%= f.password_field :password, :autocomplete => 'off', class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :password_confirmation, class: 'control-label' %>
+          <%= f.password_field :password_confirmation, class: 'form-control' %>
+        </div>
+      </fieldset>
+      <fieldset>
+        <div class="form-group">
+          <%= f.label :current_password, class: 'control-label' %>
+          <%= f.password_field :current_password, class: 'form-control' %>
+          <small class="help-block"><%= t('devise.registrations.form.edit.current_password_needed') %></small>
+        </div>
+      </fieldset>
+      <%= f.submit t('devise.registrations.form.edit.button_submit'), :class => 'btn btn-primary pull-right' %> <!-- Button: 'Update' -->
+    <% end %>
+
+    </div>
+    <div class="panel-footer">
+<!--
+        <%#= button_to t('Cancel my account', default: t("helpers.links.destroy_account")), registration_path(resource_name), :data => { :confirm => t('helpers.links.confirm') }, :method => :delete, :class => 'btn btn-danger pull-right' %>
+-->
+      <br>
+      <br>
+    </div>
+  </div><!-- /panel panel-primary -->
+</div><!-- /authpanel -->

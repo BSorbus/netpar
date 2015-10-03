@@ -14,8 +14,8 @@ pl:
       cancel: "Wróć"
       confirm: "Czy na pewno?"
       confirm_destroy: 'Na pewno chcesz usunąć wpis: "%{data}"?'
-      confirm_locking_user: 'Na pewno chcesz zablokować konto: "%{data}"?'
-      confirm_unlocking_user: 'Na pewno chcesz odblokować konto: "%{data}"?'
+      confirm_account_off: 'Na pewno chcesz wyłączyć konto: "%{data}"?'
+      confirm_account_on: 'Na pewno chcesz włączyć konto: "%{data}"?'
       destroy: " Usuń"
       destroy_account: "Usuń moje konto"
       new: " Nowy"
@@ -24,8 +24,8 @@ pl:
       send_email: " Wyślij email"
       download: " Pobierz"
       print: " Wydruk"
-      locking_user: " Zablokuj konto"
-      unlocking_user: " Odblokuj konto"
+      account_off: " Wyłącz konto"
+      account_on: " Włącz konto"
     titles:
       edit: "Edycja %{model}"
       save: "Zapisz %{model}"

@@ -48,47 +48,6 @@ class ExamsController < ApplicationController
     end
   end
 
-  def certificates_to_pdf
-    @exam = Exam.find(params[:id])
-    case params[:category_service]
-      when 'l'
-        authorize :certificate, :print_l?
-      when 'm'
-        authorize :certificate, :print_m?
-      when 'r'
-        authorize :certificate, :print_r?
-    end    
-
-    @certificates_all = Certificate.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
-
-    if @certificates_all.empty?
-      redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
-    else
-      documentname = "Certificates_#{params[:category_service]}_#{@exam.fullname}.pdf"
-      author = "#{current_user.name} (#{current_user.email})"
-
-      respond_to do |format|
-        format.pdf do
-          case params[:category_service]
-            when 'l'
-              pdf = PdfCertificatesL.new(@certificates_all, view_context, author, documentname)
-            when 'm'
-              pdf = PdfCertificatesM.new(@certificates_all, view_context, author, documentname)
-            when 'r'
-              pdf = PdfCertificatesR.new(@certificates_all, view_context, author, documentname)
-          end    
-          #pdf = PdfCertificatesL.new(@certificates_all, view_context)
-          send_data pdf.render,
-          filename: documentname,
-          type: "application/pdf",
-          disposition: "inline"   
-        end
-      end
-      @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
-                        parameters: {pdf_type: 'certificates', filename: "#{documentname}"})
-    end 
-  end
-
   def examination_cards_to_pdf
     @exam = Exam.find(params[:id])
     case params[:category_service]
@@ -162,6 +121,72 @@ class ExamsController < ApplicationController
       end
       @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
                         parameters: {pdf_type: 'examination_protocol', filename: "Examination_Protocol_#{params[:category_service]}_#{@exam.number}.pdf"})
+
+    end 
+  end
+
+  def certificates_to_pdf
+    @exam = Exam.find(params[:id])
+    case params[:category_service]
+      when 'l'
+        authorize :certificate, :print_l?
+      when 'm'
+        authorize :certificate, :print_m?
+      when 'r'
+        authorize :certificate, :print_r?
+    end    
+
+    @certificates_all = Certificate.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
+
+    if @certificates_all.empty?
+      redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
+    else
+      documentname = "Certificates_#{params[:category_service]}_#{@exam.fullname}.pdf"
+      author = "#{current_user.name} (#{current_user.email})"
+
+      respond_to do |format|
+        format.pdf do
+          case params[:category_service]
+            when 'l'
+              pdf = PdfCertificatesL.new(@certificates_all, view_context, author, documentname)
+            when 'm'
+              pdf = PdfCertificatesM.new(@certificates_all, view_context, author, documentname)
+            when 'r'
+              pdf = PdfCertificatesR.new(@certificates_all, view_context, author, documentname)
+          end    
+          #pdf = PdfCertificatesL.new(@certificates_all, view_context)
+          send_data pdf.render,
+          filename: documentname,
+          type: "application/pdf",
+          disposition: "inline"   
+        end
+      end
+      @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
+                        parameters: {pdf_type: 'certificates', filename: "#{documentname}"})
+    end 
+  end
+
+  def envelopes_to_pdf
+    authorize :customer, :show?
+    @exam = Exam.find(params[:id])
+    @customers_all = @exam.certificate_customers.order(:name, :given_names)
+
+    if @customers_all.empty?
+      redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
+    else
+      documentname = "Envelopes_for_certificates_in_exam_#{@exam.number}.pdf"
+
+      respond_to do |format|
+        format.pdf do
+          pdf = PdfEnvelopes.new(@customers_all, view_context)
+          send_data pdf.render,
+          filename: documentname,
+          type: "application/pdf",
+          disposition: "inline"   
+        end
+      end
+#      @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :to_pdf, user: current_user, 
+#                        parameters: {pdf_type: 'envelope', filename: "#{documentname}"})
 
     end 
   end

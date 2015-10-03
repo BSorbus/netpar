@@ -1,0 +1,14 @@
+pl:
+  errors:
+    messages:
+      taken_in_past: "było użyte w przeszłości!"
+      equal_to_current_password: "musi być różne od aktualnego hasła!"
+      password_format: "musi zawierać wielką i małą literę oraz cyfrę i znak specjalny"
+  devise:
+    invalid_captcha: "The captcha input is not valid!"
+    password_expired:
+      updated: "Twoje nowe hasło zostało zapisane."
+      change_required: "Twoje hasło wygasło. Proszę odnowić hasło!"
+    failure:
+      session_limited: 'Twoje dane logowania zostały wykorzystane w innej przeglądarce. Zaloguj się ponownie, aby kontynuować w tej przeglądarce.'
+      expired: 'Twoje konto wygasło z powodu braku aktywności. Proszę skontaktować się z administratorem serwisu.'

@@ -13,8 +13,20 @@ class User < ActiveRecord::Base
           :registerable, 
           :confirmable, 
   		    :trackable, 
-          :validatable, 
+          :validatable,
+          :lockable,
+            :password_expirable,
+            :secure_validatable, 
+            :password_archivable, 
+            :expirable,
           :authentication_keys => [:email]
+
+  #gem 'devise_security_extension'
+  #devise :password_expirable, 
+  #        :secure_validatable, 
+  #        :password_archivable, 
+  #        :session_limitable, 
+  #        :expirable
 
 	#validates_format_of :email, :with =>  /\A[\w+\-.]+@uke.gov.pl/i
   #validacja w /config/initializers/device.rb -> config.email_regexp = /\A([\w\.%\+\-]+)@uke\.gov\.pl\z/i
@@ -151,16 +163,16 @@ class User < ActiveRecord::Base
       Work.create( action: :unauthenticated, user_id: nil, parameters: my_hash ) if opts.has_key?(:recall)
   end
 
-  Warden::Manager.after_failed_fetch do |user, auth, opts|
-    #your custom code
+  #Warden::Manager.after_failed_fetch do |user, auth, opts|
+  #  #your custom code
   #    puts "##########################################################"
   #    puts "# Warden::Manager.after_failed_fetch "
   #    puts user
   #    puts auth
   #    puts opts
   #    puts "##########################################################"
-    #'trigger user request'
-  end
+  #  #'trigger user request'
+  #end
 
 
   def self.deep_find(key, object=self, found=nil)

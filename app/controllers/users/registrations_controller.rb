@@ -63,7 +63,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # you have to override after_inactive_sign_up_path_for method.
   # The path used after sign up for inactive accounts.
   def after_inactive_sign_up_path_for(resource)
-    Work.create!(trackable: resource, trackable_url: "#{user_path(resource)}", action: :sign_up, user: resource, parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: resource.id, name: resource.name, email: resource.email, notice: request.flash["notice"]})
+    Work.create!(trackable: resource, trackable_url: "#{user_path(resource)}", action: :sign_up, user: resource, 
+      parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: resource.id, name: resource.name, email: resource.email, notice: request.flash["notice"]})
     super(resource)
   end
 end

@@ -4,11 +4,12 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <%= image_tag attachments['logo.png'].url %>
+    <%= image_tag attachments['logo.jpg'].url, size: "256x128" %>
+    <br>
     <h3>Witaj <%= @user.name %> (<%= @user.email %>)!</h3>
   	<p>Gratulujemy!</p>
-  	<p>Zarejestrowałeś się w programie <strong>NetPAR</strong>. Aby zakończyć proces rejestracji musisz aktywować swoje konto wybierając link poniżej:</p>
-  	<p><%= link_to 'Aktywuj konto', confirmation_url(@resource, confirmation_token: @token) %></p>
+  	<p>Zarejestrowałeś się w programie <strong>NetPAR 2015</strong>. Aby zakończyć proces rejestracji musisz aktywować swoje konto.</p> 
+    <p>Można to zrobić wybierając link: <%= link_to 'Aktywuj konto', confirmation_url(@resource, confirmation_token: @token) %></p>
     <br>
     <hr>
     <p><small>

@@ -21,6 +21,6 @@
 //= require select2
 //= require select2_locale_pl
 //= require bootstrap-sprockets
-//= require gmaps/google
+// require gmaps/google
 //= require refile
 //= require_tree .

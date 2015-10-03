@@ -2,7 +2,7 @@ class CustomersController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index, :select2_index]
 
-  before_action :set_customer, only: [:show, :edit, :update, :destroy, :merge]
+  before_action :set_customer, only: [:show, :edit, :update, :destroy, :merge, :envelope_to_pdf]
 
   # GET /customers
   # GET /customers.json
@@ -50,6 +50,31 @@ class CustomersController < ApplicationController
     else
       redirect_to @customer, alert: t('activerecord.messages.error.merge', data: @customer.fullname_and_id)
     end
+  end
+
+  def envelope_to_pdf
+    authorize @customer, :show?
+
+    @customers_all = Customer.where(id: params[:id]).all
+
+    if @customers_all.empty?
+      redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
+    else
+      documentname = "Envelope_#{@customers_all.first.fullname}.pdf"
+
+      respond_to do |format|
+        format.pdf do
+          pdf = PdfEnvelopes.new(@customers_all, view_context)
+          send_data pdf.render,
+          filename: documentname,
+          type: "application/pdf",
+          disposition: "inline"   
+        end
+      end
+      @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :to_pdf, user: current_user, 
+                        parameters: {pdf_type: 'envelope', filename: "#{documentname}"})
+
+    end 
   end
 
   # GET /customers/1

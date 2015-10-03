@@ -17,7 +17,6 @@ class ApplicationController < ActionController::Base
 
 
   def request_from_the_security_area?
-    #@ips = ['127.0.0.1', '172.16.1.0/24'] #And so on ...]
     @ips = [
             '127.0.0.1',        # localhost
             '10.2.0.0/16',      # Białystok 

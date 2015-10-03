@@ -17,6 +17,8 @@ group :development, :test do
 end
 gem 'bootstrap-sass'
 gem 'devise'
+gem 'devise_security_extension'
+gem 'rails_email_validator'
 gem 'pundit'
 group :development do
   gem 'better_errors'
@@ -49,12 +51,13 @@ gem 'prawn'
 gem 'prawn-table'
 
 gem 'pesel' #https://github.com/macuk/pesel
-gem 'geocoder'
-gem 'gmaps4rails'
+#gem 'geocoder'
+#gem 'gmaps4rails'
 
-# gem 'rmagick'
-# gem 'rtesseract' #OCR
-gem "refile", require: ["refile/rails", "refile/image_processing"]
+#gem 'rmagick'
+#gem 'rtesseract' #OCR
+#gem "refile", require: ["refile/rails", "refile/image_processing"]
+gem "refile", require: ["refile/rails"]
 gem "refile-mini_magick"
 gem 'refile-postgres'
 

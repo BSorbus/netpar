@@ -55,6 +55,17 @@
       </div><!-- /.col-sm-2 -->
     <% end %>
 
+
+    <% if policy(:customer).show? %>
+      <div class="col-sm-3">
+        <%= link_to image_tag("envelope.jpg", :class => "img-thumbnail" ), 
+              envelopes_to_pdf_exam_path(@exam, category_service: @exam.category.downcase, :format => "pdf"), 
+              :target => "_blank" %>  
+
+        <h5>Koperty (rozmiar C6)</h5>
+      </div><!-- /.col-sm-2 -->
+    <% end %>
+
   </div class="row">  <!--/dla Świadectwa -->
 
   <div class="row">  <!--/Historia -->

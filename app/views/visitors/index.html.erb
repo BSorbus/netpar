@@ -1,115 +1,124 @@
     <!-- Half Page Image Background Carousel Header -->
 <% content_for :carousel do %>
 
-    <div id="myCarousel" class="carousel slide">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-            <li data-target="#myCarousel" data-slide-to="3"></li>
-            <li data-target="#myCarousel" data-slide-to="4"></li>
-        </ol>
+  <div id="myCarousel" class="carousel slide">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+      <li data-target="#myCarousel" data-slide-to="4"></li>
+    </ol>
 
-        <!-- Wrapper for Slides -->
-        <div class="carousel-inner">
-            <div class="item active">
-                <!-- Set the first background image using inline CSS below. -->
-                <div class="fill" style="background-image:url(<%= asset_path '1.jpg' %>)"></div>
-                <div class="carousel-caption">
-                  <h3>Nie ma rozwiązań wiecznie trwałych</h3>
-                  <p>Po 15 latach eksploatacji Systemu NetPAR 2000...</p>
-                </div>
-            </div>
-            <div class="item">
-                <!-- Set the second background image using inline CSS below.
-                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Wszędzie');"></div> -->
-                <div class="fill" style="background-image:url(<%= asset_path '2.jpg' %>)"></div>
-                <div class="carousel-caption">
-                  <h3>czas na ulepszone ewidencjonowanie dokumentów</h3>
-                  <p>zapisywanie skanów, załączników, plików pdf, itp.</p>
-                </div>
-            </div>
-            <div class="item">
-                <!-- Set the third background image using inline CSS below. -->
-                <div class="fill" style="background-image:url(<%= asset_path '3.jpg' %>)"></div>
-                <div class="carousel-caption">
-                  <h3>czas na wykorzystanie nowoczesnych technologii</h3>
-                  <p>dostęp do danych przez przeglądarkę bez konieczności instalowania programu i kłopotliwych aktualizacji</p>
-                </div>
-            </div>
-            <div class="item">
-                <!-- Set the second background image using inline CSS below.
-                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Wszędzie');"></div> -->
-                <div class="fill" style="background-image:url(<%= asset_path '4.jpg' %>)"></div>
-                <div class="carousel-caption">
-                  <h3>czas na nowe spojrzenie</h3>
-                  <p>wspólny rejestr dla wszystkich Delegatur</p>
-                </div>
-            </div>
-            <div class="item">
-                <!-- Set the third background image using inline CSS below. -->
-                <div class="fill" style="background-image:url(<%= asset_path '5.jpg' %>)"></div>
-                <div class="carousel-caption">
-                  <h2>...czas na nowy NetPAR 2015!</h2>
-                </div>
-            </div>
+    <!-- Wrapper for Slides -->
+    <div class="carousel-inner">
+        <div class="item active">
+          <div class="fill" style="background-image:url(<%= asset_path '1.jpg' %>)"></div>
+          <div class="carousel-caption">
+            <h3>Nie ma rozwiązań wiecznie trwałych</h3>
+            <p>Po 15 latach eksploatacji Systemu NetPAR 2000...</p>
+          </div>
         </div>
+        <div class="item">
+          <!-- Set the second background image using inline CSS below.
+          <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Wszędzie');"></div> -->
+          <div class="fill" style="background-image:url(<%= asset_path '2.jpg' %>)"></div>
+          <div class="carousel-caption">
+            <h3>czas na ulepszone ewidencjonowanie dokumentów</h3>
+            <p>zapisywanie skanów, załączników, plików pdf, itp.</p>
+          </div>
+        </div>
+        <div class="item">
+          <!-- Set the next background image using inline CSS below. -->
+          <div class="fill" style="background-image:url(<%= asset_path '3.jpg' %>)"></div>
+          <div class="carousel-caption">
+            <h3>czas na wykorzystanie nowoczesnych technologii</h3>
+            <p>dostęp do danych przez przeglądarkę bez konieczności instalowania programu i kłopotliwych aktualizacji</p>
+          </div>
+        </div>
+        <div class="item">
+          <!-- Set the next background image using inline CSS below. -->
+          <div class="fill" style="background-image:url(<%= asset_path '4.jpg' %>)"></div>
+          <div class="carousel-caption">
+            <h3>czas na nowe spojrzenie</h3>
+            <p>wspólny rejestr dla wszystkich Delegatur</p>
+          </div>
+        </div>
+        <div class="item">
+          <!-- Set the next background image using inline CSS below. -->
+          <div class="fill" style="background-image:url(<%= asset_path '5.jpg' %>)"></div>
+          <div class="carousel-caption">
+            <h2>...czas na nowy NetPAR 2015!</h2>
+          </div>
+        </div>
+      </div> <!-- /div class="carousel-inner" -->
 
-        <!-- Controls -->
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-            <span class="icon-prev"></span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-            <span class="icon-next"></span>
-        </a>
+      <!-- Controls -->
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+        <span class="icon-prev"></span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next">
+        <span class="icon-next"></span>
+      </a>
 
-    </div>
+  </div>
 
 
-    <!-- Script to Activate the Carousel -->
-    <script>
-    $('.carousel').carousel({
-        interval: 7000 //changes the speed
-    })
-    </script>
+  <!-- Script to Activate the Carousel -->
+  <script>
+  $('.carousel').carousel({
+      interval: 7000 //changes the speed
+  })
+  </script>
 
 <% end %><!--/ content_for :carousel -->
 
-<!-- Trzeba przemyśleć, czy to dać
-<div class="container">
-  <div class="col-sm-12">
-    <div class="row">
-      <div class="page-header">
-        <h1><%= t('pages.visitors.index.title') %><br> 
-        <small><%= t('pages.visitors.index.title_sub') %></small></h1>
-      </div>
-
-    </div>
-  </div>
-</div> -->
 
 <div class="container pre-footer">
-  <div class="col-sm-5 col-sm-offset-1">
-    <h4>Harmonogram wdrożenia:</h4>
-      <li>16.10.2015 - migracja danych świadectw lotniczych i radioamatorskich</li>
-      <li>17.10.2015 - migracja danych świadectw morskich</li>
-  </div>
-  <div class="col-sm-5 col-sm-offset-1">
-    <h4>Harmonogram szkoleń:</h4>
-      <li>21.09.2015 UKE Bydgoszcz</li>
-      <li>28.09.2015 ...</li>
-      <li>29.09.2015 ...</li>
-      <li>30.09.2015 ...</li>
-      <li>01.10.2015 ...</li>
-      <li>02.10.2015 ...</li>
-      <li>05.10.2015 ...</li>
-      <li>06.10.2015 ...</li>
-      <li>07.10.2015 ...</li>
+  <div class="row">
+    <div class="col-sm-2 col-sm-offset-2">
+      <%= image_tag("training.jpg", :class => "img-circle" ) %>
+    </div>
+    <div class="col-sm-6 col-sm-offset-2">
+      <h3>Harmonogram szkoleń:</h3>
+      <li>07.09.2015 Gdańsk</li>
+      <li>15.09.2015 Centrala Warszawa (LOT RA)</li>
+      <li>21.09.2015 Bydgoszcz</li>
+      <li>22.09.2015 Katowice, Lublin, Rzeszów</li>
+      <li>23.09.2015 Olsztyn, Szczecin, Zielona Góra</li>
+      <li>24.09.2015 Łódź</li>
+      <li>28.10.2015 Białystok, Kielce, Wrocław</li>
+      <li>30.10.2015 ...</li>
+    </div>
   </div>
 
-  <div class="col-sm-12">
-    <h2 class="text-center"><strong>??.??.2015 - Ruszamy!</strong></h2>
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-2 col-sm-offset-2">
+      <%= image_tag("implementation.jpg", :class => "img-circle" ) %>
+    </div>
+    <div class="col-sm-6 col-sm-offset-2">
+      <h3>Harmonogram migracji danych:</h3>
+      <li>26.10.2015 - migracja danych świadectw lotniczych i radioamatorskich</li>
+      <li>27.10.2015 - migracja danych świadectw morskich</li>
+      <li>27-30.10.2015 - weryfikowanie danych</li>
+    </div>
   </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-2 col-sm-offset-2">
+      <%= image_tag("success.jpg", :class => "img-circle" ) %>
+    </div>
+    <div class="col-sm-6 col-sm-offset-2">
+      <h3>Harmonogram wdrożenia:</h3>
+      <li>31.10.2015 wersja produkcyjna Etap I</li>
+      <li>01.02.2016 wersja produkcyjna Etap Docelowy</li>
+    </div>
+  </div>
+
 
 </div>

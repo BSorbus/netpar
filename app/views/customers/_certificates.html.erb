@@ -38,7 +38,7 @@
                 </td>
                 <td><%= certificate.date_of_issue %></td>
                 <td><%= certificate.valid_thru %></td>
-                <td><%= certificate.certificate_status %></td>
+                <td><%= certificate.certificate_status_name %></td>
                 <td><%= certificate.division.name %></td>
                 <td>
                   <%= link_to certificate.exam.fullname, exam_path(certificate.exam, category_service:  certificate.exam.category.downcase, back_url: customer_path(@customer)) %>

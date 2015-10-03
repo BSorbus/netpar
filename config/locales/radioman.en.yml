@@ -148,7 +148,7 @@ en:
       show:
       form:
         short: 'eg.: UKE-DZC'
-        name: 'eg.: Artex-Software Sp z o.o.'
+        name: 'eg.: Urząd Komunikacji Elektronicznej Delegatura w Bydgoszczy'
       index:
   help_block_text:
     map_info: 'Caution! The program establishes the latitude and longitude using Geocoder and Google Maps. Presentations on the map should be regarded solely as information approximate.'

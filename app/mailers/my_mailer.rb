@@ -10,25 +10,25 @@ class MyMailer < Devise::Mailer
     #set_organization_of record
 
     @url  = Rails.application.secrets.domain_name
-    attachments.inline['logo.png'] = File.read("app/assets/images/logo.png")
-
+    #attachments.inline['logo.png'] = File.read("app/assets/images/logo.png")
+    attachments.inline['logo.jpg'] = File.read("app/assets/images/netpar2015.jpg")
     #!!!!!!!!!!!!!!!!!!!!!!
     opts[:to] = 'BSorbus@gmail.com'   
+    #opts[:subject] = "NetPAR 2015 - Instrukcja aktywowania konta"
     super
   end
 
   # Overrides same inside Devise::Mailer
   def reset_password_instructions(record, token, opts={})
-    #set_organization_of record
-
     @url  = Rails.application.secrets.domain_name
-    attachments.inline['logo.png'] = File.read("app/assets/images/logo.png")    
+    attachments.inline['logo.jpg'] = File.read("app/assets/images/netpar2015.jpg")
     super
   end
 
   # Overrides same inside Devise::Mailer
   def unlock_instructions(record, token, opts={})
-    #set_organization_of record
+    @url  = Rails.application.secrets.domain_name
+    attachments.inline['logo.jpg'] = File.read("app/assets/images/netpar2015.jpg")
     super
   end
 

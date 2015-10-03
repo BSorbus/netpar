@@ -3,8 +3,10 @@ class PdfCertificatesM < Prawn::Document
   def initialize(certificates, view, author, title)
     # New document, A4 paper, landscaped
     # pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)
+    # super(:page_size => [105mm, 150mm], :page_layout => :portrait)
     # wiec komentuje super() i ...
-    super(:page_size => "A4", 
+  # super(:page_size => [105mm, 150mm], :page_layout => :landscape)
+    super(:page_size => [297, 425], 
           :page_layout => :portrait,
           :info => {
                       :Title        => title,
@@ -14,6 +16,19 @@ class PdfCertificatesM < Prawn::Document
                     }
           )
     #super()
+                        #297,637795276
+                              #425,196850394
+    #def mm2pt(mm)
+    #    return mm*(72 / 25.4)
+    #end
+
+    # margin 0,5 ich ok 36 punktów
+    # A4 595.28 x 841.89
+    # A5 419.53 x 595.28
+    # B5 498.90 x 708.66 
+
+
+
     @certificates = certificates
     @view = view
 
@@ -28,54 +43,39 @@ class PdfCertificatesM < Prawn::Document
     length_certificates = @certificates.size
 
     @certificates.each_with_index do |certificate, i|
-      logo
-      title
-      header_left_corner(certificate)
-      data
-      footer
+      data(certificate)
       start_new_page if ((i+1) < length_certificates)
     end
 
   end
 
 
-  def logo
-    #logopath =  "#{Rails.root}/app/assets/images/pop_logo.png"
-    #image logopath, :width => 197, :height => 91
-    #image "#{Rails.root}/app/assets/images/pop_logo.png", :at => [430, 760]
-    image "#{Rails.root}/app/assets/images/orzel.jpg", :height => 50, :position => :center
+  def data(certificate)
+    str_name = "#{certificate.customer.given_names} #{certificate.customer.name.mb_chars.upcase}"
+    text_box "#{str_name}",                                           :at => [  0, 355], :width => 230, :height => 11, size: 11, :align => :center, :style => :bold
+
+
+    if str_name.length <= 30 
+      text_box "#{str_name}",                                         :at => [  0, 355], :width => 230, :height => 11, size: 11, :align => :center, :style => :bold
+    elsif str_name.length <= 34
+      text_box "#{str_name}",                                         :at => [  0, 355], :width => 230, :height => 11, size: 10, :align => :center, :style => :bold
+    else
+      text_box "#{str_name}",                                         :at => [  0, 355], :width => 230, :height => 11, size:  9, :align => :center, :style => :bold
+    end
+
+
+
+    text_box "#{certificate.customer.birth_date_and_place}",          :at => [   0, 327], :width => 230, :height => 10, size: 10, :align => :center
+ 
+    text_box "#{certificate.user.department.address_city} #{certificate.date_of_issue.strftime('%d.%m.%Y')}", :at => [  0, 170], :width => 230, :height => 10, size: 10, :align => :center
+
+    if certificate.valid_thru.present?
+      text_box "#{certificate.valid_thru.strftime('%d.%m.%Y')}",      :at => [ 163, 132], :width => 70, :height => 10, size: 9, :align => :left, :style => :bold
+    end
+
+    text_box "#{certificate.number}",                                 :at => [ 162,   2], :width => 80, :height => 11, size: 11, :align => :left, :style => :bold
+
   end
 
-  def title
-    #draw_text "OSWIADCZENIE UBEZPIECZONEGO", :at => [100, 475], size: 22    
-    move_down 100
-    text "ŚWIADECTWO MORSKIE", size: 16, :align => :center    
-  end
-
-  def header_left_corner(certificate)
-    move_down 30
-    #text insurance.fullname, :align => :center
-    text "Numer #{certificate.number}", :style => :bold
-    text "Wydane #{certificate.date_of_issue}", :style => :bold
-    move_down 20
-    text "Dla:", size: 10, :style => :italic
-    text "#{certificate.customer.fullname_and_address}", :style => :bold
-  end
-
-
-
-  def data
-    move_down 30
-    text "Na podstawie, ............. tadam, tadam, tadam, tadam, .......... ............." +
-         "zaświadcza się ............. tadam, tadam, tadam, tadam, ........., " +
-         "itd, itd, ......."
-    draw_text "." * 80, :at => [310, 300], size: 6
-    draw_text "data i czytelny podpis  ", :at => [340, 290], size: 7, :style => :italic
-  end
-
-  def footer
-    stroke_line [0, 10], [525,10], self.line_width = 0.1
-    text "wygenerowano z programu https://#{Rails.application.secrets.domain_name}  © UKE-BI-WUSA (B&J) 2015", size: 6, :style => :italic, :align => :right, :valign => :bottom  
-  end
 
 end

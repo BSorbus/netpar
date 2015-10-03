@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <%= image_tag attachments['logo.jpg'].url, size: "256x128" %>
+    <br>
+    <h3>Witaj <%= @user.name %> (<%= @user.email %>)!</h3>
+    <p>Twoje konto w programie <strong>NetPAR 2015</strong> zostało zablokowane z powodu zbyt dużej liczby nieudanych prób logowania.</p>
+    <p>Odblokuj swoje konto wybierając link: <%= link_to 'Odblokuj konto', unlock_url(@resource, unlock_token: @token) %></p>
+    <br>
+    <hr>
+    <p><small>
+      Ta wiadomość została wysłana autoamtycznie. Proszę nie odpisywać.
+    </small></p>
+    <hr>
+  </body>
+</html>

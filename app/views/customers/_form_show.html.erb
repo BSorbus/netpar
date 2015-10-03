@@ -169,6 +169,23 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <p><strong><%= Customer.human_attribute_name(:phone) %></strong></p>
+        <h5><%= @customer.phone %></h5>
+      </div>
+
+      <div class="form-group col-sm-4">
+        <p><strong><%= Customer.human_attribute_name(:fax) %></strong></p>
+        <h5><%= @customer.fax %></h5>
+      </div>
+
+      <div class="form-group col-sm-4">
+        <p><strong><%= Customer.human_attribute_name(:email) %></strong></p>
+        <h5><%= @customer.email %></h5>
+      </div>
+    </div>
+
     <div class="form-group">
       <p><strong><%= Customer.human_attribute_name(:note) %></strong></p>
       <h5><%= @customer.note %></h5>

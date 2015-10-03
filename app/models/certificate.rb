@@ -35,17 +35,17 @@ class Certificate < ActiveRecord::Base
 
 
 
-  # validates
-  validates :number, presence: true,
-                    length: { in: 1..30 },
-                    uniqueness: { :case_sensitive => false, :scope => [:category] }
-  validates :date_of_issue, presence: true
-  validates :division, presence: true
-  validates :customer, presence: true
-  validates :exam, presence: true
-  validates :user, presence: true
-  validates :category, inclusion: { in: %w(L M R) }
-  validate  :valid_thru_if_not_blank_must_more_date_of_issue, unless: "valid_thru.blank?"
+#  # validates
+#  validates :number, presence: true,
+#                    length: { in: 1..30 },
+#                    uniqueness: { :case_sensitive => false, :scope => [:category] }
+#  validates :date_of_issue, presence: true
+#  validates :division, presence: true
+#  validates :customer, presence: true
+#  validates :exam, presence: true
+#  validates :user, presence: true
+#  validates :category, inclusion: { in: %w(L M R) }
+#  validate  :valid_thru_if_not_blank_must_more_date_of_issue, unless: "valid_thru.blank?"
 
  
   def valid_thru_if_not_blank_must_more_date_of_issue
@@ -86,29 +86,31 @@ class Certificate < ActiveRecord::Base
 
   def self.next_certificate_number(service, division)
     division_scope = scope_numbering_groups(division) 
-    next_nr = Certificate.get_next_number_certificate(service, division)
-    next_nr_with_zeros = "0000#{next_nr}"
+    next_nr = Certificate.get_next_number_certificate(service, division_scope).to_s
+    next_nr_with_zeros = "00000#{next_nr}"      
     "#{division.number_prefix}#{next_nr_with_zeros.last(5)}"
   end
 
   def self.get_next_number_certificate(service, division_scope)
-    #q_res = Certificate.find_by_sql( ["SELECT max(abs(to_number(certificates.number,'999999999'))) AS number FROM certificates WHERE certificates.category = ?", service.upcase] ).first.number
-    q_res = Certificate.find_by_sql( ["SELECT max(abs(to_number(certificates.number,'999999999'))) AS number FROM certificates WHERE certificates.category = ? AND division_id IN (?)", service.upcase, division_scope] ).first.number    
-    q_res.to_f.round(0) + 1 
+    #q_res = Certificate.find_by_sql( ["SELECT max(abs(to_number(certificates.number,'999999999'))) AS number FROM certificates WHERE certificates.category = ? AND division_id IN (?)", service.upcase, division_scope] ).first.number    
+    q_res = Certificate.where(category: service.upcase, division_id: division_scope).maximum("abs(to_number(certificates.number,'th999999')) ").to_i
+    q_res += 1 
   end
 
   def self.scope_numbering_groups(division)
     case division.id
-    when 1..8         # wspólna numeracja dla całego zakresu  "L"
-      [1,2,3,4,5,6,7,8]
-    when 9..15        # numeracja dla "M" jest podzielona na grupy
-      [9,10,11,12,13,14,15]   # 9-G1E, 10-G2E, 11-GG, 12-GR, 13-GL, 14-GS, 15-MA  
+    when 1..8             # wspólna numeracja dla całego zakresu  "L"
+      [1, 2, 3, 4, 5, 6, 7, 8]
+    when 9..14            # numeracja dla "M" jest podzielona na grupy
+      [9, 10, 11, 12, 13, 14]  # 9-G1E, 10-G2E, 11-GG, 12-GR, 13-GL, 14-GS  
+    when 15           
+      [15]                # 15-MA
     when 16           
-      [16]                    # 16-GC
+      [16]                # 16-GC
     when 17           
-      [17]                    # 17-IW
-    when 18..21       # wspólna numeracja dla całego zakresu "R"
-      [18,19,20,21]   # 18-A, 19-B, 20-C, 21-D
+      [17]                # 17-IW
+    when 18..21           # wspólna numeracja dla całego zakresu "R"
+      [18, 19, 20, 21]       # 18-A, 19-B, 20-C, 21-D
     else 
       []      
     end

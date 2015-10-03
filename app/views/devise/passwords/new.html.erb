@@ -6,6 +6,7 @@
     <div class="panel-body">
 
       <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, :role => 'form'}) do |f| %>
+
         <p><%= t('devise.passwords.form.new.header_text') %></p>
 
         <%#= devise_error_messages! %>

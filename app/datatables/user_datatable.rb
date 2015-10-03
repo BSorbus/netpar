@@ -13,9 +13,11 @@ class UserDatatable < AjaxDatatablesRails::Base
     @sortable_columns ||= %w( 
                               User.name 
                               User.email
+                              Department.short  
                               User.current_sign_in_ip
                               User.current_sign_in_at
-                              Department.short  
+                              User.last_activity_at
+                              User.password_changed_at
                               User.deleted_at
                             )
   end
@@ -26,9 +28,11 @@ class UserDatatable < AjaxDatatablesRails::Base
     @searchable_columns ||= %w(
                               User.name 
                               User.email 
+                              Department.short  
                               User.current_sign_in_ip
                               User.current_sign_in_at
-                              Department.short  
+                              User.last_activity_at
+                              User.password_changed_at
                               User.deleted_at
                             )
   end
@@ -43,10 +47,12 @@ class UserDatatable < AjaxDatatablesRails::Base
         record.id,
         record.name.present? ? link_to(record.name, @view.user_path(record)) : '',
         link_to(record.email, @view.user_path(record)),
-        record.current_sign_in_ip,
-        record.current_sign_in_at.present? ? record.current_sign_in_at.strftime("%Y-%m-%d %H:%M") : '' ,
         record.department.present? ? link_to(record.department.short, @view.department_path(record.department)) : '',
-        record.deleted_at.present? ? record.deleted_at.strftime("%Y-%m-%d %H:%M") : '' ,
+        record.current_sign_in_ip,
+        record.current_sign_in_at.present? ? record.current_sign_in_at.strftime("%Y-%m-%d %H:%M:%S") : '' ,
+        record.last_activity_at.present? ? record.last_activity_at.strftime("%Y-%m-%d %H:%M:%S") : '' ,
+        record.password_changed_at.present? ? record.password_changed_at.strftime("%Y-%m-%d %H:%M:%S") : '' ,
+        record.deleted_at.present? ? record.deleted_at.strftime("%Y-%m-%d %H:%M:%S") : '' 
       ]
     end
   end

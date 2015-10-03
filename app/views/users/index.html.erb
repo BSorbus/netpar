@@ -1,29 +1,29 @@
-<div class="container">
+<div class="col-sm-12">
   <h3><span class="glyphicon glyphicon-heart" aria-hidden="true"> 
     <%= t "pages.user.index.title" %>  
     </span>
   </h3>
-
-
-  <div class="col-sm-12">
-    <table id="users" class="hover cell-border" data-source="<%= datatables_index_users_path(format: :json) %>">
-      <thead>
-        <tr>
-          <th> 0 ID </th>
-          <th> 1 name </th>
-          <th> 2 email </th>
-          <th> 3 current_sign_in_ip </th>
-          <th> 4 current_sign_in_at </th>
-          <th> 5 department.short </th>
-          <th> 6 deleted_at </th>
-        </tr>
-      </thead>
-
-      <tbody>
-         <!--data from JSON -->
-      </tbody>
-    </table>
-  </div> <!--/col-sm-12 -->
-
-
 </div>
+
+
+<div class="col-sm-12">
+  <table id="users" class="hover cell-border" data-source="<%= datatables_index_users_path(format: :json) %>">
+    <thead>
+      <tr>
+        <th> 0 ID </th>
+        <th> 1 name </th>
+        <th> 2 email </th>
+        <th> 3 department.short </th>
+        <th> 4 current_sign_in_ip </th>
+        <th> 5 current_sign_in_at </th>
+        <th> 6 last_activity_at </th>
+        <th> 7 password_changed_at </th>
+        <th> 8 deleted_at </th>
+      </tr>
+    </thead>
+
+    <tbody>
+       <!--data from JSON -->
+    </tbody>
+  </table>
+</div> <!--/col-sm-12 -->

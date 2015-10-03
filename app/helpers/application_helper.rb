@@ -9,6 +9,8 @@ module ApplicationHelper
       attachment_url(attach, :fileattach, :fill, horizontal_size(for_service), vertical_size(for_service), format: "jpg")
     when 'image/png'
       attachment_url(attach, :fileattach, :fill, horizontal_size(for_service), vertical_size(for_service), format: "png")
+    #when 'application/msword'
+    #  asset_path("word.png")
     when 'application/pdf'
       #attachment_url(@attach, :fileattach, :fill, horizontal_size(for_service), vertical_size(for_service), format: "pdf")
 
@@ -55,6 +57,8 @@ module ApplicationHelper
       attachment_url(attach, :fileattach, :fill, horizontal_small_size(for_service), vertical_small_size(for_service), format: "jpg")
     when 'image/png'
       attachment_url(attach, :fileattach, :fill, horizontal_small_size(for_service), vertical_small_size(for_service), format: "png")
+    #when 'application/msword'
+    #  asset_path("word_small.png")
     when 'application/pdf'
       #attachment_url(attach, :fileattach, :fill, horizontal_small_size(for_service), vertical_small_size(for_service), format: "pdf")
 

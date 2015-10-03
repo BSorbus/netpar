@@ -14,21 +14,23 @@ class Exam < ActiveRecord::Base
   has_many :works, as: :trackable
 
   has_many :documents, as: :documentable, dependent: :destroy
-  has_many :customers, through: :certificates
-  has_many :customers, through: :examinations
+  # has_many :customers, through: :certificates
+  # has_many :customers, through: :examinations
+  has_many :certificate_customers, through: :certificates, source: :customer
+  has_many :examination_customers, through: :examinations, source: :customer
 
 
 
-  # validates
-  validates :number, presence: true,
-                    length: { in: 1..30 },
-                    :uniqueness => { :case_sensitive => false, :scope => [:category] }
+#  # validates
+#  validates :number, presence: true,
+#                    length: { in: 1..30 },
+#                    :uniqueness => { :case_sensitive => false, :scope => [:category] }
 
-  validates :date_exam, presence: true
-  validates :place_exam, presence: true,
-                    length: { in: 1..50 }
-  validates :category, inclusion: { in: %w(L M R) }
-  validates :user, presence: true
+#  validates :date_exam, presence: true
+#  validates :place_exam, presence: true,
+#                    length: { in: 1..50 }
+#  validates :category, inclusion: { in: %w(L M R) }
+#  validates :user, presence: true
 
 
   # scopes
