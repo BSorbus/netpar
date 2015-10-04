@@ -30,7 +30,7 @@ class RolesController < ApplicationController
   # POST /roles.json
   def create
     @role = Role.new(role_params)
-    @role.user = current_user
+    #@role.user = current_user
     authorize @role, :create?
 
     respond_to do |format|
@@ -47,7 +47,7 @@ class RolesController < ApplicationController
   end
 
   def update
-    @role.user = current_user
+    #@role.user = current_user
     authorize @role, :update?
     
     respond_to do |format|

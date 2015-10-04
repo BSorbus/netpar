@@ -2,7 +2,7 @@ class CustomersController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index, :select2_index]
 
-  before_action :set_customer, only: [:show, :edit, :update, :destroy, :merge, :envelope_to_pdf]
+  before_action :set_customer, only: [:show, :edit, :update, :destroy, :merge, :envelope_to_pdf, :history_to_pdf]
 
   # GET /customers
   # GET /customers.json
@@ -75,6 +75,30 @@ class CustomersController < ApplicationController
                         parameters: {pdf_type: 'envelope', filename: "#{documentname}"})
 
     end 
+  end
+
+  def history_to_pdf
+    authorize @customer, :work?
+
+    @works = Work.where(trackable: @customer).where.not(action: :to_pdf).order(:created_at).all
+
+    t1 = "Klient: #{@customer.fullname_and_id}"
+    t2 = "kartoteka utworzona: #{@customer.created_at.strftime("%Y-%m-%d %H:%M:%S")}"
+    t3 = "ostatnia aktualizacja: #{@customer.updated_at.strftime("%Y-%m-%d %H:%M:%S")}"
+    t4 = ""
+
+    respond_to do |format|
+      format.pdf do
+        pdf = PdfUserAccountHistory.new(@works, "Historia wpisów", t1, t2, t3, t4, view_context)
+        send_data pdf.render,
+        filename: "Customer_history_#{@customer.fullname_and_id}.pdf",
+        type: "application/pdf",
+        disposition: "inline"   
+      end
+    end
+    @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :to_pdf, user: current_user, 
+                      parameters: {pdf_type: 'customer_history', filename: "Customer_history_#{@customer.fullname_and_id}.pdf"})
+
   end
 
   # GET /customers/1

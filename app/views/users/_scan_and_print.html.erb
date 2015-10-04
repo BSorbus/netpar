@@ -1,0 +1,44 @@
+<div class="col-sm-12">
+  <div class="row">  <!--row -->
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-10">
+      <blockquote>
+        <h5>Wydruki generowane w tym widoku ograniczone są tylko do pozycji <strong><%= @user.fullname %></strong>.</h5>
+      </blockquote>
+    </div> <!-- /.col-sm-12 -->
+  </div> <!-- /.row -->
+
+  <hr>
+
+  <div class="row">  <!--/Historia -->
+    <div class="col-sm-2">
+      <p class="lead">Historia wpisów</p>
+    </div><!-- /.col-sm-2 -->
+  
+     <% if policy(:user).work? %>
+      <div class="col-sm-3">
+        <div class="folded"><h3><%= @user.name %></h3></div>
+        <%= link_to image_tag("user_permissions.jpg", :class => "img-thumbnail" ), 
+              user_permissions_to_pdf_user_path(@user, :format => "pdf"), 
+              :target => "_blank" %>  
+
+        <h5>Historia nadawania uprawnień</h5>
+      </div><!-- /.col-sm-2 -->
+    <% end %>
+
+    <% if policy(:user).work? %>
+      <div class="col-sm-3">
+        <div class="folded"><h3><%= @user.name %></h3></div>
+        <%= link_to image_tag("user_permissions.jpg", :class => "img-thumbnail" ), 
+              user_activity_to_pdf_user_path(@user, :format => "pdf"), 
+              :target => "_blank" %>  
+
+        <h5>Historia aktywności</h5>
+      </div><!-- /.col-sm-2 -->
+    <% end %>
+
+  </div class="row">  <!--/Historia -->
+
+
+</div> <!--/col-sm-12 -->

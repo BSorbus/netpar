@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     post 'datatables_index', on: :collection
     patch 'account_off', on: :member
     patch 'account_on', on: :member
+    get 'user_permissions_to_pdf', on: :member
+    get 'user_activity_to_pdf', on: :member
   end
 
 
@@ -57,6 +59,7 @@ Rails.application.routes.draw do
     get 'select2_index', on: :collection
     post 'merge', on: :member
     get 'envelope_to_pdf', on: :member
+    get 'history_to_pdf', on: :member
     resources :documents, module: :customers, only: [:create]
   end
 

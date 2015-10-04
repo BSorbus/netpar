@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index]
 
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :account_off, :account_on]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :account_off, :account_on, :user_permissions_to_pdf, :user_activity_to_pdf]
 
 
 #  def index
@@ -22,6 +22,55 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.json{ render json: UserDatatable.new(view_context) }
     end
+  end
+
+  def user_permissions_to_pdf
+    authorize :user, :work?
+
+    #@works = Work.where(trackable_type: 'User', trackable_id: params[:id]).order(:created_at).all
+    @works = Work.where(trackable: @user, action: [:add_role, :remove_role]).order(:created_at).all
+
+    t1 = "Konto użytkownika: #{@user.name}, #{@user.email}, (ID: #{@user.id})"
+    t2 = "utworzone: #{@user.created_at.strftime("%Y-%m-%d %H:%M:%S")}"
+    t3 = @user.last_activity_at.present? ? "ostatnia aktywność: #{@user.last_activity_at.strftime("%Y-%m-%d %H:%M:%S")}" : ''
+    t4 = @user.deleted_at.present? ? "data wyłączenia: #{@user.deleted_at.strftime("%Y-%m-%d %H:%M:%S")}" : ''
+
+    respond_to do |format|
+      format.pdf do
+        pdf = PdfUserAccountHistory.new(@works, "Historia nadawania i cofania uprawnień", t1, t2, t3, t4, view_context)
+        send_data pdf.render,
+        filename: "User_permissions_#{@user.name}.pdf",
+        type: "application/pdf",
+        disposition: "inline"   
+      end
+    end
+    @user.works.create!(trackable_url: "#{user_path(@user)}", action: :to_pdf, user: current_user, 
+                      parameters: {pdf_type: 'user_permissions', filename: "User_permissions_#{@user.name}.pdf"})
+
+  end
+
+  def user_activity_to_pdf
+    authorize :user, :work?
+
+    @works = Work.where(trackable: @user, user: @user).where.not(action: [:add_role, :remove_role]).order(:created_at).all
+
+    t1 = "Konto użytkownika: #{@user.name}, #{@user.email}, (ID: #{@user.id})"
+    t2 = "utworzone: #{@user.created_at.strftime("%Y-%m-%d %H:%M:%S")}"
+    t3 = @user.last_activity_at.present? ? "ostatnia aktywność: #{@user.last_activity_at.strftime("%Y-%m-%d %H:%M:%S")}" : ''
+    t4 = @user.deleted_at.present? ? "data wyłączenia: #{@user.deleted_at.strftime("%Y-%m-%d %H:%M:%S")}" : ''
+
+    respond_to do |format|
+      format.pdf do
+        pdf = PdfUserAccountHistory.new(@works, "Historia aktywności", t1, t2, t3, t4, view_context)
+        send_data pdf.render,
+        filename: "User_activity_#{@user.name}.pdf",
+        type: "application/pdf",
+        disposition: "inline"   
+      end
+    end
+    @user.works.create!(trackable_url: "#{user_path(@user)}", action: :to_pdf, user: current_user, 
+                      parameters: {pdf_type: 'user_activity', filename: "User_activity_#{@user.name}.pdf"})
+
   end
 
   def show

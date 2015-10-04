@@ -29,10 +29,24 @@
 
   </div class="row">  <!--/dla Klienta -->
 
+  <hr>
+
   <div class="row">  <!--/Historia -->
     <div class="col-sm-2">
       <p class="lead">Historia wpisów</p>
     </div><!-- /.col-sm-2 -->
+ 
+    <% if policy(:customer).work? %>
+      <div class="col-sm-3">
+        <div class="folded"><h3><%= @customer.fullname %></h3></div>
+        <%= link_to image_tag("user_permissions.jpg", :class => "img-thumbnail" ), 
+              history_to_pdf_customer_path(@customer, :format => "pdf"), 
+              :target => "_blank" %>  
+
+        <h5>Historia wprowadzenia i aktualizowania danych</h5>
+      </div><!-- /.col-sm-2 -->
+    <% end %>
+
   </div class="row">  <!--/Historia -->
 
 </div> <!--/col-sm-12 -->
