@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 # ruby '2.2.1'
-gem 'rails', '4.2.3'
+gem 'rails', '4.2.4'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
@@ -10,11 +10,6 @@ gem 'jquery-ui-rails', '~> 5.0.2'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'pg'
-group :development, :test do
-  gem 'byebug'
-  gem 'web-console', '~> 2.0'
-  gem 'spring'
-end
 gem 'bootstrap-sass'
 gem 'devise'
 gem 'devise_security_extension'
@@ -24,10 +19,13 @@ group :development do
   gem 'better_errors'
   gem 'quiet_assets'
   gem 'rails_layout'
+  gem 'spring'
   gem 'spring-commands-rspec'
   gem 'brakeman', :require => false  
 end
 group :development, :test do
+  gem 'byebug'
+  gem 'web-console', '~> 2.0'
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'rspec-rails'
@@ -64,3 +62,7 @@ gem 'refile-postgres'
 #gem 'font-awesome-sass'
 #gem 'yomu'
 #gem 'pdf-reader'
+
+#Use unicorn as the app server
+#gem 'unicorn'
+#gem "unicorn-rails"

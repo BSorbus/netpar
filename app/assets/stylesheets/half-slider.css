@@ -4,7 +4,6 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-/*
 .carousel-caption {
     position: absolute;
     bottom: 0;
@@ -16,13 +15,14 @@
     text-align: left;
     padding-left: 1%;
 }
-*/
 
 
 .carousel-indicators{
-  //padding-left: 60%;
-  //text-align: right;
-  bottom: 0px; 
+  position: absolute;
+  padding-left: 10%;
+  height: 25px;
+  left: 0px;
+  top: 5px; 
 }
 
 html,

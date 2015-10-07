@@ -26,16 +26,13 @@
     </div> <!-- /col-sm-12-->
   </div> <!-- /row -->
 
-  <% if examination_policy_check(@examination, params[:category_service], 'work') %>
-    <%#= render partial: "works" %>
-    <%= render partial: "works/works_in_panel", locals: {trackable_type: 'Examination', trackable_id: @examination.id} %>
-  <% end %>
 
   <%= render partial: "documents/documents_in_panel", locals: {documentable: @examination} %>
 
+
   <!-- Wydruki -->
   <div class="row">
-    <div class="col-sm-11 col-sm-offset-1">
+    <div class="col-sm-10 col-sm-offset-2">
       <div class="panel panel-print">
         <div class="panel-heading">
           <div class="panel-title">
@@ -57,6 +54,12 @@
       </div> <!-- /panel -->
     </div> <!-- /col-sm-11 col-sm-offset-1 -->
   </div> <!-- /row -->
+
+
+  <% if examination_policy_check(@examination, params[:category_service], 'work') %>
+    <%#= render partial: "works" %>
+    <%= render partial: "works/works_in_panel", locals: {trackable_type: 'Examination', trackable_id: @examination.id} %>
+  <% end %>
 
 
 </div> <!-- /class="panel-group" id="myaccordion" -->

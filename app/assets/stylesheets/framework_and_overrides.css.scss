@@ -227,35 +227,22 @@ img {
     font-size: 14px;
 }
 
-$FooterBackground       : #F9F9F9;  
+$FooterBackground       : #F8F8F8;  
 $FooterColor            : #777;  
 $FooterBorder           : #E7E7E7;       
 
 
-
-
-.pre-footer {
-  //margin-top:  -50px;
-  padding-top: 0px;
-  padding-bottom: 50px;
+.pre-footer{
+  margin-top:  -30px;
 }
 
-//.pre-footer:hover {
-//  color: #483D8B;
-//}
 
-
-footer {
+footer{
   background-color: $FooterBackground;
   border-color: $FooterBorder;
   color: $FooterColor;
   padding-top: 30px;
   padding-bottom: 30px;
-}
-
-footer:hover {
-  background-color: white;
-  color: black;
 }
 
 // apply styles to HTML elements
@@ -350,8 +337,7 @@ section {
 
 
 /* ----- Btn-group for ribbon -----------------------------------*/ 
-//$RibbonBackground : #FF0000;
-$RibbonBackground : #663399;
+$RibbonBackground : #5cb85c;
 
 #btn-group-prnscope { 
   .btn.active, .btn:active {
@@ -426,4 +412,3 @@ a .img-thumbnail:hover {
     position: absolute;
     right: -1px;
 }
-

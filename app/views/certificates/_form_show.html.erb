@@ -46,7 +46,7 @@
     <div class="row">
       <div class="form-group col-sm-12">
         <p><strong><%= Certificate.human_attribute_name(:customer_id) %></strong></p>
-        <h5><%= link_to @certificate.customer.fullname_and_address, customer_path(@certificate.customer) %></h5>
+        <h5><%= policy(:customer).show? ? link_to( @certificate.customer.fullname_and_address, customer_path(@certificate.customer) ) : 'xxx-xxx' %></h5>
       </div>
     </div>
 

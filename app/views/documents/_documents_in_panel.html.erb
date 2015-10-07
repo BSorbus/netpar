@@ -65,9 +65,21 @@
                 <%= form_for [documentable, Document.new] do |f| %>
 
                   <div class="form-group col-sm-12">
+                    <% if documentable.errors.any? %>
+                      <div id="error_explanation" class="panel panel-danger">
+                        <div class="panel-body">
+                          <ul>
+                          <% documentable.errors.full_messages.each do |msg| %>
+                            <li><h5><%= msg %></h5></li>
+                          <% end %>
+                          </ul>
+                        </div>
+                      </div>
+                    <% end %>
+
 
                     <%= f.label :fileattach, class: 'control-label' %><br>
-                    <%= f.attachment_field :fileattach, direct: true, class: 'form-control input-sm' %>
+                    <%= f.attachment_field :fileattach, direct: true, presigned: true, class: 'form-control input-sm' %>
 
                     <br>
                     <p><%=t "pages.certificate.form.or_input_remote_url"%></p>
@@ -79,8 +91,9 @@
 
                   <div class="col-sm-12">
 
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;" id="progress_load">
+                    <!-- <div class="progress" id="progress_load" style='display:none'> -->
+                    <div class="progress" id="progress_load">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;" id="progress_load_text">
                         <span class="sr-only"></span>
                       </div>
                     </div>

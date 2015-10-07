@@ -2,6 +2,9 @@ class DocumentsController < ApplicationController
   before_action :authenticate_user!
   #after_action :verify_authorized, except: [:index, :datatables_index, :datatables_index_exam]
 
+
+  include  ActionView::Helpers::NumberHelper
+
   def show
     @document = Document.find(params[:id])
     #file = attachment_url(@document, :fileattach)
@@ -22,9 +25,11 @@ class DocumentsController < ApplicationController
       if @document.save
         @document.works.create!(trackable_url: "#{document_path(@document)}", action: :upload, user: current_user, parameters: @document.attributes.to_hash)
 
-        format.html { redirect_to :back, notice: t('activerecord.messages.successfull.attach_file', parent: @document.documentable.fullname, child: @document.fileattach_filename) }
+        format.html { redirect_to :back, notice: t('activerecord.messages.successfull.attach_file', parent: @document.documentable.fullname, 
+          child: "#{@document.fileattach_filename} (#{number_to_human_size(@document.fileattach_size)})") }
       else
-        format.html { redirect_to :back, alert: t('activerecord.messages.error.created') }        
+        format.html { redirect_to :back, alert: t('activerecord.messages.error.attach_file', parent: @document.documentable.fullname, 
+          child: "#{@document.fileattach_filename} (#{number_to_human_size(@document.fileattach_size)})") }
       end
     end
 

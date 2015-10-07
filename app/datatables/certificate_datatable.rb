@@ -5,7 +5,7 @@ class CertificateDatatable < AjaxDatatablesRails::Base
   # include AjaxDatatablesRails::Extensions::WillPaginate
   # include AjaxDatatablesRails::Extensions::SimplePaginator
 
-  def_delegators :@view, :link_to, :h, :mailto, :attachment_url, :image_tag, :get_fileattach_as_small_image
+  def_delegators :@view, :link_to, :h, :mailto, :attachment_url, :image_tag, :get_fileattach_as_small_image, :policy
 
   def sortable_columns
     # list columns inside the Array in string dot notation.
@@ -40,6 +40,8 @@ class CertificateDatatable < AjaxDatatablesRails::Base
   def data
     # comma separated list of the values for each cell of a table row
     # certificateple: record.attribute,
+    show_customer = policy(:customer).show?
+
     records.map do |record|
 
       attach = record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last 
@@ -52,7 +54,7 @@ class CertificateDatatable < AjaxDatatablesRails::Base
         record.valid_thru,
         record.certificate_status_name,
         record.division.name,
-        link_to(record.customer.fullname_and_address, @view.customer_path(record.customer)),
+        show_customer ? link_to(record.customer.fullname_and_address, @view.customer_path(record.customer)) : 'xxx-xxx',
         link_to(record.exam.fullname, @view.exam_path(record.category.downcase, record.exam)),
         record.category 
       ]

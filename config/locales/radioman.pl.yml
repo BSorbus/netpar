@@ -299,7 +299,8 @@ pl:
         account_on: 'Pomyślnie włączono konto "%{data}".'
       error:
         destroyed: 'Wystąpił błąd w czasie usuwania wpisu "%{data}".'
-        created: 'Wystąpił błąd w czasie dodawania nowego wpisu".'
+        created: 'Wystąpił błąd w czasie dodawania nowego wpisu.'
+        attach_file: 'Wystąpił błąd w czasie dodawania załącznika "%{child}" do "%{parent}". Pamiętaj, że rozmiar pliku nie może być większy niż 10 MB'
         merge: 'Wystąpił błąd w czasie scalania danych z kartoteką: "%{data}". Być może nie wybrałeś kartoteki do scalenia lub kartoteka źródłowa jest tożsama z docelową'
         account_off: 'Wystąpił błąd w czasie wyłączania konta "%{data}".'
         account_on: 'Wystąpił błąd w czasie włączania konta "%{data}".'
