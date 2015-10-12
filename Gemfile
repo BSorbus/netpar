@@ -59,6 +59,8 @@ gem "refile", require: ["refile/rails"]
 gem "refile-mini_magick"
 gem 'refile-postgres'
 
+#gem 'active_model_serializers'
+
 #gem 'font-awesome-sass'
 #gem 'yomu'
 #gem 'pdf-reader'

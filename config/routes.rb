@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     resources :certificates do
       post 'datatables_index', on: :collection
       post 'datatables_index_exam', on: :collection # for Exam
+      get 'select2_index', on: :collection
+      get 'search', on: :collection
       get 'certificate_to_pdf', on: :member
     end
     resources :exams do

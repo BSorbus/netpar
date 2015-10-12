@@ -15,7 +15,7 @@ class DocumentsController < ApplicationController
       type: @document.fileattach_content_type, 
       disposition: "attachment"              
 
-    @document.works.create!(trackable_url: "#{document_path(@document)}", action: :download, user: current_user, parameters: @document.attributes.to_hash)
+    @document.works.create!(trackable_url: "#{document_path(@document)}", action: :download, user: current_user, parameters: @document.attributes.to_json)
   end
 
   def create
@@ -23,7 +23,7 @@ class DocumentsController < ApplicationController
 
     respond_to do |format|
       if @document.save
-        @document.works.create!(trackable_url: "#{document_path(@document)}", action: :upload, user: current_user, parameters: @document.attributes.to_hash)
+        @document.works.create!(trackable_url: "#{document_path(@document)}", action: :upload, user: current_user, parameters: @document.attributes.to_json)
 
         format.html { redirect_to :back, notice: t('activerecord.messages.successfull.attach_file', parent: @document.documentable.fullname, 
           child: "#{@document.fileattach_filename} (#{number_to_human_size(@document.fileattach_size)})") }
@@ -49,7 +49,7 @@ class DocumentsController < ApplicationController
   def destroy
     @document = Document.find(params[:id])
     if @document.destroy
-      Work.create!(trackable: @document, action: :destroy, user: current_user, parameters: @document.attributes.to_hash)
+      Work.create!(trackable: @document, action: :destroy, user: current_user, parameters: @document.attributes.to_json)
       redirect_to :back, notice: t('activerecord.messages.successfull.remove_attach_file', parent: @document.documentable.fullname, child: @document.fileattach_filename)
     else 
       redirect_to :back, alert: t('activerecord.messages.error.destroyed', data: @document.fileattach_filename)        

@@ -58,7 +58,7 @@ class ExaminationsController < ApplicationController
         end
       end
       @examination.first.works.create!(trackable_url: "#{examination_path(@examination, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
-                        parameters: {pdf_type: 'examination_card', filename: "Examination_Card_#{params[:category_service]}_#{@examination.first.exam.number}_#{@examination.first.customer.fullname}.pdf"})
+                        parameters: {pdf_type: 'examination_card', filename: "Examination_Card_#{params[:category_service]}_#{@examination.first.exam.number}_#{@examination.first.customer.fullname}.pdf"}.to_json)
 
     end 
   end
@@ -151,7 +151,8 @@ class ExaminationsController < ApplicationController
           @examination.grades.create!(user: @examination.user, subject: subject)
         end
 
-        @examination.works.create!(trackable_url: "#{examination_path(@examination, category_service: params[:category_service])}", action: :create, user: current_user, parameters: @examination.attributes.to_hash)
+        @examination.works.create!(trackable_url: "#{examination_path(@examination, category_service: params[:category_service])}", action: :create, user: current_user, 
+          parameters: @examination.attributes.to_json)
 
         format.html { redirect_to examination_path(@examination, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.created', data: @examination.fullname) }
         format.json { render :show, status: :created, location: @examination }
@@ -184,7 +185,7 @@ class ExaminationsController < ApplicationController
         end
  
         @examination.works.create!(trackable_url: "#{examination_path(@examination, category_service: params[:category_service])}", action: :update, user: current_user, 
-          parameters: {examination: @examination.previous_changes.to_hash, grades: h_grades})
+          parameters: {examination: @examination.previous_changes, grades: h_grades}.to_json)
 
         format.html { redirect_to examination_path(@examination, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.updated', data: @examination.fullname) }
         format.json { render :show, status: :ok, location: @examination }
@@ -209,7 +210,7 @@ class ExaminationsController < ApplicationController
 
     exam = @examination.exam
     if @examination.destroy
-      Work.create!(trackable: @examination, action: :destroy, user: current_user)
+      Work.create!(trackable: @examination, action: :destroy, user: current_user, parameters: @examination.attributes.to_json)
       redirect_to (params[:back_url]).present? ? params[:back_url] : exam_path(exam, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.destroyed', data: @examination.fullname)
     else 
       flash[:alert] = t('activerecord.messages.error.destroyed', data: @examination.fullname)

@@ -152,8 +152,14 @@ class Customer < ActiveRecord::Base
   end
 
 
+  # Scope for select2: "customer_select"
+  # * parameters   :
+  #   * +query_str+ -> string for search. 
+  #   Ex.: "kowal warsz"
+  # * result   :
+  #   * +scope+ -> collection 
+  #
   scope :finder_customer, ->(q) { where( create_sql_string("#{q}") ) }
-
 
   # Method create SQL query string for finder select2: "customer_select"
   # * parameters   :
@@ -177,12 +183,7 @@ class Customer < ActiveRecord::Base
   #
   def self.one_param_sql(query_str)
     escaped_query_str = sanitize("%#{query_str}%")
-
     "(" + %w(customers.name customers.given_names customers.address_city customers.pesel to_char(customers.birth_date,'YYYY-mm-dd')).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
-  end
-
-  def as_json(options)
-    { id: id, fullname_and_address_and_pesel_nip_and_birth_date: fullname_and_address_and_pesel_nip_and_birth_date }
   end
 
   # method for joining Customer records

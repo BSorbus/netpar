@@ -1,6 +1,6 @@
 en:
   home: 'Home'
-  content_title: "Radio amateurs"
+  content_title: "NetPAR 2015"
   restricted_area: "Restricted area!"
   pages: 
     visitors:
@@ -25,6 +25,8 @@ en:
         title: 'Role'
       show:
         title: 'Role'
+      edit:
+        title: 'Role - edit data'
       new:
         title: 'New Role'
     department:

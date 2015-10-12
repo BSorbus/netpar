@@ -5,7 +5,7 @@ class CreateCustomers < ActiveRecord::Migration
       t.string :name, index: true,                limit: 160, null: false, default: ""
       t.string :given_names, index: true,         limit: 50, default: ""
       t.string :address_city, index: true,        limit: 50, default: ""
-      t.string :address_street,                   limit: 50, default: "" 
+      t.string :address_street, index: true,      limit: 50, default: "" 
       t.string :address_house,                    limit: 10, default: ""
       t.string :address_number,                   limit: 10, default: "" 
       t.string :address_postal_code,              limit: 6, default: ""

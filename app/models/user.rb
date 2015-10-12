@@ -1,3 +1,40 @@
+# Represents users of application
+#  create_table "users", force: :cascade do |t|
+#    t.string   "email",                  default: "", null: false
+#    t.string   "encrypted_password",     default: "", null: false
+#    t.string   "reset_password_token"
+#    t.datetime "reset_password_sent_at"
+#    t.datetime "remember_created_at"
+#    t.integer  "sign_in_count",          default: 0,  null: false
+#    t.datetime "current_sign_in_at"
+#    t.datetime "last_sign_in_at"
+#    t.string   "current_sign_in_ip"
+#    t.string   "last_sign_in_ip"
+#    t.string   "confirmation_token"
+#    t.datetime "confirmed_at"
+#    t.datetime "confirmation_sent_at"
+#    t.string   "unconfirmed_email"
+#    t.datetime "created_at"
+#    t.datetime "updated_at"
+#    t.string   "name"
+#    t.integer  "department_id"
+#    t.datetime "deleted_at"
+#    t.datetime "last_activity_at"
+#    t.datetime "expired_at"
+#    t.datetime "password_changed_at"
+#    t.integer  "failed_attempts",        default: 0,  null: false
+#    t.string   "unlock_token"
+#    t.datetime "locked_at"
+#  end
+#  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+#  add_index "users", ["department_id"], name: "index_users_on_department_id", using: :btree
+#  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+#  add_index "users", ["expired_at"], name: "index_users_on_expired_at", using: :btree
+#  add_index "users", ["last_activity_at"], name: "index_users_on_last_activity_at", using: :btree
+#  add_index "users", ["password_changed_at"], name: "index_users_on_password_changed_at", using: :btree
+#  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+#  add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
+#
 class User < ActiveRecord::Base
 #  after_initialize :set_default_department, :if => :new_record?
 
@@ -6,7 +43,7 @@ class User < ActiveRecord::Base
 #  end
 
   # Include default devise modules. Others available are:
-  # :rememberable, :lockable, :omniauthable
+  # :rememberable, :omniauthable
   devise  :database_authenticatable, 
           :recoverable, 
           :timeoutable, 
@@ -29,7 +66,7 @@ class User < ActiveRecord::Base
   #        :expirable
 
 	#validates_format_of :email, :with =>  /\A[\w+\-.]+@uke.gov.pl/i
-  #validacja w /config/initializers/device.rb -> config.email_regexp = /\A([\w\.%\+\-]+)@uke\.gov\.pl\z/i
+  #validates define in /config/initializers/device.rb -> config.email_regexp = /\A([\w\.%\+\-]+)@uke\.gov\.pl\z/i
 
   has_and_belongs_to_many :roles
 
@@ -94,7 +131,8 @@ class User < ActiveRecord::Base
   # Override Devise::Confirmable#after_confirmation
   def after_confirmation
     super
-    Work.create( trackable_id: self.id, trackable_type: 'User', trackable_url: "#{Rails.application.routes.url_helpers.user_path(self)}", action: :account_confirmation, user_id: self.id, parameters: {id: self.id, name: self.name, email: self.email} )
+    Work.create( trackable_id: self.id, trackable_type: 'User', trackable_url: "#{Rails.application.routes.url_helpers.user_path(self)}", action: :account_confirmation, user_id: self.id, 
+      parameters: {id: self.id, name: self.name, email: self.email}.to_json )
   end
 
 
@@ -160,7 +198,7 @@ class User < ActiveRecord::Base
       # get a flash notice! 
       my_hash["flash"] = deep_find(:flash, env["rack.session"], found=nil) 
 
-      Work.create( action: :unauthenticated, user_id: nil, parameters: my_hash ) if opts.has_key?(:recall)
+      Work.create( action: :unauthenticated, user_id: nil, parameters: my_hash.to_json ) if opts.has_key?(:recall)
   end
 
   #Warden::Manager.after_failed_fetch do |user, auth, opts|

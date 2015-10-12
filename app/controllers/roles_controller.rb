@@ -35,7 +35,8 @@ class RolesController < ApplicationController
 
     respond_to do |format|
       if @role.save
-        @role.works.create!(trackable_url: "#{role_path(@role)}", action: :create, user: current_user, parameters: @role.attributes.to_hash)
+        @role.works.create!(trackable_url: "#{role_path(@role)}", action: :create, user: current_user, 
+          parameters: @role.attributes.to_json)
 
         format.html { redirect_to @role, notice: t('activerecord.messages.successfull.created', data: @role.name) }
         format.json { render :show, status: :created, location: @role }
@@ -52,7 +53,8 @@ class RolesController < ApplicationController
     
     respond_to do |format|
       if @role.update(role_params)
-        @role.works.create!(trackable_url: "#{role_path(@role)}", action: :update, user: current_user, parameters: @role.previous_changes.to_hash)
+        @role.works.create!(trackable_url: "#{role_path(@role)}", action: :update, user: current_user, 
+          parameters: @role.previous_changes.to_json)
 
 
         format.html { redirect_to @role, notice: t('activerecord.messages.successfull.updated', data: @role.name) }
@@ -68,7 +70,8 @@ class RolesController < ApplicationController
     authorize @role, :destroy?
 
     if @role.destroy
-      Work.create!(trackable: @role, action: :destroy, user: current_user)
+      Work.create!(trackable: @role, action: :destroy, user: current_user, 
+        parameters: @role.attributes.to_json)
       redirect_to roles_url, notice: t('activerecord.messages.successfull.destroyed', data: @role.name)
     else 
       flash[:alert] = t('activerecord.messages.error.destroyed', data: @role.name)

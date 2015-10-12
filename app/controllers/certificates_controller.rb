@@ -1,6 +1,6 @@
 class CertificatesController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, except: [:index, :datatables_index, :datatables_index_exam]
+  after_action :verify_authorized, except: [:index, :datatables_index, :datatables_index_exam, :select2_index, :search]
 
   before_action :set_certificate, only: [:show, :edit, :update, :destroy, :certificate_to_pdf]
 
@@ -32,6 +32,36 @@ class CertificatesController < ApplicationController
     end
   end
 
+  def select2_index
+    params[:q] = params[:q]
+    @certificates = Certificate.order(:number).finder_certificate(params[:q], (params[:category_service]).upcase)
+    @certificates_on_page = @certificates.page(params[:page]).per(params[:page_limit])
+
+    respond_to do |format|
+      format.html
+      format.json { 
+        render json: { 
+          certificates: @certificates_on_page.as_json(methods: :fullname, only: [:id, :fullname]),
+          #certificates: @certificates_on_page.as_json(only: [:id, :number, :date_of_issue]),
+          total_count: @certificates.count 
+        } 
+      }
+    end
+  end
+
+  def search
+    params[:q] = params[:q]
+    @certificates = Certificate.order(:number).finder_certificate(params[:q], (params[:category_service]).upcase)
+
+    respond_to do |format|
+      format.json { 
+        render json: { 
+          certificates: @certificates.as_json(only: [:id, :number, :date_of_issue, :valid_thru], include: {division: {only: [:name]}, customer: {only: [:id, :name, :given_names, :birth_date, :birth_place, :father_name]}} ),
+          total_count: @certificates.count 
+        } 
+      }
+    end
+  end
 
   def certificate_to_pdf
     case params[:category_service]
@@ -69,7 +99,7 @@ class CertificatesController < ApplicationController
         end
       end
       @certificate.works.create!(trackable_url: "#{certificate_path(@certificate, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
-                        parameters: {pdf_type: 'certificate', filename: "#{documentname}"})
+                        parameters: {pdf_type: "certificate", filename: "#{documentname}"}.to_json)
 
     end 
   end
@@ -157,7 +187,15 @@ class CertificatesController < ApplicationController
 
     respond_to do |format|
       if @certificate.save
-        @certificate.works.create!(trackable_url: "#{certificate_path(@certificate, category_service: params[:category_service])}", action: :create, user: current_user, parameters: @certificate.attributes.to_hash)
+        @certificate.works.create!(trackable_url: "#{certificate_path(@certificate, category_service: params[:category_service])}", action: :create, user: current_user, 
+          parameters: @certificate.to_json(except: [:exam_id, :division_id, :customer_id, :user_id, :code], 
+                                          include: {
+                                            exam: {only: [:id, :number, :date_exam]},
+                                            division: {only: [:id, :name]},
+                                            customer: {only: [:id, :name, :given_names, :birth_date]},
+                                            user: {only: [:id, :name, :email]}
+                                            }
+                                          ) )
 
         format.html { redirect_to certificate_path(@certificate, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.created', data: @certificate.number) }
         format.json { render :show, status: :created, location: @certificate }
@@ -183,7 +221,15 @@ class CertificatesController < ApplicationController
 
     respond_to do |format|
       if @certificate.update(certificate_params)
-        @certificate.works.create!(trackable_url: "#{certificate_path(@certificate, category_service: params[:category_service])}", action: :update, user: current_user, parameters: @certificate.previous_changes.to_hash)
+        @certificate.works.create!(trackable_url: "#{certificate_path(@certificate, category_service: params[:category_service])}", action: :update, user: current_user, 
+          parameters: @certificate.to_json(except: [:exam_id, :division_id, :customer_id, :user_id, :code], 
+                                          include: {
+                                            exam: {only: [:id, :number, :date_exam]},
+                                            division: {only: [:id, :name]},
+                                            customer: {only: [:id, :name, :given_names, :birth_date]},
+                                            user: {only: [:id, :name, :email]}
+                                            }
+                                          ) )
 
         format.html { redirect_to certificate_path(@certificate, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.updated', data: @certificate.number) }
         format.json { render :show, status: :ok, location: @certificate }
@@ -208,7 +254,15 @@ class CertificatesController < ApplicationController
 
     exam = @certificate.exam
     if @certificate.destroy
-      Work.create!(trackable: @certificate, action: :destroy, user: current_user)
+      Work.create!(trackable: @certificate, action: :destroy, user: current_user, 
+          parameters: @certificate.to_json(except: [:exam_id, :division_id, :customer_id, :user_id, :code], 
+                                          include: {
+                                            exam: {only: [:id, :number, :date_exam]},
+                                            division: {only: [:id, :name]},
+                                            customer: {only: [:id, :name, :given_names, :birth_date]},
+                                            user: {only: [:id, :name, :email]}
+                                            }
+                                          ) )
       redirect_to (params[:back_url]).present? ? params[:back_url] : exam_path(exam, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.destroyed', data: @certificate.number)
     else 
       flash[:alert] = t('activerecord.messages.error.destroyed', data: @certificate.number)

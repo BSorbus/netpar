@@ -24,12 +24,12 @@ class CustomersController < ApplicationController
     params[:q] = params[:q]
     @customers = Customer.order(:name, :given_names).finder_customer(params[:q])
     @customers_on_page = @customers.page(params[:page]).per(params[:page_limit])
-
+    
     respond_to do |format|
       format.html
       format.json { 
         render json: { 
-          customers: @customers_on_page.as_json([]),
+          customers: @customers_on_page.as_json(methods: :fullname_and_address_and_pesel_nip_and_birth_date, only: [:id, :fullname_and_address_and_pesel_nip_and_birth_date]),
           total_count: @customers.count 
         } 
       }
@@ -44,7 +44,7 @@ class CustomersController < ApplicationController
       @customer.join_with_another(@source)
 
       @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :merge, user: current_user, 
-                              parameters: {source: @source.fullname_and_id, destination: @customer.fullname_and_id})
+                              parameters: {source: @source.fullname_and_id, destination: @customer.fullname_and_id}.to_json)
 
       redirect_to @customer, notice: t('activerecord.messages.successfull.merge', parent: @customer.fullname_and_id, child: @source.fullname_and_id)
     else
@@ -72,7 +72,7 @@ class CustomersController < ApplicationController
         end
       end
       @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :to_pdf, user: current_user, 
-                        parameters: {pdf_type: 'envelope', filename: "#{documentname}"})
+                        parameters: {pdf_type: 'envelope', filename: "#{documentname}"}.to_json)
 
     end 
   end
@@ -97,7 +97,7 @@ class CustomersController < ApplicationController
       end
     end
     @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :to_pdf, user: current_user, 
-                      parameters: {pdf_type: 'customer_history', filename: "Customer_history_#{@customer.fullname_and_id}.pdf"})
+                      parameters: {pdf_type: 'customer_history', filename: "Customer_history_#{@customer.fullname_and_id}.pdf"}.to_json)
 
   end
 
@@ -107,7 +107,8 @@ class CustomersController < ApplicationController
     authorize @customer, :show?
 
     respond_to do |format|
-      format.json
+      format.json 
+      #format.json { render json: @customer }
       format.html { render :show, locals: { back_url: params[:back_url]} }
     end
     # przepych
@@ -135,7 +136,16 @@ class CustomersController < ApplicationController
 
     respond_to do |format|
       if @customer.save
-        @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :create, user: current_user, parameters: @customer.attributes.to_hash)
+        @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :create, user: current_user, 
+          parameters: @customer.to_json(except: {customer: [:fullname_and_address_and_pesel_nip_and_birth_date]}, 
+                  include: { 
+                    nationality: {
+                      only: [:id, :name] },
+                    citizenship: {
+                      only: [:id, :name] },
+                    user: {
+                      only: [:id, :name, :email] } 
+                          }))
 
         format.html { redirect_to @customer, notice: t('activerecord.messages.successfull.created', data: @customer.fullname) }
         format.json { render :show, status: :created, location: @customer }
@@ -154,7 +164,16 @@ class CustomersController < ApplicationController
 
     respond_to do |format|
       if @customer.update(customer_params)
-        @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :update, user: current_user, parameters: @customer.previous_changes.to_hash)
+        @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :update, user: current_user, 
+          parameters: @customer.to_json(except: {customer: [:fullname_and_address_and_pesel_nip_and_birth_date]}, 
+                  include: { 
+                    nationality: {
+                      only: [:id, :name] },
+                    citizenship: {
+                      only: [:id, :name] },
+                    user: {
+                      only: [:id, :name, :email] } 
+                          }))
 
         format.html { redirect_to @customer, notice: t('activerecord.messages.successfull.updated', data: @customer.fullname) }
         format.json { render :show, status: :ok, location: @customer }
@@ -171,7 +190,16 @@ class CustomersController < ApplicationController
     authorize @customer, :destroy?
 
     if @customer.destroy
-      Work.create!(trackable: @customer, action: :destroy, user: current_user)
+      Work.create!(trackable: @customer, action: :destroy, user: current_user, 
+          parameters: @customer.to_json(except: {customer: [:fullname_and_address_and_pesel_nip_and_birth_date]}, 
+                  include: { 
+                    nationality: {
+                      only: [:id, :name] },
+                    citizenship: {
+                      only: [:id, :name] },
+                    user: {
+                      only: [:id, :name, :email] } 
+                          }))
 
       redirect_to customers_url, notice: t('activerecord.messages.successfull.destroyed', data: @customer.fullname)
     else 

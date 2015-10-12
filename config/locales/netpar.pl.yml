@@ -1,11 +1,11 @@
 pl:
   home: 'Strona główna'
-  content_title: "Netpar"
+  content_title: "NetPAR 2015"
   restricted_area: "Obszar ograniczony!"
   pages:
     visitors:
       index:
-        title: 'Zapraszamy do programu NetPAR'
+        title: 'Zapraszamy do programu NetPAR 2015'
         title_sub: 'amatorskie pozwolenia radiowe i świadectwa LOT, MOR, RA'
         sub_individuals: 'Osoby fizyczne'
         sub_individuals_text: 'Wykaz pozwoleń wydanych osobom fizycznym'

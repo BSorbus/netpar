@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151005190836) do
+ActiveRecord::Schema.define(version: 20151001075540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20151005190836) do
   end
 
   add_index "customers", ["address_city"], name: "index_customers_on_address_city", using: :btree
+  add_index "customers", ["address_street"], name: "index_customers_on_address_street", using: :btree
   add_index "customers", ["birth_date"], name: "index_customers_on_birth_date", using: :btree
   add_index "customers", ["citizenship_id"], name: "index_customers_on_citizenship_id", using: :btree
   add_index "customers", ["given_names"], name: "index_customers_on_given_names", using: :btree
@@ -117,6 +118,95 @@ ActiveRecord::Schema.define(version: 20151005190836) do
 
   add_index "departments", ["name"], name: "index_departments_on_name", unique: true, using: :btree
   add_index "departments", ["short"], name: "index_departments_on_short", unique: true, using: :btree
+
+  create_table "dirty_addresses", force: :cascade do |t|
+    t.integer  "code"
+    t.string   "code_table"
+    t.integer  "code_table_id"
+    t.string   "address_city"
+    t.string   "address_street"
+    t.string   "address_house"
+    t.string   "address_number"
+    t.text     "note"
+    t.integer  "user_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "dirty_addresses", ["user_id"], name: "index_dirty_addresses_on_user_id", using: :btree
+
+  create_table "dirty_customers", force: :cascade do |t|
+    t.boolean  "human",                             default: true, null: false
+    t.string   "name",                  limit: 160, default: "",   null: false
+    t.string   "given_names",           limit: 50
+    t.string   "address_city",          limit: 50
+    t.string   "address_street",        limit: 50
+    t.string   "address_house",         limit: 10
+    t.string   "address_number",        limit: 10
+    t.string   "address_postal_code",   limit: 6
+    t.string   "address_post_office",   limit: 50
+    t.string   "address_pobox",         limit: 10
+    t.string   "c_address_city",        limit: 50
+    t.string   "c_address_street",      limit: 50
+    t.string   "c_address_house",       limit: 10
+    t.string   "c_address_number",      limit: 10
+    t.string   "c_address_postal_code", limit: 6
+    t.string   "c_address_post_office", limit: 50
+    t.string   "c_address_pobox",       limit: 10
+    t.string   "nip",                   limit: 13
+    t.string   "regon",                 limit: 9
+    t.string   "pesel",                 limit: 11
+    t.string   "dowod_osobisty"
+    t.integer  "nationality_id"
+    t.integer  "citizenship_id"
+    t.date     "birth_date"
+    t.string   "birth_place",           limit: 50
+    t.string   "fathers_name",          limit: 50
+    t.string   "mothers_name",          limit: 50
+    t.string   "phone",                 limit: 50
+    t.string   "fax",                   limit: 50
+    t.string   "email",                 limit: 50
+    t.text     "note"
+    t.integer  "user_id"
+    t.integer  "code"
+    t.integer  "customer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dirty_customers", ["address_city"], name: "index_dirty_customers_on_address_city", using: :btree
+  add_index "dirty_customers", ["citizenship_id"], name: "index_dirty_customers_on_citizenship_id", using: :btree
+  add_index "dirty_customers", ["given_names"], name: "index_dirty_customers_on_given_names", using: :btree
+  add_index "dirty_customers", ["name"], name: "index_dirty_customers_on_name", using: :btree
+  add_index "dirty_customers", ["nationality_id"], name: "index_dirty_customers_on_nationality_id", using: :btree
+  add_index "dirty_customers", ["nip"], name: "index_dirty_customers_on_nip", using: :btree
+  add_index "dirty_customers", ["pesel"], name: "index_dirty_customers_on_pesel", using: :btree
+  add_index "dirty_customers", ["regon"], name: "index_dirty_customers_on_regon", using: :btree
+  add_index "dirty_customers", ["user_id"], name: "index_dirty_customers_on_user_id", using: :btree
+
+  create_table "dirty_individuals", force: :cascade do |t|
+    t.string   "number",                    limit: 30
+    t.date     "date_of_issue"
+    t.date     "valid_thru"
+    t.string   "license_status",            limit: 1
+    t.date     "application_date"
+    t.string   "call_sign",                 limit: 20
+    t.string   "category",                  limit: 1
+    t.integer  "transmitter_power"
+    t.string   "certificate_number"
+    t.date     "certificate_date_of_issue"
+    t.string   "payment_code"
+    t.date     "payment_date"
+    t.text     "note"
+    t.integer  "dirty_customer_id"
+    t.integer  "user_id"
+    t.integer  "code"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
+
+  add_index "dirty_individuals", ["dirty_customer_id"], name: "index_dirty_individuals_on_dirty_customer_id", using: :btree
+  add_index "dirty_individuals", ["user_id"], name: "index_dirty_individuals_on_user_id", using: :btree
 
   create_table "divisions", force: :cascade do |t|
     t.string   "name"
@@ -207,6 +297,56 @@ ActiveRecord::Schema.define(version: 20151005190836) do
   add_index "grades", ["examination_id"], name: "index_grades_on_examination_id", using: :btree
   add_index "grades", ["subject_id"], name: "index_grades_on_subject_id", using: :btree
   add_index "grades", ["user_id"], name: "index_grades_on_user_id", using: :btree
+
+  create_table "h_customers", force: :cascade do |t|
+    t.boolean  "human",                             default: true, null: false
+    t.string   "name",                  limit: 160, default: "",   null: false
+    t.string   "given_names",           limit: 50,  default: ""
+    t.string   "address_city",          limit: 50,  default: ""
+    t.string   "address_street",        limit: 50,  default: ""
+    t.string   "address_house",         limit: 10,  default: ""
+    t.string   "address_number",        limit: 10,  default: ""
+    t.string   "address_postal_code",   limit: 6,   default: ""
+    t.string   "address_post_office",   limit: 50,  default: ""
+    t.string   "address_pobox",         limit: 10,  default: ""
+    t.string   "c_address_city",        limit: 50,  default: ""
+    t.string   "c_address_street",      limit: 50,  default: ""
+    t.string   "c_address_house",       limit: 10,  default: ""
+    t.string   "c_address_number",      limit: 10,  default: ""
+    t.string   "c_address_postal_code", limit: 6,   default: ""
+    t.string   "c_address_post_office", limit: 50,  default: ""
+    t.string   "c_address_pobox",       limit: 10,  default: ""
+    t.string   "nip",                   limit: 13,  default: ""
+    t.string   "regon",                 limit: 9,   default: ""
+    t.string   "pesel",                 limit: 11,  default: ""
+    t.integer  "nationality_id",                    default: 2
+    t.integer  "citizenship_id",                    default: 2
+    t.date     "birth_date"
+    t.string   "birth_place",           limit: 50,  default: ""
+    t.string   "fathers_name",          limit: 50,  default: ""
+    t.string   "mothers_name",          limit: 50,  default: ""
+    t.string   "phone",                 limit: 50,  default: ""
+    t.string   "fax",                   limit: 50,  default: ""
+    t.string   "email",                 limit: 50,  default: ""
+    t.text     "note",                              default: ""
+    t.integer  "user_id"
+    t.integer  "code"
+    t.integer  "code_for_rep"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "h_customers", ["address_city"], name: "index_h_customers_on_address_city", using: :btree
+  add_index "h_customers", ["birth_date"], name: "index_h_customers_on_birth_date", using: :btree
+  add_index "h_customers", ["citizenship_id"], name: "index_h_customers_on_citizenship_id", using: :btree
+  add_index "h_customers", ["code"], name: "index_h_customers_on_code", using: :btree
+  add_index "h_customers", ["given_names"], name: "index_h_customers_on_given_names", using: :btree
+  add_index "h_customers", ["name"], name: "index_h_customers_on_name", using: :btree
+  add_index "h_customers", ["nationality_id"], name: "index_h_customers_on_nationality_id", using: :btree
+  add_index "h_customers", ["nip"], name: "index_h_customers_on_nip", using: :btree
+  add_index "h_customers", ["pesel"], name: "index_h_customers_on_pesel", using: :btree
+  add_index "h_customers", ["regon"], name: "index_h_customers_on_regon", using: :btree
+  add_index "h_customers", ["user_id"], name: "index_h_customers_on_user_id", using: :btree
 
   create_table "individuals", force: :cascade do |t|
     t.string   "number",                    limit: 30, default: "", null: false
@@ -351,6 +491,12 @@ ActiveRecord::Schema.define(version: 20151005190836) do
   add_foreign_key "customers", "citizenships"
   add_foreign_key "customers", "nationalities"
   add_foreign_key "customers", "users"
+  add_foreign_key "dirty_addresses", "users"
+  add_foreign_key "dirty_customers", "citizenships"
+  add_foreign_key "dirty_customers", "nationalities"
+  add_foreign_key "dirty_customers", "users"
+  add_foreign_key "dirty_individuals", "dirty_customers"
+  add_foreign_key "dirty_individuals", "users"
   add_foreign_key "examinations", "certificates"
   add_foreign_key "examinations", "customers"
   add_foreign_key "examinations", "divisions"
@@ -361,6 +507,9 @@ ActiveRecord::Schema.define(version: 20151005190836) do
   add_foreign_key "grades", "examinations"
   add_foreign_key "grades", "subjects"
   add_foreign_key "grades", "users"
+  add_foreign_key "h_customers", "citizenships"
+  add_foreign_key "h_customers", "nationalities"
+  add_foreign_key "h_customers", "users"
   add_foreign_key "individuals", "certificates"
   add_foreign_key "individuals", "customers"
   add_foreign_key "individuals", "users"

@@ -1,3 +1,22 @@
+# Represents exams
+#  create_table "exams", force: :cascade do |t|
+#    t.string   "number",     limit: 30, default: "",  null: false
+#    t.date     "date_exam"
+#    t.string   "place_exam", limit: 50, default: ""
+#    t.string   "chairman",   limit: 50, default: ""
+#    t.string   "secretary",  limit: 50, default: ""
+#    t.string   "category",   limit: 1,  default: "R", null: false
+#    t.text     "note",                  default: ""
+#    t.integer  "user_id"
+#    t.datetime "created_at",                          null: false
+#    t.datetime "updated_at",                          null: false
+#    t.integer  "code"
+#  end
+#  add_index "exams", ["category"], name: "index_exams_on_category", using: :btree
+#  add_index "exams", ["date_exam"], name: "index_exams_on_date_exam", using: :btree
+#  add_index "exams", ["number", "category"], name: "index_exams_on_number_and_category", unique: true, using: :btree
+#  add_index "exams", ["user_id"], name: "index_exams_on_user_id", using: :btree
+#
 class Exam < ActiveRecord::Base
   belongs_to :user
   has_many :certificates, dependent: :destroy
@@ -52,33 +71,40 @@ class Exam < ActiveRecord::Base
     "#{place_exam}, dn. #{date_exam}"
   end
 
-  scope :finder_exam, ->(q, cat) { where( my_sql("#{cat}", "#{q}") ) }
+  # Scope for select2: "exam_select"
+  # * parameters   :
+  #   * +query_str+ -> string for search. 
+  #   Ex.: "M/2015 war"
+  # * result   :
+  #   * +scope+ -> collection 
+  #
+  scope :finder_exam, ->(q, category) { where( create_sql_string("#{q}", "#{category}") ) }
 
-  def self.my_sql(category_scope, query_str)
-    array_params_query = query_str.split
-    sql_string = "(exams.category = '#{category_scope}') AND "
-    array_params_query.each_with_index do |par, index|
-      sql_string += " AND " unless index == 0
-      sql_string += one_param_sql(par)
-    end
-    sql_string
+  # Method create SQL query string for finder select2: "exam_select"
+  # * parameters   :
+  #   * +category_scope+ -> category of exam %w(l m r). 
+  #   * +query_str+ -> string for search. 
+  #   Ex.: "M/2015 war"
+  # * result   :
+  #   * +sql_string+ -> string for SQL WHERE... 
+  #
+  def self.create_sql_string(query_str, category_scope)
+    "(exams.category = '#{category_scope}') AND " + query_str.split.map { |par| one_param_sql(par) }.join(" AND ")
   end
 
+  # Method for glue parameters in create_sql_string
+  # * parameters   :
+  #   * +query_str+ -> word for search. 
+  #   Ex.: "war"
+  # * result   :
+  #   * +sql_string+ -> SQL string query for one word 
+  #
   def self.one_param_sql(query_str)
-    "(exams.number ilike '%#{query_str}%' or
-      to_char(exams.date_exam,'YYYY-mm-dd') ilike '%#{query_str}%' or 
-      exams.place_exam ilike '%#{query_str}%')"
+    escaped_query_str = sanitize("%#{query_str}%")
+    "(" + %w(exams.number to_char(exams.date_exam,'YYYY-mm-dd') exams.place_exam).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
   end
-
-  # odblokuj, gdy w kontrolerze cesz użyc .as_json
-  def as_json(options)
-    { id: id, fullname: fullname }
-  end
-
 
   def generate_all_certificates(gen_user_id)
-    #for_generate_examinations = self.examinations.where(certificate: nil, examination_result: 'P').all? 
-
     for_generate_examinations =  Examination.joins(:division, :customer, :exam).where(exam_id: self.id, certificate: nil, examination_result: 'P').
                                   includes(:division, :customer, :exam, :certificate).references(:division, :customer, :exam, :certificate).order("customers.name, customers.given_names").all
 

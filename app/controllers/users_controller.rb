@@ -45,7 +45,7 @@ class UsersController < ApplicationController
       end
     end
     @user.works.create!(trackable_url: "#{user_path(@user)}", action: :to_pdf, user: current_user, 
-                      parameters: {pdf_type: 'user_permissions', filename: "User_permissions_#{@user.name}.pdf"})
+                      parameters: {pdf_type: 'user_permissions', filename: "User_permissions_#{@user.name}.pdf"}.to_json)
 
   end
 
@@ -69,7 +69,7 @@ class UsersController < ApplicationController
       end
     end
     @user.works.create!(trackable_url: "#{user_path(@user)}", action: :to_pdf, user: current_user, 
-                      parameters: {pdf_type: 'user_activity', filename: "User_activity_#{@user.name}.pdf"})
+                      parameters: {pdf_type: 'user_activity', filename: "User_activity_#{@user.name}.pdf"}.to_json)
 
   end
 
@@ -85,23 +85,13 @@ class UsersController < ApplicationController
     #authorize :department, :edit?
   end
 
-#  def update
-#    authorize @user, :update?
-#
-#    if @user.update_attributes(secure_params)
-#      redirect_to users_path, :notice => "User updated."
-#    else
-#      redirect_to users_path, :alert => "Unable to update user."
-#    end
-#  end
-
   def update
     authorize @user, :update?
     
     respond_to do |format|
       if @user.update_attributes(secure_params)
-
-        Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :update, user: current_user, parameters: @user.previous_changes.to_hash)
+        Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :update, user: current_user, 
+          parameters: @user.previous_changes.to_json)
 
         format.html { redirect_to @user, notice: t('activerecord.messages.successfull.updated', data: @user.name) }
         format.json { render :show, status: :ok, location: @user }
@@ -118,7 +108,9 @@ class UsersController < ApplicationController
     u = @user
     cu = current_user
     if @user.destroy
-      Work.create!(trackable_id: u.id, trackable_type: 'User', action: :destroy, user: cu, parameters: {name: u.name, email: u.email})
+      Work.create!(trackable_id: u.id, trackable_type: 'User', action: :destroy, user: cu, 
+        parameters: {id: u.id, name: u.name, email: u.email}.to_json)
+
       redirect_to users_url, notice: t('activerecord.messages.successfull.destroyed', data: u.fullname_and_id)
     else 
       flash[:alert] = t('activerecord.messages.error.destroyed', data: u.fullname_and_id)
@@ -132,7 +124,8 @@ class UsersController < ApplicationController
     @user.soft_delete
     if @user.save
       Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :account_off, user: current_user, 
-        parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: @user.id, name: @user.name, email: @user.email})
+        parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: @user.id, name: @user.name, email: @user.email}.to_json)
+
       redirect_to @user, notice: t('activerecord.messages.successfull.account_off', data: @user.fullname_and_id)
     else 
       flash.now[:error] = t('activerecord.messages.error.account_off', data: @user.fullname_and_id)
@@ -146,7 +139,8 @@ class UsersController < ApplicationController
     @user.deleted_at = nil
     if @user.save
       Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :account_on, user: current_user, 
-        parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: @user.id, name: @user.name, email: @user.email})
+        parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: @user.id, name: @user.name, email: @user.email}.to_json)
+
       redirect_to @user, notice: t('activerecord.messages.successfull.account_on', data: @user.fullname_and_id)
     else 
       flash.now[:error] = t('activerecord.messages.error.account_on', data: @user.fullname_and_id)

@@ -2,7 +2,7 @@ class ExamsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index, :select2_index, :generating_certificates]
 
-  before_action :set_exam, only: [:show, :edit, :update, :destroy]
+  before_action :set_exam, only: [:show, :edit, :update, :destroy, :examination_cards_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf]
 
   # GET /exams
   # GET /exams.json
@@ -30,10 +30,7 @@ class ExamsController < ApplicationController
   end
 
   def select2_index
-    #params[:q] = (params[:q]).upcase
     params[:q] = params[:q]
-    #@exams = Exam.order(:number).where(category: params[:category_service]).finder_exam(params[:q])
-    #@exams = Exam.order(:number).where(category: (params[:category_service]).upcase).finder_exam(params[:q], params[:category_service])
     @exams = Exam.order(:number).finder_exam(params[:q], (params[:category_service]).upcase)
     @exams_on_page = @exams.page(params[:page]).per(params[:page_limit])
 
@@ -41,7 +38,7 @@ class ExamsController < ApplicationController
       format.html
       format.json { 
         render json: { 
-          exams: @exams_on_page.as_json([]),
+          exams: @exams_on_page.as_json(methods: :fullname, only: [:id, :fullname]),
           total_count: @exams.count 
         } 
       }
@@ -49,7 +46,6 @@ class ExamsController < ApplicationController
   end
 
   def examination_cards_to_pdf
-    @exam = Exam.find(params[:id])
     case params[:category_service]
       when 'l'
         authorize :examination, :print_l?
@@ -82,12 +78,11 @@ class ExamsController < ApplicationController
         end
       end
       @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
-                        parameters: {pdf_type: 'examination_cards', filename: "Examination_Cards_#{params[:category_service]}_#{@exam.number}.pdf"})
+                        parameters: {pdf_type: 'examination_cards', filename: "Examination_Cards_#{params[:category_service]}_#{@exam.number}.pdf"}.to_json)
     end 
   end
 
   def examination_protocol_to_pdf
-    @exam = Exam.find(params[:id])
     case params[:category_service]
       when 'l'
         authorize :examination, :print_l?
@@ -120,13 +115,12 @@ class ExamsController < ApplicationController
         end
       end
       @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
-                        parameters: {pdf_type: 'examination_protocol', filename: "Examination_Protocol_#{params[:category_service]}_#{@exam.number}.pdf"})
+                        parameters: {pdf_type: 'examination_protocol', filename: "Examination_Protocol_#{params[:category_service]}_#{@exam.number}.pdf"}.to_json)
 
     end 
   end
 
   def certificates_to_pdf
-    @exam = Exam.find(params[:id])
     case params[:category_service]
       when 'l'
         authorize :certificate, :print_l?
@@ -162,13 +156,12 @@ class ExamsController < ApplicationController
         end
       end
       @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
-                        parameters: {pdf_type: 'certificates', filename: "#{documentname}"})
+                        parameters: {pdf_type: 'certificates', filename: "#{documentname}"}.to_json)
     end 
   end
 
   def envelopes_to_pdf
     authorize :customer, :show?
-    @exam = Exam.find(params[:id])
     @customers_all = @exam.certificate_customers.order(:name, :given_names)
 
     if @customers_all.empty?
@@ -186,7 +179,7 @@ class ExamsController < ApplicationController
         end
       end
 #      @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :to_pdf, user: current_user, 
-#                        parameters: {pdf_type: 'envelope', filename: "#{documentname}"})
+#                        parameters: {pdf_type: 'envelope', filename: "#{documentname}"}.to_json)
 
     end 
   end
@@ -262,12 +255,12 @@ class ExamsController < ApplicationController
 
     respond_to do |format|
       if @exam.save
-        h_examiners = {}
-        @exam.examiners.order(:name).each_with_index do |examiner, i|
-          h_examiners["name_#{i+1}"] = examiner.name
-        end
-
-        @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :create, user: current_user, parameters: {exam: @exam.attributes.to_hash, examiners: h_examiners})
+        @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :create, user: current_user, 
+          parameters: @exam.to_json(except: [:user_id, :code], 
+                                    include: {
+                                      user: {only: [:id, :name, :email]},
+                                      examiners: {only: [:name]}
+                                    }))
 
         format.html { redirect_to exam_path(@exam, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.created', data: @exam.number) }
         format.json { render :show, status: :created, location: @exam }
@@ -293,12 +286,12 @@ class ExamsController < ApplicationController
 
     respond_to do |format|
       if @exam.update(exam_params)
-        h_examiners = {}
-        @exam.examiners.order(:name).each_with_index do |examiner, i|
-          h_examiners["name_#{i+1}"] = examiner.name
-        end
- 
-        @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :update, user: current_user, parameters: {exam: @exam.previous_changes.to_hash, examiners: h_examiners})
+        @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :update, user: current_user, 
+          parameters: @exam.to_json(except: [:user_id, :code], 
+                                    include: {
+                                      user: {only: [:id, :name, :email]},
+                                      examiners: {only: [:name]}
+                                    }))
 
         format.html { redirect_to exam_path(@exam, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.updated', data: @exam.number) }
         format.json { render :show, status: :ok, location: @exam }
@@ -322,7 +315,12 @@ class ExamsController < ApplicationController
     end    
 
     if @exam.destroy
-      Work.create!(trackable: @exam, action: :destroy, user: current_user)
+      Work.create!(trackable: @exam, action: :destroy, user: current_user, 
+          parameters: @exam.to_json(except: [:user_id, :code], 
+                                    include: {
+                                      user: {only: [:id, :name, :email]},
+                                      examiners: {only: [:name]}
+                                    }))
       redirect_to exams_url, notice: t('activerecord.messages.successfull.destroyed', data: @exam.number)
     else 
       flash[:alert] = t('activerecord.messages.error.destroyed', data: @exam.number)

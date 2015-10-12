@@ -84,6 +84,39 @@ class Certificate < ActiveRecord::Base
     end
   end
 
+  # Scope for select2: "certificate_select"
+  # * parameters   :
+  #   * +query_str+ -> string for search. 
+  #   Ex.: "a-123 war"
+  # * result   :
+  #   * +scope+ -> collection 
+  #
+  scope :finder_certificate, ->(q, category) { where( create_sql_string("#{q}", "#{category}") ) }
+
+  # Method create SQL query string for finder select2: "certificate_select"
+  # * parameters   :
+  #   * +category_scope+ -> category of certificate %w(l m r). 
+  #   * +query_str+ -> string for search. 
+  #   Ex.: "a-1234"
+  # * result   :
+  #   * +sql_string+ -> string for SQL WHERE... 
+  #
+  def self.create_sql_string(query_str, category_scope)
+    "(certificates.category = '#{category_scope}') AND " + query_str.split.map { |par| one_param_sql(par) }.join(" AND ")
+  end
+
+  # Method for glue parameters in create_sql_string
+  # * parameters   :
+  #   * +query_str+ -> word for search. 
+  #   Ex.: "a-123"
+  # * result   :
+  #   * +sql_string+ -> SQL string query for one word 
+  #
+  def self.one_param_sql(query_str)
+    escaped_query_str = sanitize("%#{query_str}%")
+    "(" + %w(certificates.number to_char(certificates.date_of_issue,'YYYY-mm-dd')).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
+  end
+
   def self.next_certificate_number(service, division)
     division_scope = scope_numbering_groups(division) 
     next_nr = Certificate.get_next_number_certificate(service, division_scope).to_s

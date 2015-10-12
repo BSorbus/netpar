@@ -23,14 +23,14 @@ class Users::PasswordsController < Devise::PasswordsController
 
   def after_resetting_password_path_for(resource)
     Work.create!(trackable: resource, trackable_url: "#{user_path(resource)}", action: :resetting_password_from_token, user: resource, 
-      parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: resource.id, name: resource.name, email: resource.email, notice: request.flash["notice"]})
+      parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: resource.id, name: resource.name, email: resource.email, notice: request.flash["notice"]}.to_json)
     super(resource)
   end
 
   # The path used after sending reset password instructions
   def after_sending_reset_password_instructions_path_for(resource_name)
     Work.create!(trackable: resource, trackable_url: "#{user_path(resource)}", action: :sending_reset_password_instructions, user: resource, 
-      parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: resource.id, name: resource.name, email: resource.email, notice: request.flash["notice"]})
+      parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: resource.id, name: resource.name, email: resource.email, notice: request.flash["notice"]}.to_json)
     super(resource_name)
   end
 end

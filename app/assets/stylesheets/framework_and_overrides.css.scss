@@ -352,17 +352,15 @@ a .img-thumbnail {
     box-shadow: 6px 6px 3px 0px rgba(50, 50, 50, 0.75);
 }  
 
-//a .img-thumbnail:hover {
-//    -webkit-transform: scale3d(1.05, 1.05, 1);
-//    -ms-transform: scale3d(1.05, 1.05, 1);
-//    transform: scale3d(1.05, 1.05, 1);
-//}
-
 a .img-thumbnail:hover {
-    -webkit-transform: scale(1.05);
-    -moz-transform: scale(1.05);
-    -ms-transform: scale(1.05);
-    transform: scale(1.05);
+    -webkit-transform: scale(1.02);
+    -moz-transform: scale(1.02);
+    transform: scale(1.02);
+
+    -webkit-box-shadow: 18px 18px 10px 0px rgba(50, 50, 50, 0.55);
+    -moz-box-shadow: 18px 18px 10px 0px rgba(50, 50, 50, 0.55);
+    box-shadow: 18px 18x 10px 0px rgba(50, 50, 50, 0.55);
+
 }
 
 
