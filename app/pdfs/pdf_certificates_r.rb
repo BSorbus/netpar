@@ -61,24 +61,24 @@ class PdfCertificatesR < Prawn::Document
   end
 
   def header_center(certificate)
-    text_box "#{certificate.number}",                                                             :at => [ 180, 350], :width => 219, :height => 12, size: 11, :align => :left
-    text_box "#{certificate.customer.given_names} #{certificate.customer.name.mb_chars.upcase}",  :at => [   0, 320], :width => 347, :height => 12, size: 11, :align => :center
-    text_box "#{certificate.customer.birth_date.strftime("%d.%m.%Y")}",                           :at => [   0, 290], :width => 347, :height => 12, size: 11, :align => :center
-    text_box "#{certificate.date_of_issue.strftime("%d.%m.%Y")}",                                 :at => [   0, 260], :width => 347, :height => 12, size: 11, :align => :center
+    text_box "#{certificate.number}",                                                             :at => [ 173, 353], :width => 219, :height => 12, size: 11, :align => :left, :style => :bold
+    text_box "#{certificate.customer.given_names} #{certificate.customer.name.mb_chars.upcase}",  :at => [   0, 317], :width => 347, :height => 12, size: 11, :align => :center, :style => :bold
+    text_box "#{certificate.customer.birth_date.strftime("%d.%m.%Y")}",                           :at => [   0, 292], :width => 347, :height => 12, size: 11, :align => :center
+    text_box "#{certificate.date_of_issue.strftime("%d.%m.%Y")}",                                 :at => [   0, 262], :width => 347, :height => 12, size: 11, :align => :center
   end
 
 
 
   def data(certificate)
     prezes = Department.find(1)
-    text_box "#{prezes.address_street_and_house_and_number}",                                     :at => [   0, 120], :width => 347, :height => 12, size: 9, :align => :center
+    text_box "#{prezes.address_street_and_house_and_number}",                                     :at => [   0, 123], :width => 347, :height => 12, size: 9, :align => :center
 
-    text_box "#{prezes.address_postal_code} #{prezes.address_city}",                              :at => [   0, 100], :width => 347, :height => 12, size: 9, :align => :center
-    text_box "#{prezes.phone}",                                                                   :at => [   0, 100], :width => 150, :height => 12, size: 9, :align => :left
-    text_box "#{prezes.fax}",                                                                     :at => [ 200, 100], :width => 150, :height => 12, size: 9, :align => :right
+    text_box "#{prezes.address_postal_code} #{prezes.address_city}",                              :at => [   0, 108], :width => 347, :height => 12, size: 9, :align => :center
+    text_box "#{prezes.phone}",                                                                   :at => [   0, 108], :width => 150, :height => 12, size: 9, :align => :left
+    text_box "#{prezes.fax}",                                                                     :at => [ 200, 108], :width => 150, :height => 12, size: 9, :align => :right
 
-    text_box "#{certificate.user.department.phone}",                                              :at => [   0,  80], :width => 150, :height => 12, size: 9, :align => :left
-    text_box "#{certificate.user.department.fax}",                                                :at => [ 200,  80], :width => 150, :height => 12, size: 9, :align => :right
+    text_box "#{certificate.user.department.phone}",                                              :at => [   0,  81], :width => 150, :height => 12, size: 9, :align => :left
+    text_box "#{certificate.user.department.fax}",                                                :at => [ 200,  81], :width => 150, :height => 12, size: 9, :align => :right
   end
 
   def footer

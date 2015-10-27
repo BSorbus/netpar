@@ -1,6 +1,6 @@
-    <!-- Half Page Image Background Carousel Header -->
-<% content_for :carousel do %>
+<% content_for :upper_part_page do %>
 
+  <!-- Half Page Image Background Carousel Header -->
   <div id="myCarousel" class="carousel slide">
     <!-- Indicators -->
     <ol class="carousel-indicators">
@@ -25,24 +25,24 @@
           <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Wszędzie');"></div> -->
           <div class="fill" style="background-image:url(<%= asset_path '2.jpg' %>)"></div>
           <div class="carousel-caption">
-            <h3>czas na ulepszone ewidencjonowanie dokumentów</h3>
-            <p>zapisywanie skanów, załączników, plików pdf, itp.</p>
+            <h3>Czas na ulepszone ewidencjonowanie dokumentów</h3>
+            <p>Tworzenie załączników, zapisywanie skanów, plików pdf, itp.</p>
           </div>
         </div>
         <div class="item">
           <!-- Set the next background image using inline CSS below. -->
           <div class="fill" style="background-image:url(<%= asset_path '3.jpg' %>)"></div>
           <div class="carousel-caption">
-            <h3>czas na wykorzystanie nowoczesnych technologii</h3>
-            <p>dostęp do danych przez przeglądarkę bez konieczności instalowania programu i kłopotliwych aktualizacji</p>
+            <h3>Czas na wykorzystanie nowoczesnych technologii</h3>
+            <p>Dostęp do danych przez przeglądarkę bez konieczności instalowania programu i kłopotliwych aktualizacji</p>
           </div>
         </div>
         <div class="item">
           <!-- Set the next background image using inline CSS below. -->
           <div class="fill" style="background-image:url(<%= asset_path '4.jpg' %>)"></div>
           <div class="carousel-caption">
-            <h3>czas na nowe spojrzenie</h3>
-            <p>wspólny rejestr dla wszystkich Delegatur</p>
+            <h3>Czas na nowe spojrzenie</h3>
+            <p>Wspólny rejestr dla wszystkich Delegatur</p>
           </div>
         </div>
         <div class="item">
@@ -72,7 +72,7 @@
   })
   </script>
 
-<% end %><!--/ content_for :carousel -->
+<% end %><!--/ content_for :upper_part_page -->
 
 
 <div class="container pre-footer">
@@ -125,3 +125,208 @@
 
 </div>
 
+
+<% content_for :bottom_part_page do %>
+  <div class="pre-footer2">
+    <div class="userbar">
+      <div class="col-sm-2 col-sm-offset-10">
+        <h3>Instrukcje:</h3>      
+      </div>
+      <div class="col-sm-3 col-sm-offset-9">
+        <div class="row">
+          <button class="btn btn-link pull-right" data-toggle="modal" data-target="#modal-0">
+            Uwagi ogólne
+          </button>
+          </div>
+        <div class="row">
+          <button class="btn btn-link pull-right" data-toggle="modal" data-target="#modal-1">
+            Przygotowanie sesji egzaminacyjnej - sekretariat
+          </button>
+        </div>
+        <div class="row">
+          <button class="btn btn-link pull-right" data-toggle="modal" data-target="#modal-2">
+            Obsługa egzaminu - komisje
+          </button>
+        </div>
+        <div class="row">
+          <button class="btn btn-link pull-right" data-toggle="modal" data-target="#modal-3">
+            Wystawianie świadectw - sekretariat
+          </button>
+        </div>
+      </div>
+    </div> <!-- /class="userbar" -->
+
+  </div> <!-- /class="pre-footer2" -->
+
+  <!-- Modal -->
+  <!-- #modal-0 Uwagi ogólne-->
+  <div class="modal fade" id="modal-0" tabindex="-1" role="dialog" aria-labelledby="modal-0" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="todo-label"><strong>Uwagi ogólne</strong></h4>
+        </div>
+        <div class="modal-body">
+          <p>System <strong>"NetPAR 2015"</strong> jest przeznaczony do:</p>
+          <p>1. Ewidencjonowania sesji egzaminacyjnych i osób egzaminowanych.</p>
+          <p>2. Ewidencjonowania wyników egzaminów i kopii elektronicznych (skanów) powstałych dokumentów.</p>
+          <p>3. Wspomagania procesu przeprowadzania egzaminów, w tym drukowania kart i protokołów egzaminacyjnych.</p>
+          <p>4. Automatycznego generowania świadectw na podstawie wyników egzaminów.</p>
+          <p>5. Ewidencjonowania wydawanych świadectw i ich elektronicznych kopii.</p>
+          <p>6. Łatwego, szybkiego i prostego udostępniania informacji o wydawanych świadectwach osobom wydającym pozwolenia lub innym upoważnionym użytkownikom.</p>
+          <br>
+          <p>Wymagania i ograniczenia</p>
+          <p>1. Program działa w przeglądarkach Chrome, Safari, Opera i Mozilla Firefox. Nie działa w przeglądarce Internet Explorer.</p>
+          <p>2. W programie stosowane jest kodowanie UTF-8 i ustawiona jest strefa czasowa (time-zone) "Warsow"</p>
+          <p>3. System działa w zamkniętej sieci UKE i nie jest dostępny z zewnątrz.</p>
+          <p>4. Aby korzystać z Systemu <strong>"NetPAR 2015"</strong> musisz posiadać aktywne konto pocztowe w domenie uke.gov.pl</p>
+          <p>5. System wymaga zmieniania hasła nie rzadziej niż raz w miesiącu. </p>
+          <p>6. Hasło musi zawierać małą i wielką literę oraz cyfrę i znak specjalny. Długość hasła nie może być mniejsza niż 8 znaków.</p>
+          <p>7. 3 ostatnie hasła są zapamiętywane i nie mogą być użyte w czasie zmieniania hasła.</p>
+          <br>
+          <p>Ogólne</p>
+          <p>1. Rozmiar zapisywanych załączników został ograniczony do maksymalnej wielkości 10 MB. </p>
+          <p>2. Daty zapisywane są w formacie YYYY-MM-DD, co usprawnia sortowanie w tabelach</p>
+          <p>3. We wszystkich polach "Szukaj:" został zastosowany mechanizm wyszukiwania przybliżonych wartości bez rozróżniania wielkości liter.</p>
+          <p>Np. wprowadzając w pole "Szukaj:" przykładową wartość "nowak" otrzymamy listę zawierającą:</p> 
+          <li>"Nowak"</li>
+          <li>"Nowakowski"</li>
+          <li>"Nowakowska"</li>
+          <li>...</li>
+          <p>4. Sortowanie prezentowanych w tabelach danych odbywa się poprzez kliknięcie w nagłówek kolumny. Można sortować jednocześnie po kilku kolumnach, kolejno klikając w ich nagłówki przy równocześnie wciśniętym klawiszu <kbd> Shift </kbd></p>
+          <br>
+          <p>Etapy obsługi systemu</p>
+          <button class="btn btn-link" data-toggle="modal" data-target="#modal-1">
+            1. Przygotowanie sesji egzaminacyjnej - sekretariat
+          </button><br>
+          <button class="btn btn-link" data-toggle="modal" data-target="#modal-2">
+            2. Obsługa egzaminu - komisje
+          </button><br>
+          <button class="btn btn-link" data-toggle="modal" data-target="#modal-3">
+            3. Wystawianie świadectw - sekretariat
+          </button><br>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- #modal-1 Przygotowanie sesji egzaminacyjnej-->
+  <div class="modal fade" id="modal-1" tabindex="-1" role="dialog" aria-labelledby="modal-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="todo-label"><strong>Przygotowanie sesji egzaminacyjnej</strong></h4>
+        </div>
+        <div class="modal-body">
+          <p>Gdy harmonogram sesji egzaminacyjnych jest już ogłoszony należy poszczególne sesje zarejestrować w systemie.</p>
+          <p>1. Wybierz w menu "Egzaminy-Egzaminy ... (LOT/MOR/RA)"</p>
+          <%= image_tag("help-menu-exams.jpg") %><br>
+          <p>2. Gdy wyświetli się lista egzaminów wybierz przycisk "Nowy" (lewy dolny róg) i otwórz formularz "Nowy Egzamin (LOT/MOR/RA)"</p>
+          <%= image_tag("help-index-exams.jpg") %><br>
+          <p>3. Wprowadź stosowne informacje dotyczące sesji, tj. Numer, Datę i Miejscowość. Jeżeli znasz już skład komisji uzupełnij także te informacje.</p>
+          <p>4. W miarę napływu wniosków o przystąpienie do egzaminu uzupełniaj listę "Osób Egzaminowanych". 
+          Możesz to zrobić wybierając odpowiednią "Sesję Egzaminacyjną" i dodając w panelu "Osoby Egzaminowane" nowe pozycje</p> 
+          <%= image_tag("help-panel-examinations.jpg") %><br>
+          <p>lub odszukując/dopisując nowe osoby (menu "Klient") dodawać im wpisy w panelu "Udział w Egzaminach"</p>
+          <%= image_tag("help-add-to-exam.jpg") %><br>
+          <p>5. Po wprowadzeniu ostatniej osoby wnioskującej o przystąpienie do egzaminu, przygotowania do przeprowadzenia egzaminu są zakończone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- #modal-2 Obsługa egzaminu - komisje-->
+  <div class="modal fade" id="modal-2" tabindex="-1" role="dialog" aria-labelledby="modal-2" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="todo-label"><strong>Obsługa egzaminu - komisje</strong></h4>
+        </div>
+        <div class="modal-body">
+          <p>Gdy harmonogram sesji egzaminacyjnych jest już ogłoszony i poszczególne sesje są zarejestrowane w systemie możesz w dowolnym momencie skontrolować listę osób, które mają przystąpić do egzaminu. W chwili gdy lista ta jest już zamknięta i nadszedł termin przeprowadzenia egzaminu należy przygotować karty egzaminacyjne, a po egzaminie wprowadzić informacje o wynikach, wydrukować protokół i załączyć skany tych dokumentów</p>
+          <p>1. Wybierz w menu "Egzaminy-Egzaminy ... (LOT/MOR/RA)"</p>
+          <%= image_tag("help-menu-exams.jpg") %><br>
+          <p>2. Odszukaj sesję egzaminacyjną wprowadzając w pole "szukaj:" (prawy górny róg) numer sesji i/lub miejscowość i/lub datę sesji np: 2015 Bydg</p>
+          <%= image_tag("help-search-exams.jpg") %><br>
+          <p>3. Otwórz formularz opisujący sesję, klikając w link - numer sesji</p>
+          <%= image_tag("help-index-exams.jpg") %><br>
+          <p>4. Jeżeli dane dotyczące egzaminu oraz składu komisji nie są pełne (lub są niewłaściwe) wybierz przycisk "Edycja" i uzupełnij/skoryguj wpisy.</p>
+          <%= image_tag("help-show-exam.jpg") %><br>
+          <p>5. Otwórz panel "Wydruki" i kliknij w "Karty egzaminacyjne".</p>
+          <%= image_tag("help-prn-exam.jpg") %><br>
+          <p>Wygenerowane do pliku pdf karty są ułożone w kolejności alfabetycznej nazwisk i imion osób egzaminowanych.</p>
+          <p>6. Jeżeli sesja przeprowadzana jest poza siedzibą lub niemożliwy będzie dostęp do systemu <strong>NetPAR 2015</strong> podczas jej trwania, to wydrukuj też pusty "Protokół sesji egzaminacyjnej". Jeżeli jednak będziesz miał dostęp do systemu, to pomiń ten punkt.</p>
+          <p>7. Po zakończeniu egzaminu wykonaj kopie elektroniczne (skany) wypełnionych i podpisanych kart egzaminacyjnych.</p>
+          <p class="text-info"><strong>Uwaga! Każdą kartę skanuj do osobnego pliku *.jpg</strong></p>
+          <p>8. Otwórz panel "Osoby egzaminowane"</p>
+          <%= image_tag("help-panel-examinations.jpg") %><br>
+          <p>9. Kliknij w "oko" (prawa strona ekranu, kolumna "Akcje")</p>
+          <%= image_tag("help-green-button.jpg") %><br>
+          <p>, by przejść do formularza opisującego egzamin tej osoby:</p>
+          <%= image_tag("help-show-examination.jpg") %><br>
+          <p>10. Utwórz załącznik wybierając plik jpg, w którym jest zeskanowana karta egzaminacyjna danej osoby.</p>
+          <%= image_tag("help-attached-to-examination.jpg") %><br>
+          <p>11. Otwórz formularz opisujący egzamin danej osoby i kliknij "Edycja", by przejść do formularza edycji danych. Wprowadź informacje o ocenach cząstkowych oraz wyniku końcowym egzaminu.</p>
+          <%= image_tag("help-edit-examination.jpg") %><br>
+
+          <p>Punty 8-11 powtórz dla każdej osoby biorącej udział w egzaminie.</p>
+          <p>12. Jeżeli wcześniej nie wydrukowałeś "Protokołu sesji egzaminacyjnej", to wydrukuj go teraz (patrz punkty 5-6).</p>
+          <p>13. Podpisany "Protokół sesji egzaminacyjnej" zeskanuj i zapisz jako załącznik do Egzaminu</p>
+          <%= image_tag("help-attached-to-exam.jpg") %><br>
+          <p>14. Wszystkie papierowe dokumenty prześlij do Sekretariatu Komisji Egzaminacyjnej.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- #modal-3 Wystawianie świadectw (sekretariat)-->
+  <div class="modal fade" id="modal-3" tabindex="-1" role="dialog" aria-labelledby="modal-3" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="todo-label"><strong>Wystawianie świadectw (sekretariat)</strong></h4>
+        </div>
+        <div class="modal-body">
+          <p>Gdy sesja egzaminacyjna jest już zakończona i sekretarz komisji wprowadził uczestnikom końcowe oceny, możemy przystąpić do wystawiania świadectw.</p>
+          <p>1. Wybierz w menu "Egzaminy-Egzaminy ... (LOT/MOR/RA)"</p>
+          <%= image_tag("help-menu-exams.jpg") %><br>
+          <p>2. Odszukaj sesję egzaminacyjną wprowadzając w pole "szukaj:" (prawy górny róg) numer sesji i/lub miejscowość i/lub datę sesji np: 2015 Bydg</p>
+          <%= image_tag("help-search-exams.jpg") %><br>
+          <p>3. Otwórz formularz opisujący sesję, klikając w link - numer sesji</p>
+          <%= image_tag("help-index-exams.jpg") %><br>
+          <p>4. Otwórz panel "Osoby Egzaminowane"</p>
+          <%= image_tag("help-panel-examinations.jpg") %><br>
+          <p>5. Kliknij w przycisk "Generuj Świadectwa"</p>
+          <%= image_tag("help-green-button.jpg") %><br>
+          <p>Dla osób, które uzyskały wynik "pozytywny" system automatycznie wygeneruje stosowne dokumenty.</p>
+          <p>6. Otwórz panel "Wydruki" i wybierz "Świadectwa", by wydrukować wygenerowane dokumenty.</p>
+          <%= image_tag("help-prn-exam.jpg") %><br>
+          <p>7. Po podpisaniu dokumentów wykonaj kopię elektroniczną (skan) każdego z nich i załącz odpowiedni plik do karty opisującej każde wydane świadectwo (załącznik do świadectwa).</p>
+          <%= image_tag("help-attached-to-certificate.jpg") %><br>        
+          <p>8. Po zweryfikowaniu prawidłowości wpisów i załączonych skanów, proces generowania świadectwa, jego drukowania i wprowadzenia do ewidencji jest zakończony.</p>
+          <p class="text-danger">Uwaga!</p>
+          <p class="text-danger">W przypadku wydawania świadectw gdy nie dysponujemy dokumentami z przeprowadzonego egzaminu (stare/odnawiane) wydajemy świadectwo jako nowy wpis na liście świadectw, a nie jako wygenerowane automatycznie na podstawie egzaminu</p>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<% end %><!--/ content_for :bottom_part_page -->

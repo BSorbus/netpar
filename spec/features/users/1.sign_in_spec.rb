@@ -2,14 +2,14 @@
 #   As a user
 #   I want to sign in
 #   So I can visit protected areas of the site
-feature 'Sign in', :devise do
+feature '1. Sign in', :devise do
 
   # Scenario: User cannot sign in if not registered
   #   Given I do not exist as a user
   #   When I sign in with valid credentials
   #   Then I see an invalid credentials message
-  scenario 'user cannot sign in if not registered' do
-    signin('test@uke.gov.pl', 'please123')
+  scenario '1.1. User cannot sign in if not registered' do
+    signin('test@uke.gov.pl', 'Please123!')
     expect(page).to have_content I18n.t 'devise.failure.not_found_in_database', authentication_keys: 'email'
   end
 
@@ -18,10 +18,10 @@ feature 'Sign in', :devise do
   #   And I am not signed in
   #   When I sign in with valid credentials
   #   Then I see a success message
-  scenario 'user can sign in with valid credentials' do
+  scenario '1.2. User can sign in with valid credentials' do
     user = FactoryGirl.create(:user)
     signin(user.email, user.password)
-    expect(page).to have_content I18n.t 'devise.sessions.signed_in'
+    expect(page).to have_content I18n.t 'devise.sessions.user.signed_in'
   end
 
   # Scenario: User cannot sign in with wrong email
@@ -29,7 +29,7 @@ feature 'Sign in', :devise do
   #   And I am not signed in
   #   When I sign in with a wrong email
   #   Then I see an invalid email message
-  scenario 'user cannot sign in with wrong email' do
+  scenario '1.3. User cannot sign in with wrong email' do
     user = FactoryGirl.create(:user)
     signin('invalid@uke.gov.pl', user.password)
     expect(page).to have_content I18n.t 'devise.failure.not_found_in_database', authentication_keys: 'email'
@@ -40,7 +40,7 @@ feature 'Sign in', :devise do
   #   And I am not signed in
   #   When I sign in with a wrong password
   #   Then I see an invalid password message
-  scenario 'user cannot sign in with wrong password' do
+  scenario '1.4. User cannot sign in with wrong password' do
     user = FactoryGirl.create(:user)
     signin(user.email, 'invalidpass')
     expect(page).to have_content I18n.t 'devise.failure.invalid', authentication_keys: 'email'

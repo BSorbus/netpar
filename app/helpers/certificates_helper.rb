@@ -1,12 +1,12 @@
 module CertificatesHelper
 
   #  <% if policy(@certificate).show_l? %>
-  #  <% if policy(@certificate).show_l? %>
-  #  <% if policy(@certificate).show_l? %>
+  #  <% if policy(@certificate).show_m? %>
+  #  <% if policy(@certificate).show_r? %>
   #  lub 
   #  <% if policy(:certificate).new_l? %>
-  #  <% if policy(:certificate).new_l? %>
-  #  <% if policy(:certificate).new_l? %>
+  #  <% if policy(:certificate).new_m? %>
+  #  <% if policy(:certificate).new_r? %>
   #  itd...
 
   def certificate_policy_check(certificate, category_service, action)

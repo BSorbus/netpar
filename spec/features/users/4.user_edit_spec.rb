@@ -5,7 +5,7 @@ Warden.test_mode!
 #   As a user
 #   I want to edit my user profile
 #   So I can change my email address
-feature 'User edit', :devise do
+feature '4. User edit', :devise do
 
   after(:each) do
     Warden.test_reset!
@@ -15,7 +15,7 @@ feature 'User edit', :devise do
   #   Given I am signed in
   #   When I change my email address
   #   Then I see an account updated message
-  scenario 'user changes email address' do
+  scenario '4.1. User changes email address' do
     user = FactoryGirl.create(:user)
     login_as(user, :scope => :user)
     visit edit_user_registration_path(user)
@@ -30,14 +30,16 @@ feature 'User edit', :devise do
   #   Given I am signed in
   #   When I change my email address
   #   Then I see an account updated message
-  scenario 'user changes email address no UKE domain' do
+  scenario '4.2. User changes email address no UKE domain' do
     user = FactoryGirl.create(:user)
     login_as(user, :scope => :user)
     visit edit_user_registration_path(user)
     fill_in 'Email', :with => 'newemail@nouke.domain.com'
     fill_in 'Current password', :with => user.password
     click_button 'Save'
-    expect(page).to have_content 'Edit account'
+    #expect(page).to have_content 'Edit account'
+    #expect(page).to have_content 'Email is invalid'
+    expect(page).to have_content 'Test User'
     expect(page).to have_content 'Email is invalid'
   end
 
@@ -45,7 +47,7 @@ feature 'User edit', :devise do
   #   Given I am signed in
   #   When I try to edit another user's profile
   #   Then I see my own 'edit profile' page
-  scenario "user cannot cannot edit another user's profile", :me do
+  scenario "4.3. User cannot cannot edit another user's profile", :me do
     me = FactoryGirl.create(:user)
     other = FactoryGirl.create(:user, email: 'other@uke.gov.pl')
     login_as(me, :scope => :user)

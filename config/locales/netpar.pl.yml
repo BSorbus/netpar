@@ -41,8 +41,6 @@ pl:
     certificate:
       index:
         title: 'Świadectwa'
-      form:
-        or_input_remote_url: '...lub wybierz'
     certificate_l:
       index:
         title: 'Świadectwa LOT'
@@ -168,6 +166,9 @@ pl:
         title: 'Operacje'
       trackable_panel:
         title: 'Historia'
+    document:
+      form:
+        or_input_remote_url: '...lub wybierz'
     footer:
       contact: 'Kontakt:'
       links: 'Zobacz też:'
@@ -277,11 +278,11 @@ pl:
       user: 'Użytkownik'
       department: 'Oddział'
       certificate: 'Świadectwo'
-      exam: 'Egazamin'
+      exam: 'Egzamin'
       customer: 'Klient'
       document: 'Załącznik'
       individual: 'Pozwolenie Indywidualne'
-      examination: 'Osoba Egazaminowana'
+      examination: 'Osoba Egzaminowana'
       examiner: 'Członek Komisji Egzaminacyjnej'
       subject: 'Przedmioty'
       grade: 'Oceny'
@@ -412,11 +413,11 @@ pl:
         nip: 'Nip'
         regon: 'Regon'
         pesel: 'Pesel'
-        nationality_id: 'Narodowość'
-        citizenship_id: 'Obywatelstwo'
         birth_date: 'Data urodzenia'
         birth_place: 'Miejsce urodzenia'
         fathers_name: 'Imię ojca'
+        family_name: 'Nazwisko rodowe'
+        citizenship_id: 'Obywatelstwo'
         mothers_name: 'Imię matki'
         phone: 'Telefon'
         fax: 'Fax'

@@ -21,12 +21,12 @@ class CreateHCustomers < ActiveRecord::Migration
       t.string :nip, index: true,                 limit: 13, default: ""
       t.string :regon, index: true,               limit: 9, default: ""
       t.string :pesel, index: true,               limit: 11, default: ""
-      t.references :nationality, index: true, foreign_key: true, default: 2
-      t.references :citizenship, index: true, foreign_key: true, default: 2
       t.date :birth_date, index: true
       t.string :birth_place,                      limit: 50, default: ""
       t.string :fathers_name,                     limit: 50, default: ""
       t.string :mothers_name,                     limit: 50, default: ""
+      t.string :family_name,                      limit: 50, default: ""
+      t.references :citizenship, index: true, foreign_key: true, default: 2
       t.string :phone,                            limit: 50, default: ""
       t.string :fax,                              limit: 50, default: ""
       t.string :email,                            limit: 50, default: ""

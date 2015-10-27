@@ -26,7 +26,7 @@ class Grade < ActiveRecord::Base
     when '', nil
       ''
     else
-      'Error !'
+      'Error grade_result value !'
     end  
   end
 

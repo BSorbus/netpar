@@ -35,17 +35,17 @@ class Certificate < ActiveRecord::Base
 
 
 
-#  # validates
-#  validates :number, presence: true,
-#                    length: { in: 1..30 },
-#                    uniqueness: { :case_sensitive => false, :scope => [:category] }
-#  validates :date_of_issue, presence: true
-#  validates :division, presence: true
-#  validates :customer, presence: true
-#  validates :exam, presence: true
-#  validates :user, presence: true
-#  validates :category, inclusion: { in: %w(L M R) }
-#  validate  :valid_thru_if_not_blank_must_more_date_of_issue, unless: "valid_thru.blank?"
+  # validates
+  validates :number, presence: true,
+                    length: { in: 1..30 },
+                    uniqueness: { :case_sensitive => false, :scope => [:category] }
+  validates :date_of_issue, presence: true
+  validates :division, presence: true
+  validates :customer, presence: true
+  validates :exam, presence: true
+  validates :user, presence: true
+  validates :category, inclusion: { in: %w(L M R) }
+  validate  :valid_thru_if_not_blank_must_more_date_of_issue, unless: "valid_thru.blank?"
 
  
   def valid_thru_if_not_blank_must_more_date_of_issue
@@ -81,6 +81,8 @@ class Certificate < ActiveRecord::Base
       'Skreślone (nieważne)' 
     when 'W'
       'Wymienione (odnowione)' 
+    else
+      'Error certificate_status value !'
     end
   end
 
@@ -132,20 +134,29 @@ class Certificate < ActiveRecord::Base
 
   def self.scope_numbering_groups(division)
     case division.id
-    when 1..8             # wspólna numeracja dla całego zakresu  "L"
+    when 1..8   # wspólna numeracja dla całego zakresu  "L"
       [1, 2, 3, 4, 5, 6, 7, 8]
-    when 9..14            # numeracja dla "M" jest podzielona na grupy
-      [9, 10, 11, 12, 13, 14]  # 9-G1E, 10-G2E, 11-GG, 12-GR, 13-GL, 14-GS  
+    when 9..14  # numeracja dla "M" jest podzielona na grupy
+      [9, 10, 11, 12, 13, 14]   # 9-G1E, 10-G2E, 11-GG, 12-GR, 13-GL, 14-GS  
     when 15           
-      [15]                # 15-MA
+      [15]                      # 15-MA
     when 16           
-      [16]                # 16-GC
+      [16]                      # 16-GC
     when 17           
-      [17]                # 17-IW
-    when 18..21           # wspólna numeracja dla całego zakresu "R"
-      [18, 19, 20, 21]       # 18-A, 19-B, 20-C, 21-D
+      [17]                      # 17-IW
+    when 18..21 # wspólna numeracja dla całego zakresu "R"
+      [18, 19, 20, 21]          # 18-A, 19-B, 20-C, 21-D
     else 
       []      
+    end
+  end
+
+  def self.default_valid_thru_date(start_date, division)
+    case division.id
+    when 9..14  # numeracja dla "M" podgrupa: 9-G1E, 10-G2E, 11-GG, 12-GR, 13-GL, 14-GS
+      start_date + 5.years   
+    else 
+      nil       # pozostałe są bezterminowe 
     end
   end
 

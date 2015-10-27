@@ -16,12 +16,12 @@ c_address_postal_code "MyString"
 nip "MyString"
 regon "MyString"
 pesel "MyString"
-nationality nil
-citizenship nil
 birth_date "2015-08-05"
 birth_place "MyString"
 fathers_name "MyString"
 mothers_name "MyString"
+family_name "MyString"
+citizenship nil
 phone "MyString"
 fax "MyString"
 email "MyString"

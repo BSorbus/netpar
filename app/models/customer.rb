@@ -20,12 +20,12 @@
 #    t.string   "nip",                   limit: 13,  default: ""
 #    t.string   "regon",                 limit: 9,   default: ""
 #    t.string   "pesel",                 limit: 11,  default: ""
-#    t.integer  "nationality_id",                    default: 2
-#    t.integer  "citizenship_id",                    default: 2
 #    t.date     "birth_date"
 #    t.string   "birth_place",           limit: 50,  default: ""
 #    t.string   "fathers_name",          limit: 50,  default: ""
 #    t.string   "mothers_name",          limit: 50,  default: ""
+#    t.string   "family_name",           limit: 50,  default: ""
+#    t.integer  "citizenship_id",                    default: 2
 #    t.string   "phone",                 limit: 50,  default: ""
 #    t.string   "fax",                   limit: 50,  default: ""
 #    t.string   "email",                 limit: 50,  default: ""
@@ -39,14 +39,12 @@
 #  add_index "customers", ["citizenship_id"], name: "index_customers_on_citizenship_id", using: :btree
 #  add_index "customers", ["given_names"], name: "index_customers_on_given_names", using: :btree
 #  add_index "customers", ["name"], name: "index_customers_on_name", using: :btree
-#  add_index "customers", ["nationality_id"], name: "index_customers_on_nationality_id", using: :btree
 #  add_index "customers", ["nip"], name: "index_customers_on_nip", using: :btree
 #  add_index "customers", ["pesel"], name: "index_customers_on_pesel", using: :btree
 #  add_index "customers", ["regon"], name: "index_customers_on_regon", using: :btree
 #  add_index "customers", ["user_id"], name: "index_customers_on_user_id", using: :btree
 #
 class Customer < ActiveRecord::Base
-  belongs_to :nationality
   belongs_to :citizenship
   belongs_to :user
 
@@ -67,18 +65,18 @@ class Customer < ActiveRecord::Base
 
 
 
+  # validates
   validates :name, presence: true,
                     length: { in: 1..160 }
-#  validates :given_names, presence: true,
-#                    length: { in: 1..50 }, if: :is_human? 
-#  validates :address_city, presence: true,
-#                    length: { in: 1..50 }
-#  validates :pesel, length: { is: 11 }, numericality: true, 
-#                    uniqueness: { case_sensitive: false }, allow_blank: true
-#  validates :birth_date, presence: true, if: :is_human?
-#  validate :check_pesel_and_birth_date, unless: "pesel.blank?"
+  validates :given_names, presence: true,
+                    length: { in: 1..50 }, if: :is_human? 
+  validates :address_city, presence: true,
+                    length: { in: 1..50 }
+  validates :pesel, length: { is: 11 }, numericality: true, 
+                    uniqueness: { case_sensitive: false }, allow_blank: true
+  validates :birth_date, presence: true, if: :is_human?
+  validate :check_pesel_and_birth_date, unless: "pesel.blank?"
 
-  validates :nationality, presence: true
   validates :citizenship, presence: true
   validates :user, presence: true
 

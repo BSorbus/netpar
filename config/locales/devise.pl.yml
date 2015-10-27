@@ -76,6 +76,9 @@ pl:
           current_password_needed: "Musisz podać aktualne hasło aby dokonać zmian"
           button_submit: 'Zapisz'
     sessions:
+      signed_in: "Signed in successfully."
+      signed_out: "Signed out successfully."
+      already_signed_out: "Signed out successfully."
       user:
         signed_in: "Zostałeś zalogowany."
         signed_out: "Zostałeś wylogowany."

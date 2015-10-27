@@ -1,0 +1,23 @@
+$(document).ready(function() {
+  $('#checked-scope-prn a .img-thumbnail').click(function(e) {
+    var scope;
+    var newurl;
+    e.preventDefault();
+    scope = $("#prnscopevalue").val(); // "A" lub "B" z ukrytego pola
+    newurl = $(this).parent().attr('href') + "?prnscope=" + scope;
+    //return window.location.href = newurl;
+    window.open(newurl); // otwiera w nowej zakładce
+  });
+
+
+  $("#btn-group-prnscope .btn").click(function () {
+    //var curr_val = $('.btn-group input[type="radio"]:checked').val() ;
+    //var curr_val = $(this).text();
+    //var curr_val = $(this).button('toggle').text();
+    //var curr_val = $("input:radio[name=btns]:checked").attr('id');
+    var curr_val = $(this).attr('value');
+    $("#prnscopevalue").val( curr_val );
+    $(".folded h3").html( $(this).text() ); //zmień opis etykiet
+  });
+
+});

@@ -79,8 +79,26 @@ class User < ActiveRecord::Base
 
   has_many :works
   has_many :works, as: :trackable
-
+  has_many :trackables, class_name: 'Work', primary_key: 'id', foreign_key: 'user_id'
   scope :by_name, -> { order(:name) }
+
+
+
+  before_destroy :user_has_a_history_of_activity, prepend: true
+
+  def user_has_a_history_of_activity
+    analize_value = true
+    if Work.where(user_id: id).any? 
+      errors[:base] << "Nie można usunąć konta użytkownika, który aktywnie wprowadzał/aktualizował dane i działalność ta jest odnotowana w hitorii wpisów"
+      analize_value = false
+    end
+    #if Family.where(company_id: id).any? 
+    #  errors[:base] << "Nie można usunąć Firmy, która ma przypisane Polisy Rodzina"
+    #  analize_value = false
+    #end
+    analize_value
+  end
+
 
 
   def fullname

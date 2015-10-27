@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : t("content_title") %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "NetPAR2015" %>">
@@ -18,13 +19,12 @@
     <header>
       <%= render 'layouts/navigation' %>
     </header>
-    <carousel>
-      <%= yield(:carousel) %>
-    </carousel>
+    <%= yield(:upper_part_page) %>
     <main role="main">
       <%= render 'layouts/messages' %>       
       <%= yield %>
     </main>
+    <%= yield(:bottom_part_page) %>
     <footer>
       <%= render 'layouts/footer' %>
     </footer>

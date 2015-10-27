@@ -17,45 +17,38 @@
               <div class="col-sm-7">
 
                 <%#= render partial: "documents/documents", documentable: attach_parent %>
-                <div class="col-sm-12">
-                  <table class="table table-hover">
-                    <thead>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th><%= Document.human_attribute_name(:fileattach_filename) %></th>
+                      <th><%= Document.human_attribute_name(:fileattach_content_type) %></th>
+                      <th><%= Document.human_attribute_name(:fileattach_size) %></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% documentable.documents.each do |document| %>
                       <tr>
-                        <th><%= Document.human_attribute_name(:fileattach_filename) %></th>
-                        <th><%= Document.human_attribute_name(:fileattach_content_type) %></th>
-                        <th><%= Document.human_attribute_name(:fileattach_size) %></th>
-                        <th></th>
+                        <td>
+                          <!--"Show" as download-->
+                          <%= link_to document.fileattach_filename, document_path(document), title: t('tooltip.download'), rel: 'tooltip' %>
+                         </td>
+                        <td><%= document.fileattach_content_type %></td>
+                        <td><%= number_to_human_size(document.fileattach_size) %></td>
+                        <td>
+                          <%= link_to ' ', document_path(document),
+                                          method: :delete,
+                                          data: { confirm: t('helpers.links.confirm_destroy', data: document.fileattach_filename) }, 
+                                          :class => "glyphicon glyphicon-trash", title: t('tooltip.destroy'), rel: 'tooltip' %>
+                        </td>
+
+
                       </tr>
-                    </thead>
+                    <% end %>
+                  </tbody>
 
-                    <tbody>
-                      <% documentable.documents.each do |document| %>
-                        <tr>
-                          <td>
-                            <!--"Show" as download-->
-                            <%= link_to document.fileattach_filename, document_path(document), title: t('tooltip.download'), rel: 'tooltip' %>
-                           </td>
-                          <td><%= document.fileattach_content_type %></td>
-                          <td><%= number_to_human_size(document.fileattach_size) %></td>
-                          <td>
-                            <%= link_to ' ', document_path(document),
-                                            method: :delete,
-                                            data: { confirm: t('helpers.links.confirm_destroy', data: document.fileattach_filename) }, 
-                                            :class => "glyphicon glyphicon-trash", title: t('tooltip.destroy'), rel: 'tooltip' %>
-                          </td>
-
-
-                        </tr>
-                      <% end %>
-                    </tbody>
-
-                  </table>
-                </div> <!--/col-sm-12 -->
-
-
-
-
-
+                </table>
 
               </div> <!-- /col-sm-7 -->
 
@@ -82,7 +75,7 @@
                     <%= f.attachment_field :fileattach, direct: true, presigned: true, class: 'form-control input-sm' %>
 
                     <br>
-                    <p><%=t "pages.certificate.form.or_input_remote_url"%></p>
+                    <p><%=t "pages.document.form.or_input_remote_url"%></p>
                  
                     <%= f.label :remote_fileattach_url, class: 'control-label' %><br>
                     <%= f.text_field :remote_fileattach_url, class: 'form-control input-sm' %>
@@ -106,12 +99,7 @@
 
                 <% end %>
 
-
-
-
-
-              </div> <!-- /col-sm-6 -->
-
+              </div> <!-- /col-sm-5 -->
 
             </div> <!--/class="col-sm-12" -->
           </div> <!-- /panel-body -->

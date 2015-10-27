@@ -27,7 +27,6 @@ class Role < ActiveRecord::Base
                     :uniqueness => { :case_sensitive => false }
 
 
-
   # scopes
   scope :by_name, -> { order(:name) }
 

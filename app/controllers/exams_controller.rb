@@ -130,7 +130,11 @@ class ExamsController < ApplicationController
         authorize :certificate, :print_r?
     end    
 
-    @certificates_all = Certificate.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
+    if params[:prnscope].present? && params[:prnscope] != "0" # Wszystkie 
+      @certificates_all = Certificate.joins(:customer).references(:customer).where(exam_id: params[:id], division_id: params[:prnscope]).order("customers.name, customers.given_names").all
+    else 
+      @certificates_all = Certificate.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
+    end 
 
     if @certificates_all.empty?
       redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return

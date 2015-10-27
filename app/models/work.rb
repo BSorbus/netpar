@@ -25,7 +25,7 @@ class Work < ActiveRecord::Base
     when 'destroy'
       'usunął kartotekę'
     else
-      'Error !'
+      'Error action value !'
     end  
   end
 

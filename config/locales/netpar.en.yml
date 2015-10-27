@@ -66,6 +66,7 @@ en:
       create?: ' SECURITY: You cannot create roles!'
       destroy?: ' SECURITY: You cannot destroy roles!'
     user_policy:
+      index?: ' SECURITY: You cannot watch list of users!'
       update?: 'You cannot edit this post!'
       create?: 'You cannot create posts!'
   activerecord:
@@ -123,12 +124,12 @@ en:
         nip: 'Nip'
         regon: 'Regon'
         pesel: 'Pesel'
-        nationality_id: 'Nationality'
-        citizenship_id: 'Citizenship'
         birth_date: 'Birth date'
         birth_place: 'Borth place'
         fathers_name: 'Fathers name'
         mothers_name: 'Mothers name'
+        family_name: 'Family name'
+        citizenship_id: 'Citizenship'
         phone: 'Telefon'
         fax: 'Fax'
         email: 'Email'

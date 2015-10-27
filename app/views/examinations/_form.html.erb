@@ -39,14 +39,16 @@
               { include_blank: false, multiple: false }, class: 'form-control input-sm', disabled: @examination.new_record? ? false : true) %>
       </div>
 
+      <% unless @examination.new_record? %>
       <div class="form-group col-sm-3">
         <%= f.label :examination_result, class: 'control-label' %>
         <%= f.select :examination_result, 
-                  options_for_select([['Negatywny bez prawa do powtórki', 'B'],
-                                      ['Negatywny z prawem do powtórki', 'N'],
+                  options_for_select([['Negatywny bez prawa do poprawki', 'B'],
+                                      ['Negatywny z prawem do poprawki', 'N'],
                                       ['Pozytywny', 'P']], 
                   selected: @examination.examination_result), { include_blank: true }, class: 'form-control input-sm', disabled: input_disabled %>
       </div>
+      <% end %>
 
 
     </div>  <!-- /row -->

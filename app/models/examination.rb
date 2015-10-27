@@ -60,16 +60,16 @@ class Examination < ActiveRecord::Base
     when 'P'
       'Powtórny'
     else
-      'Error !'
-    end  
+      'Error examination_category value !'
+    end
   end
 
   def examination_result_name
     case examination_result
     when 'B'
-      'Negatywny bez prawa do powtórki'
+      'Negatywny bez prawa do poprawki'
     when 'N'
-      'Negatywny z prawem do powtórki'
+      'Negatywny z prawem do poprawki'
     when 'P'
       'Pozytywny'
     when '', nil
@@ -80,13 +80,25 @@ class Examination < ActiveRecord::Base
   end
 
   def generate_certificate(gen_user_id)
-    exam = self.exam
-
-    new_certificate = exam.certificates.create(number: Certificate.next_certificate_number(self.category, self.division), date_of_issue: Time.zone.today, user_id: gen_user_id, customer: self.customer, division: self.division, category: exam.category)
+    new_certificate = self.exam.certificates.create(number: Certificate.next_certificate_number(self.category, self.division), 
+                                                    date_of_issue: Time.zone.today,
+                                                    valid_thru: Certificate.default_valid_thru_date(Time.zone.today, self.division),
+                                                    user_id: gen_user_id, 
+                                                    customer: self.customer, 
+                                                    division: self.division, 
+                                                    category: self.category)
     self.certificate = new_certificate
     self.save! 
-    new_certificate.works.create( trackable_url: "#{Rails.application.routes.url_helpers.certificate_path(new_certificate, category_service: new_certificate.category.downcase)}", action: :generate_certificate, user_id: gen_user_id, 
-      parameters: new_certificate.to_json )
+    new_certificate.works.create( trackable_url: "#{Rails.application.routes.url_helpers.certificate_path(new_certificate, category_service: new_certificate.category.downcase)}", 
+      action: :generate_certificate, user_id: gen_user_id, 
+      parameters: new_certificate.to_json(except: [:exam_id, :division_id, :customer_id, :user_id, :code], 
+                                          include: {
+                                            exam: {only: [:id, :number, :date_exam]},
+                                            division: {only: [:id, :name]},
+                                            customer: {only: [:id, :name, :given_names, :birth_date]},
+                                            user: {only: [:id, :name, :email]}
+                                            }
+                                          ) )
 
   end
 
