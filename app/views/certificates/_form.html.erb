@@ -43,12 +43,14 @@
       <div class="form-group col-sm-4">
         <%= f.label :certificate_status, class: 'control-label' %>
         <%= f.select :certificate_status, 
-                  options_for_select([['Duplikat', 'D'],
-                                      ['Nowe', 'N'],
-                                      ['Odnowione', 'O'], 
-                                      ['Skreślone (nieważne)', 'S'], 
-                                      ['Wymienione (odnowione)', 'W']], 
-                  selected: @certificate.certificate_status), { include_blank: false }, class: 'form-control input-sm', disabled: input_disabled %>
+              options_for_select([['Duplikat', 'D'],
+                                  ['Nowe', 'N'],
+                                  ['Odnowione', 'O'], 
+                                  ['Skreślone (nieważne)', 'S'], 
+                                  ['Wymienione (odnowione)', 'W']], 
+                selected: @certificate.certificate_status), 
+              { include_blank: false }, 
+              { class: 'form-control input-sm', disabled: input_disabled } %>
       </div>
 
     </div>  <!-- /row -->
@@ -64,9 +66,10 @@
     <div class="row">
       <div class="form-group col-sm-12">
         <%= f.label :division_id, class: 'control-label' %>
-        <%= f.select( :division_id, 
+        <%= f.select :division_id, 
               Division.only_category_scope(params[:category_service]).by_name.collect {|p| [ "#{p.name} (#{p.short_name})", p.id ]},
-              { include_blank: false, multiple: false }, class: 'form-control input-sm', disabled: input_disabled ) %>
+              { include_blank: false, multiple: false }, 
+              { class: 'form-control input-sm', disabled: input_disabled } %>
       </div>
     </div>
 

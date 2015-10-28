@@ -19,7 +19,6 @@
 <% end %>
 
 
-
 <div class="row">
   <div class="col-sm-12">
     <div class="row">
@@ -27,26 +26,31 @@
       <div class="form-group col-sm-2">
         <%= f.label :examination_category, class: 'control-label' %>
         <%= f.select :examination_category, 
-                  options_for_select([['Zwykły', 'Z'],
-                                      ['Powtórny', 'P']], 
-                  selected: @examination.examination_category), { include_blank: false }, class: 'form-control input-sm', autofocus: true, disabled: input_disabled %>
+              options_for_select([['Zwykły', 'Z'],
+                                  ['Powtórny', 'P']], 
+                  selected: @examination.examination_category), 
+              { include_blank: false}, 
+              { autofocus: true, class: 'form-control input-sm', disabled: input_disabled } %>
       </div>
 
       <div class="form-group col-sm-7">
         <%= f.label :division_id, class: 'control-label' %>
-        <%= f.select( :division_id, 
+        <%= f.select :division_id, 
               Division.only_category_scope(params[:category_service]).by_name.collect {|p| [ "#{p.name} (#{p.short_name})", p.id ]},
-              { include_blank: false, multiple: false }, class: 'form-control input-sm', disabled: @examination.new_record? ? false : true) %>
+              { include_blank: false, multiple: false }, 
+              { class: 'form-control input-sm', disabled: !@examination.new_record? } %>
       </div>
 
       <% unless @examination.new_record? %>
       <div class="form-group col-sm-3">
         <%= f.label :examination_result, class: 'control-label' %>
         <%= f.select :examination_result, 
-                  options_for_select([['Negatywny bez prawa do poprawki', 'B'],
-                                      ['Negatywny z prawem do poprawki', 'N'],
-                                      ['Pozytywny', 'P']], 
-                  selected: @examination.examination_result), { include_blank: true }, class: 'form-control input-sm', disabled: input_disabled %>
+              options_for_select([['Negatywny bez prawa do poprawki', 'B'],
+                                  ['Negatywny z prawem do poprawki', 'N'],
+                                  ['Pozytywny', 'P']], 
+                  selected: @examination.examination_result), 
+              { include_blank: true }, 
+              { class: 'form-control input-sm', disabled: input_disabled } %>
       </div>
       <% end %>
 
@@ -66,6 +70,7 @@
         <%= f.hidden_field :exam_id,
                           class: "form-control input-sm exam_select_#{params[:category_service]}", 
                           placeholder: "Wybierz Sesję egzaminacyjną",
+                          disabled: !@examination.new_record?,
                           style: "width:100%" %>
         <small class="help-block"><%=t 'help_block_text.select2_exam' %></small>
       </div>
@@ -77,6 +82,7 @@
         <%= f.hidden_field :customer_id,
                           class: "form-control input-sm customer_select", 
                           placeholder: "Wybierz Klienta",
+                          disabled: !@examination.new_record?,
                           style: "width:100%" %>
         <small class="help-block"><%=t 'help_block_text.select2_customer' %></small>
       </div>
@@ -94,15 +100,18 @@
       <div class="row">
         <div class="form-group col-sm-9">
           <%#= f.label :subject_id, class: 'control-label' %>
-          <%= g.select( :subject_id, 
+          <%= g.select :subject_id, 
                 Subject.all.collect {|p| [ "#{p.name}", p.id ]},
-                { include_blank: false, multiple: false }, class: 'form-control input-sm', disabled: true ) %>
+                { include_blank: false, multiple: false }, 
+                { class: 'form-control input-sm', disabled: true } %>
         </div>
         <div class="form-group col-sm-3">
           <%= g.select :grade_result, 
                     options_for_select([['Negatywna', 'N'],
-                                        ['Pozytywna', 'P']], selected: g.object.grade_result), 
-                    { include_blank: true }, class: 'form-control input-sm', disabled: input_disabled %>
+                                        ['Pozytywna', 'P']], 
+                        selected: g.object.grade_result), 
+                    { include_blank: true }, 
+                    { class: 'form-control input-sm', disabled: input_disabled } %>
 
         </div>
 
@@ -116,6 +125,11 @@
         <%= f.label :note, class: 'control-label' %>
         <%= f.text_area :note, :rows => 4, :cols => 50, class: 'form-control input-sm', disabled: input_disabled %>
       </div>
+
+
+
+
+
     </div>
 
 

@@ -112,21 +112,21 @@ class Customer < ActiveRecord::Base
 
   def fullname_and_address_for_envelope
     if c_address_city.present?
-      res = "#{name} #{given_names} \n"
-      res += "#{c_address_postal_code} #{c_address_city} \n"
-      res +=  "ul.#{c_address_street}" if c_address_street.present?
-      res +=  " #{c_address_house}" if c_address_house.present?
-      res +=  "/#{c_address_number}" if c_address_number.present?
-      res +=  "\n skrytka: #{c_address_pobox}" if c_address_pobox.present?
-      res +=  "\n poczta: #{c_address_post_office}" if c_address_post_office.present? && c_address_city != c_address_post_office
+      res =  "#{given_names} #{name} \n"
+      res += "ul. #{c_address_street}" if c_address_street.present?
+      res += " #{c_address_house}" if c_address_house.present?
+      res += "/#{c_address_number}" if c_address_number.present?
+      res += "\n #{c_address_postal_code} #{c_address_city}"
+      res += "\n skrytka: #{c_address_pobox}" if c_address_pobox.present?
+      res += "\n poczta: #{c_address_post_office}" if c_address_post_office.present? && c_address_city != c_address_post_office
     else
-      res = "#{name} #{given_names} \n"
-      res += "#{address_postal_code} #{address_city} \n"
-      res +=  "ul.#{address_street}" if address_street.present?
-      res +=  " #{address_house}" if address_house.present?
-      res +=  "/#{address_number}" if address_number.present?
-      res +=  "\n skrytka: #{address_pobox}" if address_pobox.present?
-      res +=  "\n poczta: #{address_post_office}" if address_post_office.present? && address_city != address_post_office
+      res =  "#{given_names} #{name} \n"
+      res += "ul. #{address_street}" if address_street.present?
+      res += " #{address_house}" if address_house.present?
+      res += "/#{address_number}" if address_number.present?
+      res += "\n #{address_postal_code} #{address_city}"
+      res += "\n skrytka: #{address_pobox}" if address_pobox.present?
+      res += "\n poczta: #{address_post_office}" if address_post_office.present? && address_city != address_post_office
     end
     res
   end

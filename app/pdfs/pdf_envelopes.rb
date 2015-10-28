@@ -4,14 +4,25 @@ class PdfEnvelopes < Prawn::Document
     # New document, A4 paper, landscaped
     # pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)
     # wiec komentuje super() i ...
-    super(:page_size => "C6", :page_layout => :landscape)
-    # 114 x 162   => 323,149606299 x 459,212598425 => 
+    #super(:page_size => "C6", 
+    #super(:page_size => [323, 459], 
+    super(:page_size => "C6", 
+          :page_layout => :landscape)
+    # 114mm x 162mm   => 323,149606299 x 459,212598425 => 
     #super()
-
+                        #297,637795276
+                              #425,196850394
     #def mm2pt(mm)
     #    return mm*(72 / 25.4)
     #end
 
+    # margin 0,5 ich ok 36 punktów
+    # A4 595.28 x 841.89 pt = 
+    # A5 419.53 x 595.28
+    # B5 498.90 x 708.66 
+    # C5 459.21 x 649.13 = 162mm x 229mm
+    # C6 323.15 x 459.21 = 114mm x 162mm
+   
     @customers = customers
     @view = view
 

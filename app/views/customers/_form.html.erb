@@ -132,9 +132,10 @@
         <div class="form-group col-sm-6">
           <div class="human" >
             <%= f.label :citizenship_id, class: 'control-label' %>
-            <%= f.select( :citizenship_id, 
+            <%= f.select :citizenship_id, 
                   Citizenship.by_name.collect {|p| [ "#{p.short} - #{p.name}", p.id ]},
-                  { include_blank: false, multiple: false }, class: 'form-control input-sm', disabled: input_disabled ) %>
+                  { include_blank: false, multiple: false }, 
+                  { class: 'form-control input-sm', disabled: input_disabled } %>
           </div>
         </div>
       </div>

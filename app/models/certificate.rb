@@ -134,9 +134,9 @@ class Certificate < ActiveRecord::Base
 
   def self.scope_numbering_groups(division)
     case division.id
-    when 1..8   # wspólna numeracja dla całego zakresu  "L"
+    when 1..8   # common numbering for the entire range "L"
       [1, 2, 3, 4, 5, 6, 7, 8]
-    when 9..14  # numeracja dla "M" jest podzielona na grupy
+    when 9..14  # numbering for "M" divided into groups
       [9, 10, 11, 12, 13, 14]   # 9-G1E, 10-G2E, 11-GG, 12-GR, 13-GL, 14-GS  
     when 15           
       [15]                      # 15-MA
@@ -144,7 +144,7 @@ class Certificate < ActiveRecord::Base
       [16]                      # 16-GC
     when 17           
       [17]                      # 17-IW
-    when 18..21 # wspólna numeracja dla całego zakresu "R"
+    when 18..21 # common numbering for the entire range "R"
       [18, 19, 20, 21]          # 18-A, 19-B, 20-C, 21-D
     else 
       []      
@@ -153,10 +153,10 @@ class Certificate < ActiveRecord::Base
 
   def self.default_valid_thru_date(start_date, division)
     case division.id
-    when 9..14  # numeracja dla "M" podgrupa: 9-G1E, 10-G2E, 11-GG, 12-GR, 13-GL, 14-GS
+    when 9..12  # certificate for category "M" divisions: 9-G1E, 10-G2E, 11-GG, 12-GR
       start_date + 5.years   
     else 
-      nil       # pozostałe są bezterminowe 
+      nil       # other 
     end
   end
 

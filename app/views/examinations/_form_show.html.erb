@@ -47,9 +47,12 @@
 
 
     <div class="row">
-      <div class="form-group col-sm-12">
+      <div class="col-sm-12">
         <p><strong>Oceny:</strong></p>
-
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12">
         <table class="table table-hover">
           <tbody>
             <% @examination.grades.order(:id).each do |grade| %>
@@ -73,7 +76,7 @@
 
 
     <div class="row">
-      <div class="form-group col-sm-12">
+      <div class="form-group col-sm-6">
         <p><strong><%= Examination.human_attribute_name(:note) %></strong></p>
         <h5><%= @examination.note %></h5>
       </div>
