@@ -1,5 +1,6 @@
 $font-family-base: Arial, "Helvetica", sans-serif;
-$font-size-base: 14px;
+//$font-size-base: 14px;
+//$font-size-base: 12px;
 
 // import the CSS framework
 @import "bootstrap-sprockets";
@@ -63,7 +64,12 @@ img {
 }
 
 
-.hr-without-padding {
+.hr-without-top-margin {
+  margin-top: 0px;  /*default: 20px; */
+  margin-bottom: 10px;
+}
+
+.hr-without-margins {
   margin-top: 3px;  /*default: 20px; */
   margin-bottom: 0px;
 }
@@ -361,16 +367,6 @@ section {
 }
 
 
-/* ----- Btn-group for ribbon -----------------------------------*/ 
-$RibbonBackground : #5cb85c;
-
-#btn-group-prnscope { 
-  .btn.active, .btn:active {
-    color: white;
-    background-color: darken( $RibbonBackground, 10% );
-  };
-}
-
 a .img-thumbnail {
   -webkit-box-shadow: 6px 6px 3px 0px rgba(0,0,0,0.55);
   -moz-box-shadow: 6px 6px 3px 0px rgba(0,0,0,0.55);
@@ -389,6 +385,25 @@ a .img-thumbnail:hover {
 }
 
 
+/* ----- Btn-group for ribbon -----------------------------------*/ 
+$RibbonBackground : #439B43;
+
+#btn-group-prnscope { 
+  .btn.active, .btn:active {
+    color: white;
+    background-color: darken( $RibbonBackground, 10% );
+  };
+}
+
+$RibbonOrderBackground : #9C4BE6;
+#btn-group-prnorder { 
+  .btn.active, .btn:active {
+    color: white;
+    background-color: darken( $RibbonOrderBackground, 10% );
+  };
+}
+
+
 /* ----- Ribbon II Block ---------------------------------------*/ 
 
 .folded h3 {
@@ -396,12 +411,12 @@ a .img-thumbnail:hover {
     background-image: radial-gradient(transparent 30%, rgba(0, 0, 0, 0.2));
     border: 0 solid rgba(0,0,0,0.2);
     color: #fff;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 13px;
+  //font-size: 14px;
+  //font-weight: bold;
     position: relative;
     text-shadow: -1px -1px 1px rgba(0,0,0,0.2);
 }
-
 .folded:before, div.folded:after {
     bottom: 26px;
     content: "";
@@ -421,12 +436,45 @@ a .img-thumbnail:hover {
 .folded h3 {
     border-width: 1px 1px 2px;
     margin: 0;
-    padding: 4px 40px;
+    padding: 4px 25px;
     position: absolute;
     right: 2px;
     margin-top: -16px;
 }
 .folded h3:after {
+    border-width: 7px;
+    border-style: solid;
+    border-color: #134 transparent transparent #134;
+    bottom: -15px;
+    content: "";
+    position: absolute;
+    right: -1px;
+}
+
+
+
+
+.folded-purple h3 {
+    background: $RibbonOrderBackground;
+    background-image: radial-gradient(transparent 30%, rgba(0, 0, 0, 0.2));
+    border: 0 solid rgba(0,0,0,0.2);
+    color: #fff;
+    font-size: 13px; 
+  //font-size: 14px;
+  //font-weight: bold;
+    position: relative;
+    text-shadow: -1px -1px 1px rgba(0,0,0,0.2);
+}
+
+.folded-purple h3 {
+    border-width: 1px 1px 2px;
+    margin: 0;
+    padding: 4px 20px;
+    position: absolute;
+    right: 2px;
+    margin-top: 25px; // !!!!!!!!!!!
+}
+.folded-purple h3:after {
     border-width: 7px;
     border-style: solid;
     border-color: #134 transparent transparent #134;

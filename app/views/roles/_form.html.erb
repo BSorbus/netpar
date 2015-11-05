@@ -30,7 +30,7 @@
     </div>  <!-- /col-sm-12 -->
   </div>  <!-- /row -->
 
-  <hr>
+  <hr class="hr-without-top-margin">
 
   <div class="row">
     <div class="col-sm-12">
@@ -46,21 +46,23 @@
     </div> <!-- /col-sm-6 -->
   </div> <!-- /row -->
 
-  <hr>
-
-
-  <%= link_to t('Index', default: t("helpers.links.index")), roles_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
-
-  <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+  <hr class="hr-without-top-margin">
 
 
   <% if input_disabled %>
     <!-- for "Show" -->
   <% else %>
     <!-- form "New"/"Edit" -->
-    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <div class="row">
+      <%= link_to t('Index', default: t("helpers.links.index")), roles_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+
+      <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+    </div> <!-- /row -->
   <% end %>
   
 <% end %>
+
 
 

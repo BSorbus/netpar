@@ -58,6 +58,20 @@ class Exam < ActiveRecord::Base
 	scope :only_category_r, -> { where(category: "R") }
 
   before_save { self.number = number.upcase }
+  before_destroy :exam_has_links, prepend: true
+
+  def exam_has_links
+    analize_value = true
+    if self.certificates.any? 
+      errors[:base] << "Nie można usunąć Egzaminu do którego są przypisane Świadectwa."
+      analize_value = false
+    end
+    if self.examinations.any? 
+      errors[:base] << "Nie można usunąć Egzaminu do którego są przypisane Osoby Egzaminowane."
+      analize_value = false
+    end
+    analize_value
+  end
 
   def fullname
     "#{number}, z dn. #{date_exam}, #{place_exam}"
@@ -106,9 +120,9 @@ class Exam < ActiveRecord::Base
 
   def generate_all_certificates(gen_user_id)
     for_generate_examinations =  Examination.joins(:division, :customer, :exam).where(exam_id: self.id, certificate: nil, examination_result: 'P').
-                                  includes(:division, :customer, :exam, :certificate).references(:division, :customer, :exam, :certificate).order("customers.name, customers.given_names").all
+                                  includes(:division, :customer, :exam, :certificate).references(:division, :customer, :exam, :certificate).order(:id).all
 
-    for_generate_examinations.each do |examination|
+    for_generate_examinations.each do |examination| 
 
       examination.generate_certificate(gen_user_id)
 

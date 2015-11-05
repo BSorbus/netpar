@@ -45,6 +45,9 @@
 #  add_index "customers", ["user_id"], name: "index_customers_on_user_id", using: :btree
 #
 class Customer < ActiveRecord::Base
+
+  require 'pesel'
+
   belongs_to :citizenship
   belongs_to :user
 
@@ -76,11 +79,12 @@ class Customer < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }, allow_blank: true
   validates :birth_date, presence: true, if: :is_human?
   validate :check_pesel_and_birth_date, unless: "pesel.blank?"
+  validate :unique_name_given_names_birth_date_birth_place_fathers_name, if: :is_human?
 
   validates :citizenship, presence: true
   validates :user, presence: true
 
-  require 'pesel'
+  before_destroy :customer_has_links, prepend: true
 
   def check_pesel_and_birth_date
     p = Pesel.new(pesel)
@@ -88,6 +92,29 @@ class Customer < ActiveRecord::Base
     if p.valid? 
       errors.add(:birth_date, " niezgodna z datą zapisaną w numerze PESEL (#{p.birth_date})") unless p.birth_date == birth_date
     end
+  end
+
+  def unique_name_given_names_birth_date_birth_place_fathers_name
+    if Customer.where(name: name, given_names: given_names, birth_date: birth_date, birth_place: birth_place, fathers_name: fathers_name).where.not(id: id).any? 
+      errors.add(:base, "Błąd! Klient: \"#{name} #{given_names} ur.#{birth_place} #{birth_date}, ojciec: #{fathers_name}\" jest już zarejestrowany!")
+    end
+  end
+
+  def customer_has_links
+    analize_value = true
+    if self.certificates.any? 
+      errors[:base] << "Nie można usunąć konta Klienta do którego są przypisane Świadectwa."
+      analize_value = false
+    end
+    if self.examinations.any? 
+      errors[:base] << "Nie można usunąć konta Klienta do którego są przypisane Egzaminy."
+      analize_value = false
+    end
+    #if Family.where(company_id: id).any? 
+    #  errors[:base] << "Nie można usunąć Firmy, która ma przypisane Polisy Rodzina"
+    #  analize_value = false
+    #end
+    analize_value
   end
 
   def is_human?

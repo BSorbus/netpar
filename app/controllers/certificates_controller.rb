@@ -265,7 +265,7 @@ class CertificatesController < ApplicationController
                                           ) )
       redirect_to (params[:back_url]).present? ? params[:back_url] : exam_path(exam, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.destroyed', data: @certificate.number)
     else 
-      flash[:alert] = t('activerecord.messages.error.destroyed', data: @certificate.number)
+      flash.now[:alert] = t('activerecord.messages.error.destroyed', data: @certificate.number)
       render :show
     end      
   end

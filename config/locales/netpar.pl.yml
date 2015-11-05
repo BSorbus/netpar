@@ -435,6 +435,7 @@ pl:
         category: 'Kategoria'
         note: 'Uwagi'
         certificate_id: 'Wygenerowano świadectwo'
+        supplementary: 'Uzupełniający (PW)'
       examination/grades:
         subject_id: 'Przedmiot'
       subject:

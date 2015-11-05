@@ -3,6 +3,18 @@
    # We default it to false 
 %>
 
+<% if @exam.errors.any? %>
+  <div id="error_explanation" class="panel panel-danger">
+    <div class="panel-body">
+      <ul>
+      <% @exam.errors.full_messages.each do |msg| %>
+        <li><h5><%= msg %></h5></li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
 <div class="row">
   <div class="col-sm-12">
     <div class="row">
@@ -26,7 +38,7 @@
   </div>  <!-- /col-sm-12 -->
 </div>  <!-- /row -->
 
-<hr>
+<hr class="hr-without-top-margin">
 
 <div class="row">
   <div class="col-sm-6">
@@ -92,7 +104,7 @@
   </div> <!-- /col-sm-6 -->
 </div> <!-- /row -->
 
-<hr>
+<hr class="hr-without-top-margin">
 
 
 <% if input_disabled %>

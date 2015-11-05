@@ -213,7 +213,7 @@ class ExaminationsController < ApplicationController
       Work.create!(trackable: @examination, action: :destroy, user: current_user, parameters: @examination.attributes.to_json)
       redirect_to (params[:back_url]).present? ? params[:back_url] : exam_path(exam, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.destroyed', data: @examination.fullname)
     else 
-      flash[:alert] = t('activerecord.messages.error.destroyed', data: @examination.fullname)
+      flash.now[:alert] = t('activerecord.messages.error.destroyed', data: @examination.fullname)
       render :show
     end      
   end
@@ -234,6 +234,6 @@ class ExaminationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def examination_params
-      params.require(:examination).permit(:examination_category, :division_id, :examination_result, :exam_id, :customer_id, :certificate_id, :note, :category, :exam_id, :user_id, grades_attributes: [:id, :grade_result])
+      params.require(:examination).permit(:examination_category, :division_id, :supplementary, :examination_result, :exam_id, :customer_id, :certificate_id, :note, :category, :exam_id, :user_id, grades_attributes: [:id, :grade_result])
     end
 end

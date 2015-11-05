@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151001075540) do
+ActiveRecord::Schema.define(version: 20151029081508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,7 +147,7 @@ ActiveRecord::Schema.define(version: 20151001075540) do
   add_index "documents", ["documentable_type", "documentable_id"], name: "index_documents_on_documentable_type_and_documentable_id", using: :btree
 
   create_table "examinations", force: :cascade do |t|
-    t.string   "examination_category", limit: 1, default: "Z", null: false
+    t.string   "examination_category", limit: 1, default: "Z",   null: false
     t.integer  "division_id"
     t.string   "examination_result",   limit: 1
     t.integer  "exam_id"
@@ -155,9 +155,10 @@ ActiveRecord::Schema.define(version: 20151001075540) do
     t.text     "note",                           default: ""
     t.string   "category",             limit: 1
     t.integer  "user_id"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
     t.integer  "certificate_id"
+    t.boolean  "supplementary",                  default: false, null: false
   end
 
   add_index "examinations", ["certificate_id"], name: "index_examinations_on_certificate_id", using: :btree

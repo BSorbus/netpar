@@ -13,7 +13,7 @@ class MyMailer < Devise::Mailer
     #attachments.inline['logo.png'] = File.read("app/assets/images/logo.png")
     attachments.inline['logo.jpg'] = File.read("app/assets/images/netpar2015.jpg")
     #!!!!!!!!!!!!!!!!!!!!!!
-    opts[:to] = 'BSorbus@gmail.com'   
+    #opts[:to] = 'BSorbus@gmail.com'   
     #opts[:subject] = "NetPAR 2015 - Instrukcja aktywowania konta"
     super
   end

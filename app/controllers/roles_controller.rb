@@ -74,7 +74,7 @@ class RolesController < ApplicationController
         parameters: @role.attributes.to_json)
       redirect_to roles_url, notice: t('activerecord.messages.successfull.destroyed', data: @role.name)
     else 
-      flash[:alert] = t('activerecord.messages.error.destroyed', data: @role.name)
+      flash.now[:alert] = t('activerecord.messages.error.destroyed', data: @role.name)
       render :show
     end      
   end

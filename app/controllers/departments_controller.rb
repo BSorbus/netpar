@@ -81,7 +81,7 @@ class DepartmentsController < ApplicationController
  
       redirect_to departments_url, notice: t('activerecord.messages.successfull.destroyed', data: @department.short)
     else 
-      flash[:alert] = t('activerecord.messages.error.destroyed', data: @department.short)
+      flash.now[:alert] = t('activerecord.messages.error.destroyed', data: @department.short)
       render :show
     end      
   end

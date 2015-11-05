@@ -2,7 +2,7 @@ class ExamsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index, :select2_index, :generating_certificates]
 
-  before_action :set_exam, only: [:show, :edit, :update, :destroy, :examination_cards_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf]
+  before_action :set_exam, only: [:show, :edit, :update, :destroy, :examination_cards_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf]
 
   # GET /exams
   # GET /exams.json
@@ -55,7 +55,13 @@ class ExamsController < ApplicationController
         authorize :examination, :print_r?
     end    
 
-    @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
+    if params[:prnorder].present? && ['id', 'customers.name, customers.given_names'].include?(params[:prnorder]) # Wszystkie
+      my_order = params[:prnorder].gsub("id", "examinations.id") 
+      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order(my_order).all
+    else
+      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order(:id).all
+    end
+
 
     if @examinations_all.empty?
       redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
@@ -85,14 +91,19 @@ class ExamsController < ApplicationController
   def examination_protocol_to_pdf
     case params[:category_service]
       when 'l'
-        authorize :examination, :print_l?
+        authorize :exam, :print_l?
       when 'm'
-        authorize :examination, :print_m?
+        authorize :exam, :print_m?
       when 'r'
-        authorize :examination, :print_r?
+        authorize :exam, :print_r?
     end    
 
-    @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
+    if params[:prnorder].present? && ['id', 'customers.name, customers.given_names'].include?(params[:prnorder]) # Wszystkie
+      my_order = params[:prnorder].gsub("id", "examinations.id") 
+      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order(my_order).all
+    else
+      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order(:id).all
+    end
 
     if @examinations_all.empty?
       redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
@@ -131,10 +142,18 @@ class ExamsController < ApplicationController
     end    
 
     if params[:prnscope].present? && params[:prnscope] != "0" # Wszystkie 
-      @certificates_all = Certificate.joins(:customer).references(:customer).where(exam_id: params[:id], division_id: params[:prnscope]).order("customers.name, customers.given_names").all
+      @certificates_all = Certificate.joins(:customer).references(:customer).where(exam_id: params[:id], division_id: params[:prnscope]).all
     else 
-      @certificates_all = Certificate.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
+      @certificates_all = Certificate.joins(:customer).references(:customer).where(exam_id: params[:id]).all
     end 
+
+
+    if params[:prnorder].present? && ['id', 'customers.name, customers.given_names'].include?(params[:prnorder]) # Wszystkie
+      my_order = params[:prnorder].gsub("id", "certificates.id") 
+      @certificates_all = @certificates_all.order(my_order)
+    else
+      @certificates_all = @certificates_all.order(:id)
+    end
 
     if @certificates_all.empty?
       redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
@@ -166,7 +185,15 @@ class ExamsController < ApplicationController
 
   def envelopes_to_pdf
     authorize :customer, :show?
-    @customers_all = @exam.certificate_customers.order(:name, :given_names)
+    #@customers_all = @exam.certificate_customers.order(:name, :given_names)
+
+
+    if params[:prnorder].present? && ['id', 'customers.name, customers.given_names'].include?(params[:prnorder]) # Wszystkie
+      my_order = params[:prnorder].gsub("id", "certificates.updated_at") 
+      @customers_all = @exam.certificate_customers.order(my_order)
+    else
+      @customers_all = @exam.certificate_customers.order(:name, :given_names)
+    end
 
     if @customers_all.empty?
       redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
@@ -186,6 +213,27 @@ class ExamsController < ApplicationController
 #                        parameters: {pdf_type: 'envelope', filename: "#{documentname}"}.to_json)
 
     end 
+  end
+
+  def exam_report_to_pdf
+    case params[:category_service]
+      when 'l'
+        authorize :exam, :print_l?
+      when 'm'
+        authorize :exam, :print_m?
+      when 'r'
+        authorize :exam, :print_r?
+    end 
+
+    respond_to do |format|
+      format.pdf do
+        pdf = PdfExamReport.new(@exam, view_context)
+        send_data pdf.render,
+        filename: "Exam_Report_#{params[:category_service]}_#{@exam.number}.pdf",
+        type: "application/pdf",
+        disposition: "inline"   
+      end
+    end
   end
 
   # GET /exams/1
@@ -327,7 +375,7 @@ class ExamsController < ApplicationController
                                     }))
       redirect_to exams_url, notice: t('activerecord.messages.successfull.destroyed', data: @exam.number)
     else 
-      flash[:alert] = t('activerecord.messages.error.destroyed', data: @exam.number)
+      flash.now[:alert] = t('activerecord.messages.error.destroyed', data: @exam.number)
       render :show
     end      
   end

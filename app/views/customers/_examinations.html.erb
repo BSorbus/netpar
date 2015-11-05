@@ -13,6 +13,7 @@
             <th> </th>
             <th><%= Examination.human_attribute_name(:examination_category) %></th>
             <th><%= Examination.human_attribute_name(:division_id) %></th>
+            <th><%= Examination.human_attribute_name(:supplementary) %></th>
             <th><%= Examination.human_attribute_name(:examination_result) %></th>
             <th><%= Examination.human_attribute_name(:exam_id) %></th>
             <th><%= Examination.human_attribute_name(:certificate_id) %></th>
@@ -35,6 +36,12 @@
                 </td>
                 <td><%= examination.examination_category_name %></td>
                 <td><%= examination.division.name %></td>
+
+                <% if examination.supplementary? %> 
+                  <td style="text-align: center"><span class="glyphicon glyphicon-ok"></span> </td>
+                <% else %>
+                  <td></td>
+                <% end %>                
 
                 <% if    examination.examination_result == 'P' %> <!-- pozytywny -->
                   <td class="success"><%= examination.examination_result_name %></td>

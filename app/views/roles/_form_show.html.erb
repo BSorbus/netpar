@@ -16,7 +16,7 @@
   </div>  <!-- /col-sm-12 -->
 </div>  <!-- /row -->
 
-<hr>
+<hr class="hr-without-top-margin">
 
 <div class="row">
   <div class="col-sm-12">
@@ -31,27 +31,28 @@
   </div> <!-- /col-sm-6 -->
 </div> <!-- /row -->
 
-<hr>
-
-
-<%= link_to t('Index', default: t("helpers.links.index")), roles_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
-
-<%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+<hr class="hr-without-top-margin">
 
 <% if input_disabled %>
   <!-- for "Show" -->
+  <div class="row">
+    <%= link_to t('Index', default: t("helpers.links.index")), roles_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
 
-  <% if policy(@role).destroy? %>
-    <%= link_to t('Delete', default: t("helpers.links.destroy")), role_path(@role),
-                        method: :delete,
-                        data: { confirm: t('helpers.links.confirm_destroy', data: @role.name) }, 
-                        :class => "btn btn-danger glyphicon glyphicon-trash" %>
-  <% end %>
+    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
 
-  <% if policy(@role).edit? %>
-    <%= link_to t('Edit', default: t("helpers.links.edit")), edit_role_path(@role), 
-                    :class => "btn btn-primary glyphicon glyphicon-edit" %>  
-  <% end %>
+
+    <% if policy(@role).destroy? %>
+      <%= link_to t('Delete', default: t("helpers.links.destroy")), role_path(@role),
+                          method: :delete,
+                          data: { confirm: t('helpers.links.confirm_destroy', data: @role.name) }, 
+                          :class => "btn btn-danger glyphicon glyphicon-trash" %>
+    <% end %>
+
+    <% if policy(@role).edit? %>
+      <%= link_to t('Edit', default: t("helpers.links.edit")), edit_role_path(@role), 
+                      :class => "btn btn-primary glyphicon glyphicon-edit" %>  
+    <% end %>
+  </div> <!-- /row -->
 <% else %>
   <!-- form "New"/"Edit" -->
 <% end %>

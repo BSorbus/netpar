@@ -34,7 +34,7 @@
         </div>
 
         <div class="form-group col-sm-2">
-          <%= f.label :human, class: 'control-label' %>
+          <%= f.label :human, class: 'control-label' %><br>
           <%= f.check_box :human, disabled: input_disabled, id: "human_switch" %>
         </div>
 
@@ -42,7 +42,7 @@
     </div>  <!-- /col-sm-12 -->
   </div>  <!-- /row -->
 
-  <hr class="hr-without-padding">
+  <hr class="hr-without-margins">
 
   <div class="row">
     <div class="col-sm-6">
@@ -85,9 +85,7 @@
         </div>
       </div>
 
-
-      <hr>
-
+      <hr class="hr-without-top-margin">
 
       <div class="row">
         <div class="form-group col-sm-4">
@@ -182,7 +180,7 @@
         </div>
       </div>
 
-      <hr>
+      <hr class="hr-without-top-margin">
 
       <div class="row">
         <div class="form-group col-sm-4">
@@ -229,11 +227,10 @@
         <%= f.text_area :note, :rows => 4, :cols => 50, class: 'form-control input-sm', disabled: input_disabled %>
       </div>
 
-
     </div> <!-- /col-sm-6 -->
   </div> <!-- /row -->
 
-  <hr>
+  <hr class="hr-without-top-margin">
 
   <% if input_disabled %>
     <!-- for "Show" -->

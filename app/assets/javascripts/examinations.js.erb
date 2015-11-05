@@ -36,30 +36,32 @@ $(document).ready(function() {
       { "targets": [4],
         "title": "<%= Examination.human_attribute_name('division_id') %>" }, 
       { "targets": [5],
+        "title": "<%= Examination.human_attribute_name('supplementary') %>" }, 
+      { "targets": [6],
         "title": "<%= Examination.human_attribute_name('examination_result') %>", 
         fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
           // sData - wartosc celi, oData - wiersza
-          if (oData[5] == 'Pozytywny' ) {
+          if (oData[6] == 'Pozytywny' ) {
             $(nTd).css('background-color', '#DFF0D8'); 
           }
-          else if (oData[5] == 'Negatywny z prawem do poprawki' ) {
+          else if (oData[6] == 'Negatywny z prawem do poprawki' ) {
             $(nTd).css('background-color', '#FFFACD'); 
           }
-          else if (oData[5] == 'Negatywny bez prawa do poprawki' ) {
+          else if (oData[6] == 'Negatywny bez prawa do poprawki' ) {
             $(nTd).css('background-color', '#FF8C8C'); 
           }
         }
       }, 
-      { "targets": [6],
-        "title": "<%= Examination.human_attribute_name('note') %>" }, 
       { "targets": [7],
-        "title": "<%= Examination.human_attribute_name('certificate_id') %>" }, 
+        "title": "<%= Examination.human_attribute_name('note') %>" }, 
       { "targets": [8],
+        "title": "<%= Examination.human_attribute_name('certificate_id') %>" }, 
+      { "targets": [9],
         "title": "<%= Examination.human_attribute_name('category') %>",
         "visible": false,
         "searchable": false,
         "sortable": false }, 
-      { "targets": [9],
+      { "targets": [10],
         "title": "Akcje",
         "searchable": false,
         "sortable": false } 
@@ -91,7 +93,7 @@ $(document).ready(function() {
       async: false
     });
     oExamExaminationsTable.ajax.reload();
-    oExamExaminationsTable.order([7, 'asc']);
+    oExamExaminationsTable.order([8, 'asc']);
     oExamExaminationsTable.draw();
 
 

@@ -1,28 +1,45 @@
 <div class="col-sm-12">
   <div class="row">  <!--row -->
     <div class="col-sm-2">
+      <h5>Filtr:</h5>
       <div class="btn-group-vertical" id="btn-group-prnscope" data-toggle="buttons">
 
         <label class="btn btn-default active" value="0">
-          <input type="radio" name="btns" id="option1" autocomplete="off"checked >Wszystkie
+          <input type="radio" name="btns" id="option1" autocomplete="off" checked >Wszystkie
         </label>
 
         <!-- don't display for category "L" => not(category: 'L') -->
         <% Division.where(id: @exam.certificates.map(&:division_id), category: ['M','R']).each do |d| %>
           <label class="btn btn-default" value="<%= d.id %>">
-            <input type="radio" name="btns" id="option<%= d.id %>" autocomplete="off"checked ><%= d.short_name %>
+            <input type="radio" name="btns" id="option<%= d.id %>" autocomplete="off" checked ><%= d.short_name %>
           </label>
         <% end %>
 
       </div>
       <input type="hidden" name="prnscopevalue" id="prnscopevalue" value="0"/>
     </div>
-    <div class="col-sm-10">
+
+    <div class="col-sm-2">
+      <h5>Sortowanie wg:</h5>
+      <div class="btn-group-vertical" id="btn-group-prnorder" data-toggle="buttons">
+
+        <label class="btn btn-default active" value="customers.name, customers.given_names">
+          <input type="radio" name="btns" id="option1" autocomplete="off" checked >Nazwisko, Imię
+        </label>
+        <label class="btn btn-default" value="id">
+          <input type="radio" name="btns" id="option2" autocomplete="off" checked >Wprowadzania
+        </label>
+  
+      </div>
+      <input type="hidden" name="prnordervalue" id="prnordervalue" value="customers.name, customers.given_names"/>
+    </div>
+
+    <div class="col-sm-8">
       <blockquote>
         <h5>Wydruki generowane w tym widoku ograniczone są tylko do pozycji <strong><%= @exam.fullname %></strong>.
-            Mogą zawierać też listy zbiorcze dotyczące tego Egzaminu</h5>
-        <h5>Możesz dodatkowo filtrować zawartość wydruków oznaczonych <em>"wstążką"</em>
-        wybierając przełącznikiem (patrz w lewo) odpowiednią wartość.</h5>
+            Zawierać też mogą listy zbiorcze dotyczące tej Sesji Egzaminacyjnej.</h5>
+        <h5>Możesz dodatkowo filtrować i/lub sortować zawartość wydruków oznaczonych <em>"wstążkami"</em> (patrz w lewo)
+        wybierając przełącznikami odpowiednie wartości.</h5>
       </blockquote>
     </div> <!-- /.col-sm-12 -->
   </div> <!-- /.row -->
@@ -35,7 +52,9 @@
     </div><!-- /.col-sm-2 -->
   
     <% if examination_policy_check(:examination, params[:category_service], 'print') %>
-      <div class="col-sm-2">
+      <div class="col-sm-2 checked-order-prn">
+        <div class="folded-purple"><h3>Nazwisko, Imię</h3></div>
+
         <%= link_to image_tag("examination_card_#{params[:category_service]}.jpg", :class => "img-thumbnail" ), 
               examination_cards_to_pdf_exam_path(@exam, category_service: @exam.category.downcase, :format => "pdf"), 
               :target => "_blank" %>  
@@ -44,13 +63,24 @@
       </div><!-- /.col-sm-2 -->
     <% end %>
 
-    <% if examination_policy_check(:examination, params[:category_service], 'print') %>
-      <div class="col-sm-2">
+    <% if exam_policy_check(:exam, params[:category_service], 'print') %>
+      <div class="col-sm-2 checked-order-prn">
+        <div class="folded-purple"><h3>Nazwisko, Imię</h3></div>
         <%= link_to image_tag("examination_protocol_#{params[:category_service]}.jpg", :class => "img-thumbnail" ), 
               examination_protocol_to_pdf_exam_path(@exam, category_service: @exam.category.downcase, :format => "pdf"), 
               :target => "_blank" %>  
 
         <h5>Protokół sesji egzaminacyjnej</h5>
+      </div><!-- /.col-sm-2 -->
+    <% end %>
+
+    <% if exam_policy_check(:exam, params[:category_service], 'print') %>
+      <div class="col-sm-2">
+        <%= link_to image_tag("exam_report.jpg", :class => "img-thumbnail" ), 
+              exam_report_to_pdf_exam_path(@exam, category_service: @exam.category.downcase, :format => "pdf"), 
+              :target => "_blank" %>  
+
+        <h5>Raport</h5>
       </div><!-- /.col-sm-2 -->
     <% end %>
 
@@ -64,23 +94,24 @@
     </div><!-- /.col-sm-2 -->
   
     <% if certificate_policy_check(:certificate, params[:category_service], 'print') %>
-      <div class="col-sm-2" id="checked-scope-prn">
+      <div class="col-sm-2 checked-scope-order-prn">
         <div class="folded"><h3>Wszystkie</h3></div>
+        <div class="folded-purple"><h3>Nazwisko, Imię</h3></div>
         <%= link_to image_tag("certificate_#{params[:category_service]}.jpg", :class => "img-thumbnail" ), 
               certificates_to_pdf_exam_path(@exam, category_service: @exam.category.downcase, :format => "pdf"), 
-              :target => "_blank" %>  
-
+              :target => "_blank" %>
         <h5>Świadectwa</h5>
       </div><!-- /.col-sm-2 -->
     <% end %>
 
 
     <% if policy(:customer).show? %>
-      <div class="col-sm-3">
+      <div class="col-sm-3 checked-order-prn">
+        <div class="folded-purple"><h3>Nazwisko, Imię</h3></div>
         <%= link_to image_tag("envelope.jpg", :class => "img-thumbnail" ), 
               envelopes_to_pdf_exam_path(@exam, category_service: @exam.category.downcase, :format => "pdf"), 
-              :target => "_blank" %>  
-
+              :target => "_blank" %>
+        
         <h5>Koperty (rozmiar C6)</h5>
       </div><!-- /.col-sm-2 -->
     <% end %>

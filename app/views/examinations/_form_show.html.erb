@@ -12,9 +12,14 @@
         <h5><%= @examination.examination_category_name %></h5>
       </div>
 
-      <div class="form-group col-sm-7">
+      <div class="form-group col-sm-5">
         <p><strong><%= Examination.human_attribute_name(:division_id) %></strong></p>
         <h5><%= @examination.division.name %> (<%= @examination.division.short_name %>)</h5>
+      </div>
+
+      <div class="form-group col-sm-2">
+        <p><strong><%= Examination.human_attribute_name(:supplementary) %></strong></p>
+        <h5><%= @examination.supplementary? ? 'Tak' : 'Nie' %></h5>
       </div>
 
       <div class="form-group col-sm-3">
@@ -26,7 +31,7 @@
   </div>  <!-- /col-sm-12 -->
 </div>  <!-- /row -->
 
-<hr>
+<hr class="hr-without-top-margin">
 
 <div class="row">
   <div class="col-sm-7">
@@ -104,7 +109,7 @@
   </div> <!-- /col-sm-6 -->
 </div> <!-- /row -->
 
-<hr>
+<hr class="hr-without-top-margin">
 
 
 <% if input_disabled %>

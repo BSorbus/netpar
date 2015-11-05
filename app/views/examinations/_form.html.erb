@@ -33,12 +33,17 @@
               { autofocus: true, class: 'form-control input-sm', disabled: input_disabled } %>
       </div>
 
-      <div class="form-group col-sm-7">
+      <div class="form-group col-sm-5">
         <%= f.label :division_id, class: 'control-label' %>
         <%= f.select :division_id, 
               Division.only_category_scope(params[:category_service]).by_name.collect {|p| [ "#{p.name} (#{p.short_name})", p.id ]},
               { include_blank: false, multiple: false }, 
               { class: 'form-control input-sm', disabled: !@examination.new_record? } %>
+      </div>
+
+      <div class="form-group col-sm-2">
+        <%= f.label :supplementary, class: 'control-label' %><br>
+        <%= f.check_box :supplementary, disabled: input_disabled %>
       </div>
 
       <% unless @examination.new_record? %>
@@ -59,7 +64,7 @@
   </div>  <!-- /col-sm-12 -->
 </div>  <!-- /row -->
 
-<hr>
+<hr class="hr-without-top-margin">
 
 <div class="row">
   <div class="col-sm-12">
@@ -137,7 +142,7 @@
 
 </div> <!-- /row -->
 
-<hr>
+<hr class="hr-without-top-margin">
 
 
 <% if input_disabled %>
