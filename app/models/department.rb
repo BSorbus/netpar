@@ -11,7 +11,6 @@
 #    t.string   "fax",                 limit: 50,  default: ""
 #    t.string   "email",               limit: 50,  default: ""
 #    t.string   "director",            limit: 50,  default: ""
-#    t.string   "code"
 #    t.datetime "created_at",                                   null: false
 #    t.datetime "updated_at",                                   null: false
 #  end

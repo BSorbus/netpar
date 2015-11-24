@@ -140,7 +140,7 @@ class Customer < ActiveRecord::Base
   def fullname_and_address_for_envelope
     if c_address_city.present?
       res =  "#{given_names} #{name} \n"
-      res += "ul. #{c_address_street}" if c_address_street.present?
+      res += c_address_street.present? ? "ul. #{c_address_street}" : "#{c_address_city}" 
       res += " #{c_address_house}" if c_address_house.present?
       res += "/#{c_address_number}" if c_address_number.present?
       res += "\n #{c_address_postal_code} #{c_address_city}"
@@ -148,7 +148,7 @@ class Customer < ActiveRecord::Base
       res += "\n poczta: #{c_address_post_office}" if c_address_post_office.present? && c_address_city != c_address_post_office
     else
       res =  "#{given_names} #{name} \n"
-      res += "ul. #{address_street}" if address_street.present?
+      res += address_street.present? ? "ul. #{address_street}" : "#{address_city}" 
       res += " #{address_house}" if address_house.present?
       res += "/#{address_number}" if address_number.present?
       res += "\n #{address_postal_code} #{address_city}"

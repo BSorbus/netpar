@@ -102,7 +102,7 @@ class Examination < ActiveRecord::Base
 
         upd_certificate.works.create( trackable_url: "#{Rails.application.routes.url_helpers.certificate_path(upd_certificate, category_service: new_certificate.category.downcase)}", 
           action: :update_certificate, user_id: gen_user_id, 
-          parameters: upd_certificate.to_json(except: [:exam_id, :division_id, :customer_id, :user_id, :code], 
+          parameters: upd_certificate.to_json(except: [:exam_id, :division_id, :customer_id, :user_id], 
                                               include: {
                                                 exam: {only: [:id, :number, :date_exam]},
                                                 division: {only: [:id, :name]},
@@ -126,7 +126,7 @@ class Examination < ActiveRecord::Base
       self.save! 
       new_certificate.works.create( trackable_url: "#{Rails.application.routes.url_helpers.certificate_path(new_certificate, category_service: new_certificate.category.downcase)}", 
         action: :generate_certificate, user_id: gen_user_id, 
-        parameters: new_certificate.to_json(except: [:exam_id, :division_id, :customer_id, :user_id, :code], 
+        parameters: new_certificate.to_json(except: [:exam_id, :division_id, :customer_id, :user_id], 
                                             include: {
                                               exam: {only: [:id, :number, :date_exam]},
                                               division: {only: [:id, :name]},

@@ -308,7 +308,7 @@ class ExamsController < ApplicationController
     respond_to do |format|
       if @exam.save
         @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :create, user: current_user, 
-          parameters: @exam.to_json(except: [:user_id, :code], 
+          parameters: @exam.to_json(except: [:user_id], 
                                     include: {
                                       user: {only: [:id, :name, :email]},
                                       examiners: {only: [:name]}
@@ -339,7 +339,7 @@ class ExamsController < ApplicationController
     respond_to do |format|
       if @exam.update(exam_params)
         @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :update, user: current_user, 
-          parameters: @exam.to_json(except: [:user_id, :code], 
+          parameters: @exam.to_json(except: [:user_id], 
                                     include: {
                                       user: {only: [:id, :name, :email]},
                                       examiners: {only: [:name]}
@@ -368,7 +368,7 @@ class ExamsController < ApplicationController
 
     if @exam.destroy
       Work.create!(trackable: @exam, action: :destroy, user: current_user, 
-          parameters: @exam.to_json(except: [:user_id, :code], 
+          parameters: @exam.to_json(except: [:user_id], 
                                     include: {
                                       user: {only: [:id, :name, :email]},
                                       examiners: {only: [:name]}

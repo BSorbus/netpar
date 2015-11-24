@@ -10,7 +10,6 @@
 #    t.integer  "user_id"
 #    t.datetime "created_at",                          null: false
 #    t.datetime "updated_at",                          null: false
-#    t.integer  "code"
 #  end
 #  add_index "exams", ["category"], name: "index_exams_on_category", using: :btree
 #  add_index "exams", ["date_exam"], name: "index_exams_on_date_exam", using: :btree

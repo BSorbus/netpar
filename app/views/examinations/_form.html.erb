@@ -100,7 +100,7 @@
         <p><strong>Oceny:</strong></p>
       </div>
     </div>
-    <%= f.fields_for :grades do |g| %>
+    <%= f.fields_for :grades, @examination.grades.order(:id) do |g| %>
 
       <div class="row">
         <div class="form-group col-sm-9">

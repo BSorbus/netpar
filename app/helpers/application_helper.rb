@@ -2,6 +2,7 @@ module ApplicationHelper
   #require 'RMagick'
   #require 'refile-mini_magick'
 
+
 	def get_fileattach_as_image(attach, for_service)
 
     case attach.fileattach_content_type

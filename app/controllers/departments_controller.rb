@@ -94,6 +94,6 @@ class DepartmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def department_params
-      params.require(:department).permit(:short, :name, :address_city, :address_street, :address_house, :address_number, :phone, :fax, :email, :director, :code)
+      params.require(:department).permit(:short, :name, :address_city, :address_street, :address_house, :address_number, :phone, :fax, :email, :director)
     end
 end

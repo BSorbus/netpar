@@ -52,16 +52,16 @@ class PdfCertificatesM < Prawn::Document
 
   def data(certificate)
     str_name = "#{certificate.customer.given_names} #{certificate.customer.name.mb_chars.upcase}"
-    text_box "#{str_name}",                                           :at => [  0, 358], :width => 230, :height => 12, size: 12, :align => :center, :style => :bold
+    #text_box "#{str_name}",                                           :at => [  0, 358], :width => 230, :height => 12, size: 12, :align => :center, :style => :bold
 
 
-    #if str_name.length <= 30 
-    #  text_box "#{str_name}",                                         :at => [  0, 358], :width => 230, :height => 11, size: 11, :align => :center, :style => :bold
-    #elsif str_name.length <= 34
-    #  text_box "#{str_name}",                                         :at => [  0, 358], :width => 230, :height => 11, size: 10, :align => :center, :style => :bold
-    #else
-    #  text_box "#{str_name}",                                         :at => [  0, 358], :width => 230, :height => 11, size:  9, :align => :center, :style => :bold
-    #end
+    if str_name.length <= 30 
+      text_box "#{str_name}",                                         :at => [  0, 358], :width => 230, :height => 12, size: 12, :align => :center, :style => :bold
+    elsif str_name.length <= 34
+      text_box "#{str_name}",                                         :at => [  0, 358], :width => 230, :height => 11, size: 10, :align => :center, :style => :bold
+    else
+      text_box "#{str_name}",                                         :at => [  0, 358], :width => 230, :height => 11, size:  9, :align => :center, :style => :bold
+    end
 
 
 

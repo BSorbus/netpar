@@ -188,7 +188,7 @@ class CertificatesController < ApplicationController
     respond_to do |format|
       if @certificate.save
         @certificate.works.create!(trackable_url: "#{certificate_path(@certificate, category_service: params[:category_service])}", action: :create, user: current_user, 
-          parameters: @certificate.to_json(except: [:exam_id, :division_id, :customer_id, :user_id, :code], 
+          parameters: @certificate.to_json(except: [:exam_id, :division_id, :customer_id, :user_id], 
                                           include: {
                                             exam: {only: [:id, :number, :date_exam]},
                                             division: {only: [:id, :name]},
@@ -222,7 +222,7 @@ class CertificatesController < ApplicationController
     respond_to do |format|
       if @certificate.update(certificate_params)
         @certificate.works.create!(trackable_url: "#{certificate_path(@certificate, category_service: params[:category_service])}", action: :update, user: current_user, 
-          parameters: @certificate.to_json(except: [:exam_id, :division_id, :customer_id, :user_id, :code], 
+          parameters: @certificate.to_json(except: [:exam_id, :division_id, :customer_id, :user_id], 
                                           include: {
                                             exam: {only: [:id, :number, :date_exam]},
                                             division: {only: [:id, :name]},
@@ -255,7 +255,7 @@ class CertificatesController < ApplicationController
     exam = @certificate.exam
     if @certificate.destroy
       Work.create!(trackable: @certificate, action: :destroy, user: current_user, 
-          parameters: @certificate.to_json(except: [:exam_id, :division_id, :customer_id, :user_id, :code], 
+          parameters: @certificate.to_json(except: [:exam_id, :division_id, :customer_id, :user_id], 
                                           include: {
                                             exam: {only: [:id, :number, :date_exam]},
                                             division: {only: [:id, :name]},
@@ -287,6 +287,18 @@ class CertificatesController < ApplicationController
 
 
   private
+    def certificate_authorize(model_class, action, options={})
+      case options[:category_service]
+        when 'l'
+          authorize model_class, :destroy_l?
+        when 'm'
+          authorize model_class, :destroy_m?
+        when 'r'
+          authorize model_class, :destroy_r?
+      end    
+    end
+
+
     # Use callbacks to share common setup or constraints between actions.
     def set_certificate
       @certificate = Certificate.find(params[:id])
