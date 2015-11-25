@@ -15,7 +15,8 @@ $(document).ready(function() {
         };
       },
       results: function(data, page) {
-        var more = (page * 10) < data.total_count;
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
         var customers = $.map( data.customers, function(customer, i) {
           return { id: customer.id, text: customer.fullname_and_address_and_pesel_nip_and_birth_date };
         });
@@ -52,7 +53,8 @@ $(document).ready(function() {
         };
       },
       results: function(data, page) {
-        var more = (page * 10) < data.total_count;
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
         var exams = $.map( data.exams, function(exam, i) {
           return { id: exam.id, text: exam.fullname };
         });
@@ -89,7 +91,8 @@ $(document).ready(function() {
         };
       },
       results: function(data, page) {
-        var more = (page * 10) < data.total_count;
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
         var exams = $.map( data.exams, function(exam, i) {
           return { id: exam.id, text: exam.fullname };
         });
@@ -126,7 +129,8 @@ $(document).ready(function() {
         };
       },
       results: function(data, page) {
-        var more = (page * 10) < data.total_count;
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
         var exams = $.map( data.exams, function(exam, i) {
           return { id: exam.id, text: exam.fullname };
         });

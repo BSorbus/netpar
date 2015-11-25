@@ -95,34 +95,36 @@
 
 
 
-    <div class="row">
-      <div class="col-sm-12">
-        <p><strong>Oceny:</strong></p>
-      </div>
-    </div>
-    <%= f.fields_for :grades, @examination.grades.order(:id) do |g| %>
-
+    <% unless @examination.new_record? %>
       <div class="row">
-        <div class="form-group col-sm-9">
-          <%#= f.label :subject_id, class: 'control-label' %>
-          <%= g.select :subject_id, 
-                Subject.all.collect {|p| [ "#{p.name}", p.id ]},
-                { include_blank: false, multiple: false }, 
-                { class: 'form-control input-sm', disabled: true } %>
+        <div class="col-sm-12">
+          <p><strong>Oceny:</strong></p>
         </div>
-        <div class="form-group col-sm-3">
-          <%= g.select :grade_result, 
-                    options_for_select([['Negatywna', 'N'],
-                                        ['Pozytywna', 'P']], 
-                        selected: g.object.grade_result), 
-                    { include_blank: true }, 
-                    { class: 'form-control input-sm', disabled: input_disabled } %>
-
-        </div>
-
       </div>
+      <%= f.fields_for :grades, @examination.grades.order(:id) do |g| %>
 
-    <% end %>
+        <div class="row">
+          <div class="form-group col-sm-9">
+            <%#= f.label :subject_id, class: 'control-label' %>
+            <%= g.select :subject_id, 
+                  Subject.all.collect {|p| [ "#{p.name}", p.id ]},
+                  { include_blank: false, multiple: false }, 
+                  { class: 'form-control input-sm', disabled: true } %>
+          </div>
+          <div class="form-group col-sm-3">
+            <%= g.select :grade_result, 
+                      options_for_select([['Negatywna', 'N'],
+                                          ['Pozytywna', 'P']], 
+                          selected: g.object.grade_result), 
+                      { include_blank: true }, 
+                      { class: 'form-control input-sm', disabled: input_disabled } %>
+
+          </div>
+
+        </div>
+
+      <% end %> <!-- /f.fields_for -->
+    <% end %> <!-- /unless @examination.new_record? -->
 
 
     <div class="row">

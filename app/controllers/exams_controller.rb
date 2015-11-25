@@ -37,11 +37,14 @@ class ExamsController < ApplicationController
     respond_to do |format|
       format.html
       format.json { 
-        render json: { 
-          exams: @exams_on_page.as_json(methods: :fullname, only: [:id, :fullname]),
-          total_count: @exams.count 
-        } 
-      }
+        render json: @exams_on_page, each_serializer: ExamSerializer, meta: {total_count: @exams.count}
+      } 
+#      format.json { 
+#        render json: { 
+#          exams: @exams_on_page.as_json(methods: :fullname, only: [:id, :fullname]),
+#          total_count: @exams.count 
+#        } 
+#      }
     end
   end
 
@@ -249,7 +252,10 @@ class ExamsController < ApplicationController
     end    
 
     respond_to do |format|
-      format.json
+      # for jBuilder
+      #format.json 
+      # if using active_model_serializer
+      format.json { render json: @exam, root: false }
       format.html { render :show, locals: { back_url: params[:back_url]} }
     end
     # przepych

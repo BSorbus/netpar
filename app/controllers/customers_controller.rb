@@ -28,11 +28,14 @@ class CustomersController < ApplicationController
     respond_to do |format|
       format.html
       format.json { 
-        render json: { 
-          customers: @customers_on_page.as_json(methods: :fullname_and_address_and_pesel_nip_and_birth_date, only: [:id, :fullname_and_address_and_pesel_nip_and_birth_date]),
-          total_count: @customers.count 
-        } 
+        render json: @customers_on_page, each_serializer: CustomerSerializer, meta: {total_count: @customers.count}  
       }
+#      format.json { 
+#        render json: { 
+#          customers: @customers_on_page.as_json(methods: :fullname_and_address_and_pesel_nip_and_birth_date, only: [:id, :fullname_and_address_and_pesel_nip_and_birth_date]),
+#          total_count: @customers.count 
+#        } 
+#      }
     end
   end
 
@@ -107,8 +110,10 @@ class CustomersController < ApplicationController
     authorize @customer, :show?
 
     respond_to do |format|
-      format.json 
-      #format.json { render json: @customer }
+      # for jBuilder
+      #format.json 
+      # if using active_model_serializer
+      format.json { render json: @customer, root: false }
       format.html { render :show, locals: { back_url: params[:back_url]} }
     end
     # przepych
