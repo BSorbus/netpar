@@ -6,6 +6,9 @@ class CustomerSerializer < ActiveModel::Serializer
     :nip, :regon, :pesel, :birth_date, :birth_place, :fathers_name, :mothers_name, :family_name, :citizenship_id, 
     :phone, :fax, :email, :note, :user_id, :created_at, :updated_at, :fullname_and_address_and_pesel_nip_and_birth_date  
 
+
+  #has_one :user
+
   def fullname
     "#{object.name} #{object.given_names}"
   end

@@ -75,6 +75,11 @@ class UsersController < ApplicationController
 
   def show
     authorize @user, :show?
+
+    respond_to do |format|
+      format.json { render json: @user, root: false, include: [] }
+      format.html { render :show  }
+    end   
     # przepych
     # Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :show, user: current_user, parameters: {})
   end

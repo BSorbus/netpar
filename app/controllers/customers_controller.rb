@@ -113,7 +113,7 @@ class CustomersController < ApplicationController
       # for jBuilder
       #format.json 
       # if using active_model_serializer
-      format.json { render json: @customer, root: false }
+      format.json { render json: @customer, root: false, include: [] }
       format.html { render :show, locals: { back_url: params[:back_url]} }
     end
     # przepych

@@ -8,12 +8,12 @@ class CertificatesController < ApplicationController
   # GET /certificates.json
   def index
     case params[:category_service]
-      when 'l'
-        authorize :certificate, :index_l?
-      when 'm'
-        authorize :certificate, :index_m?
-      when 'r'
-        authorize :certificate, :index_r?
+    when 'l'
+      authorize :certificate, :index_l?
+    when 'm'
+      authorize :certificate, :index_m?
+    when 'r'
+      authorize :certificate, :index_r?
     end    
     # dane pobierane z datatables_index
     # @certificates = Certificate.all
@@ -65,12 +65,12 @@ class CertificatesController < ApplicationController
 
   def certificate_to_pdf
     case params[:category_service]
-      when 'l'
-        authorize :certificate, :print_l?
-      when 'm'
-        authorize :certificate, :print_m?
-      when 'r'
-        authorize :certificate, :print_r?
+    when 'l'
+      authorize :certificate, :print_l?
+    when 'm'
+      authorize :certificate, :print_m?
+    when 'r'
+      authorize :certificate, :print_r?
     end    
 
     @certificates_all = Certificate.joins(:customer).references(:customer).where(id: params[:id]).all
@@ -84,12 +84,12 @@ class CertificatesController < ApplicationController
       respond_to do |format|
         format.pdf do
           case params[:category_service]
-            when 'l'
-              pdf = PdfCertificatesL.new(@certificates_all, view_context, author, documentname)
-            when 'm'
-              pdf = PdfCertificatesM.new(@certificates_all, view_context, author, documentname)
-            when 'r'
-              pdf = PdfCertificatesR.new(@certificates_all, view_context, author, documentname)
+          when 'l'
+            pdf = PdfCertificatesL.new(@certificates_all, view_context, author, documentname)
+          when 'm'
+            pdf = PdfCertificatesM.new(@certificates_all, view_context, author, documentname)
+          when 'r'
+            pdf = PdfCertificatesR.new(@certificates_all, view_context, author, documentname)
           end    
           #pdf = PdfCertificatesL.new(@certificates_all, view_context)
           send_data pdf.render,
@@ -108,12 +108,12 @@ class CertificatesController < ApplicationController
   # GET /certificates/1.json
   def show
     case params[:category_service]
-      when 'l'
-        authorize @certificate, :show_l?
-      when 'm'
-        authorize @certificate, :show_m?
-      when 'r'
-        authorize @certificate, :show_r?
+    when 'l'
+      authorize @certificate, :show_l?
+    when 'm'
+      authorize @certificate, :show_m?
+    when 'r'
+      authorize @certificate, :show_r?
     end   
      
     respond_to do |format|
@@ -137,12 +137,12 @@ class CertificatesController < ApplicationController
     @certificate.customer = @customer
 
     case params[:category_service]
-      when 'l'
-        authorize @certificate, :new_l?
-      when 'm'
-        authorize @certificate, :new_m?
-      when 'r'
-        authorize @certificate, :new_r?
+    when 'l'
+      authorize @certificate, :new_l?
+    when 'm'
+      authorize @certificate, :new_m?
+    when 'r'
+      authorize @certificate, :new_r?
     end    
 
     respond_to do |format|
@@ -154,12 +154,12 @@ class CertificatesController < ApplicationController
   # GET /certificates/1/edit
   def edit
     case params[:category_service]
-      when 'l'
-        authorize @certificate, :edit_l?
-      when 'm'
-        authorize @certificate, :edit_m?
-      when 'r'
-        authorize @certificate, :edit_r?
+    when 'l'
+      authorize @certificate, :edit_l?
+    when 'm'
+      authorize @certificate, :edit_m?
+    when 'r'
+      authorize @certificate, :edit_r?
     end    
      
     respond_to do |format|
@@ -177,12 +177,12 @@ class CertificatesController < ApplicationController
     @certificate.number = Certificate.next_certificate_number(params[:category_service], @certificate.division) if @certificate.number.empty?
 
     case params[:category_service]
-      when 'l'
-        authorize @certificate, :create_l?
-      when 'm'
-        authorize @certificate, :create_m?
-      when 'r'
-        authorize @certificate, :create_r?
+    when 'l'
+      authorize @certificate, :create_l?
+    when 'm'
+      authorize @certificate, :create_m?
+    when 'r'
+      authorize @certificate, :create_r?
     end    
 
     respond_to do |format|
@@ -211,12 +211,12 @@ class CertificatesController < ApplicationController
   def update
     @certificate.user = current_user
     case params[:category_service]
-      when 'l'
-        authorize @certificate, :update_l?
-      when 'm'
-        authorize @certificate, :update_m?
-      when 'r'
-        authorize @certificate, :update_r?
+    when 'l'
+      authorize @certificate, :update_l?
+    when 'm'
+      authorize @certificate, :update_m?
+    when 'r'
+      authorize @certificate, :update_r?
     end    
 
     respond_to do |format|
@@ -244,12 +244,12 @@ class CertificatesController < ApplicationController
   # DELETE /certificates/1.json
   def destroy
     case params[:category_service]
-      when 'l'
-        authorize @certificate, :destroy_l?
-      when 'm'
-        authorize @certificate, :destroy_m?
-      when 'r'
-        authorize @certificate, :destroy_r?
+    when 'l'
+      authorize @certificate, :destroy_l?
+    when 'm'
+      authorize @certificate, :destroy_m?
+    when 'r'
+      authorize @certificate, :destroy_r?
     end    
 
     exam = @certificate.exam
@@ -289,12 +289,12 @@ class CertificatesController < ApplicationController
   private
     def certificate_authorize(model_class, action, options={})
       case options[:category_service]
-        when 'l'
-          authorize model_class, :destroy_l?
-        when 'm'
-          authorize model_class, :destroy_m?
-        when 'r'
-          authorize model_class, :destroy_r?
+      when 'l'
+        authorize model_class, :destroy_l?
+      when 'm'
+        authorize model_class, :destroy_m?
+      when 'r'
+        authorize model_class, :destroy_r?
       end    
     end
 

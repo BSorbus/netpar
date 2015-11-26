@@ -1,6 +1,8 @@
 class ExamSerializer < ActiveModel::Serializer
   attributes :id, :number, :date_exam, :place_exam, :chairman, :secretary, :category, :note, :user_id, :created_at, :updated_at, :fullname, :test
 
+  #has_one :user
+
   def fullname
     "#{number}, z dn. #{date_exam}, #{place_exam}"
   end

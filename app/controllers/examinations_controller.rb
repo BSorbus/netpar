@@ -8,12 +8,12 @@ class ExaminationsController < ApplicationController
   # GET /examinations.json
   def index
     case params[:category_service]
-      when 'l'
-        authorize :examination, :index_l?
-      when 'm'
-        authorize :examination, :index_m?
-      when 'r'
-        authorize :examination, :index_r?
+    when 'l'
+      authorize :examination, :index_l?
+    when 'm'
+      authorize :examination, :index_m?
+    when 'r'
+      authorize :examination, :index_r?
     end    
     # dane pobierane z datatables_index
   end
@@ -26,12 +26,12 @@ class ExaminationsController < ApplicationController
 
   def examination_card_to_pdf
     case params[:category_service]
-      when 'l'
-        authorize :examination, :print_l?
-      when 'm'
-        authorize :examination, :print_m?
-      when 'r'
-        authorize :examination, :print_r?
+    when 'l'
+      authorize :examination, :print_l?
+    when 'm'
+      authorize :examination, :print_m?
+    when 'r'
+      authorize :examination, :print_r?
     end    
 
     # where(id: param[:id]) czyli pojedynczy rekord @examinations_all -> @examination ale jako lista 
@@ -43,12 +43,12 @@ class ExaminationsController < ApplicationController
       respond_to do |format|
         format.pdf do
           case params[:category_service]
-            when 'l'
-              pdf = PdfExaminationCardsL.new(@examination, @examination.first.exam, view_context)
-            when 'm'
-              pdf = PdfExaminationCardsM.new(@examination, @examination.first.exam, view_context)
-            when 'r'
-              pdf = PdfExaminationCardsR.new(@examination, @examination.first.exam, view_context)
+          when 'l'
+            pdf = PdfExaminationCardsL.new(@examination, @examination.first.exam, view_context)
+          when 'm'
+            pdf = PdfExaminationCardsM.new(@examination, @examination.first.exam, view_context)
+          when 'r'
+            pdf = PdfExaminationCardsR.new(@examination, @examination.first.exam, view_context)
           end    
           #pdf = PdfCertificatesL.new(@certificates_all, view_context)
           send_data pdf.render,
@@ -67,12 +67,12 @@ class ExaminationsController < ApplicationController
   # GET /examinations/1.json
   def show
     case params[:category_service]
-      when 'l'
-        authorize @examination, :show_l?
-      when 'm'
-        authorize @examination, :show_m?
-      when 'r'
-        authorize @examination, :show_r?
+    when 'l'
+      authorize @examination, :show_l?
+    when 'm'
+      authorize @examination, :show_m?
+    when 'r'
+      authorize @examination, :show_r?
     end    
 
     respond_to do |format|
@@ -96,12 +96,12 @@ class ExaminationsController < ApplicationController
     @examination.customer = @customer
 
     case params[:category_service]
-      when 'l'
-        authorize @examination, :new_l?
-      when 'm'
-        authorize @examination, :new_m?
-      when 'r'
-        authorize @examination, :new_r?
+    when 'l'
+      authorize @examination, :new_l?
+    when 'm'
+      authorize @examination, :new_m?
+    when 'r'
+      authorize @examination, :new_r?
     end    
 
     respond_to do |format|
@@ -116,12 +116,12 @@ class ExaminationsController < ApplicationController
 #    (1..count).each { @examination.grades.build }
 
     case params[:category_service]
-      when 'l'
-        authorize @examination, :edit_l?
-      when 'm'
-        authorize @examination, :edit_m?
-      when 'r'
-        authorize @examination, :edit_r?
+    when 'l'
+      authorize @examination, :edit_l?
+    when 'm'
+      authorize @examination, :edit_m?
+    when 'r'
+      authorize @examination, :edit_r?
     end   
 
     respond_to do |format|
@@ -137,12 +137,12 @@ class ExaminationsController < ApplicationController
     @examination.category = (params[:category_service]).upcase
     @examination.user = current_user
     case params[:category_service]
-      when 'l'
-        authorize @examination, :create_l?
-      when 'm'
-        authorize @examination, :create_m?
-      when 'r'
-        authorize @examination, :create_r?
+    when 'l'
+      authorize @examination, :create_l?
+    when 'm'
+      authorize @examination, :create_m?
+    when 'r'
+      authorize @examination, :create_r?
     end    
 
     respond_to do |format|
@@ -168,12 +168,12 @@ class ExaminationsController < ApplicationController
   def update
     @examination.user = current_user
     case params[:category_service]
-      when 'l'
-        authorize @examination, :update_l?
-      when 'm'
-        authorize @examination, :update_m?
-      when 'r'
-        authorize @examination, :update_r?
+    when 'l'
+      authorize @examination, :update_l?
+    when 'm'
+      authorize @examination, :update_m?
+    when 'r'
+      authorize @examination, :update_r?
     end    
 
     respond_to do |format|
@@ -200,12 +200,12 @@ class ExaminationsController < ApplicationController
   # DELETE /examinations/1.json
   def destroy
     case params[:category_service]
-      when 'l'
-        authorize @examination, :destroy_l?
-      when 'm'
-        authorize @examination, :destroy_m?
-      when 'r'
-        authorize @examination, :destroy_r?
+    when 'l'
+      authorize @examination, :destroy_l?
+    when 'm'
+      authorize @examination, :destroy_m?
+    when 'r'
+      authorize @examination, :destroy_r?
     end    
 
     exam = @examination.exam
