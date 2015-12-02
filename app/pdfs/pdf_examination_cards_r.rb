@@ -56,6 +56,7 @@ class PdfExaminationCardsR < Prawn::Document
           #row(0).background_color = "#FF0000"
         end             
       end
+      display_total_table(examination)
     end  
   end
 
@@ -65,14 +66,21 @@ class PdfExaminationCardsR < Prawn::Document
                      "Przedmiot",
                      "Ocena (słownie)",
                      "Podpis egzaminatora"]] + 
-                     examination.division.subjects.order(:item).map { |p| [ 
-                        p.item, 
-                        p.name,
+                     examination.grades.order(:id).map { |p| [ 
+                        p.subject.item, 
+                        p.subject.name,
                         "",
                         ""
                       ] }
   end
 
+  def display_total_table(e)
+    if e.examination_category != "Z"
+      customer_last_examination = Examination.where(customer: e.customer, division: e.division, examination_result: 'N').last
+      move_down 10
+      text "Egzamin powtórny. Poprzednia sesja egzaminacyjna: " + "#{customer_last_examination.exam.number} - wynik negatywny." if customer_last_examination.present?
+    end  
+  end
 
   def logo
     #logopath =  "#{Rails.root}/app/assets/images/pop_logo.png"

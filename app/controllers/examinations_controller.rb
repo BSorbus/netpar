@@ -148,7 +148,13 @@ class ExaminationsController < ApplicationController
     respond_to do |format|
       if @examination.save
         @examination.division.subjects.order(:item).each do |subject|
-          @examination.grades.create!(user: @examination.user, subject: subject)
+          if @examination.examination_category == 'Z' #egzamin zwykły
+            @examination.grades.create!(user: @examination.user, subject: subject)
+          else #jesli to egzamin powtórny
+            # poszukaj ocen z oceną negatywną
+            customer_last_examination = Examination.where(customer: @examination.customer, division: @examination.division, examination_result: 'N').last # Negatywny z prawem do poprawki
+            @examination.grades.create!(user: @examination.user, subject: subject) if customer_last_examination.present? && customer_last_examination.grades.where(grade_result: 'N', subject: subject).any?
+          end
         end
 
         @examination.works.create!(trackable_url: "#{examination_path(@examination, category_service: params[:category_service])}", action: :create, user: current_user, 

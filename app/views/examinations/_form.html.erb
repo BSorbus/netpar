@@ -30,7 +30,7 @@
                                   ['Powtórny', 'P']], 
                   selected: @examination.examination_category), 
               { include_blank: false}, 
-              { autofocus: true, class: 'form-control input-sm', disabled: input_disabled } %>
+              { autofocus: @examination.new_record?, class: 'form-control input-sm', disabled: !@examination.new_record? } %>
       </div>
 
       <div class="form-group col-sm-5">
@@ -55,7 +55,7 @@
                                   ['Pozytywny', 'P']], 
                   selected: @examination.examination_result), 
               { include_blank: true }, 
-              { class: 'form-control input-sm', disabled: input_disabled } %>
+              { autofocus: !@examination.new_record?, class: 'form-control input-sm', disabled: input_disabled } %>
       </div>
       <% end %>
 

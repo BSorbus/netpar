@@ -1,0 +1,403 @@
+/home/bodzio/.rvm/rubies/ruby-2.2.2/bin/ruby -I/home/bodzio/.rvm/gems/ruby-2.2.2/gems/rspec-core-3.4.1/lib:/home/bodzio/.rvm/gems/ruby-2.2.2/gems/rspec-support-3.4.1/lib /home/bodzio/.rvm/gems/ruby-2.2.2/gems/rspec-core-3.4.1/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
+
+1. Sign in
+  1.1. User cannot sign in if not registered
+  1.2. User can sign in with valid credentials
+  1.3. User cannot sign in with wrong email
+  1.4. User cannot sign in with wrong password
+
+2. Sign out
+  2.1. User signs out successfully
+
+3. User delete
+  3.1. User can delete own account (PENDING: skip a slow test)
+
+4. User edit
+  4.1. User changes email address (FAILED - 1)
+  4.2. User changes email address no UKE domain (FAILED - 2)
+  4.3. User cannot cannot edit another user's profile (FAILED - 3)
+
+5. Index pages
+  5.1. users_path - Simple User cannot listed Users
+  5.2. roles_path - Simple User cannot listed Roles
+
+6. User profile page
+  6.1. User sees own profile (FAILED - 4)
+  6.2. User cannot see another user's profile (FAILED - 5)
+
+11 Home page
+  11.1. visit the home page
+
+12. Navigation links
+  12.1. View navigation links
+
+13. Sign Up
+  visitor can sign up with valid email address and password (FAILED - 6)
+  visitor cannot sign up with invalid email address (FAILED - 7)
+  visitor cannot sign up with invalid email address (FAILED - 8)
+  visitor cannot sign up without password (FAILED - 9)
+  visitor cannot sign up with a short password (FAILED - 10)
+  visitor cannot sign up without password confirmation (FAILED - 11)
+  visitor cannot sign up with mismatched password and confirmation (FAILED - 12)
+
+Certificate
+  add some examples to (or delete) /home/bodzio/www/netpar/spec/models/certificate_spec.rb (PENDING: Not yet implemented)
+
+Citizenship
+  add some examples to (or delete) /home/bodzio/www/netpar/spec/models/citizenship_spec.rb (PENDING: Not yet implemented)
+
+Customer
+  add some examples to (or delete) /home/bodzio/www/netpar/spec/models/customer_spec.rb (PENDING: Not yet implemented)
+
+Department
+  add some examples to (or delete) /home/bodzio/www/netpar/spec/models/department_spec.rb (PENDING: Not yet implemented)
+
+Division
+  add some examples to (or delete) /home/bodzio/www/netpar/spec/models/division_spec.rb (PENDING: Not yet implemented)
+
+Document
+  add some examples to (or delete) /home/bodzio/www/netpar/spec/models/document_spec.rb (PENDING: Not yet implemented)
+
+Exam
+  add some examples to (or delete) /home/bodzio/www/netpar/spec/models/exam_spec.rb (PENDING: Not yet implemented)
+
+Examination
+  add some examples to (or delete) /home/bodzio/www/netpar/spec/models/examination_spec.rb (PENDING: Not yet implemented)
+
+Examiner
+  add some examples to (or delete) /home/bodzio/www/netpar/spec/models/examiner_spec.rb (PENDING: Not yet implemented)
+
+Grade
+  add some examples to (or delete) /home/bodzio/www/netpar/spec/models/grade_spec.rb (PENDING: Not yet implemented)
+
+Individual
+  add some examples to (or delete) /home/bodzio/www/netpar/spec/models/individual_spec.rb (PENDING: Not yet implemented)
+
+Role
+  add some examples to (or delete) /home/bodzio/www/netpar/spec/models/role_spec.rb (PENDING: Not yet implemented)
+
+Subject
+  add some examples to (or delete) /home/bodzio/www/netpar/spec/models/subject_spec.rb (PENDING: Not yet implemented)
+
+User
+  should respond to #email
+  #email returns a string
+
+Work
+  add some examples to (or delete) /home/bodzio/www/netpar/spec/models/work_spec.rb (PENDING: Not yet implemented)
+
+RolePolicy
+  .scope
+    add some examples to (or delete) /home/bodzio/www/netpar/spec/policies/role_policy_spec.rb (PENDING: Not yet implemented)
+  show?
+    add some examples to (or delete) /home/bodzio/www/netpar/spec/policies/role_policy_spec.rb (PENDING: Not yet implemented)
+  create?
+    add some examples to (or delete) /home/bodzio/www/netpar/spec/policies/role_policy_spec.rb (PENDING: Not yet implemented)
+  update?
+    add some examples to (or delete) /home/bodzio/www/netpar/spec/policies/role_policy_spec.rb (PENDING: Not yet implemented)
+  destroy?
+    add some examples to (or delete) /home/bodzio/www/netpar/spec/policies/role_policy_spec.rb (PENDING: Not yet implemented)
+
+UserPolicy
+  index?
+    denies access if not an admin
+    allows access for an admin (FAILED - 13)
+  show?
+    prevents other users from seeing your profile
+    allows you to see your own profile (FAILED - 14)
+    allows an admin to see any profile (FAILED - 15)
+  update?
+    prevents updates if not an admin
+    allows an admin to make updates (FAILED - 16)
+  destroy?
+    prevents deleting yourself
+    allows an admin to delete any user (FAILED - 17)
+
+Pending: (Failures listed here are expected and do not affect your suite's status)
+
+  1) 3. User delete 3.1. User can delete own account
+     # skip a slow test
+     # ./spec/features/users/3.user_delete_spec.rb:18
+
+  2) Certificate add some examples to (or delete) /home/bodzio/www/netpar/spec/models/certificate_spec.rb
+     # Not yet implemented
+     # ./spec/models/certificate_spec.rb:4
+
+  3) Citizenship add some examples to (or delete) /home/bodzio/www/netpar/spec/models/citizenship_spec.rb
+     # Not yet implemented
+     # ./spec/models/citizenship_spec.rb:4
+
+  4) Customer add some examples to (or delete) /home/bodzio/www/netpar/spec/models/customer_spec.rb
+     # Not yet implemented
+     # ./spec/models/customer_spec.rb:4
+
+  5) Department add some examples to (or delete) /home/bodzio/www/netpar/spec/models/department_spec.rb
+     # Not yet implemented
+     # ./spec/models/department_spec.rb:4
+
+  6) Division add some examples to (or delete) /home/bodzio/www/netpar/spec/models/division_spec.rb
+     # Not yet implemented
+     # ./spec/models/division_spec.rb:4
+
+  7) Document add some examples to (or delete) /home/bodzio/www/netpar/spec/models/document_spec.rb
+     # Not yet implemented
+     # ./spec/models/document_spec.rb:4
+
+  8) Exam add some examples to (or delete) /home/bodzio/www/netpar/spec/models/exam_spec.rb
+     # Not yet implemented
+     # ./spec/models/exam_spec.rb:4
+
+  9) Examination add some examples to (or delete) /home/bodzio/www/netpar/spec/models/examination_spec.rb
+     # Not yet implemented
+     # ./spec/models/examination_spec.rb:4
+
+  10) Examiner add some examples to (or delete) /home/bodzio/www/netpar/spec/models/examiner_spec.rb
+     # Not yet implemented
+     # ./spec/models/examiner_spec.rb:4
+
+  11) Grade add some examples to (or delete) /home/bodzio/www/netpar/spec/models/grade_spec.rb
+     # Not yet implemented
+     # ./spec/models/grade_spec.rb:4
+
+  12) Individual add some examples to (or delete) /home/bodzio/www/netpar/spec/models/individual_spec.rb
+     # Not yet implemented
+     # ./spec/models/individual_spec.rb:4
+
+  13) Role add some examples to (or delete) /home/bodzio/www/netpar/spec/models/role_spec.rb
+     # Not yet implemented
+     # ./spec/models/role_spec.rb:4
+
+  14) Subject add some examples to (or delete) /home/bodzio/www/netpar/spec/models/subject_spec.rb
+     # Not yet implemented
+     # ./spec/models/subject_spec.rb:4
+
+  15) Work add some examples to (or delete) /home/bodzio/www/netpar/spec/models/work_spec.rb
+     # Not yet implemented
+     # ./spec/models/work_spec.rb:4
+
+  16) RolePolicy.scope add some examples to (or delete) /home/bodzio/www/netpar/spec/policies/role_policy_spec.rb
+     # Not yet implemented
+     # ./spec/policies/role_policy_spec.rb:10
+
+  17) RolePolicy show? add some examples to (or delete) /home/bodzio/www/netpar/spec/policies/role_policy_spec.rb
+     # Not yet implemented
+     # ./spec/policies/role_policy_spec.rb:14
+
+  18) RolePolicy create? add some examples to (or delete) /home/bodzio/www/netpar/spec/policies/role_policy_spec.rb
+     # Not yet implemented
+     # ./spec/policies/role_policy_spec.rb:18
+
+  19) RolePolicy update? add some examples to (or delete) /home/bodzio/www/netpar/spec/policies/role_policy_spec.rb
+     # Not yet implemented
+     # ./spec/policies/role_policy_spec.rb:22
+
+  20) RolePolicy destroy? add some examples to (or delete) /home/bodzio/www/netpar/spec/policies/role_policy_spec.rb
+     # Not yet implemented
+     # ./spec/policies/role_policy_spec.rb:26
+
+Failures:
+
+  1) 4. User edit 4.1. User changes email address
+     Failure/Error: expect(page).to have_content(/.*#{txts[0]}.*|.*#{txts[1]}.*/)
+       expected to find text matching /.*Konto zostało pomyślnie zaktualizowane..*|.*Konto zostało zaktualizowane. Niemniej jednak przed wprowadzeniem zmian musimy potwierdzić Twój nowy adres email. Za chwilę wyślemy instrukcję na nowy adres..*/ in "Toggle navigation Świadectwa Egzaminy Zarządzanie Test User Wyloguj się Nie ma rozwiązań wiecznie trwałych Po 15 latach eksploatacji Systemu NetPAR 2000... Czas na ulepszone ewidencjonowanie dokumentów Tworzenie załączników, zapisywanie skanów, plików pdf, itp. Czas na wykorzystanie nowoczesnych technologii Dostęp do danych przez przeglądarkę bez konieczności instalowania programu i kłopotliwych aktualizacji Czas na nowe spojrzenie Wspólny rejestr dla wszystkich Delegatur ...czas na nowy NetPAR 2015! × Konto zostało zaktualizowane. Niemniej jednak przed wprowadzeniem zmian musimy potwierdzić Twój nowy adres email. Za chwilę wyślemy instrukcję na nowy adres. Harmonogram szkoleń: 07.09.2015 Gdańsk 15.09.2015 Centrala Warszawa (LOT RA) 21.09.2015 Bydgoszcz 22.09.2015 Katowice, Lublin, Rzeszów 23.09.2015 Olsztyn, Szczecin, Zielona Góra 24.09.2015 Łódź 28.09.2015 Białystok, Kielce, Wrocław 30.09.2015 Kraków 02.10.2015 Opole Harmonogram migracji danych: 09.10.2015 - ukończenie porządkowania zbiorów elektronicznych kopii dokumentów (skanów) 26.10.2015 - migracja danych świadectw lotniczych i radioamatorskich 27.10.2015 - migracja danych świadectw morskich 27-30.10.2015 - weryfikowanie danych Harmonogram wdrożenia: 31.10.2015 wersja produkcyjna Etap I 01.02.2016 wersja produkcyjna Etap II (docelowa architektura systemu) Instrukcje: Uwagi ogólne Przygotowanie sesji egzaminacyjnej - sekretariat Obsługa egzaminu - komisje Wystawianie świadectw - sekretariat × Uwagi ogólne System \"NetPAR 2015\" jest przeznaczony do: 1. Ewidencjonowania sesji egzaminacyjnych i osób egzaminowanych. 2. Ewidencjonowania wyników egzaminów i kopii elektronicznych (skanów) powstałych dokumentów. 3. Wspomagania procesu przeprowadzania egzaminów, w tym drukowania kart i protokołów egzaminacyjnych. 4. Automatycznego generowania świadectw na podstawie wyników egzaminów. 5. Ewidencjonowania wydawanych świadectw i ich elektronicznych kopii. 6. Łatwego, szybkiego i prostego udostępniania informacji o wydawanych świadectwach osobom wydającym pozwolenia lub innym upoważnionym użytkownikom. Wymagania i ograniczenia 1. Program działa w przeglądarkach Chrome, Safari, Opera i Mozilla Firefox. Nie działa w przeglądarce Internet Explorer. 2. W programie stosowane jest kodowanie UTF-8 i ustawiona jest strefa czasowa (time-zone) \"Warsow\" 3. System działa w zamkniętej sieci UKE i nie jest dostępny z zewnątrz. 4. Aby korzystać z Systemu \"NetPAR 2015\" musisz posiadać aktywne konto pocztowe w domenie uke.gov.pl 5. System wymaga zmieniania hasła nie rzadziej niż raz w miesiącu. 6. Hasło musi zawierać małą i wielką literę oraz cyfrę i znak specjalny. Długość hasła nie może być mniejsza niż 8 znaków. 7. 3 ostatnie hasła są zapamiętywane i nie mogą być użyte w czasie zmieniania hasła. Ogólne 1. Rozmiar zapisywanych załączników został ograniczony do maksymalnej wielkości 10 MB. 2. Daty zapisywane są w formacie YYYY-MM-DD, co usprawnia sortowanie w tabelach 3. We wszystkich polach \"Szukaj:\" został zastosowany mechanizm wyszukiwania przybliżonych wartości bez rozróżniania wielkości liter. Np. wprowadzając w pole \"Szukaj:\" przykładową wartość \"nowak\" otrzymamy listę zawierającą: \"Nowak\" \"Nowakowski\" \"Nowakowska\" ... 4. Sortowanie prezentowanych w tabelach danych odbywa się poprzez kliknięcie w nagłówek kolumny. Można sortować jednocześnie po kilku kolumnach, kolejno klikając w ich nagłówki przy równocześnie wciśniętym klawiszu Shift Etapy obsługi systemu 1. Przygotowanie sesji egzaminacyjnej - sekretariat 2. Obsługa egzaminu - komisje 3. Wystawianie świadectw - sekretariat Zamknij × Przygotowanie sesji egzaminacyjnej Gdy harmonogram sesji egzaminacyjnych jest już ogłoszony należy poszczególne sesje zarejestrować w systemie. 1. Wybierz w menu \"Egzaminy-Egzaminy ... (LOT/MOR/RA)\" 2. Gdy wyświetli się lista egzaminów wybierz przycisk \"Nowy\" (lewy dolny róg) i otwórz formularz \"Nowy Egzamin (LOT/MOR/RA)\" 3. Wprowadź stosowne informacje dotyczące sesji, tj. Numer, Datę i Miejscowość. Jeżeli znasz już skład komisji uzupełnij także te informacje. 4. W miarę napływu wniosków o przystąpienie do egzaminu uzupełniaj listę \"Osób Egzaminowanych\". Możesz to zrobić wybierając odpowiednią \"Sesję Egzaminacyjną\" i dodając w panelu \"Osoby Egzaminowane\" nowe pozycje lub odszukując/dopisując nowe osoby (menu \"Klient\") dodawać im wpisy w panelu \"Udział w Egzaminach\" 5. Po wprowadzeniu ostatniej osoby wnioskującej o przystąpienie do egzaminu, przygotowania do przeprowadzenia egzaminu są zakończone. Zamknij × Obsługa egzaminu - komisje Gdy harmonogram sesji egzaminacyjnych jest już ogłoszony i poszczególne sesje są zarejestrowane w systemie możesz w dowolnym momencie skontrolować listę osób, które mają przystąpić do egzaminu. W chwili gdy lista ta jest już zamknięta i nadszedł termin przeprowadzenia egzaminu należy przygotować karty egzaminacyjne, a po egzaminie wprowadzić informacje o wynikach, wydrukować protokół i załączyć skany tych dokumentów 1. Wybierz w menu \"Egzaminy-Egzaminy ... (LOT/MOR/RA)\" 2. Odszukaj sesję egzaminacyjną wprowadzając w pole \"szukaj:\" (prawy górny róg) numer sesji i/lub miejscowość i/lub datę sesji np: 2015 Bydg 3. Otwórz formularz opisujący sesję, klikając w link - numer sesji 4. Jeżeli dane dotyczące egzaminu oraz składu komisji nie są pełne (lub są niewłaściwe) wybierz przycisk \"Edycja\" i uzupełnij/skoryguj wpisy. 5. Otwórz panel \"Wydruki\" i kliknij w \"Karty egzaminacyjne\". Wygenerowane do pliku pdf karty są ułożone w kolejności alfabetycznej nazwisk i imion osób egzaminowanych. 6. Jeżeli sesja przeprowadzana jest poza siedzibą lub niemożliwy będzie dostęp do systemu NetPAR 2015 podczas jej trwania, to wydrukuj też pusty \"Protokół sesji egzaminacyjnej\". Jeżeli jednak będziesz miał dostęp do systemu, to pomiń ten punkt. 7. Po zakończeniu egzaminu wykonaj kopie elektroniczne (skany) wypełnionych i podpisanych kart egzaminacyjnych. Uwaga! Każdą kartę skanuj do osobnego pliku *.jpg 8. Otwórz panel \"Osoby egzaminowane\" 9. Kliknij w \"oko\" (prawa strona ekranu, kolumna \"Akcje\") , by przejść do formularza opisującego egzamin tej osoby: 10. Utwórz załącznik wybierając plik jpg, w którym jest zeskanowana karta egzaminacyjna danej osoby. 11. Otwórz formularz opisujący egzamin danej osoby i kliknij \"Edycja\", by przejść do formularza edycji danych. Wprowadź informacje o ocenach cząstkowych oraz wyniku końcowym egzaminu. Punty 8-11 powtórz dla każdej osoby biorącej udział w egzaminie. 12. Jeżeli wcześniej nie wydrukowałeś \"Protokołu sesji egzaminacyjnej\", to wydrukuj go teraz (patrz punkty 5-6). 13. Podpisany \"Protokół sesji egzaminacyjnej\" zeskanuj i zapisz jako załącznik do Egzaminu 14. Po zakończeniu egzaminu, do Sekretariatu Komisji Egzaminacyjnej należy przesłać: a) Protokół egzaminacyjnybr b) Karty egzaminacyjne c) Test wraz z kluczem odpowiedzi (jedynie dla przypadków negatywnego wyniku) Zamknij × Wystawianie świadectw (sekretariat) Gdy sesja egzaminacyjna jest już zakończona i sekretarz komisji wprowadził uczestnikom końcowe oceny, możemy przystąpić do wystawiania świadectw. 1. Wybierz w menu \"Egzaminy-Egzaminy ... (LOT/MOR/RA)\" 2. Odszukaj sesję egzaminacyjną wprowadzając w pole \"szukaj:\" (prawy górny róg) numer sesji i/lub miejscowość i/lub datę sesji np: 2015 Bydg 3. Otwórz formularz opisujący sesję, klikając w link - numer sesji 4. Otwórz panel \"Osoby Egzaminowane\" 5. Kliknij w przycisk \"Generuj Świadectwa\" Dla osób, które uzyskały wynik \"pozytywny\" system automatycznie wygeneruje stosowne dokumenty. 6. Otwórz panel \"Wydruki\" i wybierz \"Świadectwa\", by wydrukować wygenerowane dokumenty. 7. Po podpisaniu dokumentów wykonaj kopię elektroniczną (skan) każdego z nich i załącz odpowiedni plik do karty opisującej każde wydane świadectwo (załącznik do świadectwa). 8. Po zweryfikowaniu prawidłowości wpisów i załączonych skanów, proces generowania świadectwa, jego drukowania i wprowadzenia do ewidencji jest zakończony. Uwaga! W przypadku wydawania świadectw gdy nie dysponujemy dokumentami z przeprowadzonego egzaminu (stare/odnawiane) wydajemy świadectwo jako nowy wpis na liście świadectw, a nie jako wygenerowane automatycznie na podstawie egzaminu Zamknij Kontakt: netpar@uke.gov.pl 72 74 91 36 Zobacz też: UKE Pozwolenia radiowe Świadectwa © UKE-BI-WUSA (B&J) 2015"
+     # ./spec/features/users/4.user_edit_spec.rb:29:in `block (2 levels) in <top (required)>'
+
+  2) 4. User edit 4.2. User changes email address no UKE domain
+     Failure/Error: fill_in 'Current password', :with => user.password
+
+     Capybara::ElementNotFound:
+       Unable to find field "Current password"
+     # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/capybara-2.5.0/lib/capybara/node/finders.rb:43:in `block in find'
+     # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/capybara-2.5.0/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/capybara-2.5.0/lib/capybara/node/finders.rb:32:in `find'
+     # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/capybara-2.5.0/lib/capybara/node/actions.rb:58:in `fill_in'
+     # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/capybara-2.5.0/lib/capybara/session.rb:698:in `block (2 levels) in <class:Session>'
+     # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/capybara-2.5.0/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/users/4.user_edit_spec.rb:41:in `block (2 levels) in <top (required)>'
+
+  3) 4. User edit 4.3. User cannot cannot edit another user's profile
+     Failure/Error: expect(page).to have_content 'Edit account'
+       expected to find text "Edit account" in "Toggle navigation Świadectwa Egzaminy Zarządzanie Test User Wyloguj się Edycja konta Imię i Nazwisko Email Pozostaw pola 'Hasło' i 'Powtórz hasło' puste jeżeli nie chcesz zmieniać hasła. Hasło Potwórz hasło Aktualne hasło Musisz podać aktualne hasło aby dokonać zmian Kontakt: netpar@uke.gov.pl 72 74 91 36 Zobacz też: UKE Pozwolenia radiowe Świadectwa © UKE-BI-WUSA (B&J) 2015"
+     # ./spec/features/users/4.user_edit_spec.rb:58:in `block (2 levels) in <top (required)>'
+
+  4) 6. User profile page 6.1. User sees own profile
+     Failure/Error: expect(page).to have_content user.email
+       expected to find text "test@uke.gov.pl" in "Toggle navigation Świadectwa Egzaminy Zarządzanie Test User Wyloguj się Nie ma rozwiązań wiecznie trwałych Po 15 latach eksploatacji Systemu NetPAR 2000... Czas na ulepszone ewidencjonowanie dokumentów Tworzenie załączników, zapisywanie skanów, plików pdf, itp. Czas na wykorzystanie nowoczesnych technologii Dostęp do danych przez przeglądarkę bez konieczności instalowania programu i kłopotliwych aktualizacji Czas na nowe spojrzenie Wspólny rejestr dla wszystkich Delegatur ...czas na nowy NetPAR 2015! × BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów użytkownika! Harmonogram szkoleń: 07.09.2015 Gdańsk 15.09.2015 Centrala Warszawa (LOT RA) 21.09.2015 Bydgoszcz 22.09.2015 Katowice, Lublin, Rzeszów 23.09.2015 Olsztyn, Szczecin, Zielona Góra 24.09.2015 Łódź 28.09.2015 Białystok, Kielce, Wrocław 30.09.2015 Kraków 02.10.2015 Opole Harmonogram migracji danych: 09.10.2015 - ukończenie porządkowania zbiorów elektronicznych kopii dokumentów (skanów) 26.10.2015 - migracja danych świadectw lotniczych i radioamatorskich 27.10.2015 - migracja danych świadectw morskich 27-30.10.2015 - weryfikowanie danych Harmonogram wdrożenia: 31.10.2015 wersja produkcyjna Etap I 01.02.2016 wersja produkcyjna Etap II (docelowa architektura systemu) Instrukcje: Uwagi ogólne Przygotowanie sesji egzaminacyjnej - sekretariat Obsługa egzaminu - komisje Wystawianie świadectw - sekretariat × Uwagi ogólne System \"NetPAR 2015\" jest przeznaczony do: 1. Ewidencjonowania sesji egzaminacyjnych i osób egzaminowanych. 2. Ewidencjonowania wyników egzaminów i kopii elektronicznych (skanów) powstałych dokumentów. 3. Wspomagania procesu przeprowadzania egzaminów, w tym drukowania kart i protokołów egzaminacyjnych. 4. Automatycznego generowania świadectw na podstawie wyników egzaminów. 5. Ewidencjonowania wydawanych świadectw i ich elektronicznych kopii. 6. Łatwego, szybkiego i prostego udostępniania informacji o wydawanych świadectwach osobom wydającym pozwolenia lub innym upoważnionym użytkownikom. Wymagania i ograniczenia 1. Program działa w przeglądarkach Chrome, Safari, Opera i Mozilla Firefox. Nie działa w przeglądarce Internet Explorer. 2. W programie stosowane jest kodowanie UTF-8 i ustawiona jest strefa czasowa (time-zone) \"Warsow\" 3. System działa w zamkniętej sieci UKE i nie jest dostępny z zewnątrz. 4. Aby korzystać z Systemu \"NetPAR 2015\" musisz posiadać aktywne konto pocztowe w domenie uke.gov.pl 5. System wymaga zmieniania hasła nie rzadziej niż raz w miesiącu. 6. Hasło musi zawierać małą i wielką literę oraz cyfrę i znak specjalny. Długość hasła nie może być mniejsza niż 8 znaków. 7. 3 ostatnie hasła są zapamiętywane i nie mogą być użyte w czasie zmieniania hasła. Ogólne 1. Rozmiar zapisywanych załączników został ograniczony do maksymalnej wielkości 10 MB. 2. Daty zapisywane są w formacie YYYY-MM-DD, co usprawnia sortowanie w tabelach 3. We wszystkich polach \"Szukaj:\" został zastosowany mechanizm wyszukiwania przybliżonych wartości bez rozróżniania wielkości liter. Np. wprowadzając w pole \"Szukaj:\" przykładową wartość \"nowak\" otrzymamy listę zawierającą: \"Nowak\" \"Nowakowski\" \"Nowakowska\" ... 4. Sortowanie prezentowanych w tabelach danych odbywa się poprzez kliknięcie w nagłówek kolumny. Można sortować jednocześnie po kilku kolumnach, kolejno klikając w ich nagłówki przy równocześnie wciśniętym klawiszu Shift Etapy obsługi systemu 1. Przygotowanie sesji egzaminacyjnej - sekretariat 2. Obsługa egzaminu - komisje 3. Wystawianie świadectw - sekretariat Zamknij × Przygotowanie sesji egzaminacyjnej Gdy harmonogram sesji egzaminacyjnych jest już ogłoszony należy poszczególne sesje zarejestrować w systemie. 1. Wybierz w menu \"Egzaminy-Egzaminy ... (LOT/MOR/RA)\" 2. Gdy wyświetli się lista egzaminów wybierz przycisk \"Nowy\" (lewy dolny róg) i otwórz formularz \"Nowy Egzamin (LOT/MOR/RA)\" 3. Wprowadź stosowne informacje dotyczące sesji, tj. Numer, Datę i Miejscowość. Jeżeli znasz już skład komisji uzupełnij także te informacje. 4. W miarę napływu wniosków o przystąpienie do egzaminu uzupełniaj listę \"Osób Egzaminowanych\". Możesz to zrobić wybierając odpowiednią \"Sesję Egzaminacyjną\" i dodając w panelu \"Osoby Egzaminowane\" nowe pozycje lub odszukując/dopisując nowe osoby (menu \"Klient\") dodawać im wpisy w panelu \"Udział w Egzaminach\" 5. Po wprowadzeniu ostatniej osoby wnioskującej o przystąpienie do egzaminu, przygotowania do przeprowadzenia egzaminu są zakończone. Zamknij × Obsługa egzaminu - komisje Gdy harmonogram sesji egzaminacyjnych jest już ogłoszony i poszczególne sesje są zarejestrowane w systemie możesz w dowolnym momencie skontrolować listę osób, które mają przystąpić do egzaminu. W chwili gdy lista ta jest już zamknięta i nadszedł termin przeprowadzenia egzaminu należy przygotować karty egzaminacyjne, a po egzaminie wprowadzić informacje o wynikach, wydrukować protokół i załączyć skany tych dokumentów 1. Wybierz w menu \"Egzaminy-Egzaminy ... (LOT/MOR/RA)\" 2. Odszukaj sesję egzaminacyjną wprowadzając w pole \"szukaj:\" (prawy górny róg) numer sesji i/lub miejscowość i/lub datę sesji np: 2015 Bydg 3. Otwórz formularz opisujący sesję, klikając w link - numer sesji 4. Jeżeli dane dotyczące egzaminu oraz składu komisji nie są pełne (lub są niewłaściwe) wybierz przycisk \"Edycja\" i uzupełnij/skoryguj wpisy. 5. Otwórz panel \"Wydruki\" i kliknij w \"Karty egzaminacyjne\". Wygenerowane do pliku pdf karty są ułożone w kolejności alfabetycznej nazwisk i imion osób egzaminowanych. 6. Jeżeli sesja przeprowadzana jest poza siedzibą lub niemożliwy będzie dostęp do systemu NetPAR 2015 podczas jej trwania, to wydrukuj też pusty \"Protokół sesji egzaminacyjnej\". Jeżeli jednak będziesz miał dostęp do systemu, to pomiń ten punkt. 7. Po zakończeniu egzaminu wykonaj kopie elektroniczne (skany) wypełnionych i podpisanych kart egzaminacyjnych. Uwaga! Każdą kartę skanuj do osobnego pliku *.jpg 8. Otwórz panel \"Osoby egzaminowane\" 9. Kliknij w \"oko\" (prawa strona ekranu, kolumna \"Akcje\") , by przejść do formularza opisującego egzamin tej osoby: 10. Utwórz załącznik wybierając plik jpg, w którym jest zeskanowana karta egzaminacyjna danej osoby. 11. Otwórz formularz opisujący egzamin danej osoby i kliknij \"Edycja\", by przejść do formularza edycji danych. Wprowadź informacje o ocenach cząstkowych oraz wyniku końcowym egzaminu. Punty 8-11 powtórz dla każdej osoby biorącej udział w egzaminie. 12. Jeżeli wcześniej nie wydrukowałeś \"Protokołu sesji egzaminacyjnej\", to wydrukuj go teraz (patrz punkty 5-6). 13. Podpisany \"Protokół sesji egzaminacyjnej\" zeskanuj i zapisz jako załącznik do Egzaminu 14. Po zakończeniu egzaminu, do Sekretariatu Komisji Egzaminacyjnej należy przesłać: a) Protokół egzaminacyjnybr b) Karty egzaminacyjne c) Test wraz z kluczem odpowiedzi (jedynie dla przypadków negatywnego wyniku) Zamknij × Wystawianie świadectw (sekretariat) Gdy sesja egzaminacyjna jest już zakończona i sekretarz komisji wprowadził uczestnikom końcowe oceny, możemy przystąpić do wystawiania świadectw. 1. Wybierz w menu \"Egzaminy-Egzaminy ... (LOT/MOR/RA)\" 2. Odszukaj sesję egzaminacyjną wprowadzając w pole \"szukaj:\" (prawy górny róg) numer sesji i/lub miejscowość i/lub datę sesji np: 2015 Bydg 3. Otwórz formularz opisujący sesję, klikając w link - numer sesji 4. Otwórz panel \"Osoby Egzaminowane\" 5. Kliknij w przycisk \"Generuj Świadectwa\" Dla osób, które uzyskały wynik \"pozytywny\" system automatycznie wygeneruje stosowne dokumenty. 6. Otwórz panel \"Wydruki\" i wybierz \"Świadectwa\", by wydrukować wygenerowane dokumenty. 7. Po podpisaniu dokumentów wykonaj kopię elektroniczną (skan) każdego z nich i załącz odpowiedni plik do karty opisującej każde wydane świadectwo (załącznik do świadectwa). 8. Po zweryfikowaniu prawidłowości wpisów i załączonych skanów, proces generowania świadectwa, jego drukowania i wprowadzenia do ewidencji jest zakończony. Uwaga! W przypadku wydawania świadectw gdy nie dysponujemy dokumentami z przeprowadzonego egzaminu (stare/odnawiane) wydajemy świadectwo jako nowy wpis na liście świadectw, a nie jako wygenerowane automatycznie na podstawie egzaminu Zamknij Kontakt: netpar@uke.gov.pl 72 74 91 36 Zobacz też: UKE Pozwolenia radiowe Świadectwa © UKE-BI-WUSA (B&J) 2015"
+     # ./spec/features/users/6.user_show_spec.rb:23:in `block (2 levels) in <top (required)>'
+
+  5) 6. User profile page 6.2. User cannot see another user's profile
+     Failure/Error: expect(page).to have_content 'SECURITY: Access denied!'
+       expected to find text "SECURITY: Access denied!" in "Toggle navigation Świadectwa Egzaminy Zarządzanie Test User Wyloguj się Nie ma rozwiązań wiecznie trwałych Po 15 latach eksploatacji Systemu NetPAR 2000... Czas na ulepszone ewidencjonowanie dokumentów Tworzenie załączników, zapisywanie skanów, plików pdf, itp. Czas na wykorzystanie nowoczesnych technologii Dostęp do danych przez przeglądarkę bez konieczności instalowania programu i kłopotliwych aktualizacji Czas na nowe spojrzenie Wspólny rejestr dla wszystkich Delegatur ...czas na nowy NetPAR 2015! × BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów użytkownika! Harmonogram szkoleń: 07.09.2015 Gdańsk 15.09.2015 Centrala Warszawa (LOT RA) 21.09.2015 Bydgoszcz 22.09.2015 Katowice, Lublin, Rzeszów 23.09.2015 Olsztyn, Szczecin, Zielona Góra 24.09.2015 Łódź 28.09.2015 Białystok, Kielce, Wrocław 30.09.2015 Kraków 02.10.2015 Opole Harmonogram migracji danych: 09.10.2015 - ukończenie porządkowania zbiorów elektronicznych kopii dokumentów (skanów) 26.10.2015 - migracja danych świadectw lotniczych i radioamatorskich 27.10.2015 - migracja danych świadectw morskich 27-30.10.2015 - weryfikowanie danych Harmonogram wdrożenia: 31.10.2015 wersja produkcyjna Etap I 01.02.2016 wersja produkcyjna Etap II (docelowa architektura systemu) Instrukcje: Uwagi ogólne Przygotowanie sesji egzaminacyjnej - sekretariat Obsługa egzaminu - komisje Wystawianie świadectw - sekretariat × Uwagi ogólne System \"NetPAR 2015\" jest przeznaczony do: 1. Ewidencjonowania sesji egzaminacyjnych i osób egzaminowanych. 2. Ewidencjonowania wyników egzaminów i kopii elektronicznych (skanów) powstałych dokumentów. 3. Wspomagania procesu przeprowadzania egzaminów, w tym drukowania kart i protokołów egzaminacyjnych. 4. Automatycznego generowania świadectw na podstawie wyników egzaminów. 5. Ewidencjonowania wydawanych świadectw i ich elektronicznych kopii. 6. Łatwego, szybkiego i prostego udostępniania informacji o wydawanych świadectwach osobom wydającym pozwolenia lub innym upoważnionym użytkownikom. Wymagania i ograniczenia 1. Program działa w przeglądarkach Chrome, Safari, Opera i Mozilla Firefox. Nie działa w przeglądarce Internet Explorer. 2. W programie stosowane jest kodowanie UTF-8 i ustawiona jest strefa czasowa (time-zone) \"Warsow\" 3. System działa w zamkniętej sieci UKE i nie jest dostępny z zewnątrz. 4. Aby korzystać z Systemu \"NetPAR 2015\" musisz posiadać aktywne konto pocztowe w domenie uke.gov.pl 5. System wymaga zmieniania hasła nie rzadziej niż raz w miesiącu. 6. Hasło musi zawierać małą i wielką literę oraz cyfrę i znak specjalny. Długość hasła nie może być mniejsza niż 8 znaków. 7. 3 ostatnie hasła są zapamiętywane i nie mogą być użyte w czasie zmieniania hasła. Ogólne 1. Rozmiar zapisywanych załączników został ograniczony do maksymalnej wielkości 10 MB. 2. Daty zapisywane są w formacie YYYY-MM-DD, co usprawnia sortowanie w tabelach 3. We wszystkich polach \"Szukaj:\" został zastosowany mechanizm wyszukiwania przybliżonych wartości bez rozróżniania wielkości liter. Np. wprowadzając w pole \"Szukaj:\" przykładową wartość \"nowak\" otrzymamy listę zawierającą: \"Nowak\" \"Nowakowski\" \"Nowakowska\" ... 4. Sortowanie prezentowanych w tabelach danych odbywa się poprzez kliknięcie w nagłówek kolumny. Można sortować jednocześnie po kilku kolumnach, kolejno klikając w ich nagłówki przy równocześnie wciśniętym klawiszu Shift Etapy obsługi systemu 1. Przygotowanie sesji egzaminacyjnej - sekretariat 2. Obsługa egzaminu - komisje 3. Wystawianie świadectw - sekretariat Zamknij × Przygotowanie sesji egzaminacyjnej Gdy harmonogram sesji egzaminacyjnych jest już ogłoszony należy poszczególne sesje zarejestrować w systemie. 1. Wybierz w menu \"Egzaminy-Egzaminy ... (LOT/MOR/RA)\" 2. Gdy wyświetli się lista egzaminów wybierz przycisk \"Nowy\" (lewy dolny róg) i otwórz formularz \"Nowy Egzamin (LOT/MOR/RA)\" 3. Wprowadź stosowne informacje dotyczące sesji, tj. Numer, Datę i Miejscowość. Jeżeli znasz już skład komisji uzupełnij także te informacje. 4. W miarę napływu wniosków o przystąpienie do egzaminu uzupełniaj listę \"Osób Egzaminowanych\". Możesz to zrobić wybierając odpowiednią \"Sesję Egzaminacyjną\" i dodając w panelu \"Osoby Egzaminowane\" nowe pozycje lub odszukując/dopisując nowe osoby (menu \"Klient\") dodawać im wpisy w panelu \"Udział w Egzaminach\" 5. Po wprowadzeniu ostatniej osoby wnioskującej o przystąpienie do egzaminu, przygotowania do przeprowadzenia egzaminu są zakończone. Zamknij × Obsługa egzaminu - komisje Gdy harmonogram sesji egzaminacyjnych jest już ogłoszony i poszczególne sesje są zarejestrowane w systemie możesz w dowolnym momencie skontrolować listę osób, które mają przystąpić do egzaminu. W chwili gdy lista ta jest już zamknięta i nadszedł termin przeprowadzenia egzaminu należy przygotować karty egzaminacyjne, a po egzaminie wprowadzić informacje o wynikach, wydrukować protokół i załączyć skany tych dokumentów 1. Wybierz w menu \"Egzaminy-Egzaminy ... (LOT/MOR/RA)\" 2. Odszukaj sesję egzaminacyjną wprowadzając w pole \"szukaj:\" (prawy górny róg) numer sesji i/lub miejscowość i/lub datę sesji np: 2015 Bydg 3. Otwórz formularz opisujący sesję, klikając w link - numer sesji 4. Jeżeli dane dotyczące egzaminu oraz składu komisji nie są pełne (lub są niewłaściwe) wybierz przycisk \"Edycja\" i uzupełnij/skoryguj wpisy. 5. Otwórz panel \"Wydruki\" i kliknij w \"Karty egzaminacyjne\". Wygenerowane do pliku pdf karty są ułożone w kolejności alfabetycznej nazwisk i imion osób egzaminowanych. 6. Jeżeli sesja przeprowadzana jest poza siedzibą lub niemożliwy będzie dostęp do systemu NetPAR 2015 podczas jej trwania, to wydrukuj też pusty \"Protokół sesji egzaminacyjnej\". Jeżeli jednak będziesz miał dostęp do systemu, to pomiń ten punkt. 7. Po zakończeniu egzaminu wykonaj kopie elektroniczne (skany) wypełnionych i podpisanych kart egzaminacyjnych. Uwaga! Każdą kartę skanuj do osobnego pliku *.jpg 8. Otwórz panel \"Osoby egzaminowane\" 9. Kliknij w \"oko\" (prawa strona ekranu, kolumna \"Akcje\") , by przejść do formularza opisującego egzamin tej osoby: 10. Utwórz załącznik wybierając plik jpg, w którym jest zeskanowana karta egzaminacyjna danej osoby. 11. Otwórz formularz opisujący egzamin danej osoby i kliknij \"Edycja\", by przejść do formularza edycji danych. Wprowadź informacje o ocenach cząstkowych oraz wyniku końcowym egzaminu. Punty 8-11 powtórz dla każdej osoby biorącej udział w egzaminie. 12. Jeżeli wcześniej nie wydrukowałeś \"Protokołu sesji egzaminacyjnej\", to wydrukuj go teraz (patrz punkty 5-6). 13. Podpisany \"Protokół sesji egzaminacyjnej\" zeskanuj i zapisz jako załącznik do Egzaminu 14. Po zakończeniu egzaminu, do Sekretariatu Komisji Egzaminacyjnej należy przesłać: a) Protokół egzaminacyjnybr b) Karty egzaminacyjne c) Test wraz z kluczem odpowiedzi (jedynie dla przypadków negatywnego wyniku) Zamknij × Wystawianie świadectw (sekretariat) Gdy sesja egzaminacyjna jest już zakończona i sekretarz komisji wprowadził uczestnikom końcowe oceny, możemy przystąpić do wystawiania świadectw. 1. Wybierz w menu \"Egzaminy-Egzaminy ... (LOT/MOR/RA)\" 2. Odszukaj sesję egzaminacyjną wprowadzając w pole \"szukaj:\" (prawy górny róg) numer sesji i/lub miejscowość i/lub datę sesji np: 2015 Bydg 3. Otwórz formularz opisujący sesję, klikając w link - numer sesji 4. Otwórz panel \"Osoby Egzaminowane\" 5. Kliknij w przycisk \"Generuj Świadectwa\" Dla osób, które uzyskały wynik \"pozytywny\" system automatycznie wygeneruje stosowne dokumenty. 6. Otwórz panel \"Wydruki\" i wybierz \"Świadectwa\", by wydrukować wygenerowane dokumenty. 7. Po podpisaniu dokumentów wykonaj kopię elektroniczną (skan) każdego z nich i załącz odpowiedni plik do karty opisującej każde wydane świadectwo (załącznik do świadectwa). 8. Po zweryfikowaniu prawidłowości wpisów i załączonych skanów, proces generowania świadectwa, jego drukowania i wprowadzenia do ewidencji jest zakończony. Uwaga! W przypadku wydawania świadectw gdy nie dysponujemy dokumentami z przeprowadzonego egzaminu (stare/odnawiane) wydajemy świadectwo jako nowy wpis na liście świadectw, a nie jako wygenerowane automatycznie na podstawie egzaminu Zamknij Kontakt: netpar@uke.gov.pl 72 74 91 36 Zobacz też: UKE Pozwolenia radiowe Świadectwa © UKE-BI-WUSA (B&J) 2015"
+     # ./spec/features/users/6.user_show_spec.rb:36:in `block (2 levels) in <top (required)>'
+
+  6) 13. Sign Up visitor can sign up with valid email address and password
+     Failure/Error: expect(page).to have_content(/.*#{txts[0]}.*|.*#{txts[1]}.*/)
+       expected to find text matching /.*Witaj! Zarejestrowałeś się pomyślnie..*|.*Wiadomość email z instrukcją aktywacji konta została przesłana na Twój adres email. Użyj linku z emaila aby aktywować konto..*/ in "Toggle navigation Zaloguj się Zarejestruj się Hasło musi zawierać wielką i małą literę oraz cyfrę i znak specjalny Imię i Nazwisko Email Hasło Potwórz hasło Zaloguj się Zapomniałeś hasła? Nie otrzymałeś instrukcji aktywacji konta? Nie otrzymałeś instrukcji odblokowania konta? Kontakt: netpar@uke.gov.pl 72 74 91 36 Zobacz też: UKE Pozwolenia radiowe Świadectwa © UKE-BI-WUSA (B&J) 2015"
+     # ./spec/features/visitors/13.sign_up_spec.rb:14:in `block (2 levels) in <top (required)>'
+
+  7) 13. Sign Up visitor cannot sign up with invalid email address
+     Failure/Error: expect(page).to have_content 'Email is invalid'
+       expected to find text "Email is invalid" in "Toggle navigation Zaloguj się Zarejestruj się Email jest nieprawidłowe Email jest nieprawidłowe Hasło musi zawierać wielką i małą literę oraz cyfrę i znak specjalny Imię i Nazwisko Email Hasło Potwórz hasło Zaloguj się Zapomniałeś hasła? Nie otrzymałeś instrukcji aktywacji konta? Nie otrzymałeś instrukcji odblokowania konta? Kontakt: netpar@uke.gov.pl 72 74 91 36 Zobacz też: UKE Pozwolenia radiowe Świadectwa © UKE-BI-WUSA (B&J) 2015"
+     # ./spec/features/visitors/13.sign_up_spec.rb:23:in `block (2 levels) in <top (required)>'
+
+  8) 13. Sign Up visitor cannot sign up with invalid email address
+     Failure/Error: expect(page).to have_content 'Email is invalid'
+       expected to find text "Email is invalid" in "Toggle navigation Zaloguj się Zarejestruj się Email jest nieprawidłowe Hasło musi zawierać wielką i małą literę oraz cyfrę i znak specjalny Imię i Nazwisko Email Hasło Potwórz hasło Zaloguj się Zapomniałeś hasła? Nie otrzymałeś instrukcji aktywacji konta? Nie otrzymałeś instrukcji odblokowania konta? Kontakt: netpar@uke.gov.pl 72 74 91 36 Zobacz też: UKE Pozwolenia radiowe Świadectwa © UKE-BI-WUSA (B&J) 2015"
+     # ./spec/features/visitors/13.sign_up_spec.rb:32:in `block (2 levels) in <top (required)>'
+
+  9) 13. Sign Up visitor cannot sign up without password
+     Failure/Error: expect(page).to have_content "Password can't be blank"
+       expected to find text "Password can't be blank" in "Toggle navigation Zaloguj się Zarejestruj się Hasło nie może być puste Hasło musi zawierać wielką i małą literę oraz cyfrę i znak specjalny Imię i Nazwisko Email Hasło Potwórz hasło Zaloguj się Zapomniałeś hasła? Nie otrzymałeś instrukcji aktywacji konta? Nie otrzymałeś instrukcji odblokowania konta? Kontakt: netpar@uke.gov.pl 72 74 91 36 Zobacz też: UKE Pozwolenia radiowe Świadectwa © UKE-BI-WUSA (B&J) 2015"
+     # ./spec/features/visitors/13.sign_up_spec.rb:41:in `block (2 levels) in <top (required)>'
+
+  10) 13. Sign Up visitor cannot sign up with a short password
+      Failure/Error: expect(page).to have_content "Password is too short"
+        expected to find text "Password is too short" in "Toggle navigation Zaloguj się Zarejestruj się Hasło jest za krótkie (przynajmniej 8 znaków) Hasło musi zawierać wielką i małą literę oraz cyfrę i znak specjalny Imię i Nazwisko Email Hasło Potwórz hasło Zaloguj się Zapomniałeś hasła? Nie otrzymałeś instrukcji aktywacji konta? Nie otrzymałeś instrukcji odblokowania konta? Kontakt: netpar@uke.gov.pl 72 74 91 36 Zobacz też: UKE Pozwolenia radiowe Świadectwa © UKE-BI-WUSA (B&J) 2015"
+      # ./spec/features/visitors/13.sign_up_spec.rb:50:in `block (2 levels) in <top (required)>'
+
+  11) 13. Sign Up visitor cannot sign up without password confirmation
+      Failure/Error: expect(page).to have_content "Password confirmation doesn't match"
+        expected to find text "Password confirmation doesn't match" in "Toggle navigation Zaloguj się Zarejestruj się Potwórz hasło nie zgadza się z potwierdzeniem Hasło musi zawierać wielką i małą literę oraz cyfrę i znak specjalny Imię i Nazwisko Email Hasło Potwórz hasło Zaloguj się Zapomniałeś hasła? Nie otrzymałeś instrukcji aktywacji konta? Nie otrzymałeś instrukcji odblokowania konta? Kontakt: netpar@uke.gov.pl 72 74 91 36 Zobacz też: UKE Pozwolenia radiowe Świadectwa © UKE-BI-WUSA (B&J) 2015"
+      # ./spec/features/visitors/13.sign_up_spec.rb:59:in `block (2 levels) in <top (required)>'
+
+  12) 13. Sign Up visitor cannot sign up with mismatched password and confirmation
+      Failure/Error: expect(page).to have_content "Password confirmation doesn't match"
+        expected to find text "Password confirmation doesn't match" in "Toggle navigation Zaloguj się Zarejestruj się Potwórz hasło nie zgadza się z potwierdzeniem Hasło musi zawierać wielką i małą literę oraz cyfrę i znak specjalny Imię i Nazwisko Email Hasło Potwórz hasło Zaloguj się Zapomniałeś hasła? Nie otrzymałeś instrukcji aktywacji konta? Nie otrzymałeś instrukcji odblokowania konta? Kontakt: netpar@uke.gov.pl 72 74 91 36 Zobacz też: UKE Pozwolenia radiowe Świadectwa © UKE-BI-WUSA (B&J) 2015"
+      # ./spec/features/visitors/13.sign_up_spec.rb:68:in `block (2 levels) in <top (required)>'
+
+  13) UserPolicy index? allows access for an admin
+      Failure/Error: let (:admin) { FactoryGirl.build_stubbed :user, :admin }
+
+      ArgumentError:
+        Trait not registered: admin
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/registry.rb:24:in `find'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/decorator.rb:10:in `method_missing'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl.rb:98:in `trait_by_name'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:113:in `trait_by_name'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:109:in `block in additional_traits'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:109:in `map'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:109:in `additional_traits'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:135:in `block in aggregate_from_traits_and_self'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:128:in `tap'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:128:in `aggregate_from_traits_and_self'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:33:in `to_create'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition_hierarchy.rb:16:in `build_from_definition'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory.rb:124:in `build_hierarchy'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory.rb:87:in `compile'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory.rb:32:in `run'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory_runner.rb:23:in `block in run'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/activesupport-4.2.4/lib/active_support/notifications.rb:166:in `instrument'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory_runner.rb:22:in `run'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/strategy_syntax_method_registrar.rb:20:in `block in define_singular_strategy_method'
+      # ./spec/policies/user_policy_spec.rb:6:in `block (2 levels) in <top (required)>'
+      # ./spec/policies/user_policy_spec.rb:13:in `block (3 levels) in <top (required)>'
+
+  14) UserPolicy show? allows you to see your own profile
+      Failure/Error: expect(subject).to permit(current_user, current_user)
+        Expected UserPolicy to grant show? on #<User:0xdf574c4> but show? was not granted
+      # ./spec/policies/user_policy_spec.rb:22:in `block (3 levels) in <top (required)>'
+
+  15) UserPolicy show? allows an admin to see any profile
+      Failure/Error: let (:admin) { FactoryGirl.build_stubbed :user, :admin }
+
+      ArgumentError:
+        Trait not registered: admin
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/registry.rb:24:in `find'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/decorator.rb:10:in `method_missing'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl.rb:98:in `trait_by_name'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:113:in `trait_by_name'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:109:in `block in additional_traits'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:109:in `map'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:109:in `additional_traits'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:135:in `block in aggregate_from_traits_and_self'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:128:in `tap'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:128:in `aggregate_from_traits_and_self'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:33:in `to_create'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition_hierarchy.rb:16:in `build_from_definition'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory.rb:124:in `build_hierarchy'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory.rb:87:in `compile'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory.rb:32:in `run'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory_runner.rb:23:in `block in run'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/activesupport-4.2.4/lib/active_support/notifications.rb:166:in `instrument'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory_runner.rb:22:in `run'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/strategy_syntax_method_registrar.rb:20:in `block in define_singular_strategy_method'
+      # ./spec/policies/user_policy_spec.rb:6:in `block (2 levels) in <top (required)>'
+      # ./spec/policies/user_policy_spec.rb:25:in `block (3 levels) in <top (required)>'
+
+  16) UserPolicy update? allows an admin to make updates
+      Failure/Error: let (:admin) { FactoryGirl.build_stubbed :user, :admin }
+
+      ArgumentError:
+        Trait not registered: admin
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/registry.rb:24:in `find'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/decorator.rb:10:in `method_missing'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl.rb:98:in `trait_by_name'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:113:in `trait_by_name'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:109:in `block in additional_traits'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:109:in `map'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:109:in `additional_traits'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:135:in `block in aggregate_from_traits_and_self'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:128:in `tap'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:128:in `aggregate_from_traits_and_self'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:33:in `to_create'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition_hierarchy.rb:16:in `build_from_definition'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory.rb:124:in `build_hierarchy'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory.rb:87:in `compile'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory.rb:32:in `run'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory_runner.rb:23:in `block in run'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/activesupport-4.2.4/lib/active_support/notifications.rb:166:in `instrument'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory_runner.rb:22:in `run'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/strategy_syntax_method_registrar.rb:20:in `block in define_singular_strategy_method'
+      # ./spec/policies/user_policy_spec.rb:6:in `block (2 levels) in <top (required)>'
+      # ./spec/policies/user_policy_spec.rb:34:in `block (3 levels) in <top (required)>'
+
+  17) UserPolicy destroy? allows an admin to delete any user
+      Failure/Error: let (:admin) { FactoryGirl.build_stubbed :user, :admin }
+
+      ArgumentError:
+        Trait not registered: admin
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/registry.rb:24:in `find'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/decorator.rb:10:in `method_missing'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl.rb:98:in `trait_by_name'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:113:in `trait_by_name'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:109:in `block in additional_traits'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:109:in `map'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:109:in `additional_traits'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:135:in `block in aggregate_from_traits_and_self'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:128:in `tap'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:128:in `aggregate_from_traits_and_self'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition.rb:33:in `to_create'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/definition_hierarchy.rb:16:in `build_from_definition'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory.rb:124:in `build_hierarchy'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory.rb:87:in `compile'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory.rb:32:in `run'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory_runner.rb:23:in `block in run'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/activesupport-4.2.4/lib/active_support/notifications.rb:166:in `instrument'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/factory_runner.rb:22:in `run'
+      # /home/bodzio/.rvm/gems/ruby-2.2.2/gems/factory_girl-4.5.0/lib/factory_girl/strategy_syntax_method_registrar.rb:20:in `block in define_singular_strategy_method'
+      # ./spec/policies/user_policy_spec.rb:6:in `block (2 levels) in <top (required)>'
+      # ./spec/policies/user_policy_spec.rb:43:in `block (3 levels) in <top (required)>'
+
+Finished in 5.28 seconds (files took 4.9 seconds to load)
+52 examples, 17 failures, 20 pending
+
+Failed examples:
+
+rspec ./spec/features/users/4.user_edit_spec.rb:18 # 4. User edit 4.1. User changes email address
+rspec ./spec/features/users/4.user_edit_spec.rb:36 # 4. User edit 4.2. User changes email address no UKE domain
+rspec ./spec/features/users/4.user_edit_spec.rb:53 # 4. User edit 4.3. User cannot cannot edit another user's profile
+rspec ./spec/features/users/6.user_show_spec.rb:18 # 6. User profile page 6.1. User sees own profile
+rspec ./spec/features/users/6.user_show_spec.rb:30 # 6. User profile page 6.2. User cannot see another user's profile
+rspec ./spec/features/visitors/13.sign_up_spec.rb:11 # 13. Sign Up visitor can sign up with valid email address and password
+rspec ./spec/features/visitors/13.sign_up_spec.rb:21 # 13. Sign Up visitor cannot sign up with invalid email address
+rspec ./spec/features/visitors/13.sign_up_spec.rb:30 # 13. Sign Up visitor cannot sign up with invalid email address
+rspec ./spec/features/visitors/13.sign_up_spec.rb:39 # 13. Sign Up visitor cannot sign up without password
+rspec ./spec/features/visitors/13.sign_up_spec.rb:48 # 13. Sign Up visitor cannot sign up with a short password
+rspec ./spec/features/visitors/13.sign_up_spec.rb:57 # 13. Sign Up visitor cannot sign up without password confirmation
+rspec ./spec/features/visitors/13.sign_up_spec.rb:66 # 13. Sign Up visitor cannot sign up with mismatched password and confirmation
+rspec ./spec/policies/user_policy_spec.rb:12 # UserPolicy index? allows access for an admin
+rspec ./spec/policies/user_policy_spec.rb:21 # UserPolicy show? allows you to see your own profile
+rspec ./spec/policies/user_policy_spec.rb:24 # UserPolicy show? allows an admin to see any profile
+rspec ./spec/policies/user_policy_spec.rb:33 # UserPolicy update? allows an admin to make updates
+rspec ./spec/policies/user_policy_spec.rb:42 # UserPolicy destroy? allows an admin to delete any user
+

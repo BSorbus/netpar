@@ -52,28 +52,28 @@ class PdfCertificatesM < Prawn::Document
 
   def data(certificate)
     str_name = "#{certificate.customer.given_names} #{certificate.customer.name.mb_chars.upcase}"
-    #text_box "#{str_name}",                                           :at => [  0, 358], :width => 230, :height => 12, size: 12, :align => :center, :style => :bold
+    #text_box "#{str_name}",                                           :at => [  0, 356], :width => 230, :height => 12, size: 12, :align => :center, :style => :bold
 
 
     if str_name.length <= 30 
-      text_box "#{str_name}",                                         :at => [  0, 358], :width => 230, :height => 12, size: 12, :align => :center, :style => :bold
+      text_box "#{str_name}",                                         :at => [  0, 356], :width => 230, :height => 12, size: 12, :align => :center, :style => :bold
     elsif str_name.length <= 34
-      text_box "#{str_name}",                                         :at => [  0, 358], :width => 230, :height => 11, size: 10, :align => :center, :style => :bold
+      text_box "#{str_name}",                                         :at => [  0, 356], :width => 230, :height => 11, size: 10, :align => :center, :style => :bold
     else
-      text_box "#{str_name}",                                         :at => [  0, 358], :width => 230, :height => 11, size:  9, :align => :center, :style => :bold
+      text_box "#{str_name}",                                         :at => [  0, 356], :width => 230, :height => 11, size:  9, :align => :center, :style => :bold
     end
 
 
 
     text_box "#{certificate.customer.birth_date_and_place}",          :at => [   0, 327], :width => 230, :height => 10, size: 10, :align => :center
  
-    text_box "#{certificate.user.department.address_city} #{certificate.date_of_issue.strftime('%d.%m.%Y')}", :at => [  0, 163], :width => 230, :height => 10, size: 10, :align => :center
+    text_box "#{certificate.user.department.address_city} #{certificate.date_of_issue.strftime('%d.%m.%Y')}", :at => [  0, 164], :width => 230, :height => 10, size: 10, :align => :center
 
     if certificate.valid_thru.present?
-      text_box "#{certificate.valid_thru.strftime('%d.%m.%Y')}",      :at => [ 184, 113], :width => 70, :height => 10, size: 9, :align => :left, :style => :bold
+      text_box "#{certificate.valid_thru.strftime('%d.%m.%Y')}",      :at => [ 184, 128], :width => 70, :height => 10, size: 9, :align => :left, :style => :bold
     end
 
-    text_box "#{certificate.number}",                                 :at => [ 167,   -27], :width => 80, :height => 11, size: 11, :align => :left, :style => :bold
+    text_box "#{certificate.number}",                                 :at => [ 167,   -2], :width => 80, :height => 11, size: 11, :align => :left, :style => :bold
 
   end
 

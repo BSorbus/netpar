@@ -69,11 +69,20 @@ class PdfExaminationProtocolM < Prawn::Document
                     ] + 
                      @examinations.map { |p| [ 
                         next_lp, 
-                        "#{p.customer.name}" + "\n" + "#{p.customer.given_names}",
-                        p.division.short_name,
+                        name_with_last_exam(p),
+                        p.supplementary? ? "#{p.division.short_name}" + "\n" + "(PW)" : p.division.short_name,
                         grades_sub(p),
                         p.examination_result_name
                       ] }
+  end
+
+  def name_with_last_exam(e)
+    res = "#{e.customer.name}" + "\n" + "#{e.customer.given_names}"
+    if e.examination_category != "Z"
+      customer_last_examination = Examination.where(customer: e.customer, division: e.division, examination_result: 'N').last
+      res += "\n" + "(P: #{customer_last_examination.exam.number})" if customer_last_examination.present?
+    end
+    res
   end
 
   def grades_sub(examination)

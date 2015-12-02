@@ -27,6 +27,3 @@ feature '3. User delete', :devise, :js do
 
 end
 
-
-
-
