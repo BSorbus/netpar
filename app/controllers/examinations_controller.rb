@@ -147,13 +147,17 @@ class ExaminationsController < ApplicationController
 
     respond_to do |format|
       if @examination.save
-        @examination.division.subjects.order(:item).each do |subject|
+        @examination.division.subjects.where(for_supplementary: @examination.supplementary).order(:item).each do |subject|
           if @examination.examination_category == 'Z' #egzamin zwykły
             @examination.grades.create!(user: @examination.user, subject: subject)
           else #jesli to egzamin powtórny
             # poszukaj ocen z oceną negatywną
             customer_last_examination = Examination.where(customer: @examination.customer, division: @examination.division, examination_result: 'N').last # Negatywny z prawem do poprawki
-            @examination.grades.create!(user: @examination.user, subject: subject) if customer_last_examination.present? && customer_last_examination.grades.where(grade_result: 'N', subject: subject).any?
+            if customer_last_examination.present?
+              @examination.grades.create!(user: @examination.user, subject: subject) if customer_last_examination.grades.where(grade_result: 'N', subject: subject).any?
+            else
+              @examination.grades.create!(user: @examination.user, subject: subject)
+            end
           end
         end
 

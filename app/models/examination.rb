@@ -74,8 +74,12 @@ class Examination < ActiveRecord::Base
       'Negatywny bez prawa do poprawki'
     when 'N'
       'Negatywny z prawem do poprawki'
+    when 'O'
+      'Nieobecny'
     when 'P'
       'Pozytywny'
+    when 'Z'
+      'Zmiana terminu'
     when '', nil
       ''
     else

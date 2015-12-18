@@ -43,7 +43,7 @@
 
       <div class="form-group col-sm-2">
         <%= f.label :supplementary, class: 'control-label' %><br>
-        <%= f.check_box :supplementary, disabled: input_disabled %>
+        <%= f.check_box :supplementary, disabled: !@examination.new_record? %>
       </div>
 
       <% unless @examination.new_record? %>
@@ -52,7 +52,9 @@
         <%= f.select :examination_result, 
               options_for_select([['Negatywny bez prawa do poprawki', 'B'],
                                   ['Negatywny z prawem do poprawki', 'N'],
-                                  ['Pozytywny', 'P']], 
+                                  ['Nieobecny', 'O'],
+                                  ['Pozytywny', 'P'], 
+                                  ['Zmiana terminu', 'Z']], 
                   selected: @examination.examination_result), 
               { include_blank: true }, 
               { autofocus: !@examination.new_record?, class: 'form-control input-sm', disabled: input_disabled } %>

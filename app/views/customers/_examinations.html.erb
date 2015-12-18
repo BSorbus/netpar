@@ -49,7 +49,7 @@
                   <td class="danger"><%= examination.examination_result_name %></td>
                 <% elsif examination.examination_result == 'N' %> <!-- Negatywny z prawem do poprawki -->
                   <td class="warning"><%= examination.examination_result_name %></td>
-                <% else %> <!-- brak wpisu -->
+                <% else %> <!-- brak wpisu lub Nieobecność lub Zmiana terminu-->
                   <td ><%= examination.examination_result_name %></td>
                 <% end %>                
                <td>

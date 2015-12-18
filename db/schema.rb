@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151105215313) do
+ActiveRecord::Schema.define(version: 20151204120911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -274,8 +274,9 @@ ActiveRecord::Schema.define(version: 20151105215313) do
     t.integer  "item"
     t.string   "name"
     t.integer  "division_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "for_supplementary", default: false, null: false
   end
 
   add_index "subjects", ["division_id"], name: "index_subjects_on_division_id", using: :btree
