@@ -65,12 +65,6 @@ puts 'CREATED ROLE: ' << role.name
 user.roles << role
 puts "ADD ROLE: #{role.name}   TO USER: #{user.email}"
 
-role = CreateRoleService.new.license_manager
-puts 'CREATED ROLE: ' << role.name
-user.roles << role
-puts "ADD ROLE: #{role.name}   TO USER: #{user.email}"
-
-
 
 role = CreateRoleService.new.role_observer
 puts 'CREATED ROLE: ' << role.name
@@ -100,8 +94,5 @@ role = CreateRoleService.new.exam_m_observer
 puts 'CREATED ROLE: ' << role.name
 
 role = CreateRoleService.new.exam_r_observer
-puts 'CREATED ROLE: ' << role.name
-
-role = CreateRoleService.new.license_observer
 puts 'CREATED ROLE: ' << role.name
 

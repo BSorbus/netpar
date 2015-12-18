@@ -2,7 +2,7 @@ class CreateRoleService
   # roles
   def work_observer
     role = Role.find_or_create_by!(name: "Obserwator Działań") do |role|
-      role.activities += %w(all:work role:work user:work department:work customer:work exam_l:work exam_m:work exam_r:work certificate_l:work certificate_m:work certificate_r:work license:work)
+      role.activities += %w(all:work role:work user:work department:work customer:work exam_l:work exam_m:work exam_r:work certificate_l:work certificate_m:work certificate_r:work)
       role.save!
     end
   end
@@ -147,18 +147,5 @@ class CreateRoleService
     end
   end
 
-  # license
-  def license_manager
-    role = Role.find_or_create_by!(name: "Menadżer Pozwoleń") do |role|
-      role.activities += %w(license:index license:show license:create license:update license:delete license:print license:work)
-      role.save!
-    end
-  end
-  def license_observer
-    role = Role.find_or_create_by!(name: "Obserwator Pozwoleń") do |role|
-      role.activities += %w(license:index license:show)
-      role.save!
-    end
-  end
 
 end

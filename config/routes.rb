@@ -66,11 +66,6 @@ Rails.application.routes.draw do
     resources :documents, module: :customers, only: [:create]
   end
 
-  resources :individuals do
-    post 'datatables_index', on: :collection
-    resources :documents, module: :individuals, only: [:create]
-  end
-
   resources :departments
 
   resources :roles do

@@ -125,42 +125,6 @@ pl:
     examination_r:
       index:
         title: 'Egzaminy RA'
-    license:
-      index:
-        title: 'Pozwolenia'
-      show:
-        title: 'Pozwolenie'
-      edit:
-        title: 'Pozwolenie - edycja danych'
-      new:
-        title: ' Nowe Pozwolenie'
-    individual:
-      index:
-        title: 'Pozwolenia Indywidualne'
-      show:
-        title: 'Pozwolenie Indywidualne'
-      edit:
-        title: 'Pozwolenie Indywidualne - edycja danych'
-      new:
-        title: ' Nowe Pozwolenie Indywidualne'
-    club:
-      index:
-        title: 'Pozwolenia Klubowe'
-      show:
-        title: 'Pozwolenie Klubowe'
-      edit:
-        title: 'Pozwolenie Klubowe - edycja danych'
-      new:
-        title: ' Nowe Pozwolenie Klubowe'
-    transmitter:
-      index:
-        title: 'Pozwolenia Urządzeń Bezobsługowych'
-      show:
-        title: 'Pozwolenie Urządzenia Bezobsługowego'
-      edit:
-        title: 'Pozwolenie Urządzenia Bezobsługowego - edycja danych'
-      new:
-        title: ' Nowe Pozwolenie Urządzenia Bezobsługowego'
     work:
       index:
         title: 'Operacje'
@@ -192,7 +156,6 @@ pl:
     exams_l: 'Egzaminy LOT'
     exams_m: 'Egzaminy MOR'
     exams_r: 'Egzaminy RA'
-    individuals: 'Pozwolenia Indywidualne'
     generating_certificate: " Generuj Świadectwo"
     generating_certificates: " Generuj Świadectwa"
   pundit:
@@ -356,28 +319,6 @@ pl:
         customer_id: 'Klient'
         customer: 'Klient'
         category: 'Kategoria'
-        note: 'Uwagi'
-      individual:
-        number: 'Numer'
-        date_of_issue: 'Data wydania'
-        valid_thru: 'Ważne do'
-        license_status: 'Status'
-        application_date: 'Data wniosku'
-        call_sign: 'Znak'
-        customer_id: 'Klient'
-        category: 'Kategoria'
-        transmitter_power: 'Moc [W]'
-        certificate_number: 'Nr świadectwa'
-        certificate_date_of_issue: 'Data świadectwa'
-        certificate_id: 'Świadectwo'
-        payment_code: 'KOD PŁATNOŚCI'
-        payment_date: 'Data wpłaty'
-        payment_id: 'Płatność'
-        station_city: 'Miejscowość (stacja)'
-        station_street: 'Ulica (st)'
-        station_house: 'Dom (st)'
-        station_noumber: 'Lokal (st)'
-        customer_id: 'Klient'
         note: 'Uwagi'
       exam:
         number: 'Numer'

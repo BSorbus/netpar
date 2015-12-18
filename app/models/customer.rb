@@ -54,9 +54,6 @@ class Customer < ActiveRecord::Base
   has_many :documents, as: :documentable
   has_many :works, as: :trackable
 
-  has_many :individuals
-  has_many :individualed_documentable, through: :individuals, source: :documents
-
   has_many :certificates
   has_many :certificated_documentable, through: :certificates, source: :documents
 

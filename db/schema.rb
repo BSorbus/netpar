@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151204120911) do
+ActiveRecord::Schema.define(version: 20151218130048) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -205,38 +205,6 @@ ActiveRecord::Schema.define(version: 20151204120911) do
   add_index "grades", ["subject_id"], name: "index_grades_on_subject_id", using: :btree
   add_index "grades", ["user_id"], name: "index_grades_on_user_id", using: :btree
 
-  create_table "individuals", force: :cascade do |t|
-    t.string   "number",                    limit: 30, default: "", null: false
-    t.date     "date_of_issue"
-    t.date     "valid_thru"
-    t.string   "license_status",            limit: 1
-    t.date     "application_date"
-    t.string   "call_sign",                 limit: 20
-    t.string   "category",                  limit: 1
-    t.integer  "transmitter_power"
-    t.string   "certificate_number"
-    t.date     "certificate_date_of_issue"
-    t.integer  "certificate_id"
-    t.string   "payment_code"
-    t.date     "payment_date"
-    t.string   "station_city",              limit: 50
-    t.string   "station_street",            limit: 50
-    t.string   "station_house",             limit: 10
-    t.string   "station_number",            limit: 10
-    t.integer  "customer_id"
-    t.text     "note"
-    t.integer  "user_id"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
-  end
-
-  add_index "individuals", ["call_sign"], name: "index_individuals_on_call_sign", using: :btree
-  add_index "individuals", ["certificate_id"], name: "index_individuals_on_certificate_id", using: :btree
-  add_index "individuals", ["customer_id"], name: "index_individuals_on_customer_id", using: :btree
-  add_index "individuals", ["date_of_issue"], name: "index_individuals_on_date_of_issue", using: :btree
-  add_index "individuals", ["number"], name: "index_individuals_on_number", unique: true, using: :btree
-  add_index "individuals", ["user_id"], name: "index_individuals_on_user_id", using: :btree
-
   create_table "old_passwords", force: :cascade do |t|
     t.string   "encrypted_password",       null: false
     t.string   "password_salt"
@@ -348,9 +316,6 @@ ActiveRecord::Schema.define(version: 20151204120911) do
   add_foreign_key "grades", "examinations"
   add_foreign_key "grades", "subjects"
   add_foreign_key "grades", "users"
-  add_foreign_key "individuals", "certificates"
-  add_foreign_key "individuals", "customers"
-  add_foreign_key "individuals", "users"
   add_foreign_key "subjects", "divisions"
   add_foreign_key "users", "departments"
 end
