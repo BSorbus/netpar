@@ -216,7 +216,8 @@ class Customer < ActiveRecord::Base
     unless self.id == source_customer.id
       source_customer.certificates.update_all(customer_id: self.id)
       source_customer.examinations.update_all(customer_id: self.id)
-      source_customer.individuals.update_all(customer_id: self.id)
+      source_customer.documents.update_all(documentable_id: self.id)
+      source_customer.works.update_all(trackable_id: self.id)
       source_customer.destroy!
     end
   end
