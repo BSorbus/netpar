@@ -56,11 +56,11 @@ class PdfCertificatesM < Prawn::Document
 
 
     if str_name.length <= 30 
-      text_box "#{str_name}",                                         :at => [  0, 356], :width => 230, :height => 12, size: 12, :align => :center, :style => :bold
+      text_box "#{str_name}",                                         :at => [  0, 356], :width => 232, :height => 12, size: 12, :align => :center, :style => :bold
     elsif str_name.length <= 34
-      text_box "#{str_name}",                                         :at => [  0, 356], :width => 230, :height => 11, size: 10, :align => :center, :style => :bold
+      text_box "#{str_name}",                                         :at => [  0, 356], :width => 232, :height => 11, size: 10, :align => :center, :style => :bold
     else
-      text_box "#{str_name}",                                         :at => [  0, 356], :width => 230, :height => 11, size:  9, :align => :center, :style => :bold
+      text_box "#{str_name}",                                         :at => [  0, 356], :width => 232, :height => 11, size:  9, :align => :center, :style => :bold
     end
 
 
