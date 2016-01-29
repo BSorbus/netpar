@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151218130048) do
+ActiveRecord::Schema.define(version: 20160125134416) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,14 +57,14 @@ ActiveRecord::Schema.define(version: 20151218130048) do
     t.string   "address_street",        limit: 50,  default: ""
     t.string   "address_house",         limit: 10,  default: ""
     t.string   "address_number",        limit: 10,  default: ""
-    t.string   "address_postal_code",   limit: 6,   default: ""
+    t.string   "address_postal_code",   limit: 10,  default: ""
     t.string   "address_post_office",   limit: 50,  default: ""
     t.string   "address_pobox",         limit: 10,  default: ""
     t.string   "c_address_city",        limit: 50,  default: ""
     t.string   "c_address_street",      limit: 50,  default: ""
     t.string   "c_address_house",       limit: 10,  default: ""
     t.string   "c_address_number",      limit: 10,  default: ""
-    t.string   "c_address_postal_code", limit: 6,   default: ""
+    t.string   "c_address_postal_code", limit: 10,  default: ""
     t.string   "c_address_post_office", limit: 50,  default: ""
     t.string   "c_address_pobox",       limit: 10,  default: ""
     t.string   "nip",                   limit: 13,  default: ""

@@ -7,14 +7,14 @@
 #    t.string   "address_street",        limit: 50,  default: ""
 #    t.string   "address_house",         limit: 10,  default: ""
 #    t.string   "address_number",        limit: 10,  default: ""
-#    t.string   "address_postal_code",   limit: 6,   default: ""
+#    t.string   "address_postal_code",   limit: 10,  default: ""
 #    t.string   "address_post_office",   limit: 50,  default: ""
 #    t.string   "address_pobox",         limit: 10,  default: ""
 #    t.string   "c_address_city",        limit: 50,  default: ""
 #    t.string   "c_address_street",      limit: 50,  default: ""
 #    t.string   "c_address_house",       limit: 10,  default: ""
 #    t.string   "c_address_number",      limit: 10,  default: ""
-#    t.string   "c_address_postal_code", limit: 6,   default: ""
+#    t.string   "c_address_postal_code", limit: 10,  default: ""
 #    t.string   "c_address_post_office", limit: 50,  default: ""
 #    t.string   "c_address_pobox",       limit: 10,  default: ""
 #    t.string   "nip",                   limit: 13,  default: ""
@@ -72,6 +72,10 @@ class Customer < ActiveRecord::Base
                     length: { in: 1..50 }, if: :is_human? 
   validates :address_city, presence: true,
                     length: { in: 1..50 }
+  validates :address_postal_code, presence: true,
+                    length: { in: 6..10 }
+  validates :c_address_postal_code,
+                    length: { in: 6..10 }, if: "c_address_postal_code.present?"
   validates :pesel, length: { is: 11 }, numericality: true, 
                     uniqueness: { case_sensitive: false }, allow_blank: true
   validates :birth_date, presence: true, if: :is_human?
