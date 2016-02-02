@@ -4,11 +4,13 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-
+  protect_from_forgery with: :null_session, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   before_action :restricted_area, if: :devise_controller?
 
   helper_method :request_from_the_security_area?
+
+  acts_as_token_authentication_handler_for User, fallback_to_devise: false
 
   def restricted_area
     unless request_from_the_security_area?
@@ -16,7 +18,6 @@ class ApplicationController < ActionController::Base
       redirect_to(request.referrer || root_path)
     end
   end 
-
 
   def request_from_the_security_area?
     @ips = [
@@ -61,5 +62,6 @@ class ApplicationController < ActionController::Base
 
     return allowed
   end
+
 
 end

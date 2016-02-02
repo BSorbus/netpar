@@ -65,6 +65,9 @@ gem 'active_model_serializers'
 #gem 'yomu'
 #gem 'pdf-reader'
 
+gem 'simple_token_authentication'
+gem 'swagger-docs'
+
 #Use unicorn as the app server
 #gem 'unicorn'
 #gem "unicorn-rails"

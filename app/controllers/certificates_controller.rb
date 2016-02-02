@@ -117,8 +117,11 @@ class CertificatesController < ApplicationController
     end   
      
     respond_to do |format|
-      format.json
       format.html { render :show, locals: { back_url: params[:back_url]} }
+      # for jBuilder
+      #format.json 
+      # if using active_model_serializer
+      format.json { render json: @certificate, root: false, include: [] }
     end
     # przepych
     # @certificate.works.create!(trackable_url: "#{certificate_path(@certificate, category_service: params[:category_service])}", action: :show, user: current_user, parameters: {})

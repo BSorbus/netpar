@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
 #    self.department ||= Department.first
 #  end
 
+  acts_as_token_authenticatable
   # Include default devise modules. Others available are:
   # :rememberable, :omniauthable
   devise  :database_authenticatable, 

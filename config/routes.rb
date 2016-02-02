@@ -83,4 +83,15 @@ Rails.application.routes.draw do
 
   root to: 'visitors#index'
 
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :certificates
+      devise_scope :user do
+        post 'sessions' => 'sessions#create', :as => 'login'
+        delete 'sessions' => 'sessions#destroy', :as => 'logout'
+      end
+
+    end
+  end
+
 end

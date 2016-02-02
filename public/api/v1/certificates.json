@@ -1,0 +1,62 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost:3000",
+  "resourcePath": "/certificates",
+  "apis": [
+    {
+      "path": "/api/v1/certificates.json",
+      "operations": [
+        {
+          "summary": "Index",
+          "responseMessages": [
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Not Acceptable"
+            }
+          ],
+          "nickname": "Api::V1::Certificates#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/certificates/{id}.json",
+      "operations": [
+        {
+          "summary": "Show",
+          "responseMessages": [
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Not Acceptable"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Certificate ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V1::Certificates#show",
+          "method": "get"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}
