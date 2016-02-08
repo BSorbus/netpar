@@ -65,8 +65,9 @@ gem 'active_model_serializers'
 #gem 'yomu'
 #gem 'pdf-reader'
 
+gem 'rack-cors', :require => 'rack/cors'
 gem 'simple_token_authentication'
-gem 'swagger-docs'
+gem 'swagger_engine'
 
 #Use unicorn as the app server
 #gem 'unicorn'

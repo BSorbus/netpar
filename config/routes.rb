@@ -83,15 +83,30 @@ Rails.application.routes.draw do
 
   root to: 'visitors#index'
 
+  mount SwaggerEngine::Engine, at: "/api-docs"
+  
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :certificates
+      resources :certificates, only: [:show] do
+        get 'lot', on: :collection
+        get 'mor', on: :collection
+        get 'ra', on: :collection
+        get 'search_by_number', on: :collection
+        get 'search_by_customer_pesel', on: :collection
+      end
       devise_scope :user do
-        post 'sessions' => 'sessions#create', :as => 'login'
-        delete 'sessions' => 'sessions#destroy', :as => 'logout'
+        post 'sessions' => 'sessions#create' #, :as => 'login'
+        delete 'sessions' => 'sessions#destroy' #, :as => 'logout'
+
+        post 'login' => 'sessions#create' #, :as => 'login'
+        delete 'logout' => 'sessions#destroy' #, :as => 'logout'
       end
 
     end
+
+    namespace :v2 do
+    end
+
   end
 
 end

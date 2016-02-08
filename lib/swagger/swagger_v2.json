@@ -1,0 +1,19 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "NETPAR2015 API",
+        "description": "API for NETPAR2015 - VERSION 2 IS NOT IMPLEMENTED",
+        "version": "2.0.0",
+        "termsOfService": "https://netpar2015.uke.gov.pl/api/v2/"
+    },
+    "host": "localhost:3000",
+    "schemes": [
+        "https"
+    ],
+    "basePath": "/api/v2",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+    }
+}
