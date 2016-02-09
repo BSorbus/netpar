@@ -187,6 +187,7 @@ pl:
       create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć klientów!'
       destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać klientów!'
     certificate_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać/przeszukiwać pełnej listy świadectw LOT MOR i RA!'
       index_l?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy świadectw LOT!'
       show_l?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów świadectwa LOT!'
       update_l?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych świadectwa LOT!'

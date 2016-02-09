@@ -24,6 +24,8 @@ module Api
       end
 
       def lot
+        authorize :certificate, :index_l?
+
         certificates = Certificate.where(category: "L").limit(params[:limit] ||= 10).offset(params[:offset] ||= 0)
         render status: 200,
                json: certificates, meta: { collection:
@@ -33,6 +35,8 @@ module Api
       end
 
       def mor
+        authorize :certificate, :index_m?
+
         certificates = Certificate.where(category: "M").limit(params[:limit] ||= 10).offset(params[:offset] ||= 0)
         render status: 200,
                json: certificates, meta: { collection:
@@ -42,6 +46,8 @@ module Api
       end
 
       def ra
+        authorize :certificate, :index_r?
+
         certificates = Certificate.where(category: "R").limit(params[:limit] ||= 10).offset(params[:offset] ||= 0)
         render status: 200,
                json: certificates, meta: { collection:
@@ -51,6 +57,8 @@ module Api
       end
 
       def search_by_number
+        authorize :certificate, :index?
+
         if params[:number].blank?
           render status: :not_acceptable,
                  json: { error: 406,
@@ -73,6 +81,8 @@ module Api
       end
 
       def search_by_customer_pesel
+        authorize :certificate, :index?
+
         if params[:pesel].blank?
           render status: :not_acceptable,
                  json: { error: 406,

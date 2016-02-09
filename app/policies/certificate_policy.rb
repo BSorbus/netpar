@@ -20,7 +20,8 @@ class CertificatePolicy < ApplicationPolicy
   end
 
   def index?
-    false
+    #false
+    user_activities.include? 'certificate_l:index' and user_activities.include? 'certificate_m:index' and user_activities.include? 'certificate_r:index'
   end
 
   def show_l?

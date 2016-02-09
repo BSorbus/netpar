@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   protect_from_forgery with: :null_session, :if => Proc.new { |c| c.request.format == 'application/json' }
 
+  #before_action :restricted_area, unless: :visitors_controller?
   before_action :restricted_area, if: :devise_controller?
 
   helper_method :request_from_the_security_area?
@@ -14,8 +15,14 @@ class ApplicationController < ActionController::Base
 
   def restricted_area
     unless request_from_the_security_area?
-      flash[:error] = t "restricted_area"
-      redirect_to(request.referrer || root_path)
+      mess = t "restricted_area"
+      if request.format == 'application/json'
+        #head :forbidden
+        render status: :forbidden, json: {error: "#{mess}"}
+      else
+        flash[:error] = "#{mess}"
+        redirect_to(request.referrer || root_path)
+      end
     end
   end 
 
