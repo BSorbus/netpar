@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
 
-  #include ActionController::Serialization
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -11,17 +10,22 @@ class ApplicationController < ActionController::Base
 
   helper_method :request_from_the_security_area?
 
-  acts_as_token_authentication_handler_for User, fallback_to_devise: false
+  def visitors_controller?
+    puts '------------------------------------------------------------'
+    puts Rails.application.routes.recognize_path(request.referrer)[:controller]
+    puts '------------------------------------------------------------'
+    return Rails.application.routes.recognize_path(request.referrer)[:controller] == "visitors"
+  end
 
   def restricted_area
     unless request_from_the_security_area?
       mess = t "restricted_area"
       if request.format == 'application/json'
         #head :forbidden
-        render status: :forbidden, json: {error: "#{mess}"}
+        render status: :forbidden, json: {error: "#{mess}"} and return
       else
-        flash[:error] = "#{mess}"
-        redirect_to(request.referrer || root_path)
+        flash[:error] = "#{mess}" if is_flashing_format?
+        redirect_to(request.referrer || root_path) 
       end
     end
   end 

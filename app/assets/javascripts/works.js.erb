@@ -32,6 +32,9 @@ $(document).ready(function() {
         "title": "<%= Work.human_attribute_name('action') %>" , 
         fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
           // sData - wartosc celi, oData - wiersza
+          if (oData[3] == 'sign_in_from_api' ) {
+            $(nTd).css('background-color', '#C2E2B6'); 
+          }
           if (oData[3] == 'sign_in' ) {
             $(nTd).css('background-color', '#DFF0D8'); 
           }
@@ -116,6 +119,9 @@ $(document).ready(function() {
         "title": "<%= Work.human_attribute_name('action') %>" , 
         fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
           // sData - wartosc celi, oData - wiersza
+          if (oData[3] == 'sign_in_from_api' ) {
+            $(nTd).css('background-color', '#C2E2B6'); 
+          }
           if (oData[3] == 'sign_in' ) {
             $(nTd).css('background-color', '#DFF0D8'); 
           }
@@ -213,6 +219,9 @@ $(document).ready(function() {
         "title": "<%= Work.human_attribute_name('action') %>" , 
         fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
           // sData - wartosc celi, oData - wiersza
+          if (oData[3] == 'sign_in_from_api' ) {
+            $(nTd).css('background-color', '#C2E2B6'); 
+          }
           if (oData[3] == 'sign_in' ) {
             $(nTd).css('background-color', '#DFF0D8'); 
           }

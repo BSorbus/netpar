@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "title": "NETPAR2015 API",
-        "description": "Attention! If you want to use this API, you need to use sessions/login in the first place. After correct login, your \"auth_token\" will be a key for authorization for all actions.",
+        "description": "API for NETPAR2015",
         "version": "1.0.1",
         "contact": {
             "name": "UKE-BI-WUSA (B&J) 2016",
@@ -19,18 +19,23 @@
         "application/json"
     ],
     "securityDefinitions": {
-        "apiAuthTokenKey": {
-            "name": "Authorization",
+        "apiAuthUserEmailKey": {
+            "name": "X-User-Email",
             "type": "apiKey",
             "in": "header",
-            "description": "API auth_token"
+            "description": "API user_email"
+        },
+        "apiAuthUserTokenKey": {
+            "name": "X-User-Token",
+            "type": "apiKey",
+            "in": "header",
+            "description": "API user_token"
         }
     },
     "paths": {
         "/login": {
             "post": {
-                "summary": "Login in NETPAR2015 API and return user[:authentication_token]",
-                "description": "The login endpoint created user session and returrns user[:authentication_token].",
+                "summary": "Blablabla",
                 "tags": [
                     "Sessions"
                 ],
@@ -40,7 +45,7 @@
                         "in": "body",
                         "description": "The pet JSON you want to post",
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "$ref": "#/definitions/Session"
                         },
                         "required": true
                     }
@@ -66,11 +71,14 @@
         },
         "/logout": {
             "delete": {
-                "summary": "Logged out from NETPAR2015 and destroy user[:authentication_token]",
+                "summary": "Logged out from NETPAR2015 and reset user_token",
                 "description": "The logout endpoint destroyed user session and recreate user[:authentication_token].",
                 "security": [
                     {
-                        "apiAuthTokenKey": []
+                        "apiAuthUserEmailKey": []
+                    },
+                    {
+                        "apiAuthUserTokenKey": []
                     }
                 ],
                 "parameters": [
@@ -115,15 +123,24 @@
                 "description": "The certificates/lot endpoint returns information about the UKE Certificates in aviation (LOT) services. \nThe response includes the display number and other details about each certificate, and lists the certificates in the\nproper display order.\n",
                 "security": [
                     {
-                        "apiAuthTokenKey": []
+                        "apiAuthUserEmailKey": []
+                    },
+                    {
+                        "apiAuthUserTokenKey": []
                     }
                 ],
                 "parameters": [
                     {
-                        "name": "Authorization",
+                        "name": "X-User-Email",
                         "in": "header",
                         "type": "string",
-                        "description": "Token from login for Authorization."
+                        "description": "User Email for Authorization."
+                    },
+                    {
+                        "name": "X-User-Token",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Token for Authorization."
                     },
                     {
                         "name": "limit",
@@ -168,15 +185,24 @@
                 "description": "The certificates/mor endpoint returns information about the UKE Certificates in marine (MOR) services. \nThe response includes the display number and other details about each certificate, and lists the certificates in the\nproper display order.\n",
                 "security": [
                     {
-                        "apiAuthTokenKey": []
+                        "apiAuthUserEmailKey": []
+                    },
+                    {
+                        "apiAuthUserTokenKey": []
                     }
                 ],
                 "parameters": [
                     {
-                        "name": "Authorization",
+                        "name": "X-User-Email",
                         "in": "header",
                         "type": "string",
-                        "description": "Token from login for Authorization."
+                        "description": "User Email for Authorization."
+                    },
+                    {
+                        "name": "X-User-Token",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Token for Authorization."
                     },
                     {
                         "name": "limit",
@@ -221,15 +247,24 @@
                 "description": "The certificates/ra endpoint returns information about the UKE Certificates in amateur (RA) services. The response includes the display number and other details about each certificate, and lists the certificates in the proper display order.\n",
                 "security": [
                     {
-                        "apiAuthTokenKey": []
+                        "apiAuthUserEmailKey": []
+                    },
+                    {
+                        "apiAuthUserTokenKey": []
                     }
                 ],
                 "parameters": [
                     {
-                        "name": "Authorization",
+                        "name": "X-User-Email",
                         "in": "header",
                         "type": "string",
-                        "description": "Token from login for Authorization."
+                        "description": "User Email for Authorization."
+                    },
+                    {
+                        "name": "X-User-Token",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Token for Authorization."
                     },
                     {
                         "name": "limit",
@@ -274,15 +309,24 @@
                 "description": "The certificates/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each certificate",
                 "security": [
                     {
-                        "apiAuthTokenKey": []
+                        "apiAuthUserEmailKey": []
+                    },
+                    {
+                        "apiAuthUserTokenKey": []
                     }
                 ],
                 "parameters": [
                     {
-                        "name": "Authorization",
+                        "name": "X-User-Email",
                         "in": "header",
                         "type": "string",
-                        "description": "Token from login for Authorization."
+                        "description": "User Email for Authorization."
+                    },
+                    {
+                        "name": "X-User-Token",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Token for Authorization."
                     },
                     {
                         "name": "number",
@@ -320,15 +364,24 @@
                 "description": "The certificates/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each certificate",
                 "security": [
                     {
-                        "apiAuthTokenKey": []
+                        "apiAuthUserEmailKey": []
+                    },
+                    {
+                        "apiAuthUserTokenKey": []
                     }
                 ],
                 "parameters": [
                     {
-                        "name": "Authorization",
+                        "name": "X-User-Email",
                         "in": "header",
                         "type": "string",
-                        "description": "Token from login for Authorization."
+                        "description": "User Email for Authorization."
+                    },
+                    {
+                        "name": "X-User-Token",
+                        "in": "header",
+                        "type": "string",
+                        "description": "User Token for Authorization."
                     },
                     {
                         "name": "pesel",
@@ -349,6 +402,185 @@
                             "items": {
                                 "$ref": "#/definitions/Certificate"
                             }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/estimates/price": {
+            "get": {
+                "summary": "Price Estimates",
+                "description": "The Price Estimates endpoint returns an estimated price range\nfor each product offered at a given location. The price estimate is\nprovided as a formatted string with the full price range and the localized\ncurrency symbol.<br><br>The response also includes low and high estimates,\nand the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for\nsituations requiring currency conversion. When surge is active for a particular\nproduct, its surge_multiplier will be greater than 1, but the price estimate\nalready factors in this multiplier.\n",
+                "parameters": [
+                    {
+                        "name": "start_latitude",
+                        "in": "query",
+                        "description": "Latitude component of start location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    },
+                    {
+                        "name": "start_longitude",
+                        "in": "query",
+                        "description": "Longitude component of start location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    },
+                    {
+                        "name": "end_latitude",
+                        "in": "query",
+                        "description": "Latitude component of end location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    },
+                    {
+                        "name": "end_longitude",
+                        "in": "query",
+                        "description": "Longitude component of end location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    }
+                ],
+                "tags": [
+                    "Estimates"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of price estimates by product",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/PriceEstimate"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/estimates/time": {
+            "get": {
+                "summary": "Time Estimates",
+                "description": "The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.",
+                "parameters": [
+                    {
+                        "name": "start_latitude",
+                        "in": "query",
+                        "description": "Latitude component of start location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    },
+                    {
+                        "name": "start_longitude",
+                        "in": "query",
+                        "description": "Longitude component of start location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    },
+                    {
+                        "name": "customer_uuid",
+                        "in": "query",
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Unique customer identifier to be used for experience customization."
+                    },
+                    {
+                        "name": "product_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Unique identifier representing a specific product for a given latitude & longitude."
+                    }
+                ],
+                "tags": [
+                    "Estimates"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of products",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Product"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/me": {
+            "get": {
+                "summary": "User Profile",
+                "description": "The User Profile endpoint returns information about the NETPAR2015 user that has authorized with the application.",
+                "tags": [
+                    "User"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Profile information for a user",
+                        "schema": {
+                            "$ref": "#/definitions/Profile"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/history": {
+            "get": {
+                "summary": "User Activity",
+                "description": "The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.",
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Offset the list of returned results by this amount. Default is zero."
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Number of items to retrieve. Default is 5, maximum is 100."
+                    }
+                ],
+                "tags": [
+                    "User"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "History information for the given user",
+                        "schema": {
+                            "$ref": "#/definitions/Activities"
                         }
                     },
                     "default": {
@@ -571,6 +803,64 @@
                 }
             }
         },
+        "Product": {
+            "type": "object",
+            "properties": {
+                "product_id": {
+                    "type": "string",
+                    "description": "Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of product."
+                },
+                "display_name": {
+                    "type": "string",
+                    "description": "Display name of product."
+                },
+                "capacity": {
+                    "type": "string",
+                    "description": "Capacity of product. For example, 4 people."
+                },
+                "image": {
+                    "type": "string",
+                    "description": "Image URL representing the product."
+                }
+            }
+        },
+        "PriceEstimate": {
+            "type": "object",
+            "properties": {
+                "product_id": {
+                    "type": "string",
+                    "description": "Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles"
+                },
+                "currency_code": {
+                    "type": "string",
+                    "description": "[ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code."
+                },
+                "display_name": {
+                    "type": "string",
+                    "description": "Display name of product."
+                },
+                "estimate": {
+                    "type": "string",
+                    "description": "Formatted string of estimate in local currency of the start location. Estimate could be a range, a single number (flat rate) or \"Metered\" for TAXI."
+                },
+                "low_estimate": {
+                    "type": "number",
+                    "description": "Lower bound of the estimated price."
+                },
+                "high_estimate": {
+                    "type": "number",
+                    "description": "Upper bound of the estimated price."
+                },
+                "surge_multiplier": {
+                    "type": "number",
+                    "description": "Expected surge multiplier. Surge is active if surge_multiplier is greater than 1. Price estimate already factors in the surge multiplier."
+                }
+            }
+        },
         "Profile": {
             "type": "object",
             "properties": {
@@ -582,20 +872,44 @@
                     "type": "string",
                     "description": "Email address of the NETPAR2015 user"
                 },
-                "auth_token": {
+                "authentication_token": {
                     "type": "string",
                     "description": "authentication token of the NETPAR2015 user."
                 }
             }
         },
-        "User": {
+        "Activity": {
             "type": "object",
             "properties": {
-                "email": {
-                    "type": "string"
+                "uuid": {
+                    "type": "string",
+                    "description": "Unique identifier for the activity"
+                }
+            }
+        },
+        "Activities": {
+            "type": "object",
+            "properties": {
+                "offset": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Position in pagination."
                 },
-                "password": {
-                    "type": "string"
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Number of items to retrieve (100 max)."
+                },
+                "count": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Total number of items available."
+                },
+                "history": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Activity"
+                    }
                 }
             }
         },
@@ -611,6 +925,25 @@
                 },
                 "fields": {
                     "type": "string"
+                }
+            }
+        },
+        "User": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "Session": {
+            "type": "object",
+            "properties": {
+                "user": {
+                    "$ref": "#/definitions/User"
                 }
             }
         }

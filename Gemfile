@@ -16,6 +16,7 @@ gem 'devise_security_extension'
 gem 'rails_email_validator'
 gem 'pundit'
 group :development do
+  gem 'web-console'
   gem 'better_errors'
   gem 'quiet_assets'
   gem 'rails_layout'
@@ -25,7 +26,6 @@ group :development do
 end
 group :development, :test do
   gem 'byebug'
-  gem 'web-console', '~> 2.0'
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'rspec-rails'
@@ -66,7 +66,7 @@ gem 'active_model_serializers'
 #gem 'pdf-reader'
 
 gem 'rack-cors', :require => 'rack/cors'
-gem 'simple_token_authentication'
+#gem 'simple_token_authentication'
 gem 'swagger_engine'
 
 #Use unicorn as the app server

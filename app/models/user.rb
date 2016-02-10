@@ -25,7 +25,9 @@
 #    t.integer  "failed_attempts",        default: 0,  null: false
 #    t.string   "unlock_token"
 #    t.datetime "locked_at"
+#    t.string   "authentication_token"
 #  end
+#  add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree
 #  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
 #  add_index "users", ["department_id"], name: "index_users_on_department_id", using: :btree
 #  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -36,13 +38,6 @@
 #  add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 #
 class User < ActiveRecord::Base
-#  after_initialize :set_default_department, :if => :new_record?
-
-#  def set_default_department
-#    self.department ||= Department.first
-#  end
-
-  acts_as_token_authenticatable
   # Include default devise modules. Others available are:
   # :rememberable, :omniauthable
   devise  :database_authenticatable, 
@@ -69,6 +64,8 @@ class User < ActiveRecord::Base
 	#validates_format_of :email, :with =>  /\A[\w+\-.]+@uke.gov.pl/i
   #validates define in /config/initializers/device.rb -> config.email_regexp = /\A([\w\.%\+\-]+)@uke\.gov\.pl\z/i
 
+  validates :authentication_token, uniqueness: true, allow_blank: true
+
   has_and_belongs_to_many :roles
 
   belongs_to :department
@@ -86,6 +83,7 @@ class User < ActiveRecord::Base
 
 
   before_destroy :user_has_a_history_of_activity, prepend: true
+  before_save :ensure_authentication_token
 
   def user_has_a_history_of_activity
     analize_value = true
@@ -100,7 +98,11 @@ class User < ActiveRecord::Base
     analize_value
   end
 
-
+  def ensure_authentication_token
+    if authentication_token.blank?
+      self.authentication_token = generate_authentication_token
+    end
+  end
 
   def fullname
     "#{name} (#{email})"
@@ -116,10 +118,7 @@ class User < ActiveRecord::Base
   end
 
   def roles_not_used
-    # driver Postgres get error if select type ...WHERE ("elements"."id" NOT IN ())
-    # driver SQLite3, MySQL working valid
     if roles_used.any?
-      #@roles_not_used ||= Role.where.not(id: [roles_used.ids]) DEPRECATE
       @roles_not_used ||= Role.where.not(id: roles_used.map(&:id)).by_name
     else
       @roles_not_used ||= Role.by_name.all
@@ -134,11 +133,11 @@ class User < ActiveRecord::Base
 
   # ensure user account is active  
   def active_for_authentication?  
-    super && !deleted_at  
+    super && !deleted_at
   end  
 
   # provide a custom message for a deleted account   
-  def inactive_message   
+  def inactive_message
     !deleted_at ? super : :deleted_account  
   end  
 
@@ -152,6 +151,12 @@ class User < ActiveRecord::Base
     super
     Work.create( trackable_id: self.id, trackable_type: 'User', trackable_url: "#{Rails.application.routes.url_helpers.user_path(self)}", action: :account_confirmation, user_id: self.id, 
       parameters: {id: self.id, name: self.name, email: self.email}.to_json )
+  end
+
+  def generate_authentication_token!
+    begin
+      self.authentication_token = Devise.friendly_token
+    end while self.class.exists?(authentication_token: authentication_token)
   end
 
 

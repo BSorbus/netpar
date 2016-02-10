@@ -1,7 +1,7 @@
 en:
   home: 'Home'
   content_title: "NetPAR 2015"
-  restricted_area: "Restricted area!"
+  restricted_area: "IP checked - Request from restricted area!"
   pages: 
     visitors:
       index:
