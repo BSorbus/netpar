@@ -83,7 +83,7 @@ class User < ActiveRecord::Base
 
 
   before_destroy :user_has_a_history_of_activity, prepend: true
-  before_save :ensure_authentication_token
+  before_create :ensure_authentication_token
 
   def user_has_a_history_of_activity
     analize_value = true

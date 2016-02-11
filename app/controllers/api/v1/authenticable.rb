@@ -8,7 +8,7 @@ module Api
       end
 
       def authenticate_with_token!
-        render json: { errors: "Not authenticated" },
+        render json: { errors: t("devise.failure.unauthenticated") },
                     status: :unauthorized unless current_user.present?
       end
 

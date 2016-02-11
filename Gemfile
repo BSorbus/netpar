@@ -16,6 +16,7 @@ gem 'devise_security_extension'
 gem 'rails_email_validator'
 gem 'pundit'
 group :development do
+  gem 'thin'
   gem 'web-console'
   gem 'better_errors'
   gem 'quiet_assets'

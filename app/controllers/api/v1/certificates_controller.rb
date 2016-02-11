@@ -50,7 +50,7 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
 
     if params[:number].blank?
       render status: :not_acceptable,
-             json: { error: 406, message: "No params[:number]" }
+             json: { error: "Brak parametru params[:number]" }
     else
       certificates = Certificate.where(number: params[:number].upcase).limit(params[:limit] ||= 10).offset(params[:offset] ||= 0)
       if certificates.present?
@@ -61,7 +61,7 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
                                  objects: certificates.size } }
       else
         render status: :not_found,
-               json: { error: 404, message: "No record for Certificate[:number] = #{params[:number].upcase}" }
+               json: { error: "Brak rekordów dla Certificate[:number] = #{params[:number].upcase}" }
 
       end
     end
@@ -72,7 +72,7 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
 
     if params[:pesel].blank?
       render status: :not_acceptable,
-             json: { error: 406, message: "No params[:pesel]" }
+             json: { error: "Brak parametru params[:pesel]" }
     else
       certificates = Certificate.joins(:customer).limit(params[:limit] ||= 10).offset(params[:offset] ||= 0).where(customers: {pesel: params[:pesel]})
       if certificates.present?
@@ -83,7 +83,7 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
                                  objects: certificates.size } }
       else
         render status: :not_found,
-               json: { error: 404, message: "No record for Customer[:pesel] = #{params[:pesel]}" }
+               json: { error: "Brak rekordów dla Customer[:pesel] = #{params[:pesel]}" }
 
       end
     end

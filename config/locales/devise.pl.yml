@@ -50,7 +50,7 @@ pl:
       updated_not_active: "Twoje hasło zostało zmienione."
       form:
         new: 
-          title: 'Zapomniałeś hasła?' 
+          title: 'Nie znasz lub zapomniałeś hasło?' 
           header_text: 'Wyślemy na Twój email instrukcję resetowania hasła'
           button_submit: 'Wyślij instrukcję'
           footer_text: 'Twój email musi być zarejestrowany'
