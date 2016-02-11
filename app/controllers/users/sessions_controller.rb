@@ -1,6 +1,6 @@
 class Users::SessionsController < Devise::SessionsController
 
-  respond_to :json
+  # respond_to :json
   # dodanie powyższego umożliwia zalogowanie się z cUrla
   # curl -v -H 'Content-Type: application/json' -H 'Accept: application/json' -X POST $ROOT_URL/users/sign_in -d '{"user":{"email":"a.wojcieszek@uke.gov.pl","password":"1qazXSW@"}}'
 

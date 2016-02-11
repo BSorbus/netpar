@@ -22,7 +22,7 @@ class Api::V1::SessionsController < Api::V1::BaseApiController
       user.generate_authentication_token!
       user.save
       #render json: user, status: 200, location: user
-
+      #@current_user = user !!!!
       render status: :ok, #location: user,
              json: { code: 200,
                      message: t('devise.sessions.user.signed_in'),
@@ -30,9 +30,9 @@ class Api::V1::SessionsController < Api::V1::BaseApiController
                                name: user.name, 
                                auth_token: user.authentication_token } }
 
-      Work.create!(trackable: current_user, trackable_url: "#{user_path(current_user)}", action: :sign_in_from_api, user: current_user, 
-        parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: current_user.id, name: current_user.name, 
-                     email: current_user.email, notice: request.flash["notice"]}.to_json)
+      Work.create!(trackable: user, trackable_url: "#{user_path(user)}", action: :sign_in_from_api, user: user, 
+        parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: user.id, name: user.name, 
+                     email: user.email, notice: request.flash["notice"]}.to_json)
 
     else
       render json: { errors: t('devise.failure.invalid') }, status: 422

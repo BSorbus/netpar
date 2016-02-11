@@ -5,16 +5,6 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
   respond_to :json
 
 
-  #def index
-  #  #authenticate_user!
-  #  #@certificate = Certificate.all page: params[:page] per_page: params[:per_page]
-  #  #@certificate = Certificate.page(7).per(10)
-  #  certificate = Certificate.where(category: params[:category_service].upcase).page(1).per(5)
-  #  render json: certificate, meta: { pagination:
-  #                             { per_page: params[:per_page],
-  #                               total_pages: certificate.total_pages,
-  #                               total_objects: certificate.total_count } }
-  #end
   def show
     #authenticate_user!
     certificate = Certificate.find_by(id: params[:id])

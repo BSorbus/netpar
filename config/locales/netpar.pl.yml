@@ -1,7 +1,7 @@
 pl:
   home: 'Strona główna'
   content_title: "NetPAR 2015"
-  restricted_area: "Sprawdzenie IP - Wywołanie z obszaru ograniczonego!"
+  restricted_area: "Adres IP - Wywołanie z obszaru ograniczonego!"
   pages:
     visitors:
       index:
