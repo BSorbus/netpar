@@ -3,6 +3,7 @@ FactoryGirl.define do
     name "Test User"
     email "test@uke.gov.pl"
     password "Please123!"
+    authentication_token "123456789!"
 
     #trait :admin do
     #  role 'admin'
@@ -23,7 +24,7 @@ FactoryGirl.define do
   factory :user_domain_nouke do
     name "Test NoUkeUser"
     email "test@nouke.domain.com"
-    password "Please123!"
+    password "0987654321!"
 
     #trait :admin do
     #  role 'admin'

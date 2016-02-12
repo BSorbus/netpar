@@ -91,8 +91,14 @@ Rails.application.routes.draw do
         get 'lot', on: :collection
         get 'mor', on: :collection
         get 'ra', on: :collection
-        get 'search_by_number', on: :collection
-        get 'search_by_customer_pesel', on: :collection
+        get 'lot_search_by_number', on: :collection
+        get 'mor_search_by_number', on: :collection
+        get 'ra_search_by_number', on: :collection
+        get 'all_search_by_number', on: :collection
+        get 'lot_search_by_customer_pesel', on: :collection
+        get 'mor_search_by_customer_pesel', on: :collection
+        get 'ra_search_by_customer_pesel', on: :collection
+        get 'all_search_by_customer_pesel', on: :collection
       end
       devise_scope :user do
         post 'sessions' => 'sessions#create' #, :as => 'login'

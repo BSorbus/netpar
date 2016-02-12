@@ -9,6 +9,7 @@ pl:
     password_expired:
       updated: "Twoje nowe hasło zostało zapisane."
       change_required: "Twoje hasło wygasło. Proszę odnowić hasło!"
+      change_required_api: "Twoje hasło wygasło i dalsze korzystanie z API nie jest możliwe. Proszę odnowić hasło lub skontaktować się z Administratorem!"
     failure:
       session_limited: 'Twoje dane logowania zostały wykorzystane w innej przeglądarce. Zaloguj się ponownie, aby kontynuować w tej przeglądarce.'
       expired: 'Twoje konto wygasło z powodu braku aktywności. Proszę skontaktować się z administratorem serwisu.'

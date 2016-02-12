@@ -18,16 +18,25 @@ class Api::V1::SessionsController < Api::V1::BaseApiController
     user = user_email.present? && User.find_by(email: user_email)
 
     if user.present? && user.valid_password?(user_password)
-      sign_in user, store: false
-      user.generate_authentication_token!
-      user.save
-      render status: :ok, 
-             json: user 
+      if user.expired?
+        render status: :unauthorized,
+               json: { error: t('devise.failure.expired') }        
+      else     
+        if user.need_change_password?
+          render status: :unauthorized,
+                 json: { error: t('devise.password_expired.change_required_api') }
+        else
+          sign_in user, store: false
+          user.generate_authentication_token!
+          user.save
+          render status: :ok, 
+                 json: user 
 
-      Work.create!(trackable: user, trackable_url: "#{user_path(user)}", action: :sign_in_from_api, user: user, 
-        parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: user.id, name: user.name, 
-                     email: user.email, notice: request.flash["notice"]}.to_json)
-
+          Work.create!(trackable: user, trackable_url: "#{user_path(user)}", action: :sign_in_from_api, user: user, 
+            parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: user.id, name: user.name, 
+                         email: user.email, notice: request.flash["notice"]}.to_json)
+        end
+      end
     else
       render status: :unprocessable_entity,
              json: { error: t('devise.failure.invalid') }

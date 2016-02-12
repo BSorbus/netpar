@@ -319,7 +319,199 @@
                 }
             }
         },
-        "/certificates/search_by_number": {
+        "/certificates/lot_search_by_number": {
+            "get": {
+                "summary": "Returns all certificates for Certificate.where(category: \"L\", number: params[:number].upcase)",
+                "description": "The certificates/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each certificate of category \"L\"",
+                "security": [
+                    {
+                        "apiAuthTokenKey": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "description": "Authorization token."
+                    },
+                    {
+                        "name": "number",
+                        "in": "query",
+                        "description": "Number for searched certificates. For example: L-1234",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Certificates"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of certificates",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Certificate"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/certificates/mor_search_by_number": {
+            "get": {
+                "summary": "Returns all certificates for Certificate.where(category: \"M\", number: params[:number].upcase)",
+                "description": "The certificates/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each certificate of category \"M\"",
+                "security": [
+                    {
+                        "apiAuthTokenKey": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "description": "Authorization token."
+                    },
+                    {
+                        "name": "number",
+                        "in": "query",
+                        "description": "Number for searched certificates. For example: MA-00123",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Certificates"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of certificates",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Certificate"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/certificates/ra_search_by_number": {
+            "get": {
+                "summary": "Returns all certificates for Certificate.where(category: \"R\", number: params[:number].upcase)",
+                "description": "The certificates/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each certificate of category \"R\"",
+                "security": [
+                    {
+                        "apiAuthTokenKey": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "description": "Authorization token."
+                    },
+                    {
+                        "name": "number",
+                        "in": "query",
+                        "description": "Number for searched certificates. For example: B-1234",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Certificates"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of certificates",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Certificate"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/certificates/all_search_by_number": {
             "get": {
                 "summary": "Returns all certificates for Certificate.where(number: params[:number].upcase)",
                 "description": "The certificates/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each certificate",
@@ -383,7 +575,199 @@
                 }
             }
         },
-        "/certificates/search_by_customer_pesel": {
+        "/certificates/lot_search_by_customer_pesel": {
+            "get": {
+                "summary": "Returns all certificates for Certificate.joins(:customer).where(category: \"L\", customers: {pesel: params[:pesel]})",
+                "description": "The certificates/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each certificate of category \"L\"",
+                "security": [
+                    {
+                        "apiAuthTokenKey": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "description": "Authorization token."
+                    },
+                    {
+                        "name": "pesel",
+                        "in": "query",
+                        "description": "Customer PESEL for searched certificates. For example: 69070610090",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Certificates"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of certificates",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Certificate"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/certificates/mor_search_by_customer_pesel": {
+            "get": {
+                "summary": "Returns all certificates for Certificate.joins(:customer).where(category: \"M\", customers: {pesel: params[:pesel]})",
+                "description": "The certificates/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each certificate of category \"M\"",
+                "security": [
+                    {
+                        "apiAuthTokenKey": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "description": "Authorization token."
+                    },
+                    {
+                        "name": "pesel",
+                        "in": "query",
+                        "description": "Customer PESEL for searched certificates. For example: 69070610090",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Certificates"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of certificates",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Certificate"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/certificates/ra_search_by_customer_pesel": {
+            "get": {
+                "summary": "Returns all certificates for Certificate.joins(:customer).where(category: \"R\", customers: {pesel: params[:pesel]})",
+                "description": "The certificates/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each certificate of category \"R\"",
+                "security": [
+                    {
+                        "apiAuthTokenKey": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "description": "Authorization token."
+                    },
+                    {
+                        "name": "pesel",
+                        "in": "query",
+                        "description": "Customer PESEL for searched certificates. For example: 69070610090",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Certificates"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of certificates",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Certificate"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/certificates/all_search_by_customer_pesel": {
             "get": {
                 "summary": "Returns all certificates for Certificate.joins(:customer).where(customers: {pesel: params[:pesel]})",
                 "description": "The certificates/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each certificate",
