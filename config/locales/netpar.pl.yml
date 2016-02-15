@@ -160,6 +160,8 @@ pl:
     generating_certificates: " Generuj Świadectwa"
   pundit:
     default: ' BRAK UPRAWNIEŃ: Nie można wykonać tej czynności!'
+    work_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy działań!'
     role_policy:
       index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy ról!'
       show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów roli!'

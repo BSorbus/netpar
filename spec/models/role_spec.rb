@@ -1,5 +1,15 @@
-require 'rails_helper'
+#  create_table "roles", force: :cascade do |t|
+#    t.string   "name"
+#    t.string   "activities", default: [], array: true
+#    t.datetime "created_at"
+#    t.datetime "updated_at"
+#  end
+require 'spec_helper'
 
 RSpec.describe Role, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:role) { FactoryGirl.build :role }
+  subject { role }
+
+  it { should respond_to(:name) }
+  it { should respond_to(:activities) }
 end

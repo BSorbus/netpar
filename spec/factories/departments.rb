@@ -1,14 +1,16 @@
 FactoryGirl.define do
   factory :department do
-    short "MyString"
-    name "MyString"
-    address_city "MyString"
-    address_street "MyString"
-    adress_house "MyString"
-    address_number "MyString"
-    phone "MyString"
-    email "MyString"
-    director "MyString"
+    short "DEP"
+    name "Test Department"
+    address_city "Address City"
+    address_street "Address Street"
+    address_house "1"
+    address_number "1"
+    address_postal_code "00-000"
+    phone "phone"
+    fax "fax"
+    email "t.d@uke.gov.pl"
+    director "Director"
   end
 
 end

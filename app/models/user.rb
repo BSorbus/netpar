@@ -83,7 +83,7 @@ class User < ActiveRecord::Base
 
 
   before_destroy :user_has_a_history_of_activity, prepend: true
-  before_create :ensure_authentication_token
+  before_create :generate_authentication_token!
 
   def user_has_a_history_of_activity
     analize_value = true
@@ -98,10 +98,10 @@ class User < ActiveRecord::Base
     analize_value
   end
 
-  def ensure_authentication_token
-    if authentication_token.blank?
-      self.authentication_token = generate_authentication_token
-    end
+  def generate_authentication_token!
+    begin
+      self.authentication_token = Devise.friendly_token
+    end while self.class.exists?(authentication_token: authentication_token)
   end
 
   def fullname
@@ -151,12 +151,6 @@ class User < ActiveRecord::Base
     super
     Work.create( trackable_id: self.id, trackable_type: 'User', trackable_url: "#{Rails.application.routes.url_helpers.user_path(self)}", action: :account_confirmation, user_id: self.id, 
       parameters: {id: self.id, name: self.name, email: self.email}.to_json )
-  end
-
-  def generate_authentication_token!
-    begin
-      self.authentication_token = Devise.friendly_token
-    end while self.class.exists?(authentication_token: authentication_token)
   end
 
 

@@ -86,6 +86,8 @@ Rails.application.routes.draw do
   mount SwaggerEngine::Engine, at: "/api-docs"
   
   namespace :api, defaults: { format: :json } do
+    #require 'api_constraints'
+    #scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
     namespace :v1 do
       resources :certificates, only: [:show] do
         get 'lot', on: :collection
@@ -110,9 +112,12 @@ Rails.application.routes.draw do
 
     end
 
+    #namespace :v2, constraints: ApiConstraints.new(version: 1, default: false) do
     namespace :v2 do
     end
 
+    #match "*path", to: -> (env) { [404, {}, ['{"error": "Oops! Nie znalazłem takiej ścieżki"}']] }, via: :all
   end
 
+  #match "*path", to: -> (env) { [404, {}, ['{"error": "Oops! Nie znalazłem takiej ścieżki. Prawiodłowe wywołanie API: https://netpar2015.uke.gov.pl/api/v1/..."}']] }, via: :all
 end

@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :citizenship do
-    name "MyString"
-short "MyString"
+    name "Test Citizenship"
+    short "TC"
   end
 
 end

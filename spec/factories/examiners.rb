@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :examiner do
-    name "MyString"
-exam nil
+    name "E name"
+    exam nil
   end
 
 end

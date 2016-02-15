@@ -1,9 +1,10 @@
 FactoryGirl.define do
   factory :work do
     trackable nil
-owner nil
-key "MyString"
-parameters "MyText"
+    trackable_url nil
+    user nil
+    action "MyString"
+    parameters "MyText"
   end
 
 end

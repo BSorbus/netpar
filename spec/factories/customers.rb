@@ -1,32 +1,32 @@
 FactoryGirl.define do
   factory :customer do
     human false
-name "MyString"
-given_names "MyString"
-address_city "MyString"
-address_street "MyString"
-address_house "MyString"
-address_number "MyString"
-address_postal_code "MyString"
-c_address_city "MyString"
-c_address_street "MyString"
-c_address_house "MyString"
-c_address_number "MyString"
-c_address_postal_code "MyString"
-nip "MyString"
-regon "MyString"
-pesel "MyString"
-birth_date "2015-08-05"
-birth_place "MyString"
-fathers_name "MyString"
-mothers_name "MyString"
-family_name "MyString"
-citizenship nil
-phone "MyString"
-fax "MyString"
-email "MyString"
-note "MyText"
-user nil
+    name "Cust Test Name"
+    given_names "Cust Given Names"
+    address_city "Address City"
+    address_street "Address Street"
+    address_house "1"
+    address_number "1"
+    address_postal_code "00-000"
+    c_address_city "C Address City"
+    c_address_street "C Address Street"
+    c_address_house "C 1"
+    c_address_number "C 1"
+    c_address_postal_code "00-001"
+    nip "nip"
+    regon "regon"
+    pesel "69070610092"
+    birth_date "1969-07-06"
+    birth_place "Birth Place"
+    fathers_name "Father"
+    mothers_name "Mother"
+    family_name "Famili"
+    citizenship nil
+    phone "phone"
+    fax "fax"
+    email "t.c@uke.gov.pl"
+    note "MyText"
+    user nil
   end
 
 end

@@ -1,14 +1,27 @@
+#    t.string   "examination_category", limit: 1, default: "Z", null: false
+#    t.integer  "division_id"
+#    t.string   "examination_result",   limit: 1
+#    t.integer  "exam_id"
+#    t.integer  "customer_id"
+#    t.text     "note",                           default: ""
+#    t.string   "category",             limit: 1
+#    t.integer  "user_id"
+#    t.datetime "created_at",                                   null: false
+#    t.datetime "updated_at",                                   null: false
+#    t.integer  "certificate_id"
+#    t.boolean  "supplementary",                  default: false, null: false
 FactoryGirl.define do
   factory :examination do
-    examination_category "MyString"
-division nil
-examination_result "MyString"
-exam nil
-customer nil
-note "MyText"
-category "MyString"
-exam nil
-user nil
+    examination_category "?"
+    division nil
+    examination_result "?"
+    exam nil
+    customer nil
+    note "MyText"
+    category "MyString"
+    user nil
+    certificate nil
+    supplementary false
   end
 
 end

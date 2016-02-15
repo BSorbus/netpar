@@ -1,12 +1,12 @@
 FactoryGirl.define do
   factory :exam do
-    number "MyString"
+    number "E number"
     date_exam "2015-08-07"
-    place_exam "MyString"
-    chairman "MyString"
-    secretary "MyString"
-    category "MyString"
-    note "MyText"
+    place_exam "place_exam"
+    chairman "chairman"
+    secretary "secretary"
+    category nil
+    note "note"
     user nil
   end
 
