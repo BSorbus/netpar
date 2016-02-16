@@ -14,4 +14,7 @@ RSpec.describe Examiner, type: :model do
 
   it { should respond_to(:name) }
   it { should respond_to(:exam_id) }
+
+  it { should belong_to :exam }
+  
 end

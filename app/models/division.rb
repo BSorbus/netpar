@@ -15,7 +15,7 @@
 #
 class Division < ActiveRecord::Base
   has_many :certificates  
-  has_many :subjects  
+  has_many :subjects, dependent: :destroy  
 
   accepts_nested_attributes_for :subjects
 

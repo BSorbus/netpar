@@ -11,6 +11,6 @@
 class Subject < ActiveRecord::Base
   belongs_to :division
 
-  has_many :grades, dependent: :destroy  
+  has_many :grades, dependent: :nullify  
 
 end

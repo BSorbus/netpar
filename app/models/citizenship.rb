@@ -9,6 +9,8 @@
 #
 class Citizenship < ActiveRecord::Base
 
+  has_many :customers, dependent: :nullify
+
   # scopes
   scope :by_short, -> { order(:short) }
   scope :by_name, -> { order(:name) }

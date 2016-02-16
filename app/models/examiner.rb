@@ -8,7 +8,7 @@
 #  add_index "examiners", ["exam_id"], name: "index_examiners_on_exam_id", using: :btree
 #
 class Examiner < ActiveRecord::Base
-  belongs_to :exam
+  belongs_to :exam, dependent: :destroy
 
   validates :name, presence: true,
                     length: { in: 1..50 },

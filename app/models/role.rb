@@ -20,7 +20,6 @@ class Role < ActiveRecord::Base
   has_many :works, as: :trackable
 
 
-
   # validates
   validates :name, presence: true,
                     length: { in: 1..100 },

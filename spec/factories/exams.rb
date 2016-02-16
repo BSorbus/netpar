@@ -5,7 +5,7 @@ FactoryGirl.define do
     place_exam "place_exam"
     chairman "chairman"
     secretary "secretary"
-    category nil
+    category "R"
     note "note"
     user nil
   end

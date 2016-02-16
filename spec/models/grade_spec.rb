@@ -21,4 +21,9 @@ RSpec.describe Grade, type: :model do
   it { should respond_to(:subject_id) }
   it { should respond_to(:grade_result) }
   it { should respond_to(:user_id) }
+
+  it { should belong_to :examination }
+  it { should belong_to :subject }
+  it { should belong_to :user }
+
 end

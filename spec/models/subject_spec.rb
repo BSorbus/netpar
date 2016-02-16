@@ -18,4 +18,9 @@ RSpec.describe Subject, type: :model do
   it { should respond_to(:name) }
   it { should respond_to(:division_id) }
   it { should respond_to(:for_supplementary) }
+
+  it { should belong_to :division }
+
+  it { should have_many(:grades) }
+
 end

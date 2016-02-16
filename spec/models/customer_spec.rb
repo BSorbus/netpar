@@ -80,5 +80,18 @@ RSpec.describe Customer, type: :model do
   it { should respond_to(:note) }
   it { should respond_to(:user_id) }
 
+  it { should belong_to :citizenship }
+  it { should belong_to :user }
+
+  it { should have_many(:documents) }
+  it { should have_many(:works) }
+  it { should have_many(:certificates) }
+  it { should have_many(:examinations) }
+  it { should have_many(:exams) }
+
+  it { should have_many(:certificated_documentable) }
+  it { should have_many(:examinationed_documentable) }
+  it { should have_many(:examed_documentable) }
+
 end
 

@@ -22,4 +22,8 @@ RSpec.describe Work, type: :model do
   it { should respond_to(:trackable_url) }
   it { should respond_to(:user_id) }
   it { should respond_to(:action) }
+
+  it { should belong_to :trackable }
+  it { should belong_to :user }
+
 end

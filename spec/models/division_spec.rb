@@ -25,4 +25,24 @@ RSpec.describe Division, type: :model do
   it { should respond_to(:short) }
   it { should respond_to(:short_name) }
   it { should respond_to(:number_prefix) }
+
+  it { should have_many(:subjects) }
+  it { should have_many(:certificates) }
+
+  describe "#subjects association" do
+
+    before do
+      division.save
+      3.times { FactoryGirl.create :subject, division: division }
+    end
+
+    it "destroys the associated subjects on self destruct" do
+      my_subjects = division.subjects
+      division.destroy
+      my_subjects.each do |my_subject|
+        expect(Subject.find(my_subject)).to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+  end
+
 end

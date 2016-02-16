@@ -35,4 +35,31 @@ RSpec.describe Examination, type: :model do
   it { should respond_to(:certificate_id) }
   it { should respond_to(:supplementary) }
 
+
+  it { should belong_to :division }
+  it { should belong_to :exam }
+  it { should belong_to :customer }
+  it { should belong_to :user }
+  it { should belong_to :certificate }
+
+  it { should have_many(:documents) }
+  it { should have_many(:works) }
+  it { should have_many(:grades) }
+
+  describe "#grades association" do
+
+    before do
+      examination.save
+      3.times { FactoryGirl.create :grade, examination: examination }
+    end
+
+    it "destroys the associated grades on self destruct" do
+      grades = examination.grades
+      examination.destroy
+      grades.each do |grade|
+        expect(Subject.find(grade)).to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+  end
+
 end

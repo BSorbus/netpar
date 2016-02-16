@@ -78,8 +78,8 @@ class User < ActiveRecord::Base
   has_many :works
   has_many :works, as: :trackable
   has_many :trackables, class_name: 'Work', primary_key: 'id', foreign_key: 'user_id'
-  scope :by_name, -> { order(:name) }
 
+  scope :by_name, -> { order(:name) }
 
 
   before_destroy :user_has_a_history_of_activity, prepend: true

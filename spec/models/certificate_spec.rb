@@ -41,6 +41,28 @@ RSpec.describe Certificate, type: :model do
   it { should respond_to(:category) }
   it { should respond_to(:user_id) }
 
+  it { should validate_presence_of(:number) }
+  it { should validate_length_of(:number).is_at_least(1).is_at_most(30) }
+#  it { should validate_presence_of :date_of_issue }
+  it { should validate_presence_of(:division) }
+  it { should validate_presence_of(:customer) }
+  it { should validate_presence_of(:exam) }
+  it { should validate_presence_of(:user) }
+
+  it { should validate_inclusion_of(:category).in_array(['L', 'M', 'R']) }
+  #it { should validate_inclusion_of(:category).in_array(%w(L M R)) }
+
+  it { should belong_to :division }
+  it { should belong_to :exam }
+  it { should belong_to :customer }
+  it { should belong_to :user }
+
+  it { should have_one(:examination) }
+
+  it { should have_many(:works) }
+  it { should have_many(:documents) }
+
+
   describe '#with trait :lot' do
     let(:certificate_lot) { FactoryGirl.build :certificate, :lot }
     subject { certificate_lot }
@@ -85,6 +107,11 @@ RSpec.describe Certificate, type: :model do
     it { should respond_to(:category) }
     it { should respond_to(:user_id) }
   end  
+
+#  it "does not allow NUMBER and DOING_BUSINESS_AS to be the same" do
+#    certificate = build(:certificate, number: "same-name", number: "same-name")
+#    expect(certificate).to be_invalid
+#  end
 
 end
 

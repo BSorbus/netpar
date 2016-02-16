@@ -12,4 +12,8 @@ RSpec.describe Role, type: :model do
 
   it { should respond_to(:name) }
   it { should respond_to(:activities) }
+
+  it { should have_and_belong_to_many(:users) }
+  it { should have_many(:works) }
+
 end

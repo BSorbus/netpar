@@ -22,4 +22,9 @@ RSpec.describe Department, type: :model do
   it { should respond_to(:fax) }
   it { should respond_to(:email) }
   it { should respond_to(:director) }
+
+
+  it { should have_many(:users) }
+  it { should have_many(:works) }
+
 end

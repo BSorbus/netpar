@@ -29,4 +29,32 @@ RSpec.describe Exam, type: :model do
   it { should respond_to(:category) }
   it { should respond_to(:note) }
   it { should respond_to(:user_id) }
+
+  it { should belong_to :user }
+
+  it { should have_many(:documents) }
+  it { should have_many(:works) }
+  it { should have_many(:certificates) }
+  it { should have_many(:examinations) }
+  it { should have_many(:examiners) }
+
+  it { should have_many(:certificate_customers) }
+  it { should have_many(:examination_customers) }
+
+  describe "#examiners association" do
+
+    before do
+      exam.save
+      3.times { FactoryGirl.create :examiner, exam: exam }
+    end
+
+    it "destroys the associated examiners on self destruct" do
+      examiners = exam.examiners
+      exam.destroy
+      examiners.each do |examiner|
+        expect(Subject.find(examiner)).to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+  end
+
 end

@@ -1,7 +1,9 @@
 FactoryGirl.define do
+  #sequence(:name) { |n| "Example name #{n}" }
+
   factory :examiner do
-    name "E name"
+    sequence(:name) { |n| "Example name #{n}" }
+    #name "E name"
     exam nil
   end
-
 end
