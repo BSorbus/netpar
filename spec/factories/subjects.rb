@@ -1,8 +1,10 @@
 FactoryGirl.define do
   factory :subject do
-    item 1
-    name "MyString"
-    division 
+    sequence(:item) { |n| n }
+    #item 1
+    sequence(:name) { |n| "Subject name #{n}" }
+    #name "MyString"
+    division nil
     for_supplementary false
   end
 

@@ -15,7 +15,7 @@ FactoryGirl.define do
   factory :grade do
     examination nil
     subject nil
-    grade_result "?"
+    grade_result ""
     user nil
   end
 

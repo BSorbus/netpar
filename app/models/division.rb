@@ -3,7 +3,6 @@
 #    t.string   "name"
 #    t.string   "english_name"
 #    t.string   "category",      limit: 1, default: "R", null: false
-#    t.string   "short"
 #    t.datetime "created_at",                            null: false
 #    t.datetime "updated_at",                            null: false
 #    t.string   "short_name"
@@ -18,6 +17,12 @@ class Division < ActiveRecord::Base
   has_many :subjects, dependent: :destroy  
 
   accepts_nested_attributes_for :subjects
+
+  # validates
+  validates :name, presence: true, uniqueness: { :case_sensitive => false, :scope => [:category] }
+  validates :category, presence: true, inclusion: { in: %w(L M R) }
+  validates :short_name, presence: true
+  validates :number_prefix, presence: true
 
 
   # scopes

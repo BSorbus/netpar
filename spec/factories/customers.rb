@@ -1,7 +1,8 @@
 FactoryGirl.define do
   factory :customer do
     human false
-    name "Cust Test Name"
+    sequence(:name) { |n| "Cust Name #{n}" }
+    #name "Cust Test Name"
     given_names "Cust Given Names"
     address_city "Address City"
     address_street "Address Street"

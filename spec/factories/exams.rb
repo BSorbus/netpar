@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :exam do
-    number "E number"
+    sequence(:number) { |n| "Exam No #{n}" }
+    #number "E number"
     date_exam "2015-08-07"
     place_exam "place_exam"
     chairman "chairman"

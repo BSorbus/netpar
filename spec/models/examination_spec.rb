@@ -35,6 +35,17 @@ RSpec.describe Examination, type: :model do
   it { should respond_to(:certificate_id) }
   it { should respond_to(:supplementary) }
 
+  it { should validate_presence_of(:examination_category) }
+  it { should validate_inclusion_of(:examination_category).in_array(['P', 'Z']) }
+  it { should validate_presence_of(:category) }
+  it { should validate_inclusion_of(:category).in_array(['L', 'M', 'R']) }
+
+
+  it { should validate_presence_of(:division) }
+  it { should validate_presence_of(:customer) }
+  it { should validate_presence_of(:exam) }
+  it { should validate_presence_of(:user) }
+
 
   it { should belong_to :division }
   it { should belong_to :exam }
@@ -46,20 +57,22 @@ RSpec.describe Examination, type: :model do
   it { should have_many(:works) }
   it { should have_many(:grades) }
 
-  describe "#grades association" do
+  it { should accept_nested_attributes_for(:grades) }
 
-    before do
-      examination.save
-      3.times { FactoryGirl.create :grade, examination: examination }
-    end
-
-    it "destroys the associated grades on self destruct" do
-      grades = examination.grades
-      examination.destroy
-      grades.each do |grade|
-        expect(Subject.find(grade)).to raise_error ActiveRecord::RecordNotFound
-      end
-    end
-  end
+#  describe "#grades association" do
+#
+#    before do
+#      examination.save
+#      3.times { FactoryGirl.create :grade, examination: examination }
+#    end
+#
+#    it "destroys the associated grades on self destruct" do
+#      grades = examination.grades
+#      examination.destroy
+#      grades.each do |grade|
+#        expect(Subject.find(grade)).to raise_error ActiveRecord::RecordNotFound
+#      end
+#    end
+#  end
 
 end

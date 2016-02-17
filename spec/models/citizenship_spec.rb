@@ -15,6 +15,10 @@ RSpec.describe Citizenship, type: :model do
   it { should respond_to(:name) }
   it { should respond_to(:short) }
 
+  it { should validate_presence_of(:name) }
+  it { should validate_uniqueness_of(:name).case_insensitive }
+  it { should validate_presence_of(:short) }
+  it { should validate_uniqueness_of(:short).case_insensitive }
 
   it { should have_many(:customers) }
  

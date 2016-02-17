@@ -1,7 +1,9 @@
 FactoryGirl.define do
   factory :department do
-    short "DEP"
-    name "Test Department"
+    sequence(:short) { |n| "D#{n}" }
+    sequence(:name) { |n| "Name #{n}" }
+    #short "DEP"
+    #name "Test Department"
     address_city "Address City"
     address_street "Address Street"
     address_house "1"

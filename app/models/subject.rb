@@ -13,4 +13,14 @@ class Subject < ActiveRecord::Base
 
   has_many :grades, dependent: :nullify  
 
+  validates :item, presence: true,
+                    numericality: true,
+                    uniqueness: { case_sensitive: false, :scope => [:division_id, :for_supplementary] }
+
+  validates :name, presence: true,
+                    length: { in: 1..150 },
+                    uniqueness: { case_sensitive: false, :scope => [:division_id, :for_supplementary] }
+
+  #validates :division, presence: true
+
 end

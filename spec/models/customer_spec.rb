@@ -80,6 +80,48 @@ RSpec.describe Customer, type: :model do
   it { should respond_to(:note) }
   it { should respond_to(:user_id) }
 
+
+  it { should validate_presence_of(:name) }
+  it { should validate_length_of(:name).is_at_least(1).is_at_most(160) }
+
+  it { should validate_presence_of(:address_city) }
+  it { should validate_length_of(:address_city).is_at_least(1).is_at_most(50) }
+  it { should validate_presence_of(:address_postal_code) }
+  it { should validate_length_of(:address_postal_code).is_at_least(6).is_at_most(10) }
+
+
+  describe "a Customer is a human" do 
+    before(:each) { @customer = FactoryGirl.build :customer, human: true }
+    subject { @customer }
+ 
+    it { should validate_presence_of(:given_names) } 
+    it { should validate_length_of(:given_names).is_at_least(1).is_at_most(50) }
+
+    it { should validate_presence_of(:birth_date) } 
+  end
+
+  describe "a Customer is not a human" do 
+    before(:each) { @customer = FactoryGirl.build :customer, human: false }
+    subject { @customer }
+ 
+    it { should_not validate_presence_of(:given_names) } 
+    it { should_not validate_length_of(:given_names).is_at_least(1).is_at_most(50) }
+
+    it { should_not validate_presence_of(:birth_date) } 
+  end
+
+#  validates :c_address_postal_code,
+#                    length: { in: 6..10 }, if: "c_address_postal_code.present?"
+#  validates :pesel, length: { is: 11 }, numericality: true, 
+#                    uniqueness: { case_sensitive: false }, allow_blank: true
+#  validate :check_pesel_and_birth_date, unless: "pesel.blank?"
+#  validate :unique_name_given_names_birth_date_birth_place_fathers_name, if: :is_human?
+
+  it { should validate_presence_of(:citizenship) }
+  it { should validate_presence_of(:user) }
+
+
+
   it { should belong_to :citizenship }
   it { should belong_to :user }
 

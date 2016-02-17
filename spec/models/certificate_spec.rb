@@ -43,14 +43,17 @@ RSpec.describe Certificate, type: :model do
 
   it { should validate_presence_of(:number) }
   it { should validate_length_of(:number).is_at_least(1).is_at_most(30) }
+  it { should validate_uniqueness_of(:number).scoped_to(:category).case_insensitive }
 #  it { should validate_presence_of :date_of_issue }
   it { should validate_presence_of(:division) }
   it { should validate_presence_of(:customer) }
   it { should validate_presence_of(:exam) }
   it { should validate_presence_of(:user) }
 
+  it { should validate_presence_of(:category) }
   it { should validate_inclusion_of(:category).in_array(['L', 'M', 'R']) }
   #it { should validate_inclusion_of(:category).in_array(%w(L M R)) }
+
 
   it { should belong_to :division }
   it { should belong_to :exam }
@@ -64,8 +67,11 @@ RSpec.describe Certificate, type: :model do
 
 
   describe '#with trait :lot' do
-    let(:certificate_lot) { FactoryGirl.build :certificate, :lot }
-    subject { certificate_lot }
+    before(:each) { @certificate = FactoryGirl.build :certificate, :lot }
+    subject { @certificate }
+
+    #let(:certificate_lot) { @certificate = FactoryGirl.build :certificate, :lot }
+    #subject { certificate_lot }
 
     it { should respond_to(:number) }
     it { should respond_to(:date_of_issue) }
@@ -76,11 +82,17 @@ RSpec.describe Certificate, type: :model do
     it { should respond_to(:note) }
     it { should respond_to(:category) }
     it { should respond_to(:user_id) }
+
+    it "#category returns 'L'" do
+      expect(@certificate.category).to match 'L'
+    end
   end  
 
   describe '#with trait :mor' do
-    let(:certificate_mor) { FactoryGirl.build :certificate, :mor }
-    subject { certificate_mor }
+    before(:each) { @certificate = FactoryGirl.build :certificate, :mor }
+    subject { @certificate }
+    #let(:certificate_mor) { @certificate = FactoryGirl.build :certificate, :mor }
+    #subject { certificate_mor }
 
     it { should respond_to(:number) }
     it { should respond_to(:date_of_issue) }
@@ -91,11 +103,17 @@ RSpec.describe Certificate, type: :model do
     it { should respond_to(:note) }
     it { should respond_to(:category) }
     it { should respond_to(:user_id) }
+
+    it "#category returns 'M'" do
+      expect(@certificate.category).to match 'M'
+    end
   end  
 
   describe '#with trait :ra' do
-    let(:certificate_ra) { FactoryGirl.build :certificate, :ra }
-    subject { certificate_ra }
+    before(:each) { @certificate = FactoryGirl.build :certificate, :ra }
+    subject { @certificate }
+    #let(:certificate_ra) { @certificate = FactoryGirl.build :certificate, :ra }
+    #subject { certificate_ra }
 
     it { should respond_to(:number) }
     it { should respond_to(:date_of_issue) }
@@ -106,6 +124,11 @@ RSpec.describe Certificate, type: :model do
     it { should respond_to(:note) }
     it { should respond_to(:category) }
     it { should respond_to(:user_id) }
+
+    it "#category returns 'R'" do
+      expect(@certificate.category).to match 'R'
+    end
+
   end  
 
 #  it "does not allow NUMBER and DOING_BUSINESS_AS to be the same" do

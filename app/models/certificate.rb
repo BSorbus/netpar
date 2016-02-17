@@ -44,7 +44,7 @@ class Certificate < ActiveRecord::Base
   validates :customer, presence: true
   validates :exam, presence: true
   validates :user, presence: true
-  validates :category, inclusion: { in: %w(L M R) }
+  validates :category, presence: true, inclusion: { in: %w(L M R) }
   validate  :valid_thru_if_not_blank_must_more_date_of_issue, unless: "valid_thru.blank?"
 
  

@@ -37,11 +37,12 @@ class Examination < ActiveRecord::Base
 
 
   # validates
+  validates :examination_category, presence: true, inclusion: { in: %w(P Z) }
+  validates :category, presence: true, inclusion: { in: %w(L M R) }
   validates :division, presence: true
   validates :customer, presence: true
   validates :exam, presence: true
   validates :user, presence: true
-  validates :category, inclusion: { in: %w(L M R) }
 
 
   # scopes

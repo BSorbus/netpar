@@ -17,6 +17,13 @@ class Grade < ActiveRecord::Base
   belongs_to :subject
   belongs_to :user
 
+  # validates
+  validates :examination, presence: true
+  validates :subject, presence: true
+  validates :user, presence: true
+  validates :grade_result, inclusion: { in: ["", nil, "N", "P"] }
+
+
   def grade_result_name
     case grade_result
     when 'N'

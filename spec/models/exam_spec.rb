@@ -30,6 +30,19 @@ RSpec.describe Exam, type: :model do
   it { should respond_to(:note) }
   it { should respond_to(:user_id) }
 
+
+  it { should validate_presence_of(:number) }
+  it { should validate_length_of(:number).is_at_least(1).is_at_most(30) }
+  it { should validate_uniqueness_of(:number).scoped_to(:category).case_insensitive }
+  it { should validate_presence_of(:date_exam) }
+  it { should validate_presence_of(:place_exam) }
+  it { should validate_length_of(:place_exam).is_at_least(1).is_at_most(50) }
+  it { should validate_presence_of(:category) }
+  it { should validate_inclusion_of(:category).in_array(['L', 'M', 'R']) }
+  it { should validate_presence_of(:user) }
+
+
+
   it { should belong_to :user }
 
   it { should have_many(:documents) }
@@ -40,6 +53,8 @@ RSpec.describe Exam, type: :model do
 
   it { should have_many(:certificate_customers) }
   it { should have_many(:examination_customers) }
+
+  it { should accept_nested_attributes_for(:examiners) }
 
   describe "#examiners association" do
 

@@ -12,7 +12,7 @@
 #    t.boolean  "supplementary",                  default: false, null: false
 FactoryGirl.define do
   factory :examination do
-    examination_category "?"
+    examination_category "Z"
     division nil
     examination_result "?"
     exam nil

@@ -1,14 +1,15 @@
 FactoryGirl.define do
   factory :certificate do
-    number "Cert Nr."
+    sequence(:number) { |n| "Cert No #{n}" }
+    #number "Cert Nr."
     date_of_issue "2015-08-07"
     valid_thru "2015-08-07"
-    certificate_status nil
+    certificate_status "N"
     exam nil
     division nil
     customer nil
     note "MyText"
-    category nil
+    category "R"
     user nil
 
     trait :lot do

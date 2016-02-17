@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :role do
-    name "Test Role"
+    sequence(:name) { |n| "Role Name #{n}" }
+    #name "Test Role"
     activities ["test:index"]
 
     #trait :admin do
