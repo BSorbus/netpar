@@ -9,6 +9,19 @@ FactoryGirl.define do
     category "R"
     note "note"
     user nil
+
+    trait :lot do
+      category 'L'
+    end
+
+    trait :mor do
+      category 'M'
+    end
+
+    trait :ra do
+      category 'R'
+    end
+
   end
 
 end

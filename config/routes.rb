@@ -86,9 +86,9 @@ Rails.application.routes.draw do
   mount SwaggerEngine::Engine, at: "/api-docs"
   
   namespace :api, defaults: { format: :json } do
-    #require 'api_constraints'
+    require 'api_constraints'
     #scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
-    namespace :v1 do
+    namespace :v1, constraints: ApiConstraints.new(version: 1, default: true) do
       resources :certificates, only: [:show] do
         get 'lot', on: :collection
         get 'mor', on: :collection

@@ -45,7 +45,7 @@ class Certificate < ActiveRecord::Base
   validates :exam, presence: true
   validates :user, presence: true
   validates :category, presence: true, inclusion: { in: %w(L M R) }
-  validate  :valid_thru_if_not_blank_must_more_date_of_issue, unless: "valid_thru.blank?"
+  validate  :valid_thru_if_not_blank_must_more_date_of_issue, if: "valid_thru.present? && date_of_issue.present?"
 
  
   def valid_thru_if_not_blank_must_more_date_of_issue
@@ -119,6 +119,15 @@ class Certificate < ActiveRecord::Base
     "(" + %w(certificates.number to_char(certificates.date_of_issue,'YYYY-mm-dd')).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
   end
 
+  # Method for get string represent next certificate number for declared service and division
+  # * parameters   :
+  #   * +service+ -> word for declared service [l,m,r]. 
+  #   Ex.: "r"
+  #   * +division+ -> Division ID. 
+  #   Ex.: "10"
+  # * result   :
+  #   * +number_string+ -> "A-12345" 
+  #
   def self.next_certificate_number(service, division)
     division_scope = scope_numbering_groups(division) 
     next_nr = Certificate.get_next_number_certificate(service, division_scope).to_s
@@ -126,12 +135,28 @@ class Certificate < ActiveRecord::Base
     "#{division.number_prefix}#{next_nr_with_zeros.last(5)}"
   end
 
+  # Method for get number represent next certificate number for declared service and division
+  # * parameters   :
+  #   * +service+ -> word for declared service [l,m,r]. 
+  #   Ex.: "r"
+  #   * +division+ -> Division ID. 
+  #   Ex.: "10"
+  # * result   :
+  #   * +number+ -> 12345 
+  #
   def self.get_next_number_certificate(service, division_scope)
     #q_res = Certificate.find_by_sql( ["SELECT max(abs(to_number(certificates.number,'999999999'))) AS number FROM certificates WHERE certificates.category = ? AND division_id IN (?)", service.upcase, division_scope] ).first.number    
     q_res = Certificate.where(category: service.upcase, division_id: division_scope).maximum("abs(to_number(certificates.number,'th999999')) ").to_i
     q_res += 1 
   end
 
+  # Method for get aray of Division ID's represent same numbering group 
+  # * parameters   :
+  #   * +division+ -> Division ID. 
+  #   Ex.: "10"
+  # * result   :
+  #   * +array+ -> [9, 10, 11, 12, 13, 14] 
+  #
   def self.scope_numbering_groups(division)
     case division.id
     when 1..8   # common numbering for the entire range "L"
@@ -151,6 +176,15 @@ class Certificate < ActiveRecord::Base
     end
   end
 
+  # Method for get default valid_thru_date for declared division and date_off_ussue
+  # * parameters   :
+  #   * +start_date+ -> date same as date_off_issue. 
+  #   Ex.: "2015-12-01T01:29:18"
+  #   * +division+ -> Division ID. 
+  #   Ex.: "10"
+  # * result   :
+  #   * +number+ -> "2020-12-01T01:29:18" 
+  #
   def self.default_valid_thru_date(start_date, division)
     case division.id
     when 9..12  # certificate for category "M" divisions: 9-G1E, 10-G2E, 11-GG, 12-GR

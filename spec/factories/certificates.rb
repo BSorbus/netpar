@@ -13,17 +13,14 @@ FactoryGirl.define do
     user nil
 
     trait :lot do
-      number "Test C L-1"
       category 'L'
     end
 
     trait :mor do
-      number "Test C M-1"
       category 'M'
     end
 
     trait :ra do
-      number "Test C R-1"
       category 'R'
     end
 

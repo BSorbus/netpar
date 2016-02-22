@@ -6,5 +6,6 @@ class ApiConstraints
 
   def matches?(req)
     @default || req.headers['Accept'].include?("application/vnd.netpar2015.v#{@version}")
+    #req.headers.fetch(:accept).include?("application/vnd.netpar2015.v#{@version}")
   end
 end

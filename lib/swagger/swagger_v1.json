@@ -341,6 +341,20 @@
                         "description": "Number for searched certificates. For example: L-1234",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Offset the list of returned results by this amount. Default is 0."
                     }
                 ],
                 "tags": [
@@ -405,6 +419,20 @@
                         "description": "Number for searched certificates. For example: MA-00123",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Offset the list of returned results by this amount. Default is 0."
                     }
                 ],
                 "tags": [
@@ -469,6 +497,20 @@
                         "description": "Number for searched certificates. For example: B-1234",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Offset the list of returned results by this amount. Default is 0."
                     }
                 ],
                 "tags": [
@@ -533,6 +575,20 @@
                         "description": "Number for searched certificates. For example: B-12",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Offset the list of returned results by this amount. Default is 0."
                     }
                 ],
                 "tags": [
@@ -597,6 +653,20 @@
                         "description": "Customer PESEL for searched certificates. For example: 69070610090",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Offset the list of returned results by this amount. Default is 0."
                     }
                 ],
                 "tags": [
@@ -661,6 +731,20 @@
                         "description": "Customer PESEL for searched certificates. For example: 69070610090",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Offset the list of returned results by this amount. Default is 0."
                     }
                 ],
                 "tags": [
@@ -725,6 +809,20 @@
                         "description": "Customer PESEL for searched certificates. For example: 69070610090",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Offset the list of returned results by this amount. Default is 0."
                     }
                 ],
                 "tags": [
@@ -789,6 +887,20 @@
                         "description": "Customer PESEL for searched certificates. For example: 69070610090",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Offset the list of returned results by this amount. Default is 0."
                     }
                 ],
                 "tags": [

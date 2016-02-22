@@ -20,7 +20,7 @@ class Exam < ActiveRecord::Base
   belongs_to :user
   has_many :certificates, dependent: :destroy
   has_many :examinations, dependent: :destroy
-  has_many :examiners, dependent: :destroy  
+  has_many :examiners, inverse_of: :exam, dependent: :destroy  
 
   accepts_nested_attributes_for :examiners,
                                 reject_if: proc { |attributes| attributes['name'].blank? },

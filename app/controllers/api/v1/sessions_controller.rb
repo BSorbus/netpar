@@ -54,10 +54,16 @@ class Api::V1::SessionsController < Api::V1::BaseApiController
  end
 
   def destroy
-    user = User.find_by(authentication_token: params[:id])
-    user.generate_authentication_token!
-    user.save
-    head 204
+    #user = User.find_by(authentication_token: params[:id])
+    user = User.find_by(authentication_token: request.headers['Authorization']) if request.headers['Authorization'].present?
+    if user.present?
+      user.generate_authentication_token!
+      user.save
+      head 204
+    else
+      render status: :unauthorized, 
+             json: { errors: t("devise.failure.unauthenticated") }
+    end
   end
 
 end

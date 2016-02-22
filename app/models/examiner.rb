@@ -14,6 +14,6 @@ class Examiner < ActiveRecord::Base
                     length: { in: 1..50 },
                     :uniqueness => { :case_sensitive => false, :scope => [:exam_id] }
 
-  #validates :exam, presence: true
+  validates :exam, presence: true
 
 end

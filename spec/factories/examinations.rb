@@ -22,6 +22,19 @@ FactoryGirl.define do
     user nil
     certificate nil
     supplementary false
+
+    trait :lot do
+      category 'L'
+    end
+
+    trait :mor do
+      category 'M'
+    end
+
+    trait :ra do
+      category 'R'
+    end
+
   end
 
 end

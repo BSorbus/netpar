@@ -1,31 +1,4 @@
-#  create_table "certificates", force: :cascade do |t|
-#    t.string   "number",             limit: 30, default: "",  null: false
-#    t.date     "date_of_issue"
-#    t.date     "valid_thru"
-#    t.string   "certificate_status", limit: 1,  default: "N", null: false
-#    t.integer  "division_id"
-#    t.integer  "exam_id"
-#    t.integer  "customer_id"
-#    t.text     "note",                          default: ""
-#    t.string   "category"
-#    t.integer  "user_id"
-#    t.datetime "created_at",                                  null: false
-#    t.datetime "updated_at",                                  null: false
-#  end
-#  add_index "certificates", ["category"], name: "index_certificates_on_category", using: :btree
-#  add_index "certificates", ["customer_id"], name: "index_certificates_on_customer_id", using: :btree
-#  add_index "certificates", ["date_of_issue"], name: "index_certificates_on_date_of_issue", using: :btree
-#  add_index "certificates", ["division_id"], name: "index_certificates_on_division_id", using: :btree
-#  add_index "certificates", ["exam_id"], name: "index_certificates_on_exam_id", using: :btree
-#  add_index "certificates", ["number", "category"], name: "index_certificates_on_number_and_category", unique: true, using: :btree
-#  add_index "certificates", ["number"], name: "index_certificates_on_number", using: :btree
-#  add_index "certificates", ["user_id"], name: "index_certificates_on_user_id", using: :btree
-
 require 'rails_helper'
-
-#RSpec.describe Certificate, type: :model do
-#  pending "add some examples to (or delete) #{__FILE__}"
-#end
 
 RSpec.describe Certificate, type: :model do
   let(:certificate) { FactoryGirl.build :certificate }
@@ -44,7 +17,7 @@ RSpec.describe Certificate, type: :model do
   it { should validate_presence_of(:number) }
   it { should validate_length_of(:number).is_at_least(1).is_at_most(30) }
   it { should validate_uniqueness_of(:number).scoped_to(:category).case_insensitive }
-#  it { should validate_presence_of :date_of_issue }
+  it { should validate_presence_of :date_of_issue }
   it { should validate_presence_of(:division) }
   it { should validate_presence_of(:customer) }
   it { should validate_presence_of(:exam) }
@@ -66,75 +39,144 @@ RSpec.describe Certificate, type: :model do
   it { should have_many(:documents) }
 
 
+  context 'when name is blank' do
+    certificate = FactoryGirl.build :certificate, number: nil
+
+    it "should not be valid" do
+      expect(certificate).to_not be_valid
+    end
+
+    it "should raise error: #{I18n.t('errors.messages.blank')}" do
+      expect(certificate.errors[:number]).to include( I18n.t("errors.messages.blank") )
+    end
+  end
+
+  context 'when number is to short' do
+    certificate = FactoryGirl.build :certificate, number: ""
+
+    it "should not be valid" do
+      expect(certificate).to_not be_valid
+    end
+
+    it "should raise error: #{I18n.t('errors.messages.too_short', count: 1)}" do
+      expect(certificate.errors[:number]).to include( I18n.t("errors.messages.too_short", count: 1) )
+    end
+  end
+
+  context 'when number is to long' do
+    certificate = FactoryGirl.build :certificate, number: "123" * 11
+
+    it "should not be valid" do
+      expect(certificate).to_not be_valid
+    end
+
+    it "should raise error: #{I18n.t('errors.messages.too_long', count: 30)}" do
+      expect(certificate.errors[:number]).to include( I18n.t("errors.messages.too_long", count: 30) )
+    end
+  end
+
+
+  context 'when date_of_issue is blank' do
+    certificate = FactoryGirl.build :certificate, date_of_issue: nil
+
+    it "should not be valid" do
+      expect(certificate).to_not be_valid
+    end
+
+    it "should raise error: #{I18n.t('errors.messages.blank')}" do
+      expect(certificate.errors[:date_of_issue]).to include( I18n.t("errors.messages.blank") )
+    end
+  end
+
+  context 'when valid_thru is present and < date_of_issue' do
+    certificate = FactoryGirl.build :certificate, date_of_issue: DateTime.now.to_date, valid_thru: DateTime.now.to_date - 1.day
+
+    it "should not be valid" do
+      expect(certificate).to_not be_valid
+    end
+
+    it "should raise error: nie może być mniejsza od daty wydania" do
+      expect(certificate.errors[:valid_thru]).to include( "nie może być mniejsza od daty wydania" )
+    end
+  end
+
+  context 'when division is blank' do
+    certificate = FactoryGirl.build :certificate, division: nil
+
+    it "should not be valid" do
+      expect(certificate).to_not be_valid
+    end
+
+    it "should raise error: #{I18n.t('errors.messages.blank')}" do
+      expect(certificate.errors[:division]).to include( I18n.t("errors.messages.blank") )
+    end
+  end
+
+  context 'when customer is blank' do
+    certificate = FactoryGirl.build :certificate, customer: nil
+
+    it "should not be valid" do
+      expect(certificate).to_not be_valid
+    end
+
+    it "should raise error: #{I18n.t('errors.messages.blank')}" do
+      expect(certificate.errors[:customer]).to include( I18n.t("errors.messages.blank") )
+    end
+  end
+
+  context 'when exam is blank' do
+    certificate = FactoryGirl.build :certificate, exam: nil
+
+    it "should not be valid" do
+      expect(certificate).to_not be_valid
+    end
+
+    it "should raise error: #{I18n.t('errors.messages.blank')}" do
+      expect(certificate.errors[:exam]).to include( I18n.t("errors.messages.blank") )
+    end
+  end
+
+  context 'when user is blank' do
+    certificate = FactoryGirl.build :certificate, user: nil
+
+    it "should not be valid" do
+      expect(certificate).to_not be_valid
+    end
+
+    it "should raise error: #{I18n.t('errors.messages.blank')}" do
+      expect(certificate.errors[:user]).to include( I18n.t("errors.messages.blank") )
+    end
+  end
+
   describe '#with trait :lot' do
-    before(:each) { @certificate = FactoryGirl.build :certificate, :lot }
-    subject { @certificate }
-
-    #let(:certificate_lot) { @certificate = FactoryGirl.build :certificate, :lot }
-    #subject { certificate_lot }
-
-    it { should respond_to(:number) }
-    it { should respond_to(:date_of_issue) }
-    it { should respond_to(:certificate_status) }
-    it { should respond_to(:division_id) }
-    it { should respond_to(:exam_id) }
-    it { should respond_to(:customer_id) }
-    it { should respond_to(:note) }
-    it { should respond_to(:category) }
-    it { should respond_to(:user_id) }
+    let(:certificate_lot) {FactoryGirl.build :certificate, :lot }
+    subject { certificate_lot }
 
     it "#category returns 'L'" do
-      expect(@certificate.category).to match 'L'
+      expect(certificate_lot.category).to match 'L'
     end
   end  
 
   describe '#with trait :mor' do
-    before(:each) { @certificate = FactoryGirl.build :certificate, :mor }
-    subject { @certificate }
-    #let(:certificate_mor) { @certificate = FactoryGirl.build :certificate, :mor }
-    #subject { certificate_mor }
-
-    it { should respond_to(:number) }
-    it { should respond_to(:date_of_issue) }
-    it { should respond_to(:certificate_status) }
-    it { should respond_to(:division_id) }
-    it { should respond_to(:exam_id) }
-    it { should respond_to(:customer_id) }
-    it { should respond_to(:note) }
-    it { should respond_to(:category) }
-    it { should respond_to(:user_id) }
+    let(:certificate_mor) { FactoryGirl.build :certificate, :mor }
+    subject { certificate_mor }
 
     it "#category returns 'M'" do
-      expect(@certificate.category).to match 'M'
+      expect(certificate_mor.category).to match 'M'
     end
   end  
 
   describe '#with trait :ra' do
-    before(:each) { @certificate = FactoryGirl.build :certificate, :ra }
-    subject { @certificate }
-    #let(:certificate_ra) { @certificate = FactoryGirl.build :certificate, :ra }
-    #subject { certificate_ra }
-
-    it { should respond_to(:number) }
-    it { should respond_to(:date_of_issue) }
-    it { should respond_to(:certificate_status) }
-    it { should respond_to(:division_id) }
-    it { should respond_to(:exam_id) }
-    it { should respond_to(:customer_id) }
-    it { should respond_to(:note) }
-    it { should respond_to(:category) }
-    it { should respond_to(:user_id) }
+    #before(:each) { @certificate = FactoryGirl.build :certificate, :ra }
+    #subject { @certificate }
+    let(:certificate_ra) { FactoryGirl.build :certificate, :ra }
+    subject { certificate_ra }
 
     it "#category returns 'R'" do
-      expect(@certificate.category).to match 'R'
+      #expect(@certificate.category).to match 'R'
+      expect(certificate_ra.category).to match 'R'
     end
-
   end  
-
-#  it "does not allow NUMBER and DOING_BUSINESS_AS to be the same" do
-#    certificate = build(:certificate, number: "same-name", number: "same-name")
-#    expect(certificate).to be_invalid
-#  end
 
 end
 

@@ -13,7 +13,7 @@ class CreateRoleService
       role.activities += %w(role:index role:show role:create role:update role:delete role:add_remove_user role:work)
       role.save!
     end
-  end
+  end 
   def role_observer
     role = Role.find_or_create_by!(name: "Obserwator Ról") do |role|
       role.activities += %w(role:index role:show)

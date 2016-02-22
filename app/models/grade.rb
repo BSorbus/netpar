@@ -26,12 +26,12 @@ class Grade < ActiveRecord::Base
 
   def grade_result_name
     case grade_result
+    when '', nil
+      ''
     when 'N'
       'Negatywna'
     when 'P'
       'Pozytywna'
-    when '', nil
-      ''
     else
       'Error grade_result value !'
     end  

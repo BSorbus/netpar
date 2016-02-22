@@ -1,11 +1,3 @@
-#  create_table "citizenships", force: :cascade do |t|
-#    t.string   "name"
-#    t.string   "short"
-#    t.datetime "created_at", null: false
-#    t.datetime "updated_at", null: false
-#  end
-#  add_index "citizenships", ["name"], name: "index_citizenships_on_name", unique: true, using: :btree
-
 require 'rails_helper'
 
 RSpec.describe Citizenship, type: :model do
@@ -21,5 +13,30 @@ RSpec.describe Citizenship, type: :model do
   it { should validate_uniqueness_of(:short).case_insensitive }
 
   it { should have_many(:customers) }
+
+  context 'when name is blank' do
+    citizenship = FactoryGirl.build :citizenship, name: nil
+
+    it "should not be valid" do
+      expect(citizenship).to_not be_valid
+    end
+
+    it "should raise error: #{I18n.t('errors.messages.blank')}" do
+      expect(citizenship.errors[:name]).to include( I18n.t("errors.messages.blank") )
+    end
+  end
+
+  context 'when short is blank' do
+    citizenship = FactoryGirl.build :citizenship, short: nil
+
+    it "should not be valid" do
+      expect(citizenship).to_not be_valid
+    end
+
+    it "should raise error: #{I18n.t('errors.messages.blank')}" do
+      expect(citizenship.errors[:short]).to include( I18n.t("errors.messages.blank") )
+    end
+  end
+
  
 end

@@ -1,8 +1,9 @@
 FactoryGirl.define do
   factory :citizenship do
-    sequence(:name) { |n| "Name #{n}" }
+    sequence(:name) { |n| "Name#{n}" }
     #name "Test Citizenship"
-    short "TC"
+    #short "TC"
+    sequence(:short) { |n| "S#{n}" }
   end
 
 end
