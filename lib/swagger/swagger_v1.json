@@ -1151,6 +1151,9 @@
                 },
                 "customer": {
                     "$ref": "#/definitions/Customer"
+                },
+                "document_image": {
+                    "$ref": "#/definitions/document_image"
                 }
             }
         },
@@ -1168,6 +1171,33 @@
                 "authentication_token": {
                     "type": "string",
                     "description": "authentication token of the NETPAR2015 user."
+                }
+            }
+        },
+        "document_image": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Unique identifier a specific attachment file."
+                },
+                "filename": {
+                    "type": "string",
+                    "description": "Name of attachment file."
+                },
+                "content_type": {
+                    "type": "string",
+                    "description": "Type of attachment file."
+                },
+                "size": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Size of attachment file."
+                },
+                "url": {
+                    "type": "string",
+                    "description": "url of attachment file."
                 }
             }
         },

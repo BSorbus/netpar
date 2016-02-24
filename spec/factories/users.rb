@@ -5,10 +5,6 @@ FactoryGirl.define do
     password "Please123!"
     authentication_token "123456789!"
 
-    #trait :admin do
-    #  role 'admin'
-    #end
-
     # add if Devise confirmable
     #after(:build) do |u|
     #  u.confirm!

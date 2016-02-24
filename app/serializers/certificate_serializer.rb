@@ -1,5 +1,6 @@
+#require 'refile'
 class CertificateSerializer < ActiveModel::Serializer
-  attributes :id, :number, :date_of_issue, :valid_thru, :certificate_status, :note, :category, :url, :image_url
+  attributes :id, :number, :date_of_issue, :valid_thru, :certificate_status, :note, :category, :url, :document_image
 
   #belongs_to :customer
   has_one :division
@@ -9,12 +10,16 @@ class CertificateSerializer < ActiveModel::Serializer
     { self: api_v1_certificate_path(object) }
   end
 
-  def image_url
+  def document_image
     attach = object.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last
     #{ self: refile_app_path(attach, attach.filename) }
     if attach.present?
-      { id: attach.id, fileattach_filename: attach.fileattach_filename, fileattach_size: attach.fileattach_size,
-        attachment_url: "..."  }
+      { id: attach.id, 
+        filename: attach.fileattach_filename,
+        content_type: attach.fileattach_content_type, 
+        size: attach.fileattach_size,
+        url: Refile.attachment_url(attach, :fileattach)
+      }
     else  
       {}
     end
@@ -22,3 +27,4 @@ class CertificateSerializer < ActiveModel::Serializer
 
 
 end
+
