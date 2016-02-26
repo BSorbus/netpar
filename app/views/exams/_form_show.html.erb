@@ -93,7 +93,7 @@
         <% if @attach.present? %>
           <p><strong><%= Document.human_attribute_name(:fileattach) %>: </strong><small><%= @attach.fileattach_filename %></small></p>
 
-          <%= link_to image_tag( get_fileattach_as_image(@attach, params[:category_service]), class: "img-thumbnail" ), attachment_url(@attach, :fileattach), target: "_blank" %>
+          <%= link_to image_tag( get_fileattach_as_image(@attach, params[:category_service]), class: "img-thumbnail" ), attachment_url(@attach, :fileattach, prefix: refile_app_path), target: "_blank" %>
 
         <% end %>
 

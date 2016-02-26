@@ -7,7 +7,6 @@ class DocumentsController < ApplicationController
 
   def show
     @document = Document.find(params[:id])
-    #file = attachment_url(@document, :fileattach)
     file = @document.fileattach.read
 
     send_data file, 

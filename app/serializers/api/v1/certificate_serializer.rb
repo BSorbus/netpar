@@ -1,4 +1,4 @@
-class CertificateSerializer < ActiveModel::Serializer
+class Api::V1::CertificateSerializer < ActiveModel::Serializer
   attributes :id, :number, :date_of_issue, :valid_thru, :certificate_status, :note, :category, :url, :document_image
 
   #belongs_to :customer
@@ -6,7 +6,7 @@ class CertificateSerializer < ActiveModel::Serializer
   has_one :customer
 
   def url
-    { self: certificate_path(object, category_service: object.category.downcase) }
+    { self: api_v1_certificate_path(object) }
   end
 
   def document_image

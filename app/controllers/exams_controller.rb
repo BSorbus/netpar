@@ -58,13 +58,12 @@ class ExamsController < ApplicationController
       authorize :examination, :print_r?
     end    
 
-    if params[:prnorder].present? && ['id', 'customers.name, customers.given_names'].include?(params[:prnorder]) # Wszystkie
-      my_order = params[:prnorder].gsub("id", "examinations.id") 
-      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order(my_order).all
-    else
-      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order(:id).all
+    case params[:prnorder]
+    when 'customers.name, customers.given_names'
+      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
+    else # 'id'
+      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order("examinations.id").all
     end
-
 
     if @examinations_all.empty?
       redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
@@ -101,11 +100,11 @@ class ExamsController < ApplicationController
       authorize :exam, :print_r?
     end    
 
-    if params[:prnorder].present? && ['id', 'customers.name, customers.given_names'].include?(params[:prnorder]) # Wszystkie
-      my_order = params[:prnorder].gsub("id", "examinations.id") 
-      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order(my_order).all
-    else
-      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order(:id).all
+    case params[:prnorder]
+    when 'customers.name, customers.given_names'
+      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
+    else 
+      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order("examinations.id").all
     end
 
     if @examinations_all.empty?
@@ -190,12 +189,12 @@ class ExamsController < ApplicationController
     authorize :customer, :show?
     #@customers_all = @exam.certificate_customers.order(:name, :given_names)
 
-
-    if params[:prnorder].present? && ['id', 'customers.name, customers.given_names'].include?(params[:prnorder]) # Wszystkie
-      my_order = params[:prnorder].gsub("id", "certificates.updated_at") 
-      @customers_all = @exam.certificate_customers.order(my_order)
-    else
-      @customers_all = @exam.certificate_customers.order(:name, :given_names)
+    case params[:prnorder]
+    when 'id'
+      @customers_all = @exam.certificate_customers.order("certificates.updated_at")
+    else 
+      @customers_all = @exam.certificate_customers.order("customers.name, customers.given_names")
+      #@customers_all = @exam.certificate_customers.order(:name, :given_names)      
     end
 
     if @customers_all.empty?

@@ -7,9 +7,9 @@ module ApplicationHelper
 
     case attach.fileattach_content_type
     when 'image/jpeg'
-      attachment_url(attach, :fileattach, :fill, horizontal_size(for_service), vertical_size(for_service), format: "jpg")
+      attachment_url(attach, :fileattach, :fill, horizontal_size(for_service), vertical_size(for_service), format: "jpg", prefix: refile_app_path)
     when 'image/png'
-      attachment_url(attach, :fileattach, :fill, horizontal_size(for_service), vertical_size(for_service), format: "png")
+      attachment_url(attach, :fileattach, :fill, horizontal_size(for_service), vertical_size(for_service), format: "png", prefix: refile_app_path)
     #when 'application/msword'
     #  asset_path("word.png")
     when 'application/pdf'
@@ -55,9 +55,9 @@ module ApplicationHelper
 
     case attach.fileattach_content_type
     when 'image/jpeg'
-      attachment_url(attach, :fileattach, :fill, horizontal_small_size(for_service), vertical_small_size(for_service), format: "jpg")
+      attachment_url(attach, :fileattach, :fill, horizontal_small_size(for_service), vertical_small_size(for_service), format: "jpg", prefix: refile_app_path)
     when 'image/png'
-      attachment_url(attach, :fileattach, :fill, horizontal_small_size(for_service), vertical_small_size(for_service), format: "png")
+      attachment_url(attach, :fileattach, :fill, horizontal_small_size(for_service), vertical_small_size(for_service), format: "png", prefix: refile_app_path)
     #when 'application/msword'
     #  asset_path("word_small.png")
     when 'application/pdf'
