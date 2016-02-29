@@ -17,6 +17,7 @@ gem 'rails_email_validator'
 gem 'pundit'
 group :development do
   gem 'thin'
+  gem 'binding_of_caller'
   gem 'web-console'
   gem 'better_errors'
   gem 'quiet_assets'

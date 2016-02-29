@@ -7,14 +7,7 @@ class CertificatesController < ApplicationController
   # GET /certificates
   # GET /certificates.json
   def index
-    case params[:category_service]
-    when 'l'
-      authorize :certificate, :index_l?
-    when 'm'
-      authorize :certificate, :index_m?
-    when 'r'
-      authorize :certificate, :index_r?
-    end    
+    certificate_authorize(:certificate, "index", params[:category_service])
     # dane pobierane z datatables_index
     # @certificates = Certificate.all
   end
@@ -42,7 +35,6 @@ class CertificatesController < ApplicationController
       format.json { 
         render json: { 
           certificates: @certificates_on_page.as_json(methods: :fullname, only: [:id, :fullname]),
-          #certificates: @certificates_on_page.as_json(only: [:id, :number, :date_of_issue]),
           total_count: @certificates.count 
         } 
       }
@@ -50,7 +42,6 @@ class CertificatesController < ApplicationController
   end
 
   def search
-    params[:q] = params[:q]
     @certificates = Certificate.order(:number).finder_certificate(params[:q], (params[:category_service]).upcase)
 
     respond_to do |format|
@@ -64,14 +55,7 @@ class CertificatesController < ApplicationController
   end
 
   def certificate_to_pdf
-    case params[:category_service]
-    when 'l'
-      authorize :certificate, :print_l?
-    when 'm'
-      authorize :certificate, :print_m?
-    when 'r'
-      authorize :certificate, :print_r?
-    end    
+    certificate_authorize(:certificate, "print", params[:category_service])
 
     @certificates_all = Certificate.joins(:customer).references(:customer).where(id: params[:id]).all
 
@@ -107,14 +91,7 @@ class CertificatesController < ApplicationController
   # GET /certificates/1
   # GET /certificates/1.json
   def show
-    case params[:category_service]
-    when 'l'
-      authorize @certificate, :show_l?
-    when 'm'
-      authorize @certificate, :show_m?
-    when 'r'
-      authorize @certificate, :show_r?
-    end   
+    certificate_authorize(@certificate, "show", params[:category_service])
      
     respond_to do |format|
       format.html { render :show, locals: { back_url: params[:back_url]} }
@@ -139,35 +116,21 @@ class CertificatesController < ApplicationController
     @customer = load_customer
     @certificate.customer = @customer
 
-    case params[:category_service]
-    when 'l'
-      authorize @certificate, :new_l?
-    when 'm'
-      authorize @certificate, :new_m?
-    when 'r'
-      authorize @certificate, :new_r?
-    end    
+    certificate_authorize(@certificate, "new", params[:category_service])
 
     respond_to do |format|
       format.json
-      format.html { render :new, locals: { back_url: params[:back_url]} }
+      format.html { render :new, locals: { back_url: params[:back_url] } }
     end
   end
 
   # GET /certificates/1/edit
   def edit
-    case params[:category_service]
-    when 'l'
-      authorize @certificate, :edit_l?
-    when 'm'
-      authorize @certificate, :edit_m?
-    when 'r'
-      authorize @certificate, :edit_r?
-    end    
+    certificate_authorize(@certificate, "edit", params[:category_service])
      
     respond_to do |format|
       format.json
-      format.html { render :edit, locals: { back_url: params[:back_url]} }
+      format.html { render :edit, locals: { back_url: params[:back_url] } }
     end
   end
 
@@ -179,14 +142,7 @@ class CertificatesController < ApplicationController
     @certificate.user = current_user
     @certificate.number = Certificate.next_certificate_number(params[:category_service], @certificate.division) if @certificate.number.empty?
 
-    case params[:category_service]
-    when 'l'
-      authorize @certificate, :create_l?
-    when 'm'
-      authorize @certificate, :create_m?
-    when 'r'
-      authorize @certificate, :create_r?
-    end    
+    certificate_authorize(@certificate, "create", params[:category_service])
 
     respond_to do |format|
       if @certificate.save
@@ -203,7 +159,7 @@ class CertificatesController < ApplicationController
         format.html { redirect_to certificate_path(@certificate, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.created', data: @certificate.number) }
         format.json { render :show, status: :created, location: @certificate }
       else
-        format.html { render :new, locals: { back_url: params[:back_url]} }
+        format.html { render :new, locals: { back_url: params[:back_url] } }
         format.json { render json: @certificate.errors, status: :unprocessable_entity }
       end
     end
@@ -213,14 +169,7 @@ class CertificatesController < ApplicationController
   # PATCH/PUT /certificates/1.json
   def update
     @certificate.user = current_user
-    case params[:category_service]
-    when 'l'
-      authorize @certificate, :update_l?
-    when 'm'
-      authorize @certificate, :update_m?
-    when 'r'
-      authorize @certificate, :update_r?
-    end    
+    certificate_authorize(@certificate, "update", params[:category_service])
 
     respond_to do |format|
       if @certificate.update(certificate_params)
@@ -237,7 +186,7 @@ class CertificatesController < ApplicationController
         format.html { redirect_to certificate_path(@certificate, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.updated', data: @certificate.number) }
         format.json { render :show, status: :ok, location: @certificate }
       else
-        format.html { render :edit, locals: { back_url: params[:back_url]} }
+        format.html { render :edit, locals: { back_url: params[:back_url] } }
         format.json { render json: @certificate.errors, status: :unprocessable_entity }
       end
     end
@@ -246,14 +195,7 @@ class CertificatesController < ApplicationController
   # DELETE /certificates/1
   # DELETE /certificates/1.json
   def destroy
-    case params[:category_service]
-    when 'l'
-      authorize @certificate, :destroy_l?
-    when 'm'
-      authorize @certificate, :destroy_m?
-    when 'r'
-      authorize @certificate, :destroy_r?
-    end    
+    certificate_authorize(@certificate, "destroy", params[:category_service])
 
     exam = @certificate.exam
     if @certificate.destroy
@@ -273,34 +215,16 @@ class CertificatesController < ApplicationController
     end      
   end
 
-
-#  def search_for_name
-#    @resources = Customer.select([:id, :name]).
-#                          where("name like :q", q: "%#{params[:q]}%").
-#                          order('name').page(params[:page]).per(params[:per]) # this is why we need kaminari. of course you could also use limit().offset() instead
-#   
-#    # also add the total count to enable infinite scrolling
-#    resources_count = Customer.select([:id, :name]).
-#                          where("name like :q", q: "%#{params[:q]}%").count
-#   
-#    respond_to do |format|
-#      format.json { render json: {total: resources_count, resources: @resources.map { |e| {id: e.id, text: "#{e.name} (#{e.pesel})"} }} }
-#    end
-#  end
-
-
   private
-    def certificate_authorize(model_class, action, options={})
-      case options[:category_service]
-      when 'l'
-        authorize model_class, :destroy_l?
-      when 'm'
-        authorize model_class, :destroy_m?
-      when 'r'
-        authorize model_class, :destroy_r?
-      end    
+    def certificate_authorize(model_class, action, category)
+      unless ['index', 'show', 'new', 'create', 'edit', 'update', 'destroy', 'print', 'work'].include?(action)
+         raise "Ruby injection"
+      end
+      unless ['l', 'm', 'r'].include?(category)
+         raise "Ruby injection"
+      end
+      authorize model_class,"#{action}_#{category}?"      
     end
-
 
     # Use callbacks to share common setup or constraints between actions.
     def set_certificate

@@ -84,13 +84,13 @@ Rails.application.routes.draw do
   root to: 'visitors#index'
 
   mount SwaggerEngine::Engine, at: "/api-docs"
-  mount Refile.app, at: "files", as: :refile_app
+  #mount Refile.app, at: "files", as: :refile_app
 
   namespace :api, defaults: { format: :json } do
     require 'api_constraints'
     #scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
     namespace :v1, constraints: ApiConstraints.new(version: 1, default: true) do
-      mount Refile.app, at: "files", as: :refile_app
+      mount Refile.app, at: "attachments", as: :refile_app
       resources :certificates, only: [:show] do
         get 'lot', on: :collection
         get 'mor', on: :collection
