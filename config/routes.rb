@@ -81,6 +81,14 @@ Rails.application.routes.draw do
     post 'datatables_index_user', on: :collection # for User
   end
 
+  resources :pna_codes, only: [:show] do
+    get 'select2_index', on: :collection
+  end
+
+  resources :esod_cases do
+    post 'datatables_index', on: :collection
+  end
+
   root to: 'visitors#index'
 
   mount SwaggerEngine::Engine, at: "/api-docs"

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
   $('.customer_select').select2({
     minimumInputLength: 3,
     allowClear: false,
@@ -149,6 +150,135 @@ $(document).ready(function() {
     dropdownCssClass: "bigdrop"
   });
 
+
+
+  $('#customer_pna_code_select').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/pna_codes/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var pna_codes = $.map( data.pna_codes, function(pna_code, i) {
+          return { id: pna_code.id, text: pna_code.fullname };
+        });
+        return { results: pna_codes, more: more };
+      }
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/pna_codes/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    dropdownCssClass: "bigdrop"
+  })
+  .on("select2-selecting", function(e) {
+      var id=e.val;
+      if (id!=="") {
+        $.get("/pna_codes/"+id+".json", function(data_from_json) {
+          if(data_from_json) {
+            //alert( data_from_json.id );
+            document.getElementById("customer_address_postal_code").value = data_from_json.pna;
+            document.getElementById("customer_address_postal_code").disabled = true;
+            document.getElementById("customer_address_city").value = data_from_json.miejscowosc;
+            document.getElementById("customer_address_city").disabled = true;
+            if(data_from_json.ulica!=="") {
+              document.getElementById("customer_address_street").value = data_from_json.ulica;
+              document.getElementById("customer_address_street").disabled = true;
+              document.getElementById("customer_address_house").focus();
+            } else {
+              document.getElementById("customer_address_street").value = "";
+              document.getElementById("customer_address_street").disabled = false;
+              document.getElementById("customer_address_street").focus();
+            }
+          }
+        });
+      }
+    //alert("selecting val=" + e.val + " choice=" + e.object.text);
+  })
+  //.on("select2-loaded", function(e) {
+  //  alert('select2-loaded!');
+  //})
+  ;
+
+  //$('.pna_code_select').on("select2-selecting", function(e) { 
+  //  alert('Wybrałem!')
+  //});
+
+
+  $('#customer_c_pna_code_select').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/pna_codes/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var pna_codes = $.map( data.pna_codes, function(pna_code, i) {
+          return { id: pna_code.id, text: pna_code.fullname };
+        });
+        return { results: pna_codes, more: more };
+      }
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/pna_codes/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    dropdownCssClass: "bigdrop"
+  })
+  .on("select2-selecting", function(e) {
+      var id=e.val;
+      if (id!=="") {
+        $.get("/pna_codes/"+id+".json", function(data_from_json) {
+          if(data_from_json) {
+            //alert( data_from_json.id );
+            document.getElementById("customer_c_address_postal_code").value = data_from_json.pna;
+            document.getElementById("customer_c_address_postal_code").disabled = true;
+            document.getElementById("customer_c_address_city").value = data_from_json.miejscowosc;
+            document.getElementById("customer_c_address_city").disabled = true;
+            if(data_from_json.ulica!=="") {
+              document.getElementById("customer_c_address_street").value = data_from_json.ulica;
+              document.getElementById("customer_c_address_street").disabled = true;
+              document.getElementById("customer_c_address_house").focus();
+            } else {
+              document.getElementById("customer_c_address_street").value = "";
+              document.getElementById("customer_c_address_street").disabled = false;
+              document.getElementById("customer_c_address_street").focus();
+            }
+          }
+        });
+      }
+  });
 
 
 });

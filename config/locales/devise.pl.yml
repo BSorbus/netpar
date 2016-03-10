@@ -73,7 +73,7 @@ pl:
         edit: 
           title: 'Edycja konta' 
           blank_passwords_text: "Pozostaw pola 'Hasło' i 'Powtórz hasło' puste jeżeli nie chcesz zmieniać hasła."
-          current_password_needed: "Musisz podać aktualne hasło aby dokonać zmian"
+          current_password_needed: "Aby zapisać wprowadzone zmiany musisz podać aktualne hasło"
           button_submit: 'Zapisz'
     sessions:
       signed_in: "Signed in successfully."

@@ -32,6 +32,10 @@
         <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
       <% end %>
     </div>
+    <div class="form-group">
+      <%= f.label :esod_password, class: 'control-label' %>
+      <%= f.password_field :esod_password, :autocomplete => 'off', class: 'form-control' %>
+    </div>
     <fieldset>
       <div class="form-group">
         <small class="help-block"><%= t('devise.registrations.form.edit.blank_passwords_text') %></small>

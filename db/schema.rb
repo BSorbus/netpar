@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160217081351) do
+ActiveRecord::Schema.define(version: 20160309000001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,6 +141,25 @@ ActiveRecord::Schema.define(version: 20160217081351) do
 
   add_index "documents", ["documentable_type", "documentable_id"], name: "index_documents_on_documentable_type_and_documentable_id", using: :btree
 
+  create_table "esod_cases", force: :cascade do |t|
+    t.integer  "nrid"
+    t.string   "znak"
+    t.string   "znak_sprawy_grupujacej"
+    t.string   "symbol_jrwa"
+    t.string   "tytul"
+    t.date     "termin_realizacji"
+    t.integer  "identyfikator_kategorii_sprawy"
+    t.string   "adnotacja"
+    t.integer  "identyfikator_stanowiska_referenta"
+    t.datetime "esod_created_at"
+    t.datetime "esod_updated_et"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  add_index "esod_cases", ["nrid"], name: "index_esod_cases_on_nrid", unique: true, using: :btree
+  add_index "esod_cases", ["znak"], name: "index_esod_cases_on_znak", unique: true, using: :btree
+
   create_table "examinations", force: :cascade do |t|
     t.string   "examination_category", limit: 1, default: "Z",   null: false
     t.integer  "division_id"
@@ -213,6 +232,25 @@ ActiveRecord::Schema.define(version: 20160217081351) do
 
   add_index "old_passwords", ["password_archivable_type", "password_archivable_id"], name: "index_password_archivable", using: :btree
 
+  create_table "pna_codes", force: :cascade do |t|
+    t.string   "pna"
+    t.string   "miejscowosc"
+    t.string   "ulica"
+    t.string   "numery"
+    t.string   "wojewodztwo"
+    t.string   "powiat"
+    t.string   "gmina"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "pna_codes", ["gmina"], name: "index_pna_codes_on_gmina", using: :btree
+  add_index "pna_codes", ["miejscowosc", "ulica"], name: "index_pna_codes_on_miejscowosc_and_ulica", using: :btree
+  add_index "pna_codes", ["miejscowosc"], name: "index_pna_codes_on_miejscowosc", using: :btree
+  add_index "pna_codes", ["pna"], name: "index_pna_codes_on_pna", using: :btree
+  add_index "pna_codes", ["powiat"], name: "index_pna_codes_on_powiat", using: :btree
+  add_index "pna_codes", ["wojewodztwo"], name: "index_pna_codes_on_wojewodztwo", using: :btree
+
   create_table "refile_attachments", force: :cascade do |t|
     t.string "namespace", null: false
   end
@@ -274,6 +312,7 @@ ActiveRecord::Schema.define(version: 20160217081351) do
     t.string   "unlock_token"
     t.datetime "locked_at"
     t.string   "authentication_token"
+    t.string   "esod_encryped_password"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree

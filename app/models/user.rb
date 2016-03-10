@@ -98,6 +98,22 @@ class User < ActiveRecord::Base
     analize_value
   end
 
+  # Getter
+  def esod_password
+    ''
+  end
+
+  # Setter
+  def esod_password=(esod_password)
+    self.esod_encryped_password = encrypt_esod_pass(esod_password)
+  end
+
+  def encrypt_esod_pass(esod_pass)
+    secret_key = Rails.application.secrets[:esod_secret_key_for_generate_user_token]
+    salt = Digest::MD5.hexdigest(secret_key)
+    Digest::SHA512.hexdigest(salt+esod_pass)
+  end
+
   def generate_authentication_token!
     begin
       self.authentication_token = Devise.friendly_token

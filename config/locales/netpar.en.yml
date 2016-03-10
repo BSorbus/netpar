@@ -44,6 +44,13 @@ en:
         other_stations: "Other club stations within a radius of 25km :"
       new:
         title: ' New Customer'
+    esod_case:
+      index:
+        title: 'ESOD cases'
+      show:
+        title: 'ESOD case'
+      new:
+        title: ' New Customer'
     footer:
       contact: 'Contact:'
       links: 'Links:'
@@ -92,9 +99,18 @@ en:
         name: 'Name'
         email: 'Email'
         password: 'Password'
+        esod_password: 'Password'
         password_confirmation: 'Password confirmation'
         current_password: 'Current password'
         department_id: 'Department'
+        last_sign_in_ip: 'Last sign in IP'
+        last_sign_in_at: 'Last sign in at'
+        current_sign_in_ip: 'Current sign in IP'
+        current_sign_in_at: 'Current sign in at'
+        deleted_at: 'Deleted at'
+        department_id: 'Department'
+        last_activity_at: 'Last activity at'
+        password_changed_at: 'Password changed at'
       department:
         short: 'Short'
         name: 'Name'

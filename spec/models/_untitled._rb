@@ -1,0 +1,35 @@
+  describe "#certificates association" do
+
+    before do
+      exam.save
+      3.times { FactoryGirl.create :certificate, exam: exam }
+    end
+
+    it "destroys the associated certificates on self destruct" do
+      certificates = exam.certificates
+      exam.destroy
+      certificates.each do |certificate|
+        expect(Subject.find(certificate)).to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+  end
+
+  describe "#examinations association" do
+
+    before do
+      exam.save
+      3.times { FactoryGirl.create :examination, exam: exam }
+    end
+
+    it "destroys the associated examinations on self destruct" do
+      examinations = exam.examinations
+      exam.destroy
+      examinations.each do |examination|
+        expect(Subject.find(examination)).to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+  end
+
+
+
+

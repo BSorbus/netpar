@@ -1,0 +1,61 @@
+<%= form_for(@esod_case) do |f| %>
+  <% if @esod_case.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@esod_case.errors.count, "error") %> prohibited this esod_case from being saved:</h2>
+
+      <ul>
+      <% @esod_case.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :nrid %><br>
+    <%= f.number_field :nrid %>
+  </div>
+  <div class="field">
+    <%= f.label :znak %><br>
+    <%= f.text_field :znak %>
+  </div>
+  <div class="field">
+    <%= f.label :symbol_jrwa %><br>
+    <%= f.text_field :symbol_jrwa %>
+  </div>
+  <div class="field">
+    <%= f.label :tytul %><br>
+    <%= f.text_field :tytul %>
+  </div>
+  <div class="field">
+    <%= f.label :termin_realizacji %><br>
+    <%= f.date_select :termin_realizacji %>
+  </div>
+  <div class="field">
+    <%= f.label :identyfikator_kategorii_sprawy %><br>
+    <%= f.number_field :identyfikator_kategorii_sprawy %>
+  </div>
+  <div class="field">
+    <%= f.label :adnotacja %><br>
+    <%= f.text_field :adnotacja %>
+  </div>
+  <div class="field">
+    <%= f.label :identyfikator_stanowiska_referenta %><br>
+    <%= f.number_field :identyfikator_stanowiska_referenta %>
+  </div>
+  <div class="field">
+    <%= f.label :czy_otwarta %><br>
+    <%= f.check_box :czy_otwarta %>
+  </div>
+  <div class="field">
+    <%= f.label :esod_created_at %><br>
+    <%= f.text_field :esod_created_at %>
+  </div>
+  <div class="field">
+    <%= f.label :esod_updated_et %><br>
+    <%= f.text_field :esod_updated_et %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -100,7 +100,6 @@ pl:
         title: 'Klienci'
       show:
         title: 'Klient'
-        other_stations: "Inne stacje klubowe w promieniu 25 km :"
       edit:
         title: ' Klient - edycja danych'
       new:
@@ -133,6 +132,11 @@ pl:
     document:
       form:
         or_input_remote_url: '...lub wybierz'
+    esod_case:
+      index:
+        title: 'ESOD - Sprawy'
+      show:
+        title: 'ESOD - Sprawa'
     footer:
       contact: 'Kontakt:'
       links: 'Zobacz też:'
@@ -143,6 +147,7 @@ pl:
       links_www3_title: 'Świadectwa'
       links_www3: 'http://uke.gov.pl/swiadectwa-radiooperatora-941'
   link_to:
+    esod_cases: 'ESOD'
     management: 'Zarządzanie'
     works: 'Operacje'
     roles: 'Role'
@@ -247,7 +252,7 @@ pl:
       exam: 'Egzamin'
       customer: 'Klient'
       document: 'Załącznik'
-      individual: 'Pozwolenie Indywidualne'
+      esod_case: 'ESOD - Sprawy'
       examination: 'Osoba Egzaminowana'
       examiner: 'Członek Komisji Egzaminacyjnej'
       subject: 'Przedmioty'
@@ -280,6 +285,7 @@ pl:
       user:
         name: 'Imię i Nazwisko'
         email: 'Email'
+        esod_password: 'ESOD hasło'
         password: 'Hasło'
         password_confirmation: 'Potwórz hasło'
         current_password: 'Aktualne hasło'
@@ -340,6 +346,7 @@ pl:
         human: 'Osoba fizyczna'
         name: 'Nazwisko (Nazwa)'
         given_names: 'Imiona'
+        pna_code_address: 'PNA (TERYT)'
         address_city: 'Miejscowość'
         address_street: 'Ulica'
         address_house: 'Dom'
@@ -347,6 +354,7 @@ pl:
         address_postal_code: 'Kod'
         address_post_office: 'Poczta'
         address_pobox: 'Skrytka'
+        pna_code_c_address: 'PNA (TERYT)'
         c_address_city: 'Miejscowość (k)'
         c_address_street: 'Ulica (k)'
         c_address_house: 'Dom (k)'
@@ -396,6 +404,26 @@ pl:
         trackable_type: 'Obiekt'
         trackable_id: 'Identyfikator'
         parameters: 'Dane'
+      postal_code:
+        pna: 'Kod'
+        miejscowosc: 'Miejscowość'
+        ulica: 'Ulica'
+        numery: 'Numery'
+        wojewodztwo: 'Wojewodztwo'
+        powiat: 'Powiat'
+        gmina: 'Gmina'
+      esod_case:
+        nrid: 'nrid'
+        znak: 'Znak'
+        symbol_jrwa: 'JRWA'
+        tytul: 'Tytuł'
+        termin_realizacji: 'Termin'
+        identyfikator_kategorii_sprawy: 'Kategoria'
+        dnotacja: 'Adnotacja'
+        identyfikator_stanowiska_referenta: 'Stanowisko'
+        czy_otwarta: 'Otwarta?'
+        esod_created_at: 'Utworzona'
+        esod_updated_at: 'Modyfikowana'
   tooltip:
     show: 'Pokaż'
     edit: 'Edycja'
@@ -446,6 +474,7 @@ pl:
     map_info: 'Uwaga! Program ustala szerokość i długość geograficzną wykorzystując Geocoder i Google Maps. Prezentacje na mapie należy traktować wylącznie jako informacje przybliżone.'
     select2_customer: 'Wyszukiwanie po: Nazwisko, Imię, Miejscowość, Pesel, Data ur.(format: YYYY-MM-DD). Kolejność dowolna. Warunki złożone oddzielane spacją np. Kow Jan Warsza'
     select2_exam: 'Wyszukiwanie po: Numer, Miejscowość, Data (format: YYYY-MM-DD). Kolejność dowolna. Warunki złożone oddzielane spacją np. Warsza 2015-08'
+    select2_postal_code: 'Wyszukiwanie po: Kod, Miejscowość, Ulica, Gmina, Powiat. Kolejność dowolna. Warunki złożone oddzielane spacją np. 85- bydgo fordo'
     document:
       attach_title_small: 'Lista załączników'
     user:

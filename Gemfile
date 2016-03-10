@@ -24,7 +24,8 @@ group :development do
   gem 'rails_layout'
   gem 'spring'
   gem 'spring-commands-rspec'
-  gem 'brakeman', :require => false  
+  gem 'brakeman', :require => false
+  gem 'nokogiri', :require => false  
 end
 group :development, :test do
   gem 'byebug'
@@ -75,3 +76,4 @@ gem 'swagger_engine'
 #Use unicorn as the app server
 #gem 'unicorn'
 #gem "unicorn-rails"
+gem 'savon'
