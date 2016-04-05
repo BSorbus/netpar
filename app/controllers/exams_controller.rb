@@ -1,6 +1,6 @@
 class ExamsController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, except: [:index, :datatables_index, :select2_index, :generating_certificates]
+  after_action :verify_authorized, except: [:index, :datatables_index, :select2_index, :certificates_generation]
 
   before_action :set_exam, only: [:show, :edit, :update, :destroy, :examination_cards_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf]
 
@@ -313,8 +313,9 @@ class ExamsController < ApplicationController
     respond_to do |format|
       if @exam.save
         @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :create, user: current_user, 
-          parameters: @exam.to_json(except: [:user_id], 
+          parameters: @exam.to_json(except: [:user_id, :esod_matter_id], 
                                     include: {
+                                      esod_matter: {only: [:znak]}, 
                                       user: {only: [:id, :name, :email]},
                                       examiners: {only: [:name]}
                                     }))
@@ -344,8 +345,9 @@ class ExamsController < ApplicationController
     respond_to do |format|
       if @exam.update(exam_params)
         @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :update, user: current_user, 
-          parameters: @exam.to_json(except: [:user_id], 
+          parameters: @exam.to_json(except: [:user_id, :esod_matter_id], 
                                     include: {
+                                      esod_matter: {only: [:znak]}, 
                                       user: {only: [:id, :name, :email]},
                                       examiners: {only: [:name]}
                                     }))
@@ -373,8 +375,9 @@ class ExamsController < ApplicationController
 
     if @exam.destroy
       Work.create!(trackable: @exam, action: :destroy, user: current_user, 
-          parameters: @exam.to_json(except: [:user_id], 
+          parameters: @exam.to_json(except: [:user_id, :esod_matter_id], 
                                     include: {
+                                      esod_matter: {only: [:znak]}, 
                                       user: {only: [:id, :name, :email]},
                                       examiners: {only: [:name]}
                                     }))
@@ -385,7 +388,7 @@ class ExamsController < ApplicationController
     end      
   end
 
-  def generating_certificates 
+  def certificates_generation 
     @exam = Exam.find(params[:id]) 
 
     # wywołanie funkcji z JS, by nie odświeżać całej strony
@@ -404,6 +407,6 @@ class ExamsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def exam_params
-      params.require(:exam).permit(:number, :date_exam, :place_exam, :chairman, :secretary, :category, :note, :user_id, examiners_attributes: [:id, :name, :_destroy])
+      params.require(:exam).permit(:number, :date_exam, :place_exam, :chairman, :secretary, :category, :note, :user_id, :esod_matter_id, examiners_attributes: [:id, :name, :_destroy])
     end
 end

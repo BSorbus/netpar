@@ -1,0 +1,81 @@
+<%= form_for(@esod_matter) do |f| %>
+  <% if @esod_matter.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@esod_matter.errors.count, "error") %> prohibited this esod_matter from being saved:</h2>
+
+      <ul>
+      <% @esod_matter.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :nrid %><br>
+    <%= f.number_field :nrid %>
+  </div>
+  <div class="field">
+    <%= f.label :znak %><br>
+    <%= f.text_field :znak %>
+  </div>
+  <div class="field">
+    <%= f.label :znak_sprawy_grupujacej %><br>
+    <%= f.text_field :znak_sprawy_grupujacej %>
+  </div>
+  <div class="field">
+    <%= f.label :symbol_jrwa %><br>
+    <%= f.text_field :symbol_jrwa %>
+  </div>
+  <div class="field">
+    <%= f.label :tytul %><br>
+    <%= f.text_field :tytul %>
+  </div>
+  <div class="field">
+    <%= f.label :termin_realizacji %><br>
+    <%= f.date_select :termin_realizacji %>
+  </div>
+  <div class="field">
+    <%= f.label :identyfikator_kategorii_sprawy %><br>
+    <%= f.number_field :identyfikator_kategorii_sprawy %>
+  </div>
+  <div class="field">
+    <%= f.label :adnotacja %><br>
+    <%= f.text_field :adnotacja %>
+  </div>
+  <div class="field">
+    <%= f.label :identyfikator_stanowiska_referenta %><br>
+    <%= f.number_field :identyfikator_stanowiska_referenta %>
+  </div>
+  <div class="field">
+    <%= f.label :czy_otwarta %><br>
+    <%= f.check_box :czy_otwarta %>
+  </div>
+  <div class="field">
+    <%= f.label :data_utworzenia %><br>
+    <%= f.datetime_select :data_utworzenia %>
+  </div>
+  <div class="field">
+    <%= f.label :data_modyfikacji %><br>
+    <%= f.datetime_select :data_modyfikacji %>
+  </div>
+  <div class="field">
+    <%= f.label :initialized_from_esod %><br>
+    <%= f.check_box :initialized_from_esod %>
+  </div>
+  <div class="field">
+    <%= f.label :exam_id %><br>
+    <%= f.text_field :exam_id %>
+  </div>
+  <div class="field">
+    <%= f.label :examination_id %><br>
+    <%= f.text_field :examination_id %>
+  </div>
+  <div class="field">
+    <%= f.label :certificate_id %><br>
+    <%= f.text_field :certificate_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

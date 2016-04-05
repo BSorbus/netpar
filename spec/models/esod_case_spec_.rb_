@@ -13,7 +13,7 @@ RSpec.describe EsodCase, type: :model do
   it { should respond_to(:identyfikator_kategorii_sprawy) }
   it { should respond_to(:adnotacja) }
   it { should respond_to(:identyfikator_stanowiska_referenta) }
-#  it { should respond_to(:czy_otwarta) }
+  it { should respond_to(:czy_otwarta) }
   it { should respond_to(:esod_created_at) }
   it { should respond_to(:esod_updated_et) }
 

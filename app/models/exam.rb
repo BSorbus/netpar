@@ -10,6 +10,8 @@
 #    t.integer  "user_id"
 #    t.datetime "created_at",                          null: false
 #    t.datetime "updated_at",                          null: false
+#    t.integer  "examinations_count",            default: 0
+#    t.integer  "certificates_count",            default: 0
 #  end
 #  add_index "exams", ["category"], name: "index_exams_on_category", using: :btree
 #  add_index "exams", ["date_exam"], name: "index_exams_on_date_exam", using: :btree
@@ -18,6 +20,8 @@
 #
 class Exam < ActiveRecord::Base
   belongs_to :user
+  belongs_to :esod_matter, class_name: "Esod::Matter", foreign_key: :esod_matter_id#, dependent: :delete
+ 
   has_many :certificates, dependent: :destroy
   has_many :examinations, dependent: :destroy
   has_many :examiners, inverse_of: :exam, dependent: :destroy  
@@ -37,7 +41,6 @@ class Exam < ActiveRecord::Base
   has_many :examination_customers, through: :examinations, source: :customer
 
 
-
   # validates
   validates :number, presence: true,
                     length: { in: 1..30 },
@@ -49,6 +52,7 @@ class Exam < ActiveRecord::Base
   validates :category, presence: true, inclusion: { in: %w(L M R) }
   validates :user, presence: true
 
+  validates :esod_matter, uniqueness: { case_sensitive: false }, allow_blank: true
 
   # scopes
 	scope :only_category_l, -> { where(category: "L") }

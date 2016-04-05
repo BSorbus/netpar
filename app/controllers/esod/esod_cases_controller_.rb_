@@ -1,4 +1,4 @@
-class EsodCasesController < ApplicationController
+class Esod::EsodCasesController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index]
 
@@ -17,21 +17,21 @@ class EsodCasesController < ApplicationController
 #                                    ]
 #                    }
   
-      @deserialize_stanowisko = ActiveSupport::JSON.decode(@stanowiska.to_json)
+#      @deserialize_stanowisko = ActiveSupport::JSON.decode(@stanowiska.to_json)
 
-      puts '----------------------------------------'
-      puts @stanowiska
-      puts '----------------------------------------'
-      puts @stanowiska.to_json
-      puts '----------------------------------------'
-      puts JSON.parse(@stanowiska.to_json)
-      puts '----------------------------------------'
-      puts JSON.pretty_generate(JSON.parse(@stanowiska.to_json))
-      puts '----------------------------------------'
-      puts JSON.pretty_generate(@stanowiska)
-      puts '----------------------------------------'
-      puts @deserialize_stanowisko
-      puts '----------------------------------------'
+#      puts '----------------------------------------'
+#      puts @stanowiska
+#      puts '----------------------------------------'
+#      puts @stanowiska.to_json
+#      puts '----------------------------------------'
+#      puts JSON.parse(@stanowiska.to_json)
+#      puts '----------------------------------------'
+#      puts JSON.pretty_generate(JSON.parse(@stanowiska.to_json))
+#      puts '----------------------------------------'
+#      puts JSON.pretty_generate(@stanowiska)
+#      puts '----------------------------------------'
+#      puts @deserialize_stanowisko
+#      puts '----------------------------------------'
     end
     @esod_cases = EsodCase.all
   end

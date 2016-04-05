@@ -7,4 +7,9 @@ class EsodCase < ActiveRecord::Base
   validates :znak, presence: true,
                    uniqueness: { :case_sensitive => false }
 
+
+  def load_esod_cases_from_esod
+    puts "a kuku"
+  end
+
 end

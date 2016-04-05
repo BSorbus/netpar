@@ -1,0 +1,74 @@
+<% input_disabled ||= false  
+   #if input_disabled is not passed to the partial it doesn't crash. 
+   # We default it to false 
+%>
+
+<% if @esod_matter.errors.any? %>
+  <div id="error_explanation" class="panel panel-danger">
+    <div class="panel-body">
+      <ul>
+      <% @esod_matter.errors.full_messages.each do |msg| %>
+        <li><h5><%= msg %></h5></li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
+
+<div class="row">
+  <div class="col-sm-12">
+
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <p><strong><%= Esod::Matter.human_attribute_name(:znak) %></strong></p>
+        <h5><%= @esod_matter.znak %></h5>
+      </div>
+      <div class="form-group col-sm-2">
+        <p><strong><%= Esod::Matter.human_attribute_name(:symbol_jrwa) %></strong></p>
+        <h5><%= @esod_matter.symbol_jrwa %></h5>
+      </div>
+      <div class="form-group col-sm-2">
+        <p><strong><%= Esod::Matter.human_attribute_name(:termin_realizacji) %></strong></p>
+        <h5><%= @esod_matter.termin_realizacji %></h5>
+      </div>
+      <div class="form-group col-sm-4">
+        <p><strong><%= Esod::Matter.human_attribute_name(:identyfikator_kategorii_sprawy) %></strong></p>
+        <h5><%= @esod_matter.iks_name %></h5>
+      </div>
+    </div>  <!-- /row -->
+
+    <hr class="hr-without-top-margin">
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= Esod::Matter.human_attribute_name(:tytul) %></strong></p>
+        <h5><%= @esod_matter.tytul %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= Esod::Matter.human_attribute_name(:adnotacja) %></strong></p>
+        <h5><%= @esod_matter.adnotacja %></h5>
+      </div>
+    </div>
+
+
+  </div> <!-- /col-sm-12 -->
+</div> <!-- /row -->
+
+<hr class="hr-without-top-margin">
+
+
+<% if input_disabled %>
+  <!-- for "Show" -->
+  <div class="row">
+    <%= link_to t('Index', default: t("helpers.links.index")), esod_matters_path(), :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+
+    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+
+  </div> <!-- /row -->
+<% else %>
+  <!-- form "New"/"Edit" -->
+<% end %>

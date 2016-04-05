@@ -32,7 +32,7 @@
       <% end  %> 
 
       <% if @exam.examinations.where(examination_result: 'P', certificate: nil).any? && certificate_policy_check(:certificate, params[:category_service], 'new') %>
-        <button id="exam-examinations-generate-certificate-and-refresh" ajax-path="<%= generating_certificates_exam_path(params[:category_service], @exam) %>" class="btn btn-success glyphicon glyphicon-certificate pull-right"><%= t('Generating', default: t("link_to.generating_certificates")) %></button>
+        <button id="exam-examinations-certificate-generation-and-refresh" ajax-path="<%= certificates_generation_exam_path(params[:category_service], @exam) %>" class="btn btn-success glyphicon glyphicon-certificate pull-right"><%= t('Certificate Generation', default: t("link_to.certificates_generation")) %></button>
       <% end  %> 
 
     </div> <!--/row -->

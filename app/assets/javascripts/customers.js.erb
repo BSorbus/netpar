@@ -88,6 +88,7 @@ function displayNoHumanFields() {
 };
 
 
+
 $(document).ready(function(){
 
   $("#human_switch").on("click", function(){
@@ -97,7 +98,6 @@ $(document).ready(function(){
       displayNoHumanFields()
     }
   });    
-
 
   if ($("#human_switch").length > 0) {
     if ($('#human_switch').is(':checked')) {
@@ -109,6 +109,143 @@ $(document).ready(function(){
   };
 
 
-    
+  $("#address_in_poland_switch").on("click", function(){
+    if ($('#address_in_poland_switch').is(':checked')) {
+      $("#customer_address_slide_select").slideDown('normal');
+      document.getElementById("customer_address_city").readOnly = true;
+      document.getElementById("customer_address_street").readOnly = true;
+      document.getElementById("customer_address_post_office").readOnly = true;
+      var id=$("#customer_address_teryt_pna_code_select").val();
+      if (id!=="") {
+        $.get("/teryt_pna_codes/"+id+".json", function(data_from_json) {
+          if(data_from_json) {
+            document.getElementById("customer_address_city").value = data_from_json.sym_nazwa; 
+            document.getElementById("customer_address_street").value = data_from_json.uli_nazwa;
+            document.getElementById("customer_address_post_office").value = data_from_json.sympod_nazwa;
+            if(data_from_json.pna!=="") {
+              document.getElementById("customer_address_postal_code").value = data_from_json.pna;
+              document.getElementById("customer_address_postal_code").readOnly = true;
+            } else {
+              document.getElementById("customer_address_postal_code").readOnly = false;
+            }
+          }
+        })
+      } else {
+        document.getElementById("customer_address_city").value = ""; 
+        document.getElementById("customer_address_street").value = "";
+        document.getElementById("customer_address_post_office").value = "";
+        document.getElementById("customer_address_postal_code").value = "";
+        document.getElementById("customer_address_postal_code").readOnly = true;
+      } 
+    } else {
+      $("#customer_address_slide_select").slideUp('normal');
+        document.getElementById("customer_address_postal_code").readOnly = false;
+        document.getElementById("customer_address_city").readOnly = false;
+        document.getElementById("customer_address_street").readOnly = false;
+        document.getElementById("customer_address_post_office").readOnly = false;
+    }
+  });    
+
+  if ($("#address_in_poland_switch").length > 0) {
+    if ($('#address_in_poland_switch').is(':checked')) {
+      $("#customer_address_slide_select").slideDown('normal');
+      document.getElementById("customer_address_city").readOnly = true;
+      document.getElementById("customer_address_street").readOnly = true;
+      document.getElementById("customer_address_post_office").readOnly = true;
+      var id=$("#customer_address_teryt_pna_code_select").val();
+      if (id!=="") {
+        $.get("/teryt_pna_codes/"+id+".json", function(data_from_json) {
+          if(data_from_json) {
+            if(data_from_json.pna!=="") {
+              document.getElementById("customer_address_postal_code").readOnly = true;
+            } else {
+              document.getElementById("customer_address_postal_code").readOnly = false;
+            }
+          }
+        })
+      } else {
+        document.getElementById("customer_address_postal_code").readOnly = true;
+      } 
+    } else {
+      $("#customer_address_slid_select").slideUp('normal');
+      document.getElementById("customer_address_postal_code").readOnly = false;
+      document.getElementById("customer_address_city").readOnly = false;
+      document.getElementById("customer_address_street").readOnly = false;
+      document.getElementById("customer_address_post_office").readOnly = false;
+    }
+  };
+
+
+
+
+
+ $("#c_address_in_poland_switch").on("click", function(){
+    if ($('#c_address_in_poland_switch').is(':checked')) {
+      $("#customer_c_address_slide_select").slideDown('normal');
+      document.getElementById("customer_c_address_city").readOnly = true;
+      document.getElementById("customer_c_address_street").readOnly = true;
+      document.getElementById("customer_c_address_post_office").readOnly = true;
+      var id=$("#customer_c_address_teryt_pna_code_select").val();
+      if (id!=="") {
+        $.get("/teryt_pna_codes/"+id+".json", function(data_from_json) {
+          if(data_from_json) {
+            document.getElementById("customer_c_address_city").value = data_from_json.sym_nazwa; 
+            document.getElementById("customer_c_address_street").value = data_from_json.uli_nazwa;
+            document.getElementById("customer_c_address_post_office").value = data_from_json.sympod_nazwa;
+            if(data_from_json.pna!=="") {
+              document.getElementById("customer_c_address_postal_code").value = data_from_json.pna;
+              document.getElementById("customer_c_address_postal_code").readOnly = true;
+            } else {
+              document.getElementById("customer_c_address_postal_code").readOnly = false;
+            }
+          }
+        })
+      } else {
+            document.getElementById("customer_c_address_city").value = ""; 
+            document.getElementById("customer_c_address_street").value = "";
+            document.getElementById("customer_c_address_post_office").value = "";
+            document.getElementById("customer_c_address_postal_code").value = "";
+        document.getElementById("customer_c_address_postal_code").readOnly = true;
+      } 
+    } else {
+      $("#customer_c_address_slide_select").slideUp('normal');
+      document.getElementById("customer_c_address_postal_code").readOnly = false;
+      document.getElementById("customer_c_address_city").readOnly = false;
+      document.getElementById("customer_c_address_street").readOnly = false;
+      document.getElementById("customer_c_address_post_office").readOnly = false;
+    }
+  });    
+
+  if ($("#c_address_in_poland_switch").length > 0) {
+    if ($('#c_address_in_poland_switch').is(':checked')) {
+      $("#customer_c_address_slide_select").slideDown('normal');
+      document.getElementById("customer_c_address_city").readOnly = true;
+      document.getElementById("customer_c_address_street").readOnly = true;
+      document.getElementById("customer_c_address_post_office").readOnly = true;
+      var id=$("#customer_c_address_teryt_pna_code_select").val();
+      if (id!=="") {
+        $.get("/teryt_pna_codes/"+id+".json", function(data_from_json) {
+          if(data_from_json) {
+            if(data_from_json.pna!=="") {
+              document.getElementById("customer_c_address_postal_code").readOnly = true;
+            } else {
+              document.getElementById("customer_c_address_postal_code").readOnly = false;
+            }
+          }
+        })
+      } else {
+        document.getElementById("customer_c_address_postal_code").readOnly = true;
+      } 
+    } else {
+      $("#customer_c_address_slid_select").slideUp('normal');
+      document.getElementById("customer_c_address_postal_code").readOnly = false;
+      document.getElementById("customer_c_address_city").readOnly = false;
+      document.getElementById("customer_c_address_street").readOnly = false;
+      document.getElementById("customer_c_address_post_office").readOnly = false;
+    }
+  };
+
+  
+  
 });
 

@@ -119,6 +119,48 @@ class CreateRoleService
     end
   end
 
+  # examination_l
+  def examination_l_manager
+    role = Role.find_or_create_by!(name: "Menadżer Osób Egzaminowanych w Sesjach Egzaminacyjnych Świadectw Lotniczych") do |role|
+      role.activities += %w(examination_l:index examination_l:show examination_l:create examination_l:update examination_l:delete examination_l:print examination_l:work)
+      role.save!
+    end
+  end
+  def examination_l_observer
+    role = Role.find_or_create_by!(name: "Obserwator Osób Egzaminowanych w Sesjach Egzaminacyjnych Świadectw Lotniczych") do |role|
+      role.activities += %w(examination_l:index examination_l:show)
+      role.save!
+    end
+  end
+
+  # examination_m
+  def examination_m_manager
+    role = Role.find_or_create_by!(name: "Menadżer Osób Egzaminowanych w Sesjach Egzaminacyjnych Świadectw Morskich") do |role|
+      role.activities += %w(examination_m:index examination_m:show examination_m:create examination_m:update examination_m:delete examination_m:print examination_m:work)
+      role.save!
+    end
+  end
+  def examination_m_observer
+    role = Role.find_or_create_by!(name: "Obserwator Osób Egzaminowanych w Sesjach Egzaminacyjnych Świadectw Morskich") do |role|
+      role.activities += %w(examination_m:index examination_m:show)
+      role.save!
+    end
+  end
+
+  # examination_r
+  def examination_r_manager
+    role = Role.find_or_create_by!(name: "Menadżer Osób Egzaminowanych w Sesjach Egzaminacyjnych Świadectw Radioamtorskich") do |role|
+      role.activities += %w(examination_r:index examination_r:show examination_r:create examination_r:update examination_r:delete examination_r:print examination_r:work)
+      role.save!
+    end
+  end
+  def examination_r_observer
+    role = Role.find_or_create_by!(name: "Obserwator Osób Egzaminowanych w Sesjach Egzaminacyjnych Świadectw Radioamtorskich") do |role|
+      role.activities += %w(examination_r:index examination_r:show)
+      role.save!
+    end
+  end
+
   # certificate_m
   def certificate_m_manager
     role = Role.find_or_create_by!(name: "Menadżer Świadectw Morskich") do |role|

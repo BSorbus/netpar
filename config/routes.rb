@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-
   devise_for :users, controllers: {
     passwords: 'users/passwords',
     sessions: 'users/sessions',
@@ -34,12 +33,12 @@ Rails.application.routes.draw do
       get 'exam_report_to_pdf', on: :member
       get 'certificates_to_pdf', on: :member
       get 'envelopes_to_pdf', on: :member
-      patch 'generating_certificates', on: :member
+      patch 'certificates_generation', on: :member
     end
     resources :examinations do
       post 'datatables_index_exam', on: :collection # for Exam
       get 'examination_card_to_pdf', on: :member
-      patch 'generating_certificate', on: :member
+      patch 'certificate_generation', on: :member
     end
   end
 
@@ -85,11 +84,18 @@ Rails.application.routes.draw do
     get 'select2_index', on: :collection
   end
 
-  resources :esod_cases do
-    post 'datatables_index', on: :collection
+  resources :teryt_pna_codes, only: [:show] do
+    get 'select2_index', on: :collection
   end
 
   root to: 'visitors#index'
+
+  namespace :esod do
+    resources :matters do
+      post 'datatables_index', on: :collection
+      get 'select2_index', on: :collection
+    end
+  end
 
   mount SwaggerEngine::Engine, at: "/api-docs"
   #mount Refile.app, at: "files", as: :refile_app

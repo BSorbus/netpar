@@ -9,6 +9,8 @@ FactoryGirl.define do
     category "R"
     note "note"
     user nil
+    examinations_count 0
+    certificates_count 0
 
     trait :lot do
       category 'L'

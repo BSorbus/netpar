@@ -16,34 +16,44 @@
 <% end %>
 
 
-
 <div class="row">
-  <div class="col-sm-12">
-    <div class="row">
-
-      <div class="form-group col-sm-4">
-        <%= f.label :number, class: 'control-label' %>
-        <%= f.text_field :number, autofocus: true, class: 'form-control input-sm', placeholder: t("placeholder_text.exam_#{params[:category_service]}.form.number"), disabled: input_disabled %>
-      </div>
-
-      <div class="form-group col-sm-2">
-        <%= f.label :date_exam, class: 'control-label' %>
-        <%= f.text_field :date_exam, class: 'datepicker form-control input-sm', disabled: input_disabled %>
-      </div>
-
-      <div class="form-group col-sm-6">
-        <%= f.label :place_exam, class: 'control-label' %>
-        <%= f.text_field :place_exam, class: 'form-control input-sm', disabled: input_disabled %>
-      </div>
-
-    </div>  <!-- /row -->
-  </div>  <!-- /col-sm-12 -->
-</div>  <!-- /row -->
+  <div class="form-group col-sm-12">
+    <%= f.label :esod_matter_id, class: "control-label" %>
+    <%= f.hidden_field :esod_matter_id,
+                      class: "form-control input-sm esod_matter_for_exam_select_#{params[:category_service]}", 
+                      placeholder: "Wybierz Sprawę (Sesje egzaminacyjne #{params[:category_service].upcase})",
+                      #disabled: !@exam.new_record?,
+                      disabled: @exam.esod_matter_id.present? && !@exam.errors.present?,
+                      style: "width:100%" %>
+    <small class="help-block"><%=t 'help_block_text.select2_esod_matter' %></small>
+  </div>
+</div>
 
 <hr class="hr-without-top-margin">
 
 <div class="row">
-  <div class="col-sm-6">
+  <div class="col-sm-7">
+
+    <div class="row">
+      <div class="form-group col-sm-8">
+        <%= f.label :number, class: 'control-label' %>
+        <%= f.text_field :number, autofocus: true, class: 'form-control input-sm', placeholder: t("placeholder_text.exam_#{params[:category_service]}.form.number"), disabled: input_disabled %>
+      </div>
+
+      <div class="form-group col-sm-4">
+        <%= f.label :date_exam, class: 'control-label' %>
+        <%= f.text_field :date_exam, class: 'datepicker form-control input-sm', disabled: input_disabled %>
+      </div>
+    </div>  <!-- /row -->
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <%= f.label :place_exam, class: 'control-label' %>
+        <%= f.text_field :place_exam, class: 'form-control input-sm', disabled: input_disabled %>
+      </div>
+    </div>  <!-- /row -->
+
+    <hr class="hr-without-top-margin">
 
     <div class="row">
       <div class="form-group col-sm-6">
@@ -54,16 +64,16 @@
         <%= f.label :secretary, class: 'control-label' %>
         <%= f.text_field :secretary, class: 'form-control input-sm', disabled: input_disabled %>
       </div>
-    </div>
+    </div>  <!-- /row -->
 
 
     <div class="row">
       <div class="col-sm-6">
         <p><strong>Członkowie komisji:</strong></p>
       </div>
-    </div>
-    <%= f.fields_for :examiners do |e| %>
+    </div>  <!-- /row -->
 
+    <%= f.fields_for :examiners do |e| %>
       <div class="row">
         <div class="form-group col-sm-6">
           <%#= e.label :name, class: 'control-label' %>
@@ -75,9 +85,8 @@
           <% end%>
 
         </div>
-      </div>
-
-    <% end %>
+      </div>  <!-- /row -->
+    <% end %>  <!-- /f.fields_for -->
 
 
     <div class="row">
@@ -88,12 +97,15 @@
     </div>
 
 
-  </div> <!-- /col-sm-6 -->
+  </div> <!-- /col-sm-7 -->
 
-  <div class="col-sm-6">
-
-
-  </div> <!-- /col-sm-6 -->
+  <div class="col-sm-5">
+    <blockquote>
+      <p>Uwaga!</p>
+      <h5>Pozostawienie pustego pola "<strong><%= Exam.human_attribute_name('esod_matter') %></strong>" podczas dodawania nowej sesji egzaminacyjnej, automatycznie wygeneruje sprawę w systemie ESOD!<br>
+        Jeżeli nie chcesz tworzyć nowej sprawy w systemie ESOD musisz wybrać z listy istniejącą już pozycję.</h5>
+    </blockquote>
+  </div> <!-- /col-sm-5 -->
 </div> <!-- /row -->
 
 <hr class="hr-without-top-margin">

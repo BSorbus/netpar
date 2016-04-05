@@ -42,13 +42,10 @@
 
 <div class="row">
   <div class="col-sm-6">
-    <small class="help-block"><%=t 'help_block_text.customer.form.address' %></small>
     <div class="row">
-      <div class="form-group col-sm-4">
-        <p><strong><%= Customer.human_attribute_name(:address_postal_code) %></strong></p>
-        <h5><%= @customer.address_postal_code %></h5>
-      </div>
-
+      <small class="help-block pull-right"><%=t 'help_block_text.customer.form.address' %></small>
+    </div>
+    <div class="row">
       <div class="form-group col-sm-8">
         <p><strong><%= Customer.human_attribute_name(:address_city) %></strong></p>
         <h5><%= @customer.address_city %></h5>
@@ -71,11 +68,15 @@
     </div>
 
     <div class="row">
-      <div class="form-group col-sm-8">
+      <div class="form-group col-sm-3">
+        <p><strong><%= Customer.human_attribute_name(:address_postal_code) %></strong></p>
+        <h5><%= @customer.address_postal_code %></h5>
+      </div>
+      <div class="form-group col-sm-6">
         <p><strong><%= Customer.human_attribute_name(:address_post_office) %></strong></p>
         <h5><%= @customer.address_post_office %></h5>
       </div>
-      <div class="form-group col-sm-4">
+      <div class="form-group col-sm-3">
         <p><strong><%= Customer.human_attribute_name(:address_pobox) %></strong></p>
         <h5><%= @customer.address_pobox %></h5>
      </div>
@@ -122,13 +123,10 @@
 
 
   <div class="col-sm-6">
-    <small class="help-block"><%=t 'help_block_text.customer.form.c_address' %></small>
     <div class="row">
-      <div class="form-group col-sm-4">
-        <p><strong><%= Customer.human_attribute_name(:c_address_postal_code) %></strong></p>
-        <h5><%= @customer.c_address_postal_code %></h5>
-      </div>
-
+      <small class="help-block pull-right"><%=t 'help_block_text.customer.form.c_address' %></small>
+    </div>
+    <div class="row">
       <div class="form-group col-sm-8">
         <p><strong><%= Customer.human_attribute_name(:c_address_city) %></strong></p>
         <h5><%= @customer.c_address_city %></h5>
@@ -151,11 +149,15 @@
     </div>
 
     <div class="row">
-      <div class="form-group col-sm-8">
+      <div class="form-group col-sm-3">
+        <p><strong><%= Customer.human_attribute_name(:c_address_postal_code) %></strong></p>
+        <h5><%= @customer.c_address_postal_code %></h5>
+      </div>
+      <div class="form-group col-sm-6">
         <p><strong><%= Customer.human_attribute_name(:c_address_post_office) %></strong></p>
         <h5><%= @customer.c_address_post_office %></h5>
       </div>
-      <div class="form-group col-sm-4">
+      <div class="form-group col-sm-3">
         <p><strong><%= Customer.human_attribute_name(:c_address_pobox) %></strong></p>
         <h5><%= @customer.c_address_pobox %></h5>
       </div>

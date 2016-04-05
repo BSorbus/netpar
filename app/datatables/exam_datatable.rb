@@ -11,11 +11,14 @@ class ExamDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Example: 'exams.email'
     @sortable_columns ||= %w( 
+                              Esod::Matter.znak 
                               Exam.number
                               Exam.date_exam
                               Exam.place_exam
                               Exam.chairman
                               Exam.secretary
+                              Exam.examinations_count
+                              Exam.certificates_count
                             )
   end
 
@@ -23,11 +26,14 @@ class ExamDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Example: 'exams.email'
     @searchable_columns ||= %w(
+                              Esod::Matter.znak 
                               Exam.number
                               Exam.date_exam
                               Exam.place_exam
                               Exam.chairman
                               Exam.secretary
+                              Exam.examinations_count
+                              Exam.certificates_count
                             )
   end
 
@@ -42,11 +48,14 @@ class ExamDatatable < AjaxDatatablesRails::Base
       [
         record.id,
         attach.present? ? link_to( image_tag( get_fileattach_as_small_image(attach, record.category.downcase) ), @view.exam_path(params[:category_service], record)) : '',
+        record.esod_matter.present? ? record.esod_matter.znak : '',
         link_to(record.number, @view.exam_path(record.category.downcase, record)),
         record.date_exam,
         record.place_exam,
         record.chairman,
         record.secretary,
+        '<div style="text-align: center"><span class="badge alert-info">' + "#{record.examinations_count}" + '</span></div>',
+        '<div style="text-align: center"><span class="badge alert-success">' + "#{record.certificates_count}" + '</span></div>',
         record.category 
       ]
     end
@@ -56,13 +65,13 @@ class ExamDatatable < AjaxDatatablesRails::Base
     #case options[:category_scope]
     case params[:category_service]
     when 'l'
-      Exam.only_category_l.all
+      Exam.includes(:esod_matter).references(:esod_matter).only_category_l.all
     when 'm'
-      Exam.only_category_m.all
+      Exam.includes(:esod_matter).references(:esod_matter).only_category_m.all
     when 'r'
-      Exam.only_category_r.all
+      Exam.includes(:esod_matter).references(:esod_matter).only_category_r.all
     else
-      Exam.all
+      Exam.includes(:esod_matter).references(:esod_matter).all
     end  
   end
 

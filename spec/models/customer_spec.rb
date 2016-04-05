@@ -33,6 +33,10 @@ RSpec.describe Customer, type: :model do
   it { should respond_to(:email) }
   it { should respond_to(:note) }
   it { should respond_to(:user_id) }
+  it { should respond_to(:address_in_poland) }
+  it { should respond_to(:address_teryt_pna_code_id) }
+  it { should respond_to(:c_address_in_poland) }
+  it { should respond_to(:c_address_teryt_pna_code_id) }
 
 
   it { should validate_presence_of(:name) }
@@ -93,6 +97,9 @@ RSpec.describe Customer, type: :model do
 
   it { should belong_to :citizenship }
   it { should belong_to :user }
+
+  it { should belong_to :address_teryt_pna_code }
+  it { should belong_to :c_address_teryt_pna_code }
 
   it { should have_many(:documents) }
   it { should have_many(:works) }

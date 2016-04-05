@@ -33,9 +33,16 @@
 #    t.integer  "user_id"
 #    t.datetime "created_at"
 #    t.datetime "updated_at"
+#    t.boolean  "address_in_poland",                       default: true, null: false
+#    t.boolean  "c_address_in_poland",                     default: true, null: false
+#    t.integer  "address_teryt_pna_code_id"
+#    t.integer  "c_address_teryt_pna_code_id"
 #  end
 #  add_index "customers", ["address_city"], name: "index_customers_on_address_city", using: :btree
+#  add_index "customers", ["address_street"], name: "index_customers_on_address_street", using: :btree
+#  add_index "customers", ["address_teryt_pna_code_id"], name: "index_customers_on_address_teryt_pna_code_id", using: :btree
 #  add_index "customers", ["birth_date"], name: "index_customers_on_birth_date", using: :btree
+#  add_index "customers", ["c_address_teryt_pna_code_id"], name: "index_customers_on_c_address_teryt_pna_code_id", using: :btree
 #  add_index "customers", ["citizenship_id"], name: "index_customers_on_citizenship_id", using: :btree
 #  add_index "customers", ["given_names"], name: "index_customers_on_given_names", using: :btree
 #  add_index "customers", ["name"], name: "index_customers_on_name", using: :btree
@@ -50,6 +57,8 @@ class Customer < ActiveRecord::Base
 
   belongs_to :citizenship
   belongs_to :user
+  belongs_to :address_teryt_pna_code
+  belongs_to :c_address_teryt_pna_code
 
   has_many :documents, as: :documentable
   has_many :works, as: :trackable
@@ -81,6 +90,8 @@ class Customer < ActiveRecord::Base
   validates :birth_date, presence: true, if: :is_human?
   validate :check_pesel_and_birth_date, unless: "pesel.blank?"
   validate :unique_name_given_names_birth_date_birth_place_fathers_name, if: :is_human?
+  validate :check_address_on_teryt_pna, unless: :is_address_in_poland?
+  validate :check_c_address_on_teryt_pna, unless: :is_c_address_in_poland?, if: "c_address_postal_code.present? || c_address_city.present? || c_address_street.present? || c_address_post_office.present?"
 
   validates :citizenship, presence: true
   validates :user, presence: true
@@ -99,6 +110,28 @@ class Customer < ActiveRecord::Base
     if Customer.where(name: name, given_names: given_names, birth_date: birth_date, birth_place: birth_place, fathers_name: fathers_name).where.not(id: id).any? 
       errors.add(:base, "Błąd! Klient: \"#{name} #{given_names} ur.#{birth_place} #{birth_date}, ojciec: #{fathers_name}\" jest już zarejestrowany!")
     end
+  end
+
+  def check_address_on_teryt_pna
+    teryt_pna_code = TerytPnaCode.find_by(pna: address_postal_code)
+    teryt_pna_code = TerytPnaCode.find_by(sym_nazwa: address_city, uli_nazwa: address_street) unless teryt_pna_code.present?
+    teryt_pna_code = TerytPnaCode.find_by(sympod_nazwa: address_city, uli_nazwa: address_street) unless teryt_pna_code.present?
+    teryt_pna_code = TerytPnaCode.find_by(sym_nazwa: address_post_office, uli_nazwa: address_street) unless teryt_pna_code.present?
+    teryt_pna_code = TerytPnaCode.find_by(sympod_nazwa: address_post_office, uli_nazwa: address_street) unless teryt_pna_code.present?
+    errors.add(:base, "Błąd! Nie można wyłączać weyfikacji TERYT+PNA dla adresów występujących w rejestrze") if teryt_pna_code.present?
+    errors.add(:address_in_poland, " -  zaznacz weryfikowanie") if teryt_pna_code.present?
+    analize_value = false
+  end
+
+  def check_c_address_on_teryt_pna
+    teryt_pna_code = TerytPnaCode.find_by(pna: c_address_postal_code)
+    teryt_pna_code = TerytPnaCode.find_by(sym_nazwa: c_address_city, uli_nazwa: c_address_street) unless teryt_pna_code.present?
+    teryt_pna_code = TerytPnaCode.find_by(sympod_nazwa: c_address_city, uli_nazwa: c_address_street) unless teryt_pna_code.present?
+    teryt_pna_code = TerytPnaCode.find_by(sym_nazwa: c_address_post_office, uli_nazwa: c_address_street) unless teryt_pna_code.present?
+    teryt_pna_code = TerytPnaCode.find_by(sympod_nazwa: c_address_post_office, uli_nazwa: c_address_street) unless teryt_pna_code.present?
+    errors.add(:base, "Błąd! Nie można wyłączać weyfikacji TERYT+PNA dla adresów występujących w rejestrze") if teryt_pna_code.present?
+    errors.add(:c_address_in_poland, " -  zaznacz weryfikowanie") if teryt_pna_code.present?
+    analize_value = false
   end
 
   def customer_has_links
@@ -120,6 +153,14 @@ class Customer < ActiveRecord::Base
 
   def is_human?
     human == true
+  end
+
+  def is_address_in_poland?
+    address_in_poland == true
+  end
+
+  def is_c_address_in_poland?
+    c_address_in_poland == true
   end
 
   def fullname
@@ -144,17 +185,15 @@ class Customer < ActiveRecord::Base
       res += c_address_street.present? ? "ul. #{c_address_street}" : "#{c_address_city}" 
       res += " #{c_address_house}" if c_address_house.present?
       res += "/#{c_address_number}" if c_address_number.present?
-      res += "\n #{c_address_postal_code} #{c_address_city}"
+      res += "\n #{c_address_postal_code} #{c_address_post_office}"
       res += "\n skrytka: #{c_address_pobox}" if c_address_pobox.present?
-      res += "\n poczta: #{c_address_post_office}" if c_address_post_office.present? && c_address_city != c_address_post_office
     else
       res =  "#{given_names} #{name} \n"
       res += address_street.present? ? "ul. #{address_street}" : "#{address_city}" 
       res += " #{address_house}" if address_house.present?
       res += "/#{address_number}" if address_number.present?
-      res += "\n #{address_postal_code} #{address_city}"
+      res += "\n #{address_postal_code} #{address_post_office}"
       res += "\n skrytka: #{address_pobox}" if address_pobox.present?
-      res += "\n poczta: #{address_post_office}" if address_post_office.present? && address_city != address_post_office
     end
     res
   end

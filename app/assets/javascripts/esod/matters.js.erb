@@ -1,0 +1,60 @@
+$(document).ready(function() {
+  var oEsodMattertable = $('#esod_matters').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    scrollX: true,
+    ajax: { 
+      url: $('#esod_matters').data('source'),
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
+    columns: [
+      { "targets": [0],
+        "title": "ID",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [1],
+        "title": "<%= Esod::Matter.human_attribute_name('nrid') %>" }, 
+      { "targets": [2],
+        "title": "<%= Esod::Matter.human_attribute_name('znak') %>" }, 
+      { "targets": [3],
+        "title": "<%= Esod::Matter.human_attribute_name('symbol_jrwa') %>" }, 
+      { "targets": [4],
+        "title": "<%= Esod::Matter.human_attribute_name('tytul') %>" }, 
+      { "targets": [5],
+        "title": "<%= Esod::Matter.human_attribute_name('termin_realizacji') %>" }, 
+      { "targets": [6],
+        "title": "<%= Esod::Matter.human_attribute_name('identyfikator_kategorii_sprawy') %>" }, 
+      { "targets": [7],
+        "title": "<%= Esod::Matter.human_attribute_name('adnotacja') %>" }, 
+      { "targets": [8],
+        "title": "<%= Esod::Matter.human_attribute_name('identyfikator_stanowiska_referenta') %>" }, 
+      { "targets": [9],
+        "title": "<%= Esod::Matter.human_attribute_name('czy_otwarta') %>" }, 
+      { "targets": [10],
+        "title": "<%= Esod::Matter.human_attribute_name('data_utworzenia') %>" },
+      { "targets": [11],
+        "title": "<%= Esod::Matter.human_attribute_name('data_modyfikacji') %>" },
+      { "targets": [12],
+        "title": "<%= Esod::Matter.human_attribute_name('initialized_from_esod') %>" }
+    ],
+    order: [[ 1, "asc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+ 
+
+});

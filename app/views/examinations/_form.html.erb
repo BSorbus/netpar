@@ -27,7 +27,7 @@
         <%= f.label :examination_category, class: 'control-label' %>
         <%= f.select :examination_category, 
               options_for_select([['Zwykły', 'Z'],
-                                  ['Powtórny', 'P']], 
+                                  ['Poprawkowy', 'P']], 
                   selected: @examination.examination_category), 
               { include_blank: false}, 
               { autofocus: @examination.new_record?, class: 'form-control input-sm', disabled: !@examination.new_record? } %>

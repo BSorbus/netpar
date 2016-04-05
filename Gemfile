@@ -77,3 +77,4 @@ gem 'swagger_engine'
 #gem 'unicorn'
 #gem "unicorn-rails"
 gem 'savon'
+gem 'whenever', :require => false

@@ -28,6 +28,10 @@ FactoryGirl.define do
     email "t.c@uke.gov.pl"
     note "MyText"
     user nil
+    address_teryt_pna_code nil
+    c_address_teryt_pna_code nil
+    address_in_poland true
+    c_address_in_poland true
   end
 
 end

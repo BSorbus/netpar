@@ -152,13 +152,13 @@ $(document).ready(function() {
 
 
 
-  $('#customer_pna_code_select').select2({
+  $('#customer_address_teryt_pna_code_select').select2({
     minimumInputLength: 3,
     allowClear: false,
     ajax: {
-      url: "/pna_codes/select2_index.json",
+      url: "/teryt_pna_codes/select2_index.json",
       dataType: 'json',
-      quietMillis: 250,
+      quietMillis: 500,
       type: 'GET',
       data: function(term, page) {
         return {
@@ -170,64 +170,69 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var pna_codes = $.map( data.pna_codes, function(pna_code, i) {
-          return { id: pna_code.id, text: pna_code.fullname };
+        var teryt_pna_codes = $.map( data.teryt_pna_codes, function(teryt_pna_code, i) {
+          return { data_obj: teryt_pna_code, id: teryt_pna_code.id, text: teryt_pna_code.fullname };
         });
-        return { results: pna_codes, more: more };
-      }
+        return { results: teryt_pna_codes, more: more };
+      },
+      // param "cache: true" added 19.03.2016 ale nie wiem, czy cokolwiek to daje
+      cache: true
     },
     initSelection: function(element, callback) {
       var id=$(element).val();
       if (id!=="") {
-        $.get("/pna_codes/"+id+".json", function(data_from_json) {
+        $.get("/teryt_pna_codes/"+id+".json", function(data_from_json) {
           if(data_from_json)
-            callback({ id: data_from_json.id, text: data_from_json.fullname });
+            callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname });
         });
       }
+    },
+    formatResult: function(item) {
+      if (item.data_obj.uli_nazwa!=="") {
+        return  item.data_obj.mie_nazwa + '<br>' +
+                item.data_obj.uli_nazwa + '&nbsp&nbsp<small>' + item.data_obj.cecha + '</small><br>' +
+                '<small>'  + item.data_obj.woj_pow_gmi_mie_info + '&nbsp<span class="text-muted pull-right">' + item.data_obj.teryt + '</span></small><br>' +
+                item.data_obj.pna + '&nbsp&nbsp<small>' + item.data_obj.numery_info + '</small>';
+      } else {
+        return  item.data_obj.mie_nazwa + '<br>' +
+                '<small>'  + item.data_obj.woj_pow_gmi_mie_info + '&nbsp<span class="text-muted pull-right">' + item.data_obj.teryt + '</span></small><br>' +
+                item.data_obj.pna + '&nbsp&nbsp<small>' + item.data_obj.numery_info + '</small>';
+       }
     },
     dropdownCssClass: "bigdrop"
   })
   .on("select2-selecting", function(e) {
-      var id=e.val;
-      if (id!=="") {
-        $.get("/pna_codes/"+id+".json", function(data_from_json) {
-          if(data_from_json) {
-            //alert( data_from_json.id );
+    var id=e.val;
+    if (id!=="") {
+      $.get("/teryt_pna_codes/"+id+".json", function(data_from_json) {
+        if(data_from_json) {
+          if(data_from_json.pna!=="") {
             document.getElementById("customer_address_postal_code").value = data_from_json.pna;
-            document.getElementById("customer_address_postal_code").disabled = true;
-            document.getElementById("customer_address_city").value = data_from_json.miejscowosc;
-            document.getElementById("customer_address_city").disabled = true;
-            if(data_from_json.ulica!=="") {
-              document.getElementById("customer_address_street").value = data_from_json.ulica;
-              document.getElementById("customer_address_street").disabled = true;
-              document.getElementById("customer_address_house").focus();
-            } else {
-              document.getElementById("customer_address_street").value = "";
-              document.getElementById("customer_address_street").disabled = false;
-              document.getElementById("customer_address_street").focus();
-            }
-          }
-        });
-      }
-    //alert("selecting val=" + e.val + " choice=" + e.object.text);
-  })
-  //.on("select2-loaded", function(e) {
-  //  alert('select2-loaded!');
-  //})
-  ;
-
-  //$('.pna_code_select').on("select2-selecting", function(e) { 
-  //  alert('Wybrałem!')
-  //});
+            document.getElementById("customer_address_postal_code").readOnly = true;
+          } else {
+            document.getElementById("customer_address_postal_code").value = "";
+            document.getElementById("customer_address_postal_code").readOnly = false;
+          };
+          document.getElementById("customer_address_city").value = data_from_json.sym_nazwa;
+          document.getElementById("customer_address_city").readOnly = true;
+          document.getElementById("customer_address_street").value = data_from_json.uli_nazwa;
+          document.getElementById("customer_address_street").readOnly = true;
+          document.getElementById("customer_address_post_office").value = data_from_json.sympod_nazwa;
+          document.getElementById("customer_address_post_office").readOnly = true;
+          document.getElementById("customer_address_house").focus();
+        }
+      });
+    }
+  });
 
 
-  $('#customer_c_pna_code_select').select2({
+  $('#customer_c_address_teryt_pna_code_select').select2({
     minimumInputLength: 3,
     allowClear: false,
     ajax: {
-      url: "/pna_codes/select2_index.json",
+      url: "/teryt_pna_codes/select2_index.json",
       dataType: 'json',
-      quietMillis: 250,
+      quietMillis: 500,
       type: 'GET',
       data: function(term, page) {
         return {
@@ -239,46 +244,240 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var pna_codes = $.map( data.pna_codes, function(pna_code, i) {
-          return { id: pna_code.id, text: pna_code.fullname };
+        var teryt_pna_codes = $.map( data.teryt_pna_codes, function(teryt_pna_code, i) {
+          return { data_obj: teryt_pna_code, id: teryt_pna_code.id, text: teryt_pna_code.fullname };
         });
-        return { results: pna_codes, more: more };
+        return { results: teryt_pna_codes, more: more };
       }
     },
     initSelection: function(element, callback) {
       var id=$(element).val();
       if (id!=="") {
-        $.get("/pna_codes/"+id+".json", function(data_from_json) {
+        $.get("/teryt_pna_codes/"+id+".json", function(data_from_json) {
           if(data_from_json)
-            callback({ id: data_from_json.id, text: data_from_json.fullname });
+            callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname });
         });
       }
+    },
+    formatResult: function(item) {
+      if (item.data_obj.uli_nazwa!=="") {
+        return  item.data_obj.mie_nazwa + '<br>' +
+                item.data_obj.uli_nazwa + '&nbsp&nbsp<small>' + item.data_obj.cecha + '</small><br>' +
+                '<small>'  + item.data_obj.woj_pow_gmi_mie_info + '&nbsp<span class="text-muted pull-right">' + item.data_obj.teryt + '</span></small><br>' +
+                item.data_obj.pna + '&nbsp&nbsp<small>' + item.data_obj.numery_info + '</small>';
+      } else {
+        return  item.data_obj.mie_nazwa + '<br>' +
+                '<small>'  + item.data_obj.woj_pow_gmi_mie_info + '&nbsp<span class="text-muted pull-right">' + item.data_obj.teryt + '</span></small><br>' +
+                item.data_obj.pna + '&nbsp&nbsp<small>' + item.data_obj.numery_info + '</small>';
+       }
     },
     dropdownCssClass: "bigdrop"
   })
   .on("select2-selecting", function(e) {
-      var id=e.val;
-      if (id!=="") {
-        $.get("/pna_codes/"+id+".json", function(data_from_json) {
-          if(data_from_json) {
-            //alert( data_from_json.id );
+    var id=e.val;
+    if (id!=="") {
+      $.get("/teryt_pna_codes/"+id+".json", function(data_from_json) {
+        if(data_from_json) {
+          if(data_from_json.pna!=="") {
             document.getElementById("customer_c_address_postal_code").value = data_from_json.pna;
-            document.getElementById("customer_c_address_postal_code").disabled = true;
-            document.getElementById("customer_c_address_city").value = data_from_json.miejscowosc;
-            document.getElementById("customer_c_address_city").disabled = true;
-            if(data_from_json.ulica!=="") {
-              document.getElementById("customer_c_address_street").value = data_from_json.ulica;
-              document.getElementById("customer_c_address_street").disabled = true;
-              document.getElementById("customer_c_address_house").focus();
-            } else {
-              document.getElementById("customer_c_address_street").value = "";
-              document.getElementById("customer_c_address_street").disabled = false;
-              document.getElementById("customer_c_address_street").focus();
-            }
-          }
+            document.getElementById("customer_c_address_postal_code").readOnly = true;
+          } else {
+            document.getElementById("customer_c_address_postal_code").value = "";
+            document.getElementById("customer_c_address_postal_code").readOnly = false;
+          };
+          document.getElementById("customer_c_address_city").value = data_from_json.sym_nazwa;
+          document.getElementById("customer_c_address_city").readOnly = true;
+          document.getElementById("customer_c_address_street").value = data_from_json.uli_nazwa;
+          document.getElementById("customer_c_address_street").readOnly = true;
+          document.getElementById("customer_c_address_post_office").value = data_from_json.sympod_nazwa;
+          document.getElementById("customer_c_address_post_office").readOnly = true;
+          document.getElementById("customer_c_address_house").focus();
+        }
+      });
+    }
+  });
+
+
+
+  $('.esod_matter_for_exam_select_l').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/esod/matters/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          iks: "<%= Rails.application.secrets[:esod_exam_l_identyfikator_kategorii_sprawy] %>",
+          jrwa: "<%= Rails.application.secrets[:esod_exam_l_jrwa] %>",
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var matters = $.map( data.matters, function(matter, i) {
+          return { data_obj: matter, id: matter.id, text: matter.fullname };
+        });
+        return { results: matters, more: more };
+      }
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/esod/matters/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname });
         });
       }
+    },
+    formatResult: function(item) {
+      return  item.data_obj.znak + '<br>' +
+              item.data_obj.tytul + '<br>' +
+              '<small>termin:&nbsp' + item.data_obj.termin_realizacji + '&nbsp&nbsp[kategoria:&nbsp' + item.data_obj.iks_name + ']</small><br>' +
+              '<small>adnotacja:&nbsp' + item.data_obj.adnotacja + '</small>';
+    },
+    dropdownCssClass: "bigdrop"
+  })
+  .on("select2-selecting", function(e) {
+    var id=e.val;
+    if (id!=="") {
+      $.get("/esod/matters/"+id+".json", function(data_from_json) {
+        if(data_from_json) {
+          document.getElementById("exam_number").value = data_from_json.exam_number;
+          document.getElementById("exam_date_exam").value = data_from_json.termin_realizacji;
+          document.getElementById("exam_place_exam").value = data_from_json.exam_place;
+          //document.getElementById("customer_c_address_post_office").readOnly = true;
+          document.getElementById("exam_number").focus();
+        }
+      });
+    }
   });
+
+
+
+  $('.esod_matter_for_exam_select_m').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/esod/matters/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          iks: "<%= Rails.application.secrets[:esod_exam_m_identyfikator_kategorii_sprawy] %>",
+          jrwa: "<%= Rails.application.secrets[:esod_exam_m_jrwa] %>",
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var matters = $.map( data.matters, function(matter, i) {
+          return { data_obj: matter, id: matter.id, text: matter.fullname };
+        });
+        return { results: matters, more: more };
+      }
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/esod/matters/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    formatResult: function(item) {
+      return  item.data_obj.znak + '<br>' +
+              item.data_obj.tytul + '<br>' +
+              '<small>termin:&nbsp' + item.data_obj.termin_realizacji + '&nbsp&nbsp[kategoria:&nbsp' + item.data_obj.iks_name + ']</small><br>' +
+              '<small>adnotacja:&nbsp' + item.data_obj.adnotacja + '</small>';
+    },
+    dropdownCssClass: "bigdrop"
+  })
+  .on("select2-selecting", function(e) {
+    var id=e.val;
+    if (id!=="") {
+      $.get("/esod/matters/"+id+".json", function(data_from_json) {
+        if(data_from_json) {
+          document.getElementById("exam_number").value = data_from_json.exam_number;
+          document.getElementById("exam_date_exam").value = data_from_json.termin_realizacji;
+          document.getElementById("exam_place_exam").value = data_from_json.exam_place;
+          //document.getElementById("customer_c_address_post_office").readOnly = true;
+          document.getElementById("exam_number").focus();
+        }
+      });
+    }
+  });
+
+
+
+  $('.esod_matter_for_exam_select_r').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/esod/matters/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          iks: "<%= Rails.application.secrets[:esod_exam_r_identyfikator_kategorii_sprawy] %>",
+          jrwa: "<%= Rails.application.secrets[:esod_exam_r_jrwa] %>",
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var matters = $.map( data.matters, function(matter, i) {
+          return { data_obj: matter, id: matter.id, text: matter.fullname };
+        });
+        return { results: matters, more: more };
+      }
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/esod/matters/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    formatResult: function(item) {
+      return  item.data_obj.znak + '<br>' +
+              item.data_obj.tytul + '<br>' +
+              '<small>termin:&nbsp' + item.data_obj.termin_realizacji + '&nbsp&nbsp[kategoria:&nbsp' + item.data_obj.iks_name + ']</small><br>' +
+              '<small>adnotacja:&nbsp' + item.data_obj.adnotacja + '</small>';
+    },
+    dropdownCssClass: "bigdrop"
+  })
+  .on("select2-selecting", function(e) {
+    var id=e.val;
+    if (id!=="") {
+      $.get("/esod/matters/"+id+".json", function(data_from_json) {
+        if(data_from_json) {
+          document.getElementById("exam_number").value = data_from_json.exam_number;
+          document.getElementById("exam_date_exam").value = data_from_json.termin_realizacji;
+          document.getElementById("exam_place_exam").value = data_from_json.exam_place;
+          //document.getElementById("customer_c_address_post_office").readOnly = true;
+          document.getElementById("exam_number").focus();
+        }
+      });
+    }
+  });
+
+
 
 
 });

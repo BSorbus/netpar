@@ -12,6 +12,8 @@ RSpec.describe Exam, type: :model do
   it { should respond_to(:category) }
   it { should respond_to(:note) }
   it { should respond_to(:user_id) }
+  it { should respond_to(:examinations_count) }
+  it { should respond_to(:certificates_count) }
 
 
   it { should validate_presence_of(:number) }

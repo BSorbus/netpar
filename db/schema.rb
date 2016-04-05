@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309000001) do
+ActiveRecord::Schema.define(version: 20160330164642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,44 +50,50 @@ ActiveRecord::Schema.define(version: 20160309000001) do
   add_index "citizenships", ["name"], name: "index_citizenships_on_name", unique: true, using: :btree
 
   create_table "customers", force: :cascade do |t|
-    t.boolean  "human",                             default: true, null: false
-    t.string   "name",                  limit: 160, default: "",   null: false
-    t.string   "given_names",           limit: 50,  default: ""
-    t.string   "address_city",          limit: 50,  default: ""
-    t.string   "address_street",        limit: 50,  default: ""
-    t.string   "address_house",         limit: 10,  default: ""
-    t.string   "address_number",        limit: 10,  default: ""
-    t.string   "address_postal_code",   limit: 10,  default: ""
-    t.string   "address_post_office",   limit: 50,  default: ""
-    t.string   "address_pobox",         limit: 10,  default: ""
-    t.string   "c_address_city",        limit: 50,  default: ""
-    t.string   "c_address_street",      limit: 50,  default: ""
-    t.string   "c_address_house",       limit: 10,  default: ""
-    t.string   "c_address_number",      limit: 10,  default: ""
-    t.string   "c_address_postal_code", limit: 10,  default: ""
-    t.string   "c_address_post_office", limit: 50,  default: ""
-    t.string   "c_address_pobox",       limit: 10,  default: ""
-    t.string   "nip",                   limit: 13,  default: ""
-    t.string   "regon",                 limit: 9,   default: ""
-    t.string   "pesel",                 limit: 11,  default: ""
+    t.boolean  "human",                                   default: true, null: false
+    t.string   "name",                        limit: 160, default: "",   null: false
+    t.string   "given_names",                 limit: 50,  default: ""
+    t.string   "address_city",                limit: 50,  default: ""
+    t.string   "address_street",              limit: 50,  default: ""
+    t.string   "address_house",               limit: 10,  default: ""
+    t.string   "address_number",              limit: 10,  default: ""
+    t.string   "address_postal_code",         limit: 10,  default: ""
+    t.string   "address_post_office",         limit: 50,  default: ""
+    t.string   "address_pobox",               limit: 10,  default: ""
+    t.string   "c_address_city",              limit: 50,  default: ""
+    t.string   "c_address_street",            limit: 50,  default: ""
+    t.string   "c_address_house",             limit: 10,  default: ""
+    t.string   "c_address_number",            limit: 10,  default: ""
+    t.string   "c_address_postal_code",       limit: 10,  default: ""
+    t.string   "c_address_post_office",       limit: 50,  default: ""
+    t.string   "c_address_pobox",             limit: 10,  default: ""
+    t.string   "nip",                         limit: 13,  default: ""
+    t.string   "regon",                       limit: 9,   default: ""
+    t.string   "pesel",                       limit: 11,  default: ""
     t.date     "birth_date"
-    t.string   "birth_place",           limit: 50,  default: ""
-    t.string   "fathers_name",          limit: 50,  default: ""
-    t.string   "mothers_name",          limit: 50,  default: ""
-    t.string   "family_name",           limit: 50,  default: ""
-    t.integer  "citizenship_id",                    default: 2
-    t.string   "phone",                 limit: 50,  default: ""
-    t.string   "fax",                   limit: 50,  default: ""
-    t.string   "email",                 limit: 50,  default: ""
-    t.text     "note",                              default: ""
+    t.string   "birth_place",                 limit: 50,  default: ""
+    t.string   "fathers_name",                limit: 50,  default: ""
+    t.string   "mothers_name",                limit: 50,  default: ""
+    t.string   "family_name",                 limit: 50,  default: ""
+    t.integer  "citizenship_id",                          default: 2
+    t.string   "phone",                       limit: 50,  default: ""
+    t.string   "fax",                         limit: 50,  default: ""
+    t.string   "email",                       limit: 50,  default: ""
+    t.text     "note",                                    default: ""
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "address_in_poland",                       default: true, null: false
+    t.boolean  "c_address_in_poland",                     default: true, null: false
+    t.integer  "address_teryt_pna_code_id"
+    t.integer  "c_address_teryt_pna_code_id"
   end
 
   add_index "customers", ["address_city"], name: "index_customers_on_address_city", using: :btree
   add_index "customers", ["address_street"], name: "index_customers_on_address_street", using: :btree
+  add_index "customers", ["address_teryt_pna_code_id"], name: "index_customers_on_address_teryt_pna_code_id", using: :btree
   add_index "customers", ["birth_date"], name: "index_customers_on_birth_date", using: :btree
+  add_index "customers", ["c_address_teryt_pna_code_id"], name: "index_customers_on_c_address_teryt_pna_code_id", using: :btree
   add_index "customers", ["citizenship_id"], name: "index_customers_on_citizenship_id", using: :btree
   add_index "customers", ["given_names"], name: "index_customers_on_given_names", using: :btree
   add_index "customers", ["name"], name: "index_customers_on_name", using: :btree
@@ -141,7 +147,7 @@ ActiveRecord::Schema.define(version: 20160309000001) do
 
   add_index "documents", ["documentable_type", "documentable_id"], name: "index_documents_on_documentable_type_and_documentable_id", using: :btree
 
-  create_table "esod_cases", force: :cascade do |t|
+  create_table "esod_matters", force: :cascade do |t|
     t.integer  "nrid"
     t.string   "znak"
     t.string   "znak_sprawy_grupujacej"
@@ -151,14 +157,13 @@ ActiveRecord::Schema.define(version: 20160309000001) do
     t.integer  "identyfikator_kategorii_sprawy"
     t.string   "adnotacja"
     t.integer  "identyfikator_stanowiska_referenta"
-    t.datetime "esod_created_at"
-    t.datetime "esod_updated_et"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.boolean  "czy_otwarta"
+    t.datetime "data_utworzenia"
+    t.datetime "data_modyfikacji"
+    t.boolean  "initialized_from_esod",              default: true
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
   end
-
-  add_index "esod_cases", ["nrid"], name: "index_esod_cases_on_nrid", unique: true, using: :btree
-  add_index "esod_cases", ["znak"], name: "index_esod_cases_on_znak", unique: true, using: :btree
 
   create_table "examinations", force: :cascade do |t|
     t.string   "examination_category", limit: 1, default: "Z",   null: false
@@ -191,20 +196,24 @@ ActiveRecord::Schema.define(version: 20160309000001) do
   add_index "examiners", ["exam_id"], name: "index_examiners_on_exam_id", using: :btree
 
   create_table "exams", force: :cascade do |t|
-    t.string   "number",     limit: 30, default: "",  null: false
+    t.string   "number",             limit: 30, default: "",  null: false
     t.date     "date_exam"
-    t.string   "place_exam", limit: 50, default: ""
-    t.string   "chairman",   limit: 50, default: ""
-    t.string   "secretary",  limit: 50, default: ""
-    t.string   "category",   limit: 1,  default: "R", null: false
-    t.text     "note",                  default: ""
+    t.string   "place_exam",         limit: 50, default: ""
+    t.string   "chairman",           limit: 50, default: ""
+    t.string   "secretary",          limit: 50, default: ""
+    t.string   "category",           limit: 1,  default: "R", null: false
+    t.text     "note",                          default: ""
     t.integer  "user_id"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.integer  "examinations_count",            default: 0
+    t.integer  "certificates_count",            default: 0
+    t.integer  "esod_matter_id"
   end
 
   add_index "exams", ["category"], name: "index_exams_on_category", using: :btree
   add_index "exams", ["date_exam"], name: "index_exams_on_date_exam", using: :btree
+  add_index "exams", ["esod_matter_id"], name: "index_exams_on_esod_matter_id", using: :btree
   add_index "exams", ["number", "category"], name: "index_exams_on_number_and_category", unique: true, using: :btree
   add_index "exams", ["user_id"], name: "index_exams_on_user_id", using: :btree
 
@@ -285,6 +294,110 @@ ActiveRecord::Schema.define(version: 20160309000001) do
 
   add_index "subjects", ["division_id"], name: "index_subjects_on_division_id", using: :btree
 
+  create_table "teryt_pna_codes", force: :cascade do |t|
+    t.string   "woj",            limit: 2
+    t.string   "woj_nazwa",      limit: 36
+    t.string   "pow",            limit: 2
+    t.string   "pow_nazwa",      limit: 36
+    t.string   "gmi",            limit: 2
+    t.string   "gmi_nazwa",      limit: 36
+    t.string   "nazdod",         limit: 50
+    t.string   "rodz_gmi",       limit: 1
+    t.string   "rodz_gmi_nazwa"
+    t.string   "rm",             limit: 2
+    t.string   "rm_nazwa",       limit: 56
+    t.string   "sym",            limit: 7
+    t.string   "sym_nazwa",      limit: 56
+    t.string   "sympod",         limit: 7
+    t.string   "sympod_nazwa"
+    t.string   "sym_ul",         limit: 5
+    t.string   "mie_nazwa",      limit: 115
+    t.string   "uli_nazwa"
+    t.string   "cecha",          limit: 5
+    t.string   "nazwa_1",        limit: 100
+    t.string   "nazwa_2",        limit: 100
+    t.date     "stan_na"
+    t.string   "teryt",                      null: false
+    t.string   "pna",            limit: 6
+    t.string   "numery"
+    t.string   "pna_teryt"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "teryt_pna_codes", ["gmi"], name: "index_teryt_pna_codes_on_gmi", using: :btree
+  add_index "teryt_pna_codes", ["gmi_nazwa"], name: "index_teryt_pna_codes_on_gmi_nazwa", using: :btree
+  add_index "teryt_pna_codes", ["mie_nazwa", "uli_nazwa", "pna"], name: "index_teryt_pna_codes_on_mie_nazwa_and_uli_nazwa_and_pna", using: :btree
+  add_index "teryt_pna_codes", ["mie_nazwa"], name: "index_teryt_pna_codes_on_mie_nazwa", using: :btree
+  add_index "teryt_pna_codes", ["pna"], name: "index_teryt_pna_codes_on_pna", using: :btree
+  add_index "teryt_pna_codes", ["pna_teryt"], name: "index_teryt_pna_codes_on_pna_teryt", using: :btree
+  add_index "teryt_pna_codes", ["pow"], name: "index_teryt_pna_codes_on_pow", using: :btree
+  add_index "teryt_pna_codes", ["pow_nazwa"], name: "index_teryt_pna_codes_on_pow_nazwa", using: :btree
+  add_index "teryt_pna_codes", ["sym"], name: "index_teryt_pna_codes_on_sym", using: :btree
+  add_index "teryt_pna_codes", ["sym_nazwa"], name: "index_teryt_pna_codes_on_sym_nazwa", using: :btree
+  add_index "teryt_pna_codes", ["sympod"], name: "index_teryt_pna_codes_on_sympod", using: :btree
+  add_index "teryt_pna_codes", ["sympod_nazwa"], name: "index_teryt_pna_codes_on_sympod_nazwa", using: :btree
+  add_index "teryt_pna_codes", ["uli_nazwa"], name: "index_teryt_pna_codes_on_uli_nazwa", using: :btree
+  add_index "teryt_pna_codes", ["woj"], name: "index_teryt_pna_codes_on_woj", using: :btree
+  add_index "teryt_pna_codes", ["woj_nazwa"], name: "index_teryt_pna_codes_on_woj_nazwa", using: :btree
+
+  create_table "teryt_simc_codes", force: :cascade do |t|
+    t.string   "woj",        limit: 2
+    t.string   "pow",        limit: 2
+    t.string   "gmi",        limit: 2
+    t.string   "rodz_gmi",   limit: 1
+    t.string   "rm",         limit: 2
+    t.string   "mz",         limit: 1
+    t.string   "nazwa",      limit: 56
+    t.string   "sym",        limit: 7
+    t.string   "sympod",     limit: 7
+    t.date     "stan_na"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "teryt_simc_codes", ["gmi"], name: "index_teryt_simc_codes_on_gmi", using: :btree
+  add_index "teryt_simc_codes", ["pow"], name: "index_teryt_simc_codes_on_pow", using: :btree
+  add_index "teryt_simc_codes", ["sym"], name: "index_teryt_simc_codes_on_sym", using: :btree
+  add_index "teryt_simc_codes", ["sympod"], name: "index_teryt_simc_codes_on_sympod", using: :btree
+  add_index "teryt_simc_codes", ["woj"], name: "index_teryt_simc_codes_on_woj", using: :btree
+
+  create_table "teryt_terc_codes", force: :cascade do |t|
+    t.string   "woj",        limit: 2
+    t.string   "pow",        limit: 2
+    t.string   "gmi",        limit: 2
+    t.string   "rodz",       limit: 1
+    t.string   "nazwa",      limit: 36
+    t.string   "nazdod",     limit: 50
+    t.date     "stan_na"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "teryt_terc_codes", ["gmi"], name: "index_teryt_terc_codes_on_gmi", using: :btree
+  add_index "teryt_terc_codes", ["pow"], name: "index_teryt_terc_codes_on_pow", using: :btree
+  add_index "teryt_terc_codes", ["woj"], name: "index_teryt_terc_codes_on_woj", using: :btree
+
+  create_table "teryt_ulic_codes", force: :cascade do |t|
+    t.string   "woj",        limit: 2
+    t.string   "pow",        limit: 2
+    t.string   "gmi",        limit: 2
+    t.string   "rodz_gmi",   limit: 1
+    t.string   "sym",        limit: 7
+    t.string   "sym_ul",     limit: 5
+    t.string   "cecha",      limit: 5
+    t.string   "nazwa_1",    limit: 100
+    t.string   "nazwa_2",    limit: 100
+    t.date     "stan_na"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "teryt_ulic_codes", ["gmi"], name: "index_teryt_ulic_codes_on_gmi", using: :btree
+  add_index "teryt_ulic_codes", ["pow"], name: "index_teryt_ulic_codes_on_pow", using: :btree
+  add_index "teryt_ulic_codes", ["sym"], name: "index_teryt_ulic_codes_on_sym", using: :btree
+  add_index "teryt_ulic_codes", ["woj"], name: "index_teryt_ulic_codes_on_woj", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -344,6 +457,8 @@ ActiveRecord::Schema.define(version: 20160309000001) do
   add_foreign_key "certificates", "exams"
   add_foreign_key "certificates", "users"
   add_foreign_key "customers", "citizenships"
+  add_foreign_key "customers", "teryt_pna_codes", column: "address_teryt_pna_code_id"
+  add_foreign_key "customers", "teryt_pna_codes", column: "c_address_teryt_pna_code_id"
   add_foreign_key "customers", "users"
   add_foreign_key "examinations", "certificates"
   add_foreign_key "examinations", "customers"
@@ -351,6 +466,7 @@ ActiveRecord::Schema.define(version: 20160309000001) do
   add_foreign_key "examinations", "exams"
   add_foreign_key "examinations", "users"
   add_foreign_key "examiners", "exams"
+  add_foreign_key "exams", "esod_matters"
   add_foreign_key "exams", "users"
   add_foreign_key "grades", "examinations"
   add_foreign_key "grades", "subjects"

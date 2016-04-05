@@ -1,0 +1,3 @@
+class CAddressPnaCodeSerializer < PnaCodeSerializer
+
+end

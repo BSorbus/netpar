@@ -8,54 +8,54 @@ class ExaminationPolicy < ApplicationPolicy
   end
 
   def index_l?
-    user_activities.include? 'exam_l:index'
+    user_activities.include? 'examination_l:index'
   end
 
   def index_m?
-    user_activities.include? 'exam_m:index'
+    user_activities.include? 'examination_m:index'
   end
 
   def index_r?
-    user_activities.include? 'exam_r:index'
+    user_activities.include? 'examination_r:index'
   end
 
   def index?
     false
-    #user_activities.include? 'exam:index'
+    #user_activities.include? 'examination:index'
   end
 
   def show_l?
-    user_activities.include? 'exam_l:show'
+    user_activities.include? 'examination_l:show'
   end
 
   def show_m?
-    user_activities.include? 'exam_m:show'
+    user_activities.include? 'examination_m:show'
   end
 
   def show_r?
-    user_activities.include? 'exam_r:show'
+    user_activities.include? 'examination_r:show'
   end
 
   def show?
     false
-    #user_activities.include? 'exam:show'
+    #user_activities.include? 'examination:show'
   end
 
   def new_l?
-    user_activities.include? 'exam_l:create'
+    user_activities.include? 'examination_l:create'
   end
 
   def new_m?
-    user_activities.include? 'exam_m:create'
+    user_activities.include? 'examination_m:create'
   end
 
   def new_r?
-    user_activities.include? 'exam_r:create'
+    user_activities.include? 'examination_r:create'
   end
 
   def new?
     false
-    #user_activities.include? 'exam:create'
+    #user_activities.include? 'examination:create'
     #user.admin? or user.power_user?
   end
 
@@ -76,15 +76,15 @@ class ExaminationPolicy < ApplicationPolicy
   end
 
   def edit_l?
-    user_activities.include? 'exam_l:update'
+    user_activities.include? 'examination_l:update'
   end
 
   def edit_m?
-    user_activities.include? 'exam_m:update'
+    user_activities.include? 'examination_m:update'
   end
 
   def edit_r?
-    user_activities.include? 'exam_r:update'
+    user_activities.include? 'examination_r:update'
   end
 
   def edit?
@@ -108,15 +108,15 @@ class ExaminationPolicy < ApplicationPolicy
   end
 
   def destroy_l?
-    user_activities.include? 'exam_l:delete'
+    user_activities.include? 'examination_l:delete'
   end
  
   def destroy_m?
-    user_activities.include? 'exam_m:delete'
+    user_activities.include? 'examination_m:delete'
   end
  
   def destroy_r?
-    user_activities.include? 'exam_r:delete'
+    user_activities.include? 'examination_r:delete'
   end
  
   def destroy?
@@ -124,27 +124,27 @@ class ExaminationPolicy < ApplicationPolicy
   end
  
   def print_l?
-    user_activities.include? 'exam_l:print'
+    user_activities.include? 'examination_l:print'
   end
 
   def print_m?
-    user_activities.include? 'exam_m:print'
+    user_activities.include? 'examination_m:print'
   end
 
   def print_r?
-    user_activities.include? 'exam_r:print'
+    user_activities.include? 'examination_r:print'
   end
  
   def work_l?
-    user_activities.include? 'exam_l:work'
+    user_activities.include? 'examination_l:work'
   end
 
   def work_m?
-    user_activities.include? 'exam_m:work'
+    user_activities.include? 'examination_m:work'
   end
 
   def work_r?
-    user_activities.include? 'exam_r:work'
+    user_activities.include? 'examination_r:work'
   end
  
   class Scope < Struct.new(:user, :scope)

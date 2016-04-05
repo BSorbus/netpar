@@ -4,7 +4,7 @@ class ExamSerializer < ActiveModel::Serializer
   #has_one :user
 
   def fullname
-    "#{number}, z dn. #{date_exam}, #{place_exam}"
+    "#{object.number}, z dn. #{object.date_exam}, #{object.place_exam}"
   end
 
   def test

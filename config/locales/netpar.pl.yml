@@ -132,11 +132,14 @@ pl:
     document:
       form:
         or_input_remote_url: '...lub wybierz'
-    esod_case:
+    esod_matter:
       index:
         title: 'ESOD - Sprawy'
       show:
         title: 'ESOD - Sprawa'
+    esod_letter:
+      index_for_matter:
+        title: 'Pisma'
     footer:
       contact: 'Kontakt:'
       links: 'Zobacz też:'
@@ -147,7 +150,7 @@ pl:
       links_www3_title: 'Świadectwa'
       links_www3: 'http://uke.gov.pl/swiadectwa-radiooperatora-941'
   link_to:
-    esod_cases: 'ESOD'
+    esod_matters: 'ESOD'
     management: 'Zarządzanie'
     works: 'Operacje'
     roles: 'Role'
@@ -161,8 +164,8 @@ pl:
     exams_l: 'Egzaminy LOT'
     exams_m: 'Egzaminy MOR'
     exams_r: 'Egzaminy RA'
-    generating_certificate: " Generuj Świadectwo"
-    generating_certificates: " Generuj Świadectwa"
+    certificate_generation: " Generuj Świadectwo"
+    certificates_generation: " Generuj Świadectwa"
   pundit:
     default: ' BRAK UPRAWNIEŃ: Nie można wykonać tej czynności!'
     work_policy:
@@ -252,7 +255,7 @@ pl:
       exam: 'Egzamin'
       customer: 'Klient'
       document: 'Załącznik'
-      esod_case: 'ESOD - Sprawy'
+      esod_matter: 'ESOD - Sprawy'
       examination: 'Osoba Egzaminowana'
       examiner: 'Członek Komisji Egzaminacyjnej'
       subject: 'Przedmioty'
@@ -338,6 +341,10 @@ pl:
         category: 'Kategoria'
         note: 'Uwagi'
         examiners: "Członek Komisji"
+        examinations_count: "Egzaminowani"
+        certificates_count: "Świadectwa"
+        esod_matter: 'ESOD: Sprawa'
+        esod_matter_id: 'ESOD: Sprawa'
       exam/examiners:
         name: 'Nazwisko i imię'
       examiner:
@@ -346,7 +353,8 @@ pl:
         human: 'Osoba fizyczna'
         name: 'Nazwisko (Nazwa)'
         given_names: 'Imiona'
-        pna_code_address: 'PNA (TERYT)'
+        address_in_poland: 'kontrola TERYT + PNA (adres w Polsce)'
+        address_teryt_pna_code_id: 'TERYT + PNA'
         address_city: 'Miejscowość'
         address_street: 'Ulica'
         address_house: 'Dom'
@@ -354,7 +362,8 @@ pl:
         address_postal_code: 'Kod'
         address_post_office: 'Poczta'
         address_pobox: 'Skrytka'
-        pna_code_c_address: 'PNA (TERYT)'
+        c_address_in_poland: 'kontrola TERYT + PNA (adres korspondencyjny w Polsce)'
+        c_address_teryt_pna_code_id: 'TERYT + PNA'
         c_address_city: 'Miejscowość (k)'
         c_address_street: 'Ulica (k)'
         c_address_house: 'Dom (k)'
@@ -412,9 +421,9 @@ pl:
         wojewodztwo: 'Wojewodztwo'
         powiat: 'Powiat'
         gmina: 'Gmina'
-      esod_case:
+      esod/matter:
         nrid: 'nrid'
-        znak: 'Znak'
+        znak: 'ESOD: Znak sprawy'
         symbol_jrwa: 'JRWA'
         tytul: 'Tytuł'
         termin_realizacji: 'Termin'
@@ -422,8 +431,9 @@ pl:
         dnotacja: 'Adnotacja'
         identyfikator_stanowiska_referenta: 'Stanowisko'
         czy_otwarta: 'Otwarta?'
-        esod_created_at: 'Utworzona'
-        esod_updated_at: 'Modyfikowana'
+        data_utworzenia: 'Utworzona'
+        data_modyfikacji: 'Modyfikowana'
+        initialized_from_esod: 'Założona w ESOD?'
   tooltip:
     show: 'Pokaż'
     edit: 'Edycja'
@@ -472,9 +482,11 @@ pl:
       index:
   help_block_text:
     map_info: 'Uwaga! Program ustala szerokość i długość geograficzną wykorzystując Geocoder i Google Maps. Prezentacje na mapie należy traktować wylącznie jako informacje przybliżone.'
-    select2_customer: 'Wyszukiwanie po: Nazwisko, Imię, Miejscowość, Pesel, Data ur.(format: YYYY-MM-DD). Kolejność dowolna. Warunki złożone oddzielane spacją np. Kow Jan Warsza'
-    select2_exam: 'Wyszukiwanie po: Numer, Miejscowość, Data (format: YYYY-MM-DD). Kolejność dowolna. Warunki złożone oddzielane spacją np. Warsza 2015-08'
-    select2_postal_code: 'Wyszukiwanie po: Kod, Miejscowość, Ulica, Gmina, Powiat. Kolejność dowolna. Warunki złożone oddzielane spacją np. 85- bydgo fordo'
+    select2_customer: 'Wyszukiwanie po: Nazwisko, Imię, Miejscowość, Pesel, Data ur.(format: YYYY-MM-DD). Kolejność dowolna. Warunki oddzielaj spacją np. Kow Jan Warsza'
+    select2_exam: 'Wyszukiwanie po: Numer, Miejscowość, Data (format: YYYY-MM-DD). Kolejność dowolna. Warunki oddzielaj spacją np. Warsza 2015-08'
+    select2_postal_code: 'Wyszukiwanie po: Kod, Miejscowość, Ulica, Gmina, Powiat. Kolejność dowolna. Warunki oddzielaj spacją np. bydgo fordo 85-'
+    select2_teryt_pna_code: 'Wyszukiwanie po Miejscowość, Ulica, Gmina, Kod pocztowy. Kolejność dowolna. Warunki oddzielaj spacją np. bydgo fordo 85-'
+    select2_esod_matter: 'Wyszukiwanie po: Znak, Tytuł, Termin (format: YYYY-MM-DD). Kolejność dowolna. Warunki oddzielaj spacją np. Warsza 2015-08'
     document:
       attach_title_small: 'Lista załączników'
     user:

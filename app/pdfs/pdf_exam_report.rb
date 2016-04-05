@@ -74,7 +74,7 @@ class PdfExamReport < Prawn::Document
                     ["Rodzaj świadectwa",
                      "Skrót",
                      "Zwykły /\n -||- Uzupełniający (PW)",
-                     "Powtórny /\n -||- Uzupełniający (PW)"]
+                     "Poprawkowy/\n -||- Uzupełniający (PW)"]
                     ] + 
                      @divisions.map { |p| [ 
                         p.name,

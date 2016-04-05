@@ -8,6 +8,8 @@ class CustomerSerializer < ActiveModel::Serializer
 
 
   has_one :citizenship
+  has_one :address_teryt_pna_code
+  has_one :c_address_teryt_pna_code
 
   def fullname
     "#{object.name} #{object.given_names}"
