@@ -1,13 +1,13 @@
   <div class="col-sm-12">
-    <table id="exam-examinations" class="hover cell-border compact" data-source="<%= datatables_index_exam_examinations_path(exam_id: @exam.id, format: :json) %>">
+    <table id="exam-examinations" class="hover cell-border compact" width="100%" data-source="<%= datatables_index_exam_examinations_path(exam_id: @exam.id, format: :json) %>">
       <thead>
         <tr>
           <th> 0 ID </th> 
           <th> 1 IMAGE-PATH</th>
-          <th> 2 customer.fullname</th>
-          <th> 3 exam_category</th>
+          <th> 2 esod_matter.znak</th>
+          <th> 3 esod_category</th>
           <th> 4 division.name</th>
-          <th> 5 supplementary</th>
+          <th> 5 customer.fullname</th>
           <th> 6 exam_result</th>
           <th> 7 note</th>
           <th> 8 certificate.number</th>

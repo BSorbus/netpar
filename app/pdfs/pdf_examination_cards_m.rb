@@ -1,3 +1,5 @@
+require 'esodes'
+
 class PdfExaminationCardsM < Prawn::Document
 
   def initialize(examinations, exam, view)
@@ -75,11 +77,11 @@ class PdfExaminationCardsM < Prawn::Document
   end
 
   def display_total_table(e)
-    if e.examination_category != "Z"
+    if Esodes::CORRECTION_EXAMINATIONS.include?(e.esod_category)
       customer_last_examination = Examination.where(customer: e.customer, division: e.division, examination_result: 'N').last
       move_down 10
       text "Egzamin powtórny. Poprzednia sesja egzaminacyjna: " + "#{customer_last_examination.exam.number} - wynik negatywny." if customer_last_examination.present?
-    end  
+    end 
   end
 
   def logo
@@ -110,7 +112,7 @@ class PdfExaminationCardsM < Prawn::Document
     move_down 20
     text "#{examination.customer.fullname}", size: 11, :style => :bold 
     move_down 5
-    text examination.supplementary? ? "ubiega się o #{examination.division.name} (PW)" : "ubiega się o #{examination.division.name}"
+    text Esodes::RENEWING_EXAMINATIONS.include?(examination.esod_category) ? "ubiega się o #{examination.division.name} (PW)" : "ubiega się o #{examination.division.name}"
   end
 
 

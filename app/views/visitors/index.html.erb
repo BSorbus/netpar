@@ -49,7 +49,7 @@
           <!-- Set the next background image using inline CSS below. -->
           <div class="fill" style="background-image:url(<%= asset_path '5.jpg' %>)"></div>
           <div class="carousel-caption">
-            <h2>...czas na nowy NetPAR 2015!</h2>
+            <h2>...czas na nowy NETPAR 2015!</h2>
           </div>
         </div>
       </div> <!-- /div class="carousel-inner" -->
@@ -75,79 +75,152 @@
 <% end %><!--/ content_for :upper_part_page -->
 
 
-<div class="container pre-footer">
-  <div class="row">
-    <div class="col-sm-2 col-sm-offset-1">
-      <%= image_tag("training.jpg", :class => "img-circle" ) %>
-    </div>
-    <div class="col-sm-7 col-sm-offset-2">
-      <h3>Harmonogram szkoleń:</h3>
-      <li>07.09.2015 Gdańsk</li>
-      <li>15.09.2015 Centrala Warszawa (LOT RA)</li>
-      <li>21.09.2015 Bydgoszcz</li>
-      <li>22.09.2015 Katowice, Lublin, Rzeszów</li>
-      <li>23.09.2015 Olsztyn, Szczecin, Zielona Góra</li>
-      <li>24.09.2015 Łódź</li>
-      <li>28.09.2015 Białystok, Kielce, Wrocław</li>
-      <li>30.09.2015 Kraków</li>
-      <li>02.10.2015 Opole</li>
-    </div>
-  </div>
 
-  <hr>
-
-  <div class="row">
-    <div class="col-sm-2 col-sm-offset-2">
-      <%= image_tag("implementation.jpg", :class => "img-circle" ) %>
-    </div>
-    <div class="col-sm-6 col-sm-offset-2">
-      <h3>Migracja danych:</h3>
-      <li>09.10.2015 - ukończenie porządkowania zbiorów elektronicznych kopii dokumentów (skanów)</li>
-      <li>26.10.2015 - migracja danych świadectw lotniczych i radioamatorskich</li>
-      <li>27.10.2015 - migracja danych świadectw morskich</li>
-      <li>27-30.10.2015 - weryfikowanie danych</li>
-    </div>
-  </div>
-
-  <hr>
-
-  <div class="row">
-    <div class="col-sm-2 col-sm-offset-3">
-      <%= image_tag("success.jpg", :class => "img-circle" ) %>
-    </div>
-    <div class="col-sm-5 col-sm-offset-2">
-      <h3>Wdrożenie:</h3>
-      <li>31.10.2015 wersja produkcyjna - Etap I</li>
-    </div>
-  </div>
-
-  <hr>
-
-  <div class="row">
-    <div class="col-sm-2 col-sm-offset-4">
-      <%= image_tag("api.jpg", :class => "img-circle" ) %>
-    </div>
-    <div class="col-sm-4 col-sm-offset-2">
-      <h3>Interfejsy API:</h3>
-      <li>12.02.2016 uruchomienie własnego API (wersja testowa)</li>
-      <li>14.05.2016 planowane uruchomienie wersji produkcyjnej</li>
-    </div>
-  </div>
-
-  <hr>
-
-  <div class="row">
-    <div class="col-sm-2 col-sm-offset-3">
-      <%= image_tag("gus.jpg", :class => "img-circle" ) %>
-    </div>
-    <div class="col-sm-5 col-sm-offset-2">
-      <h3>GUS TERYT:</h3>
-      <li>29.03.2016 Budowa i wdrożenie modułu TERYT</li>
-    </div>
-  </div>
-
-
+<div class="container">
+  <ul class="timeline">
+<!--     <li class="timeline-inverted">
+      <div class="timeline-badge"><i class="glyphicon glyphicon-cloud"></i></div>
+      <div class="timeline-panel">
+        <div class="timeline-heading">
+          <div class="col-sm-9"><h4 class="timeline-title">ePUAP</h4></div>
+          <div class="col-sm-3"><%= image_tag("epuap.jpg", :class => "img-circle" ) %></div>
+        </div>
+        <div class="timeline-body">
+          <p>??.??.???? Wdrożenie modułu obsługi kanału ePUAP</p>
+        </div>
+      </div>
+    </li>
+ -->    <li>
+      <div class="timeline-badge"><i class="glyphicon glyphicon-retweet"></i></div>
+      <div class="timeline-panel">
+        <div class="timeline-heading">
+<!--      <h4 class="timeline-title">ESOD-API</h4> -->
+          <div class="col-sm-9"><h4 class="timeline-title">ESOD-API</h4></div>
+          <div class="col-sm-3"><%= image_tag("esod.jpg", :class => "img-circle" ) %></div>
+        </div>
+        <div class="timeline-body">
+          <p>??.??.2016 Budowa i wdrożenie modułu obsługującego ESOD-API </p>
+          <p>Zaimplementowanie w systmie NETPAR2015 modułu ESOD-SOAP-API pozwala obsługiwać dane Elektronicznego Systemu Obiegu Dokumentów z poziomu programu NETPAR2015. Użytkownicy mogą w programie NETPAR2015 odczytywać, aktualizować i dopisywać sprawy systemu ESOD</p>
+        </div>
+      </div>
+    </li>
+    <li class="timeline-inverted">
+      <div class="timeline-badge"><i class="glyphicon glyphicon-check"></i></div>
+      <div class="timeline-panel">
+        <div class="timeline-heading">
+<!--      <h4 class="timeline-title">GUS-TERYT</h4> -->
+          <div class="col-sm-9"><h4 class="timeline-title">GUS-TERYT</h4></div>
+          <div class="col-sm-3"><%= image_tag("gus.jpg", :class => "img-circle" ) %></div>
+        </div>
+        <div class="timeline-body">
+          <p>29.03.2016 Budowa i wdrożenie modułu TERYT</p>
+          <p>Autorskie opracowanie krzyżowego połączenia bazy TERYT (Krajowy Rejestr Urzędowy Podziału Terytorialnego Kraju) z bazą PNA (Pocztowe Numery Adresowe). Moduł ten pozwala weryfikować poprawność wprowadzanych danych adresowych.</p>
+<!--           <hr>
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+              <i class="glyphicon glyphicon-cog"></i> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+            </ul>
+          </div>
+ -->    </div>
+      </div>
+    </li>
+    <li>
+      <div class="timeline-badge"><i class="glyphicon glyphicon-transfer"></i></div>
+      <div class="timeline-panel">
+        <div class="timeline-heading">
+<!--      <h4 class="timeline-title">NETPAR2015-API</h4> -->
+          <div class="col-sm-9"><h4 class="timeline-title">NETPAR2015-API</h4></div>
+          <div class="col-sm-3"><%= image_tag("api.jpg", :class => "img-circle" ) %></div>
+          <p><small class="text-muted"><i class="glyphicon glyphicon-globe"></i> https://netpar2015.uke.gov.pl/api-docs</small></p>
+        </div>
+        <div class="timeline-body">
+          <p>12.02.2016 Uruchomienie wersji testowej własnego API</p>
+          <p>Moduł ten pozwala udostępniać innym aplikacjom dane zgromadzone w systemie NETPAR2015.</p>
+        </div>
+      </div>
+    </li>
+    <li class="timeline-inverted">
+      <div class="timeline-badge success"><i class="glyphicon glyphicon-thumbs-up"></i></div>
+      <div class="timeline-panel">
+        <div class="timeline-heading">
+<!--      <h4 class="timeline-title">Wdrożenie</h4> -->
+          <div class="col-sm-9"><h4 class="timeline-title">Wdrożenie</h4></div>
+          <div class="col-sm-3"><%= image_tag("success.jpg", :class => "img-circle" ) %></div>
+        </div>
+        <div class="timeline-body">
+          <p>31.10.2015 Uruchomienie wersji produkcyjnej (Etap I)</p>
+          <p>NETPAR2015 zbudowano wykorzystując framework Ruby on Rails, jako wielowarstwową aplikację uruchamianą w przeglądarce internetowej. Centralne zarządzanie systemem pozwala wprowadzać modyfikacje programu w ciągu kilku minut, bez konieczności aktualizowania stacji roboczych, a nawet przerywania pracy użytkownikom.</p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="timeline-badge"><i class="glyphicon glyphicon-tasks"></i></div>
+      <div class="timeline-panel">
+        <div class="timeline-heading">
+<!--      <h4 class="timeline-title">Migracja danych</h4> -->
+          <div class="col-sm-9"><h4 class="timeline-title">Migracja danych</h4></div>
+          <div class="col-sm-3"><%= image_tag("implementation.jpg", :class => "img-circle" ) %></div>
+          <p><small class="text-muted"><i class="glyphicon glyphicon-refresh"></i> Przeniesienie danych z systemu NETPAR2000</small></p>
+        </div>
+        <div class="timeline-body">
+          <p>14.09-10.10.2015 Porządkowanie zbiorów elektronicznych kopii dokumentów</p>
+          <p>26.10.2015 Migracja danych świadectw lotniczych i radioamatorskich</p>
+          <p>27.10.2015 Migracja danych świadectw morskich</p>
+          <p>28.10.2015 Import skanów protokołów i wydanych świadectw</p>
+          <p>28-30.10.2015 Weryfikowanie danych</p>
+        </div>
+      </div>
+    </li>
+    <li class="timeline-inverted">
+      <div class="timeline-badge"><i class="glyphicon glyphicon-education"></i></div>
+      <div class="timeline-panel"> 
+        <div class="timeline-heading">
+<!--      <h4 class="timeline-title">Szkolenia</h4> -->
+          <div class="col-sm-9"><h4 class="timeline-title">Szkolenia</h4></div>
+          <div class="col-sm-3"><%= image_tag("training.jpg", :class => "img-circle" ) %></div>
+          <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 2 godzinne za pośrednictwem "zdalnej pomocy"</small></p>
+        </div>
+        <div class="timeline-body">
+          <p>07.09.2015 Gdańsk (MOR)</p>
+          <p>15.09.2015 Centrala Warszawa (LOT RA)</p>
+          <p>21.09.2015 Bydgoszcz</p>
+          <p>22.09.2015 Katowice, Lublin, Rzeszów</p>
+          <p>23.09.2015 Olsztyn, Szczecin, Zielona Góra</p>
+          <p>24.09.2015 Łódź</p>
+          <p>28.09.2015 Białystok, Kielce, Wrocław</p>
+          <p>30.09.2015 Kraków</p>
+          <p>02.10.2015 Opole, Poznań</p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="timeline-badge info"><i class="glyphicon glyphicon-star"></i></div>
+      <div class="timeline-panel">
+        <div class="timeline-heading">
+<!--      <h4 class="timeline-title">Szkolenia</h4> -->
+          <div class="col-sm-9"><h4 class="timeline-title">Projekt NETPAR2015 - Start!</h4></div>
+          <div class="col-sm-3"><%= image_tag("start.jpg", :class => "img-circle" ) %></div>
+        </div>
+          <p><small class="text-muted"><i class="glyphicon glyphicon-user"></i> Zespół BI-WUSA + DZC-WML + OGD-SKM</small></p>
+        <div class="timeline-body">
+          <p>15.06.2015 Zawiązanie nieformalnej grupy d/s opracowania koncepcji i budowy nowego systemu obsługi Komisji Egzaminacyjnych i Sekrateriatów Komisji ds. operatorów urządzeń radiowych w służbie radiokomunikacji morskiej i żeglugi śródlądowej, radiokomunikacji lotniczej i radioamatorskiej. Podstawowe cele projektu:</p>
+          <p>- Odstąpienie od przestarzałej technologii opartej o Delphi + BDE</p>
+          <p>- Rozszerzenie funkcjonalności systemu, by obsługiwał on cały proces, tj. od wniosku, poprzez wsparcie procesu przeprowadzania egzaminów, a kończąc na automatycznym generowaniu świadectw na podstawie wyników egzaminów</p>
+          <p>- Wbudowanie zintegrowanego repozytorium do przechowywania elektronicznych kopii (skanów) wytworzonych protokołów, kart egzaminacyjnych i wydanych świadectw</p>
+          <p>- Zbudowanie systemu łatwego w zarządzaniu, prostego w obsłudze i umożliwiającego zintegrowanie go z innymi podsystemami UKE</p> 
+        </div>
+      </div>
+    </li>
+  </ul>
 </div>
+
 
 
 <% content_for :bottom_part_page do %>

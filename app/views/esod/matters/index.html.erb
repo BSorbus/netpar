@@ -14,6 +14,8 @@
 <br>
 <br>
 
+<p><%= only_sessions %></p>
+
 <!-- <table>
   <tr>
     <th>Title</th>
@@ -30,7 +32,7 @@
 </div> <!--/col-sm-12 -->
 
 <div class="col-sm-12">
-  <table id="esod_matters" class="hover cell-border" data-source="<%= datatables_index_esod_matters_path(format: :json) %>">
+  <table id="esod_matters" class="hover cell-border" width="100%" data-source="<%= datatables_index_esod_matters_path(format: :json) %>">
     <thead>
       <tr>
         <th> 0 ID </th>
@@ -40,12 +42,8 @@
         <th> 4 tytul</th>
         <th> 5 termin_realizacji</th>
         <th> 6 identyfikator_kategorii_sprawy</th>
-        <th> 7 adnotacja</th>
-        <th> 8 identyfikator_stanowiska_referenta</th>
-        <th> 9 czy_otwarta</th>
-        <th>10 data_utworzenia</th>
-        <th>11 data_modyfikacji</th>
-        <th>12 initialized_from_esod</th>
+        <th> 7 identyfikator_stanowiska_referenta</th>
+        <th> 8 czy_otwarta</th>
       </tr>
     </thead>
 

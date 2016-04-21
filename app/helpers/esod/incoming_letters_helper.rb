@@ -1,0 +1,2 @@
+module Esod::IncomingLettersHelper
+end

@@ -156,7 +156,7 @@ $(document).ready(function() {
     minimumInputLength: 3,
     allowClear: false,
     ajax: {
-      url: "/teryt_pna_codes/select2_index.json",
+      url: "/teryt/pna_codes/select2_index.json",
       dataType: 'json',
       quietMillis: 500,
       type: 'GET',
@@ -170,10 +170,10 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var teryt_pna_codes = $.map( data.teryt_pna_codes, function(teryt_pna_code, i) {
-          return { data_obj: teryt_pna_code, id: teryt_pna_code.id, text: teryt_pna_code.fullname };
+        var pna_codes = $.map( data.pna_codes, function(pna_code, i) {
+          return { data_obj: pna_code, id: pna_code.id, text: pna_code.fullname };
         });
-        return { results: teryt_pna_codes, more: more };
+        return { results: pna_codes, more: more };
       },
       // param "cache: true" added 19.03.2016 ale nie wiem, czy cokolwiek to daje
       cache: true
@@ -181,7 +181,7 @@ $(document).ready(function() {
     initSelection: function(element, callback) {
       var id=$(element).val();
       if (id!=="") {
-        $.get("/teryt_pna_codes/"+id+".json", function(data_from_json) {
+        $.get("/teryt/pna_codes/"+id+".json", function(data_from_json) {
           if(data_from_json)
             callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname });
         });
@@ -204,7 +204,7 @@ $(document).ready(function() {
   .on("select2-selecting", function(e) {
     var id=e.val;
     if (id!=="") {
-      $.get("/teryt_pna_codes/"+id+".json", function(data_from_json) {
+      $.get("/teryt/pna_codes/"+id+".json", function(data_from_json) {
         if(data_from_json) {
           if(data_from_json.pna!=="") {
             document.getElementById("customer_address_postal_code").value = data_from_json.pna;
@@ -230,7 +230,7 @@ $(document).ready(function() {
     minimumInputLength: 3,
     allowClear: false,
     ajax: {
-      url: "/teryt_pna_codes/select2_index.json",
+      url: "/teryt/pna_codes/select2_index.json",
       dataType: 'json',
       quietMillis: 500,
       type: 'GET',
@@ -244,16 +244,16 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var teryt_pna_codes = $.map( data.teryt_pna_codes, function(teryt_pna_code, i) {
-          return { data_obj: teryt_pna_code, id: teryt_pna_code.id, text: teryt_pna_code.fullname };
+        var pna_codes = $.map( data.pna_codes, function(pna_code, i) {
+          return { data_obj: pna_code, id: pna_code.id, text: pna_code.fullname };
         });
-        return { results: teryt_pna_codes, more: more };
+        return { results: pna_codes, more: more };
       }
     },
     initSelection: function(element, callback) {
       var id=$(element).val();
       if (id!=="") {
-        $.get("/teryt_pna_codes/"+id+".json", function(data_from_json) {
+        $.get("/teryt/pna_codes/"+id+".json", function(data_from_json) {
           if(data_from_json)
             callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname });
         });
@@ -276,7 +276,7 @@ $(document).ready(function() {
   .on("select2-selecting", function(e) {
     var id=e.val;
     if (id!=="") {
-      $.get("/teryt_pna_codes/"+id+".json", function(data_from_json) {
+      $.get("/teryt/pna_codes/"+id+".json", function(data_from_json) {
         if(data_from_json) {
           if(data_from_json.pna!=="") {
             document.getElementById("customer_c_address_postal_code").value = data_from_json.pna;
@@ -309,8 +309,8 @@ $(document).ready(function() {
       type: 'GET',
       data: function(term, page) {
         return {
-          iks: "<%= Rails.application.secrets[:esod_exam_l_identyfikator_kategorii_sprawy] %>",
-          jrwa: "<%= Rails.application.secrets[:esod_exam_l_jrwa] %>",
+          iks: "<%= Esodes::ALL_CATEGORIES_EXAMS %>",
+          jrwa: "<%= Esodes::JRWA_L %>",
           q: term,
           page_limit: 10,
           page: page
@@ -341,20 +341,6 @@ $(document).ready(function() {
               '<small>adnotacja:&nbsp' + item.data_obj.adnotacja + '</small>';
     },
     dropdownCssClass: "bigdrop"
-  })
-  .on("select2-selecting", function(e) {
-    var id=e.val;
-    if (id!=="") {
-      $.get("/esod/matters/"+id+".json", function(data_from_json) {
-        if(data_from_json) {
-          document.getElementById("exam_number").value = data_from_json.exam_number;
-          document.getElementById("exam_date_exam").value = data_from_json.termin_realizacji;
-          document.getElementById("exam_place_exam").value = data_from_json.exam_place;
-          //document.getElementById("customer_c_address_post_office").readOnly = true;
-          document.getElementById("exam_number").focus();
-        }
-      });
-    }
   });
 
 
@@ -369,8 +355,8 @@ $(document).ready(function() {
       type: 'GET',
       data: function(term, page) {
         return {
-          iks: "<%= Rails.application.secrets[:esod_exam_m_identyfikator_kategorii_sprawy] %>",
-          jrwa: "<%= Rails.application.secrets[:esod_exam_m_jrwa] %>",
+          iks: "<%= Esodes::ALL_CATEGORIES_EXAMS %>",
+          jrwa: "<%= Esodes::JRWA_M %>",
           q: term,
           page_limit: 10,
           page: page
@@ -401,20 +387,6 @@ $(document).ready(function() {
               '<small>adnotacja:&nbsp' + item.data_obj.adnotacja + '</small>';
     },
     dropdownCssClass: "bigdrop"
-  })
-  .on("select2-selecting", function(e) {
-    var id=e.val;
-    if (id!=="") {
-      $.get("/esod/matters/"+id+".json", function(data_from_json) {
-        if(data_from_json) {
-          document.getElementById("exam_number").value = data_from_json.exam_number;
-          document.getElementById("exam_date_exam").value = data_from_json.termin_realizacji;
-          document.getElementById("exam_place_exam").value = data_from_json.exam_place;
-          //document.getElementById("customer_c_address_post_office").readOnly = true;
-          document.getElementById("exam_number").focus();
-        }
-      });
-    }
   });
 
 
@@ -429,8 +401,8 @@ $(document).ready(function() {
       type: 'GET',
       data: function(term, page) {
         return {
-          iks: "<%= Rails.application.secrets[:esod_exam_r_identyfikator_kategorii_sprawy] %>",
-          jrwa: "<%= Rails.application.secrets[:esod_exam_r_jrwa] %>",
+          iks: "<%= Esodes::ALL_CATEGORIES_EXAMS %>",
+          jrwa: "<%= Esodes::JRWA_R %>",
           q: term,
           page_limit: 10,
           page: page
@@ -461,21 +433,146 @@ $(document).ready(function() {
               '<small>adnotacja:&nbsp' + item.data_obj.adnotacja + '</small>';
     },
     dropdownCssClass: "bigdrop"
-  })
-  .on("select2-selecting", function(e) {
-    var id=e.val;
-    if (id!=="") {
-      $.get("/esod/matters/"+id+".json", function(data_from_json) {
-        if(data_from_json) {
-          document.getElementById("exam_number").value = data_from_json.exam_number;
-          document.getElementById("exam_date_exam").value = data_from_json.termin_realizacji;
-          document.getElementById("exam_place_exam").value = data_from_json.exam_place;
-          //document.getElementById("customer_c_address_post_office").readOnly = true;
-          document.getElementById("exam_number").focus();
-        }
-      });
-    }
   });
+
+
+
+  $('.esod_matter_for_examination_select_l').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/esod/matters/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          iks: "<%= Esodes::ALL_CATEGORIES_EXAMINATIONS %>",
+          jrwa: "<%= Esodes::JRWA_L %>",
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var matters = $.map( data.matters, function(matter, i) {
+          return { data_obj: matter, id: matter.id, text: matter.fullname };
+        });
+        return { results: matters, more: more };
+      }
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/esod/matters/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    formatResult: function(item) {
+      return  item.data_obj.znak + '<br>' +
+              item.data_obj.tytul + '<br>' +
+              '<small>termin:&nbsp' + item.data_obj.termin_realizacji + '&nbsp&nbsp[kategoria:&nbsp' + item.data_obj.iks_name + ']</small><br>' +
+              '<small>adnotacja:&nbsp' + item.data_obj.adnotacja + '</small>';
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+
+  $('.esod_matter_for_examination_select_m').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/esod/matters/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          iks: "<%= Esodes::ALL_CATEGORIES_EXAMINATIONS %>",
+          jrwa: "<%= Esodes::JRWA_M %>",
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var matters = $.map( data.matters, function(matter, i) {
+          return { data_obj: matter, id: matter.id, text: matter.fullname };
+        });
+        return { results: matters, more: more };
+      }
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/esod/matters/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    formatResult: function(item) {
+      return  item.data_obj.znak + '<br>' +
+              item.data_obj.tytul + '<br>' +
+              '<small>termin:&nbsp' + item.data_obj.termin_realizacji + '&nbsp&nbsp[kategoria:&nbsp' + item.data_obj.iks_name + ']</small><br>' +
+              '<small>adnotacja:&nbsp' + item.data_obj.adnotacja + '</small>';
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+
+  $('.esod_matter_for_examination_select_r').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/esod/matters/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          iks: "<%= Esodes::ALL_CATEGORIES_EXAMINATIONS %>",
+          jrwa: "<%= Esodes::JRWA_R %>",
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var matters = $.map( data.matters, function(matter, i) {
+          return { data_obj: matter, id: matter.id, text: matter.fullname };
+        });
+        return { results: matters, more: more };
+      }
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/esod/matters/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    formatResult: function(item) {
+      return  item.data_obj.znak + '<br>' +
+              item.data_obj.tytul + '<br>' +
+              '<small>termin:&nbsp' + item.data_obj.termin_realizacji + '&nbsp&nbsp[kategoria:&nbsp' + item.data_obj.iks_name + ']</small><br>' +
+              '<small>adnotacja:&nbsp' + item.data_obj.adnotacja + '</small>';
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
 
 
 

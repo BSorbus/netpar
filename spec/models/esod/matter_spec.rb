@@ -17,9 +17,8 @@ RSpec.describe Esod::Matter, type: :model do
   it { should respond_to(:data_utworzenia) }
   it { should respond_to(:data_modyfikacji) }
   it { should respond_to(:initialized_from_esod) }
-#  it { should respond_to(:exam) }
-#  it { should respond_to(:examination) }
-#  it { should respond_to(:certificate) }
+  it { should respond_to(:netpar_user) }
+
 
 #  it { should validate_presence_of(:nrid) }
 #  it { should validate_numericality_of(:nrid) }

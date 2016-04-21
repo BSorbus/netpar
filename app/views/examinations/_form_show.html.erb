@@ -3,30 +3,30 @@
    # We default it to false 
 %>
 
+
+<div class="row">
+  <div class="form-group col-sm-12">
+    <p><strong><%= Examination.human_attribute_name(:esod_matter_id) %></strong></p>
+    <h5><%= @examination.esod_matter.present? ? @examination.esod_matter.fullname : ''%></h5>
+  </div>
+</div>  <!-- /row -->
+
+<hr class="hr-without-top-margin">
+
 <div class="row">
   <div class="col-sm-7">
 
     <div class="row">
-      <div class="form-group col-sm-3">
-        <p><strong><%= Examination.human_attribute_name(:examination_category) %></strong></p>
-        <h5><%= @examination.examination_category_name %></h5>
-      </div>
-
-      <div class="form-group col-sm-9">
-        <p><strong><%= Examination.human_attribute_name(:division_id) %></strong></p>
-        <h5><%= @examination.division.name %> (<%= @examination.division.short_name %>)</h5>
+      <div class="form-group col-sm-12">
+        <p><strong><%= Examination.human_attribute_name(:esod_category) %></strong></p>
+        <h5><%= @examination.esod_category_name %></h5>
       </div>
     </div>  <!-- /row -->
 
     <div class="row">
-      <div class="form-group col-sm-3">
-        <p><strong><%= Examination.human_attribute_name(:supplementary) %></strong></p>
-        <h5><%= @examination.supplementary? ? 'Tak' : 'Nie' %></h5>
-      </div>
-
-      <div class="form-group col-sm-9">
-        <p><strong><%= Examination.human_attribute_name(:examination_result) %></strong></p>
-        <h5><%= @examination.examination_result_name %></h5>
+      <div class="form-group col-sm-12">
+        <p><strong><%= Examination.human_attribute_name(:division_id) %></strong></p>
+        <h5><%= @examination.division.name %> (<%= @examination.division.short_name %>)</h5>
       </div>
     </div>  <!-- /row -->
 
@@ -43,6 +43,13 @@
       <div class="form-group col-sm-12">
         <p><strong><%= Examination.human_attribute_name(:customer_id) %></strong></p>
         <h5><%= policy(:customer).show? ? link_to( @examination.customer.fullname_and_address, customer_path(@examination.customer) ) : 'xxx-xxx' %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-8">
+        <p><strong><%= Examination.human_attribute_name(:examination_result) %></strong></p>
+        <h5><%= @examination.examination_result_name %></h5>
       </div>
     </div>
 

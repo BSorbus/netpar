@@ -31,13 +31,26 @@ $(document).ready(function() {
         "searchable": false,
         "sortable": false }, 
       { "targets": [2],
-        "title": "<%= Examination.human_attribute_name('customer_id') %>" }, 
+        "title": "<%= Examination.human_attribute_name('esod_matter_id') %>" }, 
       { "targets": [3],
-        "title": "<%= Examination.human_attribute_name('examination_category') %>" }, 
+        "title": "<%= Examination.human_attribute_name('esod_category') %>",
+        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+          // sData - wartosc celi, oData - wiersza
+          if (oData[3] == 'Wniosek o egzamin poprawkowy' ) {
+            $(nTd).css('background-color', '#FFFFE0'); 
+          }
+          else if (oData[3] == 'Wniosek o odnowienie z egzaminem' ) {
+            $(nTd).css('background-color', '#D8ECF3'); 
+          }
+          else if (oData[3] == 'Wniosek o odnowienie z egzaminem, poprawkowy' ) {
+            $(nTd).css('background-color', '#FFFFE0'); 
+          }
+        }
+      },
       { "targets": [4],
         "title": "<%= Examination.human_attribute_name('division_id') %>" }, 
       { "targets": [5],
-        "title": "<%= Examination.human_attribute_name('supplementary') %>" }, 
+        "title": "<%= Examination.human_attribute_name('customer_id') %>" }, 
       { "targets": [6],
         "title": "<%= Examination.human_attribute_name('examination_result') %>", 
         fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
@@ -73,7 +86,7 @@ $(document).ready(function() {
         return false;
       }
     },
-    order: [[ 2, "asc" ]],
+    order: [[ 5, "asc" ]],
     language: {
       url: '<%= asset_path("pl.json.erb") %>'
     }

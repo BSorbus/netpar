@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330164642) do
+ActiveRecord::Schema.define(version: 20160421063302) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "certificates", force: :cascade do |t|
     t.string   "number",             limit: 30, default: "",  null: false
@@ -87,6 +88,8 @@ ActiveRecord::Schema.define(version: 20160330164642) do
     t.boolean  "c_address_in_poland",                     default: true, null: false
     t.integer  "address_teryt_pna_code_id"
     t.integer  "c_address_teryt_pna_code_id"
+    t.integer  "esod_contractor_id"
+    t.integer  "esod_address_id"
   end
 
   add_index "customers", ["address_city"], name: "index_customers_on_address_city", using: :btree
@@ -95,6 +98,8 @@ ActiveRecord::Schema.define(version: 20160330164642) do
   add_index "customers", ["birth_date"], name: "index_customers_on_birth_date", using: :btree
   add_index "customers", ["c_address_teryt_pna_code_id"], name: "index_customers_on_c_address_teryt_pna_code_id", using: :btree
   add_index "customers", ["citizenship_id"], name: "index_customers_on_citizenship_id", using: :btree
+  add_index "customers", ["esod_address_id"], name: "index_customers_on_esod_address_id", using: :btree
+  add_index "customers", ["esod_contractor_id"], name: "index_customers_on_esod_contractor_id", using: :btree
   add_index "customers", ["given_names"], name: "index_customers_on_given_names", using: :btree
   add_index "customers", ["name"], name: "index_customers_on_name", using: :btree
   add_index "customers", ["nip"], name: "index_customers_on_nip", using: :btree
@@ -147,6 +152,143 @@ ActiveRecord::Schema.define(version: 20160330164642) do
 
   add_index "documents", ["documentable_type", "documentable_id"], name: "index_documents_on_documentable_type_and_documentable_id", using: :btree
 
+  create_table "esod_addresses", force: :cascade do |t|
+    t.integer  "nrid"
+    t.string   "miasto"
+    t.string   "kod_pocztowy"
+    t.string   "ulica"
+    t.string   "numer_lokalu"
+    t.string   "numer_budynku"
+    t.string   "skrytka_epuap"
+    t.string   "panstwo"
+    t.string   "email"
+    t.string   "typ"
+    t.integer  "id_zalozyl"
+    t.integer  "id_aktualizowal"
+    t.date     "data_zalozenia"
+    t.date     "data_aktualizacji"
+    t.boolean  "initialized_from_esod"
+    t.integer  "netpar_user"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "esod_addresses", ["nrid"], name: "index_esod_addresses_on_nrid", using: :btree
+
+  create_table "esod_contractors", force: :cascade do |t|
+    t.integer  "nrid"
+    t.string   "imie"
+    t.string   "nazwisko"
+    t.string   "nazwa"
+    t.string   "drugie_imie"
+    t.string   "tytul"
+    t.string   "nip"
+    t.string   "pesel"
+    t.integer  "rodzaj"
+    t.integer  "id_zalozyl"
+    t.integer  "id_aktualizowal"
+    t.date     "data_zalozenia"
+    t.date     "data_aktualizacji"
+    t.boolean  "initialized_from_esod", default: true
+    t.integer  "netpar_user"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
+
+  add_index "esod_contractors", ["nrid"], name: "index_esod_contractors_on_nrid", using: :btree
+
+  create_table "esod_incoming_letters", force: :cascade do |t|
+    t.integer  "nrid"
+    t.string   "numer_ewidencyjny"
+    t.string   "tytul"
+    t.date     "data_pisma"
+    t.date     "data_nadania"
+    t.date     "data_wplyniecia"
+    t.string   "znak_pisma_wplywajacego"
+    t.integer  "identyfikator_typu_dcmd"
+    t.integer  "identyfikator_rodzaju_dokumentu"
+    t.integer  "identyfikator_sposobu_przeslania"
+    t.integer  "identyfikator_miejsca_przechowywania"
+    t.date     "termin_na_odpowiedz"
+    t.boolean  "pelna_wersja_cyfrowa"
+    t.boolean  "naturalny_elektroniczny"
+    t.string   "uwagi"
+    t.integer  "id_osoba"
+    t.integer  "id_adres"
+    t.integer  "id_zalozyl"
+    t.string   "id_aktualizowal"
+    t.date     "data_zalozenia"
+    t.date     "data_aktualizacji"
+    t.integer  "esod_contractor_id"
+    t.integer  "esod_address_id"
+    t.boolean  "initialized_from_esod"
+    t.integer  "netpar_user"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
+
+  add_index "esod_incoming_letters", ["esod_address_id"], name: "index_esod_incoming_letters_on_esod_address_id", using: :btree
+  add_index "esod_incoming_letters", ["esod_contractor_id"], name: "index_esod_incoming_letters_on_esod_contractor_id", using: :btree
+  add_index "esod_incoming_letters", ["nrid"], name: "index_esod_incoming_letters_on_nrid", using: :btree
+
+  create_table "esod_incoming_letters_matters", force: :cascade do |t|
+    t.integer "esod_incoming_letter_id"
+    t.integer "esod_matter_id"
+    t.integer "sprawa"
+    t.integer "dokument"
+    t.string  "sygnatura"
+  end
+
+  add_index "esod_incoming_letters_matters", ["esod_incoming_letter_id", "esod_matter_id"], name: "esod_incoming_letters_matters_incoming_letter_matter", unique: true, using: :btree
+  add_index "esod_incoming_letters_matters", ["esod_incoming_letter_id"], name: "index_esod_incoming_letters_matters_on_esod_incoming_letter_id", using: :btree
+  add_index "esod_incoming_letters_matters", ["esod_matter_id", "esod_incoming_letter_id"], name: "esod_incoming_letters_matters_matter_incoming_letter", unique: true, using: :btree
+  add_index "esod_incoming_letters_matters", ["esod_matter_id"], name: "index_esod_incoming_letters_matters_on_esod_matter_id", using: :btree
+  add_index "esod_incoming_letters_matters", ["sygnatura"], name: "esod_incoming_letters_matters_sygnatura", unique: true, using: :btree
+
+  create_table "esod_internal_letters", force: :cascade do |t|
+    t.integer  "nrid"
+    t.string   "numer_ewidencyjny"
+    t.string   "tytul"
+    t.string   "uwagi"
+    t.integer  "identyfikator_rodzaju_dokumentu_wewnetrznego"
+    t.integer  "identyfikator_typu_dcmd"
+    t.integer  "identyfikator_dostepnosci_dokumentu"
+    t.boolean  "pelna_wersja_cyfrowa"
+    t.integer  "id_zalozyl"
+    t.integer  "id_aktualizowal"
+    t.date     "data_zalozenia"
+    t.date     "data_aktualizacji"
+    t.boolean  "initialized_from_esod"
+    t.integer  "netpar_user"
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+  end
+
+  create_table "esod_internal_letters_matters", force: :cascade do |t|
+    t.integer "esod_internal_letter_id"
+    t.integer "esod_matter_id"
+    t.integer "sprawa"
+    t.integer "dokument"
+    t.string  "sygnatura"
+  end
+
+  add_index "esod_internal_letters_matters", ["esod_internal_letter_id", "esod_matter_id"], name: "esod_internal_letters_matters_internal_letter_matter", unique: true, using: :btree
+  add_index "esod_internal_letters_matters", ["esod_internal_letter_id"], name: "index_esod_internal_letters_matters_on_esod_internal_letter_id", using: :btree
+  add_index "esod_internal_letters_matters", ["esod_matter_id", "esod_internal_letter_id"], name: "esod_internal_letters_matters_matter_internal_letter", unique: true, using: :btree
+  add_index "esod_internal_letters_matters", ["esod_matter_id"], name: "index_esod_internal_letters_matters_on_esod_matter_id", using: :btree
+  add_index "esod_internal_letters_matters", ["sygnatura"], name: "esod_internal_letters_matters_sygnatura", unique: true, using: :btree
+
+  create_table "esod_matter_notes", force: :cascade do |t|
+    t.integer  "esod_matter_id"
+    t.integer  "sprawa"
+    t.string   "tytul"
+    t.string   "tresc"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "esod_matter_notes", ["esod_matter_id"], name: "index_esod_matter_notes_on_esod_matter_id", using: :btree
+
   create_table "esod_matters", force: :cascade do |t|
     t.integer  "nrid"
     t.string   "znak"
@@ -160,10 +302,47 @@ ActiveRecord::Schema.define(version: 20160330164642) do
     t.boolean  "czy_otwarta"
     t.datetime "data_utworzenia"
     t.datetime "data_modyfikacji"
+    t.integer  "id_zalozyl"
+    t.integer  "id_aktualizowal"
     t.boolean  "initialized_from_esod",              default: true
+    t.integer  "netpar_user"
     t.datetime "created_at",                                        null: false
     t.datetime "updated_at",                                        null: false
   end
+
+  add_index "esod_matters", ["nrid"], name: "index_esod_matters_on_nrid", using: :btree
+
+  create_table "esod_outgoing_letters", force: :cascade do |t|
+    t.integer  "nrid"
+    t.string   "numer_ewidencyjny"
+    t.string   "tytul"
+    t.integer  "wysylka"
+    t.integer  "identyfikator_rodzaju_dokumentu_wychodzacego"
+    t.date     "data_pisma"
+    t.integer  "numer_wersji"
+    t.integer  "id_zalozyl"
+    t.integer  "id_aktualizowal"
+    t.date     "data_zalozenia"
+    t.date     "data_aktualizacji"
+    t.boolean  "initialized_from_esod"
+    t.integer  "netpar_user"
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+  end
+
+  create_table "esod_outgoing_letters_matters", force: :cascade do |t|
+    t.integer "esod_outgoing_letter_id"
+    t.integer "esod_matter_id"
+    t.integer "sprawa"
+    t.integer "dokument"
+    t.string  "sygnatura"
+  end
+
+  add_index "esod_outgoing_letters_matters", ["esod_matter_id", "esod_outgoing_letter_id"], name: "esod_outgoing_letters_matters_matter_outgoing_letter", unique: true, using: :btree
+  add_index "esod_outgoing_letters_matters", ["esod_matter_id"], name: "index_esod_outgoing_letters_matters_on_esod_matter_id", using: :btree
+  add_index "esod_outgoing_letters_matters", ["esod_outgoing_letter_id", "esod_matter_id"], name: "esod_outgoing_letters_matters_outgoing_letter_matter", unique: true, using: :btree
+  add_index "esod_outgoing_letters_matters", ["esod_outgoing_letter_id"], name: "index_esod_outgoing_letters_matters_on_esod_outgoing_letter_id", using: :btree
+  add_index "esod_outgoing_letters_matters", ["sygnatura"], name: "esod_outgoing_letters_matters_sygnatura", unique: true, using: :btree
 
   create_table "examinations", force: :cascade do |t|
     t.string   "examination_category", limit: 1, default: "Z",   null: false
@@ -178,11 +357,14 @@ ActiveRecord::Schema.define(version: 20160330164642) do
     t.datetime "updated_at",                                     null: false
     t.integer  "certificate_id"
     t.boolean  "supplementary",                  default: false, null: false
+    t.integer  "esod_category"
+    t.integer  "esod_matter_id"
   end
 
   add_index "examinations", ["certificate_id"], name: "index_examinations_on_certificate_id", using: :btree
   add_index "examinations", ["customer_id"], name: "index_examinations_on_customer_id", using: :btree
   add_index "examinations", ["division_id"], name: "index_examinations_on_division_id", using: :btree
+  add_index "examinations", ["esod_matter_id"], name: "index_examinations_on_esod_matter_id", using: :btree
   add_index "examinations", ["exam_id"], name: "index_examinations_on_exam_id", using: :btree
   add_index "examinations", ["user_id"], name: "index_examinations_on_user_id", using: :btree
 
@@ -208,6 +390,7 @@ ActiveRecord::Schema.define(version: 20160330164642) do
     t.datetime "updated_at",                                  null: false
     t.integer  "examinations_count",            default: 0
     t.integer  "certificates_count",            default: 0
+    t.integer  "esod_category"
     t.integer  "esod_matter_id"
   end
 
@@ -290,6 +473,7 @@ ActiveRecord::Schema.define(version: 20160330164642) do
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.boolean  "for_supplementary", default: false, null: false
+    t.string   "esod_categories",   default: [],                 array: true
   end
 
   add_index "subjects", ["division_id"], name: "index_subjects_on_division_id", using: :btree
@@ -457,12 +641,24 @@ ActiveRecord::Schema.define(version: 20160330164642) do
   add_foreign_key "certificates", "exams"
   add_foreign_key "certificates", "users"
   add_foreign_key "customers", "citizenships"
+  add_foreign_key "customers", "esod_addresses"
+  add_foreign_key "customers", "esod_contractors"
   add_foreign_key "customers", "teryt_pna_codes", column: "address_teryt_pna_code_id"
   add_foreign_key "customers", "teryt_pna_codes", column: "c_address_teryt_pna_code_id"
   add_foreign_key "customers", "users"
+  add_foreign_key "esod_incoming_letters", "esod_addresses"
+  add_foreign_key "esod_incoming_letters", "esod_contractors"
+  add_foreign_key "esod_incoming_letters_matters", "esod_incoming_letters"
+  add_foreign_key "esod_incoming_letters_matters", "esod_matters"
+  add_foreign_key "esod_internal_letters_matters", "esod_internal_letters"
+  add_foreign_key "esod_internal_letters_matters", "esod_matters"
+  add_foreign_key "esod_matter_notes", "esod_matters"
+  add_foreign_key "esod_outgoing_letters_matters", "esod_matters"
+  add_foreign_key "esod_outgoing_letters_matters", "esod_outgoing_letters"
   add_foreign_key "examinations", "certificates"
   add_foreign_key "examinations", "customers"
   add_foreign_key "examinations", "divisions"
+  add_foreign_key "examinations", "esod_matters"
   add_foreign_key "examinations", "exams"
   add_foreign_key "examinations", "users"
   add_foreign_key "examiners", "exams"

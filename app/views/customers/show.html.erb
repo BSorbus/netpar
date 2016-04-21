@@ -80,10 +80,6 @@
           <div class="panel-body">
             <div class="col-sm-12">
 
-              <% if policy(:examination).index_l? %>
-                <%= render 'examinations', exam_collection: @customer.examinations.only_category_l, category_service: 'l', image: 'airplane.png' %>
-              <% end %>
-
               <% if policy(:examination).index_m? %>
                 <%= render 'examinations', exam_collection: @customer.examinations.only_category_m, category_service: 'm', image: 'ship.png' %>
               <% end %>

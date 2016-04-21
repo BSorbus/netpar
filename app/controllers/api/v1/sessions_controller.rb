@@ -6,12 +6,6 @@ class Api::V1::SessionsController < Api::V1::BaseApiController
 
   respond_to :json
 
-#    secret_key = Rails.application.secrets[:secret_key_base]
-#    salt = Digest::MD5.hexdigest(secret_key)
-#    #password = "2wsxcdE#"
-#    Digest::SHA512.hexdigest(salt+pass)
-
-
   def create
     user_password = params[:session][:password]
     user_email = params[:session][:email]

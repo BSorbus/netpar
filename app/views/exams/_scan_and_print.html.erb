@@ -37,7 +37,7 @@
     <div class="col-sm-8">
       <blockquote>
         <h5>Wydruki generowane w tym widoku ograniczone są tylko do pozycji <strong><%= @exam.fullname %></strong>.
-            Zawierać też mogą listy zbiorcze dotyczące tej Sesji Egzaminacyjnej.</h5>
+            Zawierać też mogą listy zbiorcze dotyczące tej Sesji.</h5>
         <h5>Możesz dodatkowo filtrować i/lub sortować zawartość wydruków oznaczonych <em>"wstążkami"</em> (patrz w lewo)
         wybierając przełącznikami odpowiednie wartości.</h5>
       </blockquote>
@@ -48,9 +48,10 @@
 
   <div class="row">  <!--dla Świadectwa -->
     <div class="col-sm-2">
-      <p class="lead">Sesja egzaminacyjna</p>
+      <p class="lead">Sesja</p>
     </div><!-- /.col-sm-2 -->
-  
+
+    <% unless Esodes::WITHOUT_EXAMINATIONS.include?(@exam.esod_category) %> <!-- nie pokazuj dla Sesji bez egzaminów -->
     <% if examination_policy_check(:examination, params[:category_service], 'print') %>
       <div class="col-sm-2 checked-order-prn">
         <div class="folded-purple"><h3>Nazwisko, Imię</h3></div>
@@ -72,6 +73,7 @@
 
         <h5>Protokół sesji egzaminacyjnej</h5>
       </div><!-- /.col-sm-2 -->
+    <% end %>
     <% end %>
 
     <% if exam_policy_check(:exam, params[:category_service], 'print') %>

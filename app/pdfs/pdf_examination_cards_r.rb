@@ -1,3 +1,5 @@
+require 'esodes'
+
 class PdfExaminationCardsR < Prawn::Document
 
   def initialize(examinations, exam, view)
@@ -75,7 +77,7 @@ class PdfExaminationCardsR < Prawn::Document
   end
 
   def display_total_table(e)
-    if e.examination_category != "Z"
+    if Esodes::CORRECTION_EXAMINATIONS.include?(e.esod_category)
       customer_last_examination = Examination.where(customer: e.customer, division: e.division, examination_result: 'N').last
       move_down 10
       text "Egzamin powtórny. Poprzednia sesja egzaminacyjna: " + "#{customer_last_examination.exam.number} - wynik negatywny." if customer_last_examination.present?

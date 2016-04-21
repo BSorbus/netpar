@@ -79,10 +79,12 @@ class PdfExamReport < Prawn::Document
                      @divisions.map { |p| [ 
                         p.name,
                         p.short_name,
-                        "#{@examinations.where(division: p, examination_category: 'Z', supplementary: false).size}" +
-                          " / " + "#{@examinations.where(division: p, examination_category: 'Z', supplementary: true).size}",
-                        "#{@examinations.where(division: p, examination_category: 'P', supplementary: false).size}" +
-                          " / " + "#{@examinations.where(division: p, examination_category: 'P', supplementary: true).size}",
+#                        "#{@examinations.where(division: p, examination_category: 'Z', supplementary: false).size}" +
+#                          " / " + "#{@examinations.where(division: p, examination_category: 'Z', supplementary: true).size}",
+                        "",
+#                        "#{@examinations.where(division: p, examination_category: 'P', supplementary: false).size}" +
+#                          " / " + "#{@examinations.where(division: p, examination_category: 'P', supplementary: true).size}",
+                        ""
                       ] }
   end
 
@@ -91,16 +93,22 @@ class PdfExamReport < Prawn::Document
     #stroke_line [350, cursor], [525,cursor], self.line_width = 2
     move_down 5    
     text_box "Razem:",                                                                        :at => [302, cursor], :width => 40, :height => 12, size: 9, :align => :right  
-    text_box "#{@examinations.where(examination_category: 'Z', supplementary: false).size}",  :at => [355, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :right  
-    text_box "#{@examinations.where(examination_category: 'P', supplementary: false).size}",  :at => [460, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :left  
+    #text_box "#{@examinations.where(examination_category: 'Z', supplementary: false).size}",  :at => [355, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :right  
+    text_box "",  :at => [355, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :right  
+    #text_box "#{@examinations.where(examination_category: 'P', supplementary: false).size}",  :at => [460, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :left  
+    text_box "",  :at => [460, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :left  
     move_down 12    
-    text_box "#{@examinations.where(examination_category: 'Z', supplementary: true).size}",   :at => [385, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :right  
-    text_box "#{@examinations.where(examination_category: 'P', supplementary: true).size}",   :at => [490, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :left  
+    #text_box "#{@examinations.where(examination_category: 'Z', supplementary: true).size}",   :at => [385, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :right  
+    text_box "",   :at => [385, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :right  
+    #text_box "#{@examinations.where(examination_category: 'P', supplementary: true).size}",   :at => [490, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :left  
+    text_box "",   :at => [490, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :left  
     move_down 12    
     stroke_line [300, cursor], [525,cursor], self.line_width = 2
     move_down 7    
-    text_box "#{@examinations.where(examination_category: 'Z').size}",                        :at => [375, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :center  
-    text_box "#{@examinations.where(examination_category: 'P').size}",                        :at => [470, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :center  
+    #text_box "#{@examinations.where(examination_category: 'Z').size}",                        :at => [375, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :center  
+    text_box "",                        :at => [375, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :center  
+    #text_box "#{@examinations.where(examination_category: 'P').size}",                        :at => [470, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :center  
+    text_box "",                        :at => [470, cursor], :width => 20, :height => 12, size: 9, :style => :bold, :align => :center  
   end
 
 

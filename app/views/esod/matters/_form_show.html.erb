@@ -15,7 +15,6 @@
   </div>
 <% end %>
 
-
 <div class="row">
   <div class="col-sm-12">
 
@@ -32,28 +31,40 @@
         <p><strong><%= Esod::Matter.human_attribute_name(:termin_realizacji) %></strong></p>
         <h5><%= @esod_matter.termin_realizacji %></h5>
       </div>
-      <div class="form-group col-sm-4">
+      <div class="form-group col-sm-3">
         <p><strong><%= Esod::Matter.human_attribute_name(:identyfikator_kategorii_sprawy) %></strong></p>
         <h5><%= @esod_matter.iks_name %></h5>
       </div>
+      <div class="form-group col-sm-1">
+        <p><strong><%= Esod::Matter.human_attribute_name(:czy_otwarta) %></strong></p>
+        <h5><%= @esod_matter.czy_otwarta? ? 'Tak' : 'Nie' %></h5>
+      </div>      
     </div>  <!-- /row -->
 
     <hr class="hr-without-top-margin">
 
     <div class="row">
-      <div class="form-group col-sm-12">
+      <div class="form-group col-sm-6">
         <p><strong><%= Esod::Matter.human_attribute_name(:tytul) %></strong></p>
         <h5><%= @esod_matter.tytul %></h5>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="form-group col-sm-12">
-        <p><strong><%= Esod::Matter.human_attribute_name(:adnotacja) %></strong></p>
-        <h5><%= @esod_matter.adnotacja %></h5>
+      <div class="form-group col-sm-6">
+        <p><strong>Adnotacje:</strong></p>
+
+        <table class="table table-hover">
+          <tbody>
+            <% @esod_matter.esod_matter_notes.order(:id).each do |esod_matter_note| %>
+              <tr>
+                <td><%= esod_matter_note.tytul %></td>
+                <td><%= esod_matter_note.tresc %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
       </div>
     </div>
-
 
   </div> <!-- /col-sm-12 -->
 </div> <!-- /row -->
@@ -67,6 +78,23 @@
     <%= link_to t('Index', default: t("helpers.links.index")), esod_matters_path(), :class => 'btn btn-default glyphicon glyphicon-th-list' %>
 
     <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+
+
+    <% if resource_service == 'exam' && exam_policy_check(:exam, category_service, 'new') %>
+      <%= link_to t("helpers.links.new_#{resource_service}"), 
+            new_exam_path(category_service, esod_matter_id: @esod_matter.id, 
+                          back_url: esod_matter_path(@esod_matter)), 
+              :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
+    <% end  %> 
+
+    <% if resource_service == 'examination' && examination_policy_check(:examination, category_service, 'new') %>
+      <%= link_to t("helpers.links.new_#{resource_service}"), 
+            new_examination_path(category_service, esod_matter_id: @esod_matter.id, 
+                          back_url: esod_matter_path(@esod_matter)), 
+              :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
+    <% end  %> 
+
+<h5><%= "#{resource_service} #{category_service}" %></h5>
 
   </div> <!-- /row -->
 <% else %>

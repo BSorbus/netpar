@@ -6,15 +6,30 @@
   border-color: #ddd  
 }
 .panel-esod-matter > .panel-heading {
-  background: #00b0b3;
+  background:  #6495ed; //#99ccff;
   color: white; 
 }
 
-.panel-esod-letter {
+.panel-esod-incoming-letter {
   border-color: #ddd  
 }
-.panel-esod-letter > .panel-heading {
-  background: #00b0b3;
+.panel-esod-incoming-letter > .panel-heading {
+  background:  #6495ed; //#99ccff;
   color: white; 
 }
 
+.panel-esod-outgoing-letter {
+  border-color: #ddd  
+}
+.panel-esod-outgoing-letter > .panel-heading {
+  background:  #6495ed; //#99ccff;
+  color: white; 
+}
+
+.panel-esod-internal-letter {
+  border-color: #ddd  
+}
+.panel-esod-internal-letter > .panel-heading {
+  background:  #6495ed; //#99ccff;
+  color: white; 
+}

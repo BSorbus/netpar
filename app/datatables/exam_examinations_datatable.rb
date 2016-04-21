@@ -11,10 +11,10 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Certificateple: 'certificates.email'
     @sortable_columns ||= %w( 
-                              Customer.name
-                              Examination.examination_category
+                              Esod::Matter.znak 
+                              Examination.esod_category
                               Division.name
-                              Examination.supplementary
+                              Customer.name
                               Examination.examination_result
                               Examination.note
                               Certificate.number
@@ -25,16 +25,17 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Examinationple: 'certificates.email'
     @searchable_columns ||= %w(
+                              Esod::Matter.znak 
+                              Division.name
                               Customer.name
                               Customer.given_names
                               Customer.address_city
-                              Division.name
                               Examination.note 
                             )
   end
 
   private
-
+ 
   def data
     # comma separated list of the values for each cell of a table row
     # certificateple: record.attribute,
@@ -47,10 +48,11 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
       [
         record.id,
         attach.present? ? link_to( image_tag( get_fileattach_as_small_image(attach, params[:category_service]) ), @view.examination_path(params[:category_service], record, back_url: @view.exam_path(record.exam.category.downcase, record.exam))) : '',
-        show_customer ? link_to(record.customer.fullname_and_address, @view.customer_path(record.customer)) : 'xxx-xxx',
-        record.examination_category_name,
+        #record.esod_matter.present? ? record.esod_matter.znak : '',
+        record.esod_matter.present? ? link_to(record.esod_matter.znak, @view.esod_matter_path(record.esod_matter)) : '',
+        record.esod_category_name,
         record.division.name + " (" + record.division.short_name + ")",
-        record.supplementary? ? '<div style="text-align: center"><div class="glyphicon glyphicon-ok"></div></div>' : ' ',
+        show_customer ? link_to(record.customer.fullname_and_address, @view.customer_path(record.customer)) : 'xxx-xxx',
         record.examination_result_name,
         record.note,
         record.certificate.present? ? link_to(record.certificate.number, @view.certificate_path(record.certificate.category.downcase, record.certificate)) : '',
@@ -68,7 +70,7 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    Examination.joins(:division, :customer, :exam).where(exam_id: options[:only_for_current_exam_id]).includes(:division, :customer, :exam, :certificate).references(:division, :customer, :exam, :certificate).all
+    Examination.joins(:division, :customer, :exam).where(exam_id: options[:only_for_current_exam_id]).includes(:division, :customer, :exam, :certificate, :esod_matter).references(:division, :customer, :exam, :certificate, :esod_matter).all
   end
 
   # ==== Insert 'presenter'-like methods below if necessary

@@ -63,6 +63,7 @@
 
 
   <!-- Examinations-->
+  <% unless Esodes::WITHOUT_EXAMINATIONS.include?(@exam.esod_category) %>
   <div class="row">
     <div class="col-sm-11 col-sm-offset-1">
       <div class="panel panel-examination">
@@ -90,6 +91,7 @@
       </div> <!-- /panel -->
     </div> <!-- /col-sm-11 col-sm-offset-1 -->
   </div> <!-- /row -->
+  <% end %>
 
 
   <!-- Certificates-->

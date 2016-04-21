@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :teryt_ulic_code do
+  factory :teryt_ulic_code, class: 'Teryt::UlicCode' do
     woj "MyString"
     pow "MyString"
     gmi "MyString"

@@ -11,9 +11,9 @@
         <thead>
           <tr>
             <th> </th>
-            <th><%= Examination.human_attribute_name(:examination_category) %></th>
+            <th><%= Examination.human_attribute_name(:esod_matter_id) %></th>
+            <th><%= Examination.human_attribute_name(:esod_category) %></th>
             <th><%= Examination.human_attribute_name(:division_id) %></th>
-            <th><%= Examination.human_attribute_name(:supplementary) %></th>
             <th><%= Examination.human_attribute_name(:examination_result) %></th>
             <th><%= Examination.human_attribute_name(:exam_id) %></th>
             <th><%= Examination.human_attribute_name(:certificate_id) %></th>
@@ -34,15 +34,11 @@
                   <% end %>
 
                 </td>
-                <td><%= examination.examination_category_name %></td>
+                <td>
+                  <%= link_to examination.esod_matter.znak, esod_matter_path(examination.esod_matter, back_url: customer_path(@customer)) if examination.esod_matter.present? %>
+                </td>
+                <td><%= examination.esod_category_name %></td>
                 <td><%= examination.division.name %></td>
-
-                <% if examination.supplementary? %> 
-                  <td style="text-align: center"><span class="glyphicon glyphicon-ok"></span> </td>
-                <% else %>
-                  <td></td>
-                <% end %>                
-
                 <% if    examination.examination_result == 'P' %> <!-- pozytywny -->
                   <td class="success"><%= examination.examination_result_name %></td>
                 <% elsif examination.examination_result == 'B' %> <!-- Negatywny bez prawa do poprawki -->
@@ -52,7 +48,7 @@
                 <% else %> <!-- brak wpisu lub Nieobecność lub Zmiana terminu-->
                   <td ><%= examination.examination_result_name %></td>
                 <% end %>                
-               <td>
+                <td>
                   <%= link_to examination.exam.fullname, exam_path(examination.exam, category_service:  examination.exam.category.downcase, back_url: customer_path(@customer)) %>
                 </td>
                 <td>

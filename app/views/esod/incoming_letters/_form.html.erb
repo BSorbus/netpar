@@ -1,0 +1,117 @@
+<%= form_for(@esod_incoming_letter) do |f| %>
+  <% if @esod_incoming_letter.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@esod_incoming_letter.errors.count, "error") %> prohibited this esod_incoming_letter from being saved:</h2>
+
+      <ul>
+      <% @esod_incoming_letter.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :nrid %><br>
+    <%= f.number_field :nrid %>
+  </div>
+  <div class="field">
+    <%= f.label :numer_ewidencyjny %><br>
+    <%= f.text_field :numer_ewidencyjny %>
+  </div>
+  <div class="field">
+    <%= f.label :tytul %><br>
+    <%= f.text_field :tytul %>
+  </div>
+  <div class="field">
+    <%= f.label :data_pisma %><br>
+    <%= f.date_select :data_pisma %>
+  </div>
+  <div class="field">
+    <%= f.label :data_nadania %><br>
+    <%= f.date_select :data_nadania %>
+  </div>
+  <div class="field">
+    <%= f.label :data_wplyniecia %><br>
+    <%= f.date_select :data_wplyniecia %>
+  </div>
+  <div class="field">
+    <%= f.label :znak_pisma_wplywajacego %><br>
+    <%= f.text_field :znak_pisma_wplywajacego %>
+  </div>
+  <div class="field">
+    <%= f.label :identyfikator_typu_dcmd %><br>
+    <%= f.number_field :identyfikator_typu_dcmd %>
+  </div>
+  <div class="field">
+    <%= f.label :identyfikator_rodzaju_dokumentu %><br>
+    <%= f.number_field :identyfikator_rodzaju_dokumentu %>
+  </div>
+  <div class="field">
+    <%= f.label :identyfikator_sposobu_przeslania %><br>
+    <%= f.number_field :identyfikator_sposobu_przeslania %>
+  </div>
+  <div class="field">
+    <%= f.label :identyfikator_miejsca_przechowywania %><br>
+    <%= f.number_field :identyfikator_miejsca_przechowywania %>
+  </div>
+  <div class="field">
+    <%= f.label :termin_na_odpowiedz %><br>
+    <%= f.date_select :termin_na_odpowiedz %>
+  </div>
+  <div class="field">
+    <%= f.label :pelna_wersja_cyfrowa %><br>
+    <%= f.check_box :pelna_wersja_cyfrowa %>
+  </div>
+  <div class="field">
+    <%= f.label :naturalny_elektroniczny %><br>
+    <%= f.check_box :naturalny_elektroniczny %>
+  </div>
+  <div class="field">
+    <%= f.label :uwagi %><br>
+    <%= f.text_field :uwagi %>
+  </div>
+  <div class="field">
+    <%= f.label :id_osoba %><br>
+    <%= f.number_field :id_osoba %>
+  </div>
+  <div class="field">
+    <%= f.label :id_adres %><br>
+    <%= f.number_field :id_adres %>
+  </div>
+  <div class="field">
+    <%= f.label :id_zalozyl %><br>
+    <%= f.number_field :id_zalozyl %>
+  </div>
+  <div class="field">
+    <%= f.label :id_aktualizowal %><br>
+    <%= f.text_field :id_aktualizowal %>
+  </div>
+  <div class="field">
+    <%= f.label :data_zalozenia %><br>
+    <%= f.date_select :data_zalozenia %>
+  </div>
+  <div class="field">
+    <%= f.label :data_aktualizacji %><br>
+    <%= f.date_select :data_aktualizacji %>
+  </div>
+  <div class="field">
+    <%= f.label :esod_contractor_id %><br>
+    <%= f.text_field :esod_contractor_id %>
+  </div>
+  <div class="field">
+    <%= f.label :esod_address_id %><br>
+    <%= f.text_field :esod_address_id %>
+  </div>
+  <div class="field">
+    <%= f.label :initialized_from_esod %><br>
+    <%= f.check_box :initialized_from_esod %>
+  </div>
+  <div class="field">
+    <%= f.label :netpar_user %><br>
+    <%= f.number_field :netpar_user %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

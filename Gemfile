@@ -78,3 +78,5 @@ gem 'swagger_engine'
 #gem "unicorn-rails"
 gem 'savon'
 gem 'whenever', :require => false
+gem 'docx_replace'
+gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'

@@ -1,7 +1,7 @@
 class CreateEsodMatters < ActiveRecord::Migration
   def change
     create_table :esod_matters do |t|
-      t.integer :nrid
+      t.integer :nrid, index: true
       t.string :znak
       t.string :znak_sprawy_grupujacej
       t.string :symbol_jrwa
@@ -13,7 +13,10 @@ class CreateEsodMatters < ActiveRecord::Migration
       t.boolean :czy_otwarta
       t.datetime :data_utworzenia
       t.datetime :data_modyfikacji
+      t.integer :id_zalozyl
+      t.integer :id_aktualizowal
       t.boolean :initialized_from_esod, default: true
+      t.integer :netpar_user
 
       t.timestamps null: false
     end

@@ -1,3 +1,5 @@
+require 'esodes'
+
 class Esod::MattersController < ApplicationController
   before_action :authenticate_user!
   #after_action :verify_authorized, except: [:index, :datatables_index]
@@ -5,12 +7,12 @@ class Esod::MattersController < ApplicationController
   before_action :set_esod_matter, only: [:show, :edit, :update, :destroy]
 
   # GET /esod/matters
-  # GET /esod/matters.json
+  # GET /esod/matters.json 
   def index
 #    @esod_matters = Esod::Matter.all
-#    @token_data = Token.new(current_user.email, current_user.esod_encryped_password)
+  #  @token_data = Esod::Token.new(current_user.email, current_user.esod_encryped_password)
 #    if @token_data.present?
-#      @stanowiska = @token_data.stanowiska
+  #    @stanowiska = @token_data.stanowiska
  
 #      @stanowiska = { "stanowisko"=>[ 
 #                                      {"id"=>"1", "name"=>"Kowalski"},
@@ -35,6 +37,10 @@ class Esod::MattersController < ApplicationController
 #      puts '----------------------------------------'
 #    end
     @esod_matters = Esod::Matter.all
+    params[:only_sessions] = false unless params[:only_sessions].present?
+    respond_to do |format|
+      format.html { render :index, locals: { only_sessions: params[:only_sessions] } }
+    end        
   end
 
   def datatables_index
@@ -64,7 +70,35 @@ class Esod::MattersController < ApplicationController
   def show 
     respond_to do |format|
       format.json { render json: @esod_matter, root: false }
-      format.html
+      format.html do
+
+        category_service =
+          if    Esodes::JRWA_L.include?(@esod_matter.symbol_jrwa.to_i)
+            'l'
+          elsif Esodes::JRWA_M.include?(@esod_matter.symbol_jrwa.to_i)
+            'm'
+          elsif Esodes::JRWA_R.include?(@esod_matter.symbol_jrwa.to_i)
+            'r'
+          else
+            raise "Bad param symbol_jrwa: #{@esod_matter.symbol_jrwa}"
+          end
+
+        resource_service =
+          if Esodes::ALL_CATEGORIES_EXAMS.include?(@esod_matter.identyfikator_kategorii_sprawy)
+            'exam'
+          elsif Esodes::ALL_CATEGORIES_EXAMINATIONS.include?(@esod_matter.identyfikator_kategorii_sprawy)
+            'examination'
+          elsif Esodes::ALL_CATEGORIES_CERTIFICATES.include?(@esod_matter.identyfikator_kategorii_sprawy)
+            'certificate'
+          else
+            #raise "Bad param identyfikator_kategorii_sprawy: #{@esod_matter.identyfikator_kategorii_sprawy}"
+            "Bad param identyfikator_kategorii_sprawy: #{@esod_matter.identyfikator_kategorii_sprawy}"
+          end
+
+        #@esod_matter.save_to_esod(current_user.email, current_user.esod_encryped_password)
+       
+        render :show, locals: { category_service: category_service, resource_service: resource_service } 
+      end
     end    
   end
 

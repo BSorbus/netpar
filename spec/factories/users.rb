@@ -127,42 +127,42 @@ FactoryGirl.define do
 
     trait :as_examination_l_observer do
       after(:create) do |user|
-        role = CreateRoleService.new.exam_l_observer
+        role = CreateRoleService.new.examination_l_observer
         user.roles << role
       end
     end
 
     trait :as_examination_l_manager do
       after(:create) do |user|
-        role = CreateRoleService.new.exam_l_manager
+        role = CreateRoleService.new.examination_l_manager
         user.roles << role
       end
     end
 
     trait :as_examination_m_observer do
       after(:create) do |user|
-        role = CreateRoleService.new.exam_m_observer
+        role = CreateRoleService.new.examination_m_observer
         user.roles << role
       end
     end
 
     trait :as_examination_m_manager do
       after(:create) do |user|
-        role = CreateRoleService.new.exam_m_manager
+        role = CreateRoleService.new.examination_m_manager
         user.roles << role
       end
     end
 
     trait :as_examination_r_observer do
       after(:create) do |user|
-        role = CreateRoleService.new.exam_r_observer
+        role = CreateRoleService.new.examination_r_observer
         user.roles << role
       end
     end
 
     trait :as_examination_r_manager do
       after(:create) do |user|
-        role = CreateRoleService.new.exam_r_manager
+        role = CreateRoleService.new.examination_r_manager
         user.roles << role
       end
     end

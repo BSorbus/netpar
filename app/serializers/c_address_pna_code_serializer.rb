@@ -1,3 +1,3 @@
-class CAddressPnaCodeSerializer < PnaCodeSerializer
+class CAddressPnaCodeSerializer < Teryt::PnaCodeSerializer
 
 end

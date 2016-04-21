@@ -1,3 +1,5 @@
+require 'esodes'
+
 class PdfExaminationProtocolR < Prawn::Document
 
   def initialize(examinations, exam, view)
@@ -78,7 +80,7 @@ class PdfExaminationProtocolR < Prawn::Document
 
   def name_with_last_exam(e)
     res = "#{e.customer.name}" + "\n" + "#{e.customer.given_names}"
-    if e.examination_category != "Z"
+    if Esodes::CORRECTION_EXAMINATIONS.include?(e.esod_category)
       customer_last_examination = Examination.where(customer: e.customer, division: e.division, examination_result: 'N').last
       res += "\n" + "(P: #{customer_last_examination.exam.number})" if customer_last_examination.present?
     end

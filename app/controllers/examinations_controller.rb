@@ -1,3 +1,5 @@
+require 'esodes'
+
 class ExaminationsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index_exam]
@@ -87,8 +89,13 @@ class ExaminationsController < ApplicationController
   def new
     @examination = Examination.new
     @examination.category = (params[:category_service]).upcase
-    
 
+    @esod_matter = load_esod_matter
+    if @esod_matter.present?
+      @examination.esod_matter = @esod_matter
+      @examination.esod_category = @esod_matter.identyfikator_kategorii_sprawy
+    end
+    
     @exam = load_exam
     @examination.exam = @exam
 
@@ -147,10 +154,10 @@ class ExaminationsController < ApplicationController
 
     respond_to do |format|
       if @examination.save
-        @examination.division.subjects.where(for_supplementary: @examination.supplementary).order(:item).each do |subject|
-          if @examination.examination_category == 'Z' #egzamin zwykły
+        @examination.division.subjects.where("'?' = ANY (esod_categories)", @examination.esod_category).order(:item).each do |subject|
+          if Esodes::ORDINARY_EXAMINATIONS.include?(@examination.esod_category) #egzamin zwykły/zwykły PW 
             @examination.grades.create!(user: @examination.user, subject: subject)
-          else #jesli to egzamin powtórny
+          else #jesli to egzamin poprawkowy/odnowienie z egzaminem, poprawkowy
             # poszukaj ocen z oceną negatywną
             customer_last_examination = Examination.where(customer: @examination.customer, division: @examination.division, examination_result: 'N').last # Negatywny z prawem do poprawki
             if customer_last_examination.present?
@@ -234,6 +241,10 @@ class ExaminationsController < ApplicationController
       @examination = Examination.find(params[:id])
     end
 
+    def load_esod_matter
+      Esod::Matter.find(params[:esod_matter_id]) if (params[:esod_matter_id]).present?
+    end
+
     def load_exam
       Exam.find(params[:exam_id]) if (params[:exam_id]).present?
     end
@@ -244,6 +255,6 @@ class ExaminationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def examination_params
-      params.require(:examination).permit(:examination_category, :division_id, :supplementary, :examination_result, :exam_id, :customer_id, :certificate_id, :note, :category, :exam_id, :user_id, grades_attributes: [:id, :grade_result])
+      params.require(:examination).permit(:esod_category, :division_id, :exam_id, :customer_id, :examination_result, :certificate_id, :note, :category, :exam_id, :user_id, :esod_matter_id, grades_attributes: [:id, :grade_result])
     end
 end

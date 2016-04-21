@@ -17,12 +17,8 @@ class Esod::MatterDatatable < AjaxDatatablesRails::Base
                               Esod::Matter.tytul 
                               Esod::Matter.termin_realizacji 
                               Esod::Matter.identyfikator_kategorii_sprawy 
-                              Esod::Matter.adnotacja 
                               Esod::Matter.identyfikator_stanowiska_referenta 
                               Esod::Matter.czy_otwarta 
-                              Esod::Matter.data_utworzenia 
-                              Esod::Matter.data_modyfikacji 
-                              Esod::Matter.initialized_from_esod 
                             )
   end
 
@@ -36,12 +32,8 @@ class Esod::MatterDatatable < AjaxDatatablesRails::Base
                               Esod::Matter.tytul 
                               Esod::Matter.termin_realizacji                             
                               Esod::Matter.identyfikator_kategorii_sprawy 
-                              Esod::Matter.adnotacja 
                               Esod::Matter.identyfikator_stanowiska_referenta 
                               Esod::Matter.czy_otwarta 
-                              Esod::Matter.data_utworzenia 
-                              Esod::Matter.data_modyfikacji 
-                              Esod::Matter.initialized_from_esod 
                             )
   end
 
@@ -54,19 +46,13 @@ class Esod::MatterDatatable < AjaxDatatablesRails::Base
       [
         record.id,
         record.nrid,
-        #record.znak,
         link_to(record.znak, @view.esod_matter_path(record)),
         record.symbol_jrwa,
         record.tytul,
         record.termin_realizacji,
-        #record.identyfikator_kategorii_sprawy,
         record.iks_name,
-        record.adnotacja,
         record.identyfikator_stanowiska_referenta,
         record.czy_otwarta,
-        record.data_utworzenia,
-        record.data_modyfikacji,      
-        record.initialized_from_esod
       ]
     end
   end

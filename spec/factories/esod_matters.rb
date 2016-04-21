@@ -13,8 +13,6 @@ FactoryGirl.define do
     data_utworzenia "2016-03-30 07:35:52"
     data_modyfikacji "2016-03-30 07:35:52"
     initialized_from_esod false
-#    exam nil
-#    examination nil
-#    certificate nil
+    netpar_user ""
   end
 end

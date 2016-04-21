@@ -1,8 +1,10 @@
+require 'esodes'
+
 class ExamsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index, :select2_index, :certificates_generation]
 
-  before_action :set_exam, only: [:show, :edit, :update, :destroy, :examination_cards_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf]
+  before_action :set_exam, only: [:show, :edit, :update, :destroy, :examination_cards_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf, :committee_docx]
 
   # GET /exams
   # GET /exams.json
@@ -238,6 +240,54 @@ class ExamsController < ApplicationController
     end
   end
 
+
+  def committee_docx
+    case params[:category_service]
+    when 'l'
+      authorize @exam, :edit_l?
+    when 'm'
+      authorize @exam, :edit_m?
+    when 'r'
+      authorize @exam, :edit_r?
+    end
+
+    respond_to do |format|
+      format.docx do
+        # Initialize DocxReplace with your template
+        doc = DocxReplace::Doc.new("#{Rails.root}/lib/docx_templates/exam_#{params[:category_service]}_committee.docx", "#{Rails.root}/tmp")
+
+        # Replace some variables. $var$ convention is used here, but not required.
+        #doc.replace("$departmentcity$", "Bydgoszczu")
+        doc.replace("$departmentcity$", "#{@current_user.department.address_city}, dn. #{DateTime.now.to_date.strftime('%d.%m.%Y')} r.")
+        doc.replace("$esodznak$", "OGD.SKM.5231.1.2017")
+        doc.replace("$examnumber$", "#{@exam.number}")
+        doc.replace("$placeexam$", "#{@exam.place_exam}")
+        doc.replace("$dateexam$", "#{@exam.date_exam.strftime('%d.%m.%Y')} r.")
+        doc.replace("$examchairman$", "#{@exam.chairman}")
+        doc.replace("$examsecretary$", "#{@exam.secretary}")
+        @exam.examiners.order(:name).each_with_index do |examiner, n|
+          doc.replace("$examiner#{n}$", "#{n + 3}. Członek:")
+          doc.replace("$examiner#{n}name$", "#{examiner.name}")
+        end
+        n_count = @exam.examiners.size
+        (10 - n_count).times do |n|
+          doc.replace("$examiner#{n_count + n}$", "")
+          doc.replace("$examiner#{n_count + n}name$", "")
+        end
+
+        doc.replace("$username$", "#{@current_user.name}")
+        doc.replace("$netparstopka$", "wygenerowano z programu https://#{Rails.application.secrets.domain_name}  © UKE-BI-WUSA (BJ) 2015")
+
+        # Write the document back to a temporary file
+        tmp_file = Tempfile.new('word_tempate', "#{Rails.root}/tmp")
+        doc.commit(tmp_file.path)
+
+        # Respond to the request by sending the temp file
+        send_file tmp_file.path, filename: "exam_#{params[:category_service]}_comittee_#{@exam.fullname}.docx", disposition: 'attachment'
+      end
+    end
+  end
+
   # GET /exams/1
   # GET /exams/1.json
   def show
@@ -263,10 +313,19 @@ class ExamsController < ApplicationController
 
   # GET /exams/new
   def new
-    @exam = Exam.new
+    @exam = Exam.new 
     @exam.category = (params[:category_service]).upcase
-    #@exam.examiners.new
-    #@exam.examiners.new
+    params[:category_service] == 'l' ? @exam.esod_category = Esodes::SESJA_BEZ_EGZAMINOW : @exam.esod_category = Esodes::SESJA
+
+    @esod_matter = load_esod_matter
+    if @esod_matter.present?
+      @exam.esod_matter = @esod_matter
+      @exam.esod_category = @esod_matter.identyfikator_kategorii_sprawy
+      @exam.number = @esod_matter.exam_number
+      @exam.date_exam = @esod_matter.termin_realizacji
+      @exam.place_exam = @esod_matter.exam_place
+    end
+
     (1..8).each { @exam.examiners.build }
     case params[:category_service]
     when 'l'
@@ -405,8 +464,12 @@ class ExamsController < ApplicationController
       @exam = Exam.find(params[:id])
     end
 
+    def load_esod_matter
+      Esod::Matter.find(params[:esod_matter_id]) if (params[:esod_matter_id]).present?
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def exam_params
-      params.require(:exam).permit(:number, :date_exam, :place_exam, :chairman, :secretary, :category, :note, :user_id, :esod_matter_id, examiners_attributes: [:id, :name, :_destroy])
+      params.require(:exam).permit(:esod_category, :number, :date_exam, :place_exam, :chairman, :secretary, :category, :note, :user_id, :esod_matter_id, examiners_attributes: [:id, :name, :_destroy])
     end
 end

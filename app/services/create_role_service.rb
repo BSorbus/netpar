@@ -105,20 +105,6 @@ class CreateRoleService
     end
   end
 
-  # certificate_l
-  def certificate_l_manager
-    role = Role.find_or_create_by!(name: "Menadżer Świadectw Lotniczych") do |role|
-      role.activities += %w(certificate_l:index certificate_l:show certificate_l:create certificate_l:update certificate_l:delete certificate_l:print certificate_l:work)
-      role.save!
-    end
-  end
-  def certificate_l_observer
-    role = Role.find_or_create_by!(name: "Obserwator Świadectw Lotniczych") do |role|
-      role.activities += %w(certificate_l:index certificate_l:show)
-      role.save!
-    end
-  end
-
   # examination_l
   def examination_l_manager
     role = Role.find_or_create_by!(name: "Menadżer Osób Egzaminowanych w Sesjach Egzaminacyjnych Świadectw Lotniczych") do |role|
@@ -157,6 +143,20 @@ class CreateRoleService
   def examination_r_observer
     role = Role.find_or_create_by!(name: "Obserwator Osób Egzaminowanych w Sesjach Egzaminacyjnych Świadectw Radioamtorskich") do |role|
       role.activities += %w(examination_r:index examination_r:show)
+      role.save!
+    end
+  end
+
+  # certificate_l
+  def certificate_l_manager
+    role = Role.find_or_create_by!(name: "Menadżer Świadectw Lotniczych") do |role|
+      role.activities += %w(certificate_l:index certificate_l:show certificate_l:create certificate_l:update certificate_l:delete certificate_l:print certificate_l:work)
+      role.save!
+    end
+  end
+  def certificate_l_observer
+    role = Role.find_or_create_by!(name: "Obserwator Świadectw Lotniczych") do |role|
+      role.activities += %w(certificate_l:index certificate_l:show)
       role.save!
     end
   end

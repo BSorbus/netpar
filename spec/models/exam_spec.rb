@@ -14,8 +14,12 @@ RSpec.describe Exam, type: :model do
   it { should respond_to(:user_id) }
   it { should respond_to(:examinations_count) }
   it { should respond_to(:certificates_count) }
+  it { should respond_to(:esod_category) }
+  it { should respond_to(:esod_matter_id) }
 
 
+  it { should validate_presence_of(:esod_category) }
+  it { should validate_inclusion_of(:esod_category).in_array(Esodes::ALL_CATEGORIES_EXAMS) }
   it { should validate_presence_of(:number) }
   it { should validate_length_of(:number).is_at_least(1).is_at_most(30) }
   it { should validate_uniqueness_of(:number).scoped_to(:category).case_insensitive }

@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Esod Outgoing Letters</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nrid</th>
+      <th>Numer ewidencyjny</th>
+      <th>Tytul</th>
+      <th>Wysylka</th>
+      <th>Identyfikator rodzaju dokumentu wychodzacego</th>
+      <th>Data pisma</th>
+      <th>Numer wersji</th>
+      <th>Id zalozyl</th>
+      <th>Id aktualizowal</th>
+      <th>Data zalozenia</th>
+      <th>Data aktualizacji</th>
+      <th>Initialized from esod</th>
+      <th>Netpar user</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @esod_outgoing_letters.each do |esod_outgoing_letter| %>
+      <tr>
+        <td><%= esod_outgoing_letter.nrid %></td>
+        <td><%= esod_outgoing_letter.numer_ewidencyjny %></td>
+        <td><%= esod_outgoing_letter.tytul %></td>
+        <td><%= esod_outgoing_letter.wysylka %></td>
+        <td><%= esod_outgoing_letter.identyfikator_rodzaju_dokumentu_wychodzacego %></td>
+        <td><%= esod_outgoing_letter.data_pisma %></td>
+        <td><%= esod_outgoing_letter.numer_wersji %></td>
+        <td><%= esod_outgoing_letter.id_zalozyl %></td>
+        <td><%= esod_outgoing_letter.id_aktualizowal %></td>
+        <td><%= esod_outgoing_letter.data_zalozenia %></td>
+        <td><%= esod_outgoing_letter.data_aktualizacji %></td>
+        <td><%= esod_outgoing_letter.initialized_from_esod %></td>
+        <td><%= esod_outgoing_letter.netpar_user %></td>
+        <td><%= link_to 'Show', esod_outgoing_letter %></td>
+        <td><%= link_to 'Edit', edit_esod_outgoing_letter_path(esod_outgoing_letter) %></td>
+        <td><%= link_to 'Destroy', esod_outgoing_letter, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Outgoing letter', new_esod_outgoing_letter_path %>

@@ -1,0 +1,61 @@
+<%= form_for(@esod_contractor) do |f| %>
+  <% if @esod_contractor.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@esod_contractor.errors.count, "error") %> prohibited this esod_contractor from being saved:</h2>
+
+      <ul>
+      <% @esod_contractor.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :nrid %><br>
+    <%= f.number_field :nrid %>
+  </div>
+  <div class="field">
+    <%= f.label :imie %><br>
+    <%= f.text_field :imie %>
+  </div>
+  <div class="field">
+    <%= f.label :nazwisko %><br>
+    <%= f.text_field :nazwisko %>
+  </div>
+  <div class="field">
+    <%= f.label :nazwa %><br>
+    <%= f.text_field :nazwa %>
+  </div>
+  <div class="field">
+    <%= f.label :drugie_imie %><br>
+    <%= f.text_field :drugie_imie %>
+  </div>
+  <div class="field">
+    <%= f.label :tytul %><br>
+    <%= f.text_field :tytul %>
+  </div>
+  <div class="field">
+    <%= f.label :nip %><br>
+    <%= f.text_field :nip %>
+  </div>
+  <div class="field">
+    <%= f.label :pesel %><br>
+    <%= f.text_field :pesel %>
+  </div>
+  <div class="field">
+    <%= f.label :rodzaj %><br>
+    <%= f.text_field :rodzaj %>
+  </div>
+  <div class="field">
+    <%= f.label :initialized_from_esod %><br>
+    <%= f.check_box :initialized_from_esod %>
+  </div>
+  <div class="field">
+    <%= f.label :netpar_user %><br>
+    <%= f.text_field :netpar_user %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

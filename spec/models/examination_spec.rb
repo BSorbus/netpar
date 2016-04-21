@@ -4,7 +4,6 @@ RSpec.describe Examination, type: :model do
   let(:examination) { FactoryGirl.build :examination }
   subject { examination }
 
-  it { should respond_to(:examination_category) }
   it { should respond_to(:division_id) }
   it { should respond_to(:examination_result) }
   it { should respond_to(:exam_id) }
@@ -13,13 +12,14 @@ RSpec.describe Examination, type: :model do
   it { should respond_to(:category) }
   it { should respond_to(:user_id) }
   it { should respond_to(:certificate_id) }
-  it { should respond_to(:supplementary) }
+  it { should respond_to(:esod_category) }
+  it { should respond_to(:esod_matter_id) }
 
-  it { should validate_presence_of(:examination_category) }
-  it { should validate_inclusion_of(:examination_category).in_array(['P', 'Z']) }
   it { should validate_presence_of(:category) }
   it { should validate_inclusion_of(:category).in_array(['L', 'M', 'R']) }
 
+  it { should validate_presence_of(:esod_category) }
+  it { should validate_inclusion_of(:esod_category).in_array(Esodes::ALL_CATEGORIES_EXAMINATIONS) }
 
   it { should validate_presence_of(:division) }
   it { should validate_presence_of(:customer) }

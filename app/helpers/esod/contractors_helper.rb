@@ -1,0 +1,2 @@
+module Esod::ContractorsHelper
+end

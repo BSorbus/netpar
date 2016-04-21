@@ -35,12 +35,24 @@
   <div class="col-sm-7">
 
     <div class="row">
-      <div class="form-group col-sm-8">
+      <div class="form-group col-sm-12">
+        <%= f.label :esod_category, class: 'control-label' %>
+        <%= f.select :esod_category, 
+              options_for_select([['Sesja egzaminacyjna', Esodes::SESJA],
+                                  ['Sesja bez egzaminu lub z egzaminem poza UKE', Esodes::SESJA_BEZ_EGZAMINOW]], 
+                  selected: @exam.esod_category), 
+              { include_blank: false}, 
+              { autofocus: @exam.new_record?, class: 'form-control input-sm', disabled: params[:category_service] == 'l' || @exam.esod_matter_id.present? } %>
+      </div>
+    </div>  <!-- /row -->
+
+    <div class="row">
+      <div class="form-group col-sm-6">
         <%= f.label :number, class: 'control-label' %>
-        <%= f.text_field :number, autofocus: true, class: 'form-control input-sm', placeholder: t("placeholder_text.exam_#{params[:category_service]}.form.number"), disabled: input_disabled %>
+        <%= f.text_field :number, autofocus: !@exam.new_record?, class: 'form-control input-sm', placeholder: t("placeholder_text.exam_#{params[:category_service]}.form.number"), disabled: input_disabled %>
       </div>
 
-      <div class="form-group col-sm-4">
+      <div class="form-group col-sm-6">
         <%= f.label :date_exam, class: 'control-label' %>
         <%= f.text_field :date_exam, class: 'datepicker form-control input-sm', disabled: input_disabled %>
       </div>
@@ -102,8 +114,11 @@
   <div class="col-sm-5">
     <blockquote>
       <p>Uwaga!</p>
-      <h5>Pozostawienie pustego pola "<strong><%= Exam.human_attribute_name('esod_matter') %></strong>" podczas dodawania nowej sesji egzaminacyjnej, automatycznie wygeneruje sprawę w systemie ESOD!<br>
-        Jeżeli nie chcesz tworzyć nowej sprawy w systemie ESOD musisz wybrać z listy istniejącą już pozycję.</h5>
+      <h5>1. Pozostawienie pustego pola "<strong><%= Exam.human_attribute_name('esod_matter') %></strong>" 
+        podczas dodawania nowej sesji egzaminacyjnej automatycznie wygeneruje sprawę w systemie ESOD!<br>
+        Jeżeli nie chcesz tworzyć nowej sprawy w systemie ESOD musisz wybrać z listy spraw istniejącą już pozycję.</h5>
+      <h5>2. Wybranie określonej sprawy w polu "<strong><%= Exam.human_attribute_name('esod_matter') %></strong>"
+        i wprowadzenie wartości niezgodnych z jej tytułem i opisem spowoduje zmianę danych w ESOD!</h5>
     </blockquote>
   </div> <!-- /col-sm-5 -->
 </div> <!-- /row -->

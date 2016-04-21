@@ -24,7 +24,7 @@
 #
 class Certificate < ActiveRecord::Base
   belongs_to :division
-  belongs_to :exam, counter_cache: true
+  belongs_to :exam #, counter_cache: true
   belongs_to :customer
   belongs_to :user
 
@@ -38,7 +38,7 @@ class Certificate < ActiveRecord::Base
   # validates
   validates :number, presence: true,
                     length: { in: 1..30 },
-                    uniqueness: { :case_sensitive => false, :scope => [:category] }
+                    uniqueness: { case_sensitive: false, scope: [:category] }
   validates :date_of_issue, presence: true
   validates :division, presence: true
   validates :customer, presence: true

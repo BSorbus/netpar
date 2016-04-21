@@ -5,7 +5,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "Subject name #{n}" }
     #name "MyString"
     division nil
-    for_supplementary false
+    esod_categories {}
   end
 
 end

@@ -1,0 +1,69 @@
+<%= form_for(@esod_outgoing_letter) do |f| %>
+  <% if @esod_outgoing_letter.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@esod_outgoing_letter.errors.count, "error") %> prohibited this esod_outgoing_letter from being saved:</h2>
+
+      <ul>
+      <% @esod_outgoing_letter.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :nrid %><br>
+    <%= f.number_field :nrid %>
+  </div>
+  <div class="field">
+    <%= f.label :numer_ewidencyjny %><br>
+    <%= f.text_field :numer_ewidencyjny %>
+  </div>
+  <div class="field">
+    <%= f.label :tytul %><br>
+    <%= f.text_field :tytul %>
+  </div>
+  <div class="field">
+    <%= f.label :wysylka %><br>
+    <%= f.number_field :wysylka %>
+  </div>
+  <div class="field">
+    <%= f.label :identyfikator_rodzaju_dokumentu_wychodzacego %><br>
+    <%= f.number_field :identyfikator_rodzaju_dokumentu_wychodzacego %>
+  </div>
+  <div class="field">
+    <%= f.label :data_pisma %><br>
+    <%= f.date_select :data_pisma %>
+  </div>
+  <div class="field">
+    <%= f.label :numer_wersji %><br>
+    <%= f.number_field :numer_wersji %>
+  </div>
+  <div class="field">
+    <%= f.label :id_zalozyl %><br>
+    <%= f.number_field :id_zalozyl %>
+  </div>
+  <div class="field">
+    <%= f.label :id_aktualizowal %><br>
+    <%= f.number_field :id_aktualizowal %>
+  </div>
+  <div class="field">
+    <%= f.label :data_zalozenia %><br>
+    <%= f.date_select :data_zalozenia %>
+  </div>
+  <div class="field">
+    <%= f.label :data_aktualizacji %><br>
+    <%= f.date_select :data_aktualizacji %>
+  </div>
+  <div class="field">
+    <%= f.label :initialized_from_esod %><br>
+    <%= f.check_box :initialized_from_esod %>
+  </div>
+  <div class="field">
+    <%= f.label :netpar_user %><br>
+    <%= f.number_field :netpar_user %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

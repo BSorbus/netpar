@@ -6,15 +6,6 @@ pl:
     visitors:
       index:
         title: 'Zapraszamy do programu NetPAR 2015'
-        title_sub: 'amatorskie pozwolenia radiowe i świadectwa LOT, MOR, RA'
-        sub_individuals: 'Osoby fizyczne'
-        sub_individuals_text: 'Wykaz pozwoleń wydanych osobom fizycznym'
-        sub_clubs: 'Podmioty prawne'
-        sub_clubs_text: 'Wykaz pozwoleń wydanych podmiotom prawnym'
-        sub_mfree_individuals: 'Osoby fizyczne - urządzenia bezobsługowe'
-        sub_mfree_individuals_text: 'Wykaz pozwoleń wydanych osobom fizycznym'
-        sub_mfree_clubs: 'Podmioty prawne - urządzenia bezobsługowe'
-        sub_mfree_clubs_text: 'Wykaz pozwoleń wydanych podmiotom prawnym'
     user:
       index:
         title: 'Użytkownicy'
@@ -70,31 +61,31 @@ pl:
         title: ' Nowe Świadectwo - RA'
     exam_l:
       index:
-        title: 'Egzaminy LOT'
+        title: 'Sesje LOT'
       show:
-        title: 'Egzamin LOT'
+        title: 'Sesja LOT'
       edit:
-        title: 'Egzamin LOT - edycja danych'
+        title: 'Sesja LOT - edycja danych'
       new:
-        title: ' Nowy Egzamin LOT'
+        title: ' Nowa Sesja LOT'
     exam_m:
       index:
-        title: 'Egzaminy MOR'
+        title: 'Sesje MOR'
       show:
-        title: 'Egzamin MOR'
+        title: 'Sesja MOR'
       edit:
-        title: 'Egzamin MOR - edycja danych'
+        title: 'Sesja MOR - edycja danych'
       new:
-        title: ' Nowy Egzamin MOR'
+        title: ' Nowa Sesja MOR'
     exam_r:
       index:
-        title: 'Egzaminy RA'
+        title: 'Sesje RA'
       show:
-        title: 'Egzamin RA'
+        title: 'Sesja RA'
       edit:
-        title: 'Egzamin RA - edycja danych'
+        title: 'Sesja RA - edycja danych'
       new:
-        title: ' Nowy Egzamin RA'
+        title: ' Nowa Sesja RA'
     customer:
       index:
         title: 'Klienci'
@@ -117,13 +108,13 @@ pl:
         title: ' Nowa Osoba Egzaminowana'
     examination_l:
       index:
-        title: 'Egzaminy LOT'
+        title: 'Sesje LOT'
     examination_m:
       index:
-        title: 'Egzaminy MOR'
+        title: 'Sesje MOR'
     examination_r:
       index:
-        title: 'Egzaminy RA'
+        title: 'Sesje RA'
     work:
       index:
         title: 'Operacje'
@@ -137,9 +128,15 @@ pl:
         title: 'ESOD - Sprawy'
       show:
         title: 'ESOD - Sprawa'
-    esod_letter:
+    esod_incoming_letter:
       index_for_matter:
-        title: 'Pisma'
+        title: 'Pisma przychodzące'
+    esod_outgoing_letter:
+      index_for_matter:
+        title: 'Pisma wychodzące'
+    esod_internal_letter:
+      index_for_matter:
+        title: 'Pisma wewnętrzne'
     footer:
       contact: 'Kontakt:'
       links: 'Zobacz też:'
@@ -150,7 +147,6 @@ pl:
       links_www3_title: 'Świadectwa'
       links_www3: 'http://uke.gov.pl/swiadectwa-radiooperatora-941'
   link_to:
-    esod_matters: 'ESOD'
     management: 'Zarządzanie'
     works: 'Operacje'
     roles: 'Role'
@@ -160,12 +156,13 @@ pl:
     certificates_l: 'Świadectwa LOT'
     certificates_m: 'Świadectwa MOR'
     certificates_r: 'Świadectwa RA'
-    exams: 'Egzaminy'
-    exams_l: 'Egzaminy LOT'
-    exams_m: 'Egzaminy MOR'
-    exams_r: 'Egzaminy RA'
+    exams: 'Sesje'
+    exams_l: 'Sesje LOT'
+    exams_m: 'Sesje MOR'
+    exams_r: 'Sesje RA'
     certificate_generation: " Generuj Świadectwo"
     certificates_generation: " Generuj Świadectwa"
+    esod_matters: 'ESOD'
   pundit:
     default: ' BRAK UPRAWNIEŃ: Nie można wykonać tej czynności!'
     work_policy:
@@ -214,21 +211,21 @@ pl:
       create_r?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć świadectw RA!'
       destroy_r?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać świadectw RA!'
     exam_policy:
-      index_l?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy sesji egzaminacyjnych LOT!'
-      show_l?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów sesji egzaminacyjnej LOT!'
-      update_l?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych sesji egzaminacyjnej LOT!'
-      create_l?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć sesji egzaminacyjnych LOT!'
-      destroy_l?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać sesji egzaminacyjnych LOT!'
-      index_m?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy sesji egzaminacyjnych MOR!'
-      show_m?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów sesji egzaminacyjnej MOR!'
-      update_m?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych sesji egzaminacyjnej MOR!'
-      create_m?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć sesji egzaminacyjnych MOR!'
-      destroy_m?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać sesji egzaminacyjnych MOR!'
-      index_r?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy sesji egzaminacyjnych RA!'
-      show_r?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów sesji egzaminacyjnej RA!'
-      update_r?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych sesji egzaminacyjnej RA!'
-      create_r?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć sesji egzaminacyjnych RA!'
-      destroy_r?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać sesji egzaminacyjnych RA!'
+      index_l?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy sesji LOT!'
+      show_l?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów sesji LOT!'
+      update_l?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych sesji LOT!'
+      create_l?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć sesji LOT!'
+      destroy_l?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać sesji LOT!'
+      index_m?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy sesji MOR!'
+      show_m?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów sesji MOR!'
+      update_m?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych sesji MOR!'
+      create_m?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć sesji MOR!'
+      destroy_m?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać sesji MOR!'
+      index_r?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy sesji RA!'
+      show_r?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów sesji RA!'
+      update_r?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych sesji RA!'
+      create_r?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć sesji RA!'
+      destroy_r?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać sesji RA!'
     examination_policy:
       index_l?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy osób egzaminowanych LOT!'
       show_l?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółowych informacji o egzaminie LOT danej osoby!'
@@ -252,14 +249,18 @@ pl:
       user: 'Użytkownik'
       department: 'Oddział'
       certificate: 'Świadectwo'
-      exam: 'Egzamin'
+      exam: 'Sesja'
       customer: 'Klient'
       document: 'Załącznik'
-      esod_matter: 'ESOD - Sprawy'
       examination: 'Osoba Egzaminowana'
       examiner: 'Członek Komisji Egzaminacyjnej'
       subject: 'Przedmioty'
       grade: 'Oceny'
+      esod_contractor: 'ESOD - Kontrahent'
+      esod_address: 'ESOD - Adres'
+      esod_matter: 'ESOD - Sprawa'
+      esod_incoming_letter: 'ESOD - Pismo Przychodzące'
+      esod_outgoing_letter: 'ESOD - Pismo Wychodzące'
     messages:
       successfull:
         created: 'Wpis: "%{data}" został pomyślnie utworzony.'
@@ -326,13 +327,14 @@ pl:
         valid_thru: 'Ważne do'
         certificate_status: 'Status'
         division_id: 'Typ świadectwa'
-        exam_id: 'Egzamin'
-        exam: 'Egzamin'
+        exam_id: 'Sesja'
+        exam: 'Sesja'
         customer_id: 'Klient'
         customer: 'Klient'
         category: 'Kategoria'
         note: 'Uwagi'
       exam:
+        esod_category: 'Rodzaj sesji'
         number: 'Numer'
         date_exam: 'Data'
         place_exam: 'Miejscowość'
@@ -385,7 +387,7 @@ pl:
         email: 'Email'
         note: 'Uwagi'
       examination:
-        examination_category: 'Rodzaj egzaminu'
+        esod_category: 'Rodzaj wniosku'
         division_id: 'Typ świadectwa'
         division: 'Typ świadectwa'
         examination_result: 'Wynik egzaminu'
@@ -396,12 +398,14 @@ pl:
         category: 'Kategoria'
         note: 'Uwagi'
         certificate_id: 'Wygenerowano świadectwo'
-        supplementary: 'Uzupełniający (PW)'
+        esod_matter: 'ESOD: Sprawa'
+        esod_matter_id: 'ESOD: Sprawa'
       examination/grades:
         subject_id: 'Przedmiot'
       subject:
         name: 'Nazwa'
         item: 'No'
+        esod_categories: 'Rodzaje wniosków'
       grade:
         subject_id: 'Przedmiot'
         grade_result: 'Ocena'
@@ -421,6 +425,10 @@ pl:
         wojewodztwo: 'Wojewodztwo'
         powiat: 'Powiat'
         gmina: 'Gmina'
+      esod/contractor:
+        fullname: 'Nazwisko i Imię (Nazwa)'
+      esod/address:
+        fullname: 'Adres'
       esod/matter:
         nrid: 'nrid'
         znak: 'ESOD: Znak sprawy'
@@ -484,7 +492,6 @@ pl:
     map_info: 'Uwaga! Program ustala szerokość i długość geograficzną wykorzystując Geocoder i Google Maps. Prezentacje na mapie należy traktować wylącznie jako informacje przybliżone.'
     select2_customer: 'Wyszukiwanie po: Nazwisko, Imię, Miejscowość, Pesel, Data ur.(format: YYYY-MM-DD). Kolejność dowolna. Warunki oddzielaj spacją np. Kow Jan Warsza'
     select2_exam: 'Wyszukiwanie po: Numer, Miejscowość, Data (format: YYYY-MM-DD). Kolejność dowolna. Warunki oddzielaj spacją np. Warsza 2015-08'
-    select2_postal_code: 'Wyszukiwanie po: Kod, Miejscowość, Ulica, Gmina, Powiat. Kolejność dowolna. Warunki oddzielaj spacją np. bydgo fordo 85-'
     select2_teryt_pna_code: 'Wyszukiwanie po Miejscowość, Ulica, Gmina, Kod pocztowy. Kolejność dowolna. Warunki oddzielaj spacją np. bydgo fordo 85-'
     select2_esod_matter: 'Wyszukiwanie po: Znak, Tytuł, Termin (format: YYYY-MM-DD). Kolejność dowolna. Warunki oddzielaj spacją np. Warsza 2015-08'
     document:

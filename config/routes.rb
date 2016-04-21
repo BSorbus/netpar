@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       get 'exam_report_to_pdf', on: :member
       get 'certificates_to_pdf', on: :member
       get 'envelopes_to_pdf', on: :member
+      get 'committee_docx', on: :member
       patch 'certificates_generation', on: :member
     end
     resources :examinations do
@@ -80,22 +81,25 @@ Rails.application.routes.draw do
     post 'datatables_index_user', on: :collection # for User
   end
 
-  resources :pna_codes, only: [:show] do
-    get 'select2_index', on: :collection
-  end
 
-  resources :teryt_pna_codes, only: [:show] do
-    get 'select2_index', on: :collection
+  namespace :teryt do
+    resources :pna_codes, only: [:show] do
+      get 'select2_index', on: :collection
+    end
   end
-
-  root to: 'visitors#index'
 
   namespace :esod do
+    resources :contractors
     resources :matters do
       post 'datatables_index', on: :collection
       get 'select2_index', on: :collection
     end
+    resources :incoming_letters
+    resources :outgoing_letters
+    resources :internal_letters
   end
+
+  root to: 'visitors#index'
 
   mount SwaggerEngine::Engine, at: "/api-docs"
   #mount Refile.app, at: "files", as: :refile_app
@@ -104,6 +108,7 @@ Rails.application.routes.draw do
     require 'api_constraints'
     #scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
     namespace :v1, constraints: ApiConstraints.new(version: 1, default: true) do
+    #namespace :v1 do
       mount Refile.app, at: "attachments", as: :refile_app
       resources :certificates, only: [:show] do
         get 'lot', on: :collection
