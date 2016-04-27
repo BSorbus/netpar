@@ -44,7 +44,8 @@ module Netpar
     # for MySoap module
     # config.autoload_paths += %W(#{config.root}/lib)
 
-
+    # cos jest nie halo - zmiana dotyczy refile-postgres 1.3.0
+    #config.active_record.schema_format = :sql
 
     #config.middleware.insert_before 0, "Rack::Cors" do
     #  allow do

@@ -28,6 +28,8 @@ pl:
       account_on: " Włącz konto"
       new_exam: " Nowa sesja"
       new_examination: " Nowa osoba egzaminowana"
+      new_certificate: " Nowe świadectwo"
+      edit_certificate: " Edycja świadectwa"
       new_customer: " Nowa osoba"
       send_exam_committee_docx: " Zarejestruj w ESOD Skład Komisji"
     titles:

@@ -93,11 +93,14 @@ Rails.application.routes.draw do
     resources :matters do
       post 'datatables_index', on: :collection
       get 'select2_index', on: :collection
+      resources :incoming_letters, only: [:show], controller: 'matters/incoming_letters'
+      resources :outgoing_letters
+      resources :internal_letters
     end
-    resources :incoming_letters
-    resources :outgoing_letters
-    resources :internal_letters
   end
+
+
+
 
   root to: 'visitors#index'
 

@@ -15,5 +15,6 @@ RSpec.describe Esod::Contractor, type: :model do
   it { should respond_to(:rodzaj) }
   it { should respond_to(:initialized_from_esod) }
   it { should respond_to(:netpar_user) }
+  it { should respond_to(:customer_id) }
 
 end

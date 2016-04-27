@@ -37,10 +37,11 @@ class Esod::MattersController < ApplicationController
 #      puts '----------------------------------------'
 #    end
     @esod_matters = Esod::Matter.all
-    params[:only_sessions] = false unless params[:only_sessions].present?
-    respond_to do |format|
-      format.html { render :index, locals: { only_sessions: params[:only_sessions] } }
-    end        
+    #params[:only_sessions] = false unless params[:only_sessions].present?
+#    respond_to do |format|
+#      format.html 
+#      #format.html { render :index, locals: { only_sessions: params[:only_sessions] } }
+#    end        
   end
 
   def datatables_index
@@ -95,9 +96,19 @@ class Esod::MattersController < ApplicationController
             "Bad param identyfikator_kategorii_sprawy: #{@esod_matter.identyfikator_kategorii_sprawy}"
           end
 
+        action_service =
+          if Esodes::ACTION_NEW.include?(@esod_matter.identyfikator_kategorii_sprawy)
+            'new'
+          elsif Esodes::ACTION_EDIT.include?(@esod_matter.identyfikator_kategorii_sprawy)
+            'edit'
+          else
+            #raise "Bad param identyfikator_kategorii_sprawy: #{@esod_matter.identyfikator_kategorii_sprawy}"
+            "Bad param identyfikator_kategorii_sprawy: #{@esod_matter.identyfikator_kategorii_sprawy}"
+          end
+
         #@esod_matter.save_to_esod(current_user.email, current_user.esod_encryped_password)
        
-        render :show, locals: { category_service: category_service, resource_service: resource_service } 
+        render :show, locals: { category_service: category_service, resource_service: resource_service, action_service: action_service } 
       end
     end    
   end

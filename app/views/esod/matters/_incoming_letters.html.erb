@@ -22,16 +22,19 @@
 
         <tbody>
           <% @esod_matter.esod_incoming_letters_matters.order(id: :desc).each do |letter_matter| %>
-              <tr>
-                <td><%= letter_matter.esod_incoming_letters.nrid %></td>
-                <td><%= letter_matter.esod_incoming_letters.numer_ewidencyjny %></td>
-                <td><%= letter_matter.esod_incoming_letters.tytul %></td>
-                <td><%= letter_matter.esod_incoming_letters.data_wplyniecia %></td>
-                <td><%= letter_matter.esod_incoming_letters.termin_na_odpowiedz %></td>
-                <td><%= letter_matter.sygnatura %></td>
-                <td><%= letter_matter.esod_incoming_letters.esod_contractor.fullname %></td>
-                <td><%= letter_matter.esod_incoming_letters.esod_address.fullname %></td>
-              </tr>
+            <tr>
+              <td><%= letter_matter.esod_incoming_letters.nrid %></td>
+              <td><%= letter_matter.esod_incoming_letters.numer_ewidencyjny %></td>
+              <td><%= letter_matter.esod_incoming_letters.tytul %></td>
+              <td><%= letter_matter.esod_incoming_letters.data_wplyniecia %></td>
+              <td><%= letter_matter.esod_incoming_letters.termin_na_odpowiedz %></td>
+<!--            <td><%= letter_matter.sygnatura %></td> -->
+              <td>
+                <%= link_to( letter_matter.sygnatura, esod_matter_incoming_letter_path(letter_matter.esod_matters, letter_matter.esod_incoming_letters) ) %></h5>
+              </td>
+              <td><%= letter_matter.esod_incoming_letters.esod_contractor.fullname %></td>
+              <td><%= letter_matter.esod_incoming_letters.esod_address.fullname %></td>
+            </tr>
           <% end %>
 
         </tbody>

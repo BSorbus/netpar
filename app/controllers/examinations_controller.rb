@@ -89,6 +89,7 @@ class ExaminationsController < ApplicationController
   def new
     @examination = Examination.new
     @examination.category = (params[:category_service]).upcase
+    @examination.esod_category = (params[:esod_category]) if params[:esod_category].present?
 
     @esod_matter = load_esod_matter
     if @esod_matter.present?

@@ -1,4 +1,7 @@
-class Esod::OutgoingLettersController < ApplicationController
+class Esod::Matters::OutgoingLettersController < ApplicationController
+  before_action :authenticate_user!
+  #after_action :verify_authorized, except: [:index, :datatables_index]
+
   before_action :set_esod_outgoing_letter, only: [:show, :edit, :update, :destroy]
 
   # GET /esod/outgoing_letters

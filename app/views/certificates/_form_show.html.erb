@@ -3,6 +3,16 @@
    # We default it to false 
 %>
 
+
+<div class="row">
+  <div class="form-group col-sm-12">
+    <p><strong><%= Certificate.human_attribute_name(:esod_matter_id) %></strong></p>
+    <h5><%= @certificate.esod_matter.present? ? @certificate.esod_matter.fullname : ''%></h5>
+  </div>
+</div>  <!-- /row -->
+
+<hr class="hr-without-top-margin">
+
 <div class="row">
   <div class="col-sm-7">
 

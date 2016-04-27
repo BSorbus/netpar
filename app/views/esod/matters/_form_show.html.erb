@@ -69,6 +69,21 @@
   </div> <!-- /col-sm-12 -->
 </div> <!-- /row -->
 
+<% if resource_service == 'exam' && exam_policy_check(:exam, category_service, action_service) %>
+  <div class="row">
+    <div class="col-sm-12">
+      <%= link_to t("helpers.links.new_#{resource_service}"), 
+            new_exam_path(category_service, esod_matter_id: @esod_matter.id, back_url: esod_matter_path(@esod_matter)), 
+              :class => 'btn btn-primary glyphicon glyphicon-plus pull-right' %> 
+    </div> <!-- /.col-sm-12 -->
+  </div> <!-- /row -->
+  <div class="row">
+    <br>
+  </div> <!-- /row -->
+<% end  %> 
+
+
+
 <hr class="hr-without-top-margin">
 
 
@@ -79,22 +94,7 @@
 
     <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
 
-
-    <% if resource_service == 'exam' && exam_policy_check(:exam, category_service, 'new') %>
-      <%= link_to t("helpers.links.new_#{resource_service}"), 
-            new_exam_path(category_service, esod_matter_id: @esod_matter.id, 
-                          back_url: esod_matter_path(@esod_matter)), 
-              :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
-    <% end  %> 
-
-    <% if resource_service == 'examination' && examination_policy_check(:examination, category_service, 'new') %>
-      <%= link_to t("helpers.links.new_#{resource_service}"), 
-            new_examination_path(category_service, esod_matter_id: @esod_matter.id, 
-                          back_url: esod_matter_path(@esod_matter)), 
-              :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
-    <% end  %> 
-
-<h5><%= "#{resource_service} #{category_service}" %></h5>
+<h5><%= "#{resource_service} #{category_service} #{action_service}" %></h5>
 
   </div> <!-- /row -->
 <% else %>

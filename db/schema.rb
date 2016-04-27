@@ -30,12 +30,15 @@ ActiveRecord::Schema.define(version: 20160421063302) do
     t.integer  "user_id"
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
+    t.integer  "esod_category"
+    t.integer  "esod_matter_id"
   end
 
   add_index "certificates", ["category"], name: "index_certificates_on_category", using: :btree
   add_index "certificates", ["customer_id"], name: "index_certificates_on_customer_id", using: :btree
   add_index "certificates", ["date_of_issue"], name: "index_certificates_on_date_of_issue", using: :btree
   add_index "certificates", ["division_id"], name: "index_certificates_on_division_id", using: :btree
+  add_index "certificates", ["esod_matter_id"], name: "index_certificates_on_esod_matter_id", using: :btree
   add_index "certificates", ["exam_id"], name: "index_certificates_on_exam_id", using: :btree
   add_index "certificates", ["number", "category"], name: "index_certificates_on_number_and_category", unique: true, using: :btree
   add_index "certificates", ["number"], name: "index_certificates_on_number", using: :btree
@@ -88,8 +91,6 @@ ActiveRecord::Schema.define(version: 20160421063302) do
     t.boolean  "c_address_in_poland",                     default: true, null: false
     t.integer  "address_teryt_pna_code_id"
     t.integer  "c_address_teryt_pna_code_id"
-    t.integer  "esod_contractor_id"
-    t.integer  "esod_address_id"
   end
 
   add_index "customers", ["address_city"], name: "index_customers_on_address_city", using: :btree
@@ -98,8 +99,6 @@ ActiveRecord::Schema.define(version: 20160421063302) do
   add_index "customers", ["birth_date"], name: "index_customers_on_birth_date", using: :btree
   add_index "customers", ["c_address_teryt_pna_code_id"], name: "index_customers_on_c_address_teryt_pna_code_id", using: :btree
   add_index "customers", ["citizenship_id"], name: "index_customers_on_citizenship_id", using: :btree
-  add_index "customers", ["esod_address_id"], name: "index_customers_on_esod_address_id", using: :btree
-  add_index "customers", ["esod_contractor_id"], name: "index_customers_on_esod_contractor_id", using: :btree
   add_index "customers", ["given_names"], name: "index_customers_on_given_names", using: :btree
   add_index "customers", ["name"], name: "index_customers_on_name", using: :btree
   add_index "customers", ["nip"], name: "index_customers_on_nip", using: :btree
@@ -171,9 +170,17 @@ ActiveRecord::Schema.define(version: 20160421063302) do
     t.integer  "netpar_user"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.integer  "customer_id"
   end
 
+  add_index "esod_addresses", ["customer_id"], name: "index_esod_addresses_on_customer_id", using: :btree
   add_index "esod_addresses", ["nrid"], name: "index_esod_addresses_on_nrid", using: :btree
+
+  create_table "esod_category_matters", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "esod_contractors", force: :cascade do |t|
     t.integer  "nrid"
@@ -193,8 +200,10 @@ ActiveRecord::Schema.define(version: 20160421063302) do
     t.integer  "netpar_user"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.integer  "customer_id"
   end
 
+  add_index "esod_contractors", ["customer_id"], name: "index_esod_contractors_on_customer_id", using: :btree
   add_index "esod_contractors", ["nrid"], name: "index_esod_contractors_on_nrid", using: :btree
 
   create_table "esod_incoming_letters", force: :cascade do |t|
@@ -444,10 +453,13 @@ ActiveRecord::Schema.define(version: 20160421063302) do
   add_index "pna_codes", ["wojewodztwo"], name: "index_pna_codes_on_wojewodztwo", using: :btree
 
   create_table "refile_attachments", force: :cascade do |t|
-    t.string "namespace", null: false
+    t.integer  "oid",        null: false
+    t.string   "namespace",  null: false
+    t.datetime "created_at"
   end
 
   add_index "refile_attachments", ["namespace"], name: "index_refile_attachments_on_namespace", using: :btree
+  add_index "refile_attachments", ["oid"], name: "index_refile_attachments_on_oid", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -638,14 +650,15 @@ ActiveRecord::Schema.define(version: 20160421063302) do
 
   add_foreign_key "certificates", "customers"
   add_foreign_key "certificates", "divisions"
+  add_foreign_key "certificates", "esod_matters"
   add_foreign_key "certificates", "exams"
   add_foreign_key "certificates", "users"
   add_foreign_key "customers", "citizenships"
-  add_foreign_key "customers", "esod_addresses"
-  add_foreign_key "customers", "esod_contractors"
   add_foreign_key "customers", "teryt_pna_codes", column: "address_teryt_pna_code_id"
   add_foreign_key "customers", "teryt_pna_codes", column: "c_address_teryt_pna_code_id"
   add_foreign_key "customers", "users"
+  add_foreign_key "esod_addresses", "customers"
+  add_foreign_key "esod_contractors", "customers"
   add_foreign_key "esod_incoming_letters", "esod_addresses"
   add_foreign_key "esod_incoming_letters", "esod_contractors"
   add_foreign_key "esod_incoming_letters_matters", "esod_incoming_letters"

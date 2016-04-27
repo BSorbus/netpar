@@ -1,0 +1,307 @@
+<div class="row">
+  <div class="col-sm-12">
+
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <p><strong><%= Esod::Matter.human_attribute_name(:znak) %></strong></p>
+        <h5><%= @esod_matter.znak %></h5>
+      </div>
+      <div class="form-group col-sm-2">
+        <p><strong><%= Esod::Matter.human_attribute_name(:symbol_jrwa) %></strong></p>
+        <h5><%= @esod_matter.symbol_jrwa %></h5>
+      </div>
+      <div class="form-group col-sm-2">
+        <p><strong><%= Esod::Matter.human_attribute_name(:termin_realizacji) %></strong></p>
+        <h5><%= @esod_matter.termin_realizacji %></h5>
+      </div>
+      <div class="form-group col-sm-3">
+        <p><strong><%= Esod::Matter.human_attribute_name(:identyfikator_kategorii_sprawy) %></strong></p>
+        <h5><%= @esod_matter.iks_name %></h5>
+      </div>
+      <div class="form-group col-sm-1">
+        <p><strong><%= Esod::Matter.human_attribute_name(:czy_otwarta) %></strong></p>
+        <h5><%= @esod_matter.czy_otwarta? ? 'Tak' : 'Nie' %></h5>
+      </div>      
+    </div>  <!-- /row -->
+
+    <hr class="hr-without-top-margin">
+
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <p><strong><%= Esod::Matter.human_attribute_name(:tytul) %></strong></p>
+        <h5><%= @esod_matter.tytul %></h5>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <p><strong>Adnotacje:</strong></p>
+
+        <table class="table table-hover">
+          <tbody>
+            <% @esod_matter.esod_matter_notes.order(:id).each do |esod_matter_note| %>
+              <tr>
+                <td><%= esod_matter_note.tytul %></td>
+                <td><%= esod_matter_note.tresc %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <hr class="hr-without-top-margin">
+
+    <div class="col-sm-1">
+      <%= image_tag("incoming_letter.jpg") %>
+    </div> <!--/col-sm-1 -->
+    <div class="col-sm-11">
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::IncomingLetter.human_attribute_name(:numer_ewidencyjny) %></strong></p>
+          <h5><%= @esod_incoming_letter.numer_ewidencyjny %></h5>
+        </div>
+
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::IncomingLetter.human_attribute_name(:tytul) %></strong></p>
+          <h5><%= @esod_incoming_letter.tytul %></h5>
+        </div>
+
+        <div class="form-group col-sm-2">
+          <p><strong><%= Esod::IncomingLetter.human_attribute_name(:data_wplyniecia) %></strong></p>
+          <h5><%= @esod_incoming_letter.data_wplyniecia %></h5>
+        </div>
+
+        <div class="form-group col-sm-2">
+          <p><strong><%= Esod::IncomingLetter.human_attribute_name(:termin_na_odpowiedz) %></strong></p>
+          <h5><%= @esod_incoming_letter.termin_na_odpowiedz %></h5>
+        </div>
+
+      </div>  <!-- /row -->
+
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::IncomingLettersMatter.human_attribute_name(:sygnatura) %></strong></p>
+          <h5><%= @esod_incoming_letter_matter.sygnatura %></h5>
+        </div>
+      </div>  <!-- /row -->
+
+      <hr class="hr-without-top-margin">
+
+    </div> <!--  /class="col-sm-11 col-sm-offset-1" --> 
+
+    <div class="col-sm-1">
+      <p class="pull-right">Nadawca ESOD:</p>
+    </div>  
+    <div class="col-sm-11">
+
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::Contractor.human_attribute_name(:nazwisko) %></strong></p>
+          <h5><%= @esod_incoming_letter.esod_contractor.nazwisko %></h5>
+        </div>
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::Contractor.human_attribute_name(:imie) %></strong></p>
+          <h5><%= @esod_incoming_letter.esod_contractor.imie %></h5>
+        </div>
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::Contractor.human_attribute_name(:drugie_imie) %></strong></p>
+          <h5><%= @esod_incoming_letter.esod_contractor.drugie_imie %></h5>
+        </div>
+      </div>  <!-- /row -->
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::Contractor.human_attribute_name(:nazwa) %></strong></p>
+          <h5><%= @esod_incoming_letter.esod_contractor.nazwa %></h5>
+        </div>
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::Contractor.human_attribute_name(:nip) %></strong></p>
+          <h5><%= @esod_incoming_letter.esod_contractor.nip %></h5>
+        </div>
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::Contractor.human_attribute_name(:pesel) %></strong></p>
+          <h5><%= @esod_incoming_letter.esod_contractor.pesel %></h5>
+        </div>
+      </div>  <!-- /row -->
+
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::Address.human_attribute_name(:panstwo) %></strong></p>
+          <h5><%= @esod_incoming_letter.esod_address.panstwo %></h5>
+        </div>
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::Address.human_attribute_name(:miasto) %></strong></p>
+          <h5><%= @esod_incoming_letter.esod_address.miasto %></h5>
+        </div>
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::Address.human_attribute_name(:kod_pocztowy) %></strong></p>
+          <h5><%= @esod_incoming_letter.esod_address.kod_pocztowy %></h5>
+        </div>
+      </div>  <!-- /row -->
+
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::Address.human_attribute_name(:ulica) %></strong></p>
+          <h5><%= @esod_incoming_letter.esod_address.ulica %></h5>
+        </div>
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::Address.human_attribute_name(:numer_budynku) %></strong></p>
+          <h5><%= @esod_incoming_letter.esod_address.numer_budynku %></h5>
+        </div>
+        <div class="form-group col-sm-4">
+          <p><strong><%= Esod::Address.human_attribute_name(:numer_lokalu) %></strong></p>
+          <h5><%= @esod_incoming_letter.esod_address.numer_lokalu %></h5>
+        </div>
+      </div>  <!-- /row -->
+
+      <hr class="hr-without-top-margin">
+
+    </div> <!--  /class="col-sm-11" --> 
+
+
+    <% if resource_service == 'examination' %>
+      <div class="col-sm-1">
+        <p class="pull-right">NETPAR:</p>
+      </div>  
+
+      <div class="col-sm-11">
+
+        <%= form_tag({controller: "/examinations", category_service: category_service, action: "new"}, method: "get") do %>
+
+          <%= hidden_field_tag :back_url, esod_matter_incoming_letter_path(@esod_matter.id, @esod_incoming_letter.id)  %> 
+          <%= hidden_field_tag :esod_matter_id, @esod_matter.id %>
+          <%= hidden_field_tag :esod_category, @esod_matter.identyfikator_kategorii_sprawy %>
+
+          <% if action_service == 'new' %>
+            <div class="row">
+              <div class="form-group col-sm-8">
+                <%= label_tag "Klient", nil, class: "control-label" %>
+                <%= hidden_field_tag :customer_id, nil, value: customer_id,
+                                  class: "form-control input-sm customer_select", 
+                                  placeholder: "Wybierz Klienta",
+                                  style: "width:100%",
+                                  id: "netpar_customer" %>
+                <small class="help-block"><%=t 'help_block_text.select2_customer' %></small>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-8">
+                <%= label_tag "Sesja", nil, class: "control-label" %>
+                <%= hidden_field_tag :exam_id, nil, value: exam_id,
+                                  class: "form-control input-sm exam_select_#{category_service}", 
+                                  placeholder: "Wybierz Sesję",
+                                  style: "width:100%",
+                                  id: "netpar_exam" %>
+                <small class="help-block"><%=t 'help_block_text.select2_exam' %></small>
+              </div>
+            </div>
+          <% end %> <!-- if action_service == 'new' -->
+
+
+          <div class="row">
+            <div class="col-sm-12">
+              <%= button_tag t("helpers.links.new_#{resource_service}"), type: 'submit', class: 'btn btn-primary glyphicon glyphicon-plus pull-right' %>
+            </div> <!-- /.col-sm-12 -->
+          </div> <!-- /row -->
+          <div class="row">
+            <br>
+          </div> <!-- /row -->
+
+        <% end %> <!-- form_tag(... -->
+
+      </div> <!--  /class="col-sm-11" --> 
+       
+    <% end  %> <!-- if resource_service == 'examination'  -->
+
+
+    <% if resource_service == 'certificate' %>
+      <div class="col-sm-1">
+        <p class="pull-right">NETPAR:</p>
+      </div>  
+
+      <div class="col-sm-11">
+
+        <%= form_tag({controller: "/certificates", category_service: category_service, action: "edit"}, method: "get") do %>
+
+          <%= hidden_field_tag :back_url, esod_matter_incoming_letter_path(@esod_matter.id, @esod_incoming_letter.id)  %> 
+          <%= hidden_field_tag :esod_matter_id, @esod_matter.id %>
+          <%= hidden_field_tag :esod_category, @esod_matter.identyfikator_kategorii_sprawy %>
+
+          <% if action_service == 'new' %>
+            <div class="row">
+              <div class="form-group col-sm-8">
+                <%= label_tag "Klient", nil, class: "control-label" %>
+                <%= hidden_field_tag :customer_id, nil, value: customer_id,
+                                  class: "form-control input-sm customer_select", 
+                                  placeholder: "Wybierz Klienta",
+                                  style: "width:100%",
+                                  id: "netpar_customer" %>
+                <small class="help-block"><%=t 'help_block_text.select2_customer' %></small>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-8">
+                <%= label_tag "Sesja", nil, class: "control-label" %>
+                <%= hidden_field_tag :exam_id, nil, value: exam_id,
+                                  class: "form-control input-sm exam_select_#{category_service}", 
+                                  placeholder: "Wybierz Sesję",
+                                  style: "width:100%",
+                                  id: "netpar_exam" %>
+                <small class="help-block"><%=t 'help_block_text.select2_exam' %></small>
+              </div>
+            </div>
+          <% else %>
+            <div class="row">
+              <div class="form-group col-sm-8">
+                <%= label_tag "Świadectwo", nil, class: "control-label" %>
+                <%= hidden_field_tag :certificate_id, nil, value: certificate_id,
+                                  class: "form-control input-sm certificate_select_#{category_service}", 
+                                  placeholder: "Wybierz Świadectwo",
+                                  style: "width:100%",
+                                  id: "netpar_certificate" %>
+                <small class="help-block"><%=t 'help_block_text.select2_certificate' %></small>
+              </div>
+            </div>
+
+          <% end %> <!-- if action_service == 'new' -->
+
+
+          <div class="row">
+            <div class="col-sm-12">
+              <%= button_tag t("helpers.links.edit_#{resource_service}"), type: 'submit', class: 'btn btn-primary glyphicon glyphicon-edit pull-right' %>
+            </div> <!-- /.col-sm-12 -->
+          </div> <!-- /row -->
+          <div class="row">
+            <br>
+          </div> <!-- /row -->
+
+        <% end %> <!-- form_tag(... -->
+
+      </div> <!--  /class="col-sm-11" --> 
+       
+    <% end  %> <!-- if resource_service == 'certificate' -->
+
+
+
+
+  </div> <!-- /col-sm-12 -->
+</div> <!-- /row -->
+
+
+
+<hr class="hr-without-top-margin">
+
+<% if input_disabled %>
+  <!-- for "Show" -->
+  <div class="row">
+    <%= link_to t('Back', default: t("helpers.links.back")), esod_matter_path(@esod_matter), :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+
+
+<h5><%= "#{resource_service} #{category_service} #{action_service}" %></h5>
+
+
+  </div> <!-- /row -->
+<% else %>
+  <!-- form "New"/"Edit" -->
+<% end %>

@@ -1,0 +1,34 @@
+<br>
+<div class="panel-group" id="myaccordion">
+
+  <!-- Dane -->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-esod-incoming-letter">
+        <div class="panel-heading">
+          <div class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_data" >
+              <span class="glyphicon glyphicon-retweet">&nbsp;<%=t "pages.esod_incoming_letter.show.title"%>:&nbsp;<%= @esod_incoming_letter_matter.sygnatura %></span>
+              <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
+            </a>
+          </div> 
+        </div>
+        <div id="collapse_data" class="panel-collapse collapse in"> <!-- id="collapse_data" -->
+          <div class="panel-body">
+            <div class="col-sm-1">
+              <%= image_tag("esod.jpg") %>
+            </div> <!--/col-sm-1 -->
+
+            <div class="col-sm-11">
+
+              <%= render 'form_show', category_service: category_service, resource_service: resource_service, action_service: action_service, customer_id: customer_id, exam_id: exam_id, certificate_id: certificate_id, input_disabled: true %>
+
+            </div> <!--/col-sm-11 col-sm-offset-1-->    
+          </div> <!-- /panel-body -->
+        </div> <!-- /id="collapse_data" -->
+      </div> <!-- /panel -->
+    </div> <!-- /col-sm-12-->
+  </div> <!-- /row -->
+
+
+</div> <!-- /class="panel-group" id="myaccordion" -->

@@ -67,7 +67,7 @@
         <%= f.label :exam_id, class: "control-label" %>
         <%= f.hidden_field :exam_id,
                           class: "form-control input-sm exam_select_#{params[:category_service]}", 
-                          placeholder: "Wybierz Sesję egzaminacyjną",
+                          placeholder: "Wybierz Sesję",
                           disabled: !@examination.new_record?,
                           style: "width:100%" %>
         <small class="help-block"><%=t 'help_block_text.select2_exam' %></small>

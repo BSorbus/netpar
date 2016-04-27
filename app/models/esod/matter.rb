@@ -4,7 +4,7 @@ require 'esodes'
 class Esod::Matter < ActiveRecord::Base
   has_one :exam, foreign_key: :esod_matter_id, dependent: :nullify
   has_one :examination, foreign_key: :esod_matter_id, dependent: :nullify
-#  belongs_to :certificate
+  has_one :certificate, foreign_key: :esod_matter_id, dependent: :nullify
 
   has_many :esod_matter_notes, class_name: 'Esod::MatterNote', primary_key: 'id', foreign_key: 'esod_matter_id'
 
@@ -16,10 +16,6 @@ class Esod::Matter < ActiveRecord::Base
 
   has_many :esod_internal_letters_matters, class_name: 'Esod::InternalLettersMatter', foreign_key: :esod_matter_id 
   has_many :esod_internal_letters, through: :esod_internal_letters_matters, primary_key: :esod_internal_letter_id
-
-
-#  has_and_belongs_to_many :esod_incoming_letters, class_name: "Esod::IncomingLetter", foreign_key: :esod_matter_id,
-#    association_foreign_key: :esod_incoming_letter_id, join_table: :esod_incoming_letters_matters
 
 
   def fullname

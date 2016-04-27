@@ -61,7 +61,7 @@ gem 'pesel' #https://github.com/macuk/pesel
 #gem "refile", require: ["refile/rails", "refile/image_processing"]
 gem "refile", require: ["refile/rails"]
 gem "refile-mini_magick"
-gem 'refile-postgres'
+gem 'refile-postgres', '~> 1.3.0'
 
 gem 'active_model_serializers'
 
@@ -79,4 +79,5 @@ gem 'swagger_engine'
 gem 'savon'
 gem 'whenever', :require => false
 gem 'docx_replace'
-gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'
+#gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'
+gem 'data-confirm-modal', git: 'https://github.com/ifad/data-confirm-modal'

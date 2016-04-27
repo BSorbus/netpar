@@ -24,9 +24,10 @@
 #
 class Certificate < ActiveRecord::Base
   belongs_to :division
-  belongs_to :exam #, counter_cache: true
+  belongs_to :exam, counter_cache: true
   belongs_to :customer
   belongs_to :user
+  belongs_to :esod_matter, class_name: "Esod::Matter", foreign_key: :esod_matter_id
 
   has_one :examination, dependent: :nullify
 

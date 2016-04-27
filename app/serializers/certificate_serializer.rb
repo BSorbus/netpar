@@ -1,5 +1,5 @@
 class CertificateSerializer < ActiveModel::Serializer
-  attributes :id, :number, :date_of_issue, :valid_thru, :certificate_status, :note, :category, :url, :document_image
+  attributes :id, :number, :date_of_issue, :valid_thru, :certificate_status, :note, :category, :url, :document_image, :fullname
 
   #belongs_to :customer
   has_one :division

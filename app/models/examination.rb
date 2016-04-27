@@ -24,7 +24,7 @@ require 'esodes'
 
 class Examination < ActiveRecord::Base
   belongs_to :division
-  belongs_to :exam #, counter_cache: true
+  belongs_to :exam, counter_cache: true
   belongs_to :customer
   belongs_to :user
   belongs_to :certificate 

@@ -5,6 +5,7 @@ module Esodes
   #3) Wniosek o odnowienie bez egzaminu (43)
   #4) Wniosek o odnowienie z egzaminem (44) #(PW)
   #9) Wniosek o odnowienie z egzaminem, poprawkowy (49) #(PW)
+  #10) Wniosek o wydanie świadectwa - egzamin poza UKE (50)
   #5) Wniosek o duplikat (45)
   #6) Wniosek o wymianę świadectwa (46)
   #7) Sesja egzaminacyjna (47)
@@ -13,8 +14,9 @@ module Esodes
   EGZAMIN = 41
   POPRAWKOWY = 42
   ODNOWIENIE_BEZ_EGZAMINU = 43
-  ODNOWIENIE_Z_EGZAMINEM = 44 #PW
+  ODNOWIENIE_Z_EGZAMINEM = 44 
   ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY = 49
+    SWIADECTWO_BEZ_EGZAMINU = 50
   DUPLIKAT = 45
   WYMIANA = 46
   SESJA = 47
@@ -29,7 +31,10 @@ module Esodes
   WITHOUT_EXAMINATIONS = [SESJA_BEZ_EGZAMINOW]
   ALL_CATEGORIES_EXAMS = [SESJA, SESJA_BEZ_EGZAMINOW]
 
-  ALL_CATEGORIES_CERTIFICATES = [ODNOWIENIE_BEZ_EGZAMINU, DUPLIKAT, WYMIANA]
+  ALL_CATEGORIES_CERTIFICATES = [ODNOWIENIE_BEZ_EGZAMINU, SWIADECTWO_BEZ_EGZAMINU, DUPLIKAT, WYMIANA]
+
+  ACTION_NEW = [EGZAMIN, POPRAWKOWY, ODNOWIENIE_Z_EGZAMINEM, ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY, SWIADECTWO_BEZ_EGZAMINU, SESJA]
+  ACTION_EDIT = [ODNOWIENIE_BEZ_EGZAMINU, DUPLIKAT, WYMIANA, PROTOKOL]
 
   JRWA_L = [5430]
   JRWA_M = [5431]
@@ -47,6 +52,8 @@ module Esodes
       'Wniosek o odnowienie z egzaminem' #(PW)
     when ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY #49
       'Wniosek o odnowienie z egzaminem, poprawkowy' #(PW)
+    when SWIADECTWO_BEZ_EGZAMINU  #50
+      'Wniosek o wydanie świadectwa - egzamin poza UKE'
     when DUPLIKAT                 #45
       'Wniosek o duplikat'
     when WYMIANA                  #46

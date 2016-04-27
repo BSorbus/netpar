@@ -9,7 +9,7 @@ function getErrorMessage(jqXHR, exception) {
     msg = '[401] - Sesja wygasła. Odśwież stronę' + jqXHR.responseText;
   } else if (jqXHR.status == 404) {
     //msg = 'Requested page not found. [404]';
-    msg = '[404] -Nie znalazłem takiej strony.';
+    msg = '[404] - Nie znalazłem takiej strony.';
   } else if (jqXHR.status == 500) {
     msg = '[500] - Internal Server Error [500].';
   } else if (exception === 'parsererror') {

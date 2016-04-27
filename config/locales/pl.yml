@@ -222,4 +222,7 @@ pl:
       last: " &raquo;"
       previous: "&lsaquo; "
       next: " &rsaquo;"
-      truncate: "&hellip;"    
+      truncate: "&hellip;" 
+  confirmation: "Confirmation"
+  yes: "Tak"
+  no: "Nie"

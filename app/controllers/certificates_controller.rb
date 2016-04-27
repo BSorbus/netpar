@@ -228,6 +228,7 @@ class CertificatesController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_certificate
+      params[:id] = params[:certificate_id] if params[:certificate_id].present?
       @certificate = Certificate.find(params[:id])
     end
 

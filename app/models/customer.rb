@@ -62,8 +62,11 @@ class Customer < ActiveRecord::Base
   belongs_to :user
   belongs_to :address_teryt_pna_code, class_name: "Teryt::PnaCode", foreign_key: :address_teryt_pna_code_id
   belongs_to :c_address_teryt_pna_code, class_name: "Teryt::PnaCode", foreign_key: :c_address_teryt_pna_code_id
-  belongs_to :esod_contractor, class_name: "Esod::Contractor", foreign_key: :esod_contractor_id#, dependent: :delete
-  belongs_to :esod_address, class_name: "Esod::Address", foreign_key: :esod_address_id
+#  belongs_to :esod_contractor, class_name: "Esod::Contractor", foreign_key: :esod_contractor_id#, dependent: :delete
+#  belongs_to :esod_address, class_name: "Esod::Address", foreign_key: :esod_address_id
+
+  has_one :esod_contractor, foreign_key: :customer_id, dependent: :nullify
+  has_one :esod_address, foreign_key: :customer_id, dependent: :nullify
 
   has_many :documents, as: :documentable
   has_many :works, as: :trackable

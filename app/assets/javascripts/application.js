@@ -22,4 +22,5 @@
 //= require select2_locale_pl
 //= require bootstrap-sprockets
 //= require refile
+//= require data-confirm-modal
 //= require_tree .

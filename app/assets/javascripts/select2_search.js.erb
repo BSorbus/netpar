@@ -18,11 +18,20 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var customers = $.map( data.customers, function(customer, i) {
+        var customers = $.map(data.customers, function(customer, i) {
           return { id: customer.id, text: customer.fullname_and_address_and_pesel_nip_and_birth_date };
         });
         return { results: customers, more: more };
       }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
     },
     initSelection: function(element, callback) {
       var id=$(element).val();
@@ -56,11 +65,20 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var exams = $.map( data.exams, function(exam, i) {
+        var exams = $.map(data.exams, function(exam, i) {
           return { id: exam.id, text: exam.fullname };
         });
         return { results: exams, more: more };
       }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
     },
     initSelection: function(element, callback) {
       var id=$(element).val();
@@ -94,11 +112,20 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var exams = $.map( data.exams, function(exam, i) {
+        var exams = $.map(data.exams, function(exam, i) {
           return { id: exam.id, text: exam.fullname };
         });
         return { results: exams, more: more };
       }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
     },
     initSelection: function(element, callback) {
       var id=$(element).val();
@@ -132,16 +159,166 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var exams = $.map( data.exams, function(exam, i) {
+        var exams = $.map(data.exams, function(exam, i) {
           return { id: exam.id, text: exam.fullname };
         });
         return { results: exams, more: more };
       }
     },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
     initSelection: function(element, callback) {
       var id=$(element).val();
       if (id!=="") {
         $.get("/r/exams/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+
+  $('.certificate_select_l').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/l/certificates/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var certificates = $.map(data.certificates, function(certificate, i) {
+          return { id: certificate.id, text: certificate.fullname };
+        });
+        return { results: certificates, more: more };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/l/certificates/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+
+  $('.certificate_select_m').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/m/certificates/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var certificates = $.map(data.certificates, function(certificate, i) {
+          return { id: certificate.id, text: certificate.fullname };
+        });
+        return { results: certificates, more: more };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/m/certificates/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+
+  $('.certificate_select_r').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/r/certificates/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var certificates = $.map(data.certificates, function(certificate, i) {
+          return { id: certificate.id, text: certificate.fullname };
+        });
+        return { results: certificates, more: more };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/r/certificates/"+id+".json", function(data_from_json) {
           if(data_from_json)
             callback({ id: data_from_json.id, text: data_from_json.fullname });
         });
@@ -170,13 +347,22 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var pna_codes = $.map( data.pna_codes, function(pna_code, i) {
+        var pna_codes = $.map(data.pna_codes, function(pna_code, i) {
           return { data_obj: pna_code, id: pna_code.id, text: pna_code.fullname };
         });
         return { results: pna_codes, more: more };
       },
       // param "cache: true" added 19.03.2016 ale nie wiem, czy cokolwiek to daje
       cache: true
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
     },
     initSelection: function(element, callback) {
       var id=$(element).val();
@@ -244,11 +430,20 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var pna_codes = $.map( data.pna_codes, function(pna_code, i) {
+        var pna_codes = $.map(data.pna_codes, function(pna_code, i) {
           return { data_obj: pna_code, id: pna_code.id, text: pna_code.fullname };
         });
         return { results: pna_codes, more: more };
       }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
     },
     initSelection: function(element, callback) {
       var id=$(element).val();
@@ -319,11 +514,20 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var matters = $.map( data.matters, function(matter, i) {
+        var matters = $.map(data.matters, function(matter, i) {
           return { data_obj: matter, id: matter.id, text: matter.fullname };
         });
         return { results: matters, more: more };
       }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
     },
     initSelection: function(element, callback) {
       var id=$(element).val();
@@ -365,11 +569,20 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var matters = $.map( data.matters, function(matter, i) {
+        var matters = $.map(data.matters, function(matter, i) {
           return { data_obj: matter, id: matter.id, text: matter.fullname };
         });
         return { results: matters, more: more };
       }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
     },
     initSelection: function(element, callback) {
       var id=$(element).val();
@@ -411,11 +624,20 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var matters = $.map( data.matters, function(matter, i) {
+        var matters = $.map(data.matters, function(matter, i) {
           return { data_obj: matter, id: matter.id, text: matter.fullname };
         });
         return { results: matters, more: more };
       }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
     },
     initSelection: function(element, callback) {
       var id=$(element).val();
@@ -457,11 +679,20 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var matters = $.map( data.matters, function(matter, i) {
+        var matters = $.map(data.matters, function(matter, i) {
           return { data_obj: matter, id: matter.id, text: matter.fullname };
         });
         return { results: matters, more: more };
       }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
     },
     initSelection: function(element, callback) {
       var id=$(element).val();
@@ -503,11 +734,20 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var matters = $.map( data.matters, function(matter, i) {
+        var matters = $.map(data.matters, function(matter, i) {
           return { data_obj: matter, id: matter.id, text: matter.fullname };
         });
         return { results: matters, more: more };
       }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
     },
     initSelection: function(element, callback) {
       var id=$(element).val();
@@ -549,11 +789,20 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
-        var matters = $.map( data.matters, function(matter, i) {
+        var matters = $.map(data.matters, function(matter, i) {
           return { data_obj: matter, id: matter.id, text: matter.fullname };
         });
         return { results: matters, more: more };
       }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
     },
     initSelection: function(element, callback) {
       var id=$(element).val();

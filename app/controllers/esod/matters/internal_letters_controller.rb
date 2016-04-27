@@ -1,4 +1,7 @@
-class Esod::InternalLettersController < ApplicationController
+class Esod::Matters::InternalLettersController < ApplicationController
+  before_action :authenticate_user!
+  #after_action :verify_authorized, except: [:index, :datatables_index]
+
   before_action :set_esod_internal_letter, only: [:show, :edit, :update, :destroy]
 
   # GET /esod/internal_letters

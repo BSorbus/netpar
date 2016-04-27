@@ -3,18 +3,6 @@
    # We default it to false 
 %>
 
-<% if @exam.errors.any? %>
-  <div id="error_explanation" class="panel panel-danger">
-    <div class="panel-body">
-      <ul>
-      <% @exam.errors.full_messages.each do |msg| %>
-        <li><h5><%= msg %></h5></li>
-      <% end %>
-      </ul>
-    </div>
-  </div>
-<% end %>
-
 
 <div class="row">
   <div class="form-group col-sm-12">
