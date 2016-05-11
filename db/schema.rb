@@ -18,18 +18,19 @@ ActiveRecord::Schema.define(version: 20160421063302) do
   enable_extension "pg_stat_statements"
 
   create_table "certificates", force: :cascade do |t|
-    t.string   "number",             limit: 30, default: "",  null: false
+    t.string   "number",             limit: 30, default: "",    null: false
     t.date     "date_of_issue"
     t.date     "valid_thru"
-    t.string   "certificate_status", limit: 1,  default: "N", null: false
+    t.string   "certificate_status", limit: 1,  default: "N",   null: false
     t.integer  "division_id"
     t.integer  "exam_id"
     t.integer  "customer_id"
     t.text     "note",                          default: ""
-    t.string   "category",           limit: 1,  default: "R", null: false
+    t.string   "category",           limit: 1,  default: "R",   null: false
     t.integer  "user_id"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.boolean  "canceled",                      default: false
     t.integer  "esod_category"
     t.integer  "esod_matter_id"
   end

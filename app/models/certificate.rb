@@ -22,6 +22,8 @@
 #  add_index "certificates", ["number"], name: "index_certificates_on_number", using: :btree
 #  add_index "certificates", ["user_id"], name: "index_certificates_on_user_id", using: :btree
 #
+require 'esodes'
+
 class Certificate < ActiveRecord::Base
   belongs_to :division
   belongs_to :exam, counter_cache: true
@@ -86,6 +88,11 @@ class Certificate < ActiveRecord::Base
       'Error certificate_status value !'
     end
   end
+
+  def esod_category_name
+    Esodes::esod_matter_iks_name(esod_category)
+  end
+
 
   # Scope for select2: "certificate_select"
   # * parameters   :

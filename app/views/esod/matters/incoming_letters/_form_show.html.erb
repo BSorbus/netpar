@@ -153,141 +153,139 @@
         </div>
       </div>  <!-- /row -->
 
-      <hr class="hr-without-top-margin">
-
     </div> <!--  /class="col-sm-11" --> 
 
 
     <% if resource_service == 'examination' %>
+      <hr class="hr-without-top-margin">
       <div class="col-sm-1">
         <p class="pull-right">NETPAR:</p>
       </div>  
 
       <div class="col-sm-11">
+        <% if @esod_matter.examination.present? %>
+          <p><%= link_to @esod_matter.examination.fullname, examination_path(@esod_matter.examination.category.downcase, @esod_matter.examination, back_url: esod_matter_path(@esod_matter)) %></p>
+        <% else %>
+          <%= form_tag({controller: "/examinations", category_service: category_service, action: "new"}, method: "get") do %>
 
-        <%= form_tag({controller: "/examinations", category_service: category_service, action: "new"}, method: "get") do %>
+            <%= hidden_field_tag :back_url, esod_matter_incoming_letter_path(@esod_matter.id, @esod_incoming_letter.id)  %> 
+            <%= hidden_field_tag :esod_matter_id, @esod_matter.id %>
+            <%= hidden_field_tag :esod_category, @esod_matter.identyfikator_kategorii_sprawy %>
 
-          <%= hidden_field_tag :back_url, esod_matter_incoming_letter_path(@esod_matter.id, @esod_incoming_letter.id)  %> 
-          <%= hidden_field_tag :esod_matter_id, @esod_matter.id %>
-          <%= hidden_field_tag :esod_category, @esod_matter.identyfikator_kategorii_sprawy %>
-
-          <% if action_service == 'new' %>
-            <div class="row">
-              <div class="form-group col-sm-8">
-                <%= label_tag "Klient", nil, class: "control-label" %>
-                <%= hidden_field_tag :customer_id, nil, value: customer_id,
-                                  class: "form-control input-sm customer_select", 
-                                  placeholder: "Wybierz Klienta",
-                                  style: "width:100%",
-                                  id: "netpar_customer" %>
-                <small class="help-block"><%=t 'help_block_text.select2_customer' %></small>
+            <% if action_service == 'new' %>
+              <div class="row">
+                <div class="form-group col-sm-8">
+                  <%= label_tag "Klient", nil, class: "control-label" %>
+                  <%= hidden_field_tag :customer_id, nil, value: customer_id,
+                                    class: "form-control input-sm customer_select", 
+                                    placeholder: "Wybierz Klienta",
+                                    style: "width:100%",
+                                    id: "netpar_customer" %>
+                  <small class="help-block"><%=t 'help_block_text.select2_customer' %></small>
+                </div>
               </div>
-            </div>
+
+              <div class="row">
+                <div class="form-group col-sm-8">
+                  <%= label_tag "Sesja", nil, class: "control-label" %>
+                  <%= hidden_field_tag :exam_id, nil, value: exam_id,
+                                    class: "form-control input-sm exam_select_#{category_service}", 
+                                    placeholder: "Wybierz Sesję",
+                                    style: "width:100%",
+                                    id: "netpar_exam" %>
+                  <small class="help-block"><%=t 'help_block_text.select2_exam' %></small>
+                </div>
+              </div>
+            <% end %> <!-- if action_service == 'new' -->
+
 
             <div class="row">
-              <div class="form-group col-sm-8">
-                <%= label_tag "Sesja", nil, class: "control-label" %>
-                <%= hidden_field_tag :exam_id, nil, value: exam_id,
-                                  class: "form-control input-sm exam_select_#{category_service}", 
-                                  placeholder: "Wybierz Sesję",
-                                  style: "width:100%",
-                                  id: "netpar_exam" %>
-                <small class="help-block"><%=t 'help_block_text.select2_exam' %></small>
-              </div>
-            </div>
-          <% end %> <!-- if action_service == 'new' -->
+              <div class="col-sm-12">
+                <%= button_tag t("helpers.links.new_#{resource_service}"), type: 'submit', class: 'btn btn-primary glyphicon glyphicon-plus pull-right' %>
+              </div> <!-- /.col-sm-12 -->
+            </div> <!-- /row -->
+            <div class="row">
+              <br>
+            </div> <!-- /row -->
 
-
-          <div class="row">
-            <div class="col-sm-12">
-              <%= button_tag t("helpers.links.new_#{resource_service}"), type: 'submit', class: 'btn btn-primary glyphicon glyphicon-plus pull-right' %>
-            </div> <!-- /.col-sm-12 -->
-          </div> <!-- /row -->
-          <div class="row">
-            <br>
-          </div> <!-- /row -->
-
-        <% end %> <!-- form_tag(... -->
-
+          <% end %> <!-- /form_tag(... -->
+        <% end %> <!--  /if @esod_matter.examination.present? -->
       </div> <!--  /class="col-sm-11" --> 
-       
-    <% end  %> <!-- if resource_service == 'examination'  -->
+    <% end  %> <!-- /if resource_service == 'examination'  -->
 
 
     <% if resource_service == 'certificate' %>
+      <hr class="hr-without-top-margin">
       <div class="col-sm-1">
         <p class="pull-right">NETPAR:</p>
       </div>  
 
       <div class="col-sm-11">
+        <% if @esod_matter.certificate.present? %>
+          <p><%= link_to @esod_matter.certificate.fullname, certificate_path(@esod_matter.certificate.category.downcase, @esod_matter.certificate, back_url: esod_matter_path(@esod_matter)) %></p>
+        <% else %>
+          <%= form_tag({controller: "/certificates", category_service: category_service, action: "edit"}, method: "get") do %>
 
-        <%= form_tag({controller: "/certificates", category_service: category_service, action: "edit"}, method: "get") do %>
+            <%= hidden_field_tag :back_url, esod_matter_incoming_letter_path(@esod_matter.id, @esod_incoming_letter.id)  %> 
+            <%= hidden_field_tag :esod_matter_id, @esod_matter.id %>
+            <%= hidden_field_tag :esod_category, @esod_matter.identyfikator_kategorii_sprawy %>
 
-          <%= hidden_field_tag :back_url, esod_matter_incoming_letter_path(@esod_matter.id, @esod_incoming_letter.id)  %> 
-          <%= hidden_field_tag :esod_matter_id, @esod_matter.id %>
-          <%= hidden_field_tag :esod_category, @esod_matter.identyfikator_kategorii_sprawy %>
-
-          <% if action_service == 'new' %>
-            <div class="row">
-              <div class="form-group col-sm-8">
-                <%= label_tag "Klient", nil, class: "control-label" %>
-                <%= hidden_field_tag :customer_id, nil, value: customer_id,
-                                  class: "form-control input-sm customer_select", 
-                                  placeholder: "Wybierz Klienta",
-                                  style: "width:100%",
-                                  id: "netpar_customer" %>
-                <small class="help-block"><%=t 'help_block_text.select2_customer' %></small>
+            <% if action_service == 'new' %>
+              <div class="row">
+                <div class="form-group col-sm-8">
+                  <%= label_tag "Klient", nil, class: "control-label" %>
+                  <%= hidden_field_tag :customer_id, nil, value: customer_id,
+                                    class: "form-control input-sm customer_select", 
+                                    placeholder: "Wybierz Klienta",
+                                    style: "width:100%",
+                                    id: "netpar_customer" %>
+                  <small class="help-block"><%=t 'help_block_text.select2_customer' %></small>
+                </div>
               </div>
-            </div>
+
+              <div class="row">
+                <div class="form-group col-sm-8">
+                  <%= label_tag "Sesja", nil, class: "control-label" %>
+                  <%= hidden_field_tag :exam_id, nil, value: exam_id,
+                                    class: "form-control input-sm exam_select_#{category_service}", 
+                                    placeholder: "Wybierz Sesję",
+                                    style: "width:100%",
+                                    id: "netpar_exam" %>
+                  <small class="help-block"><%=t 'help_block_text.select2_exam' %></small>
+                </div>
+              </div>
+            <% else %>
+              <div class="row">
+                <div class="form-group col-sm-8">
+                  <%= label_tag "Świadectwo", nil, class: "control-label" %>
+                  <%= hidden_field_tag :certificate_id, nil, value: certificate_id,
+                                    class: "form-control input-sm certificate_select_#{category_service}", 
+                                    placeholder: "Wybierz Świadectwo",
+                                    style: "width:100%",
+                                    id: "netpar_certificate" %>
+                  <small class="help-block"><%=t 'help_block_text.select2_certificate' %></small>
+                </div>
+              </div>
+
+            <% end %> <!-- if action_service == 'new' -->
+
 
             <div class="row">
-              <div class="form-group col-sm-8">
-                <%= label_tag "Sesja", nil, class: "control-label" %>
-                <%= hidden_field_tag :exam_id, nil, value: exam_id,
-                                  class: "form-control input-sm exam_select_#{category_service}", 
-                                  placeholder: "Wybierz Sesję",
-                                  style: "width:100%",
-                                  id: "netpar_exam" %>
-                <small class="help-block"><%=t 'help_block_text.select2_exam' %></small>
-              </div>
-            </div>
-          <% else %>
+              <div class="col-sm-12">
+                <%= button_tag t("helpers.links.edit_#{resource_service}"), type: 'submit', class: 'btn btn-primary glyphicon glyphicon-edit pull-right' %>
+              </div> <!-- /.col-sm-12 -->
+            </div> <!-- /row -->
             <div class="row">
-              <div class="form-group col-sm-8">
-                <%= label_tag "Świadectwo", nil, class: "control-label" %>
-                <%= hidden_field_tag :certificate_id, nil, value: certificate_id,
-                                  class: "form-control input-sm certificate_select_#{category_service}", 
-                                  placeholder: "Wybierz Świadectwo",
-                                  style: "width:100%",
-                                  id: "netpar_certificate" %>
-                <small class="help-block"><%=t 'help_block_text.select2_certificate' %></small>
-              </div>
-            </div>
+              <br>
+            </div> <!-- /row -->
 
-          <% end %> <!-- if action_service == 'new' -->
-
-
-          <div class="row">
-            <div class="col-sm-12">
-              <%= button_tag t("helpers.links.edit_#{resource_service}"), type: 'submit', class: 'btn btn-primary glyphicon glyphicon-edit pull-right' %>
-            </div> <!-- /.col-sm-12 -->
-          </div> <!-- /row -->
-          <div class="row">
-            <br>
-          </div> <!-- /row -->
-
-        <% end %> <!-- form_tag(... -->
-
-      </div> <!--  /class="col-sm-11" --> 
-       
-    <% end  %> <!-- if resource_service == 'certificate' -->
-
-
-
+          <% end %> <!-- /form_tag(... -->
+        <% end %> <!--  /if @esod_matter.certificate.present? -->
+      </div> <!--  /class="col-sm-11" -->        
+    <% end  %> <!-- /if resource_service == 'certificate' -->
 
   </div> <!-- /col-sm-12 -->
 </div> <!-- /row -->
-
 
 
 <hr class="hr-without-top-margin">

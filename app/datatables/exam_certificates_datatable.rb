@@ -11,6 +11,7 @@ class ExamCertificatesDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Certificateple: 'certificates.email'
     @sortable_columns ||= %w( 
+                              Esod::Matter.znak 
                               Certificate.number
                               Certificate.date_of_issue
                               Certificate.valid_thru
@@ -25,6 +26,7 @@ class ExamCertificatesDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Certificateple: 'certificates.email'
     @searchable_columns ||= %w(
+                              Esod::Matter.znak 
                               Certificate.number 
                               Customer.name
                               Customer.given_names
@@ -48,6 +50,7 @@ class ExamCertificatesDatatable < AjaxDatatablesRails::Base
       [
         record.id,
         attach.present? ? link_to( image_tag( get_fileattach_as_small_image(attach, record.category.downcase) ), @view.certificate_path(params[:category_service], record, back_url: @view.exam_path(record.exam.category.downcase, record.exam))) : '',
+        record.esod_matter.present? ? link_to(record.esod_matter.znak, @view.esod_matter_path(record.esod_matter)) : '',
         link_to(record.number, @view.certificate_path(params[:category_service], record, back_url: @view.exam_path(record.exam.category.downcase, record.exam))),
         record.date_of_issue,
         record.valid_thru,
@@ -67,7 +70,7 @@ class ExamCertificatesDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    Certificate.joins(:division, :customer, :exam).where(exam_id: options[:only_for_current_exam_id]).includes(:division, :customer, :exam).references(:division, :customer, :exam).all
+    Certificate.joins(:division, :customer, :exam).where(exam_id: options[:only_for_current_exam_id]).includes(:division, :customer, :exam, :esod_matter).references(:division, :customer, :exam, :esod_matter).all
   end
 
   # ==== Insert 'presenter'-like methods below if necessary

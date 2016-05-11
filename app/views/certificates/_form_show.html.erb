@@ -5,10 +5,16 @@
 
 
 <div class="row">
-  <div class="form-group col-sm-12">
+  <div class="form-group col-sm-7">
     <p><strong><%= Certificate.human_attribute_name(:esod_matter_id) %></strong></p>
-    <h5><%= @certificate.esod_matter.present? ? @certificate.esod_matter.fullname : ''%></h5>
+    <h5><%= @certificate.esod_matter.present? ? link_to(@certificate.esod_matter.fullname, esod_matter_path(@certificate.esod_matter)) : ''%></h5>
   </div>
+
+  <div class="form-group col-sm-5">
+    <p><strong><%= Certificate.human_attribute_name(:esod_category) %></strong></p>
+    <h5><%= @certificate.esod_category_name %></h5>
+  </div>
+
 </div>  <!-- /row -->
 
 <hr class="hr-without-top-margin">
@@ -17,27 +23,34 @@
   <div class="col-sm-7">
 
     <div class="row">
-      <div class="form-group col-sm-6">
+      <div class="form-group col-sm-4">
         <p><strong><%= Certificate.human_attribute_name(:number) %></strong></p>
         <h5><%= @certificate.number %></h5>
       </div>
 
-      <div class="form-group col-sm-6">
+      <div class="form-group col-sm-4">
         <p><strong><%= Certificate.human_attribute_name(:certificate_status) %></strong></p>
         <h5><%= @certificate.certificate_status_name %></h5>
       </div>
+
     </div>  <!-- /row -->
 
     <div class="row">
-      <div class="form-group col-sm-6">
+      <div class="form-group col-sm-4">
         <p><strong><%= Certificate.human_attribute_name(:date_of_issue) %></strong></p>
         <h5><%= @certificate.date_of_issue %></h5>
       </div>
 
-      <div class="form-group col-sm-6">
+      <div class="form-group col-sm-4">
         <p><strong><%= Certificate.human_attribute_name(:valid_thru) %></strong></p>
         <h5><%= @certificate.valid_thru %></h5>
       </div>
+
+      <div class="form-group col-sm-4">
+        <p><strong><%= Certificate.human_attribute_name(:canceled) %></strong></p>
+        <h5><%= @certificate.canceled ? 'Tak' : 'Nie' %></h5>
+      </div>
+
     </div>  <!-- /row -->
 
     <hr class="hr-without-top-margin">

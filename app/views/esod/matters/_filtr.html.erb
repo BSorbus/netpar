@@ -1,0 +1,46 @@
+<div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-12">
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+
+          <%= form_tag({controller: "esod/matters", action: "index"}, method: "get") do |f| %>
+
+
+            <div class="col-sm-4">
+              <%= label_tag(:stanowisko_id, "ESOD - Stanowisko") %>
+              <%= select( nil, "stanowisko_id",
+                    @stanowiska.collect {|v| [ "#{v[:imie]} #{v[:nazwisko]} - #{v[:nazwa]}", v[:nrid] ] }, 
+                    { include_blank: false, multiple: false, selected: params[:stanowisko_id]}, 
+                    { class: 'form-control input-sm', disabled: false}) %>
+
+            </div> <!-- /.col-sm-4 -->
+
+            <div class="col-sm-2">
+              <%= label_tag(:open, "Otwarta?") %>
+              <%= select( nil, "open",
+                    options_for_select([["Tak", true], ["Nie", false]], params[:open]), 
+                    { include_blank: true, multiple: false}, 
+                    { class: 'form-control input-sm', disabled: false}) %>
+
+            </div> <!-- /.col-sm-4 -->
+
+            <div class="row">
+              <div class="col-sm-12">
+                <%= button_tag t("helpers.links.filter"), type: 'submit', class: 'btn btn-sm btn-primary glyphicon glyphicon-ok pull-right' %>
+              </div> <!-- /.col-sm-12 -->
+            </div> <!-- /row -->
+
+          <% end %> <!-- /form_tag(... -->
+
+
+
+
+        </div>
+      </div>
+
+    </div> <!-- /.col-sm-12 -->
+
+  </div> <!-- / class="row" -->    
+</div> <!-- /.col-sm-12 -->

@@ -135,6 +135,8 @@ class Examination < ActiveRecord::Base
       upd_certificate = Certificate.where(customer: self.customer, division: self.division, category: self.category).last
       if upd_certificate.present? && (upd_certificate.valid_thru >= Time.zone.today - 12.months)
         # Only update old certificate if find and valid_thru + 12 months < Today
+        upd_certificate.esod_matter_id = self.esod_matter_id
+        upd_certificate.esod_category = self.esod_category
         upd_certificate.date_of_issue = Time.zone.today
         upd_certificate.valid_thru = Certificate.default_valid_thru_date(Time.zone.today, self.division)
         upd_certificate.exam = self.exam
@@ -166,6 +168,8 @@ class Examination < ActiveRecord::Base
                                                       user_id: gen_user_id, 
                                                       customer: self.customer, 
                                                       division: self.division, 
+                                                      esod_matter_id: self.esod_matter_id, 
+                                                      esod_category: self.esod_category, 
                                                       category: self.category)
       self.certificate = new_certificate
       self.save! 

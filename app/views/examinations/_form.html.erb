@@ -19,7 +19,7 @@
 <% end %>
 
 <div class="row">
-  <div class="form-group col-sm-12">
+  <div class="form-group col-sm-7">
     <%= f.label :esod_matter_id, class: "control-label" %>
     <%= f.hidden_field :esod_matter_id,
                       class: "form-control input-sm esod_matter_for_examination_select_#{params[:category_service]}", 
@@ -29,26 +29,25 @@
                       style: "width:100%" %>
     <small class="help-block"><%=t 'help_block_text.select2_esod_matter' %></small>
   </div>
+
+  <div class="form-group col-sm-5">
+    <%= f.label :esod_category, class: 'control-label' %>
+    <%= f.select :esod_category, 
+          options_for_select([["#{Esodes::esod_matter_iks_name(Esodes::EGZAMIN)}", Esodes::EGZAMIN],
+                              ["#{Esodes::esod_matter_iks_name(Esodes::POPRAWKOWY)}", Esodes::POPRAWKOWY], 
+                              ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM)}", Esodes::ODNOWIENIE_Z_EGZAMINEM], 
+                              ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY)}", Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY]], 
+              selected: @examination.esod_category), 
+          { include_blank: false}, 
+          { autofocus: @examination.new_record?, class: 'form-control input-sm', disabled: !@examination.new_record? } %>
+  </div>
+
 </div>
 
 <hr class="hr-without-top-margin">
 
 <div class="row">
   <div class="col-sm-7">
-
-    <div class="row">
-      <div class="form-group col-sm-12">
-        <%= f.label :esod_category, class: 'control-label' %>
-        <%= f.select :esod_category, 
-              options_for_select([['Wniosek o wydanie świadectwa', Esodes::EGZAMIN],
-                                  ['Wniosek o egzamin poprawkowy', Esodes::POPRAWKOWY], 
-                                  ['Wniosek o odnowienie z egzaminem', Esodes::ODNOWIENIE_Z_EGZAMINEM], 
-                                  ['Wniosek o odnowienie z egzaminem, poprawkowy', Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY]], 
-                  selected: @examination.esod_category), 
-              { include_blank: false}, 
-              { autofocus: @examination.new_record?, class: 'form-control input-sm', disabled: !@examination.new_record? } %>
-      </div>
-    </div>  <!-- /row -->
 
     <div class="row">
       <div class="form-group col-sm-12">

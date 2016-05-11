@@ -9,44 +9,20 @@ class Esod::MattersController < ApplicationController
   # GET /esod/matters
   # GET /esod/matters.json 
   def index
-#    @esod_matters = Esod::Matter.all
-  #  @token_data = Esod::Token.new(current_user.email, current_user.esod_encryped_password)
-#    if @token_data.present?
-  #    @stanowiska = @token_data.stanowiska
- 
-#      @stanowiska = { "stanowisko"=>[ 
-#                                      {"id"=>"1", "name"=>"Kowalski"},
-#                                      {"id"=>"2", "name"=>"Nowak"}
-#                                    ]
-#                    }
-  
-      #@deserialize_stanowisko = ActiveSupport::JSON.decode(@stanowiska.to_json)
-
-#      puts '----------------------------------------'
-#      puts @stanowiska
-#      puts '----------------------------------------'
-#      puts @stanowiska.to_json
-#      puts '----------------------------------------'
-#      puts JSON.parse(@stanowiska.to_json)
-#      puts '----------------------------------------'
-#      puts JSON.pretty_generate(JSON.parse(@stanowiska.to_json))
-#      puts '----------------------------------------'
-#      puts JSON.pretty_generate(@stanowiska)
-#      puts '----------------------------------------'
-#      puts @deserialize_stanowisko
-#      puts '----------------------------------------'
-#    end
-    @esod_matters = Esod::Matter.all
-    #params[:only_sessions] = false unless params[:only_sessions].present?
-#    respond_to do |format|
-#      format.html 
-#      #format.html { render :index, locals: { only_sessions: params[:only_sessions] } }
-#    end        
+    @token_data = Esod::Token.new(current_user.email, current_user.esod_encryped_password)
+    if @token_data.response_data.present?
+      @stanowiska = @token_data.stanowiska
+      params[:stanowisko_id] = @stanowiska.first[:nrid] unless params[:stanowisko_id].present?
+      params[:open] = true unless params[:open].present?
+    else
+      redirect_to :back, alert: t('flash.actions.esod.alert', data: 'Błąd!')
+    end
   end
 
   def datatables_index
     respond_to do |format|
-      format.json{ render json: Esod::MatterDatatable.new(view_context) }
+      #format.json{ render json: Esod::MatterDatatable.new(view_context) }
+      format.json{ render json: Esod::MatterDatatable.new(view_context, { only_for_stanowisko_id: params[:stanowisko_id], open: params[:open] }) }
     end
   end
 

@@ -110,13 +110,19 @@ class CertificatesController < ApplicationController
     @certificate.category = (params[:category_service]).upcase
     @certificate.date_of_issue = DateTime.now.to_date
 
+    certificate_authorize(@certificate, "new", params[:category_service])
+
+    @esod_matter = load_esod_matter
+    if @esod_matter.present?
+      @certificate.esod_matter = @esod_matter
+      @certificate.esod_category = @esod_matter.identyfikator_kategorii_sprawy
+    end
+
     @exam = load_exam
     @certificate.exam = @exam
 
     @customer = load_customer
     @certificate.customer = @customer
-
-    certificate_authorize(@certificate, "new", params[:category_service])
 
     respond_to do |format|
       format.json
@@ -127,7 +133,13 @@ class CertificatesController < ApplicationController
   # GET /certificates/1/edit
   def edit
     certificate_authorize(@certificate, "edit", params[:category_service])
-     
+ 
+    @esod_matter = load_esod_matter 
+    if @esod_matter.present? && @esod_matter != @certificate.esod_matter
+      @certificate.esod_matter = @esod_matter
+      @certificate.esod_category = @esod_matter.identyfikator_kategorii_sprawy
+    end
+
     respond_to do |format|
       format.json
       format.html { render :edit, locals: { back_url: params[:back_url] } }
@@ -169,6 +181,7 @@ class CertificatesController < ApplicationController
   # PATCH/PUT /certificates/1.json
   def update
     @certificate.user = current_user
+ 
     certificate_authorize(@certificate, "update", params[:category_service])
 
     respond_to do |format|
@@ -232,6 +245,10 @@ class CertificatesController < ApplicationController
       @certificate = Certificate.find(params[:id])
     end
 
+    def load_esod_matter
+      Esod::Matter.find(params[:esod_matter_id]) if (params[:esod_matter_id]).present?
+    end
+
     def load_exam
       Exam.find(params[:exam_id]) if (params[:exam_id]).present?
     end
@@ -242,6 +259,6 @@ class CertificatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def certificate_params
-      params.require(:certificate).permit(:number, :date_of_issue, :valid_thru, :certificate_status, :division_id, :exam_id, :customer_id, :category, :note, :user_id)
+      params.require(:certificate).permit(:esod_category, :number, :date_of_issue, :valid_thru, :certificate_status, :division_id, :exam_id, :customer_id, :category, :note, :user_id, :esod_matter_id)
     end
 end

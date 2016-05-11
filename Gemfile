@@ -56,9 +56,7 @@ gem 'pesel' #https://github.com/macuk/pesel
 #gem 'geocoder'
 #gem 'gmaps4rails'
 
-#gem 'rmagick'
 #gem 'rtesseract' #OCR
-#gem "refile", require: ["refile/rails", "refile/image_processing"]
 gem "refile", require: ["refile/rails"]
 gem "refile-mini_magick"
 gem 'refile-postgres', '~> 1.3.0'
@@ -70,14 +68,9 @@ gem 'active_model_serializers'
 #gem 'pdf-reader'
 
 gem 'rack-cors', :require => 'rack/cors'
-#gem 'simple_token_authentication'
 gem 'swagger_engine'
 
-#Use unicorn as the app server
-#gem 'unicorn'
-#gem "unicorn-rails"
 gem 'savon'
 gem 'whenever', :require => false
 gem 'docx_replace'
-#gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'
 gem 'data-confirm-modal', git: 'https://github.com/ifad/data-confirm-modal'

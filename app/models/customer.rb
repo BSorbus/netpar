@@ -65,8 +65,8 @@ class Customer < ActiveRecord::Base
 #  belongs_to :esod_contractor, class_name: "Esod::Contractor", foreign_key: :esod_contractor_id#, dependent: :delete
 #  belongs_to :esod_address, class_name: "Esod::Address", foreign_key: :esod_address_id
 
-  has_one :esod_contractor, foreign_key: :customer_id, dependent: :nullify
-  has_one :esod_address, foreign_key: :customer_id, dependent: :nullify
+  has_one :esod_contractor, class_name: "Esod::Contractor", foreign_key: :customer_id, dependent: :nullify
+  has_one :esod_address, class_name: "Esod::Address", foreign_key: :customer_id, dependent: :nullify
 
   has_many :documents, as: :documentable
   has_many :works, as: :trackable
@@ -101,10 +101,10 @@ class Customer < ActiveRecord::Base
   validates :user, presence: true
 
   # callbacks
-  before_save :create_esod_contractor, if: "esod_contractor_id.blank?"
-  before_save :update_esod_contractor, unless: "esod_contractor_id.blank?"
-  before_save :create_esod_address, if: "esod_address_id.blank?"
-  before_save :update_esod_address, unless: "esod_address_id.blank?"
+  #before_save :create_esod_contractor, if: "esod_contractor_id.blank?"
+  #before_save :update_esod_contractor, unless: "esod_contractor_id.blank?"
+  #before_save :create_esod_address, if: "esod_address_id.blank?"
+  #before_save :update_esod_address, unless: "esod_address_id.blank?"
 
   before_destroy :customer_has_links, prepend: true
 

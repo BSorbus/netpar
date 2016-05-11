@@ -9,14 +9,7 @@ class ExamsController < ApplicationController
   # GET /exams
   # GET /exams.json
   def index
-    case params[:category_service]
-    when 'l'
-      authorize :exam, :index_l?
-    when 'm'
-      authorize :exam, :index_m?
-    when 'r'
-      authorize :exam, :index_r?
-    end    
+    exam_authorize(:exam, "index", params[:category_service])
     #dane pobierane z datatables_index
 #    respond_to do |format|
 #      format.html { render :index, locals: { category_service: params[:category_service]} }
@@ -51,14 +44,15 @@ class ExamsController < ApplicationController
   end
 
   def examination_cards_to_pdf
-    case params[:category_service]
-    when 'l'
-      authorize :examination, :print_l?
-    when 'm'
-      authorize :examination, :print_m?
-    when 'r'
-      authorize :examination, :print_r?
-    end    
+    exam_authorize(:examination, "print", params[:category_service])
+#    case params[:category_service]
+#    when 'l'
+#      authorize :examination, :print_l?
+#    when 'm'
+#      authorize :examination, :print_m?
+#    when 'r'
+#      authorize :examination, :print_r?
+#    end    
 
     case params[:prnorder]
     when 'customers.name, customers.given_names'
@@ -93,14 +87,7 @@ class ExamsController < ApplicationController
   end
 
   def examination_protocol_to_pdf
-    case params[:category_service]
-    when 'l'
-      authorize :exam, :print_l?
-    when 'm'
-      authorize :exam, :print_m?
-    when 'r'
-      authorize :exam, :print_r?
-    end    
+    exam_authorize(:exam, "print", params[:category_service])
 
     case params[:prnorder]
     when 'customers.name, customers.given_names'
@@ -136,14 +123,15 @@ class ExamsController < ApplicationController
   end
 
   def certificates_to_pdf
-    case params[:category_service]
-    when 'l'
-      authorize :certificate, :print_l?
-    when 'm'
-      authorize :certificate, :print_m?
-    when 'r'
-      authorize :certificate, :print_r?
-    end    
+    exam_authorize(:certificate, "print", params[:category_service])
+#    case params[:category_service]
+#    when 'l'
+#      authorize :certificate, :print_l?
+#    when 'm'
+#      authorize :certificate, :print_m?
+#    when 'r'
+#      authorize :certificate, :print_r?
+#    end    
 
     if params[:prnscope].present? && params[:prnscope] != "0" # Wszystkie 
       @certificates_all = Certificate.joins(:customer).references(:customer).where(exam_id: params[:id], division_id: params[:prnscope]).all
@@ -220,14 +208,7 @@ class ExamsController < ApplicationController
   end
 
   def exam_report_to_pdf
-    case params[:category_service]
-    when 'l'
-      authorize :exam, :print_l?
-    when 'm'
-      authorize :exam, :print_m?
-    when 'r'
-      authorize :exam, :print_r?
-    end 
+    exam_authorize(:exam, "print", params[:category_service])
 
     respond_to do |format|
       format.pdf do
@@ -242,14 +223,7 @@ class ExamsController < ApplicationController
 
 
   def committee_docx
-    case params[:category_service]
-    when 'l'
-      authorize @exam, :edit_l?
-    when 'm'
-      authorize @exam, :edit_m?
-    when 'r'
-      authorize @exam, :edit_r?
-    end
+    exam_authorize(@exam, "edit", params[:category_service])
 
     respond_to do |format|
       format.docx do
@@ -259,7 +233,7 @@ class ExamsController < ApplicationController
         # Replace some variables. $var$ convention is used here, but not required.
         #doc.replace("$departmentcity$", "Bydgoszczu")
         doc.replace("$departmentcity$", "#{@current_user.department.address_city}, dn. #{DateTime.now.to_date.strftime('%d.%m.%Y')} r.")
-        doc.replace("$esodznak$", "OGD.SKM.5231.1.2017")
+        doc.replace("$esodznak$", "xxx.xxx.xxx.1.xxxx")
         doc.replace("$examnumber$", "#{@exam.number}")
         doc.replace("$placeexam$", "#{@exam.place_exam}")
         doc.replace("$dateexam$", "#{@exam.date_exam.strftime('%d.%m.%Y')} r.")
@@ -291,14 +265,7 @@ class ExamsController < ApplicationController
   # GET /exams/1
   # GET /exams/1.json
   def show
-    case params[:category_service]
-    when 'l'
-      authorize @exam, :show_l?
-    when 'm'
-      authorize @exam, :show_m?
-    when 'r'
-      authorize @exam, :show_r?
-    end    
+    exam_authorize(:exam, "show", params[:category_service])
 
     respond_to do |format|
       # for jBuilder
@@ -317,6 +284,8 @@ class ExamsController < ApplicationController
     @exam.category = (params[:category_service]).upcase
     params[:category_service] == 'l' ? @exam.esod_category = Esodes::SESJA_BEZ_EGZAMINOW : @exam.esod_category = Esodes::SESJA
 
+    exam_authorize(@exam, "new", params[:category_service])
+
     @esod_matter = load_esod_matter
     if @esod_matter.present?
       @exam.esod_matter = @esod_matter
@@ -327,31 +296,18 @@ class ExamsController < ApplicationController
     end
 
     (1..8).each { @exam.examiners.build }
-    case params[:category_service]
-    when 'l'
-      authorize @exam, :new_l?
-    when 'm'
-      authorize @exam, :new_m?
-    when 'r'
-      authorize @exam, :new_r?
-    end    
   end
 
   # GET /exams/1/edit
   def edit
+
+    exam_authorize(@exam, "edit", params[:category_service])
+
     count = @exam.examiners.size
     add_empty = 8 - count
     add_empty += 1 if count >= 8
     #@exam.examiners.build
     (1..add_empty).each { @exam.examiners.build }
-    case params[:category_service]
-    when 'l'
-      authorize @exam, :edit_l?
-    when 'm'
-      authorize @exam, :edit_m?
-    when 'r'
-      authorize @exam, :edit_r?
-    end    
   end
 
   # POST /exams
@@ -360,14 +316,8 @@ class ExamsController < ApplicationController
     @exam = Exam.new(exam_params)
     @exam.category = (params[:category_service]).upcase
     @exam.user = current_user
-    case params[:category_service]
-    when 'l'
-      authorize @exam, :create_l?
-    when 'm'
-      authorize @exam, :create_m?
-    when 'r'
-      authorize @exam, :create_r?
-    end    
+
+    exam_authorize(@exam, "create", params[:category_service])
 
     respond_to do |format|
       if @exam.save
@@ -392,14 +342,8 @@ class ExamsController < ApplicationController
   # PATCH/PUT /exams/1.json
   def update
     @exam.user = current_user
-    case params[:category_service]
-    when 'l'
-      authorize @exam, :update_l?
-    when 'm'
-      authorize @exam, :update_m?
-    when 'r'
-      authorize @exam, :update_r?
-    end    
+
+    exam_authorize(@exam, "update", params[:category_service])
 
     respond_to do |format|
       if @exam.update(exam_params)
@@ -423,14 +367,7 @@ class ExamsController < ApplicationController
   # DELETE /exams/1
   # DELETE /exams/1.json
   def destroy
-    case params[:category_service]
-    when 'l'
-      authorize @exam, :destroy_l?
-    when 'm'
-      authorize @exam, :destroy_m?
-    when 'r'
-      authorize @exam, :destroy_r?
-    end    
+    exam_authorize(@exam, "destroy", params[:category_service])
 
     if @exam.destroy
       Work.create!(trackable: @exam, action: :destroy, user: current_user, 
@@ -459,6 +396,16 @@ class ExamsController < ApplicationController
 
 
   private
+    def exam_authorize(model_class, action, category)
+      unless ['index', 'show', 'new', 'create', 'edit', 'update', 'destroy', 'print', 'work'].include?(action)
+         raise "Ruby injection"
+      end
+      unless ['l', 'm', 'r'].include?(category)
+         raise "Ruby injection"
+      end
+      authorize model_class,"#{action}_#{category}?"      
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_exam
       @exam = Exam.find(params[:id])

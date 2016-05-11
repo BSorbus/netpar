@@ -824,6 +824,172 @@ $(document).ready(function() {
 
 
 
+  $('.esod_matter_for_certificate_select_l').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/esod/matters/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          iks: "<%= Esodes::ALL_CATEGORIES_CERTIFICATES %>",
+          jrwa: "<%= Esodes::JRWA_L %>",
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var matters = $.map(data.matters, function(matter, i) {
+          return { data_obj: matter, id: matter.id, text: matter.fullname };
+        });
+        return { results: matters, more: more };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/esod/matters/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    formatResult: function(item) {
+      return  item.data_obj.znak + '<br>' +
+              item.data_obj.tytul + '<br>' +
+              '<small>termin:&nbsp' + item.data_obj.termin_realizacji + '&nbsp&nbsp[kategoria:&nbsp' + item.data_obj.iks_name + ']</small><br>' +
+              '<small>adnotacja:&nbsp' + item.data_obj.adnotacja + '</small>';
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+
+  $('.esod_matter_for_certificate_select_m').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/esod/matters/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          iks: "<%= Esodes::ALL_CATEGORIES_CERTIFICATES %>",
+          jrwa: "<%= Esodes::JRWA_M %>",
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var matters = $.map(data.matters, function(matter, i) {
+          return { data_obj: matter, id: matter.id, text: matter.fullname };
+        });
+        return { results: matters, more: more };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/esod/matters/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    formatResult: function(item) {
+      return  item.data_obj.znak + '<br>' +
+              item.data_obj.tytul + '<br>' +
+              '<small>termin:&nbsp' + item.data_obj.termin_realizacji + '&nbsp&nbsp[kategoria:&nbsp' + item.data_obj.iks_name + ']</small><br>' +
+              '<small>adnotacja:&nbsp' + item.data_obj.adnotacja + '</small>';
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+
+  $('.esod_matter_for_certificate_select_r').select2({
+    minimumInputLength: 3,
+    allowClear: false,
+    ajax: {
+      url: "/esod/matters/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          iks: "<%= Esodes::ALL_CATEGORIES_CERTIFICATES %>",
+          jrwa: "<%= Esodes::JRWA_R %>",
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var matters = $.map(data.matters, function(matter, i) {
+          return { data_obj: matter, id: matter.id, text: matter.fullname };
+        });
+        return { results: matters, more: more };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/esod/matters/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    formatResult: function(item) {
+      return  item.data_obj.znak + '<br>' +
+              item.data_obj.tytul + '<br>' +
+              '<small>termin:&nbsp' + item.data_obj.termin_realizacji + '&nbsp&nbsp[kategoria:&nbsp' + item.data_obj.iks_name + ']</small><br>' +
+              '<small>adnotacja:&nbsp' + item.data_obj.adnotacja + '</small>';
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+
+
 
 
 });

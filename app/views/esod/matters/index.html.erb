@@ -2,19 +2,19 @@
   <h3><span class="glyphicon glyphicon-retweet" aria-hidden="true"> 
     <%= t "pages.esod_matter.index.title" %>  
     </span>
+    <button class="btn btn-sm btn-info glyphicon glyphicon-search pull-right" type="button" data-toggle="collapse" data-target=".search-form" aria-expanded="false" > Filtr
+    </button>
   </h3>
 </div> <!--/col-sm-12 -->
+
+<div class="search-form collapse in">
+  <%= render partial: "filtr" %>
+</div> <!-- /row search-form collapse -->
 
 <div class="col-sm-12">
 
 <%#= JSON.pretty_generate(@stanowiska) %>
-<br>
-<br>
 <%#= @deserialize_stanowisko %>
-<br>
-<br>
-
-<p><%#= only_sessions %></p>
 
 <!-- <table>
   <tr>
@@ -31,8 +31,9 @@
  -->
 </div> <!--/col-sm-12 -->
 
+
 <div class="col-sm-12">
-  <table id="esod_matters" class="hover cell-border" width="100%" data-source="<%= datatables_index_esod_matters_path(format: :json) %>">
+  <table id="esod_matters" class="hover cell-border" width="100%" data-source="<%= datatables_index_esod_matters_path(stanowisko_id: params[:stanowisko_id], open: params[:open], format: :json) %>">
     <thead>
       <tr>
         <th> 0 ID </th>

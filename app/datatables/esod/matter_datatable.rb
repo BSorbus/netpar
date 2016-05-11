@@ -58,7 +58,14 @@ class Esod::MatterDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    Esod::Matter.all
+    collection_data = Esod::Matter.all
+    if (options[:only_for_stanowisko_id]).present?
+      collection_data = collection_data.where(identyfikator_stanowiska_referenta: options[:only_for_stanowisko_id]).all
+    end
+    if (options[:open]).present? && (options[:open]) != ""
+      collection_data = collection_data.where(czy_otwarta: options[:open]).all
+    end
+    return collection_data
   end
 
   # ==== Insert 'presenter'-like methods below if necessary

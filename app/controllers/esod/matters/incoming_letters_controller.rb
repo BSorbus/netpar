@@ -48,8 +48,8 @@ class Esod::Matters::IncomingLettersController < ApplicationController
           elsif Esodes::ACTION_EDIT.include?(@esod_matter.identyfikator_kategorii_sprawy)
             'edit'
           else
-            #raise "Bad param identyfikator_kategorii_sprawy: #{@esod_matter.identyfikator_kategorii_sprawy}"
-            "Bad param identyfikator_kategorii_sprawy: #{@esod_matter.identyfikator_kategorii_sprawy}"
+            raise "Bad param identyfikator_kategorii_sprawy: #{@esod_matter.identyfikator_kategorii_sprawy}"
+            #{}"Bad param identyfikator_kategorii_sprawy: #{@esod_matter.identyfikator_kategorii_sprawy}"
           end
 
         if action_service == 'new'
@@ -57,16 +57,16 @@ class Esod::Matters::IncomingLettersController < ApplicationController
             customer_id = @esod_incoming_letter.esod_contractor.customer_id
 
             unless customer_id.present?
-              customer = Customer.find_by(pesel: @esod_incoming_letter.esod_contractor.pesel)
+              customer = Customer.find_by(pesel: @esod_incoming_letter.esod_contractor.pesel) if @esod_incoming_letter.esod_contractor.pesel.present?
               customer_id = customer.id if customer.present? 
             end
             unless customer_id.present?
-              customer = Customer.find_by(name: @esod_incoming_letter.esod_contractor.nazwisko, given_names: @esod_incoming_letter.esod_contractor.imie, address_city: @esod_incoming_letter.esod_address.miasto )
+              customer = Customer.find_by(name: @esod_incoming_letter.esod_contractor.nazwisko.strip, given_names: @esod_incoming_letter.esod_contractor.imie.strip, address_city: @esod_incoming_letter.esod_address.miasto.strip )
               customer_id = customer.id if customer.present? 
             end
 
-            exam = Exam.find_by(category: "#{category_service}".upcase, number: @esod_matter.esod_matter_notes.last.tytul)
-            exam = Exam.find_by(category: "#{category_service}".upcase, number: @esod_matter.esod_matter_notes.last.tresc) unless exam.present?
+            exam = Exam.find_by(category: "#{category_service}".upcase, number: @esod_matter.esod_matter_notes.last.tytul.strip) if @esod_matter.esod_matter_notes.last.tytul.present?
+            exam = Exam.find_by(category: "#{category_service}".upcase, number: @esod_matter.esod_matter_notes.last.tresc.strip) if @esod_matter.esod_matter_notes.last.tresc.present? && exam.blank?
             exam_id = exam.id if exam.present?
           end
         else
@@ -76,7 +76,6 @@ class Esod::Matters::IncomingLettersController < ApplicationController
             certificate_id = certificate.id if certificate.present?
           end
         end
-
 
         #@esod_matter.save_to_esod(current_user.email, current_user.esod_encryped_password)
        

@@ -324,6 +324,7 @@ pl:
         remote_fileattach_url: 'Zdalna ścieżka URL'
         remove_fileattach: 'Usuń załączony plik'
       certificate:
+        esod_category: 'Rodzaj wniosku'
         number: 'Numer'
         date_of_issue: 'Data wydania'
         valid_thru: 'Ważne do'
@@ -516,6 +517,9 @@ pl:
         number: 'Pozostaw puste jeżeli Numer ma być nadany automatycznie'
   flash:
     actions:
+      esod:
+        notice: "%{resource_name} was successfully created."
+        alert: 'Wystąpił błąd w czasie wywołania funkcji ESOD: "%{data}".'
       create:
         notice: "%{resource_name} was successfully created."
       update:

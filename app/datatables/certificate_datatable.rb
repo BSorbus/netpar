@@ -11,6 +11,7 @@ class CertificateDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Certificateple: 'certificates.email'
     @sortable_columns ||= %w( 
+                              Esod::Matter.znak 
                               Certificate.number
                               Certificate.date_of_issue
                               Certificate.valid_thru
@@ -25,6 +26,7 @@ class CertificateDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Certificateple: 'certificates.email'
     @searchable_columns ||= %w(
+                              Esod::Matter.znak 
                               Certificate.number 
                               Customer.name
                               Customer.given_names
@@ -49,6 +51,7 @@ class CertificateDatatable < AjaxDatatablesRails::Base
       [
         record.id,
         attach.present? ? link_to( image_tag( get_fileattach_as_small_image(attach, record.category.downcase) ), @view.certificate_path(params[:category_service], record)) : '',
+        record.esod_matter.present? ? link_to(record.esod_matter.znak, @view.esod_matter_path(record.esod_matter)) : '',
         link_to(record.number, @view.certificate_path(record.category.downcase, record)),
         record.date_of_issue,
         record.valid_thru,
@@ -65,13 +68,13 @@ class CertificateDatatable < AjaxDatatablesRails::Base
     #case options[:category_scope]
     case params[:category_service]
     when 'l'
-      Certificate.joins(:division, :customer, :exam).includes(:division, :customer, :exam).references(:division, :customer, :exam).only_category_l.all #
+      Certificate.joins(:division, :customer, :exam).includes(:division, :customer, :exam, :esod_matter).references(:division, :customer, :exam, :esod_matter).only_category_l.all #
     when 'm'
-      Certificate.joins(:division, :customer, :exam).includes(:division, :customer, :exam).references(:division, :customer, :exam).only_category_m.all #
+      Certificate.joins(:division, :customer, :exam).includes(:division, :customer, :exam, :esod_matter).references(:division, :customer, :exam, :esod_matter).only_category_m.all #
     when 'r'
-      Certificate.joins(:division, :customer, :exam).includes(:division, :customer, :exam).references(:division, :customer, :exam).only_category_r.all #
+      Certificate.joins(:division, :customer, :exam).includes(:division, :customer, :exam, :esod_matter).references(:division, :customer, :exam, :esod_matter).only_category_r.all #
     else
-      Certificate.joins(:division, :customer, :exam).includes(:division, :customer, :exam).references(:division, :customer, :exam).all #
+      Certificate.joins(:division, :customer, :exam).includes(:division, :customer, :exam, :esod_matter).references(:division, :customer, :exam, :esod_matter).all #
     end  
   end
 
