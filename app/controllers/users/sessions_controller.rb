@@ -1,3 +1,4 @@
+require 'esodes'
 class Users::SessionsController < Devise::SessionsController
 
   # respond_to :json
@@ -15,6 +16,9 @@ class Users::SessionsController < Devise::SessionsController
     # Jeżeli udane logowanie, to zapisz do historii
     Work.create!(trackable: current_user, trackable_url: "#{user_path(current_user)}", action: :sign_in, user: current_user, 
       parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: current_user.id, name: current_user.name, email: current_user.email, notice: request.flash["notice"]}.to_json)
+
+    # For cooperation with ESOD
+    Esodes::EsodTokenData.new(netpar_user_id: current_user.id, netpar_user: current_user)
   end
 
   # DELETE /resource/sign_out

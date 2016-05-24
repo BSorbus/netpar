@@ -10,98 +10,95 @@
             </a>
           </div>
         </div>
-        <div id="collapse_attach" class="panel-collapse collapse"> <!-- id="collapse_scan_and_print" -->
+        <div id="collapse_attach" class="panel-collapse collapse"> <!-- id="collapse_attach" -->
           <div class="panel-body">
-            <div class="col-sm-12">
 
-              <div class="col-sm-7">
+            <div class="col-sm-7">
 
-                <%#= render partial: "documents/documents", documentable: attach_parent %>
-                <table class="table table-hover">
-                  <thead>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th><%= Document.human_attribute_name(:fileattach_filename) %></th>
+                    <th><%= Document.human_attribute_name(:fileattach_content_type) %></th>
+                    <th><%= Document.human_attribute_name(:fileattach_size) %></th>
+                    <th></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% documentable.documents.each do |document| %>
                     <tr>
-                      <th><%= Document.human_attribute_name(:fileattach_filename) %></th>
-                      <th><%= Document.human_attribute_name(:fileattach_content_type) %></th>
-                      <th><%= Document.human_attribute_name(:fileattach_size) %></th>
-                      <th></th>
+                      <td>
+                        <!--"Show" as download-->
+                        <%= link_to document.fileattach_filename, document_path(document), title: t('tooltip.download'), rel: 'tooltip' %>
+                       </td>
+                      <td><%= document.fileattach_content_type %></td>
+                      <td><%= number_to_human_size(document.fileattach_size) %></td>
+                      <td>
+                        <%= link_to ' ', document_path(document),
+                                        method: :delete,
+                                        data: { confirm: t('helpers.links.confirm_destroy', data: document.fileattach_filename) }, 
+                                        :class => "glyphicon glyphicon-trash", title: t('tooltip.destroy'), rel: 'tooltip' %>
+                      </td>
+
+
                     </tr>
-                  </thead>
+                  <% end %>
+                </tbody>
 
-                  <tbody>
-                    <% documentable.documents.each do |document| %>
-                      <tr>
-                        <td>
-                          <!--"Show" as download-->
-                          <%= link_to document.fileattach_filename, document_path(document), title: t('tooltip.download'), rel: 'tooltip' %>
-                         </td>
-                        <td><%= document.fileattach_content_type %></td>
-                        <td><%= number_to_human_size(document.fileattach_size) %></td>
-                        <td>
-                          <%= link_to ' ', document_path(document),
-                                          method: :delete,
-                                          data: { confirm: t('helpers.links.confirm_destroy', data: document.fileattach_filename) }, 
-                                          :class => "glyphicon glyphicon-trash", title: t('tooltip.destroy'), rel: 'tooltip' %>
-                        </td>
+              </table>
 
+            </div> <!-- /col-sm-7 -->
 
-                      </tr>
-                    <% end %>
-                  </tbody>
+            <div class="col-sm-5">
 
-                </table>
+              <%#= render partial: "documents/form", locals: {documentable: attach_parent} %>
+              <%= form_for [documentable, Document.new] do |f| %>
 
-              </div> <!-- /col-sm-7 -->
-
-              <div class="col-sm-5">
-
-                <%#= render partial: "documents/form", locals: {documentable: attach_parent} %>
-                <%= form_for [documentable, Document.new] do |f| %>
-
-                  <div class="form-group col-sm-12">
-                    <% if documentable.errors.any? %>
-                      <div id="error_explanation" class="panel panel-danger">
-                        <div class="panel-body">
-                          <ul>
-                          <% documentable.errors.full_messages.each do |msg| %>
-                            <li><h5><%= msg %></h5></li>
-                          <% end %>
-                          </ul>
-                        </div>
-                      </div>
-                    <% end %>
-
-
-                    <%= f.label :fileattach, class: 'control-label' %><br>
-                    <%= f.attachment_field :fileattach, direct: true, presigned: true, class: 'form-control input-sm' %>
-
-                    <br>
-                    <p><%=t "pages.document.form.or_input_remote_url"%></p>
-                 
-                    <%= f.label :remote_fileattach_url, class: 'control-label' %><br>
-                    <%= f.text_field :remote_fileattach_url, class: 'form-control input-sm' %>
-
-                  </div>
-
-                  <div class="col-sm-12">
-
-                    <!-- <div class="progress" id="progress_load" style='display:none'> -->
-                    <div class="progress" id="progress_load">
-                      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;" id="progress_load_text">
-                        <span class="sr-only"></span>
+                <div class="form-group col-sm-12">
+                  <% if documentable.errors.any? %>
+                    <div id="error_explanation" class="panel panel-danger">
+                      <div class="panel-body">
+                        <ul>
+                        <% documentable.errors.full_messages.each do |msg| %>
+                          <li><h5><%= msg %></h5></li>
+                        <% end %>
+                        </ul>
                       </div>
                     </div>
+                  <% end %>
 
+
+                  <%= f.label :fileattach, class: 'control-label' %><br>
+                  <%= f.attachment_field :fileattach, direct: true, presigned: true, class: 'form-control input-sm' %>
+
+                  <br>
+                  <p><%=t "pages.document.form.or_input_remote_url"%></p>
+               
+                  <%= f.label :remote_fileattach_url, class: 'control-label' %><br>
+                  <%= f.text_field :remote_fileattach_url, class: 'form-control input-sm' %>
+
+                </div>
+
+                <div class="col-sm-12">
+
+                  <!-- <div class="progress" id="progress_load" style='display:none'> -->
+                  <div class="progress" id="progress_load">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;" id="progress_load_text">
+                      <span class="sr-only"></span>
+                    </div>
                   </div>
 
-                  <div class="col-sm-12">
-                    <%= f.submit nil, class: 'btn btn-primary pull-right' %>
-                  </div> <!-- /row -->
+                </div>
 
-                <% end %>
+                <div class="col-sm-12">
+                  <%= f.submit nil, class: 'btn btn-primary pull-right' %>
+                </div> <!-- /row -->
 
-              </div> <!-- /col-sm-5 -->
+              <% end %>
 
-            </div> <!--/class="col-sm-12" -->
+            </div> <!-- /col-sm-5 -->
+
           </div> <!-- /panel-body -->
         </div> <!-- /id="collapse_scan_and_print" -->
       </div> <!-- /panel -->

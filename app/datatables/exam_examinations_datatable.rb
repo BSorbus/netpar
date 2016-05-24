@@ -10,8 +10,8 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
   def sortable_columns
     # list columns inside the Array in string dot notation.
     # Certificateple: 'certificates.email'
+#                              Esod::Matter.znak 
     @sortable_columns ||= %w( 
-                              Esod::Matter.znak 
                               Examination.esod_category
                               Division.name
                               Customer.name
@@ -25,7 +25,7 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Examinationple: 'certificates.email'
     @searchable_columns ||= %w(
-                              Esod::Matter.znak 
+                              Examination.esod_category 
                               Division.name
                               Customer.name
                               Customer.given_names
@@ -48,7 +48,8 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
       [
         record.id,
         attach.present? ? link_to( image_tag( get_fileattach_as_small_image(attach, params[:category_service]) ), @view.examination_path(params[:category_service], record, back_url: @view.exam_path(record.exam.category.downcase, record.exam))) : '',
-        record.esod_matter.present? ? link_to(record.esod_matter.znak, @view.esod_matter_path(record.esod_matter)) : '',
+        #record.esod_matter.present? ? link_to(record.esod_matter.znak, @view.esod_matter_path(record.esod_matter)) : '',
+        record.esod_matters.any? ? record.esod_matters.flat_map {|row| row.znak }.join(', ') : "",
         record.esod_category_name,
         record.division.name + " (" + record.division.short_name + ")",
         show_customer ? link_to(record.customer.fullname_and_address, @view.customer_path(record.customer)) : 'xxx-xxx',
@@ -69,7 +70,8 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    Examination.joins(:division, :customer, :exam).where(exam_id: options[:only_for_current_exam_id]).includes(:division, :customer, :exam, :certificate, :esod_matter).references(:division, :customer, :exam, :certificate, :esod_matter).all
+    #Examination.joins(:division, :customer, :exam).where(exam_id: options[:only_for_current_exam_id]).includes(:division, :customer, :exam, :certificate, :esod_matter).references(:division, :customer, :exam, :certificate, :esod_matter).all
+    Examination.joins(:division, :customer, :exam).where(exam_id: options[:only_for_current_exam_id]).includes(:division, :customer, :exam, :certificate).references(:division, :customer, :exam, :certificate).all
   end
 
   # ==== Insert 'presenter'-like methods below if necessary

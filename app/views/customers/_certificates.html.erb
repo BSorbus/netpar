@@ -11,7 +11,7 @@
         <thead>
           <tr>
             <th> </th>
-            <th><%= Certificate.human_attribute_name(:esod_matter_id) %></th>
+            <th><%= Certificate.human_attribute_name(:flat_all_esod_matters) %></th>
             <th><%= Certificate.human_attribute_name(:number) %></th>
             <th><%= Certificate.human_attribute_name(:date_of_issue) %></th>
             <th><%= Certificate.human_attribute_name(:valid_thru) %></th>
@@ -34,9 +34,7 @@
                   <% end %>
 
                 </td>
-                <td>
-                  <%= link_to certificate.esod_matter.znak, esod_matter_path(certificate.esod_matter, back_url: customer_path(@customer)) if certificate.esod_matter.present? %>
-                </td>
+                <td><%= certificate.flat_all_esod_matters %></td>
                 <td>
                   <%= link_to certificate.number, certificate_path(certificate, category_service: certificate.category.downcase, back_url: customer_path(@customer)) %>
                 </td>
@@ -77,4 +75,4 @@
 </div> <!--/row -->
 <div class="row">
   <hr>
-</div> <!--/col-sm-12 -->
+</div> <!--/row -->

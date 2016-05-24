@@ -1,0 +1,319 @@
+<div class="row">
+
+  <div class="col-sm-12">
+    <ul class="nav nav-pills nav-justified">
+        <%# if matterable.has_attribute?(:customer_id) %>
+          <li class="nav active"><a href="#A" data-toggle="tab"><%= t("helpers.links.new_esod_matter_letter_incoming") %></a></li>
+          <li class="nav"><a href="#B" data-toggle="tab"><%= t("helpers.links.new_esod_matter_letter_outgoing") %></a></li>
+          <li class="nav"><a href="#C" data-toggle="tab"><%= t("helpers.links.new_esod_matter_letter_internal") %></a></li>
+        <%# else %>
+<!--           <li class="nav active"><a href="#C" data-toggle="tab"><%= t("helpers.links.new_esod_matter_letter_internal") %></a></li> -->        
+        <%# end %>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane fade in active"  id="A"> <!-- przychodzace  -->
+          <div class="row">
+            <div class="col-sm-1">
+              <%= image_tag("incoming_letter.jpg") %>
+            </div>
+            <div class="col-sm-11">
+              <br>
+
+              <%= form_for([matterable, esod_incoming_letter]) do |f| %>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :tytul, class: 'control-label' %>
+                        <%= f.text_field :tytul, autofocus: true, class: 'form-control input-sm', disabled: false %>
+                      </div>
+                    </div>  <!-- /row -->
+                    <div class="row">
+                      <div class="form-group col-sm-4">
+                        <%= f.label :data_pisma, class: 'control-label' %>
+                        <%= f.text_field :data_pisma, class: 'datepicker form-control input-sm' %>
+                      </div>
+                      <div class="form-group col-sm-4">
+                        <%= f.label :data_nadania, class: 'control-label' %>
+                        <%= f.text_field :data_nadania, class: 'datepicker form-control input-sm' %>
+                      </div>
+                      <div class="form-group col-sm-4">
+                        <%= f.label :data_wplyniecia, class: 'control-label' %>
+                        <%= f.text_field :data_wplyniecia, class: 'datepicker form-control input-sm' %>
+                      </div>
+                    </div>  <!-- /row -->
+                    <div class="row">
+                      <div class="form-group col-sm-8">
+                        <%= f.label :znak_pisma_wplywajacego, class: 'control-label' %>
+                        <%= f.text_field :znak_pisma_wplywajacego, class: 'form-control input-sm', disabled: false %>
+                      </div>
+                      <div class="form-group col-sm-4">
+                        <%= f.label :termin_na_odpowiedz, class: 'control-label' %>
+                        <%= f.text_field :termin_na_odpowiedz, class: 'datepicker form-control input-sm' %>
+                      </div>
+                    </div>  <!-- /row -->
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :uwagi, class: 'control-label' %>
+                        <%= f.text_area :uwagi, rows: 4, class: 'form-control input-sm' %>
+                      </div>
+                    </div>  <!-- /row -->
+
+                    <% if matterable.has_attribute?(:customer_id) %> 
+                      <div class="row">
+                        <div class="form-group col-sm-12">
+                          <p><strong>Nadawca:</strong></p>
+                          <h5><%= policy(:customer).show? ? link_to( matterable.customer.fullname_and_address, customer_path(matterable.customer) ) : 'xxx-xxx' %></h5>
+                        </div>
+                      </div>
+                    <% end %>
+
+                  </div>  <!-- /col-sm-6 -->
+
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :identyfikator_sposobu_przeslania, class: 'control-label' %>
+                        <%= f.select :identyfikator_sposobu_przeslania, 
+                              Esodes::EsodTokenData.sposob_przeslania.collect {|v| [ "#{v[:nazwa]}", v[:nrid] ] },
+                              { include_blank: false }, 
+                              { autofocus: false, class: 'form-control input-sm', disabled: false } %>
+                      </div>
+                    </div>  <!-- /row -->
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :identyfikator_typu_dcmd, class: 'control-label' %>
+                        <%= f.select :identyfikator_typu_dcmd, 
+                              options_for_select([['Tekst (Text)', 1],
+                                                  ['Nieuporządkowany zbiór danych (Collection)', 2],
+                                                  ['Uporządkowany zbiór danych (Dataset)', 3],
+                                                  ['Obraz ruchomy (MovingImage)', 4], 
+                                                  ['Obiekt fizyczny (PhysicalObject)', 5], 
+                                                  ['Oprogramowanie (Software)', 6], 
+                                                  ['Dźwięk (Sound)', 7]], 
+                                  selected: esod_incoming_letter.identyfikator_typu_dcmd), 
+                              { include_blank: false }, 
+                              { autofocus: false, class: 'form-control input-sm', disabled: false } %>
+                      </div>
+                    </div>  <!-- /row --> 
+ 
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :identyfikator_rodzaju_dokumentu, class: 'control-label' %>
+                        <%= f.select :identyfikator_rodzaju_dokumentu,
+                              Esodes::EsodTokenData.rodzaj_dokumentu_przychodzacego.collect {|v| [ "#{v[:nazwa]}", v[:nrid] ] }, 
+                              { include_blank: true, multiple: false, selected: 244 }, 
+                              { class: 'form-control input-sm', disabled: false } %>
+
+                      </div> <!-- /.col-sm-4 -->
+                    </div> 
+
+                     <div class="row">
+                      <div class="form-group col-sm-4">
+                        <%= f.label :liczba_zalacznikow, class: 'control-label' %><br>
+                        <%= f.text_field :liczba_zalacznikow, type: "number", disabled: false %>
+                      </div>
+                    </div>  <!-- /row -->
+                    <div class="row">
+                      <div class="form-group col-sm-6">
+                        <%= f.label :pelna_wersja_cyfrowa, class: 'control-label' %><br>
+                        <%= f.check_box :pelna_wersja_cyfrowa, disabled: false %>
+                      </div>
+                      <div class="form-group col-sm-6">
+                        <%= f.label :naturalny_elektroniczny, class: 'control-label' %><br>
+                        <%= f.check_box :naturalny_elektroniczny, disabled: false %>
+                      </div>
+                    </div>  <!-- /row -->
+                  </div> <!-- /col-sm-6 -->
+
+                </div> <!-- /row -->
+                <hr>
+                <div class="row">
+                  <%= f.submit nil, class: 'btn btn-primary pull-right' %>
+                </div> <!-- /row -->
+
+              <% end %> <!-- /form_for -->
+
+            </div> <!-- /class="col-sm-11"> -->
+          </div> <!-- /row -->
+        </div> <!-- /przychodzace  -->
+
+        <div class="tab-pane fade" id="B"> <!-- wychodzace  -->
+          <div class="row">
+            <div class="col-sm-1">
+              <%= image_tag("outgoing_letter.jpg") %>
+            </div>
+            <div class="col-sm-11">
+              <br>
+
+              <%= form_for([matterable, @esod_outgoing_letter]) do |f| %>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :tytul, class: 'control-label' %>
+                        <%= f.text_field :tytul, autofocus: true, class: 'form-control input-sm', disabled: false %>
+                      </div>
+                    </div>  <!-- /row -->
+                    <div class="row">
+                      <div class="form-group col-sm-4">
+                        <%= f.label :data_pisma, class: 'control-label' %>
+                        <%= f.text_field :data_pisma, class: 'datepicker form-control input-sm' %>
+                      </div>
+                    </div>  <!-- /row -->
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :uwagi, class: 'control-label' %>
+                        <%= f.text_area :uwagi, rows: 4, class: 'form-control input-sm' %>
+                      </div>
+                    </div>  <!-- /row -->
+
+                    <% if matterable.has_attribute?(:customer_id) %> 
+                      <div class="row">
+                        <div class="form-group col-sm-12">
+                          <p><strong>Nadawca:</strong></p>
+                          <h5><%= policy(:customer).show? ? link_to( matterable.customer.fullname_and_address, customer_path(matterable.customer) ) : 'xxx-xxx' %></h5>
+                        </div>
+                      </div>
+                    <% end %>
+
+                  </div>  <!-- /col-sm-6 -->
+
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :identyfikator_sposobu_wysylki, class: 'control-label' %>
+                        <%= f.select :identyfikator_sposobu_wysylki, 
+                              Esodes::EsodTokenData.rodzaj_wysylki.collect {|v| [ "#{v[:nazwa]}", v[:nrid] ] },
+                              { include_blank: false }, 
+                              { autofocus: false, class: 'form-control input-sm', disabled: false } %>
+                      </div>
+                    </div>  <!-- /row -->
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :identyfikator_rodzaju_dokumentu_wychodzacego, class: 'control-label' %>
+                        <%= f.select :identyfikator_rodzaju_dokumentu_wychodzacego,
+                              Esodes::EsodTokenData.rodzaj_dokumentu_wychodzacego.collect {|v| [ "#{v[:nazwa]}", v[:nrid] ] }, 
+                              { include_blank: false, multiple: false, selected: 244 }, 
+                              { class: 'form-control input-sm', disabled: false } %>
+
+                      </div> <!-- /.col-sm-4 -->
+                    </div> 
+
+                    <div class="row">
+                      <div class="form-group col-sm-6">
+                        <%= f.label :zakoncz_sprawe, class: 'control-label' %><br>
+                        <%= f.check_box :zakoncz_sprawe, disabled: false %>
+                      </div>
+                      <div class="form-group col-sm-6">
+                        <%= f.label :zaakceptuj_dokument, class: 'control-label' %><br>
+                        <%= f.check_box :zaakceptuj_dokument, disabled: false %>
+                      </div>
+                    </div>  <!-- /row -->
+                  </div> <!-- /col-sm-6 -->
+
+                </div> <!-- /row -->
+                <hr>
+                <div class="row">
+                  <%= f.submit nil, class: 'btn btn-primary pull-right' %>
+                </div> <!-- /row -->
+
+              <% end %> <!-- /form_for -->
+
+            </div> <!-- /class="col-sm-11"> -->
+          </div> <!-- /row -->
+        </div> <!-- /wychodzace  -->
+
+        <div class="tab-pane fade" id="C"> <!-- wewnetrzne  -->
+          <div class="row">
+            <div class="col-sm-1">
+              <%= image_tag("internal_letter.jpg") %>
+            </div>
+            <div class="col-sm-11">
+              <br>
+
+              <%= form_for([matterable, @esod_internal_letter]) do |f| %>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :tytul, class: 'control-label' %>
+                        <%= f.text_field :tytul, autofocus: true, class: 'form-control input-sm', disabled: false %>
+                      </div>
+                    </div>  <!-- /row -->
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :uwagi, class: 'control-label' %>
+                        <%= f.text_area :uwagi, rows: 4, class: 'form-control input-sm' %>
+                      </div>
+                    </div>  <!-- /row -->
+                  </div>  <!-- /col-sm-6 -->
+
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :identyfikator_typu_dcmd, class: 'control-label' %>
+                        <%= f.select :identyfikator_typu_dcmd, 
+                              options_for_select([['Tekst (Text)', 1],
+                                                  ['Nieuporządkowany zbiór danych (Collection)', 2],
+                                                  ['Uporządkowany zbiór danych (Dataset)', 3],
+                                                  ['Obraz ruchomy (MovingImage)', 4], 
+                                                  ['Obiekt fizyczny (PhysicalObject)', 5], 
+                                                  ['Oprogramowanie (Software)', 6], 
+                                                  ['Dźwięk (Sound)', 7]], 
+                                  selected: esod_internal_letter.identyfikator_typu_dcmd), 
+                              { include_blank: false }, 
+                              { autofocus: false, class: 'form-control input-sm', disabled: false } %>
+                      </div>
+                    </div>  <!-- /row --> 
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :identyfikator_rodzaju_dokumentu_wewnetrznego, class: 'control-label' %>
+                        <%= f.select :identyfikator_rodzaju_dokumentu_wewnetrznego,
+                              Esodes::EsodTokenData.rodzaj_dokumentu_wewnetrznego.collect {|v| [ "#{v[:nazwa]}", v[:nrid] ] }, 
+                              { include_blank: false, multiple: false, selected: esod_internal_letter.identyfikator_rodzaju_dokumentu_wewnetrznego }, 
+                              { class: 'form-control input-sm', disabled: false } %>
+
+                      </div> <!-- /.col-sm-4 -->
+                    </div> 
+
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :identyfikator_dostepnosci_dokumentu, class: 'control-label' %>
+                        <%= f.select :identyfikator_dostepnosci_dokumentu, 
+                              Esodes::EsodTokenData.dostepnosc_dokumentu.collect {|v| [ "#{v[:nazwa]}", v[:nrid] ] },
+                              { include_blank: false, selected: esod_internal_letter.identyfikator_dostepnosci_dokumentu }, 
+                              { autofocus: false, class: 'form-control input-sm', disabled: false } %>
+                      </div>
+                    </div>  <!-- /row -->
+
+                    <div class="row">
+                      <div class="form-group col-sm-6">
+                        <%= f.label :pelna_wersja_cyfrowa, class: 'control-label' %><br>
+                        <%= f.check_box :pelna_wersja_cyfrowa, disabled: false %>
+                      </div>
+                    </div>  <!-- /row -->
+                  </div> <!-- /col-sm-6 -->
+
+                </div> <!-- /row -->
+                <hr>
+                <div class="row">
+                  <%= f.submit nil, class: 'btn btn-primary pull-right' %>
+                </div> <!-- /row -->
+
+              <% end %> <!-- /form_for -->
+
+            </div> <!-- /class="col-sm-11"> -->
+          </div> <!-- /row -->
+       </div> <!-- /wewnetrzne  -->
+    </div>
+
+
+  </div>
+
+</div> <!-- /row -->

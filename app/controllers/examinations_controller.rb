@@ -4,7 +4,7 @@ class ExaminationsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index_exam]
 
-  before_action :set_examination, only: [:show, :edit, :update, :destroy]
+  before_action :set_examination, only: [:show, :edit, :update, :destroy, :esod_matter_link]
 
   # GET /examinations
   # GET /examinations.json
@@ -56,6 +56,79 @@ class ExaminationsController < ApplicationController
   def show
     examination_authorize(:examination, "show", params[:category_service])
 
+    @esod_matter = @examination.esod_matters.new(
+      nrid: nil,
+      znak: nil,
+      znak_sprawy_grupujacej: nil,
+      symbol_jrwa: Esodes::esod_matter_service_jrwa(@examination.category).to_s,
+      tytul: "#{@examination.customer.given_names} #{@examination.customer.name}, #{@examination.customer.address_city}",
+      termin_realizacji: @examination.exam.date_exam + Esodes::limit_time_add_to_examination(@examination.category),
+      identyfikator_kategorii_sprawy: Esodes::EGZAMIN,
+      identyfikator_stanowiska_referenta: nil,
+      czy_otwarta: true,
+      initialized_from_esod: nil,
+      netpar_user: nil )
+
+    @esod_matter.esod_matter_notes.build(tytul: @examination.exam.number)
+
+
+
+    # for incoming_letter_add action
+    @esod_incoming_letter = @examination.esod_matters.last.esod_incoming_letters.new(
+      nrid: nil,
+      numer_ewidencyjny: nil,
+      tytul: "#{@examination.customer.name} #{@examination.customer.given_names}, #{@examination.customer.address_city}, [#{@examination.esod_category_name}]",
+      data_pisma: nil,
+      data_nadania: nil,
+      data_wplyniecia: DateTime.now.to_date,
+      znak_pisma_wplywajacego: nil,
+      identyfikator_typu_dcmd: 1,
+      identyfikator_rodzaju_dokumentu: 244,
+      identyfikator_sposobu_przeslania: 1,
+      identyfikator_miejsca_przechowywania: nil, #t.integer 
+      termin_na_odpowiedz: nil,
+      pelna_wersja_cyfrowa: true,
+      naturalny_elektroniczny: false,
+      liczba_zalacznikow: 0,
+      uwagi: nil,
+      identyfikator_osoby: nil,
+      identyfikator_adresu: nil,
+      esod_contractor: nil,
+      esod_address: nil,
+      initialized_from_esod: nil,
+      netpar_user: nil )
+
+    # for outgoing_letter_add action
+    @esod_outgoing_letter = @examination.esod_matters.last.esod_outgoing_letters.new(
+      nrid: nil,
+      numer_ewidencyjny: nil,
+      tytul: "#{@examination.customer.name} #{@examination.customer.given_names}, #{@examination.customer.address_city}, [#{@examination.esod_category_name}]",
+      wysylka: nil,
+      identyfikator_adresu: nil,
+      identyfikator_sposobu_wysylki: nil,
+      identyfikator_rodzaju_dokumentu_wychodzacego: nil,
+      data_pisma:  DateTime.now.to_date,
+      numer_wersji: nil,
+      uwagi: nil,
+      zakoncz_sprawe: true, 
+      zaakceptuj_dokument: true,
+      initialized_from_esod: nil,
+      netpar_user: nil )
+
+    # for internal_letter_add action
+    @esod_internal_letter = @examination.esod_matters.last.esod_internal_letters.new(
+      nrid: nil,
+      numer_ewidencyjny: nil,
+      tytul: "#{@examination.customer.name} #{@examination.customer.given_names}, #{@examination.customer.address_city}, [#{@examination.esod_category_name}]",
+      identyfikator_rodzaju_dokumentu_wewnetrznego: nil,
+      identyfikator_typu_dcmd: 1,
+      identyfikator_dostepnosci_dokumentu: 1,
+      uwagi: nil,
+      pelna_wersja_cyfrowa: true,
+      initialized_from_esod: nil,
+      netpar_user: nil )
+
+
     respond_to do |format|
       format.json
       format.html { render :show, locals: { back_url: params[:back_url]} }
@@ -72,11 +145,11 @@ class ExaminationsController < ApplicationController
 
     examination_authorize(@examination, "new", params[:category_service])
 
-    @esod_matter = load_esod_matter
-    if @esod_matter.present?
-      @examination.esod_matter = @esod_matter
-      @examination.esod_category = @esod_matter.identyfikator_kategorii_sprawy
-    end
+#    @esod_matter = load_esod_matter
+#    if @esod_matter.present?
+#      @examination.esod_matter = @esod_matter
+#      @examination.esod_category = @esod_matter.identyfikator_kategorii_sprawy
+#    end
     
     @exam = load_exam
     @examination.exam = @exam
@@ -167,6 +240,22 @@ class ExaminationsController < ApplicationController
     end
   end
 
+  # POST /examinations/:id/esod_matter_link
+  def esod_matter_link
+    examination_authorize(@examination, "update", params[:category_service])
+    @esod_matter = Esod::Matter.find_by(id: params[:source_id])
+    @esod_matter.examination = @examination
+
+    if @esod_matter.save
+      @esod_matter.works.create!(trackable_url: "#{esod_matter_path(@esod_matter)}", action: :esod_matter_link, user: current_user, 
+                            parameters: {esod_matter: @esod_matter.fullname, link: @examination.fullname}.to_json)
+
+      redirect_to :back, notice: t('activerecord.messages.successfull.esod_matter_link', parent: @examination.fullname, child: @esod_matter.fullname)
+    else
+      redirect_to :back, alert: t('activerecord.messages.error.esod_matter_link', parent: @examination.fullname, child: @esod_matter.fullname)
+    end
+  end
+
   # DELETE /examinations/1
   # DELETE /examinations/1.json
   def destroy
@@ -198,10 +287,6 @@ class ExaminationsController < ApplicationController
       @examination = Examination.find(params[:id])
     end
 
-    def load_esod_matter
-      Esod::Matter.find(params[:esod_matter_id]) if (params[:esod_matter_id]).present?
-    end
-
     def load_exam
       Exam.find(params[:exam_id]) if (params[:exam_id]).present?
     end
@@ -212,6 +297,6 @@ class ExaminationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def examination_params
-      params.require(:examination).permit(:esod_category, :division_id, :exam_id, :customer_id, :examination_result, :certificate_id, :note, :category, :exam_id, :user_id, :esod_matter_id, grades_attributes: [:id, :grade_result])
+      params.require(:examination).permit(:esod_category, :division_id, :exam_id, :customer_id, :examination_result, :certificate_id, :note, :category, :exam_id, :user_id, grades_attributes: [:id, :grade_result])
     end
 end

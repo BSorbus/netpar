@@ -6,6 +6,8 @@ RSpec.describe Certificate, type: :model do
 
   it { should respond_to(:number) }
   it { should respond_to(:date_of_issue) }
+  it { should respond_to(:valid_thru) }
+  it { should respond_to(:canceled) }
   it { should respond_to(:certificate_status) }
   it { should respond_to(:division_id) }
   it { should respond_to(:exam_id) }
@@ -13,6 +15,7 @@ RSpec.describe Certificate, type: :model do
   it { should respond_to(:note) }
   it { should respond_to(:category) }
   it { should respond_to(:user_id) }
+  it { should respond_to(:esod_category) }
 
   it { should validate_presence_of(:number) }
   it { should validate_length_of(:number).is_at_least(1).is_at_most(30) }

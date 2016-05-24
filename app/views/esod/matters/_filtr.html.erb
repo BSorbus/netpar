@@ -7,35 +7,52 @@
 
           <%= form_tag({controller: "esod/matters", action: "index"}, method: "get") do |f| %>
 
-
-            <div class="col-sm-4">
-              <%= label_tag(:stanowisko_id, "ESOD - Stanowisko") %>
-              <%= select( nil, "stanowisko_id",
-                    @stanowiska.collect {|v| [ "#{v[:imie]} #{v[:nazwisko]} - #{v[:nazwa]}", v[:nrid] ] }, 
-                    { include_blank: false, multiple: false, selected: params[:stanowisko_id]}, 
-                    { class: 'form-control input-sm', disabled: false}) %>
-
-            </div> <!-- /.col-sm-4 -->
-
-            <div class="col-sm-2">
-              <%= label_tag(:open, "Otwarta?") %>
-              <%= select( nil, "open",
-                    options_for_select([["Tak", true], ["Nie", false]], params[:open]), 
-                    { include_blank: true, multiple: false}, 
-                    { class: 'form-control input-sm', disabled: false}) %>
-
-            </div> <!-- /.col-sm-4 -->
-
             <div class="row">
-              <div class="col-sm-12">
-                <%= button_tag t("helpers.links.filter"), type: 'submit', class: 'btn btn-sm btn-primary glyphicon glyphicon-ok pull-right' %>
+              <div class="col-sm-4">
+                <%= label_tag(:stanowisko_id, "ESOD - Stanowisko") %>
+                <%= select( nil, "stanowisko_id",
+                      Esodes::EsodTokenData.token_stanowiska.collect {|v| [ "#{v[:imie]} #{v[:nazwisko]} - #{v[:nazwa]}", v[:nrid] ] }, 
+                      { include_blank: false, multiple: false, selected: params[:stanowisko_id] }, 
+                      { class: 'form-control input-sm', disabled: false }) %>
+
+              </div> <!-- /.col-sm-4 -->
+
+
+              <div class="form-group col-sm-4">
+                <%= label_tag(:esod_category, "Kategoria sprawy") %>
+                <%= select( nil, "esod_category", 
+                      options_for_select([["#{Esodes::esod_matter_iks_name(Esodes::EGZAMIN)}", Esodes::EGZAMIN],
+                                          ["#{Esodes::esod_matter_iks_name(Esodes::POPRAWKOWY)}", Esodes::POPRAWKOWY], 
+                                          ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM)}", Esodes::ODNOWIENIE_Z_EGZAMINEM], 
+                                          ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY)}", Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY],
+                                          ["#{Esodes::esod_matter_iks_name(Esodes::SESJA)}", Esodes::SESJA],
+                                          ["#{Esodes::esod_matter_iks_name(Esodes::SESJA_BEZ_EGZAMINOW)}", Esodes::SESJA_BEZ_EGZAMINOW], 
+                                          ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_BEZ_EGZAMINU)}", Esodes::ODNOWIENIE_BEZ_EGZAMINU], 
+                                          ["#{Esodes::esod_matter_iks_name(Esodes::SWIADECTWO_BEZ_EGZAMINU)}", Esodes::SWIADECTWO_BEZ_EGZAMINU],
+                                          ["#{Esodes::esod_matter_iks_name(Esodes::DUPLIKAT)}", Esodes::DUPLIKAT], 
+                                          ["#{Esodes::esod_matter_iks_name(Esodes::WYMIANA)}", Esodes::WYMIANA]], 
+                        params[:esod_category]), 
+                      { include_blank: true, multiple: false }, 
+                      { class: 'form-control input-sm', disabled: false }) %>
+              </div>
+
+
+              <div class="col-sm-2">
+                <%= label_tag(:open, "Otwarta?") %>
+                <%= select( nil, "open",
+                      options_for_select([["Tak", true], ["Nie", false]], params[:open]), 
+                      { include_blank: true, multiple: false }, 
+                      { class: 'form-control input-sm', disabled: false }) %>
+
+              </div> <!-- /.col-sm-2 -->
+
+              <div class="col-sm-2">
+                <%= button_tag t("helpers.links.filter"), type: 'submit', class: 'btn btn-sm btn-primary glyphicon glyphicon-search pull-right' %>
               </div> <!-- /.col-sm-12 -->
+
             </div> <!-- /row -->
 
           <% end %> <!-- /form_tag(... -->
-
-
-
 
         </div>
       </div>

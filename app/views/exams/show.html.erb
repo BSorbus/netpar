@@ -27,6 +27,7 @@
   </div> <!-- /row -->
 
 
+  <%= render partial: "esod/matters/matters_in_panel", locals: {matterable: @exam, esod_incoming_letter: @esod_incoming_letter, esod_outgoing_letter: @esod_outgoing_letter, esod_internal_letter: @esod_internal_letter} %>
   <%= render partial: "documents/documents_in_panel", locals: {documentable: @exam} %>
 
 

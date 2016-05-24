@@ -4,16 +4,13 @@ class ExamsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index, :select2_index, :certificates_generation]
 
-  before_action :set_exam, only: [:show, :edit, :update, :destroy, :examination_cards_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf, :committee_docx]
+  before_action :set_exam, only: [:show, :edit, :update, :destroy, :examination_cards_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf, :committee_docx, :esod_matter_link]
 
   # GET /exams
   # GET /exams.json
   def index
     exam_authorize(:exam, "index", params[:category_service])
     #dane pobierane z datatables_index
-#    respond_to do |format|
-#      format.html { render :index, locals: { category_service: params[:category_service]} }
-#    end    
   end
 
   # POST /exams
@@ -45,14 +42,6 @@ class ExamsController < ApplicationController
 
   def examination_cards_to_pdf
     exam_authorize(:examination, "print", params[:category_service])
-#    case params[:category_service]
-#    when 'l'
-#      authorize :examination, :print_l?
-#    when 'm'
-#      authorize :examination, :print_m?
-#    when 'r'
-#      authorize :examination, :print_r?
-#    end    
 
     case params[:prnorder]
     when 'customers.name, customers.given_names'
@@ -124,14 +113,6 @@ class ExamsController < ApplicationController
 
   def certificates_to_pdf
     exam_authorize(:certificate, "print", params[:category_service])
-#    case params[:category_service]
-#    when 'l'
-#      authorize :certificate, :print_l?
-#    when 'm'
-#      authorize :certificate, :print_m?
-#    when 'r'
-#      authorize :certificate, :print_r?
-#    end    
 
     if params[:prnscope].present? && params[:prnscope] != "0" # Wszystkie 
       @certificates_all = Certificate.joins(:customer).references(:customer).where(exam_id: params[:id], division_id: params[:prnscope]).all
@@ -233,7 +214,7 @@ class ExamsController < ApplicationController
         # Replace some variables. $var$ convention is used here, but not required.
         #doc.replace("$departmentcity$", "Bydgoszczu")
         doc.replace("$departmentcity$", "#{@current_user.department.address_city}, dn. #{DateTime.now.to_date.strftime('%d.%m.%Y')} r.")
-        doc.replace("$esodznak$", "xxx.xxx.xxx.1.xxxx")
+        doc.replace("$esodznak$", "#{@exam.esod_matter.znak}.1")
         doc.replace("$examnumber$", "#{@exam.number}")
         doc.replace("$placeexam$", "#{@exam.place_exam}")
         doc.replace("$dateexam$", "#{@exam.date_exam.strftime('%d.%m.%Y')} r.")
@@ -267,6 +248,63 @@ class ExamsController < ApplicationController
   def show
     exam_authorize(:exam, "show", params[:category_service])
 
+    # for matter_add action
+    @esod_matter = @exam.esod_matters.new(
+      nrid: nil,
+      znak: nil,
+      znak_sprawy_grupujacej: nil,
+      symbol_jrwa: Esodes::esod_matter_service_jrwa(@exam.category).to_s,
+      tytul: "#{@exam.number}, #{@exam.place_exam}",
+      termin_realizacji: @exam.date_exam + Esodes::limit_time_add_to_exam(@exam.category),
+      identyfikator_kategorii_sprawy: @exam.category == 'L' ? Esodes::SESJA_BEZ_EGZAMINOW : Esodes::SESJA,
+      identyfikator_stanowiska_referenta: nil,
+      czy_otwarta: true,
+      initialized_from_esod: nil,
+      netpar_user: nil )
+
+    @esod_matter.esod_matter_notes.build
+
+    # for incoming_letter_add action
+    @esod_incoming_letter = @exam.esod_matters.last.esod_incoming_letters.new()
+#      nrid: nil,
+#      numer_ewidencyjny: nil,
+#      tytul: "Skład komisji / ??? ...@exam.number",
+#      data_pisma: nil,
+#      data_nadania: nil,
+#      data_wplyniecia: DateTime.now.to_date,
+#      znak_pisma_wplywajacego: nil,
+#      identyfikator_typu_dcmd: 1,
+#      identyfikator_rodzaju_dokumentu: 1,
+#      identyfikator_sposobu_przeslania: 1,
+#      identyfikator_miejsca_przechowywania: nil, #t.integer 
+#      termin_na_odpowiedz: nil,
+#      pelna_wersja_cyfrowa: true,
+#      naturalny_elektroniczny: false,
+#      liczba_zalacznikow: 0,
+#      uwagi: nil,
+#      identyfikator_osoby: nil,
+#      identyfikator_adresu: nil,
+#      esod_contractor: nil,
+#      esod_address: nil,
+#      initialized_from_esod: nil,
+#      netpar_user: nil )
+
+    # for outgoing_letter_add action
+    @esod_outgoing_letter = @exam.esod_matters.last.esod_outgoing_letters.new(nrid: nil)
+
+    # for internal_letter_add action
+    @esod_internal_letter = @exam.esod_matters.last.esod_internal_letters.new(
+      nrid: nil,
+      numer_ewidencyjny: nil,
+      tytul: "#{@exam.number}, #{@exam.place_exam}, [#{@exam.esod_category_name}]",
+      identyfikator_rodzaju_dokumentu_wewnetrznego: nil,
+      identyfikator_typu_dcmd: 1,
+      identyfikator_dostepnosci_dokumentu: 1,
+      uwagi: nil,
+      pelna_wersja_cyfrowa: true,
+      initialized_from_esod: nil,
+      netpar_user: nil )
+
     respond_to do |format|
       # for jBuilder
       #format.json 
@@ -286,21 +324,20 @@ class ExamsController < ApplicationController
 
     exam_authorize(@exam, "new", params[:category_service])
 
-    @esod_matter = load_esod_matter
-    if @esod_matter.present?
-      @exam.esod_matter = @esod_matter
-      @exam.esod_category = @esod_matter.identyfikator_kategorii_sprawy
-      @exam.number = @esod_matter.exam_number
-      @exam.date_exam = @esod_matter.termin_realizacji
-      @exam.place_exam = @esod_matter.exam_place
-    end
+#    @esod_matter = load_esod_matter
+#    if @esod_matter.present?
+#      @exam.esod_matter = @esod_matter
+#      @exam.esod_category = @esod_matter.identyfikator_kategorii_sprawy
+#      @exam.number = @esod_matter.exam_number
+#      @exam.date_exam = @esod_matter.termin_realizacji
+#      @exam.place_exam = @esod_matter.exam_place
+#    end
 
     (1..8).each { @exam.examiners.build }
   end
 
   # GET /exams/1/edit
   def edit
-
     exam_authorize(@exam, "edit", params[:category_service])
 
     count = @exam.examiners.size
@@ -322,9 +359,8 @@ class ExamsController < ApplicationController
     respond_to do |format|
       if @exam.save
         @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :create, user: current_user, 
-          parameters: @exam.to_json(except: [:user_id, :esod_matter_id], 
+          parameters: @exam.to_json(except: [:user_id], 
                                     include: {
-                                      esod_matter: {only: [:znak]}, 
                                       user: {only: [:id, :name, :email]},
                                       examiners: {only: [:name]}
                                     }))
@@ -348,9 +384,8 @@ class ExamsController < ApplicationController
     respond_to do |format|
       if @exam.update(exam_params)
         @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :update, user: current_user, 
-          parameters: @exam.to_json(except: [:user_id, :esod_matter_id], 
+          parameters: @exam.to_json(except: [:user_id], 
                                     include: {
-                                      esod_matter: {only: [:znak]}, 
                                       user: {only: [:id, :name, :email]},
                                       examiners: {only: [:name]}
                                     }))
@@ -364,6 +399,22 @@ class ExamsController < ApplicationController
     end
   end
 
+  # POST /exams/:id/esod_matter_link
+  def esod_matter_link
+    exam_authorize(@exam, "update", params[:category_service])
+    @esod_matter = Esod::Matter.find_by(id: params[:source_id])
+    @esod_matter.exam = @exam
+
+    if @esod_matter.save
+      @esod_matter.works.create!(trackable_url: "#{esod_matter_path(@esod_matter)}", action: :esod_matter_link, user: current_user, 
+                            parameters: {esod_matter: @esod_matter.fullname, link: @exam.fullname}.to_json)
+
+      redirect_to :back, notice: t('activerecord.messages.successfull.esod_matter_link', parent: @exam.number, child: @esod_matter.znak)
+    else
+      redirect_to :back, alert: t('activerecord.messages.error.esod_matter_link', parent: @exam.number, child: @esod_matter.znak)
+    end
+  end
+
   # DELETE /exams/1
   # DELETE /exams/1.json
   def destroy
@@ -371,7 +422,7 @@ class ExamsController < ApplicationController
 
     if @exam.destroy
       Work.create!(trackable: @exam, action: :destroy, user: current_user, 
-          parameters: @exam.to_json(except: [:user_id, :esod_matter_id], 
+          parameters: @exam.to_json(except: [:user_id], 
                                     include: {
                                       esod_matter: {only: [:znak]}, 
                                       user: {only: [:id, :name, :email]},
@@ -386,7 +437,6 @@ class ExamsController < ApplicationController
 
   def certificates_generation 
     @exam = Exam.find(params[:id]) 
-
     # wywołanie funkcji z JS, by nie odświeżać całej strony
     @exam.generate_all_certificates(current_user.id)
     #flash.now[:notice] = t('activerecord.messages.successfull.numbering', data: @insurance.number)
@@ -417,6 +467,6 @@ class ExamsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def exam_params
-      params.require(:exam).permit(:esod_category, :number, :date_exam, :place_exam, :chairman, :secretary, :category, :note, :user_id, :esod_matter_id, examiners_attributes: [:id, :name, :_destroy])
+      params.require(:exam).permit(:esod_category, :number, :date_exam, :place_exam, :chairman, :secretary, :category, :note, :user_id, examiners_attributes: [:id, :name, :_destroy])
     end
 end

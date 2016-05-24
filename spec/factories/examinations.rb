@@ -20,7 +20,6 @@ FactoryGirl.define do
     user nil
     certificate nil
     esod_category 1
-    esod_matter nil
 
     trait :lot do
       category 'L'

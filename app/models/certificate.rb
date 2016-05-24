@@ -1,27 +1,3 @@
-# Represents Certificate for Customer
-#  create_table "certificates", force: :cascade do |t|
-#    t.string   "number",             limit: 30, default: "",  null: false
-#    t.date     "date_of_issue"
-#    t.date     "valid_thru"
-#    t.string   "certificate_status", limit: 1,  default: "N", null: false
-#    t.integer  "division_id"
-#    t.integer  "exam_id"
-#    t.integer  "customer_id"
-#    t.text     "note",                          default: ""
-#    t.string   "category"
-#    t.integer  "user_id"
-#    t.datetime "created_at",                                  null: false
-#    t.datetime "updated_at",                                  null: false
-#  end
-#  add_index "certificates", ["category"], name: "index_certificates_on_category", using: :btree
-#  add_index "certificates", ["customer_id"], name: "index_certificates_on_customer_id", using: :btree
-#  add_index "certificates", ["date_of_issue"], name: "index_certificates_on_date_of_issue", using: :btree
-#  add_index "certificates", ["division_id"], name: "index_certificates_on_division_id", using: :btree
-#  add_index "certificates", ["exam_id"], name: "index_certificates_on_exam_id", using: :btree
-#  add_index "certificates", ["number", "category"], name: "index_certificates_on_number_and_category", unique: true, using: :btree
-#  add_index "certificates", ["number"], name: "index_certificates_on_number", using: :btree
-#  add_index "certificates", ["user_id"], name: "index_certificates_on_user_id", using: :btree
-#
 require 'esodes'
 
 class Certificate < ActiveRecord::Base
@@ -29,14 +5,12 @@ class Certificate < ActiveRecord::Base
   belongs_to :exam, counter_cache: true
   belongs_to :customer
   belongs_to :user
-  belongs_to :esod_matter, class_name: "Esod::Matter", foreign_key: :esod_matter_id
 
   has_one :examination, dependent: :nullify
 
   has_many :works, as: :trackable
   has_many :documents, as: :documentable, :source_type => "Certificate", dependent: :destroy
-
-
+  has_many :esod_matters, class_name: "Esod::Matter", foreign_key: :certificate_id, dependent: :nullify
 
   # validates
   validates :number, presence: true,
@@ -47,6 +21,8 @@ class Certificate < ActiveRecord::Base
   validates :customer, presence: true
   validates :exam, presence: true
   validates :user, presence: true
+#  validates :esod_matter, uniqueness: true, allow_blank: true
+  # ????? validates :esod_category, presence: true, inclusion: { in: Esodes::ALL_CATEGORIES_CERTIFICATES }
   validates :category, presence: true, inclusion: { in: %w(L M R) }
   validate  :valid_thru_if_not_blank_must_more_date_of_issue, if: "valid_thru.present? && date_of_issue.present?"
 
@@ -57,7 +33,9 @@ class Certificate < ActiveRecord::Base
     end
   end 
 
+  # callbacks
   before_save { self.number = number.upcase }
+
 
   # scopes
 	scope :only_category_l, -> { where(category: "L") }
@@ -93,7 +71,11 @@ class Certificate < ActiveRecord::Base
     Esodes::esod_matter_iks_name(esod_category)
   end
 
+  def flat_all_esod_matters
+    self.esod_matters.order(:id).flat_map {|row| row.znak }.join(' <br>').html_safe
+  end
 
+ 
   # Scope for select2: "certificate_select"
   # * parameters   :
   #   * +query_str+ -> string for search. 

@@ -15,7 +15,6 @@ RSpec.describe Exam, type: :model do
   it { should respond_to(:examinations_count) }
   it { should respond_to(:certificates_count) }
   it { should respond_to(:esod_category) }
-  it { should respond_to(:esod_matter_id) }
 
 
   it { should validate_presence_of(:esod_category) }

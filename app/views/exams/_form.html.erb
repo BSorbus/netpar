@@ -18,26 +18,13 @@
 
 <div class="row">
   <div class="form-group col-sm-7">
-    <%= f.label :esod_matter_id, class: "control-label" %>
-    <%= f.hidden_field :esod_matter_id,
-                      class: "form-control input-sm esod_matter_for_exam_select_#{params[:category_service]}", 
-                      placeholder: "Wybierz Sprawę (Sesje egzaminacyjne #{params[:category_service].upcase})",
-                      #disabled: !@exam.new_record?,
-                      disabled: @exam.esod_matter_id.present? && !@exam.errors.present?,
-                      style: "width:100%" %>
-    <small class="help-block"><%=t 'help_block_text.select2_esod_matter' %></small>
-  </div>
-
-  <div class="form-group col-sm-5">
     <%= f.label :esod_category, class: 'control-label' %>
     <%= f.select :esod_category, 
           options_for_select([["#{Esodes::esod_matter_iks_name(Esodes::SESJA)}", Esodes::SESJA],
-                              ["#{Esodes::esod_matter_iks_name(Esodes::SESJA_BEZ_EGZAMINOW)}", Esodes::SESJA_BEZ_EGZAMINOW]], 
-              selected: @exam.esod_category), 
+                              ["#{Esodes::esod_matter_iks_name(Esodes::SESJA_BEZ_EGZAMINOW)}", Esodes::SESJA_BEZ_EGZAMINOW]], selected: @exam.esod_category), 
           { include_blank: false}, 
-          { autofocus: @exam.new_record?, class: 'form-control input-sm', disabled: params[:category_service] == 'l' || @exam.esod_matter_id.present? } %>
+          { autofocus: @exam.new_record?, class: 'form-control input-sm', disabled: input_disabled } %>
   </div>
-
 </div>
 
 <hr class="hr-without-top-margin">
@@ -110,16 +97,6 @@
 
   </div> <!-- /col-sm-7 -->
 
-  <div class="col-sm-5">
-    <blockquote>
-      <p>Uwaga!</p>
-      <h5>1. Pozostawienie pustego pola "<strong><%= Exam.human_attribute_name('esod_matter') %></strong>" 
-        podczas dodawania nowej sesji egzaminacyjnej automatycznie wygeneruje sprawę w systemie ESOD!<br>
-        Jeżeli nie chcesz tworzyć nowej sprawy w systemie ESOD musisz wybrać z listy spraw istniejącą już pozycję.</h5>
-      <h5>2. Wybranie określonej sprawy w polu "<strong><%= Exam.human_attribute_name('esod_matter') %></strong>"
-        i wprowadzenie wartości niezgodnych z jej tytułem i opisem spowoduje zmianę danych w ESOD!</h5>
-    </blockquote>
-  </div> <!-- /col-sm-5 -->
 </div> <!-- /row -->
 
 <hr class="hr-without-top-margin">

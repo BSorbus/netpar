@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-sm-5">
+    <blockquote class="bg-info">
+      <p class="text-info">Uwaga! <%= t("helpers.links.new_esod_matter") %></p>
+      <footer class="bg-info">Operacja ta polega na utorzeniu nowego wpisu "Sprawa" w systemie ESOD! Zanim zdecydujesz się uruchomieć tę funkcję sprawdź, czy <strong>Sprawa</strong> nie jest już zarejestrowana.</footer>
+    </blockquote>
+  </div> <!-- /.col-sm-5 -->              
+
+  <div class="col-sm-7">
+    <%= form_for([matterable, esod_matter]) do |f| %>
+
+      <div class="form-group col-sm-12">
+        <%= f.label :tytul, class: 'control-label' %>
+        <%= f.text_field :tytul, class: 'form-control input-sm', disabled: false %>
+      </div>
+
+      <div class="form-group col-sm-12">
+        <%= f.label :termin_realizacji, class: 'control-label' %>
+        <%= f.text_field :termin_realizacji, class: 'datepicker form-control input-sm' %>
+      </div>
+
+      <div class="form-group col-sm-12">
+        <%= f.label :identyfikator_kategorii_sprawy, class: 'control-label' %>
+        <% if controller_name == "exams" %>
+          <%= f.select :identyfikator_kategorii_sprawy, 
+                options_for_select([
+                  ["#{Esodes::esod_matter_iks_name(Esodes::SESJA)}", Esodes::SESJA],
+                  ["#{Esodes::esod_matter_iks_name(Esodes::SESJA_BEZ_EGZAMINOW)}", Esodes::SESJA_BEZ_EGZAMINOW]], selected: esod_matter.identyfikator_kategorii_sprawy), 
+                { include_blank: false}, 
+                { class: 'form-control input-sm', disabled: false } %>
+        <% end %>
+        <% if controller_name == "examinations" %>
+          <%= f.select :identyfikator_kategorii_sprawy, 
+                options_for_select([
+                  ["#{Esodes::esod_matter_iks_name(Esodes::EGZAMIN)}", Esodes::EGZAMIN],
+                  ["#{Esodes::esod_matter_iks_name(Esodes::POPRAWKOWY)}", Esodes::POPRAWKOWY], 
+                  ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM)}", Esodes::ODNOWIENIE_Z_EGZAMINEM], 
+                  ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY)}", Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY]], selected: esod_matter.identyfikator_kategorii_sprawy),  
+                { include_blank: false}, 
+                { class: 'form-control input-sm', disabled: false } %>
+        <% end %>
+        <% if controller_name == "certificates" %>
+          <%= f.select :identyfikator_kategorii_sprawy, 
+                options_for_select([
+                  ["#{Esodes::esod_matter_iks_name(Esodes::EGZAMIN)}", Esodes::EGZAMIN],
+                  ["#{Esodes::esod_matter_iks_name(Esodes::POPRAWKOWY)}", Esodes::POPRAWKOWY], 
+                  ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_BEZ_EGZAMINU)}", Esodes::ODNOWIENIE_BEZ_EGZAMINU], 
+                  ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM)}", Esodes::ODNOWIENIE_Z_EGZAMINEM], 
+                  ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY)}", Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY], 
+                  ["#{Esodes::esod_matter_iks_name(Esodes::SWIADECTWO_BEZ_EGZAMINU)}", Esodes::SWIADECTWO_BEZ_EGZAMINU],
+                  ["#{Esodes::esod_matter_iks_name(Esodes::DUPLIKAT)}", Esodes::DUPLIKAT], 
+                  ["#{Esodes::esod_matter_iks_name(Esodes::WYMIANA)}", Esodes::WYMIANA]], 
+                    selected: @certificate.esod_category), 
+                { include_blank: false}, 
+                { class: 'form-control input-sm', disabled: false } %>
+        <% end %>
+      </div>
+
+      <%= f.hidden_field :symbol_jrwa %>
+
+      <%= f.fields_for :esod_matter_notes do |e| %>
+        <div class="form-group col-sm-12">
+          <%= e.label "Adnotacja", class: 'control-label' %>
+          <%#= e.text_field :tytul, class: 'form-control input-sm' %>
+          <%= e.text_area :tytul, rows: 3, class: 'form-control input-sm' %>
+        </div>
+      <% end %>  <!-- /f.fields_for -->
+
+      <div class="col-sm-12">
+        <%= f.submit nil, class: 'btn btn-primary pull-right' %>
+      </div> <!-- /row -->
+
+    <% end %>
+  </div> <!-- /col-sm-7 -->
+</div> <!-- /row -->

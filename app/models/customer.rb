@@ -1,60 +1,5 @@
-# Represents Client UKE
-#  create_table "customers", force: :cascade do |t|
-#    t.boolean  "human",                             default: true, null: false
-#    t.string   "name",                  limit: 160, default: "",   null: false
-#    t.string   "given_names",           limit: 50,  default: ""
-#    t.string   "address_city",          limit: 50,  default: ""
-#    t.string   "address_street",        limit: 50,  default: ""
-#    t.string   "address_house",         limit: 10,  default: ""
-#    t.string   "address_number",        limit: 10,  default: ""
-#    t.string   "address_postal_code",   limit: 10,  default: ""
-#    t.string   "address_post_office",   limit: 50,  default: ""
-#    t.string   "address_pobox",         limit: 10,  default: ""
-#    t.string   "c_address_city",        limit: 50,  default: ""
-#    t.string   "c_address_street",      limit: 50,  default: ""
-#    t.string   "c_address_house",       limit: 10,  default: ""
-#    t.string   "c_address_number",      limit: 10,  default: ""
-#    t.string   "c_address_postal_code", limit: 10,  default: ""
-#    t.string   "c_address_post_office", limit: 50,  default: ""
-#    t.string   "c_address_pobox",       limit: 10,  default: ""
-#    t.string   "nip",                   limit: 13,  default: ""
-#    t.string   "regon",                 limit: 9,   default: ""
-#    t.string   "pesel",                 limit: 11,  default: ""
-#    t.date     "birth_date"
-#    t.string   "birth_place",           limit: 50,  default: ""
-#    t.string   "fathers_name",          limit: 50,  default: ""
-#    t.string   "mothers_name",          limit: 50,  default: ""
-#    t.string   "family_name",           limit: 50,  default: ""
-#    t.integer  "citizenship_id",                    default: 2
-#    t.string   "phone",                 limit: 50,  default: ""
-#    t.string   "fax",                   limit: 50,  default: ""
-#    t.string   "email",                 limit: 50,  default: ""
-#    t.text     "note",                              default: ""
-#    t.integer  "user_id"
-#    t.datetime "created_at"
-#    t.datetime "updated_at"
-#    t.boolean  "address_in_poland",                       default: true, null: false
-#    t.boolean  "c_address_in_poland",                     default: true, null: false
-#    t.integer  "address_teryt_pna_code_id"
-#    t.integer  "c_address_teryt_pna_code_id"
-#    t.integer  "esod_contractor_id"
-#    t.integer  "esod_address_id"
-#  end
-#  add_index "customers", ["address_city"], name: "index_customers_on_address_city", using: :btree
-#  add_index "customers", ["address_street"], name: "index_customers_on_address_street", using: :btree
-#  add_index "customers", ["address_teryt_pna_code_id"], name: "index_customers_on_address_teryt_pna_code_id", using: :btree
-#  add_index "customers", ["birth_date"], name: "index_customers_on_birth_date", using: :btree
-#  add_index "customers", ["c_address_teryt_pna_code_id"], name: "index_customers_on_c_address_teryt_pna_code_id", using: :btree
-#  add_index "customers", ["citizenship_id"], name: "index_customers_on_citizenship_id", using: :btree
-#  add_index "customers", ["esod_address_id"], name: "index_customers_on_esod_address_id", using: :btree
-#  add_index "customers", ["esod_contractor_id"], name: "index_customers_on_esod_contractor_id", using: :btree
-#  add_index "customers", ["given_names"], name: "index_customers_on_given_names", using: :btree
-#  add_index "customers", ["name"], name: "index_customers_on_name", using: :btree
-#  add_index "customers", ["nip"], name: "index_customers_on_nip", using: :btree
-#  add_index "customers", ["pesel"], name: "index_customers_on_pesel", using: :btree
-#  add_index "customers", ["regon"], name: "index_customers_on_regon", using: :btree
-#  add_index "customers", ["user_id"], name: "index_customers_on_user_id", using: :btree
-#
+require 'esodes'
+
 class Customer < ActiveRecord::Base
   require 'pesel'
 
@@ -62,11 +7,9 @@ class Customer < ActiveRecord::Base
   belongs_to :user
   belongs_to :address_teryt_pna_code, class_name: "Teryt::PnaCode", foreign_key: :address_teryt_pna_code_id
   belongs_to :c_address_teryt_pna_code, class_name: "Teryt::PnaCode", foreign_key: :c_address_teryt_pna_code_id
-#  belongs_to :esod_contractor, class_name: "Esod::Contractor", foreign_key: :esod_contractor_id#, dependent: :delete
-#  belongs_to :esod_address, class_name: "Esod::Address", foreign_key: :esod_address_id
 
-  has_one :esod_contractor, class_name: "Esod::Contractor", foreign_key: :customer_id, dependent: :nullify
-  has_one :esod_address, class_name: "Esod::Address", foreign_key: :customer_id, dependent: :nullify
+  has_one :esod_contractor, class_name: "Esod::Contractor", dependent: :nullify
+  has_one :esod_address, class_name: "Esod::Address", dependent: :nullify
 
   has_many :documents, as: :documentable
   has_many :works, as: :trackable
@@ -327,7 +270,7 @@ class Customer < ActiveRecord::Base
   end
 
   # method for joining Customer records
-  # * paramaters   :
+  # * parameters   :
   #   * +source_customer+ -> instance object class Customer for merge with self
   #
   def join_with_another(source_customer)
@@ -339,5 +282,120 @@ class Customer < ActiveRecord::Base
       source_customer.destroy!
     end
   end
+
+
+  def insert_data_to_esod_and_update_self(options = {})
+    client = Savon.client(
+      encoding: "UTF-8",
+      wsdl: "#{Esodes::ESOD_API_SERVER}/wsdl/slowniki/ws/slowniki.wsdl",
+      endpoint: "#{Esodes::ESOD_API_SERVER}/uslugi.php/slowniki/handle",
+      namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+                   "xmlns:slow" => "http://www.dokus.pl/slowniki/ws/slowniki", 
+                   "xmlns:slow1" => "http://www.dokus.pl/slowniki/mt/slowniki", 
+                   "xmlns:wsp" => "http://www.dokus.pl/wspolne",
+                   "xmlns:ns1" => "http://www.dokus.pl/wspolne", 
+                   "xmlns:ns2" => "http://www.dokus.pl/slowniki/mt/slowniki", 
+                   "xmlns:ns3" => "http://www.dokus.pl/slowniki/ws/slowniki"
+                   },
+      namespace_identifier: :slow, #"xmlns:slow" => "http://www.dokus.pl/slowniki/ws/slowniki/utworzKontrahenta", 
+      strip_namespaces: true,
+      logger: Rails.logger,
+      log_level: :debug,
+      log: true,
+      pretty_print_xml: true,
+      env_namespace: :soapenv,
+      soap_version: 2,
+      # Tutaj musi być podawane Login i Pobrany Token, a nie hash_password
+      #wsse_auth: [my_login, "7584b77307868d6fde1dd9dbad28f2403d57d8d19826d13932aca4fad9fa88a41df1cddb28e0aad11b607e0b756da42cb02f2ff2a46809c0b9df6647f3d6a8fc"]
+      wsse_auth: [Esodes::EsodTokenData.netpar_user.email, Esodes::EsodTokenData.token_string],
+      soap_header: { "wsp:metaParametry" => 
+                      { "wsp:identyfikatorStanowiska" => Esodes::EsodTokenData.token_stanowiska.first[:nrid] } 
+                    }
+    )
+
+    message_body = { 
+      "slow1:daneTworzeniaOsoby" => {
+        "slow1:imie" => given_names,
+        "slow1:nazwisko" => name,
+        "slow1:pesel" => pesel,
+        "slow1:rodzaj" => {
+          "slow1:nrid" => 1
+          }
+      },
+      "slow1:daneTworzeniaAdresu" => { 
+        "slow1:miasto" => address_city,
+        "slow1:kodPocztowy" => address_postal_code,
+        "slow1:ulica" => address_street,
+        "slow1:numerLokalu" => address_number,
+        "slow1:numerBudynku" => address_house,
+        "slow1:panstwo" => self.citizenship.short,
+        "slow1:typ" => "fizyczny"
+      },
+      "slow1:ignorujTeryt" => true
+    }
+
+    response = client.call(:utworz_kontrahenta,  message: message_body )
+
+    if response.success?
+      response.xpath("//*[local-name()='osoba']").each do |row|      
+        unless self.esod_contractor.present? 
+          contractor = self.build_esod_contractor(
+            data_utworzenia: row.xpath("./*[local-name()='dataUtworzenia']").text,
+            identyfikator_osoby_tworzacej: row.xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text,
+            data_modyfikacji: row.xpath("./*[local-name()='dataModyfikacji']").text,
+            identyfikator_osoby_modyfikujacej: row.xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text,
+            nrid: row.xpath("./*[local-name()='nrid']").text,
+            imie: row.xpath("./*[local-name()='imie']").text,
+            nazwisko: row.xpath("./*[local-name()='nazwisko']").text,
+            pesel: row.xpath('//ns2:pesel').text
+          )
+          contractor.save
+        end
+      end 
+
+      response.xpath("//*[local-name()='adres']").each do |row|      
+        unless self.esod_address.present? 
+          address = self.build_esod_address(
+            data_utworzenia: row.xpath("./*[local-name()='dataUtworzenia']").text,
+            identyfikator_osoby_tworzacej: row.xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text,
+            data_modyfikacji: row.xpath("./*[local-name()='dataModyfikacji']").text,
+            identyfikator_osoby_modyfikujacej: row.xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text,
+            nrid: row.xpath("./*[local-name()='nrid']").text,
+            miasto: row.xpath("./*[local-name()='miasto']").text,
+            kod_pocztowy: row.xpath("./*[local-name()='kodPocztowy']").text,
+            ulica: row.xpath("./*[local-name()='ulica']").text,
+            numer_lokalu: row.xpath("./*[local-name()='numerLokalu']").text,
+            numer_budynku: row.xpath("./*[local-name()='numerBudynku']").text,
+            panstwo: row.xpath("./*[local-name()='panstwo']").text,
+            typ: row.xpath("./*[local-name()='typ']").text
+          )
+          address.save
+        end
+      end
+
+    end
+
+    rescue Savon::HTTPError => error
+      puts '==================================================================='
+      puts '      ----- Savon::HTTPError => error error.http.code -----'
+      puts "error.http.code: #{error.http.code}"
+      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
+      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
+      puts "         detail: #{error.to_hash[:fault][:detail]}"
+      puts '==================================================================='
+      #raise
+
+    rescue Savon::SOAPFault => error
+      puts '==================================================================='
+      puts '      ----- Savon::SOAPFault => error error.http.code -----'
+      puts "error.http.code: #{error.http.code}"
+      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
+      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
+      puts "         detail: #{error.to_hash[:fault][:detail]}"
+      puts '==================================================================='
+      #raise CustomError, fault_code
+      #raise
+  end
+
 
 end

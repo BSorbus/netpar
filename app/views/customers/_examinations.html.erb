@@ -11,7 +11,7 @@
         <thead>
           <tr>
             <th> </th>
-            <th><%= Examination.human_attribute_name(:esod_matter_id) %></th>
+            <th><%= Examination.human_attribute_name(:flat_all_esod_matters) %></th>
             <th><%= Examination.human_attribute_name(:esod_category) %></th>
             <th><%= Examination.human_attribute_name(:division_id) %></th>
             <th><%= Examination.human_attribute_name(:examination_result) %></th>
@@ -34,9 +34,7 @@
                   <% end %>
 
                 </td>
-                <td>
-                  <%= link_to examination.esod_matter.znak, esod_matter_path(examination.esod_matter, back_url: customer_path(@customer)) if examination.esod_matter.present? %>
-                </td>
+                <td><%= examination.flat_all_esod_matters %></td>
                 <td><%= examination.esod_category_name %></td>
                 <td><%= examination.division.name %></td>
                 <% if    examination.examination_result == 'P' %> <!-- pozytywny -->

@@ -1,0 +1,49 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://www.dokus.pl/wspolne" xmlns:ns2="http://www.dokus.pl/slowniki/mt/slowniki" xmlns:ns3="http://www.dokus.pl/slowniki/ws/slowniki">
+   <SOAP-ENV:Body>
+      <ns3:wyszukajSposobyPrzeslaniaResponse>
+         <ns2:sposobPrzeslania>
+            <ns1:dataUtworzenia>2015-11-03 14:07:41</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>1</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-11-03 14:07:41</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>1</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>6</ns2:nrid>
+            <ns2:nazwa>Osobiście</ns2:nazwa>
+         </ns2:sposobPrzeslania>
+         <ns2:sposobPrzeslania>
+            <ns1:dataUtworzenia>2013-09-17 15:01:27</ns1:dataUtworzenia>
+            <ns1:dataModyfikacji>2015-12-29 09:51:32</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>2</ns2:nrid>
+            <ns2:nazwa>Przesyłka kurierska</ns2:nazwa>
+         </ns2:sposobPrzeslania>
+         <ns2:sposobPrzeslania>
+            <ns1:dataUtworzenia>2013-09-17 15:01:27</ns1:dataUtworzenia>
+            <ns1:dataModyfikacji>2015-12-29 16:48:04</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>1</ns2:nrid>
+            <ns2:nazwa>Przesyłka pocztowa</ns2:nazwa>
+         </ns2:sposobPrzeslania>
+         <ns2:sposobPrzeslania>
+            <ns1:dataUtworzenia>2015-12-02 10:09:37</ns1:dataUtworzenia>
+            <ns1:dataModyfikacji>2015-12-29 23:39:29</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>7</ns2:nrid>
+            <ns2:nazwa>ePUAP</ns2:nazwa>
+         </ns2:sposobPrzeslania>
+         <ns2:sposobPrzeslania>
+            <ns1:dataUtworzenia>2013-09-17 15:01:27</ns1:dataUtworzenia>
+            <ns1:dataModyfikacji>2015-12-29 23:39:37</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>4</ns2:nrid>
+            <ns2:nazwa>FAX</ns2:nazwa>
+         </ns2:sposobPrzeslania>
+         <ns2:sposobPrzeslania>
+            <ns1:dataUtworzenia>2013-09-17 15:01:27</ns1:dataUtworzenia>
+            <ns1:dataModyfikacji>2015-12-29 23:39:57</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>3</ns2:nrid>
+            <ns2:nazwa>E-mail</ns2:nazwa>
+         </ns2:sposobPrzeslania>
+      </ns3:wyszukajSposobyPrzeslaniaResponse>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

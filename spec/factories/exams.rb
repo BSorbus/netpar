@@ -12,7 +12,6 @@ FactoryGirl.define do
     examinations_count 0
     certificates_count 0
     esod_category 1
-    esod_matter nil
 
     trait :lot do
       category 'L'

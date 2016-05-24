@@ -9,24 +9,22 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th><%= Esod::InternalLetter.human_attribute_name(:nrid) %></th>
+            <th><%= Esod::InternalLettersMatter.human_attribute_name(:sygnatura) %></th>
             <th><%= Esod::InternalLetter.human_attribute_name(:numer_ewidencyjny) %></th>
             <th><%= Esod::InternalLetter.human_attribute_name(:tytul) %></th>
             <th><%= Esod::InternalLetter.human_attribute_name(:uwagi) %></th>
             <th><%= Esod::InternalLetter.human_attribute_name(:identyfikator_rodzaju_dokumentu_wewnetrznego) %></th>
-            <th><%= Esod::InternalLettersMatter.human_attribute_name(:sygnatura) %></th>
           </tr>
         </thead>
 
         <tbody>
           <% @esod_matter.esod_internal_letters_matters.order(id: :desc).each do |letter_matter| %>
               <tr>
-                <td><%= letter_matter.esod_internal_letters.nrid %></td>
-                <td><%= letter_matter.esod_internal_letters.numer_ewidencyjny %></td>
-                <td><%= letter_matter.esod_internal_letters.tytul %></td>
-                <td><%= letter_matter.esod_internal_letters.uwagi %></td>
-                <td><%= letter_matter.esod_internal_letters.identyfikator_rodzaju_dokumentu_wewnetrznego %></td>
                 <td><%= letter_matter.sygnatura %></td>
+                <td><%= letter_matter.esod_internal_letter.numer_ewidencyjny %></td>
+                <td><%= letter_matter.esod_internal_letter.tytul %></td>
+                <td><%= letter_matter.esod_internal_letter.uwagi %></td>
+                <td><%= letter_matter.esod_internal_letter.identyfikator_rodzaju_dokumentu_wewnetrznego %></td>
               </tr>
           <% end %>
 

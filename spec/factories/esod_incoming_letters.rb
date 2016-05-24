@@ -15,8 +15,8 @@ FactoryGirl.define do
     pelna_wersja_cyfrowa false
     naturalny_elektroniczny false
     uwagi "MyString"
-    id_osoba 1
-    id_adres 1
+    identyfikator_osoby 1
+    identyfikator_adresu 1
     id_zalozyl 1
     id_aktualizowal "MyString"
     data_zalozenia "2016-04-19"

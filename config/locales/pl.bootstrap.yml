@@ -16,6 +16,7 @@ pl:
       confirm_destroy: 'Na pewno chcesz usunąć wpis: "%{data}"?'
       confirm_account_off: 'Na pewno chcesz wyłączyć konto: "%{data}"?'
       confirm_account_on: 'Na pewno chcesz włączyć konto: "%{data}"?'
+      confirm_link_esod_matter: 'Na pewno chcesz powiązać wybraną sprawę z "%{data}"?'
       destroy: " Usuń"
       destroy_account: "Usuń moje konto"
       new: " Nowy"
@@ -31,8 +32,14 @@ pl:
       new_examination: " Nowa osoba egzaminowana"
       new_certificate: " Nowe świadectwo"
       new_customer: " Nowa osoba"
+      new_esod_matter: " ESOD: Nowa sprawa"
+      new_esod_matter_letter: " ESOD: Nowe pismo"
+      new_esod_matter_letter_incoming: " ESOD: Nowe pismo przychodzące"
+      new_esod_matter_letter_outgoing: " ESOD: Nowe pismo wychodzące"
+      new_esod_matter_letter_internal: " ESOD: Nowe pismo wewnętrzne"
+      link_esod_matter: " ESOD: Przypisz istniejącą sprawę"
       filter: " Filtruj dane"
-      send_exam_committee_docx: " Zarejestruj w ESOD Skład Komisji"
+      exam_committee_docx: " Skład Komisji"
       show: " Pokaż"
     titles:
       edit: "Edycja %{model}"

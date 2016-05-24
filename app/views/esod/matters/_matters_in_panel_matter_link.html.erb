@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-sm-5">
+    <blockquote class="bg-info">
+      <p class="text-info">Uwaga! <%= t("helpers.links.link_esod_matter") %></p>
+      <footer class="bg-info">Operacja ta polega na przypisaniu isniejącej w systemie ESOD "Sprawy" do wyświetlonego obiektu (sesji/osoby egzainowanej/świadectwa). Lista spraw filtrowana jest ze względu na "kategorię sprawy".</footer>
+    </blockquote>
+  </div> <!-- /.col-sm-5 -->              
+
+  <div class="col-sm-7">
+    <%= form_tag(category_service: params[:category_service], controller: "#{controller_name}", action: "esod_matter_link") do %>
+
+      <div class="form-group col-sm-12">
+        <%= label_tag(:source_id, "ESOD: Sprawa") %>
+        <%= hidden_field_tag :source_id, nil,
+                          class: "form-control input-sm esod_matter_for_#{controller_name.singularize}_select_#{params[:category_service]}", 
+                          placeholder: "Wybierz Sprawę",
+                          style: "width:100%" %>
+        <small class="help-block"><%=t 'help_block_text.select2_esod_matter' %></small>
+
+      </div>
+
+      <div class="col-sm-12">
+        <%= submit_tag "Przypisz ESOD - Sprawa", data: { confirm: t('helpers.links.confirm_link_esod_matter', data: "#{matterable.fullname}") }, class: 'btn btn-primary pull-right' %>
+      </div> <!-- /row -->
+    <% end %>
+  </div> <!-- /col-sm-7 -->
+</div> <!-- /row -->

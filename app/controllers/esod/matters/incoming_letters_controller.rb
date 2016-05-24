@@ -10,7 +10,6 @@ class Esod::Matters::IncomingLettersController < ApplicationController
   def show
     @esod_incoming_letter_matter = Esod::IncomingLettersMatter.find_by(esod_matter_id: @esod_matter.id, esod_incoming_letter_id: @esod_incoming_letter.id)
 
-
     exam_id = nil
     customer_id = nil
     certificate_id = nil
@@ -83,6 +82,10 @@ class Esod::Matters::IncomingLettersController < ApplicationController
       end
     end 
 
+  end
+
+  def create
+    incoming_create
   end
 
   private

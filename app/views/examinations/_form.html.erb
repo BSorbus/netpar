@@ -20,28 +20,15 @@
 
 <div class="row">
   <div class="form-group col-sm-7">
-    <%= f.label :esod_matter_id, class: "control-label" %>
-    <%= f.hidden_field :esod_matter_id,
-                      class: "form-control input-sm esod_matter_for_examination_select_#{params[:category_service]}", 
-                      placeholder: "Wybierz Sprawę (Wniosek w służbie #{params[:category_service].upcase})",
-                      #disabled: !@exam.new_record?,
-                      disabled: @examination.esod_matter_id.present? && !@examination.errors.present?,
-                      style: "width:100%" %>
-    <small class="help-block"><%=t 'help_block_text.select2_esod_matter' %></small>
-  </div>
-
-  <div class="form-group col-sm-5">
     <%= f.label :esod_category, class: 'control-label' %>
     <%= f.select :esod_category, 
           options_for_select([["#{Esodes::esod_matter_iks_name(Esodes::EGZAMIN)}", Esodes::EGZAMIN],
                               ["#{Esodes::esod_matter_iks_name(Esodes::POPRAWKOWY)}", Esodes::POPRAWKOWY], 
                               ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM)}", Esodes::ODNOWIENIE_Z_EGZAMINEM], 
-                              ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY)}", Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY]], 
-              selected: @examination.esod_category), 
+                              ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY)}", Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY]], selected: @examination.esod_category), 
           { include_blank: false}, 
           { autofocus: @examination.new_record?, class: 'form-control input-sm', disabled: !@examination.new_record? } %>
   </div>
-
 </div>
 
 <hr class="hr-without-top-margin">

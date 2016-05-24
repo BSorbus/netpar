@@ -19,12 +19,12 @@
 
 # Learn more: http://github.com/javan/whenever
 
-set :environment, :development
+set :environment, :production
 
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 #require File.expand_path(File.dirname("netpar/config") + "/environment")
 
 set :output, "#{Rails.root}/log/cron_log.log"
 every 1.minutes do
-  runner "EsodCase.load_esod_cases_from_esod"
+  runner "Esodes::test_esod_whenever('Testujemy !')"
 end

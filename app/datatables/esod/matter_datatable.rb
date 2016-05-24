@@ -11,7 +11,6 @@ class Esod::MatterDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Example: 'customers.email'
     @sortable_columns ||= %w( 
-                              Esod::Matter.nrid 
                               Esod::Matter.znak 
                               Esod::Matter.symbol_jrwa 
                               Esod::Matter.tytul 
@@ -26,7 +25,6 @@ class Esod::MatterDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Example: 'customers.email'
     @searchable_columns ||= %w(
-                              Esod::Matter.nrid 
                               Esod::Matter.znak 
                               Esod::Matter.symbol_jrwa 
                               Esod::Matter.tytul 
@@ -45,14 +43,13 @@ class Esod::MatterDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.id,
-        record.nrid,
         link_to(record.znak, @view.esod_matter_path(record)),
         record.symbol_jrwa,
         record.tytul,
         record.termin_realizacji,
         record.iks_name,
         record.identyfikator_stanowiska_referenta,
-        record.czy_otwarta,
+        record.czy_otwarta ? 'Tak' : 'Nie'
       ]
     end
   end
@@ -61,6 +58,9 @@ class Esod::MatterDatatable < AjaxDatatablesRails::Base
     collection_data = Esod::Matter.all
     if (options[:only_for_stanowisko_id]).present?
       collection_data = collection_data.where(identyfikator_stanowiska_referenta: options[:only_for_stanowisko_id]).all
+    end
+    if (options[:esod_category]).present? && (options[:esod_category]) != ""
+      collection_data = collection_data.where(identyfikator_kategorii_sprawy: options[:esod_category]).all
     end
     if (options[:open]).present? && (options[:open]) != ""
       collection_data = collection_data.where(czy_otwarta: options[:open]).all

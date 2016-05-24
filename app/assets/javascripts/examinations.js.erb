@@ -31,7 +31,10 @@ $(document).ready(function() {
         "searchable": false,
         "sortable": false }, 
       { "targets": [2],
-        "title": "<%= Examination.human_attribute_name('esod_matter_id') %>" }, 
+        "title": "<%= Examination.human_attribute_name('flat_all_esod_matters') %>", 
+        "visible": true,
+        "searchable": false,
+        "sortable": false }, 
       { "targets": [3],
         "title": "<%= Examination.human_attribute_name('esod_category') %>",
         fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {

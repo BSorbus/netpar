@@ -2,11 +2,16 @@ include  ActionView::Helpers::TextHelper
 require 'esodes'
 
 class Esod::Matter < ActiveRecord::Base
-  has_one :exam, foreign_key: :esod_matter_id, dependent: :nullify
-  has_one :examination, foreign_key: :esod_matter_id, dependent: :nullify
-  has_one :certificate, foreign_key: :esod_matter_id, dependent: :nullify
+  belongs_to :exam
+  belongs_to :examination
+  belongs_to :certificate
 
   has_many :esod_matter_notes, class_name: 'Esod::MatterNote', primary_key: 'id', foreign_key: 'esod_matter_id'
+  accepts_nested_attributes_for :esod_matter_notes,
+                                reject_if: proc { |attributes| attributes['tytul'].blank? },
+                                allow_destroy: true
+  validates_associated :esod_matter_notes
+
 
   has_many :esod_incoming_letters_matters, class_name: 'Esod::IncomingLettersMatter', foreign_key: :esod_matter_id 
   has_many :esod_incoming_letters, through: :esod_incoming_letters_matters, primary_key: :esod_incoming_letter_id
@@ -17,10 +22,24 @@ class Esod::Matter < ActiveRecord::Base
   has_many :esod_internal_letters_matters, class_name: 'Esod::InternalLettersMatter', foreign_key: :esod_matter_id 
   has_many :esod_internal_letters, through: :esod_internal_letters_matters, primary_key: :esod_internal_letter_id
 
+  has_many :works, as: :trackable, source_type: 'Esod::Matter'
+
+  #validates :tytul, presence: true, length: { in: 0..254 }
+
+  # callbacks
+  before_save :insert_data_to_esod_and_update_self, on: :create, if: "initialized_from_esod == false"
+  #before_save :update_esod_matter, unless: "esod_matter_id.blank?"
+
+
 
   def fullname
-    "#{znak}, #{truncate(tytul, length: 85)}, #{termin_realizacji}, [#{iks_name}] #{truncate(adnotacja, length: 20)}"
+    "#{znak}, #{truncate(tytul, length: 85)}, #{termin_realizacji}, [#{iks_name}]}"
   end
+
+  def fullname_and_id
+    "#{znak}, [#{iks_name}] (#{id})"
+  end
+
 
   def iks_name
     Esodes::esod_matter_iks_name(identyfikator_kategorii_sprawy)
@@ -34,249 +53,21 @@ class Esod::Matter < ActiveRecord::Base
     "#{tytul}".split(%r{,\s*})[1]
   end
 
-
-
-  def insert_data_to_esod_and_update_self
-    esod_user = User.find_by(netpar_user)
-    esod_user_email = esod_user.email
-    esod_user_pass =  esod_user.esod_encryped_password
-    responseToken = Esod::Token.new(esod_user_email, esod_user_pass)
-    headers_added = { "wsp:metaParametry" => 
-                      { "wsp:identyfikatorStanowiska" => responseToken.stanowisko_first } 
-                    }
-
-    mess_body = { 
-      "mt:tytul" => tytul,
-      "mt:terminRealizacji" => termin_realizacji,
-      "mt:identyfikatorKategoriiSprawy" => identyfikator_kategorii_sprawy,
-      "mt:adnotacja" => {
-        "wsp:tytul" => adnotacja,
-        "wsp:tresc" => ""
-        },
-      "mt:komorkaISymbol" => {
-        "mt:identyfikatorKomorkiOrganizacyjnej" => responseToken.identyfikator_komorki_organizacyjnej_first,
-        "mt:symbolJRWA" => symbol_jrwa
-        },
-      "mt:znakSprawyGrupujacej" => znak_sprawy_grupujacej
-      }
-
-    client = Savon.client(
-      encoding: "UTF-8",
-      wsdl: "http://testesod.uke.gov.pl/wsdl/sprawy/ws/sprawy.wsdl",
-      endpoint: "http://testesod.uke.gov.pl/uslugi.php/sprawy/handle",
-      namespaces: { "xmlns:mt" => "http://www.dokus.pl/sprawy/mt",
-                    "xmlns:ws" => "http://www.dokus.pl/sprawy/ws/utworzSprawe", 
-                    "xmlns:wsp" => "http://www.dokus.pl/wspolne" },
-      strip_namespaces: true,
-      logger: Rails.logger,
-      log_level: :debug,
-      log: true,
-      pretty_print_xml: true,
-      env_namespace: :soapenv,
-      soap_version: 2,
-      # Tutaj musi być podawane Login i Pobrany Token, a nie hash_password
-      #wsse_auth: [my_login, "7584b77307868d6fde1dd9dbad28f2403d57d8d19826d13932aca4fad9fa88a41df1cddb28e0aad11b607e0b756da42cb02f2ff2a46809c0b9df6647f3d6a8fc"]
-      wsse_auth: [esod_user_email, responseToken.token_string],
-      soap_header: headers_added
-    )
-
-
-    puts '-----------------------------------------------------'
-    puts 'przerywam: insert_data_to_esod_and_update_self'
-    puts '-----------------------------------------------------'
-
-    return
-
-    response = client.call(:utworz_sprawe,  message: mess_body )
-
-    if response.success?
-      #puts JSON.pretty_generate(response.to_json)
-      puts '-----------------------------------------------------'
-      puts response.to_json
-      puts '-----------------------------------------------------'
-#      {"utworz_sprawe_response":
-#        { "nrid":"1172",
-#          "znak":"OGD.5432.1.2016",
-#          "znak_sprawy_grupujacej":null,
-#          "symbol_jrwa":"5432",
-#          "tytul":"11/2016/A, UKE Opole",
-#          "termin_realizacji":"2016-05-01 00:00:00",
-#          "identyfikator_stanowiska_referenta":"2495"
-#        }
-#      }
-
-      esod_matter = Esod::Matter.create!(
-        nrid: response.to_hash[:utworz_sprawe_response][:nrid],
-        znak: response.to_hash[:utworz_sprawe_response][:znak],
-        znak_sprawy_grupujacej: response.to_hash[:utworz_sprawe_response][:znak_sprawy_grupujacej],
-        symbol_jrwa: response.to_hash[:utworz_sprawe_response][:symbol_jrwa],
-        tytul: response.to_hash[:utworz_sprawe_response][:znak],
-        termin_realizacji: response.to_hash[:utworz_sprawe_response][:termin_realizacji],
-          identyfikator_kategorii_sprawy: 47, # response.to_hash[:utworz_sprawe_response][:identyfikator_kategorii_sprawy],
-          adnotacja: "",
-        identyfikator_stanowiska_referenta: response.to_hash[:utworz_sprawe_response][:identyfikator_stanowiska_referenta],
-          czy_otwarta: true,
-          data_utworzenia: "2016-03-30 07:35:52",
-          data_modyfikacji: "2016-03-30 07:35:52",
-          initialized_from_esod: true
-      )  unless esod_matter = Esod::Matter.where(tytul: "#{number}, #{place_exam}" ).any?
-
-      self.esod_matter = esod_matter 
-    end
-
-
-    rescue Savon::HTTPError => error
-      puts '----------Savon::HTTPError => error error.http.code----------------'
-      puts error.http.code
-      puts '----------fault-------------------'
-      puts error.to_hash[:fault][:faultcode]
-      puts error.to_hash[:fault][:faultstring]
-      puts error.to_hash[:fault][:detail]
-      puts '-------------------------------------------------------------------'
-      #raise
-
-    rescue Savon::SOAPFault => error
-      puts '----------Savon::SOAPFault => error error.http.code----------------'
-      puts error.http.code
-      puts '----------fault-------------------'
-      puts error.to_hash[:fault][:faultcode]
-      puts error.to_hash[:fault][:faultstring]
-      puts error.to_hash[:fault][:detail]
-      puts '-------------------------------------------------------------------'
-      #raise CustomError, fault_code
-      #raise
+  def flat_all_matter_notes
+    self.esod_matter_notes.order(:id).flat_map {|row| row.tytul }.join(' <br>').html_safe
   end
 
-  def exam_insert_data_to_esod
-    jrwa = Esodes::esod_matter_service_jrwa(category).to_s
-
-    # szukaj sprawy z poprzednim tutułem jezeli nie dokonano zmian
-    if number == number_was && place_exam == place_exam_was
-      esod_matter = Esod::Matter.where(tytul: "#{number_was}, #{place_exam_was}", symbol_jrwa: "#{jrwa}")
-    else 
-      # jezeli nie znalazleś, to szukaj z nowym tytułem
-      esod_matter = Esod::Matter.where(tytul: "#{number}, #{place_exam}", symbol_jrwa: "#{jrwa}") unless esod_matter.present?
-    end
-
-    return
-
-
-
-    responseToken = Esod::Token.new(self.user.email, self.user.esod_encryped_password)
-
-
-    headers_added = { "wsp:metaParametry" => 
-                      { "wsp:identyfikatorStanowiska" => responseToken.stanowisko_first } 
-                    }
-
-    mess_body = { 
-      "mt:tytul" => "#{number}, #{place_exam}",
-      "mt:terminRealizacji" => "#{date_exam}",
-      "mt:identyfikatorKategoriiSprawy" => Rails.application.secrets["esod_exam_{category.downcase}_identyfikator_kategorii_sprawy"],
-      "mt:adnotacja" => {
-        "wsp:tytul" => "NETPAR2015 - uwagi",
-        "wsp:tresc" => "#{note}"
-        },
-      "mt:komorkaISymbol" => {
-        "mt:identyfikatorKomorkiOrganizacyjnej" => responseToken.identyfikator_komorki_organizacyjnej_first,
-        "mt:symbolJRWA" => "#{jrwa}"
-        },
-      "mt:znakSprawyGrupujacej" => ""
-      }
-
-    client = Savon.client(
-      encoding: "UTF-8",
-      wsdl: "http://testesod.uke.gov.pl/wsdl/sprawy/ws/sprawy.wsdl",
-      endpoint: "http://testesod.uke.gov.pl/uslugi.php/sprawy/handle",
-      namespaces: { "xmlns:mt" => "http://www.dokus.pl/sprawy/mt",
-                    "xmlns:ws" => "http://www.dokus.pl/sprawy/ws/utworzSprawe", 
-                    "xmlns:wsp" => "http://www.dokus.pl/wspolne" },
-      strip_namespaces: true,
-      logger: Rails.logger,
-      log_level: :debug,
-      log: true,
-      pretty_print_xml: true,
-      env_namespace: :soapenv,
-      soap_version: 2,
-      # Tutaj musi być podawane Login i Pobrany Token, a nie hash_password
-      #wsse_auth: [my_login, "7584b77307868d6fde1dd9dbad28f2403d57d8d19826d13932aca4fad9fa88a41df1cddb28e0aad11b607e0b756da42cb02f2ff2a46809c0b9df6647f3d6a8fc"]
-      wsse_auth: [self.user.email, responseToken.token_string],
-      soap_header: headers_added
-    )
-
-    response = client.call(:utworz_sprawe,  message: mess_body )
-
-    if response.success?
-      #puts JSON.pretty_generate(response.to_json)
-      puts '-----------------------------------------------------'
-      puts response.to_json
-      puts '-----------------------------------------------------'
-#      {"utworz_sprawe_response":
-#        { "nrid":"1172",
-#          "znak":"OGD.5432.1.2016",
-#          "znak_sprawy_grupujacej":null,
-#          "symbol_jrwa":"5432",
-#          "tytul":"11/2016/A, UKE Opole",
-#          "termin_realizacji":"2016-05-01 00:00:00",
-#          "identyfikator_stanowiska_referenta":"2495"
-#        }
-#      }
-
-      esod_matter = Esod::Matter.create!(
-        nrid: response.to_hash[:utworz_sprawe_response][:nrid],
-        znak: response.to_hash[:utworz_sprawe_response][:znak],
-        znak_sprawy_grupujacej: response.to_hash[:utworz_sprawe_response][:znak_sprawy_grupujacej],
-        symbol_jrwa: response.to_hash[:utworz_sprawe_response][:symbol_jrwa],
-        tytul: response.to_hash[:utworz_sprawe_response][:znak],
-        termin_realizacji: response.to_hash[:utworz_sprawe_response][:termin_realizacji],
-          identyfikator_kategorii_sprawy: 47, # response.to_hash[:utworz_sprawe_response][:identyfikator_kategorii_sprawy],
-          adnotacja: "",
-        identyfikator_stanowiska_referenta: response.to_hash[:utworz_sprawe_response][:identyfikator_stanowiska_referenta],
-          czy_otwarta: true,
-          data_utworzenia: "2016-03-30 07:35:52",
-          data_modyfikacji: "2016-03-30 07:35:52",
-          initialized_from_esod: true
-      )  unless esod_matter = Esod::Matter.where(tytul: "#{number}, #{place_exam}" ).any?
-
-      self.esod_matter = esod_matter 
-    end
-
-
-    rescue Savon::HTTPError => error
-      puts '----------Savon::HTTPError => error error.http.code----------------'
-      puts error.http.code
-      puts '----------fault-------------------'
-      puts error.to_hash[:fault][:faultcode]
-      puts error.to_hash[:fault][:faultstring]
-      puts error.to_hash[:fault][:detail]
-      puts '-------------------------------------------------------------------'
-      #raise
-
-    rescue Savon::SOAPFault => error
-      puts '----------Savon::SOAPFault => error error.http.code----------------'
-      puts error.http.code
-      puts '----------fault-------------------'
-      puts error.to_hash[:fault][:faultcode]
-      puts error.to_hash[:fault][:faultstring]
-      puts error.to_hash[:fault][:detail]
-      puts '-------------------------------------------------------------------'
-      #raise CustomError, fault_code
-      #raise
+  def flat_all_incoming_letters_matters
+    self.esod_incoming_letters_matters.order(:id).flat_map {|row| "(P) #{row.sygnatura}" }.join(' <br>').html_safe
   end
 
-  def exam_has_links
-    analize_value = true
-    if self.certificates.any? 
-      errors[:base] << "Nie można usunąć Sesji do której są przypisane Świadectwa."
-      analize_value = false
-    end
-    if self.examinations.any? 
-      errors[:base] << "Nie można usunąć Sesji do której są przypisane Osoby Egzaminowane."
-      analize_value = false
-    end
-    analize_value
+  def flat_all_outgoing_letters_matters
+    self.esod_outgoing_letters_matters.order(:id).flat_map {|row| "(W) #{row.sygnatura}" }.join(' <br>').html_safe
   end
 
+  def flat_all_internal_letters_matters
+    self.esod_internal_letters_matters.order(:id).flat_map {|row| "(I) #{row.sygnatura}" }.join(' <br>').html_safe
+  end
 
   # Scope for select2: "exam_select"
   # * parameters   :
@@ -315,36 +106,32 @@ class Esod::Matter < ActiveRecord::Base
     "(" + %w(esod_matters.znak esod_matters.tytul to_char(esod_matters.termin_realizacji,'YYYY-mm-dd') ).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
   end
 
-
-  def save_to_esod(user_email, esod_user_pass)
-    responseToken = Esod::Token.new(user_email, esod_user_pass)
+  def insert_data_to_esod_and_update_self
+#    esod_user = User.find_by(id: netpar_user)
+#    esod_user_email = esod_user.email
+#    esod_user_pass =  esod_user.esod_encryped_password
+#    responseToken = Esod::Token.new(esod_user_email, esod_user_pass)
+#
+#    headers_added = { "wsp:metaParametry" => 
+#                      { "wsp:identyfikatorStanowiska" => responseToken.stanowiska.first[:nrid] } 
+#                    }
 
     headers_added = { "wsp:metaParametry" => 
-                      { "wsp:identyfikatorStanowiska" => responseToken.stanowisko_first } 
+                      { "wsp:identyfikatorStanowiska" => Esodes::EsodTokenData.token_stanowiska.first[:nrid] } 
                     }
-
-    mess_body = { 
-      "mt:tytul" => self.tytul,
-      "mt:terminRealizacji" => self.termin_realizacji,
-      "mt:identyfikatorKategoriiSprawy" => self.identyfikator_kategorii_sprawy,
-      "mt:adnotacja" => {
-        "wsp:tytul" => "Założenie sprawy",
-        "wsp:tresc" => "test" #self.adnotacja
-        },
-      "mt:komorkaISymbol" => {
-        "mt:identyfikatorKomorkiOrganizacyjnej" => responseToken.identyfikator_komorki_organizacyjnej_first,
-        "mt:symbolJRWA" => self.symbol_jrwa
-        },
-      "mt:znakSprawyGrupujacej" => ""
-      }
 
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "http://testesod.uke.gov.pl/wsdl/sprawy/ws/sprawy.wsdl",
-      endpoint: "http://testesod.uke.gov.pl/uslugi.php/sprawy/handle",
-      namespaces: { "xmlns:mt" => "http://www.dokus.pl/sprawy/mt",
-                    "xmlns:ws" => "http://www.dokus.pl/sprawy/ws/utworzSprawe", 
-                    "xmlns:wsp" => "http://www.dokus.pl/wspolne" },
+      wsdl: "#{Esodes::ESOD_API_SERVER}/wsdl/sprawy/ws/sprawy.wsdl",
+      endpoint: "#{Esodes::ESOD_API_SERVER}/uslugi.php/sprawy/handle",
+      namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+                    "xmlns:mt" => "http://www.dokus.pl/sprawy/mt",
+                    "xmlns:ws" => "http://www.dokus.pl/sprawy/ws", 
+                    "xmlns:wsp" => "http://www.dokus.pl/wspolne",
+                    "xmlns:ns1" => "http://www.dokus.pl/wspolne", 
+                    "xmlns:ns2" => "http://www.dokus.pl/sprawy/mt", 
+                    "xmlns:ns3" => "http://www.dokus.pl/sprawy/ws" },
+      namespace_identifier: :ws, #"xmlns:ws" => "http://www.dokus.pl/sprawy/ws/utworzSprawe", 
       strip_namespaces: true,
       logger: Rails.logger,
       log_level: :debug,
@@ -354,51 +141,79 @@ class Esod::Matter < ActiveRecord::Base
       soap_version: 2,
       # Tutaj musi być podawane Login i Pobrany Token, a nie hash_password
       #wsse_auth: [my_login, "7584b77307868d6fde1dd9dbad28f2403d57d8d19826d13932aca4fad9fa88a41df1cddb28e0aad11b607e0b756da42cb02f2ff2a46809c0b9df6647f3d6a8fc"]
-      wsse_auth: [user_email, responseToken.token_string],
+#      wsse_auth: [esod_user_email, responseToken.token_string],
+      wsse_auth: [Esodes::EsodTokenData.netpar_user.email, Esodes::EsodTokenData.token_string],
       soap_header: headers_added
     )
 
-    response = client.call(:utworz_sprawe,  message: mess_body )
+#response.success?     # => false
+#response.soap_fault?  # => true
+#response.http_error?  # => false
+
+    message_body = { 
+      "mt:tytul" => "#{self.tytul}",
+      "mt:terminRealizacji" => "#{self.termin_realizacji}",
+      "mt:identyfikatorKategoriiSprawy" => "#{self.identyfikator_kategorii_sprawy}",
+      "mt:adnotacja" => {
+        "wsp:tytul" => self.esod_matter_notes.present? ? "#{self.esod_matter_notes.last.tytul}" : "",
+        "wsp:tresc" => self.esod_matter_notes.present? ? "#{self.esod_matter_notes.last.tresc}" : ""
+        },
+      "mt:komorkaISymbol" => {
+        "mt:identyfikatorKomorkiOrganizacyjnej" => "#{Esodes::EsodTokenData.token_stanowiska.first[:identyfikator_komorki_organizacyjnej]}",
+        "mt:symbolJRWA" => "#{self.symbol_jrwa}"
+        },
+      "mt:znakSprawyGrupujacej" => "#{self.znak_sprawy_grupujacej}"
+      }
+
+    response = client.call(:utworz_sprawe,  message: message_body )
 
     if response.success?
-      #puts JSON.pretty_generate(response.to_json)
-      puts response.to_json
-#      {"utworz_sprawe_response":
-#        { "nrid":"1172",
-#          "znak":"OGD.5432.1.2016",
-#          "znak_sprawy_grupujacej":null,
-#          "symbol_jrwa":"5432",
-#          "tytul":"11/2016/A, UKE Opole",
-#          "termin_realizacji":"2016-05-01 00:00:00",
-#          "identyfikator_stanowiska_referenta":"2495"
-#        }
-#      }
-
+      self.data_utworzenia = response.xpath('//ns1:dataUtworzenia').text
+      self.identyfikator_osoby_tworzacej = response.xpath('//ns1:identyfikatorOsobyTworzacej').text
+      self.data_modyfikacji = response.xpath('//ns1:dataModyfikacji').text
+      self.identyfikator_osoby_modyfikujacej = response.xpath('//ns1:identyfikatorOsobyModyfikujacej').text
+      self.nrid = response.xpath('//ns2:nrid').text
+      self.znak = response.xpath('//ns2:znak').text
+      self.znak_sprawy_grupujacej = response.xpath('//ns2:znak_sprawy_grupujacej').text
+      self.identyfikator_stanowiska_referenta = response.xpath('//ns2:identyfikatorStanowiskaReferenta').text
     end
 
     rescue Savon::HTTPError => error
-      puts '----------Savon::HTTPError => error error.http.code----------------'
-      puts error.http.code
-      puts '----------fault-------------------'
-      puts error.to_hash[:fault][:faultcode]
-      puts error.to_hash[:fault][:faultstring]
-      puts error.to_hash[:fault][:detail]
-      puts '-------------------------------------------------------------------'
+      #Logger.log error.http.code
+      puts '==================================================================='
+      puts '      ----- Savon::HTTPError => error error.http.code -----'
+      puts "error.http.code: #{error.http.code}"
+      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
+      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
+      puts "         detail: #{error.to_hash[:fault][:detail]}"
+      puts '==================================================================='
       #raise
 
     rescue Savon::SOAPFault => error
-      puts '----------Savon::SOAPFault => error error.http.code----------------'
-      puts error.http.code
-      puts '----------fault-------------------'
-      puts error.to_hash[:fault][:faultcode]
-      puts error.to_hash[:fault][:faultstring]
-      puts error.to_hash[:fault][:detail]
-      puts '-------------------------------------------------------------------'
+      #Logger.log error.http.code
+      puts '==================================================================='
+      puts '      ----- Savon::SOAPFault => error error.http.code -----'
+      puts "error.http.code: #{error.http.code}"
+      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
+      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
+      puts "         detail: #{error.to_hash[:fault][:detail]}"
+      puts '==================================================================='
       #raise CustomError, fault_code
       #raise
 
+    rescue Savon::InvalidResponseError => error
+      #Logger.log error.http.code
+      puts '==================================================================='
+      puts ' ----- Savon::InvalidResponseError => error error.http.code -----'
+      puts "error.http.code: #{error.http.code}"
+      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
+      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
+      puts "         detail: #{error.to_hash[:fault][:detail]}"
+      puts '==================================================================='
+      #raise CustomError, fault_code
+      #raise
+      
   end
-
 
 
 

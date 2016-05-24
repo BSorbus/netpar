@@ -258,11 +258,13 @@ pl:
       examiner: 'Członek Komisji Egzaminacyjnej'
       subject: 'Przedmioty'
       grade: 'Oceny'
-      esod_contractor: 'ESOD - Kontrahent'
-      esod_address: 'ESOD - Adres'
-      esod_matter: 'ESOD - Sprawa'
-      esod_incoming_letter: 'ESOD - Pismo Przychodzące'
-      esod_outgoing_letter: 'ESOD - Pismo Wychodzące'
+      esod/contractor: 'ESOD - Kontrahent'
+      esod/address: 'ESOD - Adres'
+      esod/matter: 'ESOD - Sprawa'
+      esod/matter_notes: 'Esod Sprawa - Adnotacja'
+      esod/incoming_letter: 'ESOD - Pismo Przychodzące'
+      esod/outgoing_letter: 'ESOD - Pismo Wychodzące'
+      esod/internal_letter: 'ESOD - Pismo Wewnętrzne'
     messages:
       successfull:
         created: 'Wpis: "%{data}" został pomyślnie utworzony.'
@@ -273,6 +275,7 @@ pl:
         attach_file: 'Załącznik "%{child}" pomyślnie dołączono do "%{parent}".'
         remove_attach_file: 'Pomyślnie usunięto "%{child}" załączony do "%{parent}".'
         merge: 'Pomyślnie przyłączono do "%{parent}" dokumenty powiązane dotychczas z "%{child}".'
+        esod_matter_link: 'Pomyślnie przyłączono do "%{parent}" sprawę "%{child}".'
         account_off: 'Pomyślnie wyłączono konto "%{data}".'
         account_on: 'Pomyślnie włączono konto "%{data}".'
       error:
@@ -280,6 +283,7 @@ pl:
         created: 'Wystąpił błąd w czasie dodawania nowego wpisu.'
         attach_file: 'Wystąpił błąd w czasie dodawania załącznika "%{child}" do "%{parent}". Pamiętaj, że rozmiar pliku nie może być większy niż 10 MB'
         merge: 'Wystąpił błąd w czasie scalania danych z kartoteką: "%{data}". Być może nie wybrałeś kartoteki do scalenia lub kartoteka źródłowa jest tożsama z docelową'
+        esod_matter_link: 'Wystąpił błąd w czasie przypisywania sprawy "%{child}" do "%{parent}"'
         account_off: 'Wystąpił błąd w czasie wyłączania konta "%{data}".'
         account_on: 'Wystąpił błąd w czasie włączania konta "%{data}".'
       notice:
@@ -328,6 +332,7 @@ pl:
         number: 'Numer'
         date_of_issue: 'Data wydania'
         valid_thru: 'Ważne do'
+        canceled: 'Unieważnione (skreślone)'
         certificate_status: 'Status'
         division_id: 'Typ świadectwa'
         exam_id: 'Sesja'
@@ -336,8 +341,7 @@ pl:
         customer: 'Klient'
         category: 'Kategoria'
         note: 'Uwagi'
-        esod_matter: 'ESOD: Sprawa'
-        esod_matter_id: 'ESOD: Sprawa'
+        flat_all_esod_matters: 'ESOD'
       exam:
         esod_category: 'Rodzaj sesji'
         number: 'Numer'
@@ -350,8 +354,7 @@ pl:
         examiners: "Członek Komisji"
         examinations_count: "Egzaminowani"
         certificates_count: "Świadectwa"
-        esod_matter: 'ESOD: Sprawa'
-        esod_matter_id: 'ESOD: Sprawa'
+        flat_all_esod_matters: 'ESOD'
       exam/examiners:
         name: 'Nazwisko i imię'
       examiner:
@@ -403,8 +406,7 @@ pl:
         category: 'Kategoria'
         note: 'Uwagi'
         certificate_id: 'Wygenerowano świadectwo'
-        esod_matter: 'ESOD: Sprawa'
-        esod_matter_id: 'ESOD: Sprawa'
+        flat_all_esod_matters: 'ESOD'
       examination/grades:
         subject_id: 'Przedmiot'
       subject:
@@ -439,14 +441,67 @@ pl:
         znak: 'ESOD: Znak sprawy'
         symbol_jrwa: 'JRWA'
         tytul: 'Tytuł'
-        termin_realizacji: 'Termin'
+        termin_realizacji: 'Termin realizacji'
         identyfikator_kategorii_sprawy: 'Kategoria'
-        dnotacja: 'Adnotacja'
+        adnotacja: 'Adnotacja'
         identyfikator_stanowiska_referenta: 'Stanowisko'
         czy_otwarta: 'Otwarta?'
         data_utworzenia: 'Utworzona'
         data_modyfikacji: 'Modyfikowana'
         initialized_from_esod: 'Założona w ESOD?'
+        netpar_user: 'NETPAR: User'
+        flat_all_matter_notes: 'Adnotacje'
+        flat_all_incoming_letters_matters: 'Pisma przychodzące'
+        flat_all_outgoing_letters_matters: 'Pisma wychodzące'
+        flat_all_internal_letters_matters: 'Pisma wewnętrzne'
+        flat_all_letters_matters: 'Pisma'
+      esod/incoming_letter:
+        nrid: 'nrid'
+        numer_ewidencyjny: 'Nr ewidencyjny'
+        tytul: 'Tytuł'
+        data_pisma: 'Data pisma'
+        data_nadania: 'Data nadania'
+        data_wplyniecia: 'Data wpływu'
+        znak_pisma_wplywajacego: 'Znak pisma wpływającego'
+        identyfikator_typu_dcmd: 'Typ dokumentu w/g DMDC'
+        identyfikator_rodzaju_dokumentu: 'Rodzaju dokumentu'
+        identyfikator_sposobu_przeslania: 'Sposob przesłania'
+        identyfikator_miejsca_przechowywania: 'identyfikator_miejsca_przechowywania'
+        termin_na_odpowiedz: 'Termin na odpowiedź'
+        pelna_wersja_cyfrowa: 'Pełna wersja cyfrowa?'
+        naturalny_elektroniczny: 'Naturalny elektroniczny?'
+        liczba_zalacznikow: 'Liczba załączników'
+        uwagi: 'Uwagi'
+        identyfikator_osoby: 'identyfikator_osoby'
+        identyfikator_adresu: 'identyfikator_adresu'
+        data_utworzenia: 'Data utworzenia'
+        identyfikator_osoby_tworzacej: 'ESOD: identyfikator_osoby_tworzacej' 
+        identyfikator_osoby_modyfikujacej: 'ESOD: identyfikator_osoby_modyfikujacej'
+        data_modyfikacji: 'Data modyfikacji'
+        esod_contractor_id: 'Contractor'
+        esod_address: 'Address'
+        initialized_from_esod: 'Założona w ESOD?'
+        netpar_user: 'NETPAR: User'
+      esod/outgoing_letter:
+        nrid: 'nrid'
+        numer_ewidencyjny: 'Nr ewidencyjny'
+        tytul: 'Tytuł'
+        wysylka: 'wysylka'
+        identyfikator_sposobu_wysylki: 'Sposob wysłania'
+        identyfikator_rodzaju_dokumentu_wychodzacego: 'Rodzaju dokumentu wychodzącego'
+        data_pisma: 'Data pisma'
+        numer_wersji: 'Numer wersji'
+        zakoncz_sprawe: 'Zakończyć sprawę?'
+        zaakceptuj_dokument: 'Zaakceptuj dokument'
+        identyfikator_adresu: 'identyfikator_adresu'
+        data_utworzenia: 'Data utworzenia'
+        identyfikator_osoby_tworzacej: 'ESOD: identyfikator_osoby_tworzacej' 
+        identyfikator_osoby_modyfikujacej: 'ESOD: identyfikator_osoby_modyfikujacej'
+        data_modyfikacji: 'Data modyfikacji'
+        esod_contractor_id: 'Contractor'
+        esod_address: 'Address'
+        initialized_from_esod: 'Założona w ESOD?'
+        netpar_user: 'NETPAR: User'
   tooltip:
     show: 'Pokaż'
     edit: 'Edycja'
@@ -515,11 +570,10 @@ pl:
     certificate:
       form:
         number: 'Pozostaw puste jeżeli Numer ma być nadany automatycznie'
+    esod_matter: 
+      matter_index: '(P) - przychodzące, (W) - wychodzące, (I) - wewnętrzne'
   flash:
     actions:
-      esod:
-        notice: "%{resource_name} was successfully created."
-        alert: 'Wystąpił błąd w czasie wywołania funkcji ESOD: "%{data}".'
       create:
         notice: "%{resource_name} was successfully created."
       update:

@@ -10,8 +10,8 @@ class ExamDatatable < AjaxDatatablesRails::Base
   def sortable_columns
     # list columns inside the Array in string dot notation.
     # Example: 'exams.email'
+
     @sortable_columns ||= %w( 
-                              Esod::Matter.znak 
                               Exam.number
                               Exam.date_exam
                               Exam.place_exam
@@ -26,7 +26,6 @@ class ExamDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Example: 'exams.email'
     @searchable_columns ||= %w(
-                              Esod::Matter.znak 
                               Exam.number
                               Exam.date_exam
                               Exam.place_exam
@@ -44,11 +43,10 @@ class ExamDatatable < AjaxDatatablesRails::Base
     # example: record.attribute,
     records.map do |record|
       attach = record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last 
-
       [
         record.id,
         attach.present? ? link_to( image_tag( get_fileattach_as_small_image(attach, record.category.downcase) ), @view.exam_path(params[:category_service], record)) : '',
-        record.esod_matter.present? ? link_to(record.esod_matter.znak, @view.esod_matter_path(record.esod_matter)) : '',
+        record.esod_matters.any? ? record.esod_matters.flat_map {|row| row.znak }.join(', ') : "",
         link_to(record.number, @view.exam_path(record.category.downcase, record)),
         record.date_exam,
         record.place_exam,
@@ -65,13 +63,17 @@ class ExamDatatable < AjaxDatatablesRails::Base
     #case options[:category_scope]
     case params[:category_service]
     when 'l'
-      Exam.includes(:esod_matter).references(:esod_matter).only_category_l.all
+      #Exam.includes(:esod_matter).references(:esod_matter).only_category_l.all
+      Exam.only_category_l.all
     when 'm'
-      Exam.includes(:esod_matter).references(:esod_matter).only_category_m.all
+      #Exam.includes(:esod_matter).references(:esod_matter).only_category_m.all
+      Exam.only_category_m.all
     when 'r'
-      Exam.includes(:esod_matter).references(:esod_matter).only_category_r.all
+      #Exam.includes(:esod_matter).references(:esod_matter).only_category_r.all
+      Exam.only_category_r.all
     else
-      Exam.includes(:esod_matter).references(:esod_matter).all
+      #Exam.includes(:esod_matter).references(:esod_matter).all
+      Exam.all
     end  
   end
 

@@ -2,7 +2,7 @@ class CertificatesController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index, :datatables_index_exam, :select2_index, :search]
 
-  before_action :set_certificate, only: [:show, :edit, :update, :destroy, :certificate_to_pdf]
+  before_action :set_certificate, only: [:show, :edit, :update, :destroy, :certificate_to_pdf, :esod_matter_link]
 
   # GET /certificates
   # GET /certificates.json
@@ -33,12 +33,18 @@ class CertificatesController < ApplicationController
     respond_to do |format|
       format.html
       format.json { 
-        render json: { 
-          certificates: @certificates_on_page.as_json(methods: :fullname, only: [:id, :fullname]),
-          total_count: @certificates.count 
-        } 
-      }
+        render json: @certificates_on_page, each_serializer: CertificateSerializer, meta: {total_count: @certificates.count}
+      } 
     end
+#    respond_to do |format|
+#      format.html
+#      format.json { 
+#        render json: { 
+#          certificates: @certificates_on_page.as_json(methods: :fullname, only: [:id, :fullname]),
+#          total_count: @certificates.count 
+#        } 
+#      }
+#    end
   end
 
   def search
@@ -92,6 +98,77 @@ class CertificatesController < ApplicationController
   # GET /certificates/1.json
   def show
     certificate_authorize(@certificate, "show", params[:category_service])
+
+    @esod_matter = @certificate.esod_matters.new(
+      nrid: nil,
+      znak: nil,
+      znak_sprawy_grupujacej: nil,
+      symbol_jrwa: Esodes::esod_matter_service_jrwa(@certificate.category).to_s,
+      tytul: "#{@certificate.customer.name} #{@certificate.customer.given_names}, #{@certificate.customer.address_city}",
+      termin_realizacji: @certificate.exam.date_exam + Esodes::limit_time_add_to_certificate(@certificate.category),
+      identyfikator_kategorii_sprawy: @certificate.category == 'L' ? Esodes::SWIADECTWO_BEZ_EGZAMINU : Esodes::DUPLIKAT,
+      identyfikator_stanowiska_referenta: nil,
+      czy_otwarta: true,
+      initialized_from_esod: nil,
+      netpar_user: nil )
+
+    @esod_matter.esod_matter_notes.build
+
+    # for incoming_letter_add action
+    @esod_incoming_letter = @certificate.esod_matters.last.esod_incoming_letters.new(
+      nrid: nil,
+      numer_ewidencyjny: nil,
+      tytul: "#{@certificate.customer.name} #{@certificate.customer.given_names}, #{@certificate.customer.address_city}, [#{@certificate.esod_category_name}]",
+      data_pisma: nil,
+      data_nadania: nil,
+      data_wplyniecia: DateTime.now.to_date,
+      znak_pisma_wplywajacego: nil,
+      identyfikator_typu_dcmd: 1,
+      identyfikator_rodzaju_dokumentu: 1,
+      identyfikator_sposobu_przeslania: 1,
+      identyfikator_miejsca_przechowywania: nil, #t.integer 
+      termin_na_odpowiedz: nil,
+      pelna_wersja_cyfrowa: true,
+      naturalny_elektroniczny: false,
+      liczba_zalacznikow: 0,
+      uwagi: nil,
+      identyfikator_osoby: nil,
+      identyfikator_adresu: nil,
+      esod_contractor: nil,
+      esod_address: nil,
+      initialized_from_esod: nil,
+      netpar_user: nil )
+
+    # for outgoing_letter_add action
+    @esod_outgoing_letter = @certificate.esod_matters.last.esod_outgoing_letters.new(
+      nrid: nil,
+      numer_ewidencyjny: nil,
+      tytul: "#{@certificate.customer.name} #{@certificate.customer.given_names}, #{@certificate.customer.address_city}, [#{@certificate.esod_category_name}], #{@certificate.number}",
+      wysylka: nil,
+      identyfikator_adresu: nil,
+      identyfikator_sposobu_wysylki: nil,
+      identyfikator_rodzaju_dokumentu_wychodzacego: nil,
+      data_pisma:  DateTime.now.to_date,
+      numer_wersji: nil,
+      uwagi: nil,
+      zakoncz_sprawe: true, 
+      zaakceptuj_dokument: true,
+      initialized_from_esod: nil,
+      netpar_user: nil )
+
+    # for internal_letter_add action
+    @esod_internal_letter = @certificate.esod_matters.last.esod_internal_letters.new(
+      nrid: nil,
+      numer_ewidencyjny: nil,
+      tytul: "#{@certificate.customer.name} #{@certificate.customer.given_names}, #{@certificate.customer.address_city}, [#{@certificate.esod_category_name}], #{@certificate.number}",
+      identyfikator_rodzaju_dokumentu_wewnetrznego: nil,
+      identyfikator_typu_dcmd: 1,
+      identyfikator_dostepnosci_dokumentu: 1,
+      uwagi: nil,
+      pelna_wersja_cyfrowa: true,
+      initialized_from_esod: nil,
+      netpar_user: nil )
+
      
     respond_to do |format|
       format.html { render :show, locals: { back_url: params[:back_url]} }
@@ -112,11 +189,11 @@ class CertificatesController < ApplicationController
 
     certificate_authorize(@certificate, "new", params[:category_service])
 
-    @esod_matter = load_esod_matter
-    if @esod_matter.present?
-      @certificate.esod_matter = @esod_matter
-      @certificate.esod_category = @esod_matter.identyfikator_kategorii_sprawy
-    end
+#    @esod_matter = load_esod_matter
+#    if @esod_matter.present?
+#      @certificate.esod_matter = @esod_matter
+#      @certificate.esod_category = @esod_matter.identyfikator_kategorii_sprawy
+#    end
 
     @exam = load_exam
     @certificate.exam = @exam
@@ -134,11 +211,11 @@ class CertificatesController < ApplicationController
   def edit
     certificate_authorize(@certificate, "edit", params[:category_service])
  
-    @esod_matter = load_esod_matter 
-    if @esod_matter.present? && @esod_matter != @certificate.esod_matter
-      @certificate.esod_matter = @esod_matter
-      @certificate.esod_category = @esod_matter.identyfikator_kategorii_sprawy
-    end
+#    @esod_matter = load_esod_matter 
+#    if @esod_matter.present? && @esod_matter != @certificate.esod_matter
+#      @certificate.esod_matter = @esod_matter
+#      @certificate.esod_category = @esod_matter.identyfikator_kategorii_sprawy
+#    end
 
     respond_to do |format|
       format.json
@@ -205,6 +282,22 @@ class CertificatesController < ApplicationController
     end
   end
 
+  # POST /certificates/:id/esod_matter_link
+  def esod_matter_link
+    certificate_authorize(@certificate, "update", params[:category_service])
+    @esod_matter = Esod::Matter.find_by(id: params[:source_id])
+    @esod_matter.certificate = @certificate
+
+    if @esod_matter.save
+      @esod_matter.works.create!(trackable_url: "#{esod_matter_path(@esod_matter)}", action: :esod_matter_link, user: current_user, 
+                            parameters: {esod_matter: @esod_matter.fullname, link: @certificate.fullname}.to_json)
+
+      redirect_to :back, notice: t('activerecord.messages.successfull.esod_matter_link', parent: @certificate.fullname, child: @esod_matter.fullname)
+    else
+      redirect_to :back, alert: t('activerecord.messages.error.esod_matter_link', parent: @certificate.fullname, child: @esod_matter.fullname)
+    end
+  end
+
   # DELETE /certificates/1
   # DELETE /certificates/1.json
   def destroy
@@ -245,10 +338,6 @@ class CertificatesController < ApplicationController
       @certificate = Certificate.find(params[:id])
     end
 
-    def load_esod_matter
-      Esod::Matter.find(params[:esod_matter_id]) if (params[:esod_matter_id]).present?
-    end
-
     def load_exam
       Exam.find(params[:exam_id]) if (params[:exam_id]).present?
     end
@@ -259,6 +348,6 @@ class CertificatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def certificate_params
-      params.require(:certificate).permit(:esod_category, :number, :date_of_issue, :valid_thru, :certificate_status, :division_id, :exam_id, :customer_id, :category, :note, :user_id, :esod_matter_id)
+      params.require(:certificate).permit(:esod_category, :number, :date_of_issue, :valid_thru, :canceled, :certificate_status, :division_id, :exam_id, :customer_id, :category, :note, :user_id)
     end
 end

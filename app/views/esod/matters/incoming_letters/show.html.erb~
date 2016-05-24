@@ -77,12 +77,12 @@
 
 <p>
   <strong>Id osoba:</strong>
-  <%= @esod_incoming_letter.id_osoba %>
+  <%= @esod_incoming_letter.identyfikator_osoby %>
 </p>
 
 <p>
   <strong>Id adres:</strong>
-  <%= @esod_incoming_letter.id_adres %>
+  <%= @esod_incoming_letter.identyfikator_adresu %>
 </p>
 
 <p>

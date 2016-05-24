@@ -1,7 +1,7 @@
 class CreateEsodAddresses < ActiveRecord::Migration
   def change
     create_table :esod_addresses do |t|
-      t.integer :nrid, index: true
+      t.integer :nrid, limit: 8
       t.string :miasto
       t.string :kod_pocztowy
       t.string :ulica
@@ -11,12 +11,13 @@ class CreateEsodAddresses < ActiveRecord::Migration
       t.string :panstwo
       t.string :email
       t.string :typ
-      t.integer :id_zalozyl
-      t.integer :id_aktualizowal
-      t.date :data_zalozenia
-      t.date :data_aktualizacji
-      t.boolean :initialized_from_esod
+      t.date :data_utworzenia
+      t.integer :identyfikator_osoby_tworzacej
+      t.date :data_modyfikacji
+      t.integer :identyfikator_osoby_modyfikujacej
+      t.boolean :initialized_from_esod, default: false
       t.integer :netpar_user
+      t.references :customer, index: true, foreign_key: true
 
       t.timestamps null: false
     end

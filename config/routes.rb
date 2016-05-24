@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       get 'select2_index', on: :collection
       get 'search', on: :collection
       get 'certificate_to_pdf', on: :member
+      post 'esod_matter_link', on: :member
     end
     resources :exams do
       post 'datatables_index', on: :collection
@@ -35,27 +36,40 @@ Rails.application.routes.draw do
       get 'envelopes_to_pdf', on: :member
       get 'committee_docx', on: :member
       patch 'certificates_generation', on: :member
+      post 'esod_matter_link', on: :member
     end
     resources :examinations do
       post 'datatables_index_exam', on: :collection # for Exam
       get 'examination_card_to_pdf', on: :member
       patch 'certificate_generation', on: :member
+      post 'esod_matter_link', on: :member
     end
-  end
-
-
-
-  resources :certificates, only: [] do
-    resources :documents, module: :certificates, only: [:create]
   end
 
   resources :exams, only: [] do
     resources :documents, module: :exams, only: [:create]
+    resources :esod_matters, module: :exams, only: [:create]
+    resources :esod_incoming_letters, module: :exams, only: [:create]
+    resources :esod_outgoing_letters, module: :exams, only: [:create]
+    resources :esod_internal_letters, module: :exams, only: [:create]
   end
 
   resources :examinations, only: [] do
     resources :documents, module: :examinations, only: [:create]
+    resources :esod_matters, module: :examinations, only: [:create]
+    resources :esod_incoming_letters, module: :examinations, only: [:create]
+    resources :esod_outgoing_letters, module: :examinations, only: [:create]
+    resources :esod_internal_letters, module: :examinations, only: [:create]
   end
+
+  resources :certificates, only: [] do
+    resources :documents, module: :certificates, only: [:create]
+    resources :esod_matters, module: :certificates, only: [:create]
+    resources :esod_incoming_letters, module: :certificates, only: [:create]
+    resources :esod_outgoing_letters, module: :certificates, only: [:create]
+    resources :esod_internal_letters, module: :certificates, only: [:create]
+  end
+
 
   resources :customers do
     post 'datatables_index', on: :collection
@@ -72,7 +86,6 @@ Rails.application.routes.draw do
   	resources :users, only: [:create, :destroy], controller: 'roles/users'
   end
 
-  #resources :documents, only: [:destroy]
   resources :documents, only: [:show, :destroy]
 
   resources :works, only: [:index] do
@@ -93,7 +106,7 @@ Rails.application.routes.draw do
     resources :matters do
       post 'datatables_index', on: :collection
       get 'select2_index', on: :collection
-      resources :incoming_letters, only: [:show], controller: 'matters/incoming_letters'
+      resources :incoming_letters, only: [:show, :create], controller: 'matters/incoming_letters'
       resources :outgoing_letters
       resources :internal_letters
     end

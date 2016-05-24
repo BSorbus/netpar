@@ -1,31 +1,7 @@
-# Represents exams
-#  create_table "exams", force: :cascade do |t|
-#    t.string   "number",     limit: 30, default: "",  null: false
-#    t.date     "date_exam"
-#    t.string   "place_exam", limit: 50, default: ""
-#    t.string   "chairman",   limit: 50, default: ""
-#    t.string   "secretary",  limit: 50, default: ""
-#    t.string   "category",   limit: 1,  default: "R", null: false
-#    t.text     "note",                  default: ""
-#    t.integer  "user_id"
-#    t.datetime "created_at",                          null: false
-#    t.datetime "updated_at",                          null: false
-#    t.integer  "examinations_count",            default: 0
-#    t.integer  "certificates_count",            default: 0
-#    t.integer  "esod_matter_id"
-#    t.integer  "esod_category"
-#  end
-#  add_index "exams", ["category"], name: "index_exams_on_category", using: :btree
-#  add_index "exams", ["date_exam"], name: "index_exams_on_date_exam", using: :btree
-#  add_index "exams", ["esod_matter_id"], name: "index_exams_on_esod_matter_id", using: :btree
-#  add_index "exams", ["number", "category"], name: "index_exams_on_number_and_category", unique: true, using: :btree
-#  add_index "exams", ["user_id"], name: "index_exams_on_user_id", using: :btree
-#
 require 'esodes'
 
 class Exam < ActiveRecord::Base
   belongs_to :user
-  belongs_to :esod_matter, class_name: "Esod::Matter", foreign_key: :esod_matter_id#, dependent: :delete
  
   has_many :certificates, dependent: :destroy
   has_many :examinations, dependent: :destroy
@@ -38,10 +14,9 @@ class Exam < ActiveRecord::Base
 
   has_many :works, as: :trackable
   has_many :documents, as: :documentable, dependent: :destroy
-  # has_many :customers, through: :certificates
-  # has_many :customers, through: :examinations
   has_many :certificate_customers, through: :certificates, source: :customer
   has_many :examination_customers, through: :examinations, source: :customer
+  has_many :esod_matters, class_name: "Esod::Matter", foreign_key: :exam_id, dependent: :nullify
 
   # validates
   validates :esod_category, presence: true, inclusion: { in: Esodes::ALL_CATEGORIES_EXAMS }
@@ -55,7 +30,7 @@ class Exam < ActiveRecord::Base
   validates :category, presence: true, inclusion: { in: %w(L M R) }
   validates :user, presence: true
 
-  validates :esod_matter, uniqueness: { case_sensitive: false }, allow_blank: true
+#  validates :esod_matter, uniqueness: { case_sensitive: false }, allow_blank: true
   validate :exam_has_examinations, on: :update, if: "esod_category != esod_category_was"
 
   # scopes
@@ -65,9 +40,6 @@ class Exam < ActiveRecord::Base
 
   # callbacks
   before_save { self.number = number.upcase }
-  #before_save :create_esod_matter, if: "esod_matter_id.blank?"
-  #before_save :update_esod_matter, unless: "esod_matter_id.blank?"
-
   before_destroy :exam_has_links, prepend: true
 
 
@@ -88,40 +60,8 @@ class Exam < ActiveRecord::Base
     Esodes::esod_matter_iks_name(esod_category)
   end
 
-
-  def create_esod_matter
-    esod_matter = Esod::Matter.create!(
-      nrid: nil,
-      znak: nil,
-      znak_sprawy_grupujacej: nil,
-      symbol_jrwa: Rails.application.secrets["esod_#{category.downcase}_jrwa"],
-      tytul: "#{number}, #{place_exam}",
-      termin_realizacji: date_exam,
-
-      identyfikator_kategorii_sprawy: Rails.application.secrets["esod_exam_#{category.downcase}_identyfikator_kategorii_sprawy"],
-
-      #identyfikator_kategorii_sprawy: esod_category,
-      #identyfikator_kategorii_sprawy: Esodes::SESJA,
-
-      adnotacja: "",
-      identyfikator_stanowiska_referenta: nil,
-      czy_otwarta: true,
-      data_utworzenia: nil,
-      data_modyfikacji: nil,
-      initialized_from_esod: false,
-      netpar_user: user_id
-    )
-    self.esod_matter = esod_matter 
-  end
-
-  def update_esod_matter
-    esod_matter = Esod::Matter.find_by(id: esod_matter_id)
-    esod_matter.tytul = "#{number}, #{place_exam}"
-    esod_matter.termin_realizacji = date_exam
-    if esod_matter.changed?
-      esod_matter.netpar_user = user_id
-      esod_matter.save! 
-    end
+  def flat_all_esod_matters
+    self.esod_matters.order(:id).flat_map {|row| row.znak }.join(' <br>').html_safe
   end
 
   def exam_has_examinations
@@ -179,11 +119,8 @@ class Exam < ActiveRecord::Base
   def generate_all_certificates(gen_user_id)
     for_generate_examinations =  Examination.joins(:division, :customer, :exam).where(exam_id: self.id, certificate: nil, examination_result: 'P').
                                   includes(:division, :customer, :exam, :certificate).references(:division, :customer, :exam, :certificate).order(:id).all
-
-    for_generate_examinations.each do |examination| 
-
+    for_generate_examinations.each do |examination|
       examination.generate_certificate(gen_user_id)
-
     end
 
   end

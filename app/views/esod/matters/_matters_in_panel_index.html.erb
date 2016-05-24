@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-sm-12">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th><%= Esod::Matter.human_attribute_name(:znak) %></th>
+          <th><%= Esod::Matter.human_attribute_name(:flat_all_letters_matters) %></th>
+          <th><%= Esod::Matter.human_attribute_name(:tytul) %></th>
+          <th><%= Esod::Matter.human_attribute_name(:identyfikator_kategorii_sprawy) %></th>
+          <th><%= Esod::Matter.human_attribute_name(:termin_realizacji) %></th>
+          <th><%= Esod::Matter.human_attribute_name(:flat_all_matter_notes) %></th> 
+        </tr>
+      </thead>
+      <tbody>
+        <% matterable.reload.esod_matters.order(id: :asc).each do |matter| %>
+          <tr>
+            <td><%= matter.znak %></td>
+            <td><%= matter.flat_all_incoming_letters_matters %><br>
+                <%= matter.flat_all_outgoing_letters_matters %><br>
+                <%= matter.flat_all_internal_letters_matters %></td>
+            <td><%= matter.tytul %></td>
+            <td><%= matter.iks_name %></td>
+            <td><%= matter.termin_realizacji %></td>
+            <td><%= matter.flat_all_matter_notes %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <small class="help-block"><%=t 'help_block_text.esod_matter.matter_index' %></small>
+  </div> <!-- /col-sm-12-->
+</div> <!-- /row -->

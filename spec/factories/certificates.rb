@@ -4,6 +4,7 @@ FactoryGirl.define do
     #number "Cert Nr."
     date_of_issue "2015-08-07"
     valid_thru "2015-08-07"
+    canceled false
     certificate_status "N"
     exam nil
     division nil
@@ -11,6 +12,7 @@ FactoryGirl.define do
     note "MyText"
     category "R"
     user nil
+    esod_category 1
 
     trait :lot do
       category 'L'

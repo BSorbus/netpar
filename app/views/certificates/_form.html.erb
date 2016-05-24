@@ -20,18 +20,6 @@
 
 <div class="row">
   <div class="form-group col-sm-7">
-    <%= f.label :esod_matter_id, class: "control-label" %>
-    <%= f.hidden_field :esod_matter_id,
-                      class: "form-control input-sm esod_matter_for_certificate_select_#{params[:category_service]}", 
-                      placeholder: "Wybierz Sprawę (Wniosek w służbie #{params[:category_service].upcase})",
-                      #disabled: !@exam.new_record?,
-                      disabled: input_disabled,
-                      autofocus: true, 
-                      style: "width:100%" %>
-    <small class="help-block"><%=t 'help_block_text.select2_esod_matter' %></small>
-  </div>
-
-  <div class="form-group col-sm-5">
     <%= f.label :esod_category, class: 'control-label' %>
     <% if "#{params[:category_service]}" == 'l' %>
       <%= f.select :esod_category, 
@@ -67,7 +55,6 @@
               disabled: input_disabled } %>
     <% end %>
   </div>
-
 </div>
 
 <hr class="hr-without-top-margin">

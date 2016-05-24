@@ -1,7 +1,7 @@
 class CreateEsodContractors < ActiveRecord::Migration
   def change
     create_table :esod_contractors do |t|
-      t.integer :nrid, index: true
+      t.integer :nrid, limit: 8
       t.string :imie
       t.string :nazwisko
       t.string :nazwa
@@ -10,12 +10,13 @@ class CreateEsodContractors < ActiveRecord::Migration
       t.string :nip
       t.string :pesel
       t.integer :rodzaj
-      t.integer :id_zalozyl
-      t.integer :id_aktualizowal
-      t.date :data_zalozenia
-      t.date :data_aktualizacji
-      t.boolean :initialized_from_esod, default: true
+      t.date :data_utworzenia
+      t.integer :identyfikator_osoby_tworzacej
+      t.date :data_modyfikacji
+      t.integer :identyfikator_osoby_modyfikujacej
+      t.boolean :initialized_from_esod, default: false
       t.integer :netpar_user
+      t.references :customer, index: true, foreign_key: true
 
       t.timestamps null: false
     end

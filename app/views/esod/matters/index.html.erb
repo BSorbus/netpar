@@ -12,39 +12,17 @@
 </div> <!-- /row search-form collapse -->
 
 <div class="col-sm-12">
-
-<%#= JSON.pretty_generate(@stanowiska) %>
-<%#= @deserialize_stanowisko %>
-
-<!-- <table>
-  <tr>
-    <th>Title</th>
-    <th>Text</th>
-  </tr>
- 
-  <%# @stanowiska.each do |st| %>
-    <tr>
-      <td><%#= st.nrid %></td>
-    </tr>
-  <%# end %>
-</table>
- -->
-</div> <!--/col-sm-12 -->
-
-
-<div class="col-sm-12">
-  <table id="esod_matters" class="hover cell-border" width="100%" data-source="<%= datatables_index_esod_matters_path(stanowisko_id: params[:stanowisko_id], open: params[:open], format: :json) %>">
+  <table id="esod_matters" class="hover cell-border" width="100%" data-source="<%= datatables_index_esod_matters_path(stanowisko_id: params[:stanowisko_id], esod_category: params[:esod_category], open: params[:open], format: :json) %>">
     <thead>
       <tr>
         <th> 0 ID </th>
-        <th> 1 nrid</th>
-        <th> 2 znak</th>
-        <th> 3 symbol_jrwa</th>
-        <th> 4 tytul</th>
-        <th> 5 termin_realizacji</th>
-        <th> 6 identyfikator_kategorii_sprawy</th>
-        <th> 7 identyfikator_stanowiska_referenta</th>
-        <th> 8 czy_otwarta</th>
+        <th> 1 znak</th>
+        <th> 2 symbol_jrwa</th>
+        <th> 3 tytul</th>
+        <th> 4 termin_realizacji</th>
+        <th> 5 identyfikator_kategorii_sprawy</th>
+        <th> 6 identyfikator_stanowiska_referenta</th>
+        <th> 7 czy_otwarta</th>
       </tr>
     </thead>
 

@@ -1,0 +1,494 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://www.dokus.pl/wspolne" xmlns:ns2="http://www.dokus.pl/slowniki/mt/slowniki" xmlns:ns3="http://www.dokus.pl/slowniki/ws/slowniki">
+   <SOAP-ENV:Body>
+      <ns3:wyszukajRodzajeDokumentowWewnetrznychResponse>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:36:27</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:36:27</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>191</ns2:nrid>
+            <ns2:nazwa>cofnięcie powołania</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>190</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:42:18</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:42:18</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>208</ns2:nrid>
+            <ns2:nazwa>sprawozdanie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>200</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:40:49</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:40:49</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>201</ns2:nrid>
+            <ns2:nazwa>analiza</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>200</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:36:42</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:36:42</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>192</ns2:nrid>
+            <ns2:nazwa>delegacja</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>190</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:26:47</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:26:47</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>181</ns2:nrid>
+            <ns2:nazwa>rozliczenie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>180</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:45:40</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:45:40</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>214</ns2:nrid>
+            <ns2:nazwa>opinia prawna</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>211</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:50:49</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:50:49</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>232</ns2:nrid>
+            <ns2:nazwa>zalecenie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>223</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:27:01</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:27:01</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>182</ns2:nrid>
+            <ns2:nazwa>faktura</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>180</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:36:59</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:36:59</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>193</ns2:nrid>
+            <ns2:nazwa>polecenie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>190</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:41:02</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:41:03</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>202</ns2:nrid>
+            <ns2:nazwa>ankieta</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>200</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:27:27</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:27:27</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>183</ns2:nrid>
+            <ns2:nazwa>karta</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>180</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:49:51</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:49:51</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>227</ns2:nrid>
+            <ns2:nazwa>procedura</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>223</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:42:30</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:42:30</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>209</ns2:nrid>
+            <ns2:nazwa>wykaz</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>200</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:37:18</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:37:18</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>194</ns2:nrid>
+            <ns2:nazwa>polecenie służbowe</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>190</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:28:14</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:28:14</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>184</ns2:nrid>
+            <ns2:nazwa>nota</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>180</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:47:49</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:47:49</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>220</ns2:nrid>
+            <ns2:nazwa>wniosek wewnętrzny</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>219</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:41:15</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:41:15</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>203</ns2:nrid>
+            <ns2:nazwa>formularz</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>200</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:28:30</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:28:30</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>185</ns2:nrid>
+            <ns2:nazwa>rachunek</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>180</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:37:33</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:37:33</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>195</ns2:nrid>
+            <ns2:nazwa>powołanie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>190</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:45:53</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:45:53</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>215</ns2:nrid>
+            <ns2:nazwa>oświadczenie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>211</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:42:44</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:42:44</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>210</ns2:nrid>
+            <ns2:nazwa>zestawienie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>200</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:37:47</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:37:47</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>196</ns2:nrid>
+            <ns2:nazwa>upoważnienie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>190</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:29:18</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:29:18</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>187</ns2:nrid>
+            <ns2:nazwa>umowa</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>180</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:41:30</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:41:30</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>204</ns2:nrid>
+            <ns2:nazwa>karta drogowa</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>200</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:36:01</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:38:00</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>190</ns2:nrid>
+            <ns2:nazwa>Polecenia</ns2:nazwa>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:29:30</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:29:30</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>188</ns2:nrid>
+            <ns2:nazwa>wyciąg</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>180</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:38:00</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:38:00</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>197</ns2:nrid>
+            <ns2:nazwa>zlecenie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>190</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:26:22</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:29:47</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>180</ns2:nrid>
+            <ns2:nazwa>Dokumenty księgowe</ns2:nazwa>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:29:47</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:29:47</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>189</ns2:nrid>
+            <ns2:nazwa>zamówienie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>180</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:49:02</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:49:02</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>224</ns2:nrid>
+            <ns2:nazwa>harmonogram</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>223</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:41:41</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:41:41</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>205</ns2:nrid>
+            <ns2:nazwa>raport</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>200</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:38:10</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:38:24</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>198</ns2:nrid>
+            <ns2:nazwa>Protokoły</ns2:nazwa>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:38:24</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:38:24</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>199</ns2:nrid>
+            <ns2:nazwa>protokół</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>198</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:46:06</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:46:06</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>216</ns2:nrid>
+            <ns2:nazwa>stanowisko</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>211</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:41:53</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:41:53</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>206</ns2:nrid>
+            <ns2:nazwa>rejestr</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>200</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:48:03</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:48:03</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>221</ns2:nrid>
+            <ns2:nazwa>ogłoszenie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>219</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:50:26</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:50:26</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>230</ns2:nrid>
+            <ns2:nazwa>regulamin</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>223</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:42:03</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:42:03</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>207</ns2:nrid>
+            <ns2:nazwa>spis</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>200</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:45:12</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:45:12</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>212</ns2:nrid>
+            <ns2:nazwa>informacja</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>211</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:46:24</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:46:24</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>217</ns2:nrid>
+            <ns2:nazwa>wyjaśnienie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>211</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-11-23 16:28:58</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>1</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:48:19</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>178</ns2:nrid>
+            <ns2:nazwa>Wniosek urlopowy</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>219</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:45:25</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:45:25</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>213</ns2:nrid>
+            <ns2:nazwa>notatka</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>211</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:49:16</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:49:16</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>225</ns2:nrid>
+            <ns2:nazwa>instrukcja</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>223</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:44:56</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:46:47</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>211</ns2:nrid>
+            <ns2:nazwa>"Stanowiska"</ns2:nazwa>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:46:47</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:46:47</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>218</ns2:nrid>
+            <ns2:nazwa>zaświadczenie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>211</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:50:02</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:50:02</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>228</ns2:nrid>
+            <ns2:nazwa>program</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>223</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:47:28</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:48:37</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>219</ns2:nrid>
+            <ns2:nazwa>Wnioski wew. / Ogłoszenia</ns2:nazwa>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:48:37</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:48:37</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>222</ns2:nrid>
+            <ns2:nazwa>zapytanie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>219</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:40:37</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2016-02-10 14:31:14</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>200</ns2:nrid>
+            <ns2:nazwa>Sprawozdania / Raporty</ns2:nazwa>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2016-02-10 14:31:14</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>1305</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2016-02-10 14:31:14</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>1305</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>234</ns2:nrid>
+            <ns2:nazwa>Karta zakłóceń</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>200</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:49:30</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:49:30</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>226</ns2:nrid>
+            <ns2:nazwa>plan</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>223</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:50:37</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:50:37</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>231</ns2:nrid>
+            <ns2:nazwa>wytyczne</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>223</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:48:49</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:51:00</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>223</ns2:nrid>
+            <ns2:nazwa>Wytyczne / Instrukcje</ns2:nazwa>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:50:14</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:50:14</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>229</ns2:nrid>
+            <ns2:nazwa>propozycja</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>223</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+         <ns2:rodzajDokumentuWewnetrznego>
+            <ns1:dataUtworzenia>2015-12-31 09:51:00</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2015-12-31 09:51:00</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>233</ns2:nrid>
+            <ns2:nazwa>zarządzenie</ns2:nazwa>
+            <ns2:identyfikatorRodzajuNadrzednego>223</ns2:identyfikatorRodzajuNadrzednego>
+         </ns2:rodzajDokumentuWewnetrznego>
+      </ns3:wyszukajRodzajeDokumentowWewnetrznychResponse>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

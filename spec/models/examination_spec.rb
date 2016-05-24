@@ -13,7 +13,6 @@ RSpec.describe Examination, type: :model do
   it { should respond_to(:user_id) }
   it { should respond_to(:certificate_id) }
   it { should respond_to(:esod_category) }
-  it { should respond_to(:esod_matter_id) }
 
   it { should validate_presence_of(:category) }
   it { should validate_inclusion_of(:category).in_array(['L', 'M', 'R']) }

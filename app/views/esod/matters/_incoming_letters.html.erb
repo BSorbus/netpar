@@ -9,12 +9,11 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th><%= Esod::IncomingLetter.human_attribute_name(:nrid) %></th>
+            <th><%= Esod::IncomingLettersMatter.human_attribute_name(:sygnatura) %></th>
             <th><%= Esod::IncomingLetter.human_attribute_name(:numer_ewidencyjny) %></th>
             <th><%= Esod::IncomingLetter.human_attribute_name(:tytul) %></th>
             <th><%= Esod::IncomingLetter.human_attribute_name(:data_wplyniecia) %></th>
             <th><%= Esod::IncomingLetter.human_attribute_name(:termin_na_odpowiedz) %></th>
-            <th><%= Esod::IncomingLettersMatter.human_attribute_name(:sygnatura) %></th>
             <th><%= Esod::Contractor.human_attribute_name(:fullname) %></th>
             <th><%= Esod::Address.human_attribute_name(:fullname) %></th>
           </tr>
@@ -23,17 +22,13 @@
         <tbody>
           <% @esod_matter.esod_incoming_letters_matters.order(id: :desc).each do |letter_matter| %>
             <tr>
-              <td><%= letter_matter.esod_incoming_letters.nrid %></td>
-              <td><%= letter_matter.esod_incoming_letters.numer_ewidencyjny %></td>
-              <td><%= letter_matter.esod_incoming_letters.tytul %></td>
-              <td><%= letter_matter.esod_incoming_letters.data_wplyniecia %></td>
-              <td><%= letter_matter.esod_incoming_letters.termin_na_odpowiedz %></td>
-<!--            <td><%= letter_matter.sygnatura %></td> -->
-              <td>
-                <%= link_to( letter_matter.sygnatura, esod_matter_incoming_letter_path(letter_matter.esod_matters, letter_matter.esod_incoming_letters) ) %></h5>
-              </td>
-              <td><%= letter_matter.esod_incoming_letters.esod_contractor.fullname %></td>
-              <td><%= letter_matter.esod_incoming_letters.esod_address.fullname %></td>
+              <td><%= link_to( letter_matter.sygnatura, esod_matter_incoming_letter_path(letter_matter.esod_matter, letter_matter.esod_incoming_letter) ) %></td>
+              <td><%= letter_matter.esod_incoming_letter.numer_ewidencyjny %></td>
+              <td><%= letter_matter.esod_incoming_letter.tytul %></td>
+              <td><%= letter_matter.esod_incoming_letter.data_wplyniecia %></td>
+              <td><%= letter_matter.esod_incoming_letter.termin_na_odpowiedz %></td>
+              <td><%= letter_matter.esod_incoming_letter.esod_contractor.fullname %></td>
+              <td><%= letter_matter.esod_incoming_letter.esod_address.fullname %></td>
             </tr>
           <% end %>
 

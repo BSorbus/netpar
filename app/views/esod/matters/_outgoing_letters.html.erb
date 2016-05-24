@@ -9,28 +9,26 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th><%= Esod::OutgoingLetter.human_attribute_name(:nrid) %></th>
+            <th><%= Esod::OutgoingLettersMatter.human_attribute_name(:sygnatura) %></th>
             <th><%= Esod::OutgoingLetter.human_attribute_name(:numer_ewidencyjny) %></th>
             <th><%= Esod::OutgoingLetter.human_attribute_name(:tytul) %></th>
             <th><%= Esod::OutgoingLetter.human_attribute_name(:wysylka) %></th>
             <th><%= Esod::OutgoingLetter.human_attribute_name(:data_pisma) %></th>
             <th><%= Esod::OutgoingLetter.human_attribute_name(:identyfikator_rodzaju_dokumentu_wychodzacego) %></th>
             <th><%= Esod::OutgoingLetter.human_attribute_name(:numer_wersji) %></th>
-            <th><%= Esod::OutgoingLettersMatter.human_attribute_name(:sygnatura) %></th>
           </tr>
         </thead>
 
         <tbody>
           <% @esod_matter.esod_outgoing_letters_matters.order(id: :desc).each do |letter_matter| %>
               <tr>
-                <td><%= letter_matter.esod_outgoing_letters.nrid %></td>
-                <td><%= letter_matter.esod_outgoing_letters.numer_ewidencyjny %></td>
-                <td><%= letter_matter.esod_outgoing_letters.tytul %></td>
-                <td><%= letter_matter.esod_outgoing_letters.wysylka %></td>
-                <td><%= letter_matter.esod_outgoing_letters.data_pisma %></td>
-                <td><%= letter_matter.esod_outgoing_letters.identyfikator_rodzaju_dokumentu_wychodzacego %></td>
-                <td><%= letter_matter.esod_outgoing_letters.numer_wersji %></td>
                 <td><%= letter_matter.sygnatura %></td>
+                <td><%= letter_matter.esod_outgoing_letter.numer_ewidencyjny %></td>
+                <td><%= letter_matter.esod_outgoing_letter.tytul %></td>
+                <td><%= letter_matter.esod_outgoing_letter.wysylka %></td>
+                <td><%= letter_matter.esod_outgoing_letter.data_pisma %></td>
+                <td><%= letter_matter.esod_outgoing_letter.identyfikator_rodzaju_dokumentu_wychodzacego %></td>
+                <td><%= letter_matter.esod_outgoing_letter.numer_wersji %></td>
               </tr>
           <% end %>
 

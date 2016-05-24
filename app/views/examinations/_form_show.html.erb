@@ -5,10 +5,6 @@
 
 
 <div class="row">
-  <div class="form-group col-sm-7">
-    <p><strong><%= Examination.human_attribute_name(:esod_matter_id) %></strong></p>
-    <h5><%= @examination.esod_matter.present? ? link_to(@examination.esod_matter.fullname, esod_matter_path(@examination.esod_matter)) : ''%></h5>
-  </div>
 
   <div class="form-group col-sm-5">
     <p><strong><%= Examination.human_attribute_name(:esod_category) %></strong></p>

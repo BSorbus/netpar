@@ -1,0 +1,20 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://www.dokus.pl/wspolne" xmlns:ns2="http://www.dokus.pl/slowniki/mt/slowniki" xmlns:ns3="http://www.dokus.pl/slowniki/ws/slowniki">
+   <SOAP-ENV:Body>
+      <ns3:wyszukajDostepnosciDokumentowResponse>
+         <ns2:dostepnoscDokumentu>
+            <ns1:dataUtworzenia>2013-09-17 15:01:27</ns1:dataUtworzenia>
+            <ns1:dataModyfikacji>2013-09-17 15:01:27</ns1:dataModyfikacji>
+            <ns2:nrid>1</ns2:nrid>
+            <ns2:nazwa>Publiczny</ns2:nazwa>
+         </ns2:dostepnoscDokumentu>
+         <ns2:dostepnoscDokumentu>
+            <ns1:dataUtworzenia>2016-04-25 10:45:33</ns1:dataUtworzenia>
+            <ns1:identyfikatorOsobyTworzacej>1307</ns1:identyfikatorOsobyTworzacej>
+            <ns1:dataModyfikacji>2016-04-25 10:45:46</ns1:dataModyfikacji>
+            <ns1:identyfikatorOsobyModyfikujacej>1307</ns1:identyfikatorOsobyModyfikujacej>
+            <ns2:nrid>4</ns2:nrid>
+            <ns2:nazwa>Niepubliczny</ns2:nazwa>
+         </ns2:dostepnoscDokumentu>
+      </ns3:wyszukajDostepnosciDokumentowResponse>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
