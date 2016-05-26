@@ -18,23 +18,22 @@
   </div>
 <% end %>
 
-<div class="row">
-  <div class="form-group col-sm-7">
-    <%= f.label :esod_category, class: 'control-label' %>
-    <%= f.select :esod_category, 
-          options_for_select([["#{Esodes::esod_matter_iks_name(Esodes::EGZAMIN)}", Esodes::EGZAMIN],
-                              ["#{Esodes::esod_matter_iks_name(Esodes::POPRAWKOWY)}", Esodes::POPRAWKOWY], 
-                              ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM)}", Esodes::ODNOWIENIE_Z_EGZAMINEM], 
-                              ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY)}", Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY]], selected: @examination.esod_category), 
-          { include_blank: false}, 
-          { autofocus: @examination.new_record?, class: 'form-control input-sm', disabled: !@examination.new_record? } %>
-  </div>
-</div>
-
-<hr class="hr-without-top-margin">
 
 <div class="row">
   <div class="col-sm-7">
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <%= f.label :esod_category, class: 'control-label' %>
+        <%= f.select :esod_category, 
+              options_for_select([["#{Esodes::esod_matter_iks_name(Esodes::EGZAMIN)}", Esodes::EGZAMIN],
+                                  ["#{Esodes::esod_matter_iks_name(Esodes::POPRAWKOWY)}", Esodes::POPRAWKOWY], 
+                                  ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM)}", Esodes::ODNOWIENIE_Z_EGZAMINEM], 
+                                  ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY)}", Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY]], selected: @examination.esod_category), 
+              { include_blank: false}, 
+              { autofocus: @examination.new_record?, class: 'form-control input-sm', disabled: !@examination.new_record? } %>
+      </div>
+    </div>  <!-- /row -->
 
     <div class="row">
       <div class="form-group col-sm-12">
@@ -88,23 +87,7 @@
       </div>
     </div>
 
-
-
-
   </div>  <!-- /col-sm-7 -->
-
-  <div class="col-sm-5">
-    <blockquote>
-      <p>Uwaga!</p>
-      <h5>1. Pozostawienie pustego pola "<strong><%= Exam.human_attribute_name('esod_matter') %></strong>" 
-        podczas dodawania osoby do egzaminu automatycznie wygeneruje sprawę w systemie ESOD!<br>
-        Jeżeli nie chcesz tworzyć nowej sprawy w systemie ESOD musisz wybrać z listy spraw istniejącą już pozycję.</h5>
-      <h5>2. Wybranie określonej sprawy w polu "<strong><%= Exam.human_attribute_name('esod_matter') %></strong>"
-        i wprowadzenie wartości niezgodnych z jej tytułem i opisem spowoduje zmianę danych w ESOD!</h5>
-    </blockquote>
-
-
-  </div> <!-- /col-sm-5 -->
 
 </div>  <!-- /row -->
 

@@ -201,13 +201,23 @@ module Esodes
 
 
 
-  def self.test_esod_whenever(mess)
-    puts "#{mess} - WHENEVER works correctly :)"
-    "#{mess}"
+  def self.esod_whenever_sprawy(user_id)
+    date_step = 1.day
+    start_date = Date.parse('2016-04-01')
+    end_date = start_date + date_step
+
+    Esodes::EsodTokenData.new(netpar_user_id: user_id)
+
+    while start_date < end_date
+      Esod::Matter.get_wyszukaj_sprawy_referenta("#{start_date}","#{end_date}")
+      if end_date < Time.current
+      start_date += date_step
+        end_date += date_step 
+      else
+        break
+      end
+    end
   end
-
-
-
 
 
   class EsodTokenData

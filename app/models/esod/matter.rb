@@ -58,15 +58,15 @@ class Esod::Matter < ActiveRecord::Base
   end
 
   def flat_all_incoming_letters_matters
-    self.esod_incoming_letters_matters.order(:id).flat_map {|row| "(P) #{row.sygnatura}" }.join(' <br>').html_safe
+    self.esod_incoming_letters_matters.order(:id).flat_map {|row| "#{row.sygnatura} [#{row.esod_incoming_letter.numer_ewidencyjny}] (P)" }.join(' <br>').html_safe
   end
 
   def flat_all_outgoing_letters_matters
-    self.esod_outgoing_letters_matters.order(:id).flat_map {|row| "(W) #{row.sygnatura}" }.join(' <br>').html_safe
+    self.esod_outgoing_letters_matters.order(:id).flat_map {|row| "#{row.sygnatura} [#{row.esod_outgoing_letter.numer_ewidencyjny}] (W)" }.join(' <br>').html_safe
   end
 
   def flat_all_internal_letters_matters
-    self.esod_internal_letters_matters.order(:id).flat_map {|row| "(I) #{row.sygnatura}" }.join(' <br>').html_safe
+    self.esod_internal_letters_matters.order(:id).flat_map {|row| "#{row.sygnatura} [#{row.esod_internal_letter.numer_ewidencyjny}] (I)" }.join(' <br>').html_safe
   end
 
   # Scope for select2: "exam_select"
@@ -213,6 +213,194 @@ class Esod::Matter < ActiveRecord::Base
       #raise CustomError, fault_code
       #raise
       
+  end
+
+
+  def self.get_wyszukaj_sprawy_referenta(data_start, data_end)
+    client = Savon.client(
+      encoding: "UTF-8",
+      wsdl: "#{Esodes::ESOD_API_SERVER}/wsdl/sprawy/ws/sprawy.wsdl",
+      endpoint: "#{Esodes::ESOD_API_SERVER}/uslugi.php/sprawy/handle",
+      namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+                    "xmlns:mt" => "http://www.dokus.pl/sprawy/mt",
+                    "xmlns:ws" => "http://www.dokus.pl/sprawy/ws", 
+                    "xmlns:wsp" => "http://www.dokus.pl/wspolne",
+                    "xmlns:ns1" => "http://www.dokus.pl/wspolne", 
+                    "xmlns:ns2" => "http://www.dokus.pl/sprawy/mt", 
+                    "xmlns:ns3" => "http://www.dokus.pl/sprawy/ws" },
+      namespace_identifier: :ws, #"xmlns:ws" => "http://www.dokus.pl/sprawy/ws/utworzSprawe", 
+      strip_namespaces: true,
+      logger: Rails.logger,
+      log_level: :debug,
+      log: true,
+      pretty_print_xml: true,
+      env_namespace: :soapenv,
+      soap_version: 2,
+      wsse_auth: [Esodes::EsodTokenData.netpar_user.email, Esodes::EsodTokenData.token_string],
+      soap_header: { "wsp:metaParametry" => 
+                      { "wsp:identyfikatorStanowiska" => Esodes::EsodTokenData.token_stanowiska.first[:nrid] } 
+                    }
+    )
+
+    message_body = { 
+      "mt:sprawyPoDacie" => "#{data_start}",
+      "mt:sprawySprzedDaty" => "#{data_end}"
+      }
+
+    response = client.call(:wyszukaj_sprawy_referenta,  message: message_body )
+
+    if response.success?
+      response.xpath("//*[local-name()='wyszukajSprawyReferentaResponse']").each do |resp|
+        resp.xpath("./*[local-name()='sprawa']").each do |row|
+          puts '----------------------------------------------------------------'
+          puts '-------------------         SPRAWA           -------------------'
+          puts '----------------------------------------------------------------'
+          puts row.xpath("./*[local-name()='nrid']").text
+          puts row.xpath("./*[local-name()='dataUtworzenia']").text
+          puts row.xpath("./*[local-name()='znak']").text
+          puts row.xpath("./*[local-name()='symbolJRWA']").text
+          puts row.xpath("./*[local-name()='tytul']").text
+          puts row.xpath("./*[local-name()='terminRealizacji']").text
+          puts row.xpath("./*[local-name()='identyfikatorKategoriiSprawy']").text
+          puts row.xpath("./*[local-name()='adnotacja']").text
+          puts '----------------------------------------------------------------'
+          self.get_wyszukaj_dokumenty_sprawy(row.xpath("./*[local-name()='nrid']").text)
+        end
+      end
+    end
+
+  end
+
+
+
+  def self.get_wyszukaj_dokumenty_sprawy(id)
+    client = Savon.client(
+      encoding: "UTF-8",
+      wsdl: "#{Esodes::ESOD_API_SERVER}/wsdl/sprawy/ws/sprawy.wsdl",
+      endpoint: "#{Esodes::ESOD_API_SERVER}/uslugi.php/sprawy/handle",
+      namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+                    "xmlns:mt" => "http://www.dokus.pl/sprawy/mt",
+                    "xmlns:ws" => "http://www.dokus.pl/sprawy/ws", 
+                    "xmlns:wsp" => "http://www.dokus.pl/wspolne",
+                    "xmlns:ns1" => "http://www.dokus.pl/sprawy/mt", 
+                    "xmlns:ns2" => "http://www.dokus.pl/sprawy", 
+                    "xmlns:ns3" => "http://www.dokus.pl/dokumenty/mt/dokumenty_przychodzace", 
+                    "xmlns:ns4" => "http://www.dokus.pl/slowniki/mt/slowniki", 
+                    "xmlns:ns5" => "http://www.dokus.pl/sprawy/ws" },
+      namespace_identifier: :ws, #"xmlns:ws" => "http://www.dokus.pl/sprawy/ws/utworzSprawe", 
+      strip_namespaces: true,
+      logger: Rails.logger,
+      log_level: :debug,
+      log: true,
+      pretty_print_xml: true,
+      env_namespace: :soapenv,
+      soap_version: 2,
+      wsse_auth: [Esodes::EsodTokenData.netpar_user.email, Esodes::EsodTokenData.token_string],
+      soap_header: { "wsp:metaParametry" => 
+                      { "wsp:identyfikatorStanowiska" => Esodes::EsodTokenData.token_stanowiska.first[:nrid] } 
+                    }
+    )
+
+    message_body = { 
+      "mt:nrid" => "#{id}"
+      }
+
+    response = client.call(:pobierz_dokumenty_sprawy,  message: message_body )
+
+    if response.success?
+      response.xpath("//*[local-name()='pobierzDokumentySprawyResponse']").each do |resp|
+        resp.xpath("./*[local-name()='dokument']").each do |dok|
+          puts dok.xpath("./*[local-name()='sygnatura']").text
+          dok.xpath("./*[local-name()='dokumentPrzychodzacy']").each do |row|
+            puts '++++++++++++++++   DOKUMENT PRZYCHODZACY    ++++++++++++++++++++'
+            puts row.xpath("./*[local-name()='dataUtworzenia']").text
+            puts row.xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text
+            puts row.xpath("./*[local-name()='dataModyfikacji']").text
+            puts row.xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text
+            puts row.xpath("./*[local-name()='nrid']").text
+            puts row.xpath("./*[local-name()='numerEwidencyjny']").text
+            puts row.xpath("./*[local-name()='tytul']").text
+            puts row.xpath("./*[local-name()='dataPisma']").text
+            puts row.xpath("./*[local-name()='dataNadania']").text
+            puts row.xpath("./*[local-name()='dataWplyniecia']").text
+            puts row.xpath("./*[local-name()='znakPismaWplywajacego']").text
+            puts row.xpath("./*[local-name()='identyfikatorTypuDCMD']").text
+            puts row.xpath("./*[local-name()='identyfikatorRodzajuDokumentu']").text
+            puts row.xpath("./*[local-name()='identyfikatorSposobuPrzeslania']").text
+            puts row.xpath("./*[local-name()='znakPismaWplywajacego']").text
+            puts '         --- nadawca:'
+            row.xpath("./*[local-name()='nadawca']").each do |nad|
+              puts '            --- osoba:'
+              puts nad.xpath("./*[local-name()='osoba']").xpath("./*[local-name()='dataUtworzenia']").text
+              puts nad.xpath("./*[local-name()='osoba']").xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text
+              puts nad.xpath("./*[local-name()='osoba']").xpath("./*[local-name()='dataModyfikacji']").text
+              puts nad.xpath("./*[local-name()='osoba']").xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text
+              puts nad.xpath("./*[local-name()='osoba']").xpath("./*[local-name()='nrid']").text
+              puts nad.xpath("./*[local-name()='osoba']").xpath("./*[local-name()='imie']").text
+              puts nad.xpath("./*[local-name()='osoba']").xpath("./*[local-name()='nazwisko']").text
+              puts nad.xpath("./*[local-name()='osoba']").xpath("./*[local-name()='pesel']").text
+              puts nad.xpath("./*[local-name()='osoba']").xpath("./*[local-name()='rodzaj']").xpath("./*[local-name()='nrid']").text
+              puts nad.xpath("./*[local-name()='osoba']").xpath("./*[local-name()='rodzaj']").xpath("./*[local-name()='nazwa']").text
+              puts nad.xpath("./*[local-name()='osoba']").xpath("./*[local-name()='rodzaj']").xpath("./*[local-name()='rodzaj_epuap']").text
+              puts '            -------'
+              puts '            --- adres:'
+              puts nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='dataUtworzenia']").text
+              puts nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text
+              puts nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='dataModyfikacji']").text
+              puts nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text
+              puts nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='nrid']").text
+              puts nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='miasto']").text
+              puts nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='kodPocztowy']").text
+              puts nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='ulica']").text
+              puts nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='numerBudynku']").text
+              puts nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='numerLokalu']").text
+              puts nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='panstwo']").text
+              puts '            -------'
+            end
+            puts '         ------------'
+            puts row.xpath("./*[local-name()='pelnaWersjaCyfrowa']").text
+            puts row.xpath("./*[local-name()='naturalnyElektroniczny']").text
+            puts row.xpath("./*[local-name()='uwagi']").text
+            puts '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          end
+
+          dok.xpath("./*[local-name()='dokumentWychodzacy']").each do |row|
+            puts '++++++++++++++++    DOKUMENT WYCHODZACY     ++++++++++++++++++++'
+            puts row.xpath("./*[local-name()='nrid']").text
+            puts row.xpath("./*[local-name()='numerEwidencyjny']").text
+            puts row.xpath("./*[local-name()='tytul']").text
+            puts '         --- wysyłka:'
+            puts row.xpath("./*[local-name()='wysylka']").xpath("./*[local-name()='identyfikatorAdresu']").text
+            puts row.xpath("./*[local-name()='wysylka']").xpath("./*[local-name()='identyfikatorSposobuWysylki']").text
+            puts row.xpath("./*[local-name()='wysylka']").xpath("./*[local-name()='dataWyslania']").text
+            puts row.xpath("./*[local-name()='wysylka']").xpath("./*[local-name()='czyAdresatGlowny']").text
+            puts '         -----------'
+            puts row.xpath("./*[local-name()='identyfkatorRodzajuDokumentuWychodzacego']").text
+            puts row.xpath("./*[local-name()='dataPisma']").text
+            puts row.xpath("./*[local-name()='numerWersji']").text
+            puts row.xpath("./*[local-name()='czyPelnaWersjaCyfrowa']").text
+            puts '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          end
+          dok.xpath("./*[local-name()='dokumentWewnetrzny']").each do |row|
+            puts '++++++++++++++++    DOKUMENT WEWNĘTRZNY     ++++++++++++++++++++'
+            puts row.xpath("./*[local-name()='nrid']").text
+            puts row.xpath("./*[local-name()='numerEwidencyjny']").text
+            puts row.xpath("./*[local-name()='tytul']").text
+            puts row.xpath("./*[local-name()='uwagi']").text
+            puts row.xpath("./*[local-name()='identyfikatorRodzajuDokumentuWewnetrznego']").text
+            puts row.xpath("./*[local-name()='identyfikatorTypuDCMD']").text
+            puts row.xpath("./*[local-name()='identyfikatorDostepnosciDokumentu']").text
+            puts row.xpath("./*[local-name()='czyPelnaWersjaCyfrowa']").text
+            puts '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          end
+
+        end
+      end
+    end
+
+    rescue 
+      logger.fatal "ERROR!!! "
+
   end
 
 

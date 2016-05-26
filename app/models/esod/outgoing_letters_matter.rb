@@ -21,7 +21,11 @@ class Esod::OutgoingLettersMatter < ActiveRecord::Base
                     "xmlns:dok1" => "http://www.dokus.pl/dokumenty/mt/dokumenty_wychodzace", 
                     "xmlns:mt" => "http://www.dokus.pl/dokumenty/pliki/mt", 
                     "xmlns:slow" => "http://www.dokus.pl/slowniki/mt/slowniki", 
-                    "xmlns:wsp" => "http://www.dokus.pl/wspolne"
+                    "xmlns:wsp" => "http://www.dokus.pl/wspolne",
+                    "xmlns:ns1" => "http://www.dokus.pl/wspolne", 
+                    "xmlns:ns2" => "http://www.dokus.pl/dokumenty/mt/dokumenty_wychodzace", 
+                    "xmlns:ns3" => "http://www.dokus.pl/dokumenty/pliki/mt", 
+                    "xmlns:ns4" => "http://www.dokus.pl/dokumenty/ws/dokumentywychodzace"
                   },
       namespace_identifier: :dok, #"xmlns:ws" => "http://www.dokus.pl/sprawy/ws/utworzSprawe", 
       strip_namespaces: true,
@@ -37,8 +41,6 @@ class Esod::OutgoingLettersMatter < ActiveRecord::Base
                     }
     )
 
-#        "dataWyslania" => "#{self.identyfikator_adresu}",
-
     message_body = { 
       "dok1:identyfikatorSprawy" => "#{self.sprawa}", 
       "dok1:tytul" => "#{self.esod_outgoing_letter.tytul}", 
@@ -46,6 +48,7 @@ class Esod::OutgoingLettersMatter < ActiveRecord::Base
       "dok1:wysylka" => {
         "identyfikatorAdresu" => "#{self.esod_outgoing_letter.identyfikator_adresu}",
         "identyfikatorSposobuWysylki" => "#{self.esod_outgoing_letter.identyfikator_sposobu_wysylki}",
+        "dataWyslania" => "#{self.esod_outgoing_letter.data_wyslania}",
         "czyAdresatGlowny" => true
       },
       "dok1:identyfkatorRodzajuDokumentuWychodzacego" => "#{self.esod_outgoing_letter.identyfikator_rodzaju_dokumentu_wychodzacego}",
@@ -58,11 +61,10 @@ class Esod::OutgoingLettersMatter < ActiveRecord::Base
 
     if response.success?
       response.xpath("//*[local-name()='utworzDokumentWychodzacyResponse']").each do |row|
-# !!!!!!!!!!!!!!
-#        self.esod_outgoing_letter.data_utworzenia = row.xpath("./*[local-name()='dataUtworzenia']").text,
-        self.esod_outgoing_letter.identyfikator_osoby_tworzacej = row.xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text,
-        self.esod_outgoing_letter.data_modyfikacji = row.xpath("./*[local-name()='dataModyfikacji']").text,
-        self.esod_outgoing_letter.identyfikator_osoby_modyfikujacej = row.xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text,
+        self.esod_outgoing_letter.data_utworzenia = row.xpath("./*[local-name()='dataUtworzenia']").text
+        self.esod_outgoing_letter.identyfikator_osoby_tworzacej = row.xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text
+        self.esod_outgoing_letter.data_modyfikacji = row.xpath("./*[local-name()='dataModyfikacji']").text
+        self.esod_outgoing_letter.identyfikator_osoby_modyfikujacej = row.xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text
         self.esod_outgoing_letter.numer_ewidencyjny = row.xpath("./*[local-name()='numerEwidencyjny']").text
         self.esod_outgoing_letter.wysylka = row.xpath("./*[local-name()='wysylka']").text
         self.esod_outgoing_letter.nrid = row.xpath("./*[local-name()='nrid']").text 

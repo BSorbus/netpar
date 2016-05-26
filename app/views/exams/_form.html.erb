@@ -15,22 +15,19 @@
   </div>
 <% end %>
 
-
-<div class="row">
-  <div class="form-group col-sm-7">
-    <%= f.label :esod_category, class: 'control-label' %>
-    <%= f.select :esod_category, 
-          options_for_select([["#{Esodes::esod_matter_iks_name(Esodes::SESJA)}", Esodes::SESJA],
-                              ["#{Esodes::esod_matter_iks_name(Esodes::SESJA_BEZ_EGZAMINOW)}", Esodes::SESJA_BEZ_EGZAMINOW]], selected: @exam.esod_category), 
-          { include_blank: false}, 
-          { autofocus: @exam.new_record?, class: 'form-control input-sm', disabled: input_disabled } %>
-  </div>
-</div>
-
-<hr class="hr-without-top-margin">
-
 <div class="row">
   <div class="col-sm-7">
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <%= f.label :esod_category, class: 'control-label' %>
+        <%= f.select :esod_category, 
+              options_for_select([["#{Esodes::esod_matter_iks_name(Esodes::SESJA)}", Esodes::SESJA],
+                                  ["#{Esodes::esod_matter_iks_name(Esodes::SESJA_BEZ_EGZAMINOW)}", Esodes::SESJA_BEZ_EGZAMINOW]], selected: @exam.esod_category), 
+              { include_blank: false}, 
+              { autofocus: @exam.new_record?, class: 'form-control input-sm', disabled: input_disabled } %>
+      </div>
+    </div>  <!-- /row -->
 
     <div class="row">
       <div class="form-group col-sm-6">

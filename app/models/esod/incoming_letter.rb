@@ -57,10 +57,10 @@ class Esod::IncomingLetter < ActiveRecord::Base
 
     if response.success?
       response.xpath("//*[local-name()='utworzDokumentPrzychodzacyResponse']").each do |row|
-        self.data_utworzenia = row.xpath("./*[local-name()='dataUtworzenia']").text,
-        self.identyfikator_osoby_tworzacej = row.xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text,
-        self.data_modyfikacji = row.xpath("./*[local-name()='dataModyfikacji']").text,
-        self.identyfikator_osoby_modyfikujacej = row.xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text,
+        self.data_utworzenia = row.xpath("./*[local-name()='dataUtworzenia']").text
+        self.identyfikator_osoby_tworzacej = row.xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text
+        self.data_modyfikacji = row.xpath("./*[local-name()='dataModyfikacji']").text
+        self.identyfikator_osoby_modyfikujacej = row.xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text
         self.numer_ewidencyjny = row.xpath("./*[local-name()='numerEwidencyjny']").text
         self.nrid = row.xpath("./*[local-name()='nrid']").text 
       end

@@ -56,11 +56,10 @@ class Esod::InternalLettersMatter < ActiveRecord::Base
 
     if response.success?
       response.xpath("//*[local-name()='utworzDokumentWewnetrznyResponse']").each do |row|
-# !!!!!!!!!!!!!!
-#        self.esod_internal_letter.data_utworzenia = row.xpath("./*[local-name()='dataUtworzenia']").text,
-        self.esod_internal_letter.identyfikator_osoby_tworzacej = row.xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text,
-        self.esod_internal_letter.data_modyfikacji = row.xpath("./*[local-name()='dataModyfikacji']").text,
-        self.esod_internal_letter.identyfikator_osoby_modyfikujacej = row.xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text,
+        self.esod_internal_letter.data_utworzenia = row.xpath("./*[local-name()='dataUtworzenia']").text
+        self.esod_internal_letter.identyfikator_osoby_tworzacej = row.xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text
+        self.esod_internal_letter.data_modyfikacji = row.xpath("./*[local-name()='dataModyfikacji']").text
+        self.esod_internal_letter.identyfikator_osoby_modyfikujacej = row.xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text
         self.esod_internal_letter.numer_ewidencyjny = row.xpath("./*[local-name()='numerEwidencyjny']").text
         self.esod_internal_letter.nrid = row.xpath("./*[local-name()='nrid']").text 
         self.esod_internal_letter.save

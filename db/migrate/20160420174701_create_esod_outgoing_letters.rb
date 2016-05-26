@@ -8,6 +8,7 @@ class CreateEsodOutgoingLetters < ActiveRecord::Migration
       t.integer :identyfikator_adresu, limit: 8
       t.integer :identyfikator_sposobu_wysylki
       t.integer :identyfikator_rodzaju_dokumentu_wychodzacego
+      t.date :data_wyslania
       t.date :data_pisma
       t.integer :numer_wersji
       t.string :uwagi

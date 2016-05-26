@@ -18,49 +18,49 @@
   </div>
 <% end %>
 
-<div class="row">
-  <div class="form-group col-sm-7">
-    <%= f.label :esod_category, class: 'control-label' %>
-    <% if "#{params[:category_service]}" == 'l' %>
-      <%= f.select :esod_category, 
-            options_for_select([["#{Esodes::esod_matter_iks_name(Esodes::SWIADECTWO_BEZ_EGZAMINU)}", Esodes::SWIADECTWO_BEZ_EGZAMINU],
-                                ["#{Esodes::esod_matter_iks_name(Esodes::DUPLIKAT)}", Esodes::DUPLIKAT], 
-                                ["#{Esodes::esod_matter_iks_name(Esodes::WYMIANA)}", Esodes::WYMIANA]], 
-                selected: @certificate.esod_category), 
-            { include_blank: false}, 
-            { autofocus: false, class: 'form-control input-sm', 
-              disabled: input_disabled } %>
-    <% elsif "#{params[:category_service]}" == 'm'%>
-      <%= f.select :esod_category, 
-            options_for_select([["#{Esodes::esod_matter_iks_name(Esodes::EGZAMIN)}", Esodes::EGZAMIN],
-                                ["#{Esodes::esod_matter_iks_name(Esodes::POPRAWKOWY)}", Esodes::POPRAWKOWY], 
-                                ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_BEZ_EGZAMINU)}", Esodes::ODNOWIENIE_BEZ_EGZAMINU], 
-                                ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM)}", Esodes::ODNOWIENIE_Z_EGZAMINEM], 
-                                ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY)}", Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY], 
-                                ["#{Esodes::esod_matter_iks_name(Esodes::DUPLIKAT)}", Esodes::DUPLIKAT], 
-                                ["#{Esodes::esod_matter_iks_name(Esodes::WYMIANA)}", Esodes::WYMIANA]], 
-                selected: @certificate.esod_category), 
-            { include_blank: false}, 
-            { autofocus: false, class: 'form-control input-sm', 
-              disabled: input_disabled } %>
-    <% elsif "#{params[:category_service]}" == 'r'%>
-      <%= f.select :esod_category, 
-            options_for_select([["#{Esodes::esod_matter_iks_name(Esodes::EGZAMIN)}", Esodes::EGZAMIN],
-                                ["#{Esodes::esod_matter_iks_name(Esodes::POPRAWKOWY)}", Esodes::POPRAWKOWY], 
-                                ["#{Esodes::esod_matter_iks_name(Esodes::DUPLIKAT)}", Esodes::DUPLIKAT], 
-                                ["#{Esodes::esod_matter_iks_name(Esodes::WYMIANA)}", Esodes::WYMIANA]], 
-                selected: @certificate.esod_category), 
-            { include_blank: false}, 
-            { autofocus: false, class: 'form-control input-sm', 
-              disabled: input_disabled } %>
-    <% end %>
-  </div>
-</div>
-
-<hr class="hr-without-top-margin">
 
 <div class="row">
   <div class="col-sm-7">
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <%= f.label :esod_category, class: 'control-label' %>
+        <% if "#{params[:category_service]}" == 'l' %>
+          <%= f.select :esod_category, 
+                options_for_select([["#{Esodes::esod_matter_iks_name(Esodes::SWIADECTWO_BEZ_EGZAMINU)}", Esodes::SWIADECTWO_BEZ_EGZAMINU],
+                                    ["#{Esodes::esod_matter_iks_name(Esodes::DUPLIKAT)}", Esodes::DUPLIKAT], 
+                                    ["#{Esodes::esod_matter_iks_name(Esodes::WYMIANA)}", Esodes::WYMIANA]], 
+                    selected: @certificate.esod_category), 
+                { include_blank: false}, 
+                { autofocus: false, class: 'form-control input-sm', 
+                  disabled: input_disabled } %>
+        <% elsif "#{params[:category_service]}" == 'm'%>
+          <%= f.select :esod_category, 
+                options_for_select([["#{Esodes::esod_matter_iks_name(Esodes::EGZAMIN)}", Esodes::EGZAMIN],
+                                    ["#{Esodes::esod_matter_iks_name(Esodes::POPRAWKOWY)}", Esodes::POPRAWKOWY], 
+                                    ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_BEZ_EGZAMINU)}", Esodes::ODNOWIENIE_BEZ_EGZAMINU], 
+                                    ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM)}", Esodes::ODNOWIENIE_Z_EGZAMINEM], 
+                                    ["#{Esodes::esod_matter_iks_name(Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY)}", Esodes::ODNOWIENIE_Z_EGZAMINEM_POPRAWKOWY], 
+                                    ["#{Esodes::esod_matter_iks_name(Esodes::DUPLIKAT)}", Esodes::DUPLIKAT], 
+                                    ["#{Esodes::esod_matter_iks_name(Esodes::WYMIANA)}", Esodes::WYMIANA]], 
+                    selected: @certificate.esod_category), 
+                { include_blank: false}, 
+                { autofocus: false, class: 'form-control input-sm', 
+                  disabled: input_disabled } %>
+        <% elsif "#{params[:category_service]}" == 'r'%>
+          <%= f.select :esod_category, 
+                options_for_select([["#{Esodes::esod_matter_iks_name(Esodes::EGZAMIN)}", Esodes::EGZAMIN],
+                                    ["#{Esodes::esod_matter_iks_name(Esodes::POPRAWKOWY)}", Esodes::POPRAWKOWY], 
+                                    ["#{Esodes::esod_matter_iks_name(Esodes::DUPLIKAT)}", Esodes::DUPLIKAT], 
+                                    ["#{Esodes::esod_matter_iks_name(Esodes::WYMIANA)}", Esodes::WYMIANA]], 
+                    selected: @certificate.esod_category), 
+                { include_blank: false}, 
+                { autofocus: false, class: 'form-control input-sm', 
+                  disabled: input_disabled } %>
+        <% end %>
+      </div>
+    </div>
+
 
     <div class="row">
       <div class="form-group col-sm-6">
