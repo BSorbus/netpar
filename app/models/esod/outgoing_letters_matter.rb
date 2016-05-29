@@ -55,7 +55,7 @@ class Esod::OutgoingLettersMatter < ActiveRecord::Base
       "dok1:dataPisma" => "#{self.esod_outgoing_letter.data_pisma}",
       "dok1:zakonczSprawe" => "#{self.esod_outgoing_letter.zakoncz_sprawe}",
       "dok1:zaakceptujDokument" => "#{self.esod_outgoing_letter.zaakceptuj_dokument}"
-      }
+    }
 
     response = client.call(:utworz_dokument_wychodzacy,  message: message_body )
 

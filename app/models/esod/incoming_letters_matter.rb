@@ -45,7 +45,7 @@ class Esod::IncomingLettersMatter < ActiveRecord::Base
     message_body = { 
       "mt:identyfikatorSprawy" => "#{self.sprawa}",
       "mt:identyfikatorDokumentu" => "#{self.dokument}"
-      }
+    }
 
     response = client.call(:dodaj_dokument_przychodzacy_do_sprawy,  message: message_body )
 

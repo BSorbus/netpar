@@ -1,5 +1,3 @@
-require 'esodes'
-
 class Esod::Contractor < ActiveRecord::Base
   belongs_to :customer, class_name: "Customer"#, dependent: :delete
 

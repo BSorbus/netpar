@@ -161,9 +161,9 @@ ActiveRecord::Schema.define(version: 20160421063302) do
     t.string   "panstwo"
     t.string   "email"
     t.string   "typ"
-    t.date     "data_utworzenia"
+    t.datetime "data_utworzenia"
     t.integer  "identyfikator_osoby_tworzacej"
-    t.date     "data_modyfikacji"
+    t.datetime "data_modyfikacji"
     t.integer  "identyfikator_osoby_modyfikujacej"
     t.boolean  "initialized_from_esod",                       default: false
     t.integer  "netpar_user"
@@ -184,9 +184,9 @@ ActiveRecord::Schema.define(version: 20160421063302) do
     t.string   "nip"
     t.string   "pesel"
     t.integer  "rodzaj"
-    t.date     "data_utworzenia"
+    t.datetime "data_utworzenia"
     t.integer  "identyfikator_osoby_tworzacej"
-    t.date     "data_modyfikacji"
+    t.datetime "data_modyfikacji"
     t.integer  "identyfikator_osoby_modyfikujacej"
     t.boolean  "initialized_from_esod",                       default: false
     t.integer  "netpar_user"
@@ -218,9 +218,9 @@ ActiveRecord::Schema.define(version: 20160421063302) do
     t.integer  "identyfikator_adresu",                 limit: 8
     t.integer  "esod_contractor_id"
     t.integer  "esod_address_id"
-    t.date     "data_utworzenia"
+    t.datetime "data_utworzenia"
     t.integer  "identyfikator_osoby_tworzacej"
-    t.date     "data_modyfikacji"
+    t.datetime "data_modyfikacji"
     t.integer  "identyfikator_osoby_modyfikujacej"
     t.boolean  "initialized_from_esod",                          default: false
     t.integer  "netpar_user"
@@ -256,9 +256,9 @@ ActiveRecord::Schema.define(version: 20160421063302) do
     t.integer  "identyfikator_typu_dcmd"
     t.integer  "identyfikator_dostepnosci_dokumentu"
     t.boolean  "pelna_wersja_cyfrowa"
-    t.date     "data_utworzenia"
+    t.datetime "data_utworzenia"
     t.integer  "identyfikator_osoby_tworzacej"
-    t.date     "data_modyfikacji"
+    t.datetime "data_modyfikacji"
     t.integer  "identyfikator_osoby_modyfikujacej"
     t.boolean  "initialized_from_esod",                                  default: false
     t.integer  "netpar_user"
@@ -305,9 +305,9 @@ ActiveRecord::Schema.define(version: 20160421063302) do
     t.string   "adnotacja"
     t.integer  "identyfikator_stanowiska_referenta"
     t.boolean  "czy_otwarta"
-    t.date     "data_utworzenia"
+    t.datetime "data_utworzenia"
     t.integer  "identyfikator_osoby_tworzacej"
-    t.date     "data_modyfikacji"
+    t.datetime "data_modyfikacji"
     t.integer  "identyfikator_osoby_modyfikujacej"
     t.boolean  "initialized_from_esod",                        default: false
     t.integer  "netpar_user"
@@ -340,9 +340,9 @@ ActiveRecord::Schema.define(version: 20160421063302) do
     t.string   "uwagi"
     t.boolean  "zakoncz_sprawe",                                         default: true
     t.boolean  "zaakceptuj_dokument",                                    default: true
-    t.date     "data_utworzenia"
+    t.datetime "data_utworzenia"
     t.integer  "identyfikator_osoby_tworzacej"
-    t.date     "data_modyfikacji"
+    t.datetime "data_modyfikacji"
     t.integer  "identyfikator_osoby_modyfikujacej"
     t.boolean  "initialized_from_esod",                                  default: false
     t.integer  "netpar_user"

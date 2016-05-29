@@ -15,9 +15,9 @@ class CreateEsodOutgoingLetters < ActiveRecord::Migration
       t.boolean :zakoncz_sprawe, default: true
       t.boolean :zaakceptuj_dokument, default: true
 
-      t.date :data_utworzenia
+      t.datetime :data_utworzenia
       t.integer :identyfikator_osoby_tworzacej
-      t.date :data_modyfikacji
+      t.datetime :data_modyfikacji
       t.integer :identyfikator_osoby_modyfikujacej
 
       t.boolean :initialized_from_esod, default: false

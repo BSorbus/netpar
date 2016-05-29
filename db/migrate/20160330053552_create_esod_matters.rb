@@ -11,9 +11,9 @@ class CreateEsodMatters < ActiveRecord::Migration
       t.string :adnotacja
       t.integer :identyfikator_stanowiska_referenta, index: true
       t.boolean :czy_otwarta
-      t.date :data_utworzenia
+      t.datetime :data_utworzenia
       t.integer :identyfikator_osoby_tworzacej
-      t.date :data_modyfikacji
+      t.datetime :data_modyfikacji
       t.integer :identyfikator_osoby_modyfikujacej
       t.boolean :initialized_from_esod, default: false
       t.integer :netpar_user

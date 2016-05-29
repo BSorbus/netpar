@@ -51,7 +51,7 @@ class Esod::IncomingLetter < ActiveRecord::Base
       },
       "dok1:pelnaWersjaCyfrowa" => "#{self.pelna_wersja_cyfrowa}",
       "dok1:naturalnyElektroniczny" => "#{self.naturalny_elektroniczny}"
-      }
+    }
 
     response = client.call(:utworz_dokument_przychodzacy,  message: message_body )
 

@@ -14,7 +14,7 @@ class EsodIncomingLettersController < ApplicationController
       @esod_incoming_letter.netpar_user = current_user.id
 
       # wywolaj funkce zapisujaca contractora i address do ESODA
-      @incoming_letterable.customer.insert_data_to_esod_and_update_self(push_user: current_user.id)
+      @incoming_letterable.customer.check_and_push_data_to_esod(push_user: current_user.id)
 
       @esod_incoming_letter.identyfikator_osoby = @incoming_letterable.customer.esod_contractor.nrid
       @esod_incoming_letter.identyfikator_adresu = @incoming_letterable.customer.esod_address.nrid
@@ -23,14 +23,12 @@ class EsodIncomingLettersController < ApplicationController
         if @esod_incoming_letter.save 
           
           elm = @esod_incoming_letter.esod_incoming_letters_matters.create(
-              esod_matter_id: @esod_matter.id,  
-              sprawa: @esod_matter.nrid,   
-              dokument: @esod_incoming_letter.nrid,   
-              sygnatura: nil,
-              initialized_from_esod: false,
-              netpar_user: current_user.id
-              #sygnatura: "Sygn: /esod_matter/#{@esod_matter.id}/esod_incoming_letters/#{@esod_incoming_letter.id}"  
-              )
+                  esod_matter_id: @esod_matter.id,  
+                  sprawa: @esod_matter.nrid,   
+                  dokument: @esod_incoming_letter.nrid,   
+                  sygnatura: nil,
+                  initialized_from_esod: false,
+                  netpar_user: current_user.id)
 
           #@esod_incoming_letter.works.create!(trackable_url: "#{esod_matter_path(@esod_matter)}", action: :create, user: current_user, parameters: @esod_matter.attributes.to_json)
           #format.html { redirect_to :back, notice: t('activerecord.messages.successfull.created', data: @esod_matter.znak) }

@@ -17,19 +17,12 @@ class EsodInternalLettersController < ApplicationController
         if @esod_internal_letter.save
 
           elm = @esod_internal_letter.esod_internal_letters_matters.create(
-              esod_matter_id: @esod_matter.id,  
-              sprawa: @esod_matter.nrid,   
-              dokument: nil,   
-              sygnatura: nil,
-              initialized_from_esod: false,
-              netpar_user: current_user.id
-              #sygnatura: "Sygn: /esod_matter/#{@esod_matter.id}/esod_incoming_letters/#{@esod_incoming_letter.id}"  
-              )
-#              esod_matter_id: @internal_letterable.esod_matters.last.id,  
-#              sprawa:         nil,   
-#              dokument:       nil,   
-#              sygnatura:      "Sygn: /esod_matter/#{@esod_matter.id}/esod_internal_letters/#{@esod_internal_letter.id}"  
-#              )
+                  esod_matter_id: @esod_matter.id,  
+                  sprawa: @esod_matter.nrid,   
+                  dokument: nil,   
+                  sygnatura: nil,
+                  initialized_from_esod: false,
+                  netpar_user: current_user.id)
 
           #@esod_internal_letter.works.create!(trackable_url: "#{esod_matter_path(@esod_matter)}", action: :create, user: current_user, parameters: @esod_matter.attributes.to_json)
           #format.html { redirect_to :back, notice: t('activerecord.messages.successfull.created', data: @esod_matter.znak) }

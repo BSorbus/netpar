@@ -245,7 +245,7 @@ class Esod::Matter < ActiveRecord::Base
     message_body = { 
       "mt:sprawyPoDacie" => "#{data_start}",
       "mt:sprawySprzedDaty" => "#{data_end}"
-      }
+    }
 
     response = client.call(:wyszukaj_sprawy_referenta,  message: message_body )
 
@@ -264,6 +264,7 @@ class Esod::Matter < ActiveRecord::Base
           puts row.xpath("./*[local-name()='identyfikatorKategoriiSprawy']").text
           puts row.xpath("./*[local-name()='adnotacja']").text
           puts '----------------------------------------------------------------'
+          
           self.get_wyszukaj_dokumenty_sprawy(row.xpath("./*[local-name()='nrid']").text)
         end
       end
@@ -303,7 +304,7 @@ class Esod::Matter < ActiveRecord::Base
 
     message_body = { 
       "mt:nrid" => "#{id}"
-      }
+    }
 
     response = client.call(:pobierz_dokumenty_sprawy,  message: message_body )
 

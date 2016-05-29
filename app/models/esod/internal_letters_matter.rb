@@ -50,7 +50,7 @@ class Esod::InternalLettersMatter < ActiveRecord::Base
       "dok1:identyfikatorDostepnosciDokumentu" => "#{self.esod_internal_letter.identyfikator_dostepnosci_dokumentu}",
       "dok1:pelnaWersjaCyfrowa" => "#{self.esod_internal_letter.pelna_wersja_cyfrowa}",
       "dok1:identyfikatorSprawy" => "#{self.sprawa}"
-      }
+    }
 
     response = client.call(:utworz_dokument_wewnetrzny,  message: message_body )
 

@@ -289,6 +289,15 @@ class CertificatesController < ApplicationController
     @esod_matter.certificate = @certificate
 
     if @esod_matter.save
+      incoming_letter = @esod_matter.esod_incoming_letters.last
+      if incoming_letter.present?
+        address = incoming_letter.esod_address
+        contractor = incoming_letter.esod_contractor 
+ 
+        address.update_columns(customer_id: @esod_matter.certificate.customer_id) if address.customer_id.blank?
+        contractor.update_columns(customer_id: @esod_matter.certificate.customer_id) if contractor.customer_id.blank?
+      end
+
       @esod_matter.works.create!(trackable_url: "#{esod_matter_path(@esod_matter)}", action: :esod_matter_link, user: current_user, 
                             parameters: {esod_matter: @esod_matter.fullname, link: @certificate.fullname}.to_json)
 

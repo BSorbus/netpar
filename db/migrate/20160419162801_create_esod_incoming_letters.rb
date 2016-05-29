@@ -22,9 +22,9 @@ class CreateEsodIncomingLetters < ActiveRecord::Migration
       t.references :esod_contractor, index: true, foreign_key: true
       t.references :esod_address, index: true, foreign_key: true
 
-      t.date :data_utworzenia
+      t.datetime :data_utworzenia
       t.integer :identyfikator_osoby_tworzacej
-      t.date :data_modyfikacji
+      t.datetime :data_modyfikacji
       t.integer :identyfikator_osoby_modyfikujacej
 
       t.boolean :initialized_from_esod, default: false
