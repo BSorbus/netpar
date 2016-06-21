@@ -7,8 +7,8 @@ $font-family-base: Arial, "Helvetica", sans-serif;
 @import "bootstrap";
 
 
-//  @import "font-awesome-sprockets";
-//  @import "font-awesome";
+@import "font-awesome-sprockets";
+@import "font-awesome";
   
 //bez tego nie wyswietla icon nawigacji po lewej stronie w GoogleMaps
 #map img {

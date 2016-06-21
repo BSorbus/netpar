@@ -115,6 +115,8 @@ GEM
     faker (1.6.3)
       i18n (~> 0.5)
     ffi (1.9.10)
+    font-awesome-sass (4.6.2)
+      sass (>= 3.2)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     gyoku (1.3.1)
@@ -338,6 +340,7 @@ DEPENDENCIES
   docx_replace
   factory_girl_rails
   faker
+  font-awesome-sass
   jbuilder (~> 2.0)
   jquery-datatables-rails
   jquery-rails

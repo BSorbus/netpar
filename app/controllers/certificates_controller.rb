@@ -144,7 +144,6 @@ class CertificatesController < ApplicationController
       nrid: nil,
       numer_ewidencyjny: nil,
       tytul: "#{@certificate.customer.name} #{@certificate.customer.given_names}, #{@certificate.customer.address_city}, [#{@certificate.esod_category_name}], #{@certificate.number}",
-      wysylka: nil,
       identyfikator_adresu: nil,
       identyfikator_sposobu_wysylki: nil,
       identyfikator_rodzaju_dokumentu_wychodzacego: nil,
@@ -189,11 +188,10 @@ class CertificatesController < ApplicationController
 
     certificate_authorize(@certificate, "new", params[:category_service])
 
-#    @esod_matter = load_esod_matter
-#    if @esod_matter.present?
-#      @certificate.esod_matter = @esod_matter
-#      @certificate.esod_category = @esod_matter.identyfikator_kategorii_sprawy
-#    end
+    @esod_matter = load_esod_matter
+    if @esod_matter.present?
+      @certificate.esod_category = @esod_matter.identyfikator_kategorii_sprawy
+    end
 
     @exam = load_exam
     @certificate.exam = @exam
@@ -245,7 +243,8 @@ class CertificatesController < ApplicationController
                                             }
                                           ) )
 
-        format.html { redirect_to certificate_path(@certificate, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.created', data: @certificate.number) }
+        flash_message :success, t('activerecord.messages.successfull.created', data: @certificate.number)
+        format.html { redirect_to certificate_path(@certificate, category_service: params[:category_service], back_url: params[:back_url]) }
         format.json { render :show, status: :created, location: @certificate }
       else
         format.html { render :new, locals: { back_url: params[:back_url] } }
@@ -273,7 +272,8 @@ class CertificatesController < ApplicationController
                                             }
                                           ) )
 
-        format.html { redirect_to certificate_path(@certificate, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.updated', data: @certificate.number) }
+        flash_message :success, t('activerecord.messages.successfull.updated', data: @certificate.number)
+        format.html { redirect_to certificate_path(@certificate, category_service: params[:category_service], back_url: params[:back_url]) }
         format.json { render :show, status: :ok, location: @certificate }
       else
         format.html { render :edit, locals: { back_url: params[:back_url] } }
@@ -301,9 +301,11 @@ class CertificatesController < ApplicationController
       @esod_matter.works.create!(trackable_url: "#{esod_matter_path(@esod_matter)}", action: :esod_matter_link, user: current_user, 
                             parameters: {esod_matter: @esod_matter.fullname, link: @certificate.fullname}.to_json)
 
-      redirect_to :back, notice: t('activerecord.messages.successfull.esod_matter_link', parent: @certificate.fullname, child: @esod_matter.fullname)
+      flash_message :success, t('activerecord.messages.successfull.esod_matter_link', parent: @certificate.fullname, child: @esod_matter.fullname)
+      redirect_to :back
     else
-      redirect_to :back, alert: t('activerecord.messages.error.esod_matter_link', parent: @certificate.fullname, child: @esod_matter.fullname)
+      flash_message :error, t('activerecord.messages.error.esod_matter_link', parent: @certificate.fullname, child: @esod_matter.fullname)
+      redirect_to :back
     end
   end
 
@@ -323,9 +325,11 @@ class CertificatesController < ApplicationController
                                             user: {only: [:id, :name, :email]}
                                             }
                                           ) )
-      redirect_to (params[:back_url]).present? ? params[:back_url] : exam_path(exam, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.destroyed', data: @certificate.number)
+
+      flash_message :success, t('activerecord.messages.successfull.destroyed', data: @certificate.number)
+      redirect_to (params[:back_url]).present? ? params[:back_url] : exam_path(exam, category_service: params[:category_service])
     else 
-      flash.now[:alert] = t('activerecord.messages.error.destroyed', data: @certificate.number)
+      flash_message :error, t('activerecord.messages.error.destroyed', data: @certificate.number)
       render :show
     end      
   end
@@ -355,8 +359,12 @@ class CertificatesController < ApplicationController
       Customer.find(params[:customer_id]) if (params[:customer_id]).present?
     end
 
+    def load_esod_matter
+      Esod::Matter.find(params[:esod_matter_id]) if (params[:esod_matter_id]).present?
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def certificate_params
-      params.require(:certificate).permit(:esod_category, :number, :date_of_issue, :valid_thru, :canceled, :certificate_status, :division_id, :exam_id, :customer_id, :category, :note, :user_id)
+      params.require(:certificate).permit(:esod_category, :number, :date_of_issue, :valid_thru, :canceled, :division_id, :exam_id, :customer_id, :category, :note, :user_id)
     end
 end

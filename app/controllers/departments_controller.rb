@@ -42,7 +42,8 @@ class DepartmentsController < ApplicationController
         @department.works.create!(trackable_url: "#{department_path(@department)}", action: :create, user: current_user, 
           parameters: @department.attributes.to_json)
 
-        format.html { redirect_to @department, notice: t('activerecord.messages.successfull.created', data: @department.short) }
+        flash_message :success, t('activerecord.messages.successfull.created', data: @department.short)
+        format.html { redirect_to @department }
         format.json { render :show, status: :created, location: @department }
       else
         format.html { render :new }
@@ -61,7 +62,8 @@ class DepartmentsController < ApplicationController
         @department.works.create!(trackable_url: "#{department_path(@department)}", action: :update, user: current_user, 
           parameters: @department.previous_changes.to_json)
 
-        format.html { redirect_to @department, notice: t('activerecord.messages.successfull.updated', data: @department.short) }
+        flash_message :success, t('activerecord.messages.successfull.updated', data: @department.short)
+        format.html { redirect_to @department }
         format.json { render :show, status: :ok, location: @department }
       else
         format.html { render :edit }
@@ -79,9 +81,10 @@ class DepartmentsController < ApplicationController
       Work.create!(trackable: @department, action: :destroy, user: current_user, 
         parameters: @department.attributes.to_json)
  
-      redirect_to departments_url, notice: t('activerecord.messages.successfull.destroyed', data: @department.short)
+      flash_message :success, t('activerecord.messages.successfull.destroyed', data: @department.short)
+      redirect_to departments_url
     else 
-      flash.now[:alert] = t('activerecord.messages.error.destroyed', data: @department.short)
+      flash_message :error, t('activerecord.messages.error.destroyed', data: @department.short)
       render :show
     end      
   end

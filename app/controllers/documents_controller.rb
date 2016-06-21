@@ -24,11 +24,13 @@ class DocumentsController < ApplicationController
       if @document.save
         @document.works.create!(trackable_url: "#{document_path(@document)}", action: :upload, user: current_user, parameters: @document.attributes.to_json)
 
-        format.html { redirect_to :back, notice: t('activerecord.messages.successfull.attach_file', parent: @document.documentable.fullname, 
-          child: "#{@document.fileattach_filename} (#{number_to_human_size(@document.fileattach_size)})") }
+        flash_message :success, t('activerecord.messages.successfull.attach_file', parent: @document.documentable.fullname, 
+          child: "#{@document.fileattach_filename} (#{number_to_human_size(@document.fileattach_size)})")
+        format.html { redirect_to :back }
       else
-        format.html { redirect_to :back, alert: t('activerecord.messages.error.attach_file', parent: @document.documentable.fullname, 
-          child: "#{@document.fileattach_filename} (#{number_to_human_size(@document.fileattach_size)})") }
+        flash_message :error, t('activerecord.messages.error.attach_file', parent: @document.documentable.fullname, 
+          child: "#{@document.fileattach_filename} (#{number_to_human_size(@document.fileattach_size)})")
+        format.html { redirect_to :back }
       end
     end
 
@@ -49,10 +51,12 @@ class DocumentsController < ApplicationController
     @document = Document.find(params[:id])
     if @document.destroy
       Work.create!(trackable: @document, action: :destroy, user: current_user, parameters: @document.attributes.to_json)
-      redirect_to :back, notice: t('activerecord.messages.successfull.remove_attach_file', parent: @document.documentable.fullname, child: @document.fileattach_filename)
+
+      flash_message :success, t('activerecord.messages.successfull.remove_attach_file', parent: @document.documentable.fullname, child: @document.fileattach_filename) 
+      redirect_to :back
     else 
-      redirect_to :back, alert: t('activerecord.messages.error.destroyed', data: @document.fileattach_filename)        
-      #flash[:alert] = t('activerecord.messages.error.destroyed', data: @document.fileattach_filename)
+      flash_message :error, t('activerecord.messages.error.destroyed', data: @document.fileattach_filename) 
+      redirect_to :back
       #render :show
     end      
   end

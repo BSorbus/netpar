@@ -26,7 +26,9 @@
     </div> <!-- /col-sm-12-->
   </div> <!-- /row -->
 
-  <%= render partial: "esod/matters/matters_in_panel", locals: {matterable: @certificate, esod_incoming_letter: @esod_incoming_letter, esod_outgoing_letter: @esod_outgoing_letter, esod_internal_letter: @esod_internal_letter} %>
+  <% if policy(:esod).index? || policy(:esod).show? %>
+    <%= render partial: "esod/matters/matters_in_panel", locals: {matterable: @certificate, esod_incoming_letter: @esod_incoming_letter, esod_outgoing_letter: @esod_outgoing_letter, esod_internal_letter: @esod_internal_letter} %>
+  <% end %>
   <%= render partial: "documents/documents_in_panel", locals: {documentable: @certificate} %>
 
   <!-- Wydruki -->

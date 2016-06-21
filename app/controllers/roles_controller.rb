@@ -38,7 +38,8 @@ class RolesController < ApplicationController
         @role.works.create!(trackable_url: "#{role_path(@role)}", action: :create, user: current_user, 
           parameters: @role.attributes.to_json)
 
-        format.html { redirect_to @role, notice: t('activerecord.messages.successfull.created', data: @role.name) }
+        flash_message :success, t('activerecord.messages.successfull.created', data: @role.name)
+        format.html { redirect_to @role }
         format.json { render :show, status: :created, location: @role }
       else
         format.html { render :new }
@@ -57,7 +58,8 @@ class RolesController < ApplicationController
           parameters: @role.previous_changes.to_json)
 
 
-        format.html { redirect_to @role, notice: t('activerecord.messages.successfull.updated', data: @role.name) }
+        flash_message :success, t('activerecord.messages.successfull.updated', data: @role.name)
+        format.html { redirect_to @role }
         format.json { render :show, status: :ok, location: @role }
       else
         format.html { render :edit }
@@ -72,9 +74,11 @@ class RolesController < ApplicationController
     if @role.destroy
       Work.create!(trackable: @role, action: :destroy, user: current_user, 
         parameters: @role.attributes.to_json)
-      redirect_to roles_url, notice: t('activerecord.messages.successfull.destroyed', data: @role.name)
+
+      flash_message :success, t('activerecord.messages.successfull.destroyed', data: @role.name)
+      redirect_to roles_url
     else 
-      flash.now[:alert] = t('activerecord.messages.error.destroyed', data: @role.name)
+      flash_message :error, t('activerecord.messages.error.destroyed', data: @role.name)
       render :show
     end      
   end

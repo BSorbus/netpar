@@ -1,0 +1,60 @@
+--------------------------------
+ cronjobs:esod_sync run!
+--------------------------------
+  [1m[36mUser Load (1.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+j.szocinski@uke.gov.pl
+j.nowicka@uke.gov.pl
+d.lis@uke.gov.pl
+a.ptaszynski@uke.gov.pl
+netpar@uke.gov.pl
+t.frackowiak@uke.gov.pl
+i.bartold@uke.gov.pl
+e.filc@uke.gov.pl
+--------------------------------
+ cronjobs:esod_sync run!
+--------------------------------
+  [1m[36mUser Load (1.3ms)[0m  [1mSELECT "users".* FROM "users"[0m
+j.szocinski@uke.gov.pl
+j.nowicka@uke.gov.pl
+d.lis@uke.gov.pl
+a.ptaszynski@uke.gov.pl
+netpar@uke.gov.pl
+t.frackowiak@uke.gov.pl
+i.bartold@uke.gov.pl
+e.filc@uke.gov.pl
+--------------------------------
+ cronjobs:esod_sync run!
+--------------------------------
+  [1m[36mUser Load (1.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+j.szocinski@uke.gov.pl
+j.nowicka@uke.gov.pl
+d.lis@uke.gov.pl
+a.ptaszynski@uke.gov.pl
+netpar@uke.gov.pl
+t.frackowiak@uke.gov.pl
+i.bartold@uke.gov.pl
+e.filc@uke.gov.pl
+--------------------------------
+ cronjobs:esod_sync run!
+--------------------------------
+  [1m[36mUser Load (1.2ms)[0m  [1mSELECT "users".* FROM "users"[0m
+j.szocinski@uke.gov.pl
+j.nowicka@uke.gov.pl
+d.lis@uke.gov.pl
+a.ptaszynski@uke.gov.pl
+netpar@uke.gov.pl
+t.frackowiak@uke.gov.pl
+i.bartold@uke.gov.pl
+e.filc@uke.gov.pl
+--------------------------------
+ cronjobs:esod_sync run!
+--------------------------------
+  [1m[36mUser Load (1.3ms)[0m  [1mSELECT "users".* FROM "users"[0m
+j.szocinski@uke.gov.pl
+j.nowicka@uke.gov.pl
+d.lis@uke.gov.pl
+a.ptaszynski@uke.gov.pl
+t.frackowiak@uke.gov.pl
+i.bartold@uke.gov.pl
+netpar@uke.gov.pl
+e.filc@uke.gov.pl

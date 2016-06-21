@@ -889,7 +889,8 @@ $(document).ready(function() {
       type: 'GET',
       data: function(term, page) {
         return {
-          iks: "<%= Esodes::ALL_CATEGORIES_CERTIFICATES %>",
+          //iks: "<%= Esodes::ALL_CATEGORIES_CERTIFICATES %>", 
+          iks: "<%= Esodes::ALL_CATEGORIES_EXAMINATIONS_AND_CERTIFICATES %>", 
           jrwa: "<%= Esodes::JRWA_M %>",
           q: term,
           page_limit: 10,
@@ -944,7 +945,8 @@ $(document).ready(function() {
       type: 'GET',
       data: function(term, page) {
         return {
-          iks: "<%= Esodes::ALL_CATEGORIES_CERTIFICATES %>",
+          //iks: "<%= Esodes::ALL_CATEGORIES_CERTIFICATES %>",
+          iks: "<%= Esodes::ALL_CATEGORIES_EXAMINATIONS_AND_CERTIFICATES %>", 
           jrwa: "<%= Esodes::JRWA_R %>",
           q: term,
           page_limit: 10,

@@ -235,13 +235,13 @@ class Customer < ActiveRecord::Base
 
   def update_self_esod_contractor(push_user)
     contractor = self.esod_contractor
-    contractor.imie = is_human? ? "#{given_names}".split(%r{,\s*})[0] : "",
-    contractor.nazwisko = is_human? ? name : "",
-    contractor.nazwa = is_human? ? "" : name,
-    contractor.drugie_imie = is_human? ? "#{given_names}".split(%r{,\s*})[1] : "",
-    contractor.nip = "#{nip}",
-    contractor.pesel = "#{pesel}",
-    contractor.rodzaj = is_human? ? 1 : 2, 
+    contractor.imie = is_human? ? "#{given_names}".split(%r{,\s*})[0] : ""
+    contractor.nazwisko = is_human? ? name : ""
+    contractor.nazwa = is_human? ? "" : name
+    contractor.drugie_imie = is_human? ? "#{given_names}".split(%r{,\s*})[1] : ""
+    contractor.nip = "#{nip}"
+    contractor.pesel = "#{pesel}"
+    contractor.rodzaj = is_human? ? 1 : 2
     if contractor.changed?
       contractor.netpar_user = push_user
       contractor.save! 
@@ -272,13 +272,13 @@ class Customer < ActiveRecord::Base
 
   def update_self_esod_address(push_user)
     address = self.esod_address
-    address.miasto = c_address_city.present? ? "#{c_address_city}" : "#{address_city}",
-    address.kod_pocztowy = c_address_postal_code.present? ? "#{c_address_postal_code}" : "#{address_postal_code}",
-    address.ulica = c_address_street.present? ? "#{c_address_street}" : "#{address_street}",
-    address.numer_lokalu = c_address_number.present? ? "#{c_address_number}" : "#{address_number}",
-    address.numer_budynku = c_address_house.present? ? "#{c_address_house}" : "#{address_house}",
-    address.panstwo = "#{citizenship.short}",
-    address.email = email, 
+    address.miasto = c_address_city.present? ? "#{c_address_city}" : "#{address_city}"
+    address.kod_pocztowy = c_address_postal_code.present? ? "#{c_address_postal_code}" : "#{address_postal_code}"
+    address.ulica = c_address_street.present? ? "#{c_address_street}" : "#{address_street}"
+    address.numer_lokalu = c_address_number.present? ? "#{c_address_number}" : "#{address_number}"
+    address.numer_budynku = c_address_house.present? ? "#{c_address_house}" : "#{address_house}"
+    address.panstwo = "#{citizenship.short}"
+    address.email = email
     if address.changed?
       address.netpar_user = push_user
       address.save!
@@ -305,195 +305,253 @@ class Customer < ActiveRecord::Base
   def insert_data_to_esod_and_update_self
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "#{Esodes::ESOD_API_SERVER}/wsdl/slowniki/ws/slowniki.wsdl",
-      endpoint: "#{Esodes::ESOD_API_SERVER}/uslugi.php/slowniki/handle",
+      wsdl: "#{Esodes::API_SERVER}/services/KontrahentESODUsluga?wsdl",
+      endpoint: "#{Esodes::API_SERVER}/services/KontrahentESODUsluga.KontrahentESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
-                   "xmlns:slow" => "http://www.dokus.pl/slowniki/ws/slowniki", 
-                   "xmlns:slow1" => "http://www.dokus.pl/slowniki/mt/slowniki", 
-                   "xmlns:wsp" => "http://www.dokus.pl/wspolne",
-                   "xmlns:ns1" => "http://www.dokus.pl/wspolne", 
-                   "xmlns:ns2" => "http://www.dokus.pl/slowniki/mt/slowniki", 
-                   "xmlns:ns3" => "http://www.dokus.pl/slowniki/ws/slowniki"
+                    "xmlns:kon" => "http://kontrahentESOD.uslugi.epl.uke.gov.pl/"
                    },
-      namespace_identifier: :slow, #"xmlns:slow" => "http://www.dokus.pl/slowniki/ws/slowniki/utworzKontrahenta", 
+      env_namespace: :soapenv,
+      namespace_identifier: :kon, 
       strip_namespaces: true,
       logger: Rails.logger,
       log_level: :debug,
       log: true,
       pretty_print_xml: true,
-      env_namespace: :soapenv,
-      soap_version: 2,
+      soap_version: 1,
+      wsse_timestamp: true,
+      ssl_verify_mode: :none,
+      headers: { "Authorization" => "Basic #{Esodes::base64_user_and_pass}" },
       wsse_auth: [Esodes::EsodTokenData.netpar_user.email, Esodes::EsodTokenData.token_string],
-      soap_header: { "wsp:metaParametry" => 
-                      { "wsp:identyfikatorStanowiska" => Esodes::EsodTokenData.token_stanowiska.first[:nrid] } 
+      soap_header: { "kon:metaParametry" => 
+                      { "kon:identyfikatorStanowiska" => Esodes::EsodTokenData.token_stanowiska.first[:nrid] } 
                     }
     )
 
     message_body = { 
-      "slow1:daneTworzeniaOsoby" => {
-        "slow1:imie" => self.esod_contractor.imie,
-        "slow1:nazwisko" => self.esod_contractor.nazwisko,
-        "slow1:pesel" => self.esod_contractor.pesel,
-        "slow1:rodzaj" => {
-          "slow1:nrid" => 1
+      "parametryOperacjiUtworzKontrahenta" => {
+        "imie" => self.esod_contractor.imie,
+        "nazwisko" => self.esod_contractor.nazwisko,
+        "pesel" => self.esod_contractor.pesel,
+        "rodzajOsoby" => {
+          "nrid" => 1
+        },
+        "adres" => { 
+          "kodPocztowy" => self.esod_address.kod_pocztowy,
+          "miasto" => self.esod_address.miasto,
+          "numerBudynku" => self.esod_address.numer_budynku,
+          "numerLokalu" => self.esod_address.numer_lokalu,
+          "panstwo" => self.esod_address.panstwo, 
+          "typ" => "fizyczny",
+          "ulica" => self.esod_address.ulica
         }
-      },
-      "slow1:daneTworzeniaAdresu" => { 
-        "slow1:miasto" => self.esod_address.miasto,
-        "slow1:kodPocztowy" => self.esod_address.kod_pocztwoy,
-        "slow1:ulica" => self.esod_address.ulica,
-        "slow1:numerLokalu" => self.esod_address.numer_lokalu,
-        "slow1:numerBudynku" => self.esod_address.numer_budynku,
-        "slow1:panstwo" => self.esod_address.panstwo,
-        "slow1:typ" => "fizyczny"
-      },
-      "slow1:ignorujTeryt" => true
+      }
     }
+
+#self.esod_address.panstwo,
 
     response = client.call(:utworz_kontrahenta,  message: message_body )
 
     if response.success?
-      response.xpath("//*[local-name()='osoba']").each do |row|      
-        contractor = self.esod_contractor
-        contractor.data_utworzenia = row.xpath("./*[local-name()='dataUtworzenia']").text
-        contractor.identyfikator_osoby_tworzacej = row.xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text
-        contractor.data_modyfikacji = row.xpath("./*[local-name()='dataModyfikacji']").text
-        contractor.identyfikator_osoby_modyfikujacej = row.xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text
-        contractor.nrid = row.xpath("./*[local-name()='nrid']").text
-        contractor.save
-      end 
+      response.xpath("//*[local-name()='return']").each do |ret|
+        ret.xpath("//*[local-name()='osoba']").each do |row|      
+          contractor = self.esod_contractor
+          contractor.nrid = row.xpath("./*[local-name()='nrid']").text
+          contractor.save
 
-      response.xpath("//*[local-name()='adres']").each do |row|      
-        address = self.esod_address
-        address.data_utworzenia = row.xpath("./*[local-name()='dataUtworzenia']").text
-        address.identyfikator_osoby_tworzacej = row.xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text
-        address.data_modyfikacji = row.xpath("./*[local-name()='dataModyfikacji']").text
-        address.identyfikator_osoby_modyfikujacej = row.xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text
-        address.nrid = row.xpath("./*[local-name()='nrid']").text
-        address.typ = row.xpath("./*[local-name()='typ']").text
-        address.save
+          row.xpath("//*[local-name()='adres']").each do |sub|      
+            address = self.esod_address
+            address.nrid = sub.xpath("./*[local-name()='nrid']").text
+            address.save
+          end
+
+        end 
       end
-
     end
 
-    rescue Savon::HTTPError => error
-      puts '==================================================================='
-      puts '      ----- Savon::HTTPError => error error.http.code -----'
-      puts "error.http.code: #{error.http.code}"
-      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
-      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
-      puts "         detail: #{error.to_hash[:fault][:detail]}"
-      puts '==================================================================='
-      #raise
+     rescue Savon::HTTPError => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "insert_data_to_esod_and_update_self", 
+                              soap_function:  "utworz_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
 
     rescue Savon::SOAPFault => error
-      puts '==================================================================='
-      puts '      ----- Savon::SOAPFault => error error.http.code -----'
-      puts "error.http.code: #{error.http.code}"
-      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
-      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
-      puts "         detail: #{error.to_hash[:fault][:detail]}"
-      puts '==================================================================='
-      #raise CustomError, fault_code
-      #raise
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "insert_data_to_esod_and_update_self", 
+                              soap_function:  "utworz_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
+    rescue Savon::InvalidResponseError => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "insert_data_to_esod_and_update_self", 
+                              soap_function:  "utworz_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
+
+    rescue Savon::Error => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "insert_data_to_esod_and_update_self", 
+                              soap_function:  "utworz_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
+    rescue SocketError => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "insert_data_to_esod_and_update_self", 
+                              soap_function:  "utworz_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
+    rescue => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "insert_data_to_esod_and_update_self", 
+                              soap_function:  "utworz_kontrahenta", 
+                              base_obj:   self )
+
+      false
   end
+
+
 
   def update_data_to_esod_and_update_self
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "#{Esodes::ESOD_API_SERVER}/wsdl/slowniki/ws/slowniki.wsdl",
-      endpoint: "#{Esodes::ESOD_API_SERVER}/uslugi.php/slowniki/handle",
+      wsdl: "#{Esodes::API_SERVER}/services/KontrahentESODUsluga?wsdl",
+      endpoint: "#{Esodes::API_SERVER}/services/KontrahentESODUsluga.KontrahentESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
-                   "xmlns:slow" => "http://www.dokus.pl/slowniki/ws/slowniki", 
-                   "xmlns:slow1" => "http://www.dokus.pl/slowniki/mt/slowniki", 
-                   "xmlns:wsp" => "http://www.dokus.pl/wspolne",
-                   "xmlns:ns1" => "http://www.dokus.pl/wspolne", 
-                   "xmlns:ns2" => "http://www.dokus.pl/slowniki/mt/slowniki", 
-                   "xmlns:ns3" => "http://www.dokus.pl/slowniki/ws/slowniki"
+                    "xmlns:kon" => "http://kontrahentESOD.uslugi.epl.uke.gov.pl/"
                    },
-      namespace_identifier: :slow, #"xmlns:slow" => "http://www.dokus.pl/slowniki/ws/slowniki/utworzKontrahenta", 
+      env_namespace: :soapenv,
+      namespace_identifier: :kon, 
       strip_namespaces: true,
       logger: Rails.logger,
       log_level: :debug,
       log: true,
       pretty_print_xml: true,
-      env_namespace: :soapenv,
-      soap_version: 2,
+      soap_version: 1,
+      wsse_timestamp: true,
+      ssl_verify_mode: :none,
+      headers: { "Authorization" => "Basic #{Esodes::base64_user_and_pass}" },
       wsse_auth: [Esodes::EsodTokenData.netpar_user.email, Esodes::EsodTokenData.token_string],
-      soap_header: { "wsp:metaParametry" => 
-                      { "wsp:identyfikatorStanowiska" => Esodes::EsodTokenData.token_stanowiska.first[:nrid] } 
+      soap_header: { "kon:metaParametry" => 
+                      { "kon:identyfikatorStanowiska" => Esodes::EsodTokenData.token_stanowiska.first[:nrid] } 
                     }
     )
 
     message_body = { 
-      "slow1:daneTworzeniaOsoby" => {
-        "slow1:nrid" => self.esod_contractor.nrid,
-        "slow1:imie" => self.esod_contractor.imie,
-        "slow1:nazwisko" => self.esod_contractor.nazwisko,
-        "slow1:pesel" => self.esod_contractor.pesel,
-        "slow1:rodzaj" => {
-          "slow1:nrid" => 1
+      "parametryOperacjiModyfikujKontrahenta" => {
+        "osoba" => {
+          "imie" => self.esod_contractor.imie,
+          "nazwisko" => self.esod_contractor.nazwisko,
+          "nrid" => self.esod_contractor.nrid,
+          "pesel" => self.esod_contractor.pesel,
+          "rodzajOsoby" => {
+            "nrid" => 1
+          },
+          "adres" => { 
+            "kodPocztowy" => self.esod_address.kod_pocztowy,
+            "miasto" => self.esod_address.miasto,
+            "nrid" => self.esod_address.nrid,
+            "numerBudynku" => self.esod_address.numer_budynku,
+            "numerLokalu" => self.esod_address.numer_lokalu,
+            "panstwo" => self.esod_address.panstwo,
+            "typ" => "fizyczny",
+            "ulica" => self.esod_address.ulica
+          }
         }
-      },
-      "slow1:daneTworzeniaAdresu" => { 
-        "slow1:nrid" => self.esod_address.nrid,
-        "slow1:miasto" => self.esod_address.miasto,
-        "slow1:kodPocztowy" => self.esod_address.kod_pocztwoy,
-        "slow1:ulica" => self.esod_address.ulica,
-        "slow1:numerLokalu" => self.esod_address.numer_lokalu,
-        "slow1:numerBudynku" => self.esod_address.numer_budynku,
-        "slow1:panstwo" => self.esod_address.panstwo,
-        "slow1:typ" => "fizyczny"
-      },
-      "slow1:ignorujTeryt" => true
+      }
     }
 
-    response = client.call(:aktualizuj_kontrahenta,  message: message_body )
+    response = client.call(:modyfikuj_kontrahenta,  message: message_body )
 
     if response.success?
-      response.xpath("//*[local-name()='osoba']").each do |row|      
-        contractor = self.esod_contractor
-        contractor.data_utworzenia = row.xpath("./*[local-name()='dataUtworzenia']").text
-        contractor.identyfikator_osoby_tworzacej = row.xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text
-        contractor.data_modyfikacji = row.xpath("./*[local-name()='dataModyfikacji']").text
-        contractor.identyfikator_osoby_modyfikujacej = row.xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text
-        contractor.nrid = row.xpath("./*[local-name()='nrid']").text
-        contractor.save
-      end 
+      response.xpath("//*[local-name()='return']").each do |ret|
+        ret.xpath("//*[local-name()='osoba']").each do |row|      
+          #contractor = self.esod_contractor
+          #contractor.nrid = row.xpath("./*[local-name()='nrid']").text
+          #contractor.save
 
-      response.xpath("//*[local-name()='adres']").each do |row|      
-        address = self.esod_address
-        address.data_utworzenia = row.xpath("./*[local-name()='dataUtworzenia']").text
-        address.identyfikator_osoby_tworzacej = row.xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text
-        address.data_modyfikacji = row.xpath("./*[local-name()='dataModyfikacji']").text
-        address.identyfikator_osoby_modyfikujacej = row.xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text
-        address.nrid = row.xpath("./*[local-name()='nrid']").text
-        address.typ = row.xpath("./*[local-name()='typ']").text
-        address.save
+          row.xpath("//*[local-name()='adres']").each do |sub|      
+            #address = self.esod_address
+            #address.nrid = sub.xpath("./*[local-name()='nrid']").text
+            #address.save
+          end
+
+        end 
       end
-
     end
 
-    rescue Savon::HTTPError => error
-      puts '==================================================================='
-      puts '      ----- Savon::HTTPError => error error.http.code -----'
-      puts "error.http.code: #{error.http.code}"
-      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
-      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
-      puts "         detail: #{error.to_hash[:fault][:detail]}"
-      puts '==================================================================='
-      #raise
+     rescue Savon::HTTPError => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "update_data_to_esod_and_update_self", 
+                              soap_function:  "modyfikuj_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
 
     rescue Savon::SOAPFault => error
-      puts '==================================================================='
-      puts '      ----- Savon::SOAPFault => error error.http.code -----'
-      puts "error.http.code: #{error.http.code}"
-      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
-      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
-      puts "         detail: #{error.to_hash[:fault][:detail]}"
-      puts '==================================================================='
-      #raise CustomError, fault_code
-      #raise
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "update_data_to_esod_and_update_self", 
+                              soap_function:  "modyfikuj_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
+    rescue Savon::InvalidResponseError => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "update_data_to_esod_and_update_self", 
+                              soap_function:  "modyfikuj_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
+
+    rescue Savon::Error => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "update_data_to_esod_and_update_self", 
+                              soap_function:  "modyfikuj_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
+    rescue SocketError => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "update_data_to_esod_and_update_self", 
+                              soap_function:  "modyfikuj_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
+    rescue => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "update_data_to_esod_and_update_self", 
+                              soap_function:  "modyfikuj_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
   end
 
 end
+

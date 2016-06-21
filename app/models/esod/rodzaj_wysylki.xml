@@ -1,215 +1,142 @@
-<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://www.dokus.pl/wspolne" xmlns:ns2="http://www.dokus.pl/slowniki/mt/slowniki" xmlns:ns3="http://www.dokus.pl/slowniki/ws/slowniki">
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://slownikESOD.uslugi.epl.uke.gov.pl/">
+   <SOAP-ENV:Header>
+      <wsse:Security SOAP-ENV:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+         <wsu:Timestamp wsu:Id="Timestamp-53" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+            <wsu:Created>2016-06-11T08:32:18.924Z</wsu:Created>
+            <wsu:Expires>2016-06-11T08:37:18.924Z</wsu:Expires>
+         </wsu:Timestamp>
+      </wsse:Security>
+   </SOAP-ENV:Header>
    <SOAP-ENV:Body>
-      <ns3:wyszukajRodzajeWysylekResponse>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2013-09-17 15:01:27</ns1:dataUtworzenia>
-            <ns1:dataModyfikacji>2015-11-02 10:38:02</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>2</ns2:nrid>
-            <ns2:nazwa>ePUAP</ns2:nazwa>
-            <ns2:profil>ePUAP</ns2:profil>
-            <ns2:rodzajZPO>brak</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-12-30 09:55:59</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-30 09:55:59</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>13</ns2:nrid>
-            <ns2:nazwa>List ZPO</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>ZPO</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-12-30 09:57:42</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-30 09:57:42</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>14</ns2:nrid>
-            <ns2:nazwa>List ZPO priorytet</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>ZPO</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-12-30 09:58:37</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-30 09:58:37</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>15</ns2:nrid>
-            <ns2:nazwa>List ZPO - KPA</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>ZPO KPA</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-12-30 09:59:10</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-30 09:59:10</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>16</ns2:nrid>
-            <ns2:nazwa>List ZPO - KPA priorytet</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>ZPO KPA</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-12-30 10:03:40</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-30 10:03:40</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>17</ns2:nrid>
-            <ns2:nazwa>List ZPO - Sąd</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>ZPO</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-10-29 11:54:35</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>1</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-04-12 16:33:58</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1305</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>4</ns2:nrid>
-            <ns2:nazwa>e-mail</ns2:nazwa>
-            <ns2:profil>email</ns2:profil>
-            <ns2:rodzajZPO>brak</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-11-03 14:07:21</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>1</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-04-21 09:56:50</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>6</ns2:nrid>
-            <ns2:nazwa>Odbiór osobisty</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>brak</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-12-30 10:05:19</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-06 08:46:25</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>22</ns2:nrid>
-            <ns2:nazwa>Fax</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>brak</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-12-30 10:05:06</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-06 08:46:34</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>21</ns2:nrid>
-            <ns2:nazwa>Posłaniec</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>brak</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-12-30 10:04:51</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-06 08:46:55</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>20</ns2:nrid>
-            <ns2:nazwa>Przesyłka dworcowa</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>brak</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-12-30 10:04:39</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-06 08:47:05</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>19</ns2:nrid>
-            <ns2:nazwa>Przesyłka kurierska</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>brak</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-12-30 09:54:53</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-06 08:47:23</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>12</ns2:nrid>
-            <ns2:nazwa>List polecony priorytet</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>brak</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-12-30 09:53:54</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-06 08:47:32</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>11</ns2:nrid>
-            <ns2:nazwa>List polecony</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>brak</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-12-30 09:53:20</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-06 08:47:41</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>10</ns2:nrid>
-            <ns2:nazwa>List priorytet</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>brak</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-11-23 11:04:16</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>1</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-06 08:47:55</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>9</ns2:nrid>
-            <ns2:nazwa>List zwykły</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>brak</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-10-29 12:56:03</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>1</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-06 08:48:04</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>5</ns2:nrid>
-            <ns2:nazwa>Poczta-ZPO</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>ZPO</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2015-12-30 10:04:10</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-06 10:52:50</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>18</ns2:nrid>
-            <ns2:nazwa>Priorytet ZPO - zagranica</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>ZZPO</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2016-05-06 10:53:16</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>1</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-06 10:53:16</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>23</ns2:nrid>
-            <ns2:nazwa>Priorytet polecony - zagranica</ns2:nazwa>
-            <ns2:profil>Osobno</ns2:profil>
-            <ns2:rodzajZPO>brak</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2016-05-12 11:27:09</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>1305</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-12 11:27:09</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1305</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>24</ns2:nrid>
-            <ns2:nazwa>Tablica ogłoszeń UKE</ns2:nazwa>
-            <ns2:profil>Standardowy</ns2:profil>
-            <ns2:rodzajZPO>brak</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-         <ns2:rodzajWysylki>
-            <ns1:dataUtworzenia>2016-05-12 11:27:29</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>1305</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-12 11:27:29</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1305</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>25</ns2:nrid>
-            <ns2:nazwa>Strona internetowa UKE</ns2:nazwa>
-            <ns2:profil>Standardowy</ns2:profil>
-            <ns2:rodzajZPO>brak</ns2:rodzajZPO>
-         </ns2:rodzajWysylki>
-      </ns3:wyszukajRodzajeWysylekResponse>
+      <ns1:wyszukajRodzajeWysylekResponse>
+         <return>
+            <rodzajWysylki>
+               <nazwa>ePUAP</nazwa>
+               <nrid>2</nrid>
+               <profil>ePUAP</profil>
+               <rodzaj>brak</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>List ZPO</nazwa>
+               <nrid>13</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>ZPO</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>List ZPO priorytet</nazwa>
+               <nrid>14</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>ZPO</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>List ZPO - KPA</nazwa>
+               <nrid>15</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>ZPO_KPA</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>List ZPO - KPA priorytet</nazwa>
+               <nrid>16</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>ZPO_KPA</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>List ZPO - Sąd</nazwa>
+               <nrid>17</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>ZPO</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>e-mail</nazwa>
+               <nrid>4</nrid>
+               <profil>email</profil>
+               <rodzaj>brak</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>Odbiór osobisty</nazwa>
+               <nrid>6</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>brak</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>Fax</nazwa>
+               <nrid>22</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>brak</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>Posłaniec</nazwa>
+               <nrid>21</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>brak</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>Przesyłka dworcowa</nazwa>
+               <nrid>20</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>brak</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>Przesyłka kurierska</nazwa>
+               <nrid>19</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>brak</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>List polecony priorytet</nazwa>
+               <nrid>12</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>brak</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>List polecony</nazwa>
+               <nrid>11</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>brak</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>List priorytet</nazwa>
+               <nrid>10</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>brak</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>List zwykły</nazwa>
+               <nrid>9</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>brak</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>Poczta-ZPO</nazwa>
+               <nrid>5</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>ZPO</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>Priorytet ZPO - zagranica</nazwa>
+               <nrid>18</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>ZZPO</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>Tablica ogłoszeń UKE</nazwa>
+               <nrid>24</nrid>
+               <profil>Standardowy</profil>
+               <rodzaj>brak</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>Strona internetowa UKE</nazwa>
+               <nrid>25</nrid>
+               <profil>Standardowy</profil>
+               <rodzaj>brak</rodzaj>
+            </rodzajWysylki>
+            <rodzajWysylki>
+               <nazwa>Priorytet polecony - zagranica</nazwa>
+               <nrid>23</nrid>
+               <profil>Osobno</profil>
+               <rodzaj>brak</rodzaj>
+            </rodzajWysylki>
+         </return>
+      </ns1:wyszukajRodzajeWysylekResponse>
    </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

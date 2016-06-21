@@ -189,4 +189,19 @@ class CreateRoleService
     end
   end
 
+  # esod
+  def esod_manager
+    role = Role.find_or_create_by!(name: "ESOD - Menadżer Dokumentów") do |role|
+      role.activities += %w(esod:index esod:show esod:create esod:update esod:delete esod:link esod:work)
+      role.save!
+    end
+  end
+  def esod_observer
+    role = Role.find_or_create_by!(name: "ESOD - Obserwator Dokumentów") do |role|
+      role.activities += %w(esod:index esod:show)
+      role.save!
+    end
+  end
+
+
 end

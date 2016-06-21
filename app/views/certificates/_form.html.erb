@@ -6,18 +6,7 @@
 <!--  <%= hidden_field_tag :back_url, params[:back_url] %> -->
 <%= hidden_field_tag :back_url, back_url %> 
 
-<% if @certificate.errors.any? %>
-  <div id="error_explanation" class="panel panel-danger">
-    <div class="panel-body">
-      <ul>
-      <% @certificate.errors.full_messages.each do |msg| %>
-        <li><h5><%= msg %></h5></li>
-      <% end %>
-      </ul>
-    </div>
-  </div>
-<% end %>
-
+<%= form_errors_for @certificate %>
 
 <div class="row">
   <div class="col-sm-7">
@@ -69,18 +58,6 @@
         <small class="help-block"><%=t 'help_block_text.certificate.form.number' %></small>
       </div>
 
-      <div class="form-group col-sm-6">
-        <%= f.label :certificate_status, class: 'control-label' %>
-        <%= f.select :certificate_status, 
-              options_for_select([['Duplikat', 'D'],
-                                  ['Nowe', 'N'],
-                                  ['Odnowione', 'O'], 
-                                  ['Skreślone (nieważne)', 'S'], 
-                                  ['Wymienione (odnowione)', 'W']], 
-                selected: @certificate.certificate_status), 
-              { include_blank: false }, 
-              { class: 'form-control input-sm', disabled: input_disabled } %>
-      </div>
     </div>  <!-- /row -->
 
     <div class="row">

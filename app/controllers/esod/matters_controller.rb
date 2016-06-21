@@ -2,24 +2,24 @@ require 'esodes'
 
 class Esod::MattersController < ApplicationController
   before_action :authenticate_user!
-  #after_action :verify_authorized, except: [:index, :datatables_index]
+  after_action :verify_authorized, except: [:index, :datatables_index, :select2_index]
 
   before_action :set_esod_matter, only: [:show, :edit, :update, :destroy]
+  before_action :set_esod_user_id
 
   # GET /esod/matters
   # GET /esod/matters.json 
   def index
-#    responseToken = Esod::Token.new(current_user.email, current_user.esod_encryped_password)
-#    if responseToken.response_data.present?
-#      @stanowiska = responseToken.stanowiska
-#      params[:stanowisko_id] = @stanowiska.first[:nrid] unless params[:stanowisko_id].present?
-#    else
-#      flash[:danger] = "Błąd wywołania funkcji ESOD! --- HTTP CODE: #{responseToken.response_error_http_code} , --- ERROR FAULT CODE: #{responseToken.response_error_faultcode}"
-#      flash[:a] = "--- ERROR FAULT STRING: #{responseToken.response_error_faultstring}"
-#      flash[:b] = "--- ERROR FAULT DETAIL: #{responseToken.response_error_faultdetail}"
-#      redirect_to :back#, alert: t('flash.actions.esod.alert', data: errors )
-#    end
-#  @stanowiska = [nrid: '12', imie: 'Bogdan', nazwisko: 'jarzab', nazwa: 'boss']
+    authorize :esod, :index?
+
+    Esodes::EsodTokenData.token_string
+    if Esodes::EsodTokenData.response_token_errors.present? 
+      Esodes::EsodTokenData.response_token_errors.each do |err|
+        flash_message :error, "#{err}"
+      end
+
+      redirect_to :back    
+    end
   end
 
   def datatables_index
@@ -48,6 +48,8 @@ class Esod::MattersController < ApplicationController
   # GET /esod/matters/1
   # GET /esod/matters/1.json
   def show 
+    authorize :esod, :show?
+
     respond_to do |format|
       format.json { render json: @esod_matter, root: false }
       format.html do
@@ -94,17 +96,19 @@ class Esod::MattersController < ApplicationController
 
   # GET /esod/matters/new
   def new
+    authorize :esod, :new?
     @esod_matter = Esod::Matter.new
   end
 
   # GET /esod/matters/1/edit
   def edit
+    authorize :esod, :edit?
   end
 
   # POST /esod/matters
   # POST /esod/matters.json
   def create
-    aaa
+    authorize :esod, :create?
     @esod_matter = Esod::Matter.new(esod_matter_params)
 
     respond_to do |format|
@@ -124,6 +128,7 @@ class Esod::MattersController < ApplicationController
   # PATCH/PUT /esod/matters/1
   # PATCH/PUT /esod/matters/1.json
   def update
+    authorize :esod, :update?
     respond_to do |format|
       if @esod_matter.update(esod_matter_params)
         format.html { redirect_to @esod_matter, notice: 'Matter was successfully updated.' }
@@ -138,6 +143,7 @@ class Esod::MattersController < ApplicationController
   # DELETE /esod/matters/1
   # DELETE /esod/matters/1.json
   def destroy
+    authorize :esod, :destroy?
     @esod_matter.destroy
     respond_to do |format|
       format.html { redirect_to esod_matters_url, notice: 'Matter was successfully destroyed.' }
@@ -149,6 +155,11 @@ class Esod::MattersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_esod_matter
       @esod_matter = Esod::Matter.find(params[:id])
+    end
+
+    # For cooperation with ESOD
+    def set_esod_user_id
+      Esodes::EsodTokenData.new(current_user.id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

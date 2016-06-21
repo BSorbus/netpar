@@ -44,12 +44,12 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
     records.map do |record|
 
       attach = record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last 
-
+ 
       [
         record.id,
         attach.present? ? link_to( image_tag( get_fileattach_as_small_image(attach, params[:category_service]) ), @view.examination_path(params[:category_service], record, back_url: @view.exam_path(record.exam.category.downcase, record.exam))) : '',
         #record.esod_matter.present? ? link_to(record.esod_matter.znak, @view.esod_matter_path(record.esod_matter)) : '',
-        record.esod_matters.any? ? record.esod_matters.flat_map {|row| row.znak }.join(', ') : "",
+        record.esod_matters.any? ? record.esod_matters.flat_map {|row| row.znak_with_padlock }.join(', ') : "",
         record.esod_category_name,
         record.division.name + " (" + record.division.short_name + ")",
         show_customer ? link_to(record.customer.fullname_and_address, @view.customer_path(record.customer)) : 'xxx-xxx',

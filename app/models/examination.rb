@@ -66,7 +66,7 @@ class Examination < ActiveRecord::Base
   end
 
   def flat_all_esod_matters
-    self.esod_matters.order(:id).flat_map {|row| row.znak }.join(' <br>').html_safe
+    self.esod_matters.order(:id).flat_map {|row| row.znak_with_padlock }.join(' <br>').html_safe
   end
 
   def check_exam_esod_category
@@ -87,7 +87,6 @@ class Examination < ActiveRecord::Base
         upd_certificate.valid_thru = Certificate.default_valid_thru_date(Time.zone.today, self.division)
         upd_certificate.exam = self.exam
         upd_certificate.user_id = gen_user_id
-        upd_certificate.certificate_status = "O"
         upd_certificate.save!
 
         self.certificate = upd_certificate

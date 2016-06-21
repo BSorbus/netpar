@@ -1,0 +1,14 @@
+<div class="alert <%= (if type.to_s == 'success' then 'alert-success' 
+                 elsif type.to_s == 'notice' then 'alert-info' 
+                 elsif type.to_s == 'error' then 'alert-danger' 
+                 elsif type.to_s == 'danger' then 'alert-danger' 
+                 elsif type.to_s == 'alert' then 'alert-danger' 
+                 end) %>">
+  <%= type.to_s == 'success' ? "<i class='fa fa-check-circle fa-lg' aria-hidden='true'></i>&nbsp;&nbsp;".html_safe : 
+      type.to_s == 'notice' ? "<i class='fa fa-info-circle fa-lg' aria-hidden='true'></i>&nbsp;&nbsp;".html_safe : 
+      type.to_s == 'error' ? "<i class='fa fa-times-circle fa-lg' aria-hidden='true'></i>&nbsp;&nbsp;".html_safe : 
+      type.to_s == 'danger' ? "<i class='fa fa-times-circle fa-lg' aria-hidden='true'></i>&nbsp;&nbsp;".html_safe : 
+      type.to_s == 'alert' ? "<i class='fa fa-times-circle fa-lg' aria-hidden='true'></i>&nbsp;&nbsp;".html_safe : nil %>
+  <%= message %>
+  <%#= content_tag :div, message %>
+</div>

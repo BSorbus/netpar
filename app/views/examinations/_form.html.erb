@@ -6,17 +6,7 @@
 <!--  <%= hidden_field_tag :back_url, params[:back_url] %> -->
 <%= hidden_field_tag :back_url, back_url %> 
 
-<% if @examination.errors.any? %>
-  <div id="error_explanation" class="panel panel-danger">
-    <div class="panel-body">
-      <ul>
-      <% @examination.errors.full_messages.each do |msg| %>
-        <li><h5><%= msg %></h5></li>
-      <% end %>
-      </ul>
-    </div>
-  </div>
-<% end %>
+<%= form_errors_for @examination %>
 
 
 <div class="row">

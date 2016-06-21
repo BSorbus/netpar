@@ -3,6 +3,7 @@
    # We default it to false 
 %>
 
+<%= form_errors_for @certificate %>
 
 <div class="row">
   <div class="col-sm-7">
@@ -18,11 +19,6 @@
       <div class="form-group col-sm-4">
         <p><strong><%= Certificate.human_attribute_name(:number) %></strong></p>
         <h5><%= @certificate.number %></h5>
-      </div>
-
-      <div class="form-group col-sm-4">
-        <p><strong><%= Certificate.human_attribute_name(:certificate_status) %></strong></p>
-        <h5><%= @certificate.certificate_status_name %></h5>
       </div>
 
     </div>  <!-- /row -->

@@ -3,7 +3,6 @@ FactoryGirl.define do
     nrid 1
     numer_ewidencyjny "MyString"
     tytul "MyString"
-    wysylka 1
     identyfikator_rodzaju_dokumentu_wychodzacego 1
     data_pisma "2016-04-20"
     numer_wersji 1

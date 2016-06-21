@@ -10,7 +10,7 @@ class CreateEsodMatters < ActiveRecord::Migration
       t.integer :identyfikator_kategorii_sprawy, index: true
       t.string :adnotacja
       t.integer :identyfikator_stanowiska_referenta, index: true
-      t.boolean :czy_otwarta
+      t.boolean :czy_otwarta, default: true
       t.datetime :data_utworzenia
       t.integer :identyfikator_osoby_tworzacej
       t.datetime :data_modyfikacji

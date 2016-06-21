@@ -3,17 +3,7 @@
    # We default it to false 
 %>
 
-<% if @customer.errors.any? %>
-  <div id="error_explanation" class="panel panel-danger">
-    <div class="panel-body">
-      <ul>
-      <% @customer.errors.full_messages.each do |msg| %>
-        <li><h5><%= msg %></h5></li>
-      <% end %>
-      </ul>
-    </div>
-  </div>
-<% end %>
+<%= form_errors_for @customer %>
 
 <div class="row">
   <div class="col-sm-12">

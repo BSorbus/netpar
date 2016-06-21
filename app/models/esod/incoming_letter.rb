@@ -5,108 +5,151 @@ class Esod::IncomingLetter < ActiveRecord::Base
   belongs_to :esod_contractor, class_name: 'Esod::Contractor'
   belongs_to :esod_address, class_name: 'Esod::Address'
 
-  # callbacks
-  # push data to ESOD after mamy_to_many (esod_incoming_letters_matters) created
-  #before_save :insert_data_to_esod_and_update_self, on: :create, if: "initialized_from_esod == false"
+  has_many :works, as: :trackable, source_type: 'Esod::IncomingLetter'
 
-  def insert_data_to_esod_and_update_self
+
+  def fullname
+    "#{self.esod_incoming_letters_matters.last.sygnatura}"
+    # "#{znak}, [#{iks_name}] (#{id})"
+  end
+  def fullname_and_id
+    "#{self.esod_incoming_letters_matters.last.sygnatura} (#{id})"
+    # "#{znak}, [#{iks_name}] (#{id})"
+  end
+
+
+  def push_soap_and_save(matter)
+    my_token = Esodes::EsodTokenData.token_string
+    if Esodes::EsodTokenData.response_token_errors.present? 
+      errors.add(:base, "Błąd! #{Esodes::EsodTokenData.response_token_errors}")
+      return false
+    end
+
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "#{Esodes::ESOD_API_SERVER}/wsdl/dokumenty/ws/dokumenty_przychodzace.wsdl",
-      endpoint: "#{Esodes::ESOD_API_SERVER}/uslugi.php/dokumentyprzychodzace/handle",
+      wsdl: "#{Esodes::API_SERVER}/services/DokumentPrzychodzacyUsluga?wsdl",
+      endpoint: "#{Esodes::API_SERVER}/services/DokumentPrzychodzacyUsluga.DokumentPrzychodzacyUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
-                    "xmlns:dok" => "http://www.dokus.pl/dokumenty/ws/dokumenty_przychodzace", 
-                    "xmlns:dok1" => "http://www.dokus.pl/dokumenty/mt/dokumenty_przychodzace", 
-                    "xmlns:mt" => "http://www.dokus.pl/dokumenty/pliki/mt", 
-                    "xmlns:slow" => "http://www.dokus.pl/slowniki/mt/slowniki", 
-                    "xmlns:wsp" => "http://www.dokus.pl/wspolne"
+                    "xmlns:dok" => "http://dokumentprzychodzacy.dokument.uslugi.epl.uke.gov.pl/" 
                   },
-      namespace_identifier: :dok, #"xmlns:ws" => "http://www.dokus.pl/sprawy/ws/utworzSprawe", 
+      env_namespace: :soapenv,
+      namespace_identifier: :dok, 
       strip_namespaces: true,
       logger: Rails.logger,
-      log_level: :debug,
+      log_level: :debug, # [:debug, :info, :warn, :error, :fatal]
       log: true,
       pretty_print_xml: true,
-      env_namespace: :soapenv,
-      soap_version: 2,
-      wsse_auth: [Esodes::EsodTokenData.netpar_user.email, Esodes::EsodTokenData.token_string],
-      soap_header: { "wsp:metaParametry" => 
-                      { "wsp:identyfikatorStanowiska" => Esodes::EsodTokenData.token_stanowiska.first[:nrid] } 
+      soap_version: 1,
+      wsse_timestamp: true,
+      ssl_verify_mode: :none,
+      headers: { "Authorization" => "Basic #{Esodes::base64_user_and_pass}" },
+      wsse_auth: [Esodes::EsodTokenData.netpar_user.email, my_token],
+      soap_header: { "dok:metaParametry" => 
+                      { "dok:identyfikatorStanowiska" => Esodes::EsodTokenData.token_stanowiska.first[:nrid] } 
                     }
     )
 
     message_body = { 
-      "dok1:tytul" => "#{self.tytul}", 
-      "dok1:dataPisma" => "#{self.data_pisma}",
-      "dok1:dataNadania" => "#{self.data_nadania}",
-      "dok1:dataWplyniecia" => "#{self.data_wplyniecia}",
-      "dok1:znakPismaWplywajacego" => "#{self.znak_pisma_wplywajacego}",
-      "dok1:idDCMD" => "#{self.identyfikator_typu_dcmd}",
-      "dok1:idRodzaju" => "#{self.identyfikator_rodzaju_dokumentu}",
-      "dok1:idSposobuPrzeslania" => "#{self.identyfikator_sposobu_przeslania}",
-      "dok1:terminNaOdpowiedz" => "#{self.termin_na_odpowiedz}",
-      "dok1:nadawca" => {
-        "slow:identyfikatorOsoby" => "#{self.identyfikator_osoby}",
-        "slow:identyfikatorAdresu" => "#{self.identyfikator_adresu}"
-      },
-      "dok1:pelnaWersjaCyfrowa" => "#{self.pelna_wersja_cyfrowa}",
-      "dok1:naturalnyElektroniczny" => "#{self.naturalny_elektroniczny}"
+      "parametryOperacjiUtworzDokumentPrzychodzacy" => {
+        "dataNadania" => "#{self.data_nadania}",
+        "dataPisma" => "#{self.data_pisma}",
+        "dataWplyniecia" => "#{self.data_wplyniecia}",
+        "identyfikatorRodzajuDokumentu" => "#{self.identyfikator_rodzaju_dokumentu}",
+        "identyfikatorSposobuPrzeslania" => "#{self.identyfikator_sposobu_przeslania}",
+        "identyfikatorTypuDCMD" => "#{self.identyfikator_typu_dcmd}",
+        "naturalnyElektroniczny" => "#{self.naturalny_elektroniczny}",
+        "opis" => "#{self.tytul}", 
+        "pelnaWersjaCyfrowa" => "#{self.pelna_wersja_cyfrowa}",
+        "terminNaOdpowiedz" => "#{self.termin_na_odpowiedz}",
+        "uwagi" => "#{self.uwagi}",
+        "znakPismaWplywajacego" => "#{self.znak_pisma_wplywajacego}",
+        "idAdresu" => "#{self.identyfikator_adresu}",
+        "liczbaZalacznikow" => "#{self.liczba_zalacznikow}"
+      }
     }
+  
+
 
     response = client.call(:utworz_dokument_przychodzacy,  message: message_body )
 
     if response.success?
-      response.xpath("//*[local-name()='utworzDokumentPrzychodzacyResponse']").each do |row|
-        self.data_utworzenia = row.xpath("./*[local-name()='dataUtworzenia']").text
-        self.identyfikator_osoby_tworzacej = row.xpath("./*[local-name()='identyfikatorOsobyTworzacej']").text
-        self.data_modyfikacji = row.xpath("./*[local-name()='dataModyfikacji']").text
-        self.identyfikator_osoby_modyfikujacej = row.xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text
-        self.numer_ewidencyjny = row.xpath("./*[local-name()='numerEwidencyjny']").text
-        self.nrid = row.xpath("./*[local-name()='nrid']").text 
-      end
+      response.xpath("//*[local-name()='return']").each do |ret|
+        response.xpath("//*[local-name()='dokumentPrzychodzacy']").each do |row|
+          self.numer_ewidencyjny = row.xpath("./*[local-name()='numerEwidencyjny']").text
+          self.nrid = row.xpath("./*[local-name()='nrid']").text 
+          self.save
 
-      #self.data_utworzenia = response.xpath("//*[local-name()='dataUtworzenia']").text,
-      #self.identyfikator_osoby_tworzacej = response.xpath("//*[local-name()='identyfikatorOsobyTworzacej']").text,
-      #self.data_modyfikacji = response.xpath("//*[local-name()='dataModyfikacji']").text,
-      #self.identyfikator_osoby_modyfikujacej = response.xpath("//*[local-name()='identyfikatorOsobyModyfikujacej']").text,
-      #self.numer_ewidencyjny = response.xpath("//*[local-name()='numerEwidencyjny']").text
-      #self.nrid = response.xpath("//*[local-name()='nrid']").text
-    end
+          #połącz pismo ze sprawą
+
+          esod_ilm = self.esod_incoming_letters_matters.new(
+            esod_matter_id: matter.id,  
+            sprawa: matter.nrid,   
+            dokument: self.nrid,   
+            sygnatura: nil,
+            initialized_from_esod: false,
+            netpar_user: self.netpar_user)
+          if esod_ilm.push_soap_and_save
+            true
+          else
+            esod_ilm.errors.full_messages.each do |msg|
+              self.errors.add(:base, "#{msg}")
+            end
+            false
+          end
+        end
+      end # /response.xpath("//*[local-name()='return']").each do |ret|
+    else
+      false
+    end # /response.success?
 
     rescue Savon::HTTPError => error
-      #Logger.log error.http.code
-      puts '==================================================================='
-      puts '      ----- Savon::HTTPError => error error.http.code -----'
-      puts "error.http.code: #{error.http.code}"
-      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
-      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
-      puts "         detail: #{error.to_hash[:fault][:detail]}"
-      puts '==================================================================='
-      #raise
+      Esodes::log_soap_error( error,
+                              file:      '\models\esod\incoming_letter.rb', 
+                              function:  "push_soap_and_save(matter)", 
+                              soap_function:  "utworz_dokument_przychodzacy", 
+                              base_obj:   self )
+      false
 
     rescue Savon::SOAPFault => error
-      #Logger.log error.http.code
-      puts '==================================================================='
-      puts '      ----- Savon::SOAPFault => error error.http.code -----'
-      puts "error.http.code: #{error.http.code}"
-      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
-      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
-      puts "         detail: #{error.to_hash[:fault][:detail]}"
-      puts '==================================================================='
-      #raise CustomError, fault_code
-      #raise
+      Esodes::log_soap_error( error,
+                              file:      '\models\esod\incoming_letter.rb', 
+                              function:  "push_soap_and_save(matter)", 
+                              soap_function:  "utworz_dokument_przychodzacy", 
+                              base_obj:   self )
+      false
 
     rescue Savon::InvalidResponseError => error
-      #Logger.log error.http.code
-      puts '==================================================================='
-      puts ' ----- Savon::InvalidResponseError => error error.http.code -----'
-      puts "error.http.code: #{error.http.code}"
-      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
-      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
-      puts "         detail: #{error.to_hash[:fault][:detail]}"
-      puts '==================================================================='
-      #raise CustomError, fault_code
-      #raise
+      Esodes::log_soap_error( error,
+                              file:      '\models\esod\incoming_letter.rb', 
+                              function:  "push_soap_and_save(matter)", 
+                              soap_function:  "utworz_dokument_przychodzacy", 
+                              base_obj:   self )
+      false
+
+    rescue Savon::Error => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\esod\incoming_letter.rb', 
+                              function:  "push_soap_and_save(matter)", 
+                              soap_function:  "utworz_dokument_przychodzacy", 
+                              base_obj:   self )
+      false
+
+    rescue SocketError => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\esod\incoming_letter.rb', 
+                              function:  "push_soap_and_save(matter)", 
+                              soap_function:  "utworz_dokument_przychodzacy", 
+                              base_obj:   self )
+      false
+
+    rescue => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\esod\incoming_letter.rb', 
+                              function:  "push_soap_and_save(matter)", 
+                              soap_function:  "utworz_dokument_przychodzacy", 
+                              base_obj:   self )
+      false
+
   end
 
 

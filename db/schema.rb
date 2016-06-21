@@ -304,7 +304,7 @@ ActiveRecord::Schema.define(version: 20160421063302) do
     t.integer  "identyfikator_kategorii_sprawy"
     t.string   "adnotacja"
     t.integer  "identyfikator_stanowiska_referenta"
-    t.boolean  "czy_otwarta"
+    t.boolean  "czy_otwarta",                                  default: true
     t.datetime "data_utworzenia"
     t.integer  "identyfikator_osoby_tworzacej"
     t.datetime "data_modyfikacji"
@@ -335,6 +335,7 @@ ActiveRecord::Schema.define(version: 20160421063302) do
     t.integer  "identyfikator_sposobu_wysylki"
     t.integer  "identyfikator_rodzaju_dokumentu_wychodzacego"
     t.date     "data_wyslania"
+    t.boolean  "czy_adresat_glowny",                                     default: true
     t.date     "data_pisma"
     t.integer  "numer_wersji"
     t.string   "uwagi"
@@ -632,6 +633,8 @@ ActiveRecord::Schema.define(version: 20160421063302) do
     t.datetime "locked_at"
     t.string   "authentication_token"
     t.string   "esod_encryped_password"
+    t.string   "esod_token"
+    t.datetime "esod_token_expired_at"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree

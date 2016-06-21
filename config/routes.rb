@@ -107,8 +107,8 @@ Rails.application.routes.draw do
       post 'datatables_index', on: :collection
       get 'select2_index', on: :collection
       resources :incoming_letters, only: [:show, :create], controller: 'matters/incoming_letters'
-      resources :outgoing_letters
-      resources :internal_letters
+      resources :outgoing_letters, only: [:show, :create], controller: 'matters/outgoing_letters'
+      resources :internal_letters, only: [:show, :create], controller: 'matters/internal_letters'
     end
   end
 

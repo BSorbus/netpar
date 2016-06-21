@@ -1,20 +1,24 @@
-<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://www.dokus.pl/wspolne" xmlns:ns2="http://www.dokus.pl/slowniki/mt/slowniki" xmlns:ns3="http://www.dokus.pl/slowniki/ws/slowniki">
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://slownikESOD.uslugi.epl.uke.gov.pl/">
+   <SOAP-ENV:Header>
+      <wsse:Security SOAP-ENV:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+         <wsu:Timestamp wsu:Id="Timestamp-34" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+            <wsu:Created>2016-06-11T08:19:40.320Z</wsu:Created>
+            <wsu:Expires>2016-06-11T08:24:40.320Z</wsu:Expires>
+         </wsu:Timestamp>
+      </wsse:Security>
+   </SOAP-ENV:Header>
    <SOAP-ENV:Body>
-      <ns3:wyszukajDostepnosciDokumentowResponse>
-         <ns2:dostepnoscDokumentu>
-            <ns1:dataUtworzenia>2013-09-17 15:01:27</ns1:dataUtworzenia>
-            <ns1:dataModyfikacji>2013-09-17 15:01:27</ns1:dataModyfikacji>
-            <ns2:nrid>1</ns2:nrid>
-            <ns2:nazwa>Publiczny</ns2:nazwa>
-         </ns2:dostepnoscDokumentu>
-         <ns2:dostepnoscDokumentu>
-            <ns1:dataUtworzenia>2016-04-25 10:45:33</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>1307</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-04-25 10:45:46</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1307</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>4</ns2:nrid>
-            <ns2:nazwa>Niepubliczny</ns2:nazwa>
-         </ns2:dostepnoscDokumentu>
-      </ns3:wyszukajDostepnosciDokumentowResponse>
+      <ns1:wyszukajDostepnoscDokumentowResponse>
+         <return>
+            <dostepnoscDokumentow>
+               <nazwa>Publiczny</nazwa>
+               <nrid>1</nrid>
+            </dostepnoscDokumentow>
+            <dostepnoscDokumentow>
+               <nazwa>Niepubliczny</nazwa>
+               <nrid>4</nrid>
+            </dostepnoscDokumentow>
+         </return>
+      </ns1:wyszukajDostepnoscDokumentowResponse>
    </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

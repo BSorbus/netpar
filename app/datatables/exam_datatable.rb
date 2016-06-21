@@ -37,7 +37,7 @@ class ExamDatatable < AjaxDatatablesRails::Base
   end
 
   private
-
+ 
   def data
     # comma separated list of the values for each cell of a table row
     # example: record.attribute,
@@ -46,7 +46,7 @@ class ExamDatatable < AjaxDatatablesRails::Base
       [
         record.id,
         attach.present? ? link_to( image_tag( get_fileattach_as_small_image(attach, record.category.downcase) ), @view.exam_path(params[:category_service], record)) : '',
-        record.esod_matters.any? ? record.esod_matters.flat_map {|row| row.znak }.join(', ') : "",
+        record.esod_matters.any? ? record.esod_matters.flat_map {|row| row.znak_with_padlock }.join(', ') : "",
         link_to(record.number, @view.exam_path(record.category.downcase, record)),
         record.date_exam,
         record.place_exam,

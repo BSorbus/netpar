@@ -4,11 +4,13 @@ class CreateEsodOutgoingLetters < ActiveRecord::Migration
       t.integer :nrid, limit: 8
       t.string :numer_ewidencyjny
       t.string :tytul, index: true
+      # do usuniecia
       t.integer :wysylka
       t.integer :identyfikator_adresu, limit: 8
       t.integer :identyfikator_sposobu_wysylki
       t.integer :identyfikator_rodzaju_dokumentu_wychodzacego
       t.date :data_wyslania
+      t.boolean :czy_adresat_glowny, default: true
       t.date :data_pisma
       t.integer :numer_wersji
       t.string :uwagi
@@ -19,7 +21,6 @@ class CreateEsodOutgoingLetters < ActiveRecord::Migration
       t.integer :identyfikator_osoby_tworzacej
       t.datetime :data_modyfikacji
       t.integer :identyfikator_osoby_modyfikujacej
-
       t.boolean :initialized_from_esod, default: false
       t.integer :netpar_user
 

@@ -49,9 +49,11 @@ class CustomersController < ApplicationController
       @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :merge, user: current_user, 
                               parameters: {source: @source.fullname_and_id, destination: @customer.fullname_and_id}.to_json)
 
-      redirect_to @customer, notice: t('activerecord.messages.successfull.merge', parent: @customer.fullname_and_id, child: @source.fullname_and_id)
+      flash_message :success, t('activerecord.messages.successfull.merge', parent: @customer.fullname_and_id, child: @source.fullname_and_id)
+      redirect_to @customer
     else
-      redirect_to @customer, alert: t('activerecord.messages.error.merge', data: @customer.fullname_and_id)
+      flash_message :error, t('activerecord.messages.error.merge', data: @customer.fullname_and_id)
+      redirect_to @customer
     end
   end
 
@@ -150,7 +152,8 @@ class CustomersController < ApplicationController
                       only: [:id, :name, :email] } 
                           }))
 
-        format.html { redirect_to @customer, notice: t('activerecord.messages.successfull.created', data: @customer.fullname) }
+        flash_message :success, t('activerecord.messages.successfull.created', data: @customer.fullname)
+        format.html { redirect_to @customer }
         format.json { render :show, status: :created, location: @customer }
       else
         format.html { render :new }
@@ -176,7 +179,8 @@ class CustomersController < ApplicationController
                       only: [:id, :name, :email] } 
                           }))
 
-        format.html { redirect_to @customer, notice: t('activerecord.messages.successfull.updated', data: @customer.fullname) }
+        flash_message :success, t('activerecord.messages.successfull.updated', data: @customer.fullname)
+        format.html { redirect_to @customer }
         format.json { render :show, status: :ok, location: @customer }
       else
         format.html { render :edit }
@@ -200,9 +204,10 @@ class CustomersController < ApplicationController
                       only: [:id, :name, :email] } 
                           }))
 
-      redirect_to customers_url, notice: t('activerecord.messages.successfull.destroyed', data: @customer.fullname)
+      flash_message :success, t('activerecord.messages.successfull.destroyed', data: @customer.fullname)
+      redirect_to customers_url
     else 
-      flash.now[:alert] = t('activerecord.messages.error.destroyed', data: @customer.fullname)
+      flash_message :error, t('activerecord.messages.error.destroyed', data: @customer.fullname)
       render :show
     end      
   end

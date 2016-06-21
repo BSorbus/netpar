@@ -323,15 +323,14 @@ class ExamsController < ApplicationController
     params[:category_service] == 'l' ? @exam.esod_category = Esodes::SESJA_BEZ_EGZAMINOW : @exam.esod_category = Esodes::SESJA
 
     exam_authorize(@exam, "new", params[:category_service])
-
-#    @esod_matter = load_esod_matter
-#    if @esod_matter.present?
-#      @exam.esod_matter = @esod_matter
-#      @exam.esod_category = @esod_matter.identyfikator_kategorii_sprawy
-#      @exam.number = @esod_matter.exam_number
-#      @exam.date_exam = @esod_matter.termin_realizacji
-#      @exam.place_exam = @esod_matter.exam_place
-#    end
+ 
+    @esod_matter = load_esod_matter
+    if @esod_matter.present?
+      @exam.esod_category = @esod_matter.identyfikator_kategorii_sprawy
+      @exam.number = @esod_matter.exam_number
+      @exam.date_exam = @esod_matter.termin_realizacji - Esodes::limit_time_add_to_exam(@exam.category)
+      @exam.place_exam = @esod_matter.exam_place
+    end
 
     (1..8).each { @exam.examiners.build }
   end
@@ -365,7 +364,8 @@ class ExamsController < ApplicationController
                                       examiners: {only: [:name]}
                                     }))
 
-        format.html { redirect_to exam_path(@exam, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.created', data: @exam.number) }
+        flash_message :success, t('activerecord.messages.successfull.created', data: @exam.number)
+        format.html { redirect_to exam_path(@exam, category_service: params[:category_service]) }
         format.json { render :show, status: :created, location: @exam }
       else
         format.html { render :new }
@@ -390,7 +390,8 @@ class ExamsController < ApplicationController
                                       examiners: {only: [:name]}
                                     }))
 
-        format.html { redirect_to exam_path(@exam, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.updated', data: @exam.number) }
+        flash_message :success, t('activerecord.messages.successfull.updated', data: @exam.number)
+        format.html { redirect_to exam_path(@exam, category_service: params[:category_service]) }
         format.json { render :show, status: :ok, location: @exam }
       else
         format.html { render :edit }
@@ -409,9 +410,11 @@ class ExamsController < ApplicationController
       @esod_matter.works.create!(trackable_url: "#{esod_matter_path(@esod_matter)}", action: :esod_matter_link, user: current_user, 
                             parameters: {esod_matter: @esod_matter.fullname, link: @exam.fullname}.to_json)
 
-      redirect_to :back, notice: t('activerecord.messages.successfull.esod_matter_link', parent: @exam.number, child: @esod_matter.znak)
+      flash_message :success, t('activerecord.messages.successfull.esod_matter_link', parent: @exam.number, child: @esod_matter.fullname)
+      redirect_to :back 
     else
-      redirect_to :back, alert: t('activerecord.messages.error.esod_matter_link', parent: @exam.number, child: @esod_matter.znak)
+      flash_message :error, t('activerecord.messages.error.esod_matter_link', parent: @exam.number, child: @esod_matter.fullname)
+      redirect_to :back 
     end
   end
 
@@ -428,10 +431,12 @@ class ExamsController < ApplicationController
                                       user: {only: [:id, :name, :email]},
                                       examiners: {only: [:name]}
                                     }))
-      redirect_to exams_url, notice: t('activerecord.messages.successfull.destroyed', data: @exam.number)
+      flash_message :success, t('activerecord.messages.successfull.destroyed', data: @exam.number)
+      redirect_to exams_url
     else 
-      flash.now[:alert] = t('activerecord.messages.error.destroyed', data: @exam.number)
+      flash_message :error, t('activerecord.messages.error.destroyed', data: @exam.number)
       render :show
+      #redirect_to :back
     end      
   end
 

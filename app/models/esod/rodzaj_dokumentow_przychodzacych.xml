@@ -1,543 +1,318 @@
-<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://www.dokus.pl/wspolne" xmlns:ns2="http://www.dokus.pl/slowniki/mt/slowniki" xmlns:ns3="http://www.dokus.pl/slowniki/ws/slowniki">
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://slownikESOD.uslugi.epl.uke.gov.pl/">
+   <SOAP-ENV:Header>
+      <wsse:Security SOAP-ENV:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+         <wsu:Timestamp wsu:Id="Timestamp-51" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+            <wsu:Created>2016-06-11T08:29:50.555Z</wsu:Created>
+            <wsu:Expires>2016-06-11T08:34:50.555Z</wsu:Expires>
+         </wsu:Timestamp>
+      </wsse:Security>
+   </SOAP-ENV:Header>
    <SOAP-ENV:Body>
-      <ns3:wyszukajRodzajeDokumentowPrzychodzacychResponse>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:47:04</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:47:04</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>192</ns2:nrid>
-            <ns2:nazwa>decyzja</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2016-01-29 11:14:46</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-01-29 11:14:46</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>243</ns2:nrid>
-            <ns2:nazwa>Upoważnienie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:49:38</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:49:38</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>211</ns2:nrid>
-            <ns2:nazwa>zaświadczenie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:47:18</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:47:18</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>193</ns2:nrid>
-            <ns2:nazwa>formularz f xx</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:47:26</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:47:26</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>194</ns2:nrid>
-            <ns2:nazwa>informacja</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:49:54</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:49:54</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>213</ns2:nrid>
-            <ns2:nazwa>zawiadomienie uproszczone</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:47:32</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:47:32</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>195</ns2:nrid>
-            <ns2:nazwa>karta</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:47:44</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:47:44</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>197</ns2:nrid>
-            <ns2:nazwa>opinia</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:50:01</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:50:01</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>214</ns2:nrid>
-            <ns2:nazwa>zgłoszenie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:47:51</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:47:51</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>198</ns2:nrid>
-            <ns2:nazwa>plan</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:54:20</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:54:20</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>229</ns2:nrid>
-            <ns2:nazwa>skarga kasacyjna</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:47:57</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:47:57</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>199</ns2:nrid>
-            <ns2:nazwa>polisa</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:54:36</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:54:36</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>231</ns2:nrid>
-            <ns2:nazwa>wezwanie do UKE</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:48:03</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:48:03</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>200</ns2:nrid>
-            <ns2:nazwa>postanowienie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:48:12</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:48:12</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>201</ns2:nrid>
-            <ns2:nazwa>potwierdzenie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:48:40</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:48:40</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>203</ns2:nrid>
-            <ns2:nazwa>przekazanie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:55:11</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:55:11</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>235</ns2:nrid>
-            <ns2:nazwa>wniosek o opinię celną</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:54:03</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:54:03</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>226</ns2:nrid>
-            <ns2:nazwa>odwołanie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:55:31</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:55:31</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>237</ns2:nrid>
-            <ns2:nazwa>wniosek o pozwolenie radiowe</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:56:09</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:56:09</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>239</ns2:nrid>
-            <ns2:nazwa>zapytanie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:44:42</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-01-29 11:14:46</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>188</ns2:nrid>
-            <ns2:nazwa>Dokumenty informacyjne</ns2:nazwa>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:54:43</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:54:43</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>232</ns2:nrid>
-            <ns2:nazwa>wniosek</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:49:44</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:49:44</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>212</ns2:nrid>
-            <ns2:nazwa>zawiadomienie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:54:53</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:54:53</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>233</ns2:nrid>
-            <ns2:nazwa>wniosek o interwencję</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:47:39</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:47:39</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>196</ns2:nrid>
-            <ns2:nazwa>oferta</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:55:21</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:55:21</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>236</ns2:nrid>
-            <ns2:nazwa>wniosek o ponowne rozpatrzenie sprawy</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:45:53</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:45:53</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>190</ns2:nrid>
-            <ns2:nazwa>analiza</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:50:07</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:50:07</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>215</ns2:nrid>
-            <ns2:nazwa>zwrot</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:54:26</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:54:26</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>230</ns2:nrid>
-            <ns2:nazwa>sprzeciw</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:46:05</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:46:05</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>191</ns2:nrid>
-            <ns2:nazwa>certyfikat</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:56:03</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:56:03</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>238</ns2:nrid>
-            <ns2:nazwa>wniosek o wpis RPT/RPP</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:51:56</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:51:56</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>217</ns2:nrid>
-            <ns2:nazwa>faktura</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>216</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:48:33</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:48:33</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>202</ns2:nrid>
-            <ns2:nazwa>protokół uproszczony</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:52:05</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:52:05</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>218</ns2:nrid>
-            <ns2:nazwa>nota</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>216</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:56:27</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:56:27</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>241</ns2:nrid>
-            <ns2:nazwa>zgłoszenie zakłóceń</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:48:53</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:48:53</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>205</ns2:nrid>
-            <ns2:nazwa>sprawozdanie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:52:13</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:52:13</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>219</ns2:nrid>
-            <ns2:nazwa>rachunek</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>216</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:49:10</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:49:10</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>207</ns2:nrid>
-            <ns2:nazwa>świadectwo</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:49:30</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:49:30</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>210</ns2:nrid>
-            <ns2:nazwa>zaproszenie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:55:01</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:55:01</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>234</ns2:nrid>
-            <ns2:nazwa>wniosek o mediację</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:52:31</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:52:31</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>221</ns2:nrid>
-            <ns2:nazwa>umowa</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>216</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:52:37</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:52:37</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>222</ns2:nrid>
-            <ns2:nazwa>wyciąg</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>216</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:51:36</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:52:43</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>216</ns2:nrid>
-            <ns2:nazwa>Dokumenty księgowe</ns2:nazwa>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:56:18</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:56:18</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>240</ns2:nrid>
-            <ns2:nazwa>zażalenie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:52:25</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:52:25</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>220</ns2:nrid>
-            <ns2:nazwa>rozliczenie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>216</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:48:47</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:48:47</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>204</ns2:nrid>
-            <ns2:nazwa>raport</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:52:43</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:52:43</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>223</ns2:nrid>
-            <ns2:nazwa>zamówienie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>216</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:56:32</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:56:32</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>242</ns2:nrid>
-            <ns2:nazwa>zlecenie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:49:00</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:49:00</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>206</ns2:nrid>
-            <ns2:nazwa>stanowisko</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:53:56</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:53:56</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>225</ns2:nrid>
-            <ns2:nazwa>apelacja</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:54:09</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:54:09</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>227</ns2:nrid>
-            <ns2:nazwa>pozew</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:49:17</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:49:17</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>208</ns2:nrid>
-            <ns2:nazwa>wyjaśnienie</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:54:15</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:54:15</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>228</ns2:nrid>
-            <ns2:nazwa>skarga</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:49:24</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2015-12-31 08:49:24</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>209</ns2:nrid>
-            <ns2:nazwa>wyrok</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>188</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2016-04-01 17:01:21</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>1305</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-04-01 17:01:21</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1305</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>244</ns2:nrid>
-            <ns2:nazwa>Wniosek o przeprowadzenie egzaminu i/lub wydanie świadectwa</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2016-05-03 11:48:06</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>1305</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-03 11:48:06</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1305</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>246</ns2:nrid>
-            <ns2:nazwa>Wniosek o interwencję - WIK</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2016-04-27 19:13:13</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>1305</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-04-27 19:13:13</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1305</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>245</ns2:nrid>
-            <ns2:nazwa>Wniosek o udostępnienie informacji publicznej</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2016-05-03 12:07:20</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>1305</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-03 12:07:20</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1305</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>247</ns2:nrid>
-            <ns2:nazwa>wniosek koordynacyjny</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2015-12-31 08:53:40</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>820</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-03 12:07:40</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>820</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>224</ns2:nrid>
-            <ns2:nazwa>Wnioski / Skargi / Zgłoszenia</ns2:nazwa>
-         </ns2:rodzajDokumentuPrzychodzacego>
-         <ns2:rodzajDokumentuPrzychodzacego>
-            <ns1:dataUtworzenia>2016-05-03 12:07:40</ns1:dataUtworzenia>
-            <ns1:identyfikatorOsobyTworzacej>1305</ns1:identyfikatorOsobyTworzacej>
-            <ns1:dataModyfikacji>2016-05-03 12:07:40</ns1:dataModyfikacji>
-            <ns1:identyfikatorOsobyModyfikujacej>1305</ns1:identyfikatorOsobyModyfikujacej>
-            <ns2:nrid>248</ns2:nrid>
-            <ns2:nazwa>wniosek o rezerwację częstotliwości</ns2:nazwa>
-            <ns2:identyfikatorRodzajuNadrzednego>224</ns2:identyfikatorRodzajuNadrzednego>
-         </ns2:rodzajDokumentuPrzychodzacego>
-      </ns3:wyszukajRodzajeDokumentowPrzychodzacychResponse>
+      <ns1:wyszukajRodzajeDokumentowPrzychodzacychResponse>
+         <return>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>decyzja</nazwa>
+               <nrid>192</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>Upoważnienie</nazwa>
+               <nrid>243</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>zaświadczenie</nazwa>
+               <nrid>211</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>formularz f xx</nazwa>
+               <nrid>193</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>informacja</nazwa>
+               <nrid>194</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>zawiadomienie uproszczone</nazwa>
+               <nrid>213</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>karta</nazwa>
+               <nrid>195</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>opinia</nazwa>
+               <nrid>197</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>zgłoszenie</nazwa>
+               <nrid>214</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>plan</nazwa>
+               <nrid>198</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>skarga kasacyjna</nazwa>
+               <nrid>229</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>polisa</nazwa>
+               <nrid>199</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>wezwanie do UKE</nazwa>
+               <nrid>231</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>postanowienie</nazwa>
+               <nrid>200</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>potwierdzenie</nazwa>
+               <nrid>201</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>przekazanie</nazwa>
+               <nrid>203</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>wniosek o opinię celną</nazwa>
+               <nrid>235</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>odwołanie</nazwa>
+               <nrid>226</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>wniosek o pozwolenie radiowe</nazwa>
+               <nrid>237</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>zapytanie</nazwa>
+               <nrid>239</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>Dokumenty informacyjne</nazwa>
+               <nrid>188</nrid>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>wniosek</nazwa>
+               <nrid>232</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>zawiadomienie</nazwa>
+               <nrid>212</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>wniosek o interwencję</nazwa>
+               <nrid>233</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>oferta</nazwa>
+               <nrid>196</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>wniosek o ponowne rozpatrzenie sprawy</nazwa>
+               <nrid>236</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>analiza</nazwa>
+               <nrid>190</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>zwrot</nazwa>
+               <nrid>215</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>sprzeciw</nazwa>
+               <nrid>230</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>certyfikat</nazwa>
+               <nrid>191</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>wniosek o wpis RPT/RPP</nazwa>
+               <nrid>238</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>faktura</nazwa>
+               <nrid>217</nrid>
+               <identyfikatorRodzajuNadrzednego>216</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>protokół uproszczony</nazwa>
+               <nrid>202</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>nota</nazwa>
+               <nrid>218</nrid>
+               <identyfikatorRodzajuNadrzednego>216</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>zgłoszenie zakłóceń</nazwa>
+               <nrid>241</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>sprawozdanie</nazwa>
+               <nrid>205</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>rachunek</nazwa>
+               <nrid>219</nrid>
+               <identyfikatorRodzajuNadrzednego>216</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>świadectwo</nazwa>
+               <nrid>207</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>zaproszenie</nazwa>
+               <nrid>210</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>wniosek o mediację</nazwa>
+               <nrid>234</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>umowa</nazwa>
+               <nrid>221</nrid>
+               <identyfikatorRodzajuNadrzednego>216</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>wyciąg</nazwa>
+               <nrid>222</nrid>
+               <identyfikatorRodzajuNadrzednego>216</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>Dokumenty księgowe</nazwa>
+               <nrid>216</nrid>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>zażalenie</nazwa>
+               <nrid>240</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>rozliczenie</nazwa>
+               <nrid>220</nrid>
+               <identyfikatorRodzajuNadrzednego>216</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>raport</nazwa>
+               <nrid>204</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>zamówienie</nazwa>
+               <nrid>223</nrid>
+               <identyfikatorRodzajuNadrzednego>216</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>zlecenie</nazwa>
+               <nrid>242</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>stanowisko</nazwa>
+               <nrid>206</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>apelacja</nazwa>
+               <nrid>225</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>pozew</nazwa>
+               <nrid>227</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>wyjaśnienie</nazwa>
+               <nrid>208</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>skarga</nazwa>
+               <nrid>228</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>wyrok</nazwa>
+               <nrid>209</nrid>
+               <identyfikatorRodzajuNadrzednego>188</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>Wniosek o przeprowadzenie egzaminu i/lub wydanie świadectwa</nazwa>
+               <nrid>244</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>Wniosek o interwencję - WIK</nazwa>
+               <nrid>246</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>Wniosek o udostępnienie informacji publicznej</nazwa>
+               <nrid>245</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>wniosek koordynacyjny</nazwa>
+               <nrid>247</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>wniosek o rezerwację częstotliwości</nazwa>
+               <nrid>248</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>Wnioski / Skargi / Zgłoszenia</nazwa>
+               <nrid>224</nrid>
+            </rodzajDokumentuPrzychodzacego>
+            <rodzajDokumentuPrzychodzacego>
+               <nazwa>Wniosek o przeprowadzenie egzaminu i/lub wydanie świadectwa 1</nazwa>
+               <nrid>249</nrid>
+               <identyfikatorRodzajuNadrzednego>224</identyfikatorRodzajuNadrzednego>
+            </rodzajDokumentuPrzychodzacego>
+         </return>
+      </ns1:wyszukajRodzajeDokumentowPrzychodzacychResponse>
    </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

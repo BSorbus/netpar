@@ -63,7 +63,7 @@ gem 'refile-postgres', '~> 1.3.0'
 
 gem 'active_model_serializers'
 
-#gem 'font-awesome-sass'
+gem 'font-awesome-sass'
 #gem 'yomu'
 #gem 'pdf-reader'
 

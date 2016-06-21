@@ -5,7 +5,6 @@ FactoryGirl.define do
     date_of_issue "2015-08-07"
     valid_thru "2015-08-07"
     canceled false
-    certificate_status "N"
     exam nil
     division nil
     customer nil

@@ -21,7 +21,9 @@
     </header>
     <%= yield(:upper_part_page) %>
     <main role="main">
-      <%= render 'layouts/messages' %>       
+      <%= render_flash %>
+      <%#= render 'layouts/messages' %>
+      <%= yield :form_errors %>       
       <%= yield %>
     </main>
     <%= yield(:bottom_part_page) %>

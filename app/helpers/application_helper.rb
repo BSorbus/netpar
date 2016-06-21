@@ -2,6 +2,40 @@ module ApplicationHelper
   #require 'RMagick'
   #require 'refile-mini_magick'
 
+  def form_errors_for(object=nil)
+    if object.present? && object.errors.any?
+      render('layouts/errors', object: object)
+    end
+  end
+
+  # Adds a message to the relevant flash type array (error, notice or success) 
+  #
+  # @param [Symbol] flash type
+  # @param [String] message
+  def flash_message type, text
+    flash[type] ||= []
+    flash[type] << text
+  end   
+
+  # Iterates through each flash message in the array and renders it to the DOM with a partial
+  #
+  # @return [String] HTML elements
+  def render_flash
+    flash_array = []
+    flash.each do |type, messages|
+      if messages.is_a?(String)
+        flash_array << render(partial: 'layouts/flash', format: [:html], locals: { type: type, message: messages })
+      else
+        unless type.to_s == 'timedout'
+          messages.each do |m| 
+            flash_array << render(partial: 'layouts/flash', format: [:html], locals: { type: type, message: m }) unless m.blank?
+          end
+        end
+      end
+    end
+    flash_array.join('').html_safe
+  end
+
 
 	def get_fileattach_as_image(attach, for_service)
 

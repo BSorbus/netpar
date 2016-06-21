@@ -1,92 +1,105 @@
-require 'esodes'
-
 class Esod::IncomingLettersMatter < ActiveRecord::Base
   belongs_to :esod_incoming_letter, class_name: "Esod::IncomingLetter", foreign_key: :esod_incoming_letter_id
   belongs_to :esod_matter, class_name: "Esod::Matter", foreign_key: :esod_matter_id
 
 
-  # callbacks
-  #before_save :insert_data_to_esod_and_update_self, on: :create, if: "initialized_from_esod == false"
-  before_save :push_data_to_esod_and_update_self, on: :create, if: "initialized_from_esod == false"
+  def push_soap_and_save
+    my_token = Esodes::EsodTokenData.token_string
+    if Esodes::EsodTokenData.response_token_errors.present? 
+      Esodes::EsodTokenData.response_token_errors.each do |err|
+        errors.add(:base, "#{err}")
+      end
+      return false
+    end
 
-  def push_data_to_esod_and_update_self
-    self.esod_incoming_letter.insert_data_to_esod_and_update_self
-
-    self.dokument = self.esod_incoming_letter.nrid 
-    self.insert_data_to_esod_and_update_self
-  end
-
-  def insert_data_to_esod_and_update_self
     client = Savon.client(
-      encoding: "UTF-8",
-      wsdl: "#{Esodes::ESOD_API_SERVER}/wsdl/sprawy/ws/sprawy.wsdl",
-      endpoint: "#{Esodes::ESOD_API_SERVER}/uslugi.php/sprawy/handle",
+      wsdl: "#{Esodes::API_SERVER}/services/SprawaESODUsluga?wsdl",
+      endpoint: "#{Esodes::API_SERVER}/services/SprawaESODUsluga.SprawaESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
-                    "xmlns:mt" => "http://www.dokus.pl/sprawy/mt",
-                    "xmlns:ws" => "http://www.dokus.pl/sprawy/ws", 
-                    "xmlns:wsp" => "http://www.dokus.pl/wspolne",
-                    "xmlns:ns1" => "http://www.dokus.pl/wspolne", 
-                    "xmlns:ns2" => "http://www.dokus.pl/sprawy/mt", 
-                    "xmlns:ns3" => "http://www.dokus.pl/sprawy/ws" },
-      namespace_identifier: :ws, #"xmlns:ws" => "http://www.dokus.pl/sprawy/ws/utworzSprawe", 
+                    "xmlns:spr" => "http://sprawaESOD.uslugi.epl.uke.gov.pl/"
+                  },
+      env_namespace: :soapenv,
+      namespace_identifier: :spr, 
       strip_namespaces: true,
       logger: Rails.logger,
       log_level: :debug,
       log: true,
       pretty_print_xml: true,
-      env_namespace: :soapenv,
-      soap_version: 2,
-      wsse_auth: [Esodes::EsodTokenData.netpar_user.email, Esodes::EsodTokenData.token_string],
-      soap_header: { "wsp:metaParametry" => 
-                      { "wsp:identyfikatorStanowiska" => Esodes::EsodTokenData.token_stanowiska.first[:nrid] } 
+      soap_version: 1,
+      wsse_timestamp: true,
+      ssl_verify_mode: :none,
+      headers: { "Authorization" => "Basic #{Esodes::base64_user_and_pass}" },
+      wsse_auth: [Esodes::EsodTokenData.netpar_user.email, my_token],
+      soap_header: { "spr:metaParametry" => 
+                      { "spr:identyfikatorStanowiska" => Esodes::EsodTokenData.token_stanowiska.first[:nrid] } 
                     }
     )
 
     message_body = { 
-      "mt:identyfikatorSprawy" => "#{self.sprawa}",
-      "mt:identyfikatorDokumentu" => "#{self.dokument}"
-    }
+      "parametryOperacjiDodajDokumentPrzychodzacyDoSprawy" => {
+        "identyfikatorDokumentu" => "#{self.dokument}",
+        "identyfikatorSprawy" => "#{self.sprawa}"
+        }
+      }
 
     response = client.call(:dodaj_dokument_przychodzacy_do_sprawy,  message: message_body )
 
     if response.success?
       self.sygnatura = response.xpath("//*[local-name()='sygnatura']").text
+      self.save
+      true
+    else
+      false
     end
 
     rescue Savon::HTTPError => error
-      #Logger.log error.http.code
-      puts '==================================================================='
-      puts '      ----- Savon::HTTPError => error error.http.code -----'
-      puts "error.http.code: #{error.http.code}"
-      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
-      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
-      puts "         detail: #{error.to_hash[:fault][:detail]}"
-      puts '==================================================================='
-      #raise
+      Esodes::log_soap_error( error,
+                              file:      '\models\esod\incoming_letters_matter.rb', 
+                              function:  "push_soap_and_save", 
+                              soap_function:  "dodaj_dokument_przychodzacy_do_sprawy", 
+                              base_obj:   self )
+      false
 
     rescue Savon::SOAPFault => error
-      #Logger.log error.http.code
-      puts '==================================================================='
-      puts '      ----- Savon::SOAPFault => error error.http.code -----'
-      puts "error.http.code: #{error.http.code}"
-      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
-      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
-      puts "         detail: #{error.to_hash[:fault][:detail]}"
-      puts '==================================================================='
-      #raise CustomError, fault_code
-      #raise
+      Esodes::log_soap_error( error,
+                              file:      '\models\esod\incoming_letters_matter.rb', 
+                              function:  "push_soap_and_save(matter)", 
+                              soap_function:  "dodaj_dokument_przychodzacy_do_sprawy", 
+                              base_obj:   self )
+      false
 
     rescue Savon::InvalidResponseError => error
-      #Logger.log error.http.code
-      puts '==================================================================='
-      puts ' ----- Savon::InvalidResponseError => error error.http.code -----'
-      puts "error.http.code: #{error.http.code}"
-      puts "      faultcode: #{error.to_hash[:fault][:faultcode]}"
-      puts "    faultstring: #{error.to_hash[:fault][:faultstring]}"
-      puts "         detail: #{error.to_hash[:fault][:detail]}"
-      puts '==================================================================='
-      #raise CustomError, fault_code
-      #raise
+      Esodes::log_soap_error( error,
+                              file:      '\models\esod\incoming_letters_matter.rb', 
+                              function:  "push_soap_and_save", 
+                              soap_function:  "dodaj_dokument_przychodzacy_do_sprawy", 
+                              base_obj:   self )
+      false
+
+    rescue Savon::Error => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\esod\incoming_letters_matter.rb', 
+                              function:  "push_soap_and_save", 
+                              soap_function:  "dodaj_dokument_przychodzacy_do_sprawy", 
+                              base_obj:   self )
+      false
+
+    rescue SocketError => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\esod\incoming_letters_matter.rb', 
+                              function:  "push_soap_and_save", 
+                              soap_function:  "dodaj_dokument_przychodzacy_do_sprawy", 
+                              base_obj:   self )
+      false
+
+    rescue => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\esod\incoming_letters_matter.rb', 
+                              function:  "push_soap_and_save", 
+                              soap_function:  "dodaj_dokument_przychodzacy_do_sprawy", 
+                              base_obj:   self )
+      false
+
   end
 
 

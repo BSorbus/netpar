@@ -16,7 +16,6 @@ class CertificateDatatable < AjaxDatatablesRails::Base
                               Certificate.number
                               Certificate.date_of_issue
                               Certificate.valid_thru
-                              Certificate.certificate_status
                               Division.name
                               Customer.name
                               Exam.number
@@ -45,18 +44,17 @@ class CertificateDatatable < AjaxDatatablesRails::Base
     show_customer = policy(:customer).show?
 
     records.map do |record|
-
+ 
       attach = record.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last 
 
       [
         record.id,
         attach.present? ? link_to( image_tag( get_fileattach_as_small_image(attach, record.category.downcase) ), @view.certificate_path(params[:category_service], record)) : '',
         #record.esod_matter.present? ? link_to(record.esod_matter.znak, @view.esod_matter_path(record.esod_matter)) : '',
-        record.esod_matters.any? ? record.esod_matters.flat_map {|row| row.znak }.join(', ') : "",
+        record.esod_matters.any? ? record.esod_matters.flat_map {|row| row.znak_with_padlock }.join(', ') : "",
         link_to(record.number, @view.certificate_path(record.category.downcase, record)),
         record.date_of_issue,
         record.valid_thru,
-        record.certificate_status_name,
         record.division.name,
         show_customer ? link_to(record.customer.fullname_and_address, @view.customer_path(record.customer)) : 'xxx-xxx',
         link_to(record.exam.fullname, @view.exam_path(record.category.downcase, record.exam)),

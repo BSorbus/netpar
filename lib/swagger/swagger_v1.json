@@ -1134,10 +1134,6 @@
                     "type": "string",
                     "description": "Valid thru."
                 },
-                "certificate_status": {
-                    "type": "string",
-                    "description": "Certificate status. W - valid, N - no valid."
-                },
                 "note": {
                     "type": "string",
                     "description": "Note."

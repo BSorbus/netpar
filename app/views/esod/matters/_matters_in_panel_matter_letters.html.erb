@@ -2,13 +2,9 @@
 
   <div class="col-sm-12">
     <ul class="nav nav-pills nav-justified">
-        <%# if matterable.has_attribute?(:customer_id) %>
-          <li class="nav active"><a href="#A" data-toggle="tab"><%= t("helpers.links.new_esod_matter_letter_incoming") %></a></li>
-          <li class="nav"><a href="#B" data-toggle="tab"><%= t("helpers.links.new_esod_matter_letter_outgoing") %></a></li>
-          <li class="nav"><a href="#C" data-toggle="tab"><%= t("helpers.links.new_esod_matter_letter_internal") %></a></li>
-        <%# else %>
-<!--           <li class="nav active"><a href="#C" data-toggle="tab"><%= t("helpers.links.new_esod_matter_letter_internal") %></a></li> -->        
-        <%# end %>
+      <li class="nav active"><a href="#A" data-toggle="tab"><%= t("helpers.links.new_esod_matter_letter_incoming") %></a></li>
+      <li class="nav"><a href="#B" data-toggle="tab"><%= t("helpers.links.new_esod_matter_letter_outgoing") %></a></li>
+      <li class="nav"><a href="#C" data-toggle="tab"><%= t("helpers.links.new_esod_matter_letter_internal") %></a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -132,7 +128,7 @@
                 </div> <!-- /row -->
                 <hr>
                 <div class="row">
-                  <%= f.submit nil, class: 'btn btn-primary pull-right' %>
+                  <%= f.submit nil, class: 'btn btn-primary pull-right', disabled: !matterable.has_attribute?(:customer_id) %>
                 </div> <!-- /row -->
 
               <% end %> <!-- /form_for -->
@@ -219,7 +215,7 @@
                 </div> <!-- /row -->
                 <hr>
                 <div class="row">
-                  <%= f.submit nil, class: 'btn btn-primary pull-right' %>
+                  <%= f.submit nil, class: 'btn btn-primary pull-right', disabled: !matterable.has_attribute?(:customer_id) %>
                 </div> <!-- /row -->
 
               <% end %> <!-- /form_for -->

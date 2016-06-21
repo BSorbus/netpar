@@ -5,17 +5,7 @@
      # We default it to false 
   %>
 
-  <% if @role.errors.any? %>
-    <div id="error_explanation" class="panel panel-danger">
-      <div class="panel-body">
-        <ul>
-        <% @role.errors.full_messages.each do |msg| %>
-          <li><h5><%= msg %></h5></li>
-        <% end %>
-        </ul>
-      </div>
-    </div>
-  <% end %>
+  <%= form_errors_for @role %>
 
   <div class="row">
     <div class="col-sm-12">

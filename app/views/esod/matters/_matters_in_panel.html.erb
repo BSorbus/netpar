@@ -1,4 +1,6 @@
 <!-- Esod Sprawy -->
+<%= form_errors_for @esod_matter %>
+
 <div class="row">
   <div class="col-sm-11 col-sm-offset-1">
     <div class="panel panel-esod-matter">
@@ -14,7 +16,9 @@
         <div class="panel-body">
 
           <div class="col-sm-12"> <!-- lista spraw -->
-            <%= render partial: "esod/matters/matters_in_panel_index", locals: {matterable: matterable} %>
+            <% if policy(:esod).index? || policy(:esod).show? %>
+              <%= render partial: "esod/matters/matters_in_panel_index", locals: {matterable: matterable} %>
+            <% end %>
           </div> <!-- /col-sm-12 -->
 
           <div class="col-sm-12">
@@ -24,19 +28,21 @@
           <div class="col-sm-12">
             <div class="row">
               <div class="col-sm-12">
-                <% if exam_policy_check(:exam, params[:category_service], 'edit') %> <!-- edit ????????/ -->
-                  <button class="btn btn-info glyphicon glyphicon-link" type="button" data-toggle="collapse" data-target=".esod-matter-link" aria-expanded="false" ><%= t("helpers.links.link_esod_matter") %>
+                <% if policy(:esod).link? %> 
+                  <button class="btn btn-success glyphicon glyphicon-link" type="button" data-toggle="collapse" data-target=".esod-matter-link" aria-expanded="false" ><%= t("helpers.links.link_esod_matter") %>
                   </button>
+                <% end %>
                   
-                  <button class="btn btn-info glyphicon glyphicon-plus" type="button" data-toggle="collapse" data-target=".esod-matter-new" aria-expanded="false" ><%= t("helpers.links.new_esod_matter") %>
+                <% if policy(:esod).new? %> 
+                  <button class="btn btn-success glyphicon glyphicon-plus" type="button" data-toggle="collapse" data-target=".esod-matter-new" aria-expanded="false" ><%= t("helpers.links.new_esod_matter") %>
                   </button>
 
-                  <% if matterable.esod_matters.any? %>
+                  <% if matterable.esod_matters.where(czy_otwarta: true).any? %>
                   <button class="btn btn-info glyphicon glyphicon-envelope" type="button" data-toggle="collapse" data-target=".esod-matter-letter" aria-expanded="false" ><%= t("helpers.links.new_esod_matter_letter") %>
                   </button>
-                  <% end %>
-                  
+                  <% end %>                  
                 <% end %>
+                
               </div> <!-- /col-sm-12 -->
             </div> <!-- /row -->
           </div> <!-- /col-sm-12 -->

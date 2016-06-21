@@ -15,7 +15,6 @@
             <th><%= Certificate.human_attribute_name(:number) %></th>
             <th><%= Certificate.human_attribute_name(:date_of_issue) %></th>
             <th><%= Certificate.human_attribute_name(:valid_thru) %></th>
-            <th><%= Certificate.human_attribute_name(:certificate_status) %></th>
             <th><%= Certificate.human_attribute_name(:division_id) %></th>
             <th><%= Certificate.human_attribute_name(:exam_id) %></th>
             <th>Akcje</th>
@@ -40,7 +39,6 @@
                 </td>
                 <td><%= certificate.date_of_issue %></td>
                 <td><%= certificate.valid_thru %></td>
-                <td><%= certificate.certificate_status_name %></td>
                 <td><%= certificate.division.name %></td>
                 <td>
                   <%= link_to certificate.exam.fullname, exam_path(certificate.exam, category_service:  certificate.exam.category.downcase, back_url: customer_path(@customer)) %>

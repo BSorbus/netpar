@@ -103,7 +103,6 @@ class ExaminationsController < ApplicationController
       nrid: nil,
       numer_ewidencyjny: nil,
       tytul: "#{@examination.customer.name} #{@examination.customer.given_names}, #{@examination.customer.address_city}, [#{@examination.esod_category_name}]",
-      wysylka: nil,
       identyfikator_adresu: nil,
       identyfikator_sposobu_wysylki: nil,
       identyfikator_rodzaju_dokumentu_wychodzacego: nil,
@@ -145,11 +144,10 @@ class ExaminationsController < ApplicationController
 
     examination_authorize(@examination, "new", params[:category_service])
 
-#    @esod_matter = load_esod_matter
-#    if @esod_matter.present?
-#      @examination.esod_matter = @esod_matter
-#      @examination.esod_category = @esod_matter.identyfikator_kategorii_sprawy
-#    end
+    @esod_matter = load_esod_matter
+    if @esod_matter.present?
+      @examination.esod_category = @esod_matter.identyfikator_kategorii_sprawy
+    end
     
     @exam = load_exam
     @examination.exam = @exam
@@ -204,7 +202,8 @@ class ExaminationsController < ApplicationController
         @examination.works.create!(trackable_url: "#{examination_path(@examination, category_service: params[:category_service])}", action: :create, user: current_user, 
           parameters: @examination.attributes.to_json)
 
-        format.html { redirect_to examination_path(@examination, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.created', data: @examination.fullname) }
+        flash_message :success, t('activerecord.messages.successfull.created', data: @examination.fullname)
+        format.html { redirect_to examination_path(@examination, category_service: params[:category_service], back_url: params[:back_url]) }
         format.json { render :show, status: :created, location: @examination }
       else
         format.html { render :new, locals: { back_url: params[:back_url]} }
@@ -231,13 +230,20 @@ class ExaminationsController < ApplicationController
         @examination.works.create!(trackable_url: "#{examination_path(@examination, category_service: params[:category_service])}", action: :update, user: current_user, 
           parameters: {examination: @examination.previous_changes, grades: h_grades}.to_json)
 
-        format.html { redirect_to examination_path(@examination, category_service: params[:category_service], back_url: params[:back_url]), notice: t('activerecord.messages.successfull.updated', data: @examination.fullname) }
+        flash_message :success, t('activerecord.messages.successfull.updated', data: @examination.fullname)
+        format.html { redirect_to examination_path(@examination, category_service: params[:category_service], back_url: params[:back_url]) }
         format.json { render :show, status: :ok, location: @examination }
       else
         format.html { render :edit, locals: { back_url: params[:back_url]} }
         format.json { render json: @examination.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def esod_matter_link_test
+    examination_authorize(@examination, "update", params[:category_service])
+    @esod_matter = Esod::Matter.find_by(id: params[:source_id])
+    Esodes::esod_whenever_sprawy(current_user.id)
   end
 
   # POST /examinations/:id/esod_matter_link
@@ -259,9 +265,11 @@ class ExaminationsController < ApplicationController
       @esod_matter.works.create!(trackable_url: "#{esod_matter_path(@esod_matter)}", action: :esod_matter_link, user: current_user, 
                             parameters: {esod_matter: @esod_matter.fullname, link: @examination.fullname}.to_json)
 
-      redirect_to :back, notice: t('activerecord.messages.successfull.esod_matter_link', parent: @examination.fullname, child: @esod_matter.fullname)
+      flash_message :success, t('activerecord.messages.successfull.esod_matter_link', parent: @examination.fullname, child: @esod_matter.fullname)
+      redirect_to :back 
     else
-      redirect_to :back, alert: t('activerecord.messages.error.esod_matter_link', parent: @examination.fullname, child: @esod_matter.fullname)
+      flash_message :error, t('activerecord.messages.error.esod_matter_link', parent: @examination.fullname, child: @esod_matter.fullname)
+      redirect_to :back 
     end
   end
 
@@ -273,9 +281,10 @@ class ExaminationsController < ApplicationController
     exam = @examination.exam
     if @examination.destroy
       Work.create!(trackable: @examination, action: :destroy, user: current_user, parameters: @examination.attributes.to_json)
-      redirect_to (params[:back_url]).present? ? params[:back_url] : exam_path(exam, category_service: params[:category_service]), notice: t('activerecord.messages.successfull.destroyed', data: @examination.fullname)
+      flash_message :success, t('activerecord.messages.successfull.destroyed', data: @examination.fullname)
+      redirect_to (params[:back_url]).present? ? params[:back_url] : exam_path(exam, category_service: params[:category_service])
     else 
-      flash.now[:alert] = t('activerecord.messages.error.destroyed', data: @examination.fullname)
+      flash_message :error, t('activerecord.messages.error.destroyed', data: @examination.fullname)
       render :show
     end      
   end
@@ -302,6 +311,10 @@ class ExaminationsController < ApplicationController
 
     def load_customer
       Customer.find(params[:customer_id]) if (params[:customer_id]).present?
+    end
+
+    def load_esod_matter
+      Esod::Matter.find(params[:esod_matter_id]) if (params[:esod_matter_id]).present?
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

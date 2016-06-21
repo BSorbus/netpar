@@ -16,7 +16,6 @@ class Esod::MatterDatatable < AjaxDatatablesRails::Base
                               Esod::Matter.tytul 
                               Esod::Matter.termin_realizacji 
                               Esod::Matter.identyfikator_kategorii_sprawy 
-                              Esod::Matter.identyfikator_stanowiska_referenta 
                               Esod::Matter.czy_otwarta 
                             )
   end
@@ -30,12 +29,13 @@ class Esod::MatterDatatable < AjaxDatatablesRails::Base
                               Esod::Matter.tytul 
                               Esod::Matter.termin_realizacji                             
                               Esod::Matter.identyfikator_kategorii_sprawy 
-                              Esod::Matter.identyfikator_stanowiska_referenta 
                               Esod::Matter.czy_otwarta 
                             )
   end
 
   private
+
+
 
   def data
     # comma separated list of the values for each cell of a table row
@@ -48,8 +48,8 @@ class Esod::MatterDatatable < AjaxDatatablesRails::Base
         record.tytul,
         record.termin_realizacji,
         record.iks_name,
-        record.identyfikator_stanowiska_referenta,
-        record.czy_otwarta ? 'Tak' : 'Nie'
+        record.czy_otwarta ? ' ' : '<div style="text-align: center"><div class="glyphicon glyphicon-lock"></div></div>', 
+        #record.czy_otwarta ? ' ' : '<div style="text-align: center"><i class="fa fa-lock" aria-hidden="true"></i></div>', 
       ]
     end
   end

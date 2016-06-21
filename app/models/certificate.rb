@@ -50,23 +50,6 @@ class Certificate < ActiveRecord::Base
     "#{number}, z dn. #{date_of_issue} (#{id})"
   end
 
-  def certificate_status_name
-    case certificate_status
-    when 'D'
-      'Duplicat'   
-    when 'N'
-      'Nowe'
-    when 'O'
-      'Odnowione' 
-    when 'S'
-      'Skreślone (nieważne)' 
-    when 'W'
-      'Wymienione (odnowione)' 
-    else
-      'Error certificate_status value !'
-    end
-  end
-
   def esod_category_name
     Esodes::esod_matter_iks_name(esod_category)
   end

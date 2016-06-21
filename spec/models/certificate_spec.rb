@@ -8,7 +8,6 @@ RSpec.describe Certificate, type: :model do
   it { should respond_to(:date_of_issue) }
   it { should respond_to(:valid_thru) }
   it { should respond_to(:canceled) }
-  it { should respond_to(:certificate_status) }
   it { should respond_to(:division_id) }
   it { should respond_to(:exam_id) }
   it { should respond_to(:customer_id) }

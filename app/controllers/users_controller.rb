@@ -98,7 +98,9 @@ class UsersController < ApplicationController
         Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :update, user: current_user, 
           parameters: @user.previous_changes.to_json)
 
-        format.html { redirect_to @user, notice: t('activerecord.messages.successfull.updated', data: @user.name) }
+
+        flash_message :success, t('activerecord.messages.successfull.updated', data: @user.name)
+        format.html { redirect_to @user }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -116,9 +118,10 @@ class UsersController < ApplicationController
       Work.create!(trackable_id: u.id, trackable_type: 'User', action: :destroy, user: cu, 
         parameters: {id: u.id, name: u.name, email: u.email}.to_json)
 
-      redirect_to users_url, notice: t('activerecord.messages.successfull.destroyed', data: u.fullname_and_id)
+      flash_message :success, t('activerecord.messages.successfull.destroyed', data: u.fullname_and_id)
+      redirect_to users_url
     else 
-      flash.now[:alert] = t('activerecord.messages.error.destroyed', data: u.fullname_and_id)
+      flash_message :error, t('activerecord.messages.error.destroyed', data: u.fullname_and_id)
       render :show
     end      
   end
@@ -131,9 +134,10 @@ class UsersController < ApplicationController
       Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :account_off, user: current_user, 
         parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: @user.id, name: @user.name, email: @user.email}.to_json)
 
-      redirect_to @user, notice: t('activerecord.messages.successfull.account_off', data: @user.fullname_and_id)
+      flash_message :success, t('activerecord.messages.successfull.account_off', data: @user.fullname_and_id)
+      redirect_to @user
     else 
-      flash.now[:error] = t('activerecord.messages.error.account_off', data: @user.fullname_and_id)
+      flash_message :error, t('activerecord.messages.error.account_off', data: @user.fullname_and_id)
       render :show 
     end         
   end
@@ -146,9 +150,10 @@ class UsersController < ApplicationController
       Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :account_on, user: current_user, 
         parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, id: @user.id, name: @user.name, email: @user.email}.to_json)
 
-      redirect_to @user, notice: t('activerecord.messages.successfull.account_on', data: @user.fullname_and_id)
+      flash_message :success, t('activerecord.messages.successfull.account_on', data: @user.fullname_and_id)
+      redirect_to @user
     else 
-      flash.now[:error] = t('activerecord.messages.error.account_on', data: @user.fullname_and_id)
+      flash_message :error, t('activerecord.messages.error.account_on', data: @user.fullname_and_id)
       render :show 
     end         
   end
