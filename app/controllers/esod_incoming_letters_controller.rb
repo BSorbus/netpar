@@ -15,7 +15,7 @@ class EsodIncomingLettersController < ApplicationController
       @esod_incoming_letter.initialized_from_esod = false
       @esod_incoming_letter.netpar_user = current_user.id
 
-      # wywolaj funkce zapisujaca contractora i address do ESODA
+      # wywolaj funkcje zapisujaca contractora i address do ESODA
       @incoming_letterable.customer.check_and_push_data_to_esod(push_user: current_user.id)
 
       if @incoming_letterable.customer.errors.present? 

@@ -347,8 +347,6 @@ class Customer < ActiveRecord::Base
       }
     }
 
-#self.esod_address.panstwo,
-
     response = client.call(:utworz_kontrahenta,  message: message_body )
 
     if response.success?

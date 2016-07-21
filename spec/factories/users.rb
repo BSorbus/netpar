@@ -83,6 +83,20 @@ FactoryGirl.define do
       end
     end
 
+    trait :as_esod_manager do
+      after(:create) do |user|
+        role = CreateRoleService.new.esod_manager
+        user.roles << role
+      end
+    end
+
+    trait :as_esod_observer do
+      after(:create) do |user|
+        role = CreateRoleService.new.esod_observer
+        user.roles << role
+      end
+    end
+
     trait :as_exam_l_observer do
       after(:create) do |user|
         role = CreateRoleService.new.exam_l_observer
@@ -194,7 +208,14 @@ FactoryGirl.define do
         user.roles << role
       end
     end
-
+ 
+    trait :as_work_observer do
+      after(:create) do |user|
+        role = CreateRoleService.new.work_observer
+        user.roles << role
+      end
+    end
+ 
 
   end
 

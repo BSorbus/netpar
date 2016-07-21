@@ -375,7 +375,7 @@ class Esod::Matter < ActiveRecord::Base
     if response.success?
       response.xpath("//*[local-name()='pobierzDokumentySprawyResponse']").each do |resp|
         resp.xpath("./*[local-name()='return']").each do |ret|
-          #ret.xpath("./*[local-name()='dokumentPrzychodzacy']").each do |row|
+
           ret.xpath("./*[local-name()='dokumentySpraw'][@xsi:type='ns1:dokumentPrzychodzacy']").each do |row|
             row.xpath("./*[local-name()='kontrahent']").each do |nad|
 
@@ -490,8 +490,6 @@ class Esod::Matter < ActiveRecord::Base
             end
           end
 
-          #  <dokumentySpraw xsi:type="ns1:dokumentWychodzacy">
-          #ret.xpath("./*[local-name()='dokumentWychodzacy']").each do |row|
           ret.xpath("./*[local-name()='dokumentySpraw'][@xsi:type='ns1:dokumentWychodzacy']").each do |row|
             out_letter = Esod::OutgoingLetter.find_by(nrid: row.xpath("./*[local-name()='nrid']").text)
             if out_letter.present?
@@ -533,7 +531,6 @@ class Esod::Matter < ActiveRecord::Base
             end
           end
 
-          #ret.xpath("./*[local-name()='dokumentWewnetrzny']").each do |row|
           ret.xpath("./*[local-name()='dokumentySpraw'][@xsi:type='ns1:dokumentWewnetrzny']").each do |row|
             int_letter = Esod::InternalLetter.find_by(nrid: row.xpath("./*[local-name()='nrid']").text)
             if int_letter.present?

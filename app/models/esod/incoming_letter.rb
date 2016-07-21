@@ -80,7 +80,6 @@ class Esod::IncomingLetter < ActiveRecord::Base
           self.save
 
           #połącz pismo ze sprawą
-
           esod_ilm = self.esod_incoming_letters_matters.new(
             esod_matter_id: matter.id,  
             sprawa: matter.nrid,   

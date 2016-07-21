@@ -7,7 +7,8 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'jquery-turbolinks'
 gem 'jquery-ui-rails', '~> 5.0.2'
-gem 'turbolinks'
+#gem 'turbolinks', '5.0.0'
+gem 'turbolinks', '2.5.3'
 gem 'jbuilder', '~> 2.0'
 gem 'pg'
 gem 'bootstrap-sass'
@@ -61,7 +62,7 @@ gem "refile", require: ["refile/rails"]
 gem "refile-mini_magick"
 gem 'refile-postgres', '~> 1.3.0'
 
-gem 'active_model_serializers'
+gem 'active_model_serializers', '0.9.5'
 
 gem 'font-awesome-sass'
 #gem 'yomu'
