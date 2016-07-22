@@ -25,8 +25,8 @@ class Esod::OutgoingLetter < ActiveRecord::Base
 
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "#{Esodes::API_SERVER}/services/DokumentWychodzacyUsluga?wsdl",
-      endpoint: "#{Esodes::API_SERVER}/services/DokumentWychodzacyUsluga.DokumentWychodzacyUslugaHttpsSoap11Endpoint",
+      wsdl: "#{Esodes::API_SERVER}/services/DokumentWychodzacyESODUsluga?wsdl",
+      endpoint: "#{Esodes::API_SERVER}/services/DokumentWychodzacyESODUsluga.DokumentWychodzacyESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
                     "xmlns:dok" => "http://dokumentwychodzacy.dokument.uslugi.epl.uke.gov.pl/" 
                   },

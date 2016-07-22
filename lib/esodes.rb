@@ -58,15 +58,22 @@ module Esodes
     Rails.logger.fatal "soap function: #{options[:soap_function]}" if options[:soap_function].present? 
     Rails.logger.fatal "error: #{error_obj.class.name}" 
     Rails.logger.fatal "#{error_obj.inspect}" 
-    if ['Savon::HTTPError', 'Savon::SOAPFault', 'Savon::InvalidResponseError', 'Savon::Error'].include?("#{error_obj.class.name}")
-      Rails.logger.fatal "error_obj.http.code: #{error_obj.http.code}"  
+    if ['Savon::HTTPError'].include?("#{error_obj.class.name}")
+      Rails.logger.fatal "error_obj.http.code: #{error_obj.http.code}"
+    end
+    if ['Savon::SOAPFault', 'Savon::InvalidResponseError', 'Savon::Error'].include?("#{error_obj.class.name}")
+      Rails.logger.fatal "error_obj.http.code: #{error_obj.http.code}"
       Rails.logger.fatal "faultcode: #{error_obj.to_hash[:fault][:faultcode]}"
       Rails.logger.fatal "faultstring: #{error_obj.to_hash[:fault][:faultstring]}"
       Rails.logger.fatal "detail: #{error_obj.to_hash[:fault][:detail]}"
     end
     if options[:base_obj].present? 
-      Rails.logger.fatal "#{options[:base_obj].class.name}" 
-      options[:base_obj].errors.add(:base, "#{error_obj.class.name} => #{error_obj.inspect}, error_obj.http.code: #{error_obj.http.code}, faultcode: #{error_obj.to_hash[:fault][:faultcode]}, faultstring: #{error_obj.to_hash[:fault][:faultstring]}, detail: #{error_obj.to_hash[:fault][:detail]}")
+      Rails.logger.fatal "#{options[:base_obj].class.name}"
+      err_text = "#{error_obj.class.name} => #{error_obj.inspect}, error_obj.http.code: #{error_obj.http.code}"
+      if error_obj.to_hash[:fault].present?
+        err_text = err_text + ", faultcode: #{error_obj.to_hash[:fault][:faultcode]}, faultstring: #{error_obj.to_hash[:fault][:faultstring]}, detail: #{error_obj.to_hash[:fault][:detail]}"
+      end
+      options[:base_obj].errors.add(:base, "#{err_text}")
     end
     Rails.logger.fatal "=" * 80
   end
@@ -248,40 +255,33 @@ module Esodes
     date_step = 1.day
     start_date = Time.current - 1.month
     end_date = start_date + date_step
+    start_run = Time.current
 
     puts '----------------------------------------------------------------'
     puts "Esod::Matter.get_wyszukaj_sprawy_referenta(...)"
     puts "user_id: #{user_id}"
-    puts "START: #{Time.current}"
+
     Esodes::EsodTokenData.new(user_id)
-    if Esodes::EsodTokenData.response_token_errors.present? 
-      Esodes::EsodTokenData.response_token_errors.each do |err|
-        puts "#{err}"
+    while start_date < end_date
+      Esod::Matter.get_wyszukaj_sprawy_referenta("#{start_date.iso8601}","#{end_date.iso8601}")
+      if Esodes::EsodTokenData.response_token_errors.present?
+        break
       end
-    else
-      while start_date < end_date
-        Esod::Matter.get_wyszukaj_sprawy_referenta("#{start_date.iso8601}","#{end_date.iso8601}")
-        if end_date < Time.current
-        start_date += date_step
-          end_date += date_step 
-        else
-          break
-        end
+      if end_date < Time.current
+      start_date += date_step
+        end_date += date_step 
+      else
+        break
       end
     end
-    puts "END: #{Time.current}"
+    puts "START: #{start_run}  END: #{Time.current}  LONG: #{Time.current-start_run}"
     puts '----------------------------------------------------------------'
   end
 
 
   class EsodTokenData
     @netpar_user_id = nil
-#    @netpar_user = nil
-
-#    @token_last_used = Time.current - 1.year
-#    @token_string = ""
     @token_stanowiska = []
-#    @response_token_errors = ""
     @response_token_errors = []
 
     @rodzaj_dokumentu_przychodzacego = []
@@ -316,8 +316,8 @@ module Esodes
 
     def self.reload_token_and_other
       responseToken = Esod::Token.new(self.netpar_user.email, self.netpar_user.esod_encryped_password)
-      @response_token_errors = responseToken.response_errors
-      if @response_token_errors.blank?
+      self.response_token_errors = responseToken.response_errors
+      if self.response_token_errors.blank?
         self.netpar_user.update_columns(esod_token: responseToken.token_string, esod_token_expired_at: Time.current + API_TOKEN_EXPIRE) 
         # load stanowiska!
         self.token_stanowiska = responseToken.stanowiska

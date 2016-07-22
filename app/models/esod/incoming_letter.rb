@@ -27,8 +27,8 @@ class Esod::IncomingLetter < ActiveRecord::Base
 
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "#{Esodes::API_SERVER}/services/DokumentPrzychodzacyUsluga?wsdl",
-      endpoint: "#{Esodes::API_SERVER}/services/DokumentPrzychodzacyUsluga.DokumentPrzychodzacyUslugaHttpsSoap11Endpoint",
+      wsdl: "#{Esodes::API_SERVER}/services/DokumentPrzychodzacyESODUsluga?wsdl",
+      endpoint: "#{Esodes::API_SERVER}/services/DokumentPrzychodzacyESODUsluga.DokumentPrzychodzacyESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
                     "xmlns:dok" => "http://dokumentprzychodzacy.dokument.uslugi.epl.uke.gov.pl/" 
                   },
@@ -63,7 +63,7 @@ class Esod::IncomingLetter < ActiveRecord::Base
         "terminNaOdpowiedz" => "#{self.termin_na_odpowiedz}",
         "uwagi" => "#{self.uwagi}",
         "znakPismaWplywajacego" => "#{self.znak_pisma_wplywajacego}",
-        "idAdresu" => "#{self.identyfikator_adresu}",
+        "identyfikatorAdresu" => "#{self.identyfikator_adresu}",
         "liczbaZalacznikow" => "#{self.liczba_zalacznikow}"
       }
     }
