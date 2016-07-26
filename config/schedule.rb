@@ -27,7 +27,11 @@ require File.expand_path(File.dirname(__FILE__) + "/../lib/esodes")
 set :environment, :production
 set :output, "#{Rails.root}/log/cron_log.log"
 
-every 15.minutes do
-  #rake 'db:seed:esod_whenever'
+#every 15.minutes do
+#  #rake 'db:seed:esod_whenever'
+#  rake "cronjobs:esod_sync"
+#end
+
+every '*/15 7-17 * * *' do
   rake "cronjobs:esod_sync"
 end

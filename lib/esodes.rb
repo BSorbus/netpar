@@ -2,8 +2,10 @@ module Esodes
 
   API_SERVER = "https://10.40.2.5:8243"
   API_TOKEN_EXPIRE = 590.seconds    #  10.minutes
-  API_SYSTEM_USER = "admin"
-  API_SYSTEM_USER_PASS = "admin"
+#  API_SYSTEM_USER = "admin"
+#  API_SYSTEM_USER_PASS = "admin"
+  API_SYSTEM_USER = "zz_Netpar2015"
+  API_SYSTEM_USER_PASS = "%gBcD32Sx"
 
 
   # Wniosek o wydanie świadectwa (41)
@@ -259,9 +261,15 @@ module Esodes
 
     puts '----------------------------------------------------------------'
     puts "Esod::Matter.get_wyszukaj_sprawy_referenta(...)"
-    puts "user_id: #{user_id}"
+    puts "... for user_id: #{user_id}"
 
     Esodes::EsodTokenData.new(user_id)
+    if Esodes::EsodTokenData.response_token_errors.present?
+      Esodes::EsodTokenData.response_token_errors.each do |err|
+        puts "#{err}"
+      end
+      #break    
+    end
     while start_date < end_date
       Esod::Matter.get_wyszukaj_sprawy_referenta("#{start_date.iso8601}","#{end_date.iso8601}")
       if Esodes::EsodTokenData.response_token_errors.present?
@@ -274,7 +282,8 @@ module Esodes
         break
       end
     end
-    puts "START: #{start_run}  END: #{Time.current}  LONG: #{Time.current-start_run}"
+    puts "START: #{start_run}  END: #{Time.current}"
+    puts "work time (sec): #{Time.current-start_run}"
     puts '----------------------------------------------------------------'
   end
 

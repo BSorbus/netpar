@@ -12,7 +12,7 @@ class Esod::Token
       wsdl: "#{Esodes::API_SERVER}/services/BezpieczenstwoESODUsluga?wsdl",
       endpoint: "#{Esodes::API_SERVER}/services/BezpieczenstwoESODUsluga.BezpieczenstwoESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
-                    "xmlns:tec" => "http://techniczne.uslugi.epl.uke.gov.pl/" },
+                    "xmlns:tec" => "http://bezpieczenstwoESOD.uslugi.epl.uke.gov.pl/" },
       env_namespace: :soapenv,
       namespace_identifier: :tec,  
 #      strip_namespaces: true,

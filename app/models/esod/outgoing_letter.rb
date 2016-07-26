@@ -28,7 +28,7 @@ class Esod::OutgoingLetter < ActiveRecord::Base
       wsdl: "#{Esodes::API_SERVER}/services/DokumentWychodzacyESODUsluga?wsdl",
       endpoint: "#{Esodes::API_SERVER}/services/DokumentWychodzacyESODUsluga.DokumentWychodzacyESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
-                    "xmlns:dok" => "http://dokumentwychodzacy.dokument.uslugi.epl.uke.gov.pl/" 
+                    "xmlns:dok" => "http://dokumentwychodzacyESOD.dokument.uslugi.epl.uke.gov.pl/" 
                   },
       namespace_identifier: :dok,  
       strip_namespaces: true,

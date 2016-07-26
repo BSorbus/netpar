@@ -29,7 +29,7 @@ class Esod::InternalLetter < ActiveRecord::Base
       wsdl: "#{Esodes::API_SERVER}/services/DokumentWewnetrznyESODUsluga?wsdl",
       endpoint: "#{Esodes::API_SERVER}/services/DokumentWewnetrznyESODUsluga.DokumentWewnetrznyESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
-                    "xmlns:dok" => "http://dokumentwewnetrzny.dokument.uslugi.epl.uke.gov.pl/" 
+                    "xmlns:dok" => "http://dokumentwewnetrznyESOD.dokument.uslugi.epl.uke.gov.pl/" 
                   },
       namespace_identifier: :dok,  
       strip_namespaces: true,

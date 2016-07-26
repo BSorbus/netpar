@@ -30,7 +30,7 @@ class Esod::IncomingLetter < ActiveRecord::Base
       wsdl: "#{Esodes::API_SERVER}/services/DokumentPrzychodzacyESODUsluga?wsdl",
       endpoint: "#{Esodes::API_SERVER}/services/DokumentPrzychodzacyESODUsluga.DokumentPrzychodzacyESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
-                    "xmlns:dok" => "http://dokumentprzychodzacy.dokument.uslugi.epl.uke.gov.pl/" 
+                    "xmlns:dok" => "http://dokumentprzychodzacyESOD.dokument.uslugi.epl.uke.gov.pl/" 
                   },
       env_namespace: :soapenv,
       namespace_identifier: :dok, 
