@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe RolePolicy do
-
   let(:role) { FactoryGirl.build(:role) }
   let(:user) { FactoryGirl.create(:user) }
 
@@ -102,7 +101,6 @@ describe RolePolicy do
         expect(subject).not_to permit(user, role)
       end
     end
-
   end
 
   context 'when user have role "Menadżer Ról"' do
@@ -152,9 +150,5 @@ describe RolePolicy do
         expect(subject).to permit(user, role)
       end
     end
-
   end
-
-
-
 end

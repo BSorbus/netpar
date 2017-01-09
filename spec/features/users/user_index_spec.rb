@@ -6,7 +6,6 @@ Warden.test_mode!
 #   I want to see a list of users
 #   So I can see who has registered
 feature 'User Index pages', :devise do
-
   after(:each) do
     Warden.test_reset!
   end
@@ -16,10 +15,10 @@ feature 'User Index pages', :devise do
   #   When I visit the user index page
   #   Then I see error message
   scenario '1. Simple User cannot listed Users' do
-    #user = FactoryGirl.create(:user, :admin)
-    #login_as(user, scope: :user)
-    #visit users_path
-    #expect(page).to not have_content user.email
+    # user = FactoryGirl.create(:user, :admin)
+    # login_as(user, scope: :user)
+    # visit users_path
+    # expect(page).to not have_content user.email
     user = FactoryGirl.create(:user)
     signin(user.email, user.password)
     visit users_path
@@ -77,7 +76,7 @@ feature 'User Index pages', :devise do
   scenario '6. Simple User cannot listed LOT Exams' do
     user = FactoryGirl.create(:user)
     signin(user.email, user.password)
-    visit exams_path(  category_service: "l" )
+    visit exams_path(category_service: 'l')
     expect(page).to have_content I18n.t 'pundit.exam_policy.index_l?'
   end
 
@@ -88,7 +87,7 @@ feature 'User Index pages', :devise do
   scenario '7. Simple User cannot listed MOR Exams' do
     user = FactoryGirl.create(:user)
     signin(user.email, user.password)
-    visit exams_path(  category_service: "m" )
+    visit exams_path(category_service: 'm')
     expect(page).to have_content I18n.t 'pundit.exam_policy.index_m?'
   end
 
@@ -99,7 +98,7 @@ feature 'User Index pages', :devise do
   scenario '8. Simple User cannot listed RA Exams' do
     user = FactoryGirl.create(:user)
     signin(user.email, user.password)
-    visit exams_path(  category_service: "r" )
+    visit exams_path(category_service: 'r')
     expect(page).to have_content I18n.t 'pundit.exam_policy.index_r?'
   end
 
@@ -110,7 +109,7 @@ feature 'User Index pages', :devise do
   scenario '9. Simple User cannot listed LOT Certificates' do
     user = FactoryGirl.create(:user)
     signin(user.email, user.password)
-    visit certificates_path(  category_service: "l" )
+    visit certificates_path(category_service: 'l')
     expect(page).to have_content I18n.t 'pundit.certificate_policy.index_l?'
   end
 
@@ -121,7 +120,7 @@ feature 'User Index pages', :devise do
   scenario '10. Simple User cannot listed MOR Certificates' do
     user = FactoryGirl.create(:user)
     signin(user.email, user.password)
-    visit certificates_path(  category_service: "m" )
+    visit certificates_path(category_service: 'm')
     expect(page).to have_content I18n.t 'pundit.certificate_policy.index_m?'
   end
 
@@ -132,9 +131,7 @@ feature 'User Index pages', :devise do
   scenario '11. Simple User cannot listed RA Certificates' do
     user = FactoryGirl.create(:user)
     signin(user.email, user.password)
-    visit certificates_path(  category_service: "r" )
+    visit certificates_path(category_service: 'r')
     expect(page).to have_content I18n.t 'pundit.certificate_policy.index_r?'
   end
-
-
 end

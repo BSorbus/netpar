@@ -188,16 +188,31 @@ class ExamsController < ApplicationController
     end 
   end
 
-  def exam_report_to_pdf
+  # GET /:category_service/statistic_filter
+  def statistic_filter
     exam_authorize(:exam, "print", params[:category_service])
 
     respond_to do |format|
-      format.pdf do
-        pdf = PdfExamReport.new(@exam, view_context)
-        send_data pdf.render,
-        filename: "Exam_Report_#{params[:category_service]}_#{@exam.number}.pdf",
-        type: "application/pdf",
-        disposition: "inline"   
+      format.html { render :statistic_filter }
+    end
+  end
+
+  # GET /:category_service/statistic_filter
+  def statistic_to_pdf
+    exam_authorize(:exam, "print", params[:category_service])
+
+    if (params[:date_start]).blank? || (params[:date_end]).blank?
+      flash_message :error, 'Musisz zdefiniować parametry "Data od" i "Data do"'
+      render :statistic_filter
+    else
+      respond_to do |format|
+        format.pdf do
+          pdf = PdfExamStatistic.new(params[:category_service], params[:date_start], params[:date_end], view_context)
+          send_data pdf.render,
+          filename: "Statistic_#{params[:category_service]}_#{params[:date_start]}_#{params[:date_end]}.pdf",
+          type: "application/pdf",
+          disposition: "inline"
+        end
       end
     end
   end

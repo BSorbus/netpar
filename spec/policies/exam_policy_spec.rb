@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe ExamPolicy do
-
   let(:exam) { FactoryGirl.build(:exam) }
   let(:exam_l) { FactoryGirl.build(:exam, :lot) }
   let(:exam_m) { FactoryGirl.build(:exam, :mor) }
@@ -193,7 +192,7 @@ describe ExamPolicy do
     end
   end
 
-  context 'when user have role "Obserwator Sesji Egzaminacyjnych Świadectwa Lotniczych"' do
+  context 'when user have role "Obserwator Sesji Egzaminacyjnych LOT"' do
     let(:user) { FactoryGirl.create(:user, :as_exam_l_observer) }
     permissions :index_l? do
       it 'grants access "index_l" - LOT' do
@@ -375,10 +374,9 @@ describe ExamPolicy do
         expect(subject).not_to permit(user, exam)
       end
     end
-
   end
 
-  context 'when user have role "Menadżer Sesji Egzaminacyjnych Świadectwa Lotniczych"' do
+  context 'when user have role "Menadżer Sesji Egzaminacyjnych LOT"' do
     let(:user) { FactoryGirl.create(:user, :as_exam_l_manager) }
     permissions :index_l? do
       it 'grants access "index_l" - LOT' do
@@ -560,10 +558,9 @@ describe ExamPolicy do
         expect(subject).not_to permit(user, exam)
       end
     end
-
   end
 
-  context 'when user have role "Obserwator Sesji Egzaminacyjnych Świadectwa Morskich"' do
+  context 'when user have role "Obserwator Sesji Egzaminacyjnych MOR"' do
     let(:user) { FactoryGirl.create(:user, :as_exam_m_observer) }
     permissions :index_m? do
       it 'grants access "index_m" - MOR' do
@@ -745,10 +742,9 @@ describe ExamPolicy do
         expect(subject).not_to permit(user, exam)
       end
     end
-
   end
 
-  context 'when user have role "Menadżer Sesji Egzaminacyjnych Świadectwa Morskich"' do
+  context 'when user have role "Menadżer Sesji Egzaminacyjnych MOR"' do
     let(:user) { FactoryGirl.create(:user, :as_exam_m_manager) }
     permissions :index_m? do
       it 'grants access "index_m" - MOR' do
@@ -930,11 +926,9 @@ describe ExamPolicy do
         expect(subject).not_to permit(user, exam)
       end
     end
-
   end
 
-
-  context 'when user have role "Obserwator Sesji Egzaminacyjnych Świadectwa Radiomatorskich"' do
+  context 'when user have role "Obserwator Sesji Egzaminacyjnych RA"' do
     let(:user) { FactoryGirl.create(:user, :as_exam_r_observer) }
     permissions :index_r? do
       it 'grants access "index_r" - RA' do
@@ -1116,10 +1110,9 @@ describe ExamPolicy do
         expect(subject).not_to permit(user, exam)
       end
     end
-
   end
 
-  context 'when user have role "Menadżer Sesji Egzaminacyjnych Świadectwa Radiomatorskich"' do
+  context 'when user have role "Menadżer Sesji Egzaminacyjnych RA"' do
     let(:user) { FactoryGirl.create(:user, :as_exam_r_manager) }
     permissions :index_r? do
       it 'grants access "index_r" - RA' do
@@ -1301,8 +1294,5 @@ describe ExamPolicy do
         expect(subject).not_to permit(user, exam)
       end
     end
-
   end
-
-
 end

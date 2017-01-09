@@ -68,6 +68,8 @@ pl:
         title: 'Sesja LOT - edycja danych'
       new:
         title: ' Nowa Sesja LOT'
+      statistic_filter:
+        title: 'Statystyka LOT'
     exam_m:
       index:
         title: 'Sesje MOR'
@@ -77,6 +79,8 @@ pl:
         title: 'Sesja MOR - edycja danych'
       new:
         title: ' Nowa Sesja MOR'
+      statistic_filter:
+        title: 'Statystyka MOR'
     exam_r:
       index:
         title: 'Sesje RA'
@@ -86,6 +90,8 @@ pl:
         title: 'Sesja RA - edycja danych'
       new:
         title: ' Nowa Sesja RA'
+      statistic_filter:
+        title: 'Statystyka RA'
     customer:
       index:
         title: 'Klienci'
@@ -162,6 +168,9 @@ pl:
     exams_l: 'Sesje LOT'
     exams_m: 'Sesje MOR'
     exams_r: 'Sesje RA'
+    statistic_exams_l: 'Statystyka LOT'
+    statistic_exams_m: 'Statystyka MOR'
+    statistic_exams_r: 'Statystyka RA'
     certificate_generation: " Generuj Świadectwo"
     certificates_generation: " Generuj Świadectwa"
     esod_matters: 'ESOD'

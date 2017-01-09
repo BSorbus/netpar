@@ -35,13 +35,6 @@ class Esod::Token
         }
       }
 
-#    message_body = { 
-#      "parametrWystawTokenESOD" => {
-#        "identyfikatorUzytkownia" => "#{esod_email}",
-#        "skrotHasla" => "#{esod_pass}"
-#        }
-#      }
-
     response = client.call( :wystaw_token_esod, message: message_body )
 #    response = client.call(:wystaw_token, message: { "identyfikatorUzytkownika" => "#{esod_email}", "skrotHasla" => "#{esod_pass}" } )
 

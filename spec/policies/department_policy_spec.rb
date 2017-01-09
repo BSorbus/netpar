@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe DepartmentPolicy do
-
   let(:department) { FactoryGirl.build(:department) }
   let(:user) { FactoryGirl.create(:user) }
 
@@ -92,7 +91,6 @@ describe DepartmentPolicy do
         expect(subject).not_to permit(user, department)
       end
     end
-
   end
 
   context 'when user have role "Menadżer Oddziałów"' do
@@ -137,9 +135,5 @@ describe DepartmentPolicy do
         expect(subject).to permit(user, department)
       end
     end
-
   end
-
-
-
 end

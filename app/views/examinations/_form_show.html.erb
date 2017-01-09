@@ -135,8 +135,8 @@
 
     <%# if examination_policy_check(@examination, params[:category_service], 'print') %>
         <%#= link_to t('Print', default: t("helpers.links.print")), 
-                            to_pdf_examination_path(@examination, category_service: @examination.category.downcase, :format => "pdf"), 
-                            :target => "_blank", :class => 'btn btn-primary glyphicon glyphicon-print' %> 
+                            to_pdf_examination_path(@examination, category_service: @examination.category.downcase, format: "pdf"), 
+                            target: "_blank", :class => 'btn btn-primary glyphicon glyphicon-print' %> 
     <%# end %>
 
   </div> <!-- /row -->

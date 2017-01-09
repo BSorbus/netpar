@@ -5,8 +5,8 @@ class Teryt::PnaCodesController < ApplicationController
   before_action :set_teryt_pna_code, only: [:show, :edit, :update, :destroy]
 
 
-  # GET /teryt_pna_codes
-  # GET /teryt_pna_codes.json
+  # GET /teryt/pna_codes
+  # GET /teryt/pna_codes.json
   def index
     @teryt_pna_codes = Teryt::PnaCode.all
   end
@@ -22,8 +22,8 @@ class Teryt::PnaCodesController < ApplicationController
     end
   end
 
-  # GET /teryt_pna_codes/1
-  # GET /teryt_pna_codes/1.json
+  # GET /teryt/pna_codes/1
+  # GET /teryt/pna_codes/1.json
   def show
     #authorize @customer, :show?
 
@@ -32,17 +32,17 @@ class Teryt::PnaCodesController < ApplicationController
     end
   end
 
-  # GET /teryt_pna_codes/new
+  # GET /teryt/pna_codes/new
   def new
     @teryt_pna_code = Teryt::PnaCode.new
   end
 
-  # GET /teryt_pna_codes/1/edit
+  # GET /teryt/pna_codes/1/edit
   def edit
   end
 
-  # POST /teryt_pna_codes
-  # POST /teryt_pna_codes.json
+  # POST /teryt/pna_codes
+  # POST /teryt/pna_codes.json
   def create
     @teryt_pna_code = Teryt::PnaCode.new(teryt_pna_code_params)
 
@@ -57,8 +57,8 @@ class Teryt::PnaCodesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /teryt_pna_codes/1
-  # PATCH/PUT /teryt_pna_codes/1.json
+  # PATCH/PUT /teryt/pna_codes/1
+  # PATCH/PUT /teryt/pna_codes/1.json
   def update
     respond_to do |format|
       if @teryt_pna_code.update(teryt_pna_code_params)
@@ -71,8 +71,8 @@ class Teryt::PnaCodesController < ApplicationController
     end
   end
 
-  # DELETE /teryt_pna_codes/1
-  # DELETE /teryt_pna_codes/1.json
+  # DELETE /teryt/pna_codes/1
+  # DELETE /teryt/pna_codes/1.json
   def destroy
     @teryt_pna_code.destroy
     respond_to do |format|

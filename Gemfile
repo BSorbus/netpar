@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 # ruby '2.2.1'
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.7.1'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'jquery-turbolinks'
 gem 'jquery-ui-rails', '~> 5.0.2'
-#gem 'turbolinks', '5.0.0'
+# gem 'turbolinks', '5.0.0'
 gem 'turbolinks', '2.5.3'
 gem 'jbuilder', '~> 2.0'
 gem 'pg'
@@ -25,8 +25,8 @@ group :development do
   gem 'rails_layout'
   gem 'spring'
   gem 'spring-commands-rspec'
-  gem 'brakeman', :require => false
-  gem 'nokogiri', :require => false  
+  gem 'brakeman', require: false
+  gem 'nokogiri', require: false
 end
 group :development, :test do
   gem 'byebug'
@@ -53,25 +53,25 @@ gem 'ajax-datatables-rails'
 gem 'prawn'
 gem 'prawn-table'
 
-gem 'pesel' #https://github.com/macuk/pesel
-#gem 'geocoder'
-#gem 'gmaps4rails'
+gem 'pesel' # https://github.com/macuk/pesel
+# gem 'geocoder'
+# gem 'gmaps4rails'
 
-#gem 'rtesseract' #OCR
-gem "refile", require: ["refile/rails"]
-gem "refile-mini_magick"
+# gem 'rtesseract' #OCR
+gem 'refile', require: ['refile/rails']
+gem 'refile-mini_magick'
 gem 'refile-postgres', '~> 1.3.0'
 
 gem 'active_model_serializers', '0.9.5'
 
 gem 'font-awesome-sass'
-#gem 'yomu'
-#gem 'pdf-reader'
+# gem 'yomu'
+# gem 'pdf-reader'
 
-gem 'rack-cors', :require => 'rack/cors'
+gem 'rack-cors', require: 'rack/cors'
 gem 'swagger_engine'
 
 gem 'savon'
-gem 'whenever', :require => false
+gem 'whenever', require: false
 gem 'docx_replace'
 gem 'data-confirm-modal', git: 'https://github.com/ifad/data-confirm-modal'

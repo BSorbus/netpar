@@ -1,0 +1,60 @@
+<br>
+<div class="panel-group" id="myaccordion">
+
+  <!-- Dane -->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-exam">
+        <div class="panel-heading">
+          <div class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_data" >
+              <span class="glyphicon glyphicon-education">&nbsp;<%=t "pages.exam_#{params[:category_service]}.statistic_filter.title"%></span>
+              <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
+            </a>
+          </div> 
+        </div>
+        <div id="collapse_data" class="panel-collapse collapse in"> <!-- id="collapse_data" -->
+          <div class="panel-body">         
+            <div class="col-sm-11 col-sm-offset-1">
+              <%= form_tag({controller: "/exams", category_service: params[:category_service], action: "statistic_to_pdf", format: "pdf"}, method: "get") do %>
+
+                <div class="row">
+
+                  <div class="col-sm-5">
+                    <blockquote class="bg-success">
+                      <p class="text-muted">Statystyka</p>
+                      <footer class="bg-success">Wykaz zawiera informacje statystyczne sesji egzaminacyjnych 
+                        (lub bezegzaminacyjnych/z egazaminem poza UKE) za okres "Data od" - "Data do" 
+                        z podziałem na typy świadectw, rodzaje sesji, wniosków, itd.
+                      </footer>
+                    </blockquote>
+                  </div> <!-- /.col-sm-5 -->              
+
+                  <div class="col-sm-7">
+                    <div class="form-group col-sm-4">
+                      <%= label_tag :date_start, "Data od", :class => 'control-label' %><br>
+                      <%= text_field_tag :date_start, params[:date_start], :class => 'datepicker form-control input-sm' %>
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <%= label_tag :date_end, "Data do", :class => 'control-label' %><br>
+                      <%= text_field_tag :date_end, params[:date_end], :class => 'datepicker form-control input-sm' %>
+                    </div>
+                  </div> <!-- /.col-sm-7 -->              
+
+                </div>
+
+                <div class="col-sm-12">
+                  <%= button_tag t("helpers.links.print"), 
+                        class: 'btn btn-primary glyphicon glyphicon-print pull-right', formtarget: "_blank" %>
+                </div>
+
+              <% end %>
+
+            </div> <!--/col-sm-11 col-sm-offset-1-->    
+          </div> <!-- /panel-body -->
+        </div> <!-- /id="collapse_data" -->
+      </div> <!-- /panel -->
+    </div> <!-- /col-sm-12-->
+  </div> <!-- /row -->
+</div> <!-- /class="panel-group" id="myaccordion" -->
+

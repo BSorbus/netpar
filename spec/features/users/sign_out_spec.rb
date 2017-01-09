@@ -3,7 +3,6 @@
 #   I want to sign out
 #   So I can protect my account from unauthorized access
 feature 'User Sign out', :devise do
-
   # Scenario: User signs out successfully
   #   Given I am signed in
   #   When I sign out
@@ -12,11 +11,8 @@ feature 'User Sign out', :devise do
     user = FactoryGirl.create(:user)
     signin(user.email, user.password)
     expect(page).to have_content I18n.t 'devise.sessions.user.signed_in'
-    #click_link 'Sign out'
-    click_link I18n.t "devise.link_to.sign_out"
+    # click_link 'Sign out'
+    click_link I18n.t 'devise.link_to.sign_out'
     expect(page).to have_content I18n.t 'devise.sessions.user.signed_out'
   end
-
 end
-
-

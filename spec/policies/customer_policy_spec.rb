@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe CustomerPolicy do
-
   let(:customer) { FactoryGirl.build(:customer) }
   let(:user) { FactoryGirl.create(:user) }
 
@@ -102,7 +101,6 @@ describe CustomerPolicy do
         expect(subject).not_to permit(user, customer)
       end
     end
-
   end
 
   context 'when user have role "Menadżer Klientów"' do
@@ -152,9 +150,5 @@ describe CustomerPolicy do
         expect(subject).to permit(user, customer)
       end
     end
-
   end
-
-
-
 end

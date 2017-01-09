@@ -31,12 +31,13 @@ Rails.application.routes.draw do
       get 'select2_index', on: :collection
       get 'examination_cards_to_pdf', on: :member
       get 'examination_protocol_to_pdf', on: :member
-      get 'exam_report_to_pdf', on: :member
       get 'certificates_to_pdf', on: :member
       get 'envelopes_to_pdf', on: :member
       get 'committee_docx', on: :member
       patch 'certificates_generation', on: :member
       post 'esod_matter_link', on: :member
+      get 'statistic_filter', on: :collection
+      get 'statistic_to_pdf', on: :collection
     end
     resources :examinations do
       post 'datatables_index_exam', on: :collection # for Exam

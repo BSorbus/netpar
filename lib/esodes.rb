@@ -1,11 +1,29 @@
 module Esodes
 
-  API_SERVER = "https://10.40.2.5:8243"
+  # instancja testowa
+  # 10.40.2.4:8443 LB 
+  # 10.40.2.5:8243(epl-tesb1) i 
+  # 10.40.2.6:8243(epl-tesb2) 
+
+  # instancja produkcyjna
+  # 10.40.1.4:443 LB 
+  # 10.40.1.5:8243(epl-esb1) i 
+  # 10.40.1.6:8243(epl-esb2) 
+
+#  API_SERVER = "https://10.40.1.4:443" 
+  API_SERVER = "https://10.40.2.4:8443" 
   API_TOKEN_EXPIRE = 590.seconds    #  10.minutes
 #  API_SYSTEM_USER = "admin"
 #  API_SYSTEM_USER_PASS = "admin"
+#  admin:admin
+#  YWRtaW46YWRtaW4=
+#  zz_Intranet:Intr@43L
+#  enpfSW50cmFuZXQ6SW50ckA0M0w=
+
   API_SYSTEM_USER = "zz_Netpar2015"
   API_SYSTEM_USER_PASS = "%gBcD32Sx"
+#  zz_Netpar2015:%gBcD32Sx
+#  enpfTmV0cGFyMjAxNTolZ0JjRDMyU3g=
 
 
   # Wniosek o wydanie świadectwa (41)
@@ -264,12 +282,12 @@ module Esodes
     puts "... for user_id: #{user_id}"
 
     Esodes::EsodTokenData.new(user_id)
-    if Esodes::EsodTokenData.response_token_errors.present?
-      Esodes::EsodTokenData.response_token_errors.each do |err|
-        puts "#{err}"
-      end
-      #break    
-    end
+    #if Esodes::EsodTokenData.response_token_errors.present?
+    #  Esodes::EsodTokenData.response_token_errors.each do |err|
+    #    puts "#{err}"
+    #  end
+    #  #break    
+    #end
     while start_date < end_date
       Esod::Matter.get_wyszukaj_sprawy_referenta("#{start_date.iso8601}","#{end_date.iso8601}")
       if Esodes::EsodTokenData.response_token_errors.present?
@@ -283,7 +301,6 @@ module Esodes
       end
     end
     puts "START: #{start_run}  END: #{Time.current}"
-    puts "work time (sec): #{Time.current-start_run}"
     puts '----------------------------------------------------------------'
   end
 
@@ -305,7 +322,6 @@ module Esodes
     end
 
     def self.netpar_user_id
-      #@netpar_user_id = current_user.id if @netpar_user_id.blank? 
       @netpar_user_id
     end
     def self.netpar_user_id=(value)
@@ -338,7 +354,7 @@ module Esodes
     end
 
     def self.token_string
-      self.reload_token_and_other if self.netpar_user.esod_token_expired_at.blank? || self.netpar_user.esod_token_expired_at <= Time.current || self.netpar_user.esod_token.blank?  
+      self.reload_token_and_other #if self.netpar_user.esod_token_expired_at.blank? || self.netpar_user.esod_token_expired_at <= Time.current || self.netpar_user.esod_token.blank? 
       self.netpar_user.esod_token
     end
 

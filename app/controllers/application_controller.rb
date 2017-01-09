@@ -56,7 +56,8 @@ class ApplicationController < ActionController::Base
             '10.19.0.0/16',     # DZC Wrocław
             '10.20.0.0/16',     # Centrala
             '10.21.0.0/16',     # Centrala
-            '10.100.0.0/16'     # Centrala
+            '10.100.0.0/16',    # Centrala
+            '10.250.125.0/24'   # Połączenia VPN BYBI
           ] 
     allowed = false
     # Convert remote IP (request.remote_ip is a string) to an integer.

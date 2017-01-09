@@ -41,7 +41,7 @@ RSpec.describe Certificate, type: :model do
   it { should have_many(:documents) }
 
 
-  context 'when name is blank' do
+  context 'when number is blank' do
     certificate = FactoryGirl.build :certificate, number: nil
 
     it "should not be valid" do

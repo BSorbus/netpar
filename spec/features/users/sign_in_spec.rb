@@ -45,6 +45,4 @@ feature 'User Sign in', :devise do
     signin(user.email, 'invalidpass')
     expect(page).to have_content I18n.t 'devise.failure.invalid', authentication_keys: 'email'
   end
-
-
 end

@@ -6,7 +6,6 @@ Warden.test_mode!
 #   I want to visit my user profile page
 #   So I can see my personal account data
 feature 'User profile page', :devise do
-
   after(:each) do
     Warden.test_reset!
   end
@@ -17,10 +16,10 @@ feature 'User profile page', :devise do
   #   Then I see my own email address
   scenario '1. User sees own profile' do
     user = FactoryGirl.create(:user)
-    login_as(user, :scope => :user)
+    login_as(user, scope: :user)
     visit user_path(user)
     expect(page).to have_content 'Test User'
-    #expect(page).to have_content user.email
+    # expect(page).to have_content user.email
   end
 
   # Scenario: User cannot see another user's profile
@@ -30,11 +29,10 @@ feature 'User profile page', :devise do
   scenario "2. Simple User cannot see another user's profile" do
     me = FactoryGirl.create(:user)
     other = FactoryGirl.create(:user, email: 'other@uke.gov.pl', authentication_token: 'other12345678')
-    login_as(me, :scope => :user)
+    login_as(me, scope: :user)
     Capybara.current_session.driver.header 'Referer', root_path
     visit user_path(other)
-    #expect(page).to have_content 'SECURITY: Access denied!'
+    # expect(page).to have_content 'SECURITY: Access denied!'
     expect(page).to have_content I18n.t 'pundit.user_policy.show?'
   end
-
 end

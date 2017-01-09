@@ -19,9 +19,9 @@
      <% if policy(:user).work? %>
       <div class="col-sm-3">
         <div class="folded"><h3><%= @user.name %></h3></div>
-        <%= link_to image_tag("user_permissions.jpg", :class => "img-thumbnail" ), 
-              user_permissions_to_pdf_user_path(@user, :format => "pdf"), 
-              :target => "_blank" %>  
+        <%= link_to image_tag("user_permissions.jpg", class: "img-thumbnail" ), 
+              user_permissions_to_pdf_user_path(@user, format: "pdf"), 
+              target: "_blank" %>  
 
         <h5>Historia nadawania uprawnień</h5>
       </div><!-- /.col-sm-2 -->
@@ -30,9 +30,9 @@
     <% if policy(:user).work? %>
       <div class="col-sm-3">
         <div class="folded"><h3><%= @user.name %></h3></div>
-        <%= link_to image_tag("user_permissions.jpg", :class => "img-thumbnail" ), 
-              user_activity_to_pdf_user_path(@user, :format => "pdf"), 
-              :target => "_blank" %>  
+        <%= link_to image_tag("user_permissions.jpg", class: "img-thumbnail" ), 
+              user_activity_to_pdf_user_path(@user, format: "pdf"), 
+              target: "_blank" %>  
 
         <h5>Historia aktywności</h5>
       </div><!-- /.col-sm-2 -->

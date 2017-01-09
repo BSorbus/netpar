@@ -1,0 +1,46 @@
+
++BRAKEMAN REPORT+
+
+Application path: /home/bogdan/www/netpar_esb
+Rails version: 4.2.4
+Brakeman version: 3.4.1
+Started at 2016-11-07 11:11:28 +0100
+Duration: 5.038471806 seconds
+Checks run: BasicAuth, BasicAuthTimingAttack, ContentTag, CreateWith, CrossSiteScripting, DefaultRoutes, Deserialize, DetailedExceptions, DigestDoS, DynamicFinders, EscapeFunction, Evaluation, Execute, FileAccess, FileDisclosure, FilterSkipping, ForgerySetting, HeaderDoS, I18nXSS, JRubyXML, JSONEncoding, JSONParsing, LinkTo, LinkToHref, MailTo, MassAssignment, MimeTypeDoS, ModelAttrAccessible, ModelAttributes, ModelSerialize, NestedAttributes, NestedAttributesBypass, NumberToCurrency, QuoteTableName, Redirect, RegexDoS, Render, RenderDoS, RenderInline, ResponseSplitting, RouteDoS, SQL, SQLCVEs, SSLVerify, SafeBufferManipulation, SanitizeMethods, SelectTag, SelectVulnerability, Send, SendFile, SessionManipulation, SessionSettings, SimpleFormat, SingleQuotes, SkipBeforeFilter, StripTags, SymbolDoSCVE, TranslateBug, UnsafeReflection, ValidationRegex, WithoutProtection, XMLDoS, YAMLParsing
+
+
++SUMMARY+
+
++-------------------+-------+
+| Scanned/Reported  | Total |
++-------------------+-------+
+| Controllers       | 48    |
+| Models            | 33    |
+| Templates         | 114   |
+| Errors            | 0     |
+| Security Warnings | 5 (4) |
++-------------------+-------+
+
++----------------------+-------+
+| Warning Type         | Total |
++----------------------+-------+
+| Cross Site Scripting | 1     |
+| Denial of Service    | 1     |
+| Redirect             | 1     |
+| SQL Injection        | 1     |
+| Session Setting      | 1     |
++----------------------+-------+
+
+
++SECURITY WARNINGS+
+
++------------+-------------------------+--------+----------------------+---------------------------------------------------------------------------------------------------------------->>
+| Confidence | Class                   | Method | Warning Type         | Message                                                                                                        >>
++------------+-------------------------+--------+----------------------+---------------------------------------------------------------------------------------------------------------->>
+| High       |                         |        | Cross Site Scripting | Rails 4.2.4 content_tag does not escape double quotes in attribute values (CVE-2016-6316). Upgrade to 4.2.7.1 n>>
+| High       | Esod::MattersController | create | Redirect             | Possible unprotected redirect near line 119: redirect_to(+params[:back_url]+, :notice => t("activerecord.messag>>
+| High       |                         |        | SQL Injection        | Rails 4.2.4 contains a SQL injection vulnerability (CVE-2016-6317). Upgrade to 4.2.7.1 near line 185           >>
+| High       |                         |        | Session Setting      | Session secret should not be included in version control near line 53                                          >>
+| Medium     |                         |        | Denial of Service    | Rails 4.2.4 is vulnerable to denial of service via mime type caching (CVE-2016-0751). Upgrade to Rails version >>
++------------+-------------------------+--------+----------------------+---------------------------------------------------------------------------------------------------------------->>
+

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe CertificatePolicy do
-
   let(:certificate) { FactoryGirl.build(:certificate) }
   let(:certificate_l) { FactoryGirl.build(:certificate, :lot) }
   let(:certificate_m) { FactoryGirl.build(:certificate, :mor) }
@@ -193,7 +192,7 @@ describe CertificatePolicy do
     end
   end
 
-  context 'when user have role "Obserwator Świadectw Lotniczych"' do
+  context 'when user have role "Obserwator Świadectw LOT"' do
     let(:user) { FactoryGirl.create(:user, :as_certificate_l_observer) }
     permissions :index_l? do
       it 'grants access "index_l" - LOT' do
@@ -375,10 +374,9 @@ describe CertificatePolicy do
         expect(subject).not_to permit(user, certificate)
       end
     end
-
   end
 
-  context 'when user have role "Menadżer Świadectw Lotniczych"' do
+  context 'when user have role "Menadżer Świadectw LOT"' do
     let(:user) { FactoryGirl.create(:user, :as_certificate_l_manager) }
     permissions :index_l? do
       it 'grants access "index_l" - LOT' do
@@ -560,10 +558,9 @@ describe CertificatePolicy do
         expect(subject).not_to permit(user, certificate)
       end
     end
-
   end
 
-  context 'when user have role "Obserwator Świadectw Morskich"' do
+  context 'when user have role "Obserwator Świadectw MOR"' do
     let(:user) { FactoryGirl.create(:user, :as_certificate_m_observer) }
     permissions :index_m? do
       it 'grants access "index_m" - MOR' do
@@ -745,10 +742,9 @@ describe CertificatePolicy do
         expect(subject).not_to permit(user, certificate)
       end
     end
-
   end
 
-  context 'when user have role "Menadżer Świadectw Morskich"' do
+  context 'when user have role "Menadżer Świadectw MOR"' do
     let(:user) { FactoryGirl.create(:user, :as_certificate_m_manager) }
     permissions :index_m? do
       it 'grants access "index_m" - MOR' do
@@ -930,11 +926,9 @@ describe CertificatePolicy do
         expect(subject).not_to permit(user, certificate)
       end
     end
-
   end
 
-
-  context 'when user have role "Obserwator Świadectw Radiomatorskich"' do
+  context 'when user have role "Obserwator Świadectw RA"' do
     let(:user) { FactoryGirl.create(:user, :as_certificate_r_observer) }
     permissions :index_r? do
       it 'grants access "index_r" - RA' do
@@ -1116,10 +1110,9 @@ describe CertificatePolicy do
         expect(subject).not_to permit(user, certificate)
       end
     end
-
   end
 
-  context 'when user have role "Menadżer Świadectw Radiomatorskich"' do
+  context 'when user have role "Menadżer Świadectw RA"' do
     let(:user) { FactoryGirl.create(:user, :as_certificate_r_manager) }
     permissions :index_r? do
       it 'grants access "index_r" - RA' do
@@ -1301,8 +1294,5 @@ describe CertificatePolicy do
         expect(subject).not_to permit(user, certificate)
       end
     end
-
   end
-
-
 end
