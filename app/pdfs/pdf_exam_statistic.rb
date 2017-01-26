@@ -281,6 +281,18 @@ class PdfExamStatistic < Prawn::Document
     end
   end
 
+  def category_name(p)
+    case p
+    when 'l', 'L'
+      '"LOT"'
+    when 'r', 'R'
+      '"RA"'
+    when 'm', 'M'
+      '"MOR"'
+    else
+      'Error !'
+    end  
+  end
 
   def examination_result_name(p)
     case p
@@ -313,14 +325,14 @@ class PdfExamStatistic < Prawn::Document
     #logopath =  "#{Rails.root}/app/assets/images/pop_logo.png"
     #image logopath, :width => 197, :height => 91
     #image "#{Rails.root}/app/assets/images/uke_logo.png", :at => [430, 760]
-    image "#{Rails.root}/app/assets/images/logo_big.jpg", :height => 50
+    image "#{Rails.root}/app/assets/images/logo_big.png", :height => 50
     #image "#{Rails.root}/app/assets/images/orzel.jpg", :height => 50, :position => :center
   end
 
 
   def title(cat, d_start, d_end)
     move_up 30
-     text "Statystyki sesji '#{cat.upcase}' za okres: #{d_start} -:- #{d_end}", size: 13, :align => :right
+     text "Statystyki sesji #{category_name(cat.upcase)} za okres: #{d_start} -:- #{d_end}", size: 13, :align => :right
   end
 
   def footer

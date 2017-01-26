@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     patch 'account_on', on: :member
     get 'user_permissions_to_pdf', on: :member
     get 'user_activity_to_pdf', on: :member
+    post 'datatables_index_role', on: :collection # for User
   end
 
 
@@ -85,6 +86,7 @@ Rails.application.routes.draw do
 
   resources :roles do
   	resources :users, only: [:create, :destroy], controller: 'roles/users'
+    post 'datatables_index_user', on: :collection # for User
   end
 
   resources :documents, only: [:show, :destroy]

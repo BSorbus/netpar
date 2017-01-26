@@ -35,7 +35,7 @@ class Api::V1::SessionsController < Api::V1::BaseApiController
       render status: :unprocessable_entity,
              json: { error: t('devise.failure.invalid') }
 
-      Work.create( action: :unauthenticated, user_id: nil, parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, email: user_email} )
+      Work.create( action: :unauthenticated, user_id: nil, parameters: {remote_ip: request.remote_ip, fullpath: request.fullpath, email: user_email}.to_json )
     end
 
 
@@ -45,7 +45,7 @@ class Api::V1::SessionsController < Api::V1::BaseApiController
     #if user && Devise.secure_compare(user.authentication_token, params[:user_token])
     #  sign_in user, store: false
     #end
- end
+  end
 
   def destroy
     #user = User.find_by(authentication_token: params[:id])

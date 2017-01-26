@@ -12,5 +12,4 @@ RSpec.describe Work, type: :model do
 
   it { should belong_to :trackable }
   it { should belong_to :user }
-
 end

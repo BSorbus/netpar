@@ -179,7 +179,8 @@ $(document).ready(function() {
 
   // jezeli nastepuje wyswietlenie panelu, to zaladuj dane
   $('#collapse_works').on('shown.bs.collapse', function (){
-    oTrackableWorksTable.ajax.reload();
+  //  Wykomentowalem wiersz ponizej poniewaz powoduje podwojne pobieranie danych    
+  //  oTrackableWorksTable.ajax.reload();
     oTrackableWorksTable.draw();
   });
 
@@ -279,7 +280,8 @@ $(document).ready(function() {
 
   // jezeli nastepuje wyswietlenie panelu, to zaladuj dane
   $('#collapse_works_inspect').on('shown.bs.collapse', function (){
-    oUserWorksTable.ajax.reload();
+  //  Wykomentowalem wiersz ponizej poniewaz powoduje podwojne pobieranie danych    
+  //  oUserWorksTable.ajax.reload();
     oUserWorksTable.draw();
   });
 

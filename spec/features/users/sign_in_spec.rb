@@ -3,7 +3,6 @@
 #   I want to sign in
 #   So I can visit protected areas of the site
 feature 'User Sign in', :devise do
-
   # Scenario: User cannot sign in if not registered
   #   Given I do not exist as a user
   #   When I sign in with valid credentials

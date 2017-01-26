@@ -16,7 +16,6 @@ RSpec.describe Department, type: :model do
   it { should respond_to(:email) }
   it { should respond_to(:director) }
 
-
   it { should validate_presence_of(:short) }
   it { should validate_length_of(:short).is_at_least(1).is_at_most(15) }
   it { should validate_uniqueness_of(:short).case_insensitive }
@@ -28,8 +27,6 @@ RSpec.describe Department, type: :model do
   it { should validate_presence_of(:address_city) }
   it { should validate_length_of(:address_city).is_at_least(1).is_at_most(50) }
 
-
   it { should have_many(:users) }
   it { should have_many(:works) }
-
 end

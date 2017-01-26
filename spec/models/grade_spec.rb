@@ -12,11 +12,9 @@ RSpec.describe Grade, type: :model do
   it { should validate_presence_of(:examination) }
   it { should validate_presence_of(:subject) }
   it { should validate_presence_of(:user) }
-  it { should validate_inclusion_of(:grade_result).in_array(["", nil, "N", "P"]) }
-
+  it { should validate_inclusion_of(:grade_result).in_array(['', nil, 'N', 'P']) }
 
   it { should belong_to :examination }
   it { should belong_to :subject }
   it { should belong_to :user }
-
 end

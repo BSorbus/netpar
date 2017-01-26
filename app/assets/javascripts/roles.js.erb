@@ -1,0 +1,78 @@
+$(document).ready(function() {
+  var oRoleUserstable = $('#role-users').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    ajax: { 
+      url: $('#role-users').data('source'),
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    iDisplayLength: -1,
+    columns: [
+      { "targets": [0],
+        "title": "ID",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [1],
+        "title": "<%= User.human_attribute_name('name') %>" },
+      { "targets": [2],
+        "title": "<%= User.human_attribute_name('email') %>" },
+      { "targets": [3],
+        "title": "<%= User.human_attribute_name('department_id') %>" }, 
+      { "targets": [4],
+        "title": "Uprawnienie", 
+        "visible": true,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [5],
+        "title": "Akcje", 
+        "visible": true,
+        "searchable": false,
+        "sortable": false }
+    ],
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#collapse_role_users" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
+    order: [[ 1, "asc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+
+  $('#role-users tbody').on( 'click', 'button', function () {
+      $.ajax({
+        url: $(this).attr('ajax-path'),
+        type: $(this).attr('ajax-method'),
+        async: false
+      });
+      oRoleUserstable.draw();
+    });
+
+
+  // jezeli nastepuje wyswietlenie panelu, to zaladuj dane
+  $('#collapse_role_users').on('shown.bs.collapse', function (){
+  //  Wykomentowalem wiersz ponizej poniewaz powoduje podwojne pobieranie danych    
+  //  oRoleUserstable.ajax.reload();
+    oRoleUserstable.draw();
+  });
+
+
+  
+});
+

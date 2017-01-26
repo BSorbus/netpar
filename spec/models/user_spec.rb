@@ -1,5 +1,4 @@
 RSpec.describe User, type: :model do
-
   before(:each) { @user = User.new(email: 'user@uke.gov.pl') }
 
   subject { @user }
@@ -8,10 +7,9 @@ RSpec.describe User, type: :model do
   it { should respond_to(:name) }
   it { should respond_to(:authentication_token) }
 
-  it "#email returns a string" do
+  it '#email returns a string' do
     expect(@user.email).to match 'user@uke.gov.pl'
   end
-
 
   it { should have_and_belong_to_many(:roles) }
 
@@ -24,5 +22,4 @@ RSpec.describe User, type: :model do
   it { should have_many(:documents) }
   it { should have_many(:works) }
   it { should have_many(:trackables) }
-
 end

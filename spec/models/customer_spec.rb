@@ -38,7 +38,6 @@ RSpec.describe Customer, type: :model do
   it { should respond_to(:c_address_in_poland) }
   it { should respond_to(:c_address_teryt_pna_code_id) }
 
-
   it { should validate_presence_of(:name) }
   it { should validate_length_of(:name).is_at_least(1).is_at_most(160) }
 
@@ -47,53 +46,48 @@ RSpec.describe Customer, type: :model do
   it { should validate_presence_of(:address_postal_code) }
   it { should validate_length_of(:address_postal_code).is_at_least(6).is_at_most(10) }
 
-
-  context "when is a human" do 
+  context 'when is a human' do
     before do
-      customer.human = true 
+      customer.human = true
     end
     subject { customer }
- 
-    it { should validate_presence_of(:given_names) } 
+
+    it { should validate_presence_of(:given_names) }
     it { should validate_length_of(:given_names).is_at_least(1).is_at_most(50) }
 
-    it { should validate_presence_of(:birth_date) } 
+    it { should validate_presence_of(:birth_date) }
   end
 
-  context "when is not a human" do 
+  context 'when is not a human' do
     before do
-      customer.human = false 
+      customer.human = false
     end
     subject { customer }
- 
-    it { should_not validate_presence_of(:given_names) } 
+
+    it { should_not validate_presence_of(:given_names) }
     it { should_not validate_length_of(:given_names).is_at_least(1).is_at_most(50) }
 
-    it { should_not validate_presence_of(:birth_date) } 
+    it { should_not validate_presence_of(:birth_date) }
   end
 
-  context "when c_address_postal_code present" do 
+  context 'when c_address_postal_code present' do
     before do
-      customer.c_address_postal_code = "12-345" 
+      customer.c_address_postal_code = '12-345'
     end
     subject { customer }
 
     it { should validate_length_of(:c_address_postal_code).is_at_least(6).is_at_most(10) }
-
   end
 
-
-#  validates :c_address_postal_code,
-#                    length: { in: 6..10 }, if: "c_address_postal_code.present?"
-#  validates :pesel, length: { is: 11 }, numericality: true, 
-#                    uniqueness: { case_sensitive: false }, allow_blank: true
-#  validate :check_pesel_and_birth_date, unless: "pesel.blank?"
-#  validate :unique_name_given_names_birth_date_birth_place_fathers_name, if: :is_human?
+  # validates :c_address_postal_code,
+  #                   length: { in: 6..10 }, if: "c_address_postal_code.present?"
+  # validates :pesel, length: { is: 11 }, numericality: true,
+  #                   uniqueness: { case_sensitive: false }, allow_blank: true
+  # validate :check_pesel_and_birth_date, unless: "pesel.blank?"
+  # validate :unique_name_given_names_birth_date_birth_place_fathers_name, if: :is_human?
 
   it { should validate_presence_of(:citizenship) }
   it { should validate_presence_of(:user) }
-
-
 
   it { should belong_to :citizenship }
   it { should belong_to :user }
@@ -110,6 +104,4 @@ RSpec.describe Customer, type: :model do
   it { should have_many(:certificated_documentable) }
   it { should have_many(:examinationed_documentable) }
   it { should have_many(:examed_documentable) }
-
 end
-

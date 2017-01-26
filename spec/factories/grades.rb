@@ -14,7 +14,8 @@
 FactoryGirl.define do
   factory :grade do
     examination nil
-    subject nil
+    #subject nil
+    subject 1
     grade_result ""
     user nil
   end

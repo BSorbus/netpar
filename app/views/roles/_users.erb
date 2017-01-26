@@ -1,40 +1,18 @@
-<div class="col-sm-12">
-  <h4>Użytkownicy w roli:</h4>
-  <table class="table table-hover">
-    <tbody>
-      <% @role.users_used.each do |user| %>
+  <div class="col-sm-12">
+    <table id="role-users" class="hover cell-border compact" width="100%" data-source="<%= datatables_index_role_users_path(role_id: @role.id, format: :json) %>">
+      <thead>
         <tr>
-          <td class="col-md-4"><%= link_to user.name, user_path(user) %></td>
-          <td class="col-md-3"><%= link_to user.email, user_path(user) %></td>
-          <td class="col-md-3"><%= link_to user.department.short, department_path(user.department) if user.department.present? %></td>
-          <td class="col-md-2">
-            <%= link_to("Usuń użytkownika z tej roli", role_user_path(@role, user), 
-                :data => { :confirm => "Na pewno?" }, method: :delete, class: 'button-xs-danger') %>
-          </td>
+          <th                 > 0 ID </th>
+          <th class="col-sm-4"> 1 Name</th>
+          <th class="col-sm-4"> 2 Email</th>
+          <th class="col-sm-2"> 3 Department</th>
+          <th class="col-sm-1"> 4 Uprawnienie</th>
+          <th class="col-sm-1"> 5 Akcje</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
 
-  <br>
-  <h4>Pozostali użytkownicy:</h4>
-  <table class="table table-hover">
-    <tbody>
-      <% @role.users_not_used.each do |user| %>
-        <tr>
-          <td class="col-md-4"><%= link_to user.name, user_path(user) %></td>
-          <td class="col-md-3"><%= link_to user.email, user_path(user) %></td>
-          <td class="col-md-3"><%= link_to user.department.short, department_path(user.department) if user.department.present? %></td>
-          <td class="col-md-2">
-            <%= link_to("Dodaj użytkownika do tej roli", role_users_path(@role, id: user), 
-                :data => { :confirm => "Na pewno?" }, method: :post, class: 'button-xs') %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>  
-
-
-
-</div> <!--/col-sm-12 -->
-
+      <tbody>
+         <!--data from JSON -->
+      </tbody>
+    </table>
+  </div> <!--/col-sm-12 -->

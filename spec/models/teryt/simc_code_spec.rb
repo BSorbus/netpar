@@ -14,6 +14,4 @@ RSpec.describe Teryt::SimcCode, type: :model do
   it { should respond_to(:sym) }
   it { should respond_to(:sympod) }
   it { should respond_to(:stan_na) }
-
-
 end

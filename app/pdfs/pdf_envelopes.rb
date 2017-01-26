@@ -48,7 +48,7 @@ class PdfEnvelopes < Prawn::Document
   def logo
     #logopath =  "#{Rails.root}/app/assets/images/pop_logo.png"
     #image logopath, :width => 197, :height => 91
-    image "#{Rails.root}/app/assets/images/logo_big.jpg", :at => [0, 270], :width => 71, :height => 50
+    image "#{Rails.root}/app/assets/images/logo_big.png", :at => [0, 270], :height => 50 #, :width => 71
   end
 
   def data(customer)

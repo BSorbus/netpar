@@ -19,5 +19,4 @@ RSpec.describe PnaCode, type: :model do
   it { should validate_presence_of(:wojewodztwo) }
   it { should validate_presence_of(:powiat) }
   it { should validate_presence_of(:gmina) }
-
 end

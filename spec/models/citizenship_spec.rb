@@ -17,26 +17,24 @@ RSpec.describe Citizenship, type: :model do
   context 'when name is blank' do
     citizenship = FactoryGirl.build :citizenship, name: nil
 
-    it "should not be valid" do
+    it 'should not be valid' do
       expect(citizenship).to_not be_valid
     end
 
     it "should raise error: #{I18n.t('errors.messages.blank')}" do
-      expect(citizenship.errors[:name]).to include( I18n.t("errors.messages.blank") )
+      expect(citizenship.errors[:name]).to include(I18n.t('errors.messages.blank'))
     end
   end
 
   context 'when short is blank' do
     citizenship = FactoryGirl.build :citizenship, short: nil
 
-    it "should not be valid" do
+    it 'should not be valid' do
       expect(citizenship).to_not be_valid
     end
 
     it "should raise error: #{I18n.t('errors.messages.blank')}" do
-      expect(citizenship.errors[:short]).to include( I18n.t("errors.messages.blank") )
+      expect(citizenship.errors[:short]).to include(I18n.t('errors.messages.blank'))
     end
   end
-
- 
 end

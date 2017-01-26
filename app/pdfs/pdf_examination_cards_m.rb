@@ -88,7 +88,7 @@ class PdfExaminationCardsM < Prawn::Document
     #logopath =  "#{Rails.root}/app/assets/images/pop_logo.png"
     #image logopath, :width => 197, :height => 91
     #image "#{Rails.root}/app/assets/images/uke_logo.png", :at => [430, 760]
-    image "#{Rails.root}/app/assets/images/logo_big.jpg", :height => 50
+    image "#{Rails.root}/app/assets/images/logo_big.png", :height => 50
     #image "#{Rails.root}/app/assets/images/orzel.jpg", :height => 50, :position => :center
   end
 
@@ -141,6 +141,8 @@ class PdfExaminationCardsM < Prawn::Document
 
   def footer
     stroke_line [0, 10], [525,10], self.line_width = 0.1
+    #stroke_line [0, 10], [525,10], self.line_width = 4.0, self.stroke_color = 'c7d540' #oliwka
+    #stroke_line [0, 10], [525,10], self.line_width = 1.0, self.stroke_color = 'dadada' #szary
     text "wygenerowano z programu https://#{Rails.application.secrets.domain_name}  © UKE-BI-WUSA (B&J) 2015", size: 6, :style => :italic, :align => :right, :valign => :bottom  
   end
 

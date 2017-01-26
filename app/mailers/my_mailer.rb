@@ -7,27 +7,32 @@ class MyMailer < Devise::Mailer
 
   # Overrides same inside Devise::Mailer
   def confirmation_instructions(record, token, opts={})
-    #set_organization_of record
-
     @url  = Rails.application.secrets.domain_name
-    attachments.inline['logo.jpg'] = File.read("app/assets/images/netpar2015.jpg")
-    #!!!!!!!!!!!!!!!!!!!!!!
-    #opts[:to] = 'BSorbus@gmail.com'   
-    #opts[:subject] = "NetPAR 2015 - Instrukcja aktywowania konta"
+    attachments.inline['logo.jpg'] = File.read("app/assets/images/netpar2015.png")
+    # !!!!!!!!!!!!!!!!!!!!!!
+    # opts[:to] = 'BSorbus@gmail.com'   
+    # opts[:subject] = "NetPAR 2015 - Instrukcja aktywowania konta"
+
+    # Use different e-mail templates for signup e-mail confirmation and for when a user changes e-mail address.
+    if record.pending_reconfirmation?
+      opts[:template_name] = 'reconfirmation_instructions'
+    else
+      opts[:template_name] = 'confirmation_instructions'
+    end
     super
   end
 
   # Overrides same inside Devise::Mailer
   def reset_password_instructions(record, token, opts={})
     @url  = Rails.application.secrets.domain_name
-    attachments.inline['logo.jpg'] = File.read("app/assets/images/netpar2015.jpg")
+    attachments.inline['logo.jpg'] = File.read("app/assets/images/netpar2015.png")
     super
   end
 
   # Overrides same inside Devise::Mailer
   def unlock_instructions(record, token, opts={})
     @url  = Rails.application.secrets.domain_name
-    attachments.inline['logo.jpg'] = File.read("app/assets/images/netpar2015.jpg")
+    attachments.inline['logo.jpg'] = File.read("app/assets/images/netpar2015.png")
     super
   end
 

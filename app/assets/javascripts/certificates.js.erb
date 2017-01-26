@@ -129,7 +129,8 @@ $(document).ready(function() {
 
   // jezeli nastepuje wyswietlenie panelu, to zaladuj dane
   $('#collapse_certificates').on('shown.bs.collapse', function (){
-    oExamCertificatesTable.ajax.reload();
+  //  Wykomentowalem wiersz ponizej poniewaz powoduje podwojne pobieranie danych    
+  //  oExamCertificatesTable.ajax.reload();
     oExamCertificatesTable.draw();
   });
 

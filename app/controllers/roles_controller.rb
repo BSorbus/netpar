@@ -1,12 +1,18 @@
 class RolesController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, except: [:index]
+  after_action :verify_authorized, except: [:index, :datatables_index_user]
 
   before_action :set_role, only: [:show, :edit, :update, :destroy]
 
   def index
     @roles = Role.order(:name).all
     authorize :role, :index?
+  end
+
+  def datatables_index_user
+    respond_to do |format|
+      format.json{ render json: UserRolesDatatable.new(view_context, { only_for_current_user_id: params[:user_id] }) }
+    end
   end
 
   def show

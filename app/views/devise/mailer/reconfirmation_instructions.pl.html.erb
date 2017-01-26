@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <%= image_tag attachments['logo.jpg'].url, size: "256x146" %>
+    <br>
+    <h3>Witaj!</h3>
+  	<p>Na Twoim koncie <%= @user.name %> w programie <strong>NETPAR2015</strong> zostały dokonane zmiany.</p> 
+    <p>Twój dotychczasowy login <%= @user.email %> został zmieniony na <%= @user.unconfirmed_email %>.
+      Aby zakończyć proces musisz ponownie aktywować swoje konto.</p> 
+    <p>Można to zrobić wybierając link: <%= link_to 'Aktywuj konto', confirmation_url(@resource, confirmation_token: @token) %></p>
+    <br>
+    <hr>
+    <p><small>
+      Ta wiadomość została wysłana automatycznie. Proszę nie odpisywać.
+    </small></p>
+    <hr>
+  </body>
+</html>

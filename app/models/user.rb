@@ -89,19 +89,6 @@ class User < ActiveRecord::Base
     "#{name} - #{email} (#{id})"
   end
 
-  def roles_used
-    #@roles_used ||= self.roles.order(:name)
-    @roles_used ||= self.roles.by_name
-  end
-
-  def roles_not_used
-    if roles_used.any?
-      @roles_not_used ||= Role.where.not(id: roles_used.map(&:id)).by_name
-    else
-      @roles_not_used ||= Role.by_name.all
-    end
-  end
-
 
   # instead of deleting, indicate the user requested a delete & timestamp it  
   def soft_delete  

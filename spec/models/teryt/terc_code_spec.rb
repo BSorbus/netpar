@@ -11,6 +11,4 @@ RSpec.describe Teryt::TercCode, type: :model do
   it { should respond_to(:nazwa) }
   it { should respond_to(:nazdod) }
   it { should respond_to(:stan_na) }
-
-
 end

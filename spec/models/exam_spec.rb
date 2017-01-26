@@ -16,7 +16,6 @@ RSpec.describe Exam, type: :model do
   it { should respond_to(:certificates_count) }
   it { should respond_to(:esod_category) }
 
-
   it { should validate_presence_of(:esod_category) }
   it { should validate_inclusion_of(:esod_category).in_array(Esodes::ALL_CATEGORIES_EXAMS) }
   it { should validate_presence_of(:number) }
@@ -26,10 +25,9 @@ RSpec.describe Exam, type: :model do
   it { should validate_presence_of(:place_exam) }
   it { should validate_length_of(:place_exam).is_at_least(1).is_at_most(50) }
   it { should validate_presence_of(:category) }
-  it { should validate_inclusion_of(:category).in_array(['L', 'M', 'R']) }
+  # it { should validate_inclusion_of(:category).in_array(['L', 'M', 'R']) }
+  it { should validate_inclusion_of(:category).in_array(%w(L M R)) }
   it { should validate_presence_of(:user) }
-
-
 
   it { should belong_to :user }
 
@@ -44,14 +42,13 @@ RSpec.describe Exam, type: :model do
 
   it { should accept_nested_attributes_for(:examiners) }
 
-  describe "#examiners association" do
-
+  describe '#examiners association' do
     before do
       exam.save
       3.times { FactoryGirl.create :examiner, exam: exam }
     end
 
-    it "destroys the associated examiners on self destruct" do
+    it 'destroys the associated examiners on self destruct' do
       examiners = exam.examiners
       exam.destroy
       examiners.each do |examiner|
@@ -59,5 +56,4 @@ RSpec.describe Exam, type: :model do
       end
     end
   end
-
 end

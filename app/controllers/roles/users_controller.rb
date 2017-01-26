@@ -9,10 +9,14 @@ class Roles::UsersController < ApplicationController
 
     @role.users << @user
 
-    Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :add_role, user: current_user, parameters: {role: @role.fullname_and_id, user: @user.fullname_and_id})
+    Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :add_role, user: current_user, parameters: {role: @role.fullname_and_id, user: @user.fullname_and_id}.to_json)
 
-    flash_message :success, t('activerecord.messages.successfull.add_role', parent: @user.name, child: @role.name)
-    redirect_to :back
+    # include if run only from JS
+    render :nothing => true and return
+
+    # include if run only from view
+    # flash_message :success, t('activerecord.messages.successfull.add_role', parent: @user.name, child: @role.name)
+    # redirect_to :back
   end
 
   def destroy
@@ -22,10 +26,14 @@ class Roles::UsersController < ApplicationController
 
     @role.users.delete(@user)
 
-    Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :remove_role, user: current_user, parameters: {role: @role.fullname_and_id, user: @user.fullname_and_id})
+    Work.create!(trackable: @user, trackable_url: "#{user_path(@user)}", action: :remove_role, user: current_user, parameters: {role: @role.fullname_and_id, user: @user.fullname_and_id}.to_json)
 
-    flash_message :success, t('activerecord.messages.successfull.remove_role', parent: @user.name, child: @role.name)
-    redirect_to :back
+    # include if run only from JS
+    render :nothing => true and return
+
+    # include if run only from view
+    # flash_message :success, t('activerecord.messages.successfull.remove_role', parent: @user.name, child: @role.name)
+    # redirect_to :back
   end
 
 end

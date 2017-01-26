@@ -97,7 +97,8 @@ $(document).ready(function() {
 
   // jezeli nastepuje wyswietlenie panelu, to zaladuj dane
   $('#collapse_examinations').on('shown.bs.collapse', function (){
-    oExamExaminationsTable.ajax.reload();
+  //  Wykomentowalem wiersz ponizej poniewaz powoduje podwojne pobieranie danych    
+  //  oExamExaminationsTable.ajax.reload();
     oExamExaminationsTable.draw();
   });
 

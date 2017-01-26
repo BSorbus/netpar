@@ -337,6 +337,10 @@ section {
   @extend .btn-danger;
 }
 
+.button-xs-success {
+  @extend .button-xs;
+  @extend .btn-success;
+}
 
 
 

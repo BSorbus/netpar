@@ -13,7 +13,9 @@ RSpec.describe Division, type: :model do
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name).scoped_to(:category).case_insensitive }
   it { should validate_presence_of(:category) }
-  it { should validate_inclusion_of(:category).in_array(['L', 'M', 'R']) }
+  # it { should validate_inclusion_of(:category).in_array(['L', 'M', 'R']) }
+  it { should validate_inclusion_of(:category).in_array(%w(L M R)) }
+
   it { should validate_presence_of(:short_name) }
   it { should validate_presence_of(:number_prefix) }
 
@@ -22,14 +24,13 @@ RSpec.describe Division, type: :model do
 
   it { should accept_nested_attributes_for(:subjects) }
 
-  describe "#subjects association" do
-
+  describe '#subjects association' do
     before do
       division.save
       3.times { FactoryGirl.create :subject, division: division }
     end
 
-    it "destroys the associated subjects on self destruct" do
+    it 'destroys the associated subjects on self destruct' do
       my_subjects = division.subjects
       division.destroy
       my_subjects.each do |my_subject|
@@ -37,5 +38,4 @@ RSpec.describe Division, type: :model do
       end
     end
   end
-
 end

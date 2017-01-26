@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Teryt::UlicCode, type: :model do
-   let(:teryt_ulic_code) { FactoryGirl.build :teryt_ulic_code }
+  let(:teryt_ulic_code) { FactoryGirl.build :teryt_ulic_code }
   subject { teryt_ulic_code }
 
   it { should respond_to(:woj) }
@@ -14,5 +14,4 @@ RSpec.describe Teryt::UlicCode, type: :model do
   it { should respond_to(:nazwa_1) }
   it { should respond_to(:nazwa_2) }
   it { should respond_to(:stan_na) }
-
 end

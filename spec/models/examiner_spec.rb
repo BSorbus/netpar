@@ -14,5 +14,4 @@ RSpec.describe Examiner, type: :model do
   it { should validate_presence_of(:exam) }
 
   it { should belong_to :exam }
-  
 end

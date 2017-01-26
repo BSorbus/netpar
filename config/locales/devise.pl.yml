@@ -36,7 +36,7 @@ pl:
       confirmation_instructions:
         subject: "NetPAR 2015 - Instrukcja aktywacji konta"
       reset_password_instructions:
-        subject: "NetPAR 2015 - Instrukcja zresetowania hasła."
+        subject: "NetPAR 2015 - Instrukcja zresetowania hasła"
       unlock_instructions:
         subject: "NetPAR 2015 - Instrukcja odblokowania konta"
     omniauth_callbacks:

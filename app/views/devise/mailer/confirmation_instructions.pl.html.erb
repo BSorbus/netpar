@@ -6,10 +6,9 @@
   <body>
     <%= image_tag attachments['logo.jpg'].url, size: "256x146" %>
     <br>
-    <h3>Witaj <%= @user.name %> (<%= @user.email %>)!</h3>
-  	<p>Gratulujemy!</p>
-  	<p>Zarejestrowałeś się w programie <strong>NetPAR 2015</strong>. Aby zakończyć proces rejestracji musisz aktywować swoje konto.</p> 
-    <p>Można to zrobić wybierając link: <%= link_to 'Aktywuj konto', confirmation_url(@resource, confirmation_token: @token) %></p>
+    <h3>Witaj!</h3>
+  	<p>Twoje konto <%= @user.name %> (<%= @user.email %>) zostało zarejestrowane w programie <strong>NETPAR2015</strong>.</p> 
+    <p>Aby zakończyć proces rejestracji musisz je aktywować. Można to zrobić wybierając link: <%= link_to 'Aktywuj konto', confirmation_url(@resource, confirmation_token: @token) %></p>
     <br>
     <hr>
     <p><small>
