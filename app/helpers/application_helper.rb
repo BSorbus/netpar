@@ -1,6 +1,6 @@
 module ApplicationHelper
-  #require 'RMagick'
-  #require 'refile-mini_magick'
+  # require 'RMagick'
+  # require 'refile-mini_magick'
 
   def form_errors_for(object=nil)
     if object.present? && object.errors.any?
@@ -44,18 +44,18 @@ module ApplicationHelper
       attachment_url(attach, :fileattach, :fill, horizontal_size(for_service), vertical_size(for_service), format: "jpg", prefix: refile_app_path)
     when 'image/png'
       attachment_url(attach, :fileattach, :fill, horizontal_size(for_service), vertical_size(for_service), format: "png", prefix: refile_app_path)
-    #when 'application/msword'
-    #  asset_path("word.png")
+    # when 'application/msword'
+    #   asset_path("word.png")
     when 'application/pdf'
-      #attachment_url(@attach, :fileattach, :fill, horizontal_size(for_service), vertical_size(for_service), format: "pdf")
+      # attachment_url(@attach, :fileattach, :fill, horizontal_size(for_service), vertical_size(for_service), format: "pdf")
 
-      #pdf_file_name = @attach.fileattach_filename
-      #pdf_file_name = @attach.fileattach
+      # pdf_file_name = @attach.fileattach_filename
+      # pdf_file_name = @attach.fileattach
 
-      #pdf_file_name = "#{Rails.root}/app/assets/images/test.pdf"
-      #pdf_file = Magick::Image.read(pdf_file_name)
-      #thumb = pdf_file.scale(300, 300)
-      #thumb.write "#{Rails.root}/app/assets/images/test.png"
+      # pdf_file_name = "#{Rails.root}/app/assets/images/test.pdf"
+      # pdf_file = Magick::Image.read(pdf_file_name)
+      # thumb = pdf_file.scale(300, 300)
+      # thumb.write "#{Rails.root}/app/assets/images/test.png"
 
 
 ########## Działa ! ######### 
@@ -75,9 +75,9 @@ module ApplicationHelper
 
       asset_path("pdf.png")
 
-      #pdf_file_name = asset_path("certificate_m.jpg")
-      #pdf = Magick::ImageList.new(pdf_file_name)
-      #pdf.write("home/bodzio/Documents/myimage.jpg")
+      # pdf_file_name = asset_path("certificate_m.jpg")
+      # pdf = Magick::ImageList.new(pdf_file_name)
+      # pdf.write("home/bodzio/Documents/myimage.jpg")
     else      
       asset_path("logo.png")
     end
@@ -92,8 +92,8 @@ module ApplicationHelper
       attachment_url(attach, :fileattach, :fill, horizontal_small_size(for_service), vertical_small_size(for_service), format: "jpg", prefix: refile_app_path)
     when 'image/png'
       attachment_url(attach, :fileattach, :fill, horizontal_small_size(for_service), vertical_small_size(for_service), format: "png", prefix: refile_app_path)
-    #when 'application/msword'
-    #  asset_path("word_small.png")
+    # when 'application/msword'
+    #   asset_path("word_small.png")
     when 'application/pdf'
       #attachment_url(attach, :fileattach, :fill, horizontal_small_size(for_service), vertical_small_size(for_service), format: "pdf")
 
@@ -168,7 +168,5 @@ module ApplicationHelper
       100
     end
   end
-
-
 
 end

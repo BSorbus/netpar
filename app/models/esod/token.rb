@@ -118,8 +118,7 @@ class Esod::Token
                     identyfikator_kancelarii_przychodzacej: row.xpath("./*[local-name()='identyfikatorKancelariiPrzychodzacej']").text,
                     identyfikator_kancelarii_wychodzacej:   row.xpath("./*[local-name()='identyfikatorKancelariiWychodzacej']").text,
                   }
-    end    
-    
+    end        
     return my_array
   end
 

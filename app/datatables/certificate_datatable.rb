@@ -50,8 +50,9 @@ class CertificateDatatable < AjaxDatatablesRails::Base
       [
         record.id,
         attach.present? ? link_to( image_tag( get_fileattach_as_small_image(attach, record.category.downcase) ), @view.certificate_path(params[:category_service], record)) : '',
-        #record.esod_matter.present? ? link_to(record.esod_matter.znak, @view.esod_matter_path(record.esod_matter)) : '',
-        record.esod_matters.any? ? record.esod_matters.flat_map {|row| row.znak_with_padlock }.join(', ') : "",
+#       record.esod_matters.any? ? record.esod_matters.flat_map {|row| row.znak_with_padlock }.join(', ') : "",
+        record.esod_matters.any? ? record.esod_matters.flat_map {|row| link_to row.znak_with_padlock, @view.esod_matter_path(row.id) }.join(', ') : "",
+
         link_to(record.number, @view.certificate_path(record.category.downcase, record)),
         record.date_of_issue,
         record.valid_thru,

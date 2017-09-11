@@ -64,20 +64,29 @@ class Esod::Matters::IncomingLettersController < ApplicationController
               customer_id = customer.id if customer.present? 
             end
 
-            exam = Exam.find_by(category: "#{category_service}".upcase, number: @esod_matter.esod_matter_notes.last.tytul.strip) if @esod_matter.esod_matter_notes.last.tytul.present?
-            exam = Exam.find_by(category: "#{category_service}".upcase, number: @esod_matter.esod_matter_notes.last.tresc.strip) if @esod_matter.esod_matter_notes.last.tresc.present? && exam.blank?
+            exam = Exam.find_by(category: "#{category_service}".upcase, number: @esod_matter.esod_matter_notes.last.tytul.strip) if @esod_matter.esod_matter_notes.last.present? && @esod_matter.esod_matter_notes.last.tytul.present?
+            exam = Exam.find_by(category: "#{category_service}".upcase, number: @esod_matter.esod_matter_notes.last.tresc.strip) if @esod_matter.esod_matter_notes.last.present? && @esod_matter.esod_matter_notes.last.tresc.present? && exam.blank?
             exam_id = exam.id if exam.present?
           end
         else
           if resource_service == 'certificate'
-            certificate = Certificate.find_by(category: "#{category_service}".upcase, number: @esod_matter.esod_matter_notes.last.tytul)
-            certificate = Certificate.find_by(category: "#{category_service}".upcase, number: @esod_matter.esod_matter_notes.last.tresc) unless certificate.present?
+            certificate = Certificate.find_by(category: "#{category_service}".upcase, number: @esod_matter.esod_matter_notes.last.tytul) if @esod_matter.esod_matter_notes.last.present? && @esod_matter.esod_matter_notes.last.tytul.present?
+            certificate = Certificate.find_by(category: "#{category_service}".upcase, number: @esod_matter.esod_matter_notes.last.tresc) if @esod_matter.esod_matter_notes.last.present? && @esod_matter.esod_matter_notes.last.tresc.present? && certificate.blank?
             certificate_id = certificate.id if certificate.present?
           end
         end
 
         #@esod_matter.save_to_esod(current_user.email, current_user.esod_encryped_password)
-       
+
+        @customer = Customer.new( name: @esod_incoming_letter.esod_contractor.nazwisko, 
+                                  given_names: @esod_incoming_letter.esod_contractor.imie,
+                                  pesel: @esod_incoming_letter.esod_contractor.pesel,
+                                  address_city: @esod_incoming_letter.esod_address.miasto, 
+                                  address_street: @esod_incoming_letter.esod_address.ulica, 
+                                  address_house: @esod_incoming_letter.esod_address.numer_budynku,
+                                  address_number: @esod_incoming_letter.esod_address.numer_lokalu,
+                                  address_postal_code: @esod_incoming_letter.esod_address.kod_pocztowy,
+                                  address_post_office: @esod_incoming_letter.esod_address.miasto_poczty )
         render :show, locals: { category_service: category_service, resource_service: resource_service, action_service: action_service, customer_id: customer_id, exam_id: exam_id, certificate_id: certificate_id  } 
       end
     end 
@@ -90,6 +99,11 @@ class Esod::Matters::IncomingLettersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    # For cooperation with ESOD
+    def set_esod_user_id
+      Esodes::EsodTokenData.new(current_user.id)
+    end
+
     def set_esod_incoming_letter
       @esod_incoming_letter = Esod::IncomingLetter.find(params[:id])
     end

@@ -210,6 +210,19 @@
                         <%= f.check_box :zaakceptuj_dokument, disabled: false %>
                       </div>
                     </div>  <!-- /row -->
+
+                    <% if matterable.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).any? %> 
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <p><strong>Załącz do pisma:</strong></p>
+                        </div>
+                        <div class="form-group col-sm-12">
+                          <%= check_box_tag "esod_outgoing_letter[document_id]", matterable.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last.id, true %>&nbsp;&nbsp;
+                          <%= matterable.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last.fileattach_filename %>
+                        </div>
+                      </div>
+                    <% end %>
+
                   </div> <!-- /col-sm-6 -->
 
                 </div> <!-- /row -->

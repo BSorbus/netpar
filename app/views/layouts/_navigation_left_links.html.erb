@@ -85,4 +85,12 @@
       <% end %>
     </li>
   <% end %>
+
+  <% if policy(:license).show? %>
+    <li><%= link_to licenses_path do %>
+      <span class="glyphicon glyphicon-book"></span>&nbsp;<%=t "link_to.licenses" %>
+      <% end %>
+    </li>
+  <% end %>
+
 <% end %>

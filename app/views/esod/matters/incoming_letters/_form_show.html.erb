@@ -95,59 +95,63 @@
     <div class="col-sm-11">
 
       <div class="row">
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
           <p><strong><%= Esod::Contractor.human_attribute_name(:nazwisko) %></strong></p>
           <h5><%= @esod_incoming_letter.esod_contractor.nazwisko %></h5>
         </div>
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
           <p><strong><%= Esod::Contractor.human_attribute_name(:imie) %></strong></p>
           <h5><%= @esod_incoming_letter.esod_contractor.imie %></h5>
         </div>
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
           <p><strong><%= Esod::Contractor.human_attribute_name(:drugie_imie) %></strong></p>
           <h5><%= @esod_incoming_letter.esod_contractor.drugie_imie %></h5>
         </div>
       </div>  <!-- /row -->
       <div class="row">
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
           <p><strong><%= Esod::Contractor.human_attribute_name(:nazwa) %></strong></p>
           <h5><%= @esod_incoming_letter.esod_contractor.nazwa %></h5>
         </div>
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
           <p><strong><%= Esod::Contractor.human_attribute_name(:nip) %></strong></p>
           <h5><%= @esod_incoming_letter.esod_contractor.nip %></h5>
         </div>
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
           <p><strong><%= Esod::Contractor.human_attribute_name(:pesel) %></strong></p>
           <h5><%= @esod_incoming_letter.esod_contractor.pesel %></h5>
         </div>
       </div>  <!-- /row -->
 
       <div class="row">
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
           <p><strong><%= Esod::Address.human_attribute_name(:panstwo) %></strong></p>
           <h5><%= @esod_incoming_letter.esod_address.panstwo %></h5>
         </div>
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
           <p><strong><%= Esod::Address.human_attribute_name(:miasto) %></strong></p>
           <h5><%= @esod_incoming_letter.esod_address.miasto %></h5>
         </div>
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
           <p><strong><%= Esod::Address.human_attribute_name(:kod_pocztowy) %></strong></p>
           <h5><%= @esod_incoming_letter.esod_address.kod_pocztowy %></h5>
+        </div>
+        <div class="form-group col-sm-3">
+          <p><strong><%= Esod::Address.human_attribute_name(:miasto_poczty) %></strong></p>
+          <h5><%= @esod_incoming_letter.esod_address.miasto_poczty %></h5>
         </div>
       </div>  <!-- /row -->
 
       <div class="row">
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
           <p><strong><%= Esod::Address.human_attribute_name(:ulica) %></strong></p>
           <h5><%= @esod_incoming_letter.esod_address.ulica %></h5>
         </div>
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
           <p><strong><%= Esod::Address.human_attribute_name(:numer_budynku) %></strong></p>
           <h5><%= @esod_incoming_letter.esod_address.numer_budynku %></h5>
         </div>
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
           <p><strong><%= Esod::Address.human_attribute_name(:numer_lokalu) %></strong></p>
           <h5><%= @esod_incoming_letter.esod_address.numer_lokalu %></h5>
         </div>
@@ -183,6 +187,12 @@
                                     id: "netpar_customer" %>
                   <small class="help-block"><%=t 'help_block_text.select2_customer' %></small>
                 </div>
+                <div class="form-group col-sm-4">
+                  <h1>AAA<%= @customer.name %></h1>
+                  <%= link_to t("helpers.links.new_customer"), new_customer_path(customer: @customer.attributes),
+                        data: { confirm: t('helpers.links.confirm_find_customer_befere_new', data: @customer.fullname_and_address_and_pesel_nip_and_birth_date) },
+                        class: 'btn btn-primary glyphicon glyphicon-plus pull-right' %>
+                </div> <!-- /.col-sm-12 -->
               </div>
 
               <div class="row">

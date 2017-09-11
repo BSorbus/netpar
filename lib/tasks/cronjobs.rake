@@ -7,7 +7,14 @@ namespace :cronjobs do
     role = Role.find_by(name: 'ESOD - Menadżer Dokumentów')
     #Esodes::esod_whenever_sprawy(15)
     role.users.each do |user|
-      Esodes::esod_whenever_sprawy(user.id)
+      Esodes::esod_whenever_sprawy(user.id, 2.days)
+    end
+  end
+  task esod_sync_big: :environment do
+    role = Role.find_by(name: 'ESOD - Menadżer Dokumentów')
+    #Esodes::esod_whenever_sprawy(15)
+    role.users.each do |user|
+      Esodes::esod_whenever_sprawy(user.id, 30.days)
     end
   end
 

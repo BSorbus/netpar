@@ -14,43 +14,83 @@
     <!-- Wrapper for Slides -->
     <div class="carousel-inner">
         <div class="item active">
-          <div class="fill" style="background-image:url(<%= asset_path '1.jpg' %>)"></div>
+
+          <div class="view">
+            <video class="video-full fillvideo" autoplay loop muted>
+              <source src="<%= asset_path('v1new2.mp4') %>" type="video/mp4" />
+            </video>
+          </div>
+<!--
+          <div class="fill" style="background-image:url(<%#= asset_path '1.jpg' %>)"></div>
           <div class="carousel-caption">
             <h3>Nie ma rozwiązań wiecznie trwałych</h3>
             <p>Po 15 latach eksploatacji Systemu NetPAR 2000...</p>
           </div>
+-->
         </div>
         <div class="item">
           <!-- Set the second background image using inline CSS below.
           <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Wszędzie');"></div> -->
-          <div class="fill" style="background-image:url(<%= asset_path '2.jpg' %>)"></div>
+
+          <div class="view">
+            <video class="video-full fillvideo" autoplay loop muted>
+              <source src="<%= asset_path('v2new2.mp4') %>" type="video/mp4" />
+            </video>
+          </div>
+<!--
+          <div class="fill" style="background-image:url(<%#= asset_path '2.jpg' %>)"></div>
           <div class="carousel-caption">
             <h3>Czas na ulepszone ewidencjonowanie dokumentów</h3>
             <p>Tworzenie załączników, zapisywanie skanów, plików pdf, itp.</p>
           </div>
+-->
         </div>
         <div class="item">
           <!-- Set the next background image using inline CSS below. -->
-          <div class="fill" style="background-image:url(<%= asset_path '3.jpg' %>)"></div>
+
+          <div class="view">
+            <video class="video-full fillvideo" autoplay loop muted>
+              <source src="<%= asset_path('v3new.mp4') %>" type="video/mp4" />
+            </video>
+          </div>
+<!--
+          <div class="fill" style="background-image:url(<%#= asset_path '3.jpg' %>)"></div>
           <div class="carousel-caption">
             <h3>Czas na wykorzystanie nowoczesnych technologii</h3>
             <p>Dostęp do danych przez przeglądarkę bez konieczności instalowania programu i kłopotliwych aktualizacji</p>
           </div>
+-->
         </div>
         <div class="item">
           <!-- Set the next background image using inline CSS below. -->
-          <div class="fill" style="background-image:url(<%= asset_path '4.jpg' %>)"></div>
+
+          <div class="view">
+            <video class="video-full fillvideo" autoplay loop muted>
+              <source src="<%= asset_path('war2new.mp4') %>" type="video/mp4" />
+            </video>
+          </div>
+<!--
+          <div class="fill" style="background-image:url(<%#= asset_path '4.jpg' %>)"></div>
           <div class="carousel-caption">
             <h3>Czas na nowe spojrzenie</h3>
             <p>Wspólny rejestr dla wszystkich Delegatur</p>
           </div>
+-->          
         </div>
         <div class="item">
           <!-- Set the next background image using inline CSS below. -->
-          <div class="fill" style="background-image:url(<%= asset_path '5.jpg' %>)"></div>
+
+          <div class="view">
+            <video class="video-full fillvideo" autoplay loop muted>
+              <source src="<%= asset_path('war1new.mp4') %>" type="video/mp4" />
+            </video>
+          </div>
+<!--
+          <div class="fill" style="background-image:url(<%#= asset_path '5.jpg' %>)"></div>
           <div class="carousel-caption">
             <h2>...czas na nowy NETPAR 2015!</h2>
           </div>
+-->
         </div>
       </div> <!-- /div class="carousel-inner" -->
 
@@ -68,8 +108,8 @@
   <!-- Script to Activate the Carousel -->
   <script>
   $('.carousel').carousel({
-      interval: 5000 //changes the speed
-  })
+      interval: 10000 //changes the speed
+  });
   </script>
 
 <% end %><!--/ content_for :upper_part_page -->

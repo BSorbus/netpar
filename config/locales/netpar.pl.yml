@@ -154,6 +154,11 @@ pl:
       links_www2: 'http://uke.gov.pl/pozwolenia-radiowe-11784'
       links_www3_title: 'Świadectwa'
       links_www3: 'http://uke.gov.pl/swiadectwa-radiooperatora-941'
+    license:
+      index:
+        title: 'Pozwolenia NETPAR2000'
+      show:
+        title: 'Pozwolenie NETPAR2000'
   link_to:
     management: 'Zarządzanie'
     works: 'Operacje'
@@ -174,6 +179,7 @@ pl:
     certificate_generation: " Generuj Świadectwo"
     certificates_generation: " Generuj Świadectwa"
     esod_matters: 'ESOD'
+    licenses: 'N2000'
   pundit:
     default: ' BRAK UPRAWNIEŃ: Nie można wykonać tej czynności!'
     work_policy:
@@ -253,6 +259,8 @@ pl:
       update_r?: ' BRAK UPRAWNIEŃ: Nie możesz edytować szczegółowych informacji o egzaminie RA danej osoby!'
       create_r?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć szczegółowych informacji o osobie przystępującej do egzaminu RA!'
       destroy_r?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać szczegółowych informacji o osobie przystępującej do egzaminu RA!'
+    license_policy:
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać pozwoleń systemu NETPAR2000!'
   activerecord:
     models:
       work: 'Work'

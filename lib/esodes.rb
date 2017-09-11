@@ -10,8 +10,9 @@ module Esodes
   # 10.40.1.5:8243(epl-esb1) i 
   # 10.40.1.6:8243(epl-esb2) 
 
-#  API_SERVER = "https://10.40.1.4:443" 
-  API_SERVER = "https://10.40.2.4:8443" 
+  API_SERVER = "https://10.40.1.4:443" # LB programowy PROD
+#  API_SERVER = "https://10.40.2.4:8443" # LB programowy ESB-TEST
+#  API_SERVER = "https://10.60.0.105:443" # LB sprzetowy ESB-TEST (uwaga! inny port)
   API_TOKEN_EXPIRE = 590.seconds    #  10.minutes
 #  API_SYSTEM_USER = "admin"
 #  API_SYSTEM_USER_PASS = "admin"
@@ -185,6 +186,34 @@ module Esodes
     end
   end
 
+  def self.esod_attached_file_category(type)
+    # 1;"NIE OKREŚLONA"
+    # 2;"Dokument"
+    # 3;"Dokument - wizualizacja"
+    # 4;"Załącznik"
+    # 5;"Koperta"
+    # 6;"Podpis"
+    # 7;"Podpis - weryfikacja"
+    # 8;"UPO"
+    # 9;"UPO - wizualizacja"
+    # 10;"UPD"
+    # 11;"UPD - wizualizacja"
+    # 12;"E-mail - surowy nagłówek"
+    # 13;"E-mail - surowa treść"
+    # 14;"Szablon"
+    # 15;"Zwrotka ZPO"
+    # 16;"Podpis otaczający(EPO)"
+    # 17;"Struktura weryfikacji"
+    # 18;"Plik tymczasowy"
+    # 19;"Struktura walidacji ePUAP"
+    # 20;"UPP"
+    # 21;"UPP - wizualizacja"
+    # 22;"Wizualizacja XML"
+    # 23;"Dokument - ePUAP"
+    # 24;"Dokument do podpisu"
+    # 25;"List przewozowy"
+    2
+  end
 
 
   def self.rodzaj_dokumentu_przychodzacego_array
@@ -271,9 +300,10 @@ module Esodes
 
 
 
-  def self.esod_whenever_sprawy(user_id)
+  def self.esod_whenever_sprawy(user_id, days_back)
+    days_back ||= 30.days
     date_step = 1.day
-    start_date = Time.current - 1.month
+    start_date = Time.current - days_back
     end_date = start_date + date_step
     start_run = Time.current
 

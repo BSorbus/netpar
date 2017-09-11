@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170118233115) do
+ActiveRecord::Schema.define(version: 20170315080517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,6 +170,7 @@ ActiveRecord::Schema.define(version: 20170118233115) do
     t.integer  "customer_id"
     t.datetime "created_at",                                                  null: false
     t.datetime "updated_at",                                                  null: false
+    t.string   "miasto_poczty"
   end
 
   add_index "esod_addresses", ["customer_id"], name: "index_esod_addresses_on_customer_id", using: :btree
@@ -349,6 +350,7 @@ ActiveRecord::Schema.define(version: 20170118233115) do
     t.integer  "netpar_user"
     t.datetime "created_at",                                                             null: false
     t.datetime "updated_at",                                                             null: false
+    t.integer  "document_id"
   end
 
   add_index "esod_outgoing_letters", ["tytul"], name: "index_esod_outgoing_letters_on_tytul", using: :btree
@@ -433,6 +435,40 @@ ActiveRecord::Schema.define(version: 20170118233115) do
   add_index "grades", ["examination_id"], name: "index_grades_on_examination_id", using: :btree
   add_index "grades", ["subject_id"], name: "index_grades_on_subject_id", using: :btree
   add_index "grades", ["user_id"], name: "index_grades_on_user_id", using: :btree
+
+  create_table "licenses", force: :cascade do |t|
+    t.string  "department"
+    t.string  "number"
+    t.string  "status"
+    t.date    "date_of_issue"
+    t.date    "valid_to"
+    t.string  "call_sign"
+    t.string  "category"
+    t.integer "transmitter_power"
+    t.string  "name_type_station"
+    t.string  "destination"
+    t.string  "input_frequency"
+    t.string  "output_frequency"
+    t.string  "emission"
+    t.string  "operators"
+    t.text    "note"
+    t.string  "applicant_name"
+    t.string  "applicant_location"
+    t.string  "enduser_name"
+    t.string  "enduser_location"
+    t.string  "station_location"
+    t.string  "type_license",       limit: 1
+  end
+
+  add_index "licenses", ["applicant_location"], name: "index_licenses_on_applicant_location", using: :btree
+  add_index "licenses", ["applicant_name"], name: "index_licenses_on_applicant_name", using: :btree
+  add_index "licenses", ["call_sign"], name: "index_licenses_on_call_sign", using: :btree
+  add_index "licenses", ["enduser_location"], name: "index_licenses_on_enduser_location", using: :btree
+  add_index "licenses", ["enduser_name"], name: "index_licenses_on_enduser_name", using: :btree
+  add_index "licenses", ["number"], name: "index_licenses_on_number", using: :btree
+  add_index "licenses", ["operators"], name: "index_licenses_on_operators", using: :btree
+  add_index "licenses", ["station_location"], name: "index_licenses_on_station_location", using: :btree
+  add_index "licenses", ["type_license"], name: "index_licenses_on_type_license", using: :btree
 
   create_table "old_passwords", force: :cascade do |t|
     t.string   "encrypted_password",       null: false

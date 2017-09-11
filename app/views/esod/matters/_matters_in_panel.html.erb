@@ -53,7 +53,9 @@
               <hr>
             </div>
             <div class="col-sm-12">
-              <%= render partial: "esod/matters/matters_in_panel_matter_link", locals: {matterable: matterable} %>
+              <% if policy(:esod).link? %> 
+                <%= render partial: "esod/matters/matters_in_panel_matter_link", locals: {matterable: matterable} %>
+              <% end %>                  
             </div>
           </div> <!-- /esod-matter-link collapse -->
 
@@ -63,7 +65,9 @@
               <hr>
             </div>
             <div class="col-sm-12">
-              <%= render partial: "esod/matters/matters_in_panel_matter_new", locals: {matterable: matterable, esod_matter: @esod_matter} %>
+              <% if policy(:esod).new? %> 
+                <%= render partial: "esod/matters/matters_in_panel_matter_new", locals: {matterable: matterable, esod_matter: @esod_matter} %>
+              <% end %>                  
             </div>
           </div> <!-- /row esod-matter-new collapse -->
 
@@ -73,9 +77,11 @@
               <hr>
             </div>
             <div class="col-sm-12">
-              <%= render partial: "esod/matters/matters_in_panel_matter_letters", 
-                    locals: { matterable: matterable, esod_incoming_letter: @esod_incoming_letter, 
-                              esod_outgoing_letter: @esod_outgoing_letter, esod_internal_letter: @esod_internal_letter } %>
+              <% if policy(:esod).new? %> 
+                <%= render partial: "esod/matters/matters_in_panel_matter_letters", 
+                      locals: { matterable: matterable, esod_incoming_letter: @esod_incoming_letter, 
+                                esod_outgoing_letter: @esod_outgoing_letter, esod_internal_letter: @esod_internal_letter } %>
+              <% end %>                  
             </div>
           </div> <!-- /esod-matter-link collapse -->
 

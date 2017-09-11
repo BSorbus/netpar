@@ -406,6 +406,7 @@ class Esod::Matter < ActiveRecord::Base
                 @address.identyfikator_osoby_modyfikujacej = nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text
                 @address.nrid                              = nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='nrid']").text  
                 @address.miasto                            = nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='miasto']").text
+                @address.miasto_poczty                     = nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='miastoPoczty']").text
                 @address.kod_pocztowy                      = nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='kodPocztowy']").text
                 @address.ulica                             = nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='ulica']").text
                 @address.numer_budynku                     = nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='numerBudynku']").text
@@ -421,6 +422,7 @@ class Esod::Matter < ActiveRecord::Base
                   identyfikator_osoby_modyfikujacej:  nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='identyfikatorOsobyModyfikujacej']").text,
                   nrid:                               nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='nrid']").text,  
                   miasto:                             nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='miasto']").text,
+                  miasto_poczty:                      nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='miastoPoczty']").text,
                   kod_pocztowy:                       nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='kodPocztowy']").text,
                   ulica:                              nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='ulica']").text,
                   numer_budynku:                      nad.xpath("./*[local-name()='adres']").xpath("./*[local-name()='numerBudynku']").text,

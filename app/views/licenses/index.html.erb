@@ -1,0 +1,33 @@
+<div class="col-sm-12">
+  <h3><span class="glyphicon glyphicon-book" aria-hidden="true"> 
+    <%= t "pages.license.index.title" %>  
+    </span>
+  </h3>
+</div> <!--/col-sm-12 -->
+
+
+<div class="col-sm-12">
+  <table id="licenses" class="hover cell-border" width="100%" data-source="<%= datatables_index_licenses_path(format: :json) %>">
+    <thead>
+      <tr>
+        <th> 0 ID </th>
+        <th> 1 Department</th>
+        <th> 2 Number</th>
+        <th> 3 Date of issue</th>
+        <th> 4 Valid to</th>
+        <th> 5 Status</th>
+        <th> 6 Call sign</th>
+        <th> 7 Category</th>
+        <th> 8 Applicant name</th>
+        <th> 9 Applicant location</th>
+        <th>10 Enduser name</th>
+        <th>11 Enduser location</th>
+        <th>12 Operators</th>
+      </tr>
+    </thead>
+
+    <tbody>
+       <!--data from JSON -->
+    </tbody>
+  </table>
+</div> <!--/col-sm-12 -->

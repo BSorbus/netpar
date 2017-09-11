@@ -5,6 +5,7 @@ class ExaminationsController < ApplicationController
   after_action :verify_authorized, except: [:index, :datatables_index_exam]
 
   before_action :set_examination, only: [:show, :edit, :update, :destroy, :esod_matter_link]
+  before_action :set_esod_user_id, only: [:show]
 
   # GET /examinations
   # GET /examinations.json
@@ -61,7 +62,7 @@ class ExaminationsController < ApplicationController
       znak: nil,
       znak_sprawy_grupujacej: nil,
       symbol_jrwa: Esodes::esod_matter_service_jrwa(@examination.category).to_s,
-      tytul: "#{@examination.customer.given_names} #{@examination.customer.name}, #{@examination.customer.address_city}",
+      tytul: "#{@examination.customer.name} #{@examination.customer.given_names}, #{@examination.customer.address_city}",
       termin_realizacji: @examination.exam.date_exam + Esodes::limit_time_add_to_examination(@examination.category),
       identyfikator_kategorii_sprawy: Esodes::EGZAMIN,
       identyfikator_stanowiska_referenta: nil,
@@ -243,7 +244,7 @@ class ExaminationsController < ApplicationController
   def esod_matter_link_test
     examination_authorize(@examination, "update", params[:category_service])
     @esod_matter = Esod::Matter.find_by(id: params[:source_id])
-    Esodes::esod_whenever_sprawy(current_user.id)
+    Esodes::esod_whenever_sprawy(current_user.id, 30.days)
   end
 
   # POST /examinations/:id/esod_matter_link
@@ -301,6 +302,11 @@ class ExaminationsController < ApplicationController
     end
 
     # Use callbacks to share common setup or constraints between actions.
+    # For cooperation with ESOD
+    def set_esod_user_id
+      Esodes::EsodTokenData.new(current_user.id)
+    end
+
     def set_examination
       @examination = Examination.find(params[:id])
     end

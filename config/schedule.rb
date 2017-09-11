@@ -33,6 +33,16 @@ set :output, "#{Rails.root}/log/cron_log.log"
 #end
 
 #every '*/15 7-17 * * *' do
-every '*/15 7-17 * * 1-6' do
+#every '*/15 7-17 * * 1-6' do
+#  rake "cronjobs:esod_sync"
+#end
+
+#every '*/10 7-11,12-17 * * 1-6' do
+#  rake "cronjobs:esod_sync"
+#end
+every '*/5 7-11,12-17 * * 1-6' do
   rake "cronjobs:esod_sync"
+end
+every '30 6,11,17 * * 1-5' do
+  rake "cronjobs:esod_sync_big"
 end

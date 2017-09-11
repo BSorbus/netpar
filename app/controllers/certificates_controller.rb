@@ -3,6 +3,7 @@ class CertificatesController < ApplicationController
   after_action :verify_authorized, except: [:index, :datatables_index, :datatables_index_exam, :select2_index, :search]
 
   before_action :set_certificate, only: [:show, :edit, :update, :destroy, :certificate_to_pdf, :esod_matter_link]
+  before_action :set_esod_user_id, only: [:show]
 
   # GET /certificates
   # GET /certificates.json
@@ -346,6 +347,11 @@ class CertificatesController < ApplicationController
     end
 
     # Use callbacks to share common setup or constraints between actions.
+    # For cooperation with ESOD
+    def set_esod_user_id
+      Esodes::EsodTokenData.new(current_user.id)
+    end
+
     def set_certificate
       params[:id] = params[:certificate_id] if params[:certificate_id].present?
       @certificate = Certificate.find(params[:id])

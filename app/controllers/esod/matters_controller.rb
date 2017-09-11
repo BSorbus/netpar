@@ -152,14 +152,14 @@ class Esod::MattersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_esod_matter
-      @esod_matter = Esod::Matter.find(params[:id])
-    end
-
     # For cooperation with ESOD
     def set_esod_user_id
       Esodes::EsodTokenData.new(current_user.id)
+    end
+
+    # Use callbacks to share common setup or constraints between actions.
+    def set_esod_matter
+      @esod_matter = Esod::Matter.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

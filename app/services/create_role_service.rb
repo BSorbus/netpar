@@ -203,5 +203,10 @@ class CreateRoleService
     end
   end
 
-
+  def n2000_observer
+    role = Role.find_or_create_by!(name: "NETPAR2000 - Obserwator Dokumentów") do |role|
+      role.activities += %w(license:show)
+      role.save!
+    end
+  end
 end

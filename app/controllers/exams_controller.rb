@@ -5,6 +5,7 @@ class ExamsController < ApplicationController
   after_action :verify_authorized, except: [:index, :datatables_index, :select2_index, :certificates_generation]
 
   before_action :set_exam, only: [:show, :edit, :update, :destroy, :examination_cards_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf, :committee_docx, :esod_matter_link]
+  before_action :set_esod_user_id, only: [:show]
 
   # GET /exams
   # GET /exams.json
@@ -477,6 +478,11 @@ class ExamsController < ApplicationController
     end
 
     # Use callbacks to share common setup or constraints between actions.
+    # For cooperation with ESOD
+    def set_esod_user_id
+      Esodes::EsodTokenData.new(current_user.id)
+    end
+
     def set_exam
       @exam = Exam.find(params[:id])
     end

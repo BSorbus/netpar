@@ -124,7 +124,7 @@ class CustomersController < ApplicationController
 
   # GET /customers/new
   def new
-    @customer = Customer.new
+    @customer = params[:customer].present? ? Customer.new(customer_params) : Customer.new
     authorize :customer, :new?
   end
 

@@ -1,0 +1,169 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
+
+      <div class="form-group col-sm-2">
+        <p><strong><%= License.human_attribute_name(:number) %></strong></p>
+        <h5><%= @license.number %></h5>
+      </div>
+
+      <div class="form-group col-sm-2">
+        <p  class="<%= @license.status == 'S' ? 'text-danger' : 'text-success' %>"><strong><%= License.human_attribute_name(:status) %></strong></p>
+        <h5 class="<%= @license.status == 'S' ? 'text-danger' : 'text-success' %>" ><%= @license.status %></h5>
+      </div>
+
+      <div class="form-group col-sm-2">
+        <p><strong><%= License.human_attribute_name(:date_of_issue) %></strong></p>
+        <h5><%= @license.date_of_issue %></h5>
+      </div>
+
+      <div class="form-group col-sm-2">
+        <p><strong><%= License.human_attribute_name(:valid_to) %></strong></p>
+        <h5><%= @license.valid_to %></h5>
+      </div>
+
+      <div class="form-group col-sm-2">
+        <p><strong><%= License.human_attribute_name(:department) %></strong></p>
+        <h5><%= @license.department %></h5>
+      </div>
+
+      <div class="form-group col-sm-2">
+        <p><strong><%= License.human_attribute_name(:type_license) %></strong></p>
+        <h5><%= @license.type_license_name %></h5>
+      </div>
+
+    </div>  <!-- /row -->
+  </div>  <!-- /col-sm-12 -->
+</div>  <!-- /row -->
+
+<hr class="hr-without-top-margin">
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
+
+      <div class="form-group col-sm-3">
+        <p><strong><%= License.human_attribute_name(:call_sign) %></strong></p>
+        <h5><%= @license.call_sign %></h5>
+      </div>
+
+      <div class="form-group col-sm-3">
+        <p><strong><%= License.human_attribute_name(:category) %></strong></p>
+        <h5><%= @license.category %></h5>
+      </div>
+
+      <div class="form-group col-sm-3">
+        <p><strong><%= License.human_attribute_name(:transmitter_power) %></strong></p>
+        <h5><%= @license.transmitter_power %></h5>
+      </div>
+
+
+      <% if @license.type_license != 'I' %>
+        <div class="form-group col-sm-3">
+          <p><strong><%= License.human_attribute_name(:operators) %></strong></p>
+          <h5><%= @license.operators %></h5>
+        </div>
+      <% end %>
+
+    </div>  <!-- /row -->
+  </div>  <!-- /col-sm-12 -->
+</div>  <!-- /row -->
+
+<% if @license.type_license == 'B' %>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <p><strong><%= License.human_attribute_name(:name_type_station) %></strong></p>
+          <h5><%= @license.name_type_station %></h5>
+        </div>
+
+        <div class="form-group col-sm-4">
+          <p><strong><%= License.human_attribute_name(:destination) %></strong></p>
+          <h5><%= @license.destination %></h5>
+        </div>
+      </div>  <!-- /row -->
+
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <p><strong><%= License.human_attribute_name(:emission) %></strong></p>
+          <h5><%= @license.emission %></h5>
+        </div>
+
+        <div class="form-group col-sm-4">
+          <p><strong><%= License.human_attribute_name(:input_frequency) %></strong></p>
+          <h5><%= @license.input_frequency %></h5>
+        </div>
+
+        <div class="form-group col-sm-4">
+          <p><strong><%= License.human_attribute_name(:output_frequency) %></strong></p>
+          <h5><%= @license.output_frequency %></h5>
+        </div>
+
+      </div>  <!-- /row -->
+
+    </div>  <!-- /col-sm-12 -->
+  </div>  <!-- /row -->
+<% end %>
+
+<hr class="hr-without-top-margin">
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= License.human_attribute_name(:applicant_name) %></strong></p>
+        <h5><%= @license.applicant_name %></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= License.human_attribute_name(:applicant_location) %></strong></p>
+        <h5><%= @license.applicant_location %></h5>
+      </div>
+    </div>
+  </div>
+
+  <% if @license.type_license != 'I' %>
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <p><strong><%= License.human_attribute_name(:enduser_name) %></strong></p>
+          <h5><%= @license.enduser_name %></h5>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <p><strong><%= License.human_attribute_name(:enduser_location) %></strong></p>
+          <h5><%= @license.enduser_location %></h5>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= License.human_attribute_name(:station_location) %></strong></p>
+        <h5><%= @license.station_location %></h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= License.human_attribute_name(:note) %></strong></p>
+        <h5><%= @license.note %></h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="hr-without-top-margin">
+
+<div class="row">
+  <%= link_to t('Index', default: t("helpers.links.index")), licenses_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+</div> <!-- /row -->

@@ -51,7 +51,7 @@ class EsodOutgoingLettersController < ApplicationController
     def esod_outgoing_letter_params
       params.require(:esod_outgoing_letter).permit(:nrid, :numer_ewidencyjny, :tytul, :identyfikator_adresu, :identyfikator_sposobu_wysylki, 
       :identyfikator_rodzaju_dokumentu_wychodzacego, :data_pisma, :numer_wersji, :uwagi, :zakoncz_sprawe, :zaakceptuj_dokument, 
-      :data_utworzenia, :identyfikator_osoby_tworzacej, :data_modyfikacji, :identyfikator_osoby_modyfikujacej, :initialized_from_esod, :netpar_user)
+      :data_utworzenia, :identyfikator_osoby_tworzacej, :data_modyfikacji, :identyfikator_osoby_modyfikujacej, :initialized_from_esod, :netpar_user, :document_id)
     end
 
 

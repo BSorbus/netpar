@@ -1,0 +1,75 @@
+$(document).ready(function() {
+  var oLicensetable = $('#licenses').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    scrollX: true,
+    ajax: { 
+      url: $('#licenses').data('source'),
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
+    columns: [
+      { "targets": [0],
+        "title": "ID",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [1],
+        "title": "Del" }, 
+      { "targets": [2],
+        "title": "Numer" }, 
+      { "targets": [3],
+        "title": "Wydane" }, 
+      { "targets": [4],
+        "title": "Ważne" }, 
+      { "targets": [5],
+        "title": "Status", 
+        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+          // sData - wartosc celi, oData - wiersza
+          if (oData[5] == 'S' ) {
+            $(nTd).css('background-color', '#FF8C8C'); 
+          }
+        }
+      },
+      { "targets": [6],
+        "title": "Znak" }, 
+      { "targets": [7],
+        "title": "Kat" }, 
+      { "targets": [8],
+        "title": "Wnioskodawca" }, 
+      { "targets": [9],
+        "title": "Wnioskodawca-Adres" }, 
+      { "targets": [10],
+        "title": "Użytkownik" }, 
+      { "targets": [11],
+        "title": "Użytkownik-Adres" },
+      { "targets": [12],
+        "title": "Operatorzy" } 
+    ],
+    order: [[ 2, "asc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+
+  $('#licenses tbody').on('click', 'tr', function () {
+    $(this).toggleClass('selected');
+    var rowData = oLicensetable.row( this ).data()[0];
+    var newurl = window.location.protocol + '//' + window.location.host + '/licenses/' + rowData;
+    window.location.href = newurl;
+  });
+ 
+
+});

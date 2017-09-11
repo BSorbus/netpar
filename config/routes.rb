@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  resources :licenses, only: [:index, :show] do
+    post 'datatables_index', on: :collection
+  end
+
   devise_for :users, controllers: {
     passwords: 'users/passwords',
     sessions: 'users/sessions',

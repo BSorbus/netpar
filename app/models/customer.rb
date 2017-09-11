@@ -37,8 +37,8 @@ class Customer < ActiveRecord::Base
   validates :birth_date, presence: true, if: :is_human?
   validate :check_pesel_and_birth_date, unless: "pesel.blank?"
   validate :unique_name_given_names_birth_date_birth_place_fathers_name, if: :is_human?
-  validate :check_address_on_teryt_pna, unless: :is_address_in_poland?
-  validate :check_c_address_on_teryt_pna, unless: :is_c_address_in_poland?, if: "c_address_postal_code.present? || c_address_city.present? || c_address_street.present? || c_address_post_office.present?"
+  #validate :check_address_on_teryt_pna, unless: :is_address_in_poland?
+  #validate :check_c_address_on_teryt_pna, unless: :is_c_address_in_poland?, if: "c_address_postal_code.present? || c_address_city.present? || c_address_street.present? || c_address_post_office.present?"
 
   validates :citizenship, presence: true
   validates :user, presence: true
@@ -75,23 +75,31 @@ class Customer < ActiveRecord::Base
 
   def fullname_and_address
     res = "#{name} #{given_names}, #{address_city}"
-    res +=  ", ul.#{address_street}" if address_street.present?
+    res +=  ", #{address_street}" if address_street.present?
     res +=  " #{address_house}" if address_house.present?
     res +=  "/#{address_number}" if address_number.present?
     res
   end
 
+  def address_cecha_street
+    self.address_teryt_pna_code.present? ? self.address_teryt_pna_code.uli_cecha_nazwa : self.address_street
+  end
+
+  def c_address_cecha_street
+    self.c_address_teryt_pna_code.present? ? self.c_address_teryt_pna_code.uli_cecha_nazwa : self.c_address_street
+  end
+
   def fullname_and_address_for_envelope
     if c_address_city.present?
       res =  "#{given_names} #{name} \n"
-      res += c_address_street.present? ? "ul. #{c_address_street}" : "#{c_address_city}" 
+      res += c_address_street.present? ? "#{self.c_address_cecha_street}" : "#{c_address_city}" 
       res += " #{c_address_house}" if c_address_house.present?
       res += "/#{c_address_number}" if c_address_number.present?
       res += "\n #{c_address_postal_code} #{c_address_post_office}"
       res += "\n skrytka: #{c_address_pobox}" if c_address_pobox.present?
     else
       res =  "#{given_names} #{name} \n"
-      res += address_street.present? ? "ul. #{address_street}" : "#{address_city}" 
+      res += address_street.present? ? "#{self.address_cecha_street}" : "#{address_city}" 
       res += " #{address_house}" if address_house.present?
       res += "/#{address_number}" if address_number.present?
       res += "\n #{address_postal_code} #{address_post_office}"
@@ -260,6 +268,7 @@ class Customer < ActiveRecord::Base
       ulica: c_address_street.present? ? "#{c_address_street}" : "#{address_street}",
       numer_lokalu: c_address_number.present? ? "#{c_address_number}" : "#{address_number}",
       numer_budynku: c_address_house.present? ? "#{c_address_house}" : "#{address_house}",
+      miasto_poczty: c_address_post_office.present? ? "#{c_address_post_office}" : "#{address_post_office}",
       skrytka_epuap: nil,
       panstwo: "#{citizenship.short}",
       email: email, 
@@ -277,6 +286,7 @@ class Customer < ActiveRecord::Base
     address.ulica = c_address_street.present? ? "#{c_address_street}" : "#{address_street}"
     address.numer_lokalu = c_address_number.present? ? "#{c_address_number}" : "#{address_number}"
     address.numer_budynku = c_address_house.present? ? "#{c_address_house}" : "#{address_house}"
+    miasto_poczty = c_address_post_office.present? ? "#{c_address_post_office}" : "#{address_post_office}"
     address.panstwo = "#{citizenship.short}"
     address.email = email
     if address.changed?
@@ -338,6 +348,7 @@ class Customer < ActiveRecord::Base
         "adres" => { 
           "kodPocztowy" => self.esod_address.kod_pocztowy,
           "miasto" => self.esod_address.miasto,
+          "miastoPoczty" => self.esod_address.miasto_poczty,
           "numerBudynku" => self.esod_address.numer_budynku,
           "numerLokalu" => self.esod_address.numer_lokalu,
           "panstwo" => self.esod_address.panstwo, 
@@ -366,7 +377,7 @@ class Customer < ActiveRecord::Base
       end
     end
 
-     rescue Savon::HTTPError => error
+    rescue Savon::HTTPError => error
       Esodes::log_soap_error( error,
                               file:      '\models\customer.rb', 
                               function:  "insert_data_to_esod_and_update_self", 
@@ -463,6 +474,7 @@ class Customer < ActiveRecord::Base
           "adres" => { 
             "kodPocztowy" => self.esod_address.kod_pocztowy,
             "miasto" => self.esod_address.miasto,
+            "miastoPoczty" => self.esod_address.miasto_poczty,
             "nrid" => self.esod_address.nrid,
             "numerBudynku" => self.esod_address.numer_budynku,
             "numerLokalu" => self.esod_address.numer_lokalu,
@@ -493,7 +505,7 @@ class Customer < ActiveRecord::Base
       end
     end
 
-     rescue Savon::HTTPError => error
+    rescue Savon::HTTPError => error
       Esodes::log_soap_error( error,
                               file:      '\models\customer.rb', 
                               function:  "update_data_to_esod_and_update_self", 

@@ -9,6 +9,20 @@ class Teryt::PnaCode < ActiveRecord::Base
   #validates :pna, presence: true
   #validates :pna_teryt, presence: true 
 
+  # 'wyspa', 'szosa', 'al.', 'os.', 'park', 'bulw.', 'wyb.', 'rynek', 'ul.', 'rondo', 'pl.', 'skwer', 'droga', 'ogród', 'inne'
+
+  def uli_cecha_nazwa
+    if ['al.', 'os.', 'ul.', 'pl.', 'wyb.'].include?("#{cecha}")
+      "#{cecha} #{uli_nazwa}".strip 
+    else 
+      if ['WYSPA', 'SZOSA', 'PARK', 'BULWAR', 'RYNEK', 'RONDO', 'SKWER', 'DROGA', 'OGRÓD' ].any? { |i| "#{uli_nazwa}".upcase.split.include?(i) }
+        "#{uli_nazwa}" 
+      else
+        "#{cecha}" == 'inne' ? "#{uli_nazwa}" : "#{cecha} #{uli_nazwa}".strip       
+      end
+    end
+  end
+
 
   # Scope for select2: "teryt_pna_code_select"
   # * parameters   :
