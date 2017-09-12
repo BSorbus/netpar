@@ -25,6 +25,7 @@ db/seeds/*
 # Ignore files with secret info.
 /config/secrets.*
 config/secrets.*
+config/deploy.*
 /source_images/*
 /log/*
 /tmp/*
