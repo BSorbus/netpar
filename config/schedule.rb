@@ -25,7 +25,12 @@ require File.expand_path(File.dirname(__FILE__) + "/../lib/esodes")
 #require File.expand_path(File.dirname("netpar/config") + "/environment")
 
 set :environment, :production
-set :output, "#{Rails.root}/log/cron_log.log"
+
+# To jest OK!
+# set :output, "#{Rails.root}/log/cron_log.log"
+# ...ale zmieniam ze względu na 'mine'
+set :output, "home/bogdan/netpar/current/log/cron_log.log"
+
 
 #every 15.minutes do
 #  #rake 'db:seed:esod_whenever'
