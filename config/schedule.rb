@@ -29,7 +29,7 @@ set :environment, :production
 # To jest OK!
 # set :output, "#{Rails.root}/log/cron_log.log"
 # ...ale zmieniam ze względu na 'mine'
-set :output, "/home/bogdan/netpar/current/log/cron_log.log"
+set :output, "/home/bogdan/www/netpar/current/log/cron_log.log"
 
 
 #every 15.minutes do
