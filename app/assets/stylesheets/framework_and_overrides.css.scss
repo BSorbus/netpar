@@ -56,6 +56,17 @@ body {
 //}
 
 
+pre {
+    display: block;
+    //font-family: monospace;
+    font-size: 6px;
+    letter-spacing: 0px;
+    white-space: pre;
+    margin: 0 0;
+    padding: 0;
+    border: none;
+    line-height: 1.0;
+}
 
 // make all images responsive by default
 img {

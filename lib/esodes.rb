@@ -13,6 +13,7 @@ module Esodes
 #  API_SERVER = "https://10.40.1.4:443" # LB programowy PROD
   API_SERVER = "https://10.40.2.4:8443" # LB programowy ESB-TEST
 #  API_SERVER = "https://10.60.0.105:443" # LB sprzetowy ESB-TEST (uwaga! inny port)
+#  API_SERVER = "https://10.60.0.100:8443"
   API_TOKEN_EXPIRE = 590.seconds    #  10.minutes
 #  API_SYSTEM_USER = "admin"
 #  API_SYSTEM_USER_PASS = "admin"

@@ -15,4 +15,8 @@ class Work < ActiveRecord::Base
     end  
   end
 
+  def pretty_parameters
+    JSON.pretty_generate(JSON.parse(self.parameters.gsub('":"', '": "')))
+  end
+
 end

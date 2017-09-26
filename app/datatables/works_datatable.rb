@@ -51,7 +51,9 @@ class WorksDatatable < AjaxDatatablesRails::Base
         #record.trackable_type.present? ? t("activerecord.models.#{record.trackable_type.downcase}") : '',
         record.trackable ? link_to( record.trackable.fullname_and_id, record.trackable_url ) : record.trackable_id,
         #display_my_hash(record.parameters)
-        record.parameters.gsub('":"', '": "')
+        #record.parameters.gsub('":"', '": "')
+        '<pre>' + "#{record.pretty_parameters}" + '</pre>'
+        #record.pretty_parameters
       ]
     end
   end
