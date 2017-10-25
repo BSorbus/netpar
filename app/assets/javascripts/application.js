@@ -22,4 +22,6 @@
 //= require refile
 //= require data-confirm-modal
 //= require turbolinks
+//= require highcharts
+//= require chartkick
 //= require_tree .

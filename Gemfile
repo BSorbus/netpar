@@ -76,5 +76,8 @@ gem 'whenever', require: false
 gem 'docx_replace'
 gem 'data-confirm-modal', git: 'https://github.com/ifad/data-confirm-modal'
 
+gem 'chartkick'
+gem 'groupdate'
+
 gem 'mina'
 gem 'mina-whenever'

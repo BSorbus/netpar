@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
   scope ':category_service', constraints: { category_service: /[lmr]/ } do
     resources :certificates do
+      get 'show_charts', on: :collection
       post 'datatables_index', on: :collection
       post 'datatables_index_exam', on: :collection # for Exam
       get 'select2_index', on: :collection
@@ -49,6 +50,10 @@ Rails.application.routes.draw do
       get 'examination_card_to_pdf', on: :member
       patch 'certificate_generation', on: :member
       post 'esod_matter_link', on: :member
+    end
+
+    resources :charts, only: [] do
+      get 'by_month_all_certificates', on: :collection
     end
   end
 
@@ -118,7 +123,6 @@ Rails.application.routes.draw do
       resources :internal_letters, only: [:show, :create], controller: 'matters/internal_letters'
     end
   end
-
 
 
 

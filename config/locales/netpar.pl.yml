@@ -32,6 +32,8 @@ pl:
     certificate:
       index:
         title: 'Świadectwa'
+      show_charts:
+        title: 'Statystyki'
     certificate_l:
       index:
         title: 'Świadectwa LOT'

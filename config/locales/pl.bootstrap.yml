@@ -42,6 +42,7 @@ pl:
       filter: " Filtruj dane"
       exam_committee_docx: " Skład Komisji"
       show: " Pokaż"
+      show_charts: ' Statystyki'
     titles:
       edit: "Edycja %{model}"
       save: "Zapisz %{model}"

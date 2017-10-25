@@ -1,9 +1,16 @@
 class CertificatesController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, except: [:index, :datatables_index, :datatables_index_exam, :select2_index, :search]
+  after_action :verify_authorized, except: [:show_charts, :index, :datatables_index, :datatables_index_exam, :select2_index, :search]
 
   before_action :set_certificate, only: [:show, :edit, :update, :destroy, :certificate_to_pdf, :esod_matter_link]
   before_action :set_esod_user_id, only: [:show]
+
+
+  def show_charts
+    respond_to do |format|
+      format.html{ render :show_charts }
+    end
+  end
 
   # GET /certificates
   # GET /certificates.json
