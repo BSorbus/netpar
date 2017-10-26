@@ -113,12 +113,6 @@ class Esod::Matter < ActiveRecord::Base
   def insert_data_to_esod_and_update_self
      my_token = Esodes::EsodTokenData.token_string
 
-puts '===================================================='
-puts self.new_record?
-puts self.initialized_from_esod
-puts '===================================================='
-
-emememem
     if Esodes::EsodTokenData.response_token_errors.present? 
       Esodes::EsodTokenData.response_token_errors.each do |err|
         errors.add(:base, "#{err}")
