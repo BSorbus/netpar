@@ -27,7 +27,7 @@ class Esod::Matter < ActiveRecord::Base
   #validates :tytul, presence: true, length: { in: 0..254 }
 
   # callbacks
-  before_save :insert_data_to_esod_and_update_self, on: :create, if: "initialized_from_esod == false"
+  before_save :insert_data_to_esod_and_update_self, if: "((self.new_record?) && (initialized_from_esod == false))"
   #before_save :update_esod_matter, unless: "esod_matter_id.blank?"
 
 
@@ -111,8 +111,14 @@ class Esod::Matter < ActiveRecord::Base
   end
 
   def insert_data_to_esod_and_update_self
-    my_token = Esodes::EsodTokenData.token_string
+     my_token = Esodes::EsodTokenData.token_string
 
+puts '===================================================='
+puts self.new_record?
+puts self.initialized_from_esod
+puts '===================================================='
+
+emememem
     if Esodes::EsodTokenData.response_token_errors.present? 
       Esodes::EsodTokenData.response_token_errors.each do |err|
         errors.add(:base, "#{err}")
