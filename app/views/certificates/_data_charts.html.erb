@@ -3,10 +3,46 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="row">
-        <%= line_chart by_month_all_certificates_charts_path, adapter: "highcharts" %>
+        <p class="text-justify"><strong>Wg kolejnych miesięcy (ostatnie 5 lat)</strong></p>
+        <%= line_chart by_month_certificates_charts_path(category_service: params[:category_service]), adapter: "highcharts" %>
       </div> <!--/row -->
     </div> <!--/col-sm-12 -->
   </div>  <!-- /row -->
+  <br>
+  <br>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+        <p class="text-justify"><strong>Wg kolejnych miesięcy, z podziałem na kategorie</strong></p>
+        <%= line_chart by_month_division_certificates_charts_path(category_service: params[:category_service]), adapter: "highcharts" %>
+      </div> <!--/row -->
+    </div> <!--/col-sm-12 -->
+  </div>  <!-- /row -->
+  <br>
+  <br>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+        <p class="text-justify"><strong>Wg kolejnych tygodni (ostatnie 16)</strong></p>
+        <%= line_chart by_week_certificates_charts_path(category_service: params[:category_service]), adapter: "highcharts" %>
+      </div> <!--/row -->
+    </div> <!--/col-sm-12 -->
+  </div>  <!-- /row -->
+  <br>
+  <br>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+        <p class="text-justify"><strong>Wg kolejnych tygodni, z podziałem na kategorie</strong></p>
+        <%= line_chart by_week_division_certificates_charts_path(category_service: params[:category_service]), adapter: "highcharts" %>
+      </div> <!--/row -->
+    </div> <!--/col-sm-12 -->
+  </div>  <!-- /row -->
+
+
 
 
 </div> <!--/col-sm-11 col-sm-offset-1-->    

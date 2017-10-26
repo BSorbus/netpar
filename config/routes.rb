@@ -53,7 +53,10 @@ Rails.application.routes.draw do
     end
 
     resources :charts, only: [] do
-      get 'by_month_all_certificates', on: :collection
+      get 'by_month_certificates', on: :collection
+      get 'by_month_division_certificates', on: :collection
+      get 'by_week_certificates', on: :collection
+      get 'by_week_division_certificates', on: :collection
     end
   end
 
