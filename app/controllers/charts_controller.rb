@@ -2,17 +2,22 @@ class ChartsController < ApplicationController
   before_action :authenticate_user!
 
 
-  def by_month_certificates
+  def certificates_by_month
     result = Certificate.where(category: params[:category_service].upcase).group_by_month(:created_at, last: 60).count
     render json: result
   end
 
-  def by_week_certificates
-    result = Certificate.where(category: params[:category_service].upcase).group_by_week(:created_at, last: 16).count
+  def certificates_update_by_month
+    result = Certificate.where(category: params[:category_service].upcase).group_by_month(:updated_at, last: 60).count
     render json: result
   end
 
-  def by_month_division_certificates
+  def certificates_date_of_issue_by_month
+    result = Certificate.where(category: params[:category_service].upcase).group_by_month(:date_of_issue, last: 16).count
+    render json: result
+  end
+
+  def certificates_by_month_division
     # Jest OK
     # result = Certificate.where(category: params[:category_service].upcase).group(:division_id).group_by_month(:created_at, last: 60).count.chart_json
     # render json: result
@@ -25,42 +30,30 @@ class ChartsController < ApplicationController
     render json: data_array.to_json 
   end
 
-  def by_week_division_certificates
-    # Jest OK
-    # result = Certificate.where(category: params[:category_service].upcase).group(:division_id).group_by_week(:created_at, last: 60).count.chart_json
-    # render json: result
 
+  def certificates_update_by_month_division
     data_array = []
     Division.only_category_scope(params[:category_service]).all.each do |division|
       data_array << { name: "#{division.short_name}", 
-                      data: Certificate.where(category: params[:category_service].upcase, division: division).group_by_week(:created_at, last: 16).count.map{|k,v| [k,v]} }
+                      data: Certificate.where(category: params[:category_service].upcase, division: division).group_by_month(:updated_at, last: 60, format: '%Y-%m-%d').count.map{|k,v| [k,v]} }
     end
     render json: data_array.to_json 
- end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  def by_month_all_errands
-    result1 = Errand.group_by_month(:adoption_date).count
-    result2 = Errand.group_by_month(:start_date).count
-    result3 = Errand.group_by_month(:end_date).count
-
-    render json: [{name: 'Ilość (wg daty przyjęcia)',   data: result1},
-                  {name: 'Ilość (wg daty rozpoczęcia)', data: result2},
-                  {name: 'Ilość (wg daty zakończenia)', data: result3}]
   end
+
+
+
+  def certificates_date_of_issu_by_month_division
+    data_array = []
+    Division.only_category_scope(params[:category_service]).all.each do |division|
+      data_array << { name: "#{division.short_name}", 
+                      data: Certificate.where(category: params[:category_service].upcase, division: division).group_by_month(:updated_at, last: 60, format: '%Y-%m-%d').count.map{|k,v| [k,v]} }
+    end
+    render json: data_array.to_json 
+  end
+
+
+
+
 
 
 end
