@@ -25,7 +25,7 @@ class ChartsController < ApplicationController
     data_array = []
     Division.only_category_scope(params[:category_service]).all.each do |division|
       data_array << { name: "#{division.short_name}", 
-                      data: Certificate.where(category: params[:category_service].upcase, division: division).group_by_month(:created_at, last: 60, format: '%Y-%m-%d').count.map{|k,v| [k,v]} }
+                      data: Certificate.where(category: params[:category_service].upcase, division: division).group_by_month(:created_at, last: 12, format: '%Y-%m-%d').count.map{|k,v| [k,v]} }
     end
     render json: data_array.to_json 
   end
@@ -35,7 +35,7 @@ class ChartsController < ApplicationController
     data_array = []
     Division.only_category_scope(params[:category_service]).all.each do |division|
       data_array << { name: "#{division.short_name}", 
-                      data: Certificate.where(category: params[:category_service].upcase, division: division).group_by_month(:updated_at, last: 60, format: '%Y-%m-%d').count.map{|k,v| [k,v]} }
+                      data: Certificate.where(category: params[:category_service].upcase, division: division).group_by_month(:updated_at, last: 12, format: '%Y-%m-%d').count.map{|k,v| [k,v]} }
     end
     render json: data_array.to_json 
   end
@@ -46,7 +46,7 @@ class ChartsController < ApplicationController
     data_array = []
     Division.only_category_scope(params[:category_service]).all.each do |division|
       data_array << { name: "#{division.short_name}", 
-                      data: Certificate.where(category: params[:category_service].upcase, division: division).group_by_month(:updated_at, last: 60, format: '%Y-%m-%d').count.map{|k,v| [k,v]} }
+                      data: Certificate.where(category: params[:category_service].upcase, division: division).group_by_month(:updated_at, last: 12, format: '%Y-%m-%d').count.map{|k,v| [k,v]} }
     end
     render json: data_array.to_json 
   end
