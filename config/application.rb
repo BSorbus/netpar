@@ -54,15 +54,15 @@ module Netpar
     #  end
     #end
 
-    config.middleware.insert_before 0, "Rack::Cors", :debug => true, :logger => (-> { Rails.logger }) do
-      allow do
-        origins '127.0.0.1:3000, localhost:3000, netpar2015.uke.gov.pl, netpar2015-test.uke.gov.pl, 10.100.2.87, 10.100.2.86'
-        resource '*',
-          :headers => :any,
-          :methods => [:get, :post, :delete, :put, :patch, :options, :head],
-          :max_age => 0
-      end
-    end
+    # config.middleware.insert_before 0, "Rack::Cors", :debug => true, :logger => (-> { Rails.logger }) do
+    #   allow do
+    #     origins '127.0.0.1:3000, localhost:3000, netpar2015.uke.gov.pl, netpar2015-test.uke.gov.pl, 10.100.2.87, 10.100.2.86'
+    #     resource '*',
+    #       :headers => :any,
+    #       :methods => [:get, :post, :delete, :put, :patch, :options, :head],
+    #       :max_age => 0
+    #   end
+    # end
 
 
   end
