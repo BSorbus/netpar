@@ -24,7 +24,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
        params[:user].delete(:esod_password)
     end
     super
-   end
+  end
 
   # DELETE /resource
   def destroy  

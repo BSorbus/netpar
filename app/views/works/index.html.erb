@@ -1,10 +1,11 @@
 <div class="col-sm-12">
-  <h3><span class="glyphicon glyphicon-time" aria-hidden="true"> 
-    <%= t "pages.work.index.title" %>  
-    </span>
-  </h3>
+  <div class="row">
+    <h3 class="center">
+      <span class="glyphicon glyphicon-time glyp-index-title" aria-hidden="true"></span>
+      <span class="index-title"><%= t "pages.work.index.title" %></span>
+    </h3>
+  </div> <!--/row -->
 </div> <!--/col-sm-12 -->
-
 
 <div class="col-sm-12">
   <table id="works" class="hover cell-border compact" width="100%" data-source="<%= datatables_index_works_path(format: :json) %>">

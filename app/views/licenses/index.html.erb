@@ -1,10 +1,11 @@
 <div class="col-sm-12">
-  <h3><span class="glyphicon glyphicon-book" aria-hidden="true"> 
-    <%= t "pages.license.index.title" %>  
-    </span>
-  </h3>
+  <div class="row">
+    <h3 class="center">
+      <span class="glyphicon glyphicon-book glyp-index-title" aria-hidden="true"></span>
+      <span class="index-title"><%= t "pages.license.index.title" %></span>
+    </h3>
+  </div> <!--/row -->
 </div> <!--/col-sm-12 -->
-
 
 <div class="col-sm-12">
   <table id="licenses" class="hover cell-border" width="100%" data-source="<%= datatables_index_licenses_path(format: :json) %>">

@@ -1,7 +1,8 @@
 module Esodes
 
   # instancja testowa
-  # 10.40.2.4:8443 LB 
+  # 10.60.0.105:443" LB sprzetowy ESB-TEST (uwaga! inny port)
+  # 10.40.2.4:8443 LB programowy 
   # 10.40.2.5:8243(epl-tesb1) i 
   # 10.40.2.6:8243(epl-tesb2) 
 

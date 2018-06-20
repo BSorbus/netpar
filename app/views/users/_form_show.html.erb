@@ -86,38 +86,50 @@
 <% if input_disabled %>
   <!-- for "Show" -->
   <div class="row">
-    <%= link_to t('Index', default: t("helpers.links.index")), users_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+    <%= link_to users_path, class: "btn btn-default" do %>
+      <span class="glyphicon glyphicon-th-list"></span>
+      <%= t("helpers.links.index") %>
+    <% end %>
 
-    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
-
+    <%= link_to :back, class: "btn btn-default" do %>
+      <span class="glyphicon glyphicon-arrow-left"></span>
+      <%= t("helpers.links.back") %>
+    <% end %>
 
     <% if policy(@user).destroy? %>
-      <%= link_to t('Delete', default: t("helpers.links.destroy")), user_path(@user),
+      <%= link_to user_path(@user),
                           method: :delete,
                           data: { confirm: t('helpers.links.confirm_destroy', data: @user.name) }, 
-                          :class => "btn btn-danger glyphicon glyphicon-trash" %>
+                          class: "btn btn-danger" do %>
+        <span class="glyphicon glyphicon-trash"></span>
+        <%= t("helpers.links.destroy") %>
+      <% end %>
     <% end %>
 
     <% if policy(@user).edit? %>
-      <%= link_to t('Edit', default: t("helpers.links.edit")), edit_user_path(@user), 
-                      :class => "btn btn-primary glyphicon glyphicon-edit" %>  
-
-      <% if @user.deleted_at.present? %>
-        <%= link_to t('Account user ON', default: t("helpers.links.account_on")), account_on_user_path(@user),
-                            method: :patch,
-                            data: { confirm: t('helpers.links.confirm_account_on', data: @user.fullname_and_id) }, 
-                            :class => "btn btn-warning glyphicon glyphicon-unlock" %>
-      <% else %>
-        <%= link_to t('Account user OFF', default: t("helpers.links.account_off")), account_off_user_path(@user),
-                            method: :patch,
-                            data: { confirm: t('helpers.links.confirm_account_off', data: @user.fullname_and_id) }, 
-                            :class => "btn btn-warning glyphicon glyphicon-lock" %>
+      <%= link_to edit_user_path(@user), class: "btn btn-primary" do %>
+        <span class="glyphicon glyphicon-edit"></span>
+        <%= t("helpers.links.edit") %>
       <% end %>
 
+      <% if @user.deleted_at.present? %>
+        <%= link_to account_on_user_path(@user),
+                            method: :patch,
+                            data: { confirm: t('helpers.links.confirm_account_on', data: @user.fullname_and_id) }, 
+                            class: "btn btn-warning" do %>
+          <span class="glyphicon glyphicon-ok"></span>
+          <%= t("helpers.links.account_on") %>
+        <% end %>
+      <% else %>
+        <%= link_to account_off_user_path(@user),
+                            method: :patch,
+                            data: { confirm: t('helpers.links.confirm_account_off', data: @user.fullname_and_id) }, 
+                            class: "btn btn-warning" do %>
+          <span class="glyphicon glyphicon-remove"></span>
+          <%= t("helpers.links.account_off") %>
+        <% end %>
+      <% end %>
     <% end %>
-
-
-
 
   </div> <!-- /row -->
 <% else %>

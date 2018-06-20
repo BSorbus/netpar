@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(version: 20170315080517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pg_stat_statements"
 
   create_table "certificates", force: :cascade do |t|
     t.string   "number",             limit: 30, default: "",    null: false

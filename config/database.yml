@@ -3,6 +3,7 @@ default: &default
   encoding: unicode
   pool: 5
   host: <%= Rails.application.secrets[:db_host] %>
+  port: <%= Rails.application.secrets[:db_port] %>
   database: <%= Rails.application.secrets[:db_name] %>
   user: <%= Rails.application.secrets[:db_user] %>
   password: <%= Rails.application.secrets[:db_password] %>

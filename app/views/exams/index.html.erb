@@ -1,10 +1,11 @@
 <div class="col-sm-12">
-  <h3><span class="glyphicon glyphicon-education" aria-hidden="true"> 
-    <%= t "pages.exam_#{params[:category_service]}.index.title" %>  
-    </span>
-  </h3>
+  <div class="row">
+    <h3 class="center">
+      <span class="glyphicon glyphicon-education glyp-index-title" aria-hidden="true"></span>
+      <span class="index-title"><%= t "pages.exam_#{params[:category_service]}.index.title" %></span>
+    </h3>
+  </div> <!--/row -->
 </div> <!--/col-sm-12 -->
-
 
 <div class="col-sm-12">
   <table id="exams" class="hover cell-border" width="100%" data-source="<%= datatables_index_exams_path(format: :json) %>">
