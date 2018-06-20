@@ -85,7 +85,7 @@ class PdfExamStatistic < Prawn::Document
                      "Typ świadectwa / Ilość wniosków / Rodzaj wniosku / Wynik (* Pozytywny => Świadectwo)"]
                     ] + 
                      @exams.map { |p| [ 
-                        "#{p.number} \n #{p.date_exam}",
+                        "#{p.number} \n #{p.date_exam} \n #{p.place_exam}",
                         division_sub(p)
                       ] } + 
                     [ ["","<b><i><color rgb='e60000'>zestawienie sumaryczne:</color></i></b>"], 
