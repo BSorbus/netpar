@@ -142,7 +142,8 @@ Rails.application.routes.draw do
     #scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
     namespace :v1, constraints: ApiConstraints.new(version: 1, default: true) do
     #namespace :v1 do
-      mount Refile.app, at: "attachments", as: :refile_app
+      #mount Refile.app, at: "attachments", as: :refile_app
+      mount Refile.app, at: Refile.mount_point, as: :refile_app
       resources :certificates, only: [:show] do
         get 'lot', on: :collection
         get 'mor', on: :collection
@@ -155,6 +156,7 @@ Rails.application.routes.draw do
         get 'mor_search_by_customer_pesel', on: :collection
         get 'ra_search_by_customer_pesel', on: :collection
         get 'all_search_by_customer_pesel', on: :collection
+        get 'mor_search_by_multi_params', on: :collection
       end
       devise_scope :user do
         post 'sessions' => 'sessions#create' #, :as => 'login'

@@ -16,7 +16,7 @@ class Api::V1::CertificateSerializer < ActiveModel::Serializer
         filename: attach.fileattach_filename,
         content_type: attach.fileattach_content_type, 
         size: attach.fileattach_size,
-        url: Refile.attachment_url(attach, :fileattach, prefix: refile_app_path)
+        url: Refile.attachment_url(attach, :fileattach, prefix: api_v1_refile_app_path)
       }
     else  
       {}

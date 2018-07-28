@@ -60,7 +60,7 @@ gem 'pesel' # https://github.com/macuk/pesel
 # gem 'rtesseract' #OCR
 gem 'refile', require: ['refile/rails']
 gem 'refile-mini_magick'
-gem 'refile-postgres', '~> 1.3.0'
+gem 'refile-postgres', '~> 1.4.0'
 
 gem 'active_model_serializers', '0.9.5'
 

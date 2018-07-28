@@ -942,6 +942,106 @@
                     }
                 }
             }
+        },
+        "/certificates/mor_search_by_multi_params": {
+          "get": {
+            "summary": "Returns all certificates for Certificate.joins(:customer).where(category: \"M\", number: params[:number], date_of_issue: params[:date_of_issue], customers: {name: params[:name], given_names: params[:given_names]})",
+            "description": "The certificates/search_by_multi_params endpoint returns information for searched params[:number, :data_of_issue, :name, :given_names]. The response includes the display number and other details about each certificate of category \"M\"",
+            "security": [
+              {
+                "apiAuthTokenKey": []
+              }
+            ],
+            "parameters": [
+              {
+                "name": "Authorization",
+                "in": "header",
+                "type": "string",
+                "description": "Authorization token."
+              },
+              {
+                "name": "number",
+                "in": "query",
+                "description": "Number for searched certificates. For example: MA-00123",
+                "required": true,
+                "type": "string"
+              },
+              {
+                "name": "date_of_issue",
+                "in": "query",
+                "description": "Date of issue for searched certificates. For example: 2018-07-17",
+                "required": true,
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "name": "name",
+                "in": "query",
+                "description": "Customer name for searched certificates. For example: Kowalski or Smith",
+                "required": true,
+                "type": "string"
+              },
+              {
+                "name": "given_names",
+                "in": "query",
+                "description": "Customer given names for searched certificates. For example: Jan or John",
+                "required": true,
+                "type": "string"
+              },
+              {
+                "name": "limit",
+                "in": "query",
+                "type": "integer",
+                "format": "int32",
+                "description": "Number of items to retrieve. Default is 10, maximum is 100."
+              },
+              {
+                "name": "offset",
+                "in": "query",
+                "type": "integer",
+                "format": "int32",
+                "description": "Offset the list of returned results by this amount. Default is 0."
+              }
+            ],
+            "tags": [
+              "Certificates"
+            ],
+            "responses": {
+              "200": {
+                "description": "An array of certificates",
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Certificate"
+                  }
+                }
+              },
+              "401": {
+                "description": "Unauthorized",
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              },
+              "403": {
+                "description": "Forbidden",
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              },
+              "404": {
+                "description": "Not found",
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              },
+              "default": {
+                "description": "Unexpected error",
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              }
+            }
+          }
         }
     },
     "definitions": {
