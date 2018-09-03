@@ -228,7 +228,7 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
              json: { error: "Brak parametru [:number] lub [:date_of_issue] lub [:name] lub [:given_names]" }
     else
       certificates = Certificate.joins(:customer).limit(params[:limit] ||= 10).offset(params[:offset] ||= 0)
-        .where(category: "M", number: params[:number], date_of_issue: params[:date_of_issue], customers: {name: params[:name], given_names: params[:given_names]})
+        .where(category: "M", number: params[:number], date_of_issue: params[:date_of_issue], customers: {name: params[:name], given_names: params[:given_names], birth_date: params[:birth_date]})
       if certificates.present?
         render status: :ok,
                json: certificates, meta: { collection:
@@ -237,7 +237,7 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
                                  objects: certificates.size } }
       else
         render status: :not_found,
-               json: { error: "Brak rekordów dla Certificate.where(category: 'M', number: '#{params[:number]}', , date_of_issue: '#{params[:date_of_issue]}') AND Customer.where(name: '#{params[:name]}', given_names: '#{params[:given_names]}')" }
+               json: { error: "Brak rekordów dla Certificate.where(category: 'M', number: '#{params[:number]}', date_of_issue: '#{params[:date_of_issue]}') AND Customer.where(name: '#{params[:name]}', given_names: '#{params[:given_names]}'), birth_date: '#{params[:birth_date]}')" }
       end
     end
   end

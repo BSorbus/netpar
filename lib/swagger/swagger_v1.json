@@ -5,8 +5,8 @@
         "description": "Attention! If you want to use this API, you need to use sessions/login in the first place. After correct login, your \"authentication_token\" will be a key for authorization to run all actions.",
         "version": "1.0.1",
         "contact": {
-            "name": "UKE-BI-WUSA (B&J) 2016",
-            "email": "b.jarzab@uke.gov.pl.com"
+            "name": "UKE-BI-WUSA (B&J) 2018",
+            "email": "bogdan.jarzab@uke.gov.pl.com"
         },
         "termsOfService": "https://netpar2015.uke.gov.pl/api/v1/"
     },
@@ -987,6 +987,14 @@
                 "description": "Customer given names for searched certificates. For example: Jan or John",
                 "required": true,
                 "type": "string"
+              },
+              {
+                "name": "birth_date",
+                "in": "query",
+                "description": "Customer birth date for searched certificates. For example: 1990-08-20",
+                "required": true,
+                "type": "string",
+                "format": "date"
               },
               {
                 "name": "limit",
