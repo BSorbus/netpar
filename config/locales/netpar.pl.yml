@@ -153,9 +153,9 @@ pl:
       links_www1_title: 'UKE'
       links_www1: 'http://uke.gov.pl'
       links_www2_title: 'Pozwolenia radiowe'
-      links_www2: 'http://uke.gov.pl/pozwolenia-radiowe-11784'
+      links_www2: 'http://bip.uke.gov.pl/jak-uzyskac-rezerwacje--pozwolenie--zezwolenie-tresc/pozwolenia-amatorskie,6.html'
       links_www3_title: 'Świadectwa'
-      links_www3: 'http://uke.gov.pl/swiadectwa-radiooperatora-941'
+      links_www3: 'http://bip.uke.gov.pl/swiadectwa-operatora-urzadzen-radiowych-tresci/swiadectwa-amatorskie,3.html'
     license:
       index:
         title: 'Pozwolenia NETPAR2000'
