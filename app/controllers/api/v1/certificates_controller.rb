@@ -222,7 +222,7 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
 
   def mor_search_by_multi_params
     authorize :certificate, :index_m?
-    vialid_thru = vialid_thru.blank? ? nil : vialid_thru 
+    #vialid_thru = vialid_thru.blank? ? nil : vialid_thru 
 
     if params[:number].blank? || params[:date_of_issue].blank? || params[:name].blank? || params[:given_names].blank?
       render status: :not_acceptable,
