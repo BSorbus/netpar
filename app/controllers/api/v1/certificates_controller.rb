@@ -229,7 +229,7 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
              json: { error: "Brak wszystkich parametrów / All parameters are missing" }
     else
       certificates = Certificate.joins(:customer).limit(params[:limit] ||= 10).offset(params[:offset] ||= 0)
-        .where(category: 'M', number: "#{params[:number]}", customers: {birth_date: "#{params[:birth_date}"})
+        .where(category: 'M', number: "#{params[:number]}", customers: {birth_date: "#{params[:birth_date]}"})
         .where("UPPER(unaccent(customers.name)) = UPPER(unaccent('#{params[:name]}')) AND
                 UPPER(unaccent(customers.given_names)) = UPPER(unaccent('#{params[:given_names]}'))")
 
