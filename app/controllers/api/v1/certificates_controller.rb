@@ -222,24 +222,33 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
 
   def mor_search_by_multi_params
     authorize :certificate, :index_m?
-    #vialid_thru = vialid_thru.blank? ? nil : vialid_thru 
 
-    if params[:number].blank? || params[:date_of_issue].blank? || params[:name].blank? || params[:given_names].blank?
+    if params[:number].blank? || params[:date_of_issue].blank? || params[:name].blank? || params[:given_names].blank? || params[:birth_date].blank?
       render status: :not_acceptable,
              json: { error: "Brak wszystkich parametrów / All parameters are missing" }
     else
-      certificates = Certificate.joins(:customer).limit(params[:limit] ||= 10).offset(params[:offset] ||= 0)
-        .where(category: 'M', number: "#{params[:number]}", customers: {birth_date: "#{params[:birth_date]}"})
+      certificates = Certificate.joins(:customer).limit(1).offset(0)
+        .where(category: 'M', number: "#{params[:division]}"+"#{params[:number]}", customers: {birth_date: "#{params[:birth_date]}"})
         .where("UPPER(unaccent(customers.name)) = UPPER(unaccent('#{params[:name]}')) AND
                 UPPER(unaccent(customers.given_names)) = UPPER(unaccent('#{params[:given_names]}'))")
 
-      #works = certificate.first.works if certificate.present? 
-      if certificates.present?
+      works = certificates.first.works if certificates.present?
+      equal_data = nil
+      if works.present?
+        works.each do |rec|
+          if JSON.parse( rec.parameters )['date_of_issue'] == params[:date_of_issue] && JSON.parse( rec.parameters )['valid_thru'] == params[:valid_thru]
+            equal_data = rec
+          end
+        end
+      end
+
+      if equal_data.present?
         render status: :ok,
-               json: certificates, meta: { collection:
-                               { offset: params[:offset] ||= 0,
-                                 limit: params[:limit] ||= 10,
-                                 objects: certificates.size } }
+               json: '["#{equal_data}"]', 
+                      meta: { collection:
+                               { offset: 0,
+                                 limit: 1,
+                                 objects: 1 } }
       else
         render status: :not_found,
                json: { error: "Brak danych / No data" }

@@ -960,9 +960,16 @@
                 "description": "Authorization token."
               },
               {
+                "name": "division",
+                "in": "query",
+                "description": "Prefix number for searched certificates. For example: MA-",
+                "required": true,
+                "type": "string"
+              },
+              {
                 "name": "number",
                 "in": "query",
-                "description": "Number for searched certificates. For example: MA-00123",
+                "description": "Number for searched certificates. For example: 00123",
                 "required": true,
                 "type": "string"
               },
@@ -971,6 +978,14 @@
                 "in": "query",
                 "description": "Date of issue for searched certificates. For example: 2018-07-17",
                 "required": true,
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "name": "valid_thru",
+                "in": "query",
+                "description": "Date valid thru for searched certificates. For example: 2018-07-17",
+                "required": false,
                 "type": "string",
                 "format": "date"
               },
