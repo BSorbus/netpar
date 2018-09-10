@@ -10,9 +10,9 @@
         },
         "termsOfService": "https://netpar2015.uke.gov.pl/api/v1/"
     },
-    "host": "localhost:3000",
+    "host": "netpar2015.uke.gov.pl",
     "schemes": [
-        "http"
+        "https"
     ],
     "basePath": "/api/v1",
     "produces": [
@@ -945,8 +945,8 @@
         },
         "/certificates/mor_search_by_multi_params": {
           "get": {
-            "summary": "Returns all certificates for Certificate.joins(:customer).where(category: \"M\", number: params[:number], date_of_issue: params[:date_of_issue], customers: {name: params[:name], given_names: params[:given_names]})",
-            "description": "The certificates/search_by_multi_params endpoint returns information for searched params[:number, :data_of_issue, :name, :given_names]. The response includes the display number and other details about each certificate of category \"M\"",
+            "summary": "Returns all certificates for category: \"M\", params[:number_prefix], params[:number], params[:date_of_issue], params[:valid_thru], customers: {params[:name], params[:given_names], params[:birth_date]})",
+            "description": "The certificates/search_by_multi_params endpoint returns information for searched params[:number_prefix, :number, :data_of_issue, :valid_thru, :name, :given_names, :birth_date]. The response includes the display number and other details about each certificate of category \"M\"",
             "security": [
               {
                 "apiAuthTokenKey": []
@@ -960,7 +960,7 @@
                 "description": "Authorization token."
               },
               {
-                "name": "division",
+                "name": "number_prefix",
                 "in": "query",
                 "description": "Prefix number for searched certificates. For example: MA-",
                 "required": true,
@@ -1234,6 +1234,10 @@
                 "short_name": {
                     "type": "string",
                     "description": "Display short name of division."
+                },
+                "number_prefix": {
+                    "type": "string",
+                    "description": "Display prefix number for Certificate."
                 }
             }
         },
