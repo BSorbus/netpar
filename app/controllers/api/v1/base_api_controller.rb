@@ -48,6 +48,7 @@ module Api
                 '10.20.0.0/16',     # Centrala
                 '10.21.0.0/16',     # Centrala
                 '10.100.0.0/16',    # Centrala
+                '172.16.1.75',      # netpar2015.uke.gov.pl
                 '10.250.125.0/24'   # Połączenia VPN BYBI
               ] 
         allowed = false
@@ -68,8 +69,6 @@ module Api
 
         return allowed
       end
-
-
 
     end
   end

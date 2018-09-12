@@ -223,7 +223,7 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
   def mor_search_by_multi_params
     authorize :certificate, :index_m?
 
-    if params[:number].blank? || params[:date_of_issue].blank? || params[:name].blank? || params[:given_names].blank? || params[:birth_date].blank? || (params[:valid_thru].blank? && ! ['GL-', 'GS-', 'MA-', 'GS-', 'GC-', 'IW-'].include?(params[:number_prefix]))
+    if params[:number_prefix].blank? || params[:number].blank? || params[:date_of_issue].blank? || params[:name].blank? || params[:given_names].blank? || params[:birth_date].blank? || (params[:valid_thru].blank? && ! ['GL-', 'GS-', 'MA-', 'GS-', 'GC-', 'IW-'].include?(params[:number_prefix]))
       render status: :not_acceptable,
              json: { error: "Brak wszystkich parametrów / All parameters are missing" }
     else
