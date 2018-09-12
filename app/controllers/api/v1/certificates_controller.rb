@@ -227,18 +227,25 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
       render status: :not_acceptable,
              json: { error: "Brak wszystkich parametrów / All parameters are missing" }
     else
+      req_number = sanitize("#{params[:number_prefix]}"+"#{params[:number]}")
+      req_date_of_issue = sanitize(params[:date_of_issue])
+      req_valid_thru = sanitize(params[:valid_thru])
+      req_name = sanitize(params[:name])
+      req_given_names = sanitize(params[:given_names]) 
+      req_birth_date = sanitize(params[:birth_date])
+
       certificates = Certificate.joins(:customer).limit(1).offset(0)
-        .where(canceled: false, category: 'M', number: "#{params[:number_prefix]}"+"#{params[:number]}", customers: {birth_date: "#{params[:birth_date]}"})
-        .where("UPPER(unaccent(customers.name)) = UPPER(unaccent('#{params[:name]}')) AND
-                UPPER(unaccent(customers.given_names)) = UPPER(unaccent('#{params[:given_names]}'))")
+        .where(canceled: false, category: 'M', number: "#{req_number}", customers: {birth_date: "#{req_birth_date}"})
+        .where("UPPER(unaccent(customers.name)) = UPPER(unaccent('#{req_name}')) AND
+                UPPER(unaccent(customers.given_names)) = UPPER(unaccent('#{req_given_names}'))")
 
       works = certificates.first.works if certificates.present?
       equal_data = nil
       if works.present?
         works.each do |rec|
-          if JSON.parse(rec.parameters)['date_of_issue'] == params[:date_of_issue] 
+          if JSON.parse(rec.parameters)['date_of_issue'] == req_date_of_issue 
             if params[:valid_thru].present?
-              equal_data = rec if JSON.parse(rec.parameters)['valid_thru'] == params[:valid_thru]
+              equal_data = rec if JSON.parse(rec.parameters)['valid_thru'] == req_valid_thru
             else
               equal_data = rec
             end
