@@ -221,14 +221,10 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
   end
 
   def mor_search_by_multi_params
-    puts '==========================================================================='
+    puts '====================== mor_search_by_multi_params ========================='
     puts params
     puts '-------------------------------------------------------------------'
     puts request.remote_ip
-    puts '-------------------------------------------------------------------'
-    puts request.headers['REMOTE_HOST']
-    puts '-------------------------------------------------------------------'
-    puts request.headers['REMOTE_ADDR']
     puts '==========================================================================='
     authorize :certificate, :index_m?
 
