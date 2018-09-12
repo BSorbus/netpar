@@ -28,4 +28,8 @@ module ChartsHelper
     line_chart certificates_date_of_issu_by_month_division_charts_path(category_service: params[:category_service]), adapter: "highcharts"
   end
 
+  def chart_confirmation_logs_by_month
+    line_chart confirmation_logs_by_month_charts_path(), adapter: "highcharts"
+  end
+
 end

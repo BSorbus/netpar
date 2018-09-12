@@ -60,6 +60,7 @@ Rails.application.routes.draw do
       get 'certificates_by_month_division', on: :collection
       get 'certificates_update_by_month_division', on: :collection
       get 'certificates_date_of_issu_by_month_division', on: :collection
+      get 'confirmation_logs_by_month', on: :collection
     end
   end
 

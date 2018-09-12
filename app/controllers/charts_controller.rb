@@ -30,7 +30,6 @@ class ChartsController < ApplicationController
     render json: data_array.to_json 
   end
 
-
   def certificates_update_by_month_division
     data_array = []
     Division.only_category_scope(params[:category_service]).all.each do |division|
@@ -39,8 +38,6 @@ class ChartsController < ApplicationController
     end
     render json: data_array.to_json 
   end
-
-
 
   def certificates_date_of_issu_by_month_division
     data_array = []
@@ -51,9 +48,9 @@ class ChartsController < ApplicationController
     render json: data_array.to_json 
   end
 
-
-
-
-
+  def confirmation_logs_by_month
+    result = ConfirmationLog.group_by_month(:created_at, last: 60).count
+    render json: result
+  end
 
 end
