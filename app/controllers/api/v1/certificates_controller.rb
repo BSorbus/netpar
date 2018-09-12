@@ -221,16 +221,20 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
   end
 
   def mor_search_by_multi_params
-    puts '====================== mor_search_by_multi_params ========================='
-    puts params
-    puts '-------------------------------------------------------------------'
-    puts request.remote_ip
-    puts '==========================================================================='
     authorize :certificate, :index_m?
 
+    requ_json = { "number_prefix": "#{params[:number_prefix]}", 
+                  "number": "#{params[:number]}",
+                  "date_of_issue": "#{params[:date_of_issue]}",
+                  "valid_thru": "#{params[:valid_thru]}",
+                  "name": "#{params[:name]}",
+                  "given_names": "#{params[:given_names]}",
+                  "birth_date": "#{params[:birth_date]}" }
+
     if params[:number_prefix].blank? || params[:number].blank? || params[:date_of_issue].blank? || params[:name].blank? || params[:given_names].blank? || params[:birth_date].blank? || (params[:valid_thru].blank? && ! ['GL-', 'GS-', 'MA-', 'GS-', 'GC-', 'IW-'].include?(params[:number_prefix]))
+      resp_json = { error: "Brak wszystkich parametrów / All parameters are missing" }
       render status: :not_acceptable,
-             json: { error: "Brak wszystkich parametrów / All parameters are missing" }
+             json: resp_json
     else
       req_number = ActionController::Base.helpers.sanitize("#{params[:number_prefix]}"+"#{params[:number]}")
       req_date_of_issue = ActionController::Base.helpers.sanitize(params[:date_of_issue])
@@ -260,42 +264,48 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
 
       if equal_data.present?
         division = Division.find("#{JSON.parse(equal_data.parameters)['division']['id']}")
-        render status: :ok,
-               json: {
-                  "certificates": [
-                    {
-                      "id": "#{JSON.parse(equal_data.parameters)['id']}",
-                      "number": "#{JSON.parse(equal_data.parameters)['number']}",
-                      "date_of_issue": "#{JSON.parse(equal_data.parameters)['date_of_issue']}",
-                      "valid_thru": "#{JSON.parse(equal_data.parameters)['valid_thru']}",
-                      "category": "#{JSON.parse(equal_data.parameters)['category']}",
-                      "division": {
-                        "id": "#{JSON.parse(equal_data.parameters)['division']['id']}",
-                        "name": division.name,
-                        "english_name": division.english_name,
-                        "short_name": division.short_name,
-                        "number_prefix": division.number_prefix
-                      },
-                      "customer": {
-                        "id": "#{JSON.parse(equal_data.parameters)['customer']['id']}",
-                        "name": "#{JSON.parse(equal_data.parameters)['customer']['name']}",
-                        "given_names": "#{JSON.parse(equal_data.parameters)['customer']['given_names']}",
-                        "birth_date": "#{JSON.parse(equal_data.parameters)['customer']['birth_date']}",
+        resp_json = {
+                      "certificates": [
+                        {
+                          "id": "#{JSON.parse(equal_data.parameters)['id']}",
+                          "number": "#{JSON.parse(equal_data.parameters)['number']}",
+                          "date_of_issue": "#{JSON.parse(equal_data.parameters)['date_of_issue']}",
+                          "valid_thru": "#{JSON.parse(equal_data.parameters)['valid_thru']}",
+                          "category": "#{JSON.parse(equal_data.parameters)['category']}",
+                          "division": {
+                            "id": "#{JSON.parse(equal_data.parameters)['division']['id']}",
+                            "name": division.name,
+                            "english_name": division.english_name,
+                            "short_name": division.short_name,
+                            "number_prefix": division.number_prefix
+                          },
+                          "customer": {
+                            "id": "#{JSON.parse(equal_data.parameters)['customer']['id']}",
+                            "name": "#{JSON.parse(equal_data.parameters)['customer']['name']}",
+                            "given_names": "#{JSON.parse(equal_data.parameters)['customer']['given_names']}",
+                            "birth_date": "#{JSON.parse(equal_data.parameters)['customer']['birth_date']}",
+                          }
+                        }
+                      ],
+                      "meta": {
+                        "collection": {
+                          "offset": 0,
+                          "limit": 1,
+                          "objects": 1
+                        }
                       }
                     }
-                  ],
-                 "meta": {
-                   "collection": {
-                     "offset": 0,
-                     "limit": 1,
-                     "objects": 1
-                   }
-                 }
-              }
+
+        render status: :ok,
+               json: resp_json
       else
+        resp_json = { error: "Brak danych / No data" }
         render status: :not_found,
-               json: { error: "Brak danych / No data" }
+               json: resp_json
       end
+
+      ConfirmationLog.create!(remote_ip: "#{request.remote_ip}", request_json: "#{requ_json}", response_json: "#{resp_json}")
+
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180907095559) do
+ActiveRecord::Schema.define(version: 20180912191621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,14 @@ ActiveRecord::Schema.define(version: 20180907095559) do
   end
 
   add_index "citizenships", ["name"], name: "index_citizenships_on_name", unique: true, using: :btree
+
+  create_table "confirmation_logs", force: :cascade do |t|
+    t.string   "remote_ip"
+    t.string   "request_json"
+    t.string   "response_json"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "customers", force: :cascade do |t|
     t.boolean  "human",                                   default: true, null: false
