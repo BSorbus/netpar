@@ -221,18 +221,27 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
   end
 
   def mor_search_by_multi_params
+    puts '==========================================================================='
+    puts params
+    puts '-------------------------------------------------------------------'
+    puts request.remote_ip
+    puts '-------------------------------------------------------------------'
+    puts request.headers['REMOTE_HOST']
+    puts '-------------------------------------------------------------------'
+    puts request.headers['REMOTE_ADDR']
+    puts '==========================================================================='
     authorize :certificate, :index_m?
 
     if params[:number_prefix].blank? || params[:number].blank? || params[:date_of_issue].blank? || params[:name].blank? || params[:given_names].blank? || params[:birth_date].blank? || (params[:valid_thru].blank? && ! ['GL-', 'GS-', 'MA-', 'GS-', 'GC-', 'IW-'].include?(params[:number_prefix]))
       render status: :not_acceptable,
              json: { error: "Brak wszystkich parametrów / All parameters are missing" }
     else
-      req_number = sanitize("#{params[:number_prefix]}"+"#{params[:number]}")
-      req_date_of_issue = sanitize(params[:date_of_issue])
-      req_valid_thru = sanitize(params[:valid_thru])
-      req_name = sanitize(params[:name])
-      req_given_names = sanitize(params[:given_names]) 
-      req_birth_date = sanitize(params[:birth_date])
+      req_number = ActionController::Base.helpers.sanitize("#{params[:number_prefix]}"+"#{params[:number]}")
+      req_date_of_issue = ActionController::Base.helpers.sanitize(params[:date_of_issue])
+      req_valid_thru = ActionController::Base.helpers.sanitize(params[:valid_thru])
+      req_name = ActionController::Base.helpers.sanitize(params[:name])
+      req_given_names = ActionController::Base.helpers.sanitize(params[:given_names]) 
+      req_birth_date = ActionController::Base.helpers.sanitize(params[:birth_date])
 
       certificates = Certificate.joins(:customer).limit(1).offset(0)
         .where(canceled: false, category: 'M', number: "#{req_number}", customers: {birth_date: "#{req_birth_date}"})
