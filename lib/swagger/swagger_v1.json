@@ -960,6 +960,12 @@
                 "description": "Authorization token."
               },
               {
+                "name": "X-Real-IP",
+                "in": "header",
+                "type": "string",
+                "description": "X-Real-IP"
+              },
+              {
                 "name": "number_prefix",
                 "in": "query",
                 "description": "Prefix number for searched certificates. For example: MA-",
