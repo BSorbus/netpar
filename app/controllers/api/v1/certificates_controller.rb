@@ -304,9 +304,10 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
                json: resp_json
       end
 
-      ConfirmationLog.create!(remote_ip: "#{request.headers['X-Real-IP']}", request_json: "#{requ_json}", response_json: "#{resp_json}")
-
     end
+
+    ConfirmationLog.create!(remote_ip: "#{request.headers['X-Real-IP']}", request_json: "#{requ_json}", response_json: "#{resp_json}")
+
   end
 
 
