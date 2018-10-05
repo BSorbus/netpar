@@ -358,7 +358,7 @@ class Customer < ActiveRecord::Base
       }
     }
 
-    response = client.call(:utworz_kontrahenta,  message: message_body )
+    response = client.call(:utworz_kontrahenta, message: message_body )
 
     if response.success?
       response.xpath("//*[local-name()='return']").each do |ret|
