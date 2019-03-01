@@ -245,8 +245,8 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
 
       certificates = Certificate.joins(:customer).limit(1).offset(0)
         .where(canceled: false, category: 'M', customers: {birth_date: "#{req_birth_date}"})
-        .where("RTRIM(certificates.number) = '#{req_number}' AND RTRIM(UPPER(unaccent(customers.name))) = UPPER(unaccent('#{req_name}')) AND
-                RTRIM(UPPER(unaccent(customers.given_names))) = UPPER(unaccent('#{req_given_names}'))")
+        .where("TRIM(certificates.number) = '#{req_number}' AND TRIM(UPPER(unaccent(customers.name))) = UPPER(unaccent('#{req_name}')) AND
+                TRIM(UPPER(unaccent(customers.given_names))) = UPPER(unaccent('#{req_given_names}'))")
 
       works = certificates.first.works if certificates.present?
       equal_data = nil

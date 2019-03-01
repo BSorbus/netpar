@@ -1,3 +1,7 @@
+require 'openssl'
+require 'base64'
+
+
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :rememberable, :omniauthable
@@ -66,13 +70,24 @@ class User < ActiveRecord::Base
 
   # Setter
   def esod_password=(esod_password)
-    self.esod_encryped_password = encrypt_esod_pass(esod_password)
+    self.esod_encryped_password = Rails.application.secrets[:esod_with_wso2is] ? encrypt_esod_aes_pass(esod_password) : encrypt_esod_pass(esod_password)
   end
 
-  def encrypt_esod_pass(esod_pass)
+  def encrypt_esod_pass(str)
     secret_key = Rails.application.secrets[:esod_secret_key_for_generate_user_token]
     salt = Digest::MD5.hexdigest(secret_key)
-    Digest::SHA512.hexdigest(salt+esod_pass)
+    Digest::SHA512.hexdigest(salt+str)
+  end
+
+  def encrypt_esod_aes_pass(str)
+    cipher = OpenSSL::Cipher::AES128.new(:CBC)
+    cipher.encrypt
+    iv = OpenSSL::Random.random_bytes(cipher.iv_len)
+    cipher.iv = iv
+    cipher.key = Rails.application.secrets[:esod_secret_key_for_generate_user_token] #KEY
+    str = iv + str
+    data = cipher.update(str) + cipher.final
+    Base64.urlsafe_encode64(data)
   end
 
   def generate_authentication_token!

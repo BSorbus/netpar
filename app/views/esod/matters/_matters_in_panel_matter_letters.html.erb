@@ -107,14 +107,29 @@
                       </div> <!-- /.col-sm-4 -->
                     </div> 
 
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+                        <%= f.label :tajemnica, class: 'control-label' %>
+                        <%= f.select :tajemnica, 
+                              Esodes::EsodTokenData.dostepnosc_dokumentu.collect {|v| [ "#{v[:nazwa]}", v[:nrid] ] },
+                              { include_blank: false, selected: esod_incoming_letter.tajemnica }, 
+                              { autofocus: false, class: 'form-control input-sm', disabled: false } %>
+
+                      </div> <!-- /.col-sm-4 -->
+                    </div> 
+
                      <div class="row">
                       <div class="form-group col-sm-4">
                         <%= f.label :liczba_zalacznikow, class: 'control-label' %><br>
                         <%= f.text_field :liczba_zalacznikow, type: "number", disabled: false %>
                       </div>
+                      <div class="form-group col-sm-6">
+                        <%= f.label :zgoda, class: 'control-label' %><br>
+                        <%= f.check_box :zgoda, disabled: false %>
+                      </div>
                     </div>  <!-- /row -->
                     <div class="row">
-                      <div class="form-group col-sm-6">
+                      <div class="form-group col-sm-4">
                         <%= f.label :pelna_wersja_cyfrowa, class: 'control-label' %><br>
                         <%= f.check_box :pelna_wersja_cyfrowa, disabled: false %>
                       </div>

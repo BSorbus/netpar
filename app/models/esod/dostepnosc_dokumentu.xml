@@ -18,6 +18,10 @@
                <nazwa>Niepubliczny</nazwa>
                <nrid>4</nrid>
             </dostepnoscDokumentow>
+            <dostepnoscDokumentow>
+               <nazwa>Tajemnica przedsiębiorstwa</nazwa>
+               <nrid>7</nrid>
+            </dostepnoscDokumentow>
          </return>
       </ns1:wyszukajDostepnoscDokumentowResponse>
    </SOAP-ENV:Body>

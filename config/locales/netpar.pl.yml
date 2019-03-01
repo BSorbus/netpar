@@ -493,6 +493,8 @@ pl:
         pelna_wersja_cyfrowa: 'Pełna wersja cyfrowa?'
         naturalny_elektroniczny: 'Naturalny elektroniczny?'
         liczba_zalacznikow: 'Liczba załączników'
+        zgoda: 'Zgoda na odpowiedź w formie elektronicznej?'
+        tajemnica: 'Dostępność dokumentu'
         uwagi: 'Uwagi'
         identyfikator_osoby: 'identyfikator_osoby'
         identyfikator_adresu: 'identyfikator_adresu'

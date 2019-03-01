@@ -59,7 +59,8 @@ class EsodIncomingLettersController < ApplicationController
     def esod_incoming_letter_params
       params.require(:esod_incoming_letter).permit( :nrid, :numer_ewidencyjny, :tytul, :data_pisma, :data_nadania, :data_wplyniecia, :znak_pisma_wplywajacego, 
         :identyfikator_typu_dcmd, :identyfikator_rodzaju_dokumentu, :identyfikator_sposobu_przeslania, :identyfikator_miejsca_przechowywania, :termin_na_odpowiedz,
-      :pelna_wersja_cyfrowa, :naturalny_elektroniczny, :liczba_zalacznikow, :uwagi, :identyfikator_osoby, :identyfikator_adresu, :data_utworzenia, :identyfikator_osoby_tworzacej, 
+      :pelna_wersja_cyfrowa, :naturalny_elektroniczny, :liczba_zalacznikow, :zgoda, :tajemnica, :uwagi, :identyfikator_osoby, :identyfikator_adresu, 
+      :data_utworzenia, :identyfikator_osoby_tworzacej, 
       :data_modyfikacji, :identyfikator_osoby_modyfikujacej, :esod_contractor, :esod_address, :initialized_from_esod, :netpar_user )
     end
 

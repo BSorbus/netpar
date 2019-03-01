@@ -11,11 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180912210017) do
+ActiveRecord::Schema.define(version: 20190206004054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pg_stat_statements"
   enable_extension "unaccent"
 
   create_table "certificates", force: :cascade do |t|
@@ -236,6 +235,8 @@ ActiveRecord::Schema.define(version: 20180912210017) do
     t.integer  "netpar_user"
     t.datetime "created_at",                                                     null: false
     t.datetime "updated_at",                                                     null: false
+    t.integer  "zgoda",                                          default: 1
+    t.integer  "tajemnica",                                      default: 1
   end
 
   add_index "esod_incoming_letters", ["esod_address_id"], name: "index_esod_incoming_letters_on_esod_address_id", using: :btree

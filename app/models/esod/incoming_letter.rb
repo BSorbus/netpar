@@ -64,11 +64,16 @@ class Esod::IncomingLetter < ActiveRecord::Base
         "uwagi" => "#{self.uwagi}",
         "znakPismaWplywajacego" => "#{self.znak_pisma_wplywajacego}",
         "identyfikatorAdresu" => "#{self.identyfikator_adresu}",
-        "liczbaZalacznikow" => "#{self.liczba_zalacznikow}"
+        "liczbaZalacznikow" => "#{self.liczba_zalacznikow}",
+        "atrybutyDodatkowe" => [
+          {"identyfikator" => "ZGODA",
+           "wartosc" => "#{self.zgoda}"},
+          {"identyfikator" => "TAJEMNICA",
+          "wartosc" => "#{self.tajemnica}"}
+        ]
       }
     }
   
-
 
     response = client.call(:utworz_dokument_przychodzacy,  message: message_body )
 
