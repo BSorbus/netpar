@@ -243,7 +243,8 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
       req_given_names = ActionController::Base.helpers.sanitize(params[:given_names]) 
       req_birth_date = ActionController::Base.helpers.sanitize(params[:birth_date])
 
-      certificates = Certificate.joins(:customer).limit(1).offset(0)
+      #certificates = Certificate.joins(:customer).limit(1).offset(0)
+      certificates = Certificate.joins(:customer).limit(1)
         .where(canceled: false, category: 'M', customers: {birth_date: "#{req_birth_date}"})
         .where("TRIM(certificates.number) = '#{req_number}' AND TRIM(UPPER(unaccent(customers.name))) = UPPER(unaccent('#{req_name}')) AND
                 TRIM(UPPER(unaccent(customers.given_names))) = UPPER(unaccent('#{req_given_names}'))")

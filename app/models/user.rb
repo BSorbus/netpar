@@ -70,7 +70,9 @@ class User < ActiveRecord::Base
 
   # Setter
   def esod_password=(esod_password)
-    self.esod_encryped_password = Rails.application.secrets[:esod_with_wso2is] ? encrypt_esod_aes_pass(esod_password) : encrypt_esod_pass(esod_password)
+    # błąd!
+    #self.esod_encryped_password = Rails.application.secrets[:esod_with_wso2is] ? encrypt_esod_aes_pass(esod_password) : encrypt_esod_pass(esod_password)
+    self.esod_encryped_password = encrypt_esod_pass(esod_password)
   end
 
   def encrypt_esod_pass(str)
