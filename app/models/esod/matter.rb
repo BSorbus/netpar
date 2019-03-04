@@ -452,6 +452,7 @@ class Esod::Matter < ActiveRecord::Base
               inc_letter.tytul                                = row.xpath("./*[local-name()='opis']").text 
               inc_letter.termin_na_odpowiedz                  = row.xpath("./*[local-name()='terminNaOdpowiedz']").text
               inc_letter.liczba_zalacznikow                   = row.xpath("./*[local-name()='liczbaZalacznikow']").text
+              # tutaj tajemnica i zgoda
               inc_letter.identyfikator_osoby                  = @contractor.nrid
               inc_letter.identyfikator_adresu                 = @address.nrid
               inc_letter.esod_contractor_id                   = @contractor.id 
