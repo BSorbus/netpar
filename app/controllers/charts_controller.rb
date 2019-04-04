@@ -49,7 +49,7 @@ class ChartsController < ApplicationController
   end
 
   def confirmation_logs_by_month
-    result = ConfirmationLog.group_by_month(:created_at, last: 60).count
+    result = ConfirmationLog.group_by_month(:created_at, last: 12).count
     render json: result
   end
 
