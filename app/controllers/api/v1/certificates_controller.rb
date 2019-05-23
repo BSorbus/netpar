@@ -245,10 +245,11 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
 
       equal_data = nil
       # najpierw szukaj Certificaty
-      certs = Certificate.joins(:customer).limit(1)
+      certs = Certificate.joins(:customer).references(:customer).limit(1)
           .where(canceled: false, category: "M", date_of_issue: "#{req_date_of_issue}", valid_thru: "#{req_valid_thru}", customers: {birth_date: "#{req_birth_date}"})
           .where("TRIM(certificates.number) = '#{req_number}' AND TRIM(UPPER(unaccent(customers.name))) = UPPER(unaccent('#{req_name}')) AND
                   TRIM(UPPER(unaccent(customers.given_names))) = UPPER(unaccent('#{req_given_names}'))")
+
       if certs.present?
         equal_data = certs.first.works.new(trackable_url: nil, action: nil, user: nil, 
           parameters: certs.first.to_json(except: [:exam_id, :division_id, :customer_id, :user_id], 
@@ -263,8 +264,7 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
 
       if equal_data.nil?
         # szukaj w historii jeżeli nie znalazłeś w Certifikatach
-        #certificates = Certificate.joins(:customer).limit(1).offset(0)
-        certificates = Certificate.joins(:customer).limit(1)
+        certificates = Certificate.joins(:customer).references(:customer).limit(1)
           .where(canceled: false, category: 'M', customers: {birth_date: "#{req_birth_date}"})
           .where("TRIM(certificates.number) = '#{req_number}' AND TRIM(UPPER(unaccent(customers.name))) = UPPER(unaccent('#{req_name}')) AND
                   TRIM(UPPER(unaccent(customers.given_names))) = UPPER(unaccent('#{req_given_names}'))")
@@ -284,7 +284,7 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
         end
       end 
 
-      if equal_data.present?
+      unless equal_data.nil?
         division = Division.find("#{JSON.parse(equal_data.parameters)['division']['id']}")
         resp_json = {
                       "certificates": [
