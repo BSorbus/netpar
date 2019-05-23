@@ -243,25 +243,46 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
       req_given_names = ActionController::Base.helpers.sanitize(params[:given_names]) 
       req_birth_date = ActionController::Base.helpers.sanitize(params[:birth_date])
 
-      #certificates = Certificate.joins(:customer).limit(1).offset(0)
-      certificates = Certificate.joins(:customer).limit(1)
-        .where(canceled: false, category: 'M', customers: {birth_date: "#{req_birth_date}"})
-        .where("TRIM(certificates.number) = '#{req_number}' AND TRIM(UPPER(unaccent(customers.name))) = UPPER(unaccent('#{req_name}')) AND
-                TRIM(UPPER(unaccent(customers.given_names))) = UPPER(unaccent('#{req_given_names}'))")
-
-      works = certificates.first.works if certificates.present?
       equal_data = nil
-      if works.present?
-        works.each do |rec|
-          if JSON.parse(rec.parameters)['date_of_issue'] == req_date_of_issue 
-            if params[:valid_thru].present?
-              equal_data = rec if JSON.parse(rec.parameters)['valid_thru'] == req_valid_thru
-            else
-              equal_data = rec
+      # najpierw szukaj Certificaty
+      certs = Certificate.joins(:customer).limit(1)
+          .where(canceled: false, category: "M", date_of_issue: "#{req_date_of_issue}", valid_thru: "#{req_valid_thru}", customers: {birth_date: "#{req_birth_date}"})
+          .where("TRIM(certificates.number) = '#{req_number}' AND TRIM(UPPER(unaccent(customers.name))) = UPPER(unaccent('#{req_name}')) AND
+                  TRIM(UPPER(unaccent(customers.given_names))) = UPPER(unaccent('#{req_given_names}'))")
+      if certs.present?
+        equal_data = certs.first.works.new(trackable_url: nil, action: nil, user: nil, 
+          parameters: certs.first.to_json(except: [:exam_id, :division_id, :customer_id, :user_id], 
+                                          include: {
+                                            exam: {only: [:id, :number, :date_exam]},
+                                            division: {only: [:id, :name]},
+                                            customer: {only: [:id, :name, :given_names, :birth_date]},
+                                            user: {only: [:id, :name, :email]}
+                                            }
+                                          ) )
+      end
+
+      if equal_data.nil?
+        # szukaj w historii jeżeli nie znalazłeś w Certifikatach
+        #certificates = Certificate.joins(:customer).limit(1).offset(0)
+        certificates = Certificate.joins(:customer).limit(1)
+          .where(canceled: false, category: 'M', customers: {birth_date: "#{req_birth_date}"})
+          .where("TRIM(certificates.number) = '#{req_number}' AND TRIM(UPPER(unaccent(customers.name))) = UPPER(unaccent('#{req_name}')) AND
+                  TRIM(UPPER(unaccent(customers.given_names))) = UPPER(unaccent('#{req_given_names}'))")
+
+        works = certificates.first.works if certificates.present?
+
+        if works.present?
+          works.each do |rec|
+            if JSON.parse(rec.parameters)['date_of_issue'] == req_date_of_issue 
+              if params[:valid_thru].present?
+                equal_data = rec if JSON.parse(rec.parameters)['valid_thru'] == req_valid_thru
+              else
+                equal_data = rec
+              end
             end
           end
         end
-      end
+      end 
 
       if equal_data.present?
         division = Division.find("#{JSON.parse(equal_data.parameters)['division']['id']}")
