@@ -30,8 +30,12 @@ class Exam < ActiveRecord::Base
   validates :category, presence: true, inclusion: { in: %w(L M R) }
   validates :user, presence: true
 
+  validates :province_id, presence: true
+  validates :max_examinations, numericality: true, allow_blank: true
+
 #  validates :esod_matter, uniqueness: { case_sensitive: false }, allow_blank: true
   validate :exam_has_examinations, on: :update, if: "esod_category != esod_category_was"
+
 
   # scopes
 	scope :only_category_l, -> { where(category: "L") }

@@ -119,6 +119,9 @@ Rails.application.routes.draw do
       get 'select2_index', on: :collection
     end
   end
+  get '/teryt/provinces/:id', to: 'pit_teryt_provinces#show'
+  get '/teryt/provinces_select2_index', to: 'pit_teryt_provinces#select2_index'
+
 
   namespace :esod do
     resources :contractors

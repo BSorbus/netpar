@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190206004054) do
+ActiveRecord::Schema.define(version: 20190625191334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -425,6 +425,8 @@ ActiveRecord::Schema.define(version: 20190206004054) do
     t.integer  "examinations_count",            default: 0
     t.integer  "certificates_count",            default: 0
     t.integer  "esod_category"
+    t.integer  "province_id"
+    t.integer  "max_examinations"
   end
 
   add_index "exams", ["category"], name: "index_exams_on_category", using: :btree

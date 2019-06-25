@@ -1,0 +1,51 @@
+//document.addEventListener('turbolinks:load', function() {
+$(document).ready(function() {
+
+  $('.province_select').select2({
+    minimumInputLength: 0,
+    allowClear: false,
+    ajax: {
+      url: "/teryt/provinces_select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 16,
+          page: 1
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 16) < data.total_count;
+        var more = (page * 16) < data.meta.total_count;
+        var provinces = $.map(data.pit_teryt_provinces, function(province, i) {
+          return { id: province.id, text: province.name };
+        });
+        return { results: provinces, more: more };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/teryt/provinces/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ id: data_from_json.id, text: data_from_json.name });
+        });
+      }
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+});
+
