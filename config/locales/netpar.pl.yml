@@ -378,7 +378,7 @@ pl:
         certificates_count: "Świadectwa"
         province_id: "Województwo"
         province_name: "Województwo"
-        max_examinations: "Max liczba miejsc"
+        max_examinations: "Max miejsc"
         flat_all_esod_matters: 'ESOD'
       exam/examiners:
         name: 'Nazwisko i imię'
