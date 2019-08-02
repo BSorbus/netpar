@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :certificate do
     sequence(:number) { |n| "Cert No #{n}" }
     #number "Cert Nr."

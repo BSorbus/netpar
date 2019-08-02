@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Teryt::TercCode, type: :model do
-  let(:teryt_terc_code) { FactoryGirl.build :teryt_terc_code }
+  let(:teryt_terc_code) { FactoryBot.build :teryt_terc_code }
   subject { teryt_terc_code }
 
   it { should respond_to(:woj) }

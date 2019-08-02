@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :teryt_ulic_code, class: 'Teryt::UlicCode' do
     woj "MyString"
     pow "MyString"

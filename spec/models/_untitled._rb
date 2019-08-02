@@ -2,7 +2,7 @@
 
     before do
       exam.save
-      3.times { FactoryGirl.create :certificate, exam: exam }
+      3.times { FactoryBot.create :certificate, exam: exam }
     end
 
     it "destroys the associated certificates on self destruct" do
@@ -18,7 +18,7 @@
 
     before do
       exam.save
-      3.times { FactoryGirl.create :examination, exam: exam }
+      3.times { FactoryBot.create :examination, exam: exam }
     end
 
     it "destroys the associated examinations on self destruct" do

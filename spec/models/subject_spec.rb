@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Subject, type: :model do
-  let(:my_subject) { FactoryGirl.build :subject }
+  let(:my_subject) { FactoryBot.build :subject }
   subject { my_subject }
 
   it { should respond_to(:item) }

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Certificate, type: :model do
-  let(:certificate) { FactoryGirl.build :certificate }
+  let(:certificate) { FactoryBot.build :certificate }
   subject { certificate }
 
   it { should respond_to(:number) }
@@ -40,7 +40,7 @@ RSpec.describe Certificate, type: :model do
   it { should have_many(:documents) }
 
   context 'when number is blank' do
-    certificate = FactoryGirl.build :certificate, number: nil
+    certificate = FactoryBot.build :certificate, number: nil
 
     it 'should not be valid' do
       expect(certificate).to_not be_valid
@@ -52,7 +52,7 @@ RSpec.describe Certificate, type: :model do
   end
 
   context 'when number is to short' do
-    certificate = FactoryGirl.build :certificate, number: ''
+    certificate = FactoryBot.build :certificate, number: ''
 
     it 'should not be valid' do
       expect(certificate).to_not be_valid
@@ -64,7 +64,7 @@ RSpec.describe Certificate, type: :model do
   end
 
   context 'when number is to long' do
-    certificate = FactoryGirl.build :certificate, number: '123' * 11
+    certificate = FactoryBot.build :certificate, number: '123' * 11
 
     it 'should not be valid' do
       expect(certificate).to_not be_valid
@@ -76,7 +76,7 @@ RSpec.describe Certificate, type: :model do
   end
 
   context 'when date_of_issue is blank' do
-    certificate = FactoryGirl.build :certificate, date_of_issue: nil
+    certificate = FactoryBot.build :certificate, date_of_issue: nil
 
     it 'should not be valid' do
       expect(certificate).to_not be_valid
@@ -88,7 +88,7 @@ RSpec.describe Certificate, type: :model do
   end
 
   context 'when valid_thru is present and < date_of_issue' do
-    certificate = FactoryGirl.build :certificate, date_of_issue: DateTime.now.to_date, valid_thru: DateTime.now.to_date - 1.day
+    certificate = FactoryBot.build :certificate, date_of_issue: DateTime.now.to_date, valid_thru: DateTime.now.to_date - 1.day
 
     it 'should not be valid' do
       expect(certificate).to_not be_valid
@@ -100,7 +100,7 @@ RSpec.describe Certificate, type: :model do
   end
 
   context 'when division is blank' do
-    certificate = FactoryGirl.build :certificate, division: nil
+    certificate = FactoryBot.build :certificate, division: nil
 
     it 'should not be valid' do
       expect(certificate).to_not be_valid
@@ -112,7 +112,7 @@ RSpec.describe Certificate, type: :model do
   end
 
   context 'when customer is blank' do
-    certificate = FactoryGirl.build :certificate, customer: nil
+    certificate = FactoryBot.build :certificate, customer: nil
 
     it 'should not be valid' do
       expect(certificate).to_not be_valid
@@ -124,7 +124,7 @@ RSpec.describe Certificate, type: :model do
   end
 
   context 'when exam is blank' do
-    certificate = FactoryGirl.build :certificate, exam: nil
+    certificate = FactoryBot.build :certificate, exam: nil
 
     it 'should not be valid' do
       expect(certificate).to_not be_valid
@@ -136,7 +136,7 @@ RSpec.describe Certificate, type: :model do
   end
 
   context 'when user is blank' do
-    certificate = FactoryGirl.build :certificate, user: nil
+    certificate = FactoryBot.build :certificate, user: nil
 
     it 'should not be valid' do
       expect(certificate).to_not be_valid
@@ -148,7 +148,7 @@ RSpec.describe Certificate, type: :model do
   end
 
   describe '#with trait :lot' do
-    let(:certificate_lot) { FactoryGirl.build :certificate, :lot }
+    let(:certificate_lot) { FactoryBot.build :certificate, :lot }
     subject { certificate_lot }
 
     it "#category returns 'L'" do
@@ -157,7 +157,7 @@ RSpec.describe Certificate, type: :model do
   end
 
   describe '#with trait :mor' do
-    let(:certificate_mor) { FactoryGirl.build :certificate, :mor }
+    let(:certificate_mor) { FactoryBot.build :certificate, :mor }
     subject { certificate_mor }
 
     it "#category returns 'M'" do
@@ -166,9 +166,9 @@ RSpec.describe Certificate, type: :model do
   end
 
   describe '#with trait :ra' do
-    # before(:each) { @certificate = FactoryGirl.build :certificate, :ra }
+    # before(:each) { @certificate = FactoryBot.build :certificate, :ra }
     # subject { @certificate }
-    let(:certificate_ra) { FactoryGirl.build :certificate, :ra }
+    let(:certificate_ra) { FactoryBot.build :certificate, :ra }
     subject { certificate_ra }
 
     it "#category returns 'R'" do

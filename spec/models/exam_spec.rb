@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Exam, type: :model do
-  let(:exam) { FactoryGirl.build :exam }
+  let(:exam) { FactoryBot.build :exam }
   subject { exam }
 
   it { should respond_to(:number) }
@@ -45,7 +45,7 @@ RSpec.describe Exam, type: :model do
   describe '#examiners association' do
     before do
       exam.save
-      3.times { FactoryGirl.create :examiner, exam: exam }
+      3.times { FactoryBot.create :examiner, exam: exam }
     end
 
     it 'destroys the associated examiners on self destruct' do

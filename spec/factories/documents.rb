@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :document do
     fileattach_filename "MyString"
     fileattach_content_type "MyString"

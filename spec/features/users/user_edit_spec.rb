@@ -15,7 +15,7 @@ feature 'User edit', :devise do
   #   When I change my email address
   #   Then I see an account updated message
   scenario '1. User changes email address' do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     login_as(user, scope: :user)
     visit edit_user_registration_path(user)
     # fill_in 'Email', :with => 'newemail@uke.gov.pl'
@@ -34,7 +34,7 @@ feature 'User edit', :devise do
   #   When I change my email address
   #   Then I see an account updated message
   scenario '2. User changes email address no UKE domain' do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     login_as(user, scope: :user)
     visit edit_user_registration_path(user)
     # fill_in 'Email', :with => 'newemail@nouke.domain.com'
@@ -55,8 +55,8 @@ feature 'User edit', :devise do
   #   When I try to edit another user's profile
   #   Then I see my own 'edit profile' page
   scenario "3. User cannot edit another user's profile", :me do
-    me = FactoryGirl.create(:user)
-    other = FactoryGirl.create(:user, email: 'other@uke.gov.pl', authentication_token: 'other12345678')
+    me = FactoryBot.create(:user)
+    other = FactoryBot.create(:user, email: 'other@uke.gov.pl', authentication_token: 'other12345678')
     login_as(me, scope: :user)
     visit edit_user_registration_path(other)
     # expect(page).to have_content 'Edit account'

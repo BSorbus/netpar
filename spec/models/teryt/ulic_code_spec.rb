@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Teryt::UlicCode, type: :model do
-  let(:teryt_ulic_code) { FactoryGirl.build :teryt_ulic_code }
+  let(:teryt_ulic_code) { FactoryBot.build :teryt_ulic_code }
   subject { teryt_ulic_code }
 
   it { should respond_to(:woj) }

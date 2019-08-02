@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require File.expand_path(File.dirname(__FILE__) + "/../lib/esodes")
 
 env :PATH, ENV['PATH']
-set :bundle_command, "/home/deploy/.rbenv/shims/bundle exec"
+#set :bundle_command, "/home/deploy/.rbenv/shims/bundle exec"
 
 
 set :environment, :production

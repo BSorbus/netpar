@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe RolePolicy do
-  let(:role) { FactoryGirl.build(:role) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:role) { FactoryBot.build(:role) }
+  let(:user) { FactoryBot.create(:user) }
 
   subject { described_class }
 
@@ -55,7 +55,7 @@ describe RolePolicy do
   end
 
   context 'when user have role "Obserwator Ról"' do
-    let(:user) { FactoryGirl.create(:user, :as_role_observer) }
+    let(:user) { FactoryBot.create(:user, :as_role_observer) }
     permissions :index? do
       it 'grants access "index"' do
         expect(subject).to permit(user, role)
@@ -104,7 +104,7 @@ describe RolePolicy do
   end
 
   context 'when user have role "Menadżer Ról"' do
-    let(:user) { FactoryGirl.create(:user, :as_role_manager) }
+    let(:user) { FactoryBot.create(:user, :as_role_manager) }
     permissions :index? do
       it 'grants access "index"' do
         expect(subject).to permit(user, role)

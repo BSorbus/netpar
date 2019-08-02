@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Esod::Address, type: :model do
-  let(:esod_address) { FactoryGirl.build :esod_address }
+  let(:esod_address) { FactoryBot.build :esod_address }
   subject { esod_address }
 
   it { should respond_to(:nrid) }

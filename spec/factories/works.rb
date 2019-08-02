@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :work do
     trackable nil
     trackable_url nil

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :esod_address, class: 'Esod::Address' do
     nrid 1
     miasto "MyString"

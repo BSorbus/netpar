@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Examiner, type: :model do
-  let(:examiner) { FactoryGirl.build :examiner }
+  let(:examiner) { FactoryBot.build :examiner }
   subject { examiner }
 
   it { should respond_to(:name) }

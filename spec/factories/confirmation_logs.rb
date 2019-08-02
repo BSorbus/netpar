@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :confirmation_log do
     remote_ip "MyString"
     request_json "MyString"

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe UserPolicy do
-  let(:person) { FactoryGirl.build(:user) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:person) { FactoryBot.build(:user) }
+  let(:user) { FactoryBot.create(:user) }
 
   subject { described_class }
 
@@ -50,7 +50,7 @@ describe UserPolicy do
   end
 
   context 'when user have role "Obserwator Użytkowników"' do
-    let(:user) { FactoryGirl.create(:user, :as_user_observer) }
+    let(:user) { FactoryBot.create(:user, :as_user_observer) }
     permissions :index? do
       it 'grants access "index"' do
         expect(subject).to permit(user, person)
@@ -94,7 +94,7 @@ describe UserPolicy do
   end
 
   context 'when user have role "Menadżer Użytkowników"' do
-    let(:user) { FactoryGirl.create(:user, :as_user_manager) }
+    let(:user) { FactoryBot.create(:user, :as_user_manager) }
     permissions :index? do
       it 'grants access "index"' do
         expect(subject).to permit(user, person)

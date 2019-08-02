@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Grade, type: :model do
-  let(:grade) { FactoryGirl.build :grade }
+  let(:grade) { FactoryBot.build :grade }
   subject { grade }
 
   it { should respond_to(:examination_id) }

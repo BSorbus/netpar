@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe CustomerPolicy do
-  let(:customer) { FactoryGirl.build(:customer) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:customer) { FactoryBot.build(:customer) }
+  let(:user) { FactoryBot.create(:user) }
 
   subject { described_class }
 
@@ -55,7 +55,7 @@ describe CustomerPolicy do
   end
 
   context 'when user have role "Obserwator Klientów"' do
-    let(:user) { FactoryGirl.create(:user, :as_customer_observer) }
+    let(:user) { FactoryBot.create(:user, :as_customer_observer) }
     permissions :index? do
       it 'grants access "index"' do
         expect(subject).to permit(user, customer)
@@ -104,7 +104,7 @@ describe CustomerPolicy do
   end
 
   context 'when user have role "Menadżer Klientów"' do
-    let(:user) { FactoryGirl.create(:user, :as_customer_manager) }
+    let(:user) { FactoryBot.create(:user, :as_customer_manager) }
     permissions :index? do
       it 'grants access "index"' do
         expect(subject).to permit(user, customer)

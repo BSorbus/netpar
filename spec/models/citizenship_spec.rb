@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Citizenship, type: :model do
-  let(:citizenship) { FactoryGirl.build :citizenship }
+  let(:citizenship) { FactoryBot.build :citizenship }
   subject { citizenship }
 
   it { should respond_to(:name) }
@@ -15,7 +15,7 @@ RSpec.describe Citizenship, type: :model do
   it { should have_many(:customers) }
 
   context 'when name is blank' do
-    citizenship = FactoryGirl.build :citizenship, name: nil
+    citizenship = FactoryBot.build :citizenship, name: nil
 
     it 'should not be valid' do
       expect(citizenship).to_not be_valid
@@ -27,7 +27,7 @@ RSpec.describe Citizenship, type: :model do
   end
 
   context 'when short is blank' do
-    citizenship = FactoryGirl.build :citizenship, short: nil
+    citizenship = FactoryBot.build :citizenship, short: nil
 
     it 'should not be valid' do
       expect(citizenship).to_not be_valid

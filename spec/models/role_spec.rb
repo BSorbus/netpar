@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Role, type: :model do
-  let(:role) { FactoryGirl.build :role }
+  let(:role) { FactoryBot.build :role }
   subject { role }
 
   it { should respond_to(:name) }

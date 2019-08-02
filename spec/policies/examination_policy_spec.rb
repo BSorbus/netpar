@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 describe ExaminationPolicy do
-  let(:examination) { FactoryGirl.build(:examination) }
-  let(:examination_l) { FactoryGirl.build(:examination, :lot) }
-  let(:examination_m) { FactoryGirl.build(:examination, :mor) }
-  let(:examination_r) { FactoryGirl.build(:examination, :ra) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:examination) { FactoryBot.build(:examination) }
+  let(:examination_l) { FactoryBot.build(:examination, :lot) }
+  let(:examination_m) { FactoryBot.build(:examination, :mor) }
+  let(:examination_r) { FactoryBot.build(:examination, :ra) }
+  let(:user) { FactoryBot.create(:user) }
 
   subject { described_class }
 
@@ -193,7 +193,7 @@ describe ExaminationPolicy do
   end
 
   context 'when user have role "Obserwator Sesji Egzaminacyjnych LOT"' do
-    let(:user) { FactoryGirl.create(:user, :as_examination_l_observer) }
+    let(:user) { FactoryBot.create(:user, :as_examination_l_observer) }
     permissions :index_l? do
       it 'grants access "index_l" - LOT' do
         expect(subject).to permit(user, examination_l)
@@ -377,7 +377,7 @@ describe ExaminationPolicy do
   end
 
   context 'when user have role "Menadżer Sesji Egzaminacyjnych LOT"' do
-    let(:user) { FactoryGirl.create(:user, :as_examination_l_manager) }
+    let(:user) { FactoryBot.create(:user, :as_examination_l_manager) }
     permissions :index_l? do
       it 'grants access "index_l" - LOT' do
         expect(subject).to permit(user, examination_l)
@@ -561,7 +561,7 @@ describe ExaminationPolicy do
   end
 
   context 'when user have role "Obserwator Sesji Egzaminacyjnych MOR"' do
-    let(:user) { FactoryGirl.create(:user, :as_examination_m_observer) }
+    let(:user) { FactoryBot.create(:user, :as_examination_m_observer) }
     permissions :index_m? do
       it 'grants access "index_m" - MOR' do
         expect(subject).to permit(user, examination_m)
@@ -745,7 +745,7 @@ describe ExaminationPolicy do
   end
 
   context 'when user have role "Menadżer Sesji Egzaminacyjnych MOR"' do
-    let(:user) { FactoryGirl.create(:user, :as_examination_m_manager) }
+    let(:user) { FactoryBot.create(:user, :as_examination_m_manager) }
     permissions :index_m? do
       it 'grants access "index_m" - MOR' do
         expect(subject).to permit(user, examination_m)
@@ -929,7 +929,7 @@ describe ExaminationPolicy do
   end
 
   context 'when user have role "Obserwator Sesji Egzaminacyjnych RA"' do
-    let(:user) { FactoryGirl.create(:user, :as_examination_r_observer) }
+    let(:user) { FactoryBot.create(:user, :as_examination_r_observer) }
     permissions :index_r? do
       it 'grants access "index_r" - RA' do
         expect(subject).to permit(user, examination_r)
@@ -1113,7 +1113,7 @@ describe ExaminationPolicy do
   end
 
   context 'when user have role "Menadżer Sesji Egzaminacyjnych RA"' do
-    let(:user) { FactoryGirl.create(:user, :as_examination_r_manager) }
+    let(:user) { FactoryBot.create(:user, :as_examination_r_manager) }
     permissions :index_r? do
       it 'grants access "index_r" - RA' do
         expect(subject).to permit(user, examination_r)

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :esod_incoming_letter, class: 'Esod::IncomingLetter' do
     nrid 1
     numer_ewidencyjny "MyString"

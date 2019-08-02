@@ -9,7 +9,7 @@
 #    t.datetime "updated_at",                                   null: false
 #    t.integer  "certificate_id"
 #    t.string   "esod_categories",   default: [],                 array: true
-FactoryGirl.define do 
+FactoryBot.define do 
   factory :examination do
     division nil
     examination_result "?"

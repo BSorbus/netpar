@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 describe ExamPolicy do
-  let(:exam) { FactoryGirl.build(:exam) }
-  let(:exam_l) { FactoryGirl.build(:exam, :lot) }
-  let(:exam_m) { FactoryGirl.build(:exam, :mor) }
-  let(:exam_r) { FactoryGirl.build(:exam, :ra) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:exam) { FactoryBot.build(:exam) }
+  let(:exam_l) { FactoryBot.build(:exam, :lot) }
+  let(:exam_m) { FactoryBot.build(:exam, :mor) }
+  let(:exam_r) { FactoryBot.build(:exam, :ra) }
+  let(:user) { FactoryBot.create(:user) }
 
   subject { described_class }
 
@@ -193,7 +193,7 @@ describe ExamPolicy do
   end
 
   context 'when user have role "Obserwator Sesji Egzaminacyjnych LOT"' do
-    let(:user) { FactoryGirl.create(:user, :as_exam_l_observer) }
+    let(:user) { FactoryBot.create(:user, :as_exam_l_observer) }
     permissions :index_l? do
       it 'grants access "index_l" - LOT' do
         expect(subject).to permit(user, exam_l)
@@ -377,7 +377,7 @@ describe ExamPolicy do
   end
 
   context 'when user have role "Menadżer Sesji Egzaminacyjnych LOT"' do
-    let(:user) { FactoryGirl.create(:user, :as_exam_l_manager) }
+    let(:user) { FactoryBot.create(:user, :as_exam_l_manager) }
     permissions :index_l? do
       it 'grants access "index_l" - LOT' do
         expect(subject).to permit(user, exam_l)
@@ -561,7 +561,7 @@ describe ExamPolicy do
   end
 
   context 'when user have role "Obserwator Sesji Egzaminacyjnych MOR"' do
-    let(:user) { FactoryGirl.create(:user, :as_exam_m_observer) }
+    let(:user) { FactoryBot.create(:user, :as_exam_m_observer) }
     permissions :index_m? do
       it 'grants access "index_m" - MOR' do
         expect(subject).to permit(user, exam_m)
@@ -745,7 +745,7 @@ describe ExamPolicy do
   end
 
   context 'when user have role "Menadżer Sesji Egzaminacyjnych MOR"' do
-    let(:user) { FactoryGirl.create(:user, :as_exam_m_manager) }
+    let(:user) { FactoryBot.create(:user, :as_exam_m_manager) }
     permissions :index_m? do
       it 'grants access "index_m" - MOR' do
         expect(subject).to permit(user, exam_m)
@@ -929,7 +929,7 @@ describe ExamPolicy do
   end
 
   context 'when user have role "Obserwator Sesji Egzaminacyjnych RA"' do
-    let(:user) { FactoryGirl.create(:user, :as_exam_r_observer) }
+    let(:user) { FactoryBot.create(:user, :as_exam_r_observer) }
     permissions :index_r? do
       it 'grants access "index_r" - RA' do
         expect(subject).to permit(user, exam_r)
@@ -1113,7 +1113,7 @@ describe ExamPolicy do
   end
 
   context 'when user have role "Menadżer Sesji Egzaminacyjnych RA"' do
-    let(:user) { FactoryGirl.create(:user, :as_exam_r_manager) }
+    let(:user) { FactoryBot.create(:user, :as_exam_r_manager) }
     permissions :index_r? do
       it 'grants access "index_r" - RA' do
         expect(subject).to permit(user, exam_r)

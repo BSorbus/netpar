@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :customer do
     human false
     sequence(:name) { |n| "Cust Name #{n}" }

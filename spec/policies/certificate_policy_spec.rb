@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 describe CertificatePolicy do
-  let(:certificate) { FactoryGirl.build(:certificate) }
-  let(:certificate_l) { FactoryGirl.build(:certificate, :lot) }
-  let(:certificate_m) { FactoryGirl.build(:certificate, :mor) }
-  let(:certificate_r) { FactoryGirl.build(:certificate, :ra) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:certificate) { FactoryBot.build(:certificate) }
+  let(:certificate_l) { FactoryBot.build(:certificate, :lot) }
+  let(:certificate_m) { FactoryBot.build(:certificate, :mor) }
+  let(:certificate_r) { FactoryBot.build(:certificate, :ra) }
+  let(:user) { FactoryBot.create(:user) }
 
   subject { described_class }
 
@@ -193,7 +193,7 @@ describe CertificatePolicy do
   end
 
   context 'when user have role "Obserwator Świadectw LOT"' do
-    let(:user) { FactoryGirl.create(:user, :as_certificate_l_observer) }
+    let(:user) { FactoryBot.create(:user, :as_certificate_l_observer) }
     permissions :index_l? do
       it 'grants access "index_l" - LOT' do
         expect(subject).to permit(user, certificate_l)
@@ -377,7 +377,7 @@ describe CertificatePolicy do
   end
 
   context 'when user have role "Menadżer Świadectw LOT"' do
-    let(:user) { FactoryGirl.create(:user, :as_certificate_l_manager) }
+    let(:user) { FactoryBot.create(:user, :as_certificate_l_manager) }
     permissions :index_l? do
       it 'grants access "index_l" - LOT' do
         expect(subject).to permit(user, certificate_l)
@@ -561,7 +561,7 @@ describe CertificatePolicy do
   end
 
   context 'when user have role "Obserwator Świadectw MOR"' do
-    let(:user) { FactoryGirl.create(:user, :as_certificate_m_observer) }
+    let(:user) { FactoryBot.create(:user, :as_certificate_m_observer) }
     permissions :index_m? do
       it 'grants access "index_m" - MOR' do
         expect(subject).to permit(user, certificate_m)
@@ -745,7 +745,7 @@ describe CertificatePolicy do
   end
 
   context 'when user have role "Menadżer Świadectw MOR"' do
-    let(:user) { FactoryGirl.create(:user, :as_certificate_m_manager) }
+    let(:user) { FactoryBot.create(:user, :as_certificate_m_manager) }
     permissions :index_m? do
       it 'grants access "index_m" - MOR' do
         expect(subject).to permit(user, certificate_m)
@@ -929,7 +929,7 @@ describe CertificatePolicy do
   end
 
   context 'when user have role "Obserwator Świadectw RA"' do
-    let(:user) { FactoryGirl.create(:user, :as_certificate_r_observer) }
+    let(:user) { FactoryBot.create(:user, :as_certificate_r_observer) }
     permissions :index_r? do
       it 'grants access "index_r" - RA' do
         expect(subject).to permit(user, certificate_r)
@@ -1113,7 +1113,7 @@ describe CertificatePolicy do
   end
 
   context 'when user have role "Menadżer Świadectw RA"' do
-    let(:user) { FactoryGirl.create(:user, :as_certificate_r_manager) }
+    let(:user) { FactoryBot.create(:user, :as_certificate_r_manager) }
     permissions :index_r? do
       it 'grants access "index_r" - RA' do
         expect(subject).to permit(user, certificate_r)

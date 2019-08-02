@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :citizenship do
     sequence(:name) { |n| "Name#{n}" }
     #name "Test Citizenship"

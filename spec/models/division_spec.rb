@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Division, type: :model do
-  let(:division) { FactoryGirl.build :division }
+  let(:division) { FactoryBot.build :division }
   subject { division }
 
   it { should respond_to(:name) }
@@ -27,7 +27,7 @@ RSpec.describe Division, type: :model do
   describe '#subjects association' do
     before do
       division.save
-      3.times { FactoryGirl.create :subject, division: division }
+      3.times { FactoryBot.create :subject, division: division }
     end
 
     it 'destroys the associated subjects on self destruct' do

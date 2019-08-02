@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Work, type: :model do
-  let(:work) { FactoryGirl.build :work }
+  let(:work) { FactoryBot.build :work }
   subject { work }
 
   it { should respond_to(:trackable_id) }

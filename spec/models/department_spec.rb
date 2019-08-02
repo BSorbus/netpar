@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Department, type: :model do
-  let(:department) { FactoryGirl.build :department }
+  let(:department) { FactoryBot.build :department }
   subject { department }
 
   it { should respond_to(:short) }

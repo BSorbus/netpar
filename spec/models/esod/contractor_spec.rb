@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Esod::Contractor, type: :model do
-  let(:esod_contractor) { FactoryGirl.build :esod_contractor }
+  let(:esod_contractor) { FactoryBot.build :esod_contractor }
   subject { esod_contractor }
 
   it { should respond_to(:nrid) }

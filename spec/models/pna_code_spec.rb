@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe PnaCode, type: :model do
-  let(:pna_code) { FactoryGirl.build :pna_code }
+  let(:pna_code) { FactoryBot.build :pna_code }
   subject { pna_code }
 
   it { should respond_to(:pna) }

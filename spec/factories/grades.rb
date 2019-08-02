@@ -11,7 +11,7 @@
 #  add_index "grades", ["subject_id"], name: "index_grades_on_subject_id", using: :btree
 #  add_index "grades", ["user_id"], name: "index_grades_on_user_id", using: :btree
 #
-FactoryGirl.define do
+FactoryBot.define do
   factory :grade do
     examination nil
     #subject nil

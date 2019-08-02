@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Document, type: :model do
-  let(:document) { FactoryGirl.build :document }
+  let(:document) { FactoryBot.build :document }
   subject { document }
 
   it { should respond_to(:fileattach_filename) }

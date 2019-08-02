@@ -7,7 +7,7 @@
 #  end
 #  add_index "examiners", ["exam_id"], name: "index_examiners_on_exam_id", using: :btree
 #
-FactoryGirl.define do
+FactoryBot.define do
   factory :examiner do
     sequence(:name) { |n| "Examiner name #{n}" }
     #name "E name"

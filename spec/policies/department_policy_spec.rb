@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe DepartmentPolicy do
-  let(:department) { FactoryGirl.build(:department) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:department) { FactoryBot.build(:department) }
+  let(:user) { FactoryBot.create(:user) }
 
   subject { described_class }
 
@@ -50,7 +50,7 @@ describe DepartmentPolicy do
   end
 
   context 'when user have role "Obserwator Oddziałów"' do
-    let(:user) { FactoryGirl.create(:user, :as_department_observer) }
+    let(:user) { FactoryBot.create(:user, :as_department_observer) }
     permissions :index? do
       it 'grants access "index"' do
         expect(subject).to permit(user, department)
@@ -94,7 +94,7 @@ describe DepartmentPolicy do
   end
 
   context 'when user have role "Menadżer Oddziałów"' do
-    let(:user) { FactoryGirl.create(:user, :as_department_manager) }
+    let(:user) { FactoryBot.create(:user, :as_department_manager) }
     permissions :index? do
       it 'grants access "index"' do
         expect(subject).to permit(user, department)

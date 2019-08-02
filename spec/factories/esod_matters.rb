@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :esod_matter, class: 'Esod::Matter' do
     sequence(:nrid) { |n| n }
     sequence(:znak) { |n| "znak#{n}" }

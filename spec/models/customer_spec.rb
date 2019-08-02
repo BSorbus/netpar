@@ -1,5 +1,5 @@
 RSpec.describe Customer, type: :model do
-  let(:customer) { FactoryGirl.build :customer }
+  let(:customer) { FactoryBot.build :customer }
   subject { customer }
 
   it { should respond_to(:human) }

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :esod_contractor, class: 'Esod::Contractor' do
     nrid 1
     imie "MyString"

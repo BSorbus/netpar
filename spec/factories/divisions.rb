@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :division do
     sequence(:name) { |n| "Name #{n}" }
     #name "Test Division"

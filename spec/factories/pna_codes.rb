@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :pna_code do
     sequence(:pna) { |n| "00-00#{n}" }
     miejscowosc "MyString"

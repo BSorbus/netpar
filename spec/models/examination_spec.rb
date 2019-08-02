@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Examination, type: :model do
-  let(:examination) { FactoryGirl.build :examination }
+  let(:examination) { FactoryBot.build :examination }
   subject { examination }
 
   it { should respond_to(:division_id) }
@@ -43,7 +43,7 @@ RSpec.describe Examination, type: :model do
   #
   #    before do
   #      examination.save
-  #      3.times { FactoryGirl.create :grade, examination: examination }
+  #      3.times { FactoryBot.create :grade, examination: examination }
   #    end
   #
   #    it "destroys the associated grades on self destruct" do
