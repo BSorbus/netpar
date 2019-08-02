@@ -1072,6 +1072,71 @@
             }
           }
         },
+        "/exams/{id}": {
+          "get": {
+            "summary": "Returns exams",
+            "description": "This endpoint returns information about the UKE Exam",
+            "security": [
+              {
+                "apiAuthTokenKey": []
+              }
+            ],
+            "parameters": [
+              {
+                "name": "Authorization",
+                "in": "header",
+                "type": "string",
+                "description": "Authorization token."
+              },
+              {
+                "name": "id",
+                "in": "path",
+                "description": "ID of searched exam.",
+                "required": true,
+                "type": "integer",
+                "format": "int32"
+              }
+            ],
+            "tags": [
+              "Exams"
+            ],
+            "responses": {
+              "200": {
+                "description": "Successful operation",
+                "schema": {
+                    "type": "object",
+                    "items": {
+                        "$ref": "#/definitions/Exam"
+                    }
+                }
+              },
+              "401": {
+                "description": "Unauthorized",
+                "schema": {
+                    "$ref": "#/definitions/Error"
+                }
+              },
+              "403": {
+                "description": "Forbidden",
+                "schema": {
+                    "$ref": "#/definitions/Error"
+                }
+              },
+              "404": {
+                "description": "Not found",
+                "schema": {
+                    "$ref": "#/definitions/Error"
+                }
+            },
+              "default": {
+                "description": "Unexpected error",
+                "schema": {
+                    "$ref": "#/definitions/Error"
+                }
+              }
+            }
+          }
+        },
         "/exams/lot": {
           "get": {
             "summary": "Returns all exams for category L - LOT",

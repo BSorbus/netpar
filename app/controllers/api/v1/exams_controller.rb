@@ -7,10 +7,15 @@ class Api::V1::ExamsController < Api::V1::BaseApiController
 
 
   def show
-    #authenticate_user!
+    #authorize :exam, :show?
     exam = Exam.find_by(id: params[:id])
-    render status: :ok,
-           json: exam, include: [:division] 
+    if exam.present?
+      render status: :ok, json: exam, root: false
+    else
+      render status: :not_found,
+             json: { error: "Brak rekordu dla Exam.where(id: #{params[:id]})" }
+
+    end
   end
 
   def lot
