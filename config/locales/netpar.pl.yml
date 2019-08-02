@@ -377,6 +377,7 @@ pl:
         examinations_count: "Egzaminowani"
         certificates_count: "Świadectwa"
         province_id: "Województwo"
+        province_name: "Województwo"
         max_examinations: "Max liczba miejsc"
         flat_all_esod_matters: 'ESOD'
       exam/examiners:
@@ -576,7 +577,7 @@ pl:
   help_block_text:
     map_info: 'Uwaga! Program ustala szerokość i długość geograficzną wykorzystując Geocoder i Google Maps. Prezentacje na mapie należy traktować wylącznie jako informacje przybliżone.'
     select2_customer: 'Wyszukiwanie po: Nazwisko, Imię, Miejscowość, Pesel, Data ur.(format: YYYY-MM-DD). Kolejność dowolna. Warunki oddzielaj spacją np. Kow Jan Warsza'
-    select2_exam: 'Wyszukiwanie po: Numer, Miejscowość, Data (format: YYYY-MM-DD). Kolejność dowolna. Warunki oddzielaj spacją np. Warsza 2015-08'
+    select2_exam: 'Wyszukiwanie po: Numer, Miejscowość, Data (format: YYYY-MM-DD), Województwo. Kolejność dowolna. Warunki oddzielaj spacją np. Warsza 2015-08'
     select2_certificate: 'Wyszukiwanie po: Numer, Data wydania (format: YYYY-MM-DD). Kolejność dowolna. Warunki oddzielaj spacją np. Warsza 2015-08'
     select2_teryt_pna_code: 'Wyszukiwanie po Miejscowość, Ulica, Gmina, Kod pocztowy. Kolejność dowolna. Warunki oddzielaj spacją np. bydgo fordo 85-'
     select2_esod_matter: 'Wyszukiwanie po: Znak, Tytuł, Termin (format: YYYY-MM-DD). Kolejność dowolna. Warunki oddzielaj spacją np. Warsza 2015-08'

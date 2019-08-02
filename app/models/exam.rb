@@ -56,7 +56,7 @@ class Exam < ActiveRecord::Base
 
 
   def fullname
-    "#{number}, z dn. #{date_exam}, #{place_exam}"
+    "#{number}, z dn. #{date_exam}, #{place_exam} [#{province_name}]"
   end
 
   def fullname_and_id
@@ -133,7 +133,7 @@ class Exam < ActiveRecord::Base
   #
   def self.one_param_sql(query_str)
     escaped_query_str = sanitize("%#{query_str}%")
-    "(" + %w(exams.number to_char(exams.date_exam,'YYYY-mm-dd') exams.place_exam).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
+    "(" + %w(exams.number to_char(exams.date_exam,'YYYY-mm-dd') exams.place_exam exams.province_name).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
   end
 
   def generate_all_certificates(gen_user_id)

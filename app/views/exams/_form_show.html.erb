@@ -26,9 +26,28 @@
     </div>  <!-- /row -->
 
     <div class="row">
-      <div class="form-group col-sm-12">
+      <div class="form-group col-sm-6">
         <p><strong><%= Exam.human_attribute_name(:place_exam) %></strong></p>
         <h5><%= @exam.place_exam %></h5>
+      </div>
+      <div class="form-group col-sm-6">
+        <p><strong><%= Exam.human_attribute_name(:province_name) %></strong></p>
+        <h5><%= @exam.province_name %></h5>
+      </div>
+    </div>  <!-- /row -->
+
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <p><strong><%= Exam.human_attribute_name(:max_examinations) %></strong></p>
+        <h5><%= @exam.max_examinations %></h5>
+      </div>
+      <div class="form-group col-sm-4">
+        <p><strong><%= Exam.human_attribute_name(:examinations_count) %></strong></p>
+        <h5><%= @exam.examinations_count %></h5>
+      </div>
+      <div class="form-group col-sm-4">
+        <p><strong><%= Exam.human_attribute_name(:certificates_count) %></strong></p>
+        <h5><%= @exam.certificates_count %></h5>
       </div>
     </div>  <!-- /row -->
 

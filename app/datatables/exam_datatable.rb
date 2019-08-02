@@ -15,6 +15,7 @@ class ExamDatatable < AjaxDatatablesRails::Base
                               Exam.number
                               Exam.date_exam
                               Exam.place_exam
+                              Exam.province_name
                               Exam.chairman
                               Exam.secretary
                               Exam.examinations_count
@@ -29,6 +30,7 @@ class ExamDatatable < AjaxDatatablesRails::Base
                               Exam.number
                               Exam.date_exam
                               Exam.place_exam
+                              Exam.province_name
                               Exam.chairman
                               Exam.secretary
                               Exam.examinations_count
@@ -52,6 +54,7 @@ class ExamDatatable < AjaxDatatablesRails::Base
         link_to(record.number, @view.exam_path(record.category.downcase, record)),
         record.date_exam,
         record.place_exam,
+        record.province_name,
         record.chairman,
         record.secretary,
         '<div style="text-align: center"><span class="badge alert-info">' + "#{record.examinations_count}" + '</span></div>',
