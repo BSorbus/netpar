@@ -1516,629 +1516,223 @@
             }
           }
         },
-        "/exams/lot_search_by_number": {
-            "get": {
-                "summary": "Returns all exams for Exam.where(category: \"L\", number: params[:number].upcase)",
-                "description": "The exams/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each exam of category \"L\"",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "number",
-                        "in": "query",
-                        "description": "Number for searched exams. For example: L-1234",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Exams"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of exams",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Exam"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
+        "/divisions/{id}": {
+          "get": {
+            "summary": "Returns division",
+            "description": "This endpoint returns information about the Division",
+            "security": [
+              {
+                "apiAuthTokenKey": []
+              }
+            ],
+            "parameters": [
+              {
+                "name": "Authorization",
+                "in": "header",
+                "type": "string",
+                "description": "Authorization token."
+              },
+              {
+                "name": "id",
+                "in": "path",
+                "description": "ID of searched division.",
+                "required": true,
+                "type": "integer",
+                "format": "int32"
+              }
+            ],
+            "tags": [
+              "Divisions"
+            ],
+            "responses": {
+              "200": {
+                "description": "Successful operation",
+                "schema": {
+                    "type": "object",
+                    "items": {
+                        "$ref": "#/definitions/Division"
                     }
                 }
+              },
+              "401": {
+                "description": "Unauthorized",
+                "schema": {
+                    "$ref": "#/definitions/Error"
+                }
+              },
+              "403": {
+                "description": "Forbidden",
+                "schema": {
+                    "$ref": "#/definitions/Error"
+                }
+              },
+              "404": {
+                "description": "Not found",
+                "schema": {
+                    "$ref": "#/definitions/Error"
+                }
+            },
+              "default": {
+                "description": "Unexpected error",
+                "schema": {
+                    "$ref": "#/definitions/Error"
+                }
+              }
             }
+          }
         },
-        "/exams/mor_search_by_number": {
-            "get": {
-                "summary": "Returns all exams for Exam.where(category: \"M\", number: params[:number].upcase)",
-                "description": "The exams/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each exam of category \"M\"",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "number",
-                        "in": "query",
-                        "description": "Number for searched exams. For example: MA-00123",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Exams"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of exams",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Exam"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
+        "/divisions/lot": {
+          "get": {
+            "summary": "Returns all divisions for category L - LOT",
+            "description": "The divisions/mor endpoint returns information about the Division in marine (MOR) services.",
+            "security": [
+              {
+                "apiAuthTokenKey": []
+              }
+            ],
+            "parameters": [
+              {
+                "name": "Authorization",
+                "in": "header",
+                "type": "string",
+                "description": "Authorization token."
+              }
+            ],
+            "tags": [
+              "Divisions"
+            ],
+            "responses": {
+              "200": {
+                "description": "An array of divisions",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Division"
+                  }
                 }
+              },
+              "401": {
+                "description": "Unauthorized",
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              },
+              "403": {
+                "description": "Forbidden",
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              },
+              "default": {
+                "description": "Unexpected error",
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              }
             }
+          }
         },
-        "/exams/ra_search_by_number": {
-            "get": {
-                "summary": "Returns all exams for Exam.where(category: \"R\", number: params[:number].upcase)",
-                "description": "The exams/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each exam of category \"R\"",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "number",
-                        "in": "query",
-                        "description": "Number for searched exams. For example: B-1234",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Exams"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of exams",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Exam"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
+        "/divisions/mor": {
+          "get": {
+            "summary": "Returns all divisions for category M - MOR",
+            "description": "The divisions/mor endpoint returns information about the UKE Divisions in marine (MOR) services.",
+            "security": [
+              {
+                "apiAuthTokenKey": []
+              }
+            ],
+            "parameters": [
+              {
+                "name": "Authorization",
+                "in": "header",
+                "type": "string",
+                "description": "Authorization token."
+              }
+            ],
+            "tags": [
+              "Divisions"
+            ],
+            "responses": {
+              "200": {
+                "description": "An array of divisions",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Division"
+                  }
                 }
+              },
+              "401": {
+                "description": "Unauthorized",
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              },
+              "403": {
+                "description": "Forbidden",
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              },
+              "default": {
+                "description": "Unexpected error",
+                "schema": {
+                  "$ref": "#/definitions/Error"
+                }
+              }
             }
+          }
         },
-        "/exams/all_search_by_number": {
-            "get": {
-                "summary": "Returns all exams for Exam.where(number: params[:number].upcase)",
-                "description": "The exams/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each exam",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "number",
-                        "in": "query",
-                        "description": "Number for searched exams. For example: B-12",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Exams"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of exams",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Exam"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
+        "/divisions/ra": {
+          "get": {
+            "summary": "Returns all divisions for category R - RA",
+            "description": "The divisions/ra endpoint returns information about the UKE Divisions in amateur (RA) services. The response includes the display number and other details about each division, and lists the divisions in the proper display order.\n",
+            "security": [
+              {
+                "apiAuthTokenKey": []
+              }
+            ],
+            "parameters": [
+              {
+                "name": "Authorization",
+                "in": "header",
+                "type": "string",
+                "description": "Authorization token."
+              }
+            ],
+            "tags": [
+              "Divisions"
+            ],
+            "responses": {
+              "200": {
+                "description": "An array of divisions",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Division"
+                  }
                 }
-            }
-        },
-        "/exams/lot_search_by_customer_pesel": {
-            "get": {
-                "summary": "Returns all exams for Exam.joins(:customer).where(category: \"L\", customers: {pesel: params[:pesel]})",
-                "description": "The exams/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each exam of category \"L\"",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "pesel",
-                        "in": "query",
-                        "description": "Customer PESEL for searched exams. For example: 69070610090",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Exams"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of exams",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Exam"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
+              },
+              "401": {
+                "description": "Unauthorized",
+                "schema": {
+                  "$ref": "#/definitions/Error"
                 }
-            }
-        },
-        "/exams/mor_search_by_customer_pesel": {
-            "get": {
-                "summary": "Returns all exams for Exam.joins(:customer).where(category: \"M\", customers: {pesel: params[:pesel]})",
-                "description": "The exams/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each exam of category \"M\"",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "pesel",
-                        "in": "query",
-                        "description": "Customer PESEL for searched exams. For example: 69070610090",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Exams"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of exams",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Exam"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
+              },
+              "403": {
+                "description": "Forbidden",
+                "schema": {
+                  "$ref": "#/definitions/Error"
                 }
-            }
-        },
-        "/exams/ra_search_by_customer_pesel": {
-            "get": {
-                "summary": "Returns all exams for Exam.joins(:customer).where(category: \"R\", customers: {pesel: params[:pesel]})",
-                "description": "The exams/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each exam of category \"R\"",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "pesel",
-                        "in": "query",
-                        "description": "Customer PESEL for searched exams. For example: 69070610090",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Exams"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of exams",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Exam"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
+              },
+              "default": {
+                "description": "Unexpected error",
+                "schema": {
+                  "$ref": "#/definitions/Error"
                 }
+              }
             }
-        },
-        "/exams/all_search_by_customer_pesel": {
-            "get": {
-                "summary": "Returns all exams for Exam.joins(:customer).where(customers: {pesel: params[:pesel]})",
-                "description": "The exams/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each exam",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "pesel",
-                        "in": "query",
-                        "description": "Customer PESEL for searched exams. For example: 69070610090",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Exams"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of exams",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Exam"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
+          }
         }
     },
     "definitions": {
@@ -2392,6 +1986,40 @@
                     "type": "integer",
                     "format": "int32",
                     "description": "Maximum examinations"
+                },
+                "fullname": {
+                    "type": "string",
+                    "description": "Fullname for Exam"
+                }
+            }
+        },
+        "Division": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Unique identifier representing a specific division."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Display name of division."
+                },
+                "english_name": {
+                    "type": "string",
+                    "description": "Display english name of division."
+                },
+                "short_name": {
+                    "type": "string",
+                    "description": "Display short name of division."
+                },
+                "number_prefix": {
+                    "type": "string",
+                    "description": "Display number_prefix of division."
+                },
+                "category": {
+                    "type": "string",
+                    "description": "Division category. M - (MOR) marine services, R - (RA) amateur services."
                 },
                 "fullname": {
                     "type": "string",

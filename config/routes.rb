@@ -169,14 +169,11 @@ Rails.application.routes.draw do
         get 'ra', on: :collection
         get 'mor_next_and_free', on: :collection
         get 'ra_next_and_free', on: :collection
-        get 'lot_search_by_number', on: :collection
-        get 'mor_search_by_number', on: :collection
-        get 'ra_search_by_number', on: :collection
-        get 'all_search_by_number', on: :collection
-        get 'lot_search_by_customer_pesel', on: :collection
-        get 'mor_search_by_customer_pesel', on: :collection
-        get 'ra_search_by_customer_pesel', on: :collection
-        get 'all_search_by_customer_pesel', on: :collection
+      end
+      resources :divisions, only: [:show] do
+        get 'lot', on: :collection
+        get 'mor', on: :collection
+        get 'ra', on: :collection
       end
       devise_scope :user do
         post 'sessions' => 'sessions#create' #, :as => 'login'
