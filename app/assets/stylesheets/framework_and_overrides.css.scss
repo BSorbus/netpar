@@ -168,6 +168,15 @@ img {
   color: white; 
 }
 
+.panel-proposal {
+  border-color: #ddd  
+}
+.panel-proposal > .panel-heading {
+  background: darken(#BECC25, 18%); 
+  color: white; 
+}
+
+
 .panel-attach {
   border-color: #ddd  
 }

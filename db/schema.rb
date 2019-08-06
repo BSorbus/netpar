@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190802074809) do
+ActiveRecord::Schema.define(version: 20190804150413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -428,6 +428,7 @@ ActiveRecord::Schema.define(version: 20190802074809) do
     t.integer  "province_id"
     t.integer  "max_examinations"
     t.string   "province_name",      limit: 50, default: ""
+    t.integer  "proposals_count",               default: 0
   end
 
   add_index "exams", ["category"], name: "index_exams_on_category", using: :btree
@@ -511,6 +512,41 @@ ActiveRecord::Schema.define(version: 20190802074809) do
   add_index "pna_codes", ["pna"], name: "index_pna_codes_on_pna", using: :btree
   add_index "pna_codes", ["powiat"], name: "index_pna_codes_on_powiat", using: :btree
   add_index "pna_codes", ["wojewodztwo"], name: "index_pna_codes_on_wojewodztwo", using: :btree
+
+  create_table "proposals", force: :cascade do |t|
+    t.integer  "status",                                         null: false
+    t.string   "category",              limit: 1,                null: false
+    t.integer  "user_id"
+    t.string   "name",                  limit: 160, default: "", null: false
+    t.string   "given_names",           limit: 50,  default: "", null: false
+    t.string   "pesel",                 limit: 11,  default: ""
+    t.date     "birth_date"
+    t.string   "birth_place",           limit: 50,  default: ""
+    t.string   "phone",                 limit: 50,  default: ""
+    t.string   "email",                 limit: 50,  default: "", null: false
+    t.string   "address_city",          limit: 50,  default: "", null: false
+    t.string   "address_street",        limit: 50,  default: ""
+    t.string   "address_house",         limit: 10,  default: ""
+    t.string   "address_number",        limit: 10,  default: ""
+    t.string   "address_postal_code",   limit: 10,  default: ""
+    t.string   "c_address_city",        limit: 50,  default: ""
+    t.string   "c_address_street",      limit: 50,  default: ""
+    t.string   "c_address_house",       limit: 10,  default: ""
+    t.string   "c_address_number",      limit: 10,  default: ""
+    t.string   "c_address_postal_code", limit: 10,  default: ""
+    t.integer  "esod_category"
+    t.integer  "exam_id"
+    t.string   "exam_fullname"
+    t.date     "date_exam"
+    t.integer  "division_id"
+    t.string   "division_fullname"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "proposals", ["category"], name: "index_proposals_on_category", using: :btree
+  add_index "proposals", ["pesel"], name: "index_proposals_on_pesel", using: :btree
+  add_index "proposals", ["status"], name: "index_proposals_on_status", using: :btree
 
   create_table "refile_attachments", force: :cascade do |t|
     t.integer  "oid",        null: false
@@ -742,6 +778,7 @@ ActiveRecord::Schema.define(version: 20190802074809) do
   add_foreign_key "grades", "examinations"
   add_foreign_key "grades", "subjects"
   add_foreign_key "grades", "users"
+  add_foreign_key "proposals", "users"
   add_foreign_key "subjects", "divisions"
   add_foreign_key "users", "departments"
 end

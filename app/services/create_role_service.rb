@@ -105,6 +105,34 @@ class CreateRoleService
     end
   end
 
+  # proposal_m
+  def proposal_m_manager
+    role = Role.find_or_create_by!(name: "Menadżer Elektronicznych Zgłoszeń w Sesjach Egzaminacyjnych Świadectw Morskich") do |role|
+      role.activities += %w(proposal_m:index proposal_m:show proposal_m:create proposal_m:update proposal_m:delete proposal_m:print proposal_m:work)
+      role.save!
+    end
+  end
+  def proposal_m_observer
+    role = Role.find_or_create_by!(name: "Obserwator Elektronicznych Zgłoszeń w Sesjach Egzaminacyjnych Świadectw Morskich") do |role|
+      role.activities += %w(proposal_m:index proposal_m:show)
+      role.save!
+    end
+  end
+
+  # proposal_r
+  def proposal_r_manager
+    role = Role.find_or_create_by!(name: "Menadżer Elektronicznych Zgłoszeń w Sesjach Egzaminacyjnych Świadectw Radioamtorskich") do |role|
+      role.activities += %w(proposal_r:index proposal_r:show proposal_r:create proposal_r:update proposal_r:delete proposal_r:print proposal_r:work)
+      role.save!
+    end
+  end
+  def proposal_r_observer
+    role = Role.find_or_create_by!(name: "Obserwator Elektronicznych Zgłoszeń w Sesjach Egzaminacyjnych Świadectw Radioamtorskich") do |role|
+      role.activities += %w(proposal_r:index proposal_r:show)
+      role.save!
+    end
+  end
+
   # examination_l
   def examination_l_manager
     role = Role.find_or_create_by!(name: "Menadżer Osób Egzaminowanych w Sesjach Egzaminacyjnych Świadectw Lotniczych") do |role|

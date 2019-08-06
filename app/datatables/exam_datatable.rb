@@ -19,6 +19,7 @@ class ExamDatatable < AjaxDatatablesRails::Base
                               Exam.chairman
                               Exam.secretary
                               Exam.max_examinations
+                              Exam.proposals_count
                               Exam.examinations_count
                               Exam.certificates_count
                             )
@@ -35,6 +36,7 @@ class ExamDatatable < AjaxDatatablesRails::Base
                               Exam.chairman
                               Exam.secretary
                               Exam.max_examinations
+                              Exam.proposals_count
                               Exam.examinations_count
                               Exam.certificates_count
                             )
@@ -60,6 +62,7 @@ class ExamDatatable < AjaxDatatablesRails::Base
         record.chairman,
         record.secretary,
         '<div style="text-align: center"><span class="badge alert-warning">' + "#{record.max_examinations}" + '</span></div>',
+        '<div style="text-align: center"><span class="badge alert-info">' + "#{record.proposals_count}" + '</span></div>',
         '<div style="text-align: center"><span class="badge alert-info">' + "#{record.examinations_count}" + '</span></div>',
         '<div style="text-align: center"><span class="badge alert-success">' + "#{record.certificates_count}" + '</span></div>',
         record.category 

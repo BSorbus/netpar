@@ -77,7 +77,7 @@ class Api::V1::ExamsController < Api::V1::BaseApiController
   def mor_next_and_free
     params[:q] = params[:q]
     date_exam_min = (Time.zone.today + 14.days).strftime("%Y-%m-%d")
-    @exams = Exam.order(:number).finder_exam(params[:q], "M", "#{date_exam_min}", Esodes::SESJA)
+    @exams = Exam.(date_exam: :desc).finder_exam(params[:q], "M", "#{date_exam_min}", Esodes::SESJA)
     @exams_on_page = @exams.page(params[:page]).per(params[:page_limit])
 
     # render status: :ok,
@@ -93,7 +93,7 @@ class Api::V1::ExamsController < Api::V1::BaseApiController
     #params[:q] ||= ""
     params[:q] = params[:q]
     date_exam_min = (Time.zone.today + 14.days).strftime("%Y-%m-%d")
-    @exams = Exam.order(:number).finder_exam(params[:q], "R", "#{date_exam_min}", Esodes::SESJA)
+    @exams = Exam.order(date_exam: :desc).finder_exam(params[:q], "R", "#{date_exam_min}", Esodes::SESJA)
     @exams_on_page = @exams.page(params[:page]).per(params[:page_limit])
 
     # render status: :ok,

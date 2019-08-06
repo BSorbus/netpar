@@ -5,6 +5,7 @@ class Exam < ActiveRecord::Base
  
   has_many :certificates, dependent: :destroy
   has_many :examinations, dependent: :destroy
+  has_many :proposals, dependent: :destroy
   has_many :examiners, inverse_of: :exam, dependent: :destroy  
 
   accepts_nested_attributes_for :examiners,
@@ -76,9 +77,16 @@ class Exam < ActiveRecord::Base
   end
 
   def exam_has_examinations
+    analize_value = true
     if self.examinations.any? 
       errors.add(:esod_category, " - Nie można zmieniać Rodzaju Sesji do której są przypisane Osoby Egzaminowane.")
+      analize_value = false
     end
+    if self.proposals.any? 
+      errors.add(:esod_category, " - Nie można zmieniać Rodzaju Sesji do której złożone Elektronicznie Zgłoszenia.")
+      analize_value = false
+    end
+    analize_value
   end
 
   def exam_has_links
@@ -89,6 +97,10 @@ class Exam < ActiveRecord::Base
     end
     if self.examinations.any? 
       errors[:base] << "Nie można usunąć Egzaminu do którego są przypisane Osoby Egzaminowane."
+      analize_value = false
+    end
+    if self.proposals.any? 
+      errors[:base] << "Nie można usunąć Egzaminu do którego są złożone Elektroniczne Zgłoszenia."
       analize_value = false
     end
     analize_value

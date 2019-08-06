@@ -103,6 +103,17 @@ pl:
         title: ' Klient - edycja danych'
       new:
         title: ' Nowy Klient'
+    proposal:
+      index_for_exam:
+        title: 'Elektroniczne Zgłoszenia'
+      index_for_customer:
+        title: 'Elektroniczne Zgłoszenia'
+      show:
+        title: 'Elektroniczne Zgłoszenie'
+      edit:
+        title: 'Elektroniczne Zgłoszenie - edycja danych'
+      new:
+        title: ' Nowe Elektroniczne Zgłoszenie'
     examination:
       index_for_exam:
         title: 'Osoby Egzaminowane'
@@ -123,6 +134,15 @@ pl:
     examination_r:
       index:
         title: 'Sesje RA'
+    proposal_l:
+      index:
+        title: 'Zgłoszenia LOT'
+    proposal_m:
+      index:
+        title: 'Zgłoszenia MOR'
+    proposal_r:
+      index:
+        title: 'Zgłoszenia RA'
     work:
       index:
         title: 'Operacje'
@@ -264,6 +284,22 @@ pl:
       update_r?: ' BRAK UPRAWNIEŃ: Nie możesz edytować szczegółowych informacji o egzaminie RA danej osoby!'
       create_r?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć szczegółowych informacji o osobie przystępującej do egzaminu RA!'
       destroy_r?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać szczegółowych informacji o osobie przystępującej do egzaminu RA!'
+    proposal_policy:
+      index_l?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy elektronicznych zgłoszeń LOT!'
+      show_l?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółowych informacji elektronicznym zgłoszeniu LOT danej osoby!'
+      update_l?: ' BRAK UPRAWNIEŃ: Nie możesz edytować szczegółowych informacji w elektronicznym zgłoszeniu LOT danej osoby!'
+      create_l?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć szczegółowych informacji o zgłoszniu elektronicznym LOT!'
+      destroy_l?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać szczegółowych informacji o zgłoszniu elektronicznym LOT!'
+      index_m?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy elektronicznych zgłoszeń MOR!'
+      show_m?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółowych informacji elektronicznym zgłoszeniu MOR danej osoby!'
+      update_m?: ' BRAK UPRAWNIEŃ: Nie możesz edytować szczegółowych informacji w elektronicznym zgłoszeniu MOR danej osoby!'
+      create_m?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć szczegółowych informacji o zgłoszniu elektronicznym MOR!'
+      destroy_m?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać szczegółowych informacji o zgłoszniu elektronicznym MOR!'
+      index_r?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy elektronicznych zgłoszeń RA!'
+      show_r?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółowych informacji elektronicznym zgłoszeniu RA danej osoby!'
+      update_r?: ' BRAK UPRAWNIEŃ: Nie możesz edytować szczegółowych informacji w elektronicznym zgłoszeniu RA danej osoby!'
+      create_r?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć szczegółowych informacji o zgłoszniu elektronicznym RA!'
+      destroy_r?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać szczegółowych informacji o zgłoszniu elektronicznym RA!'
     license_policy:
       show?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać pozwoleń systemu NETPAR2000!'
   activerecord:
@@ -277,6 +313,7 @@ pl:
       customer: 'Klient'
       document: 'Załącznik'
       examination: 'Osoba Egzaminowana'
+      proposal: 'Elektroniczne Zgłoszenie'
       examiner: 'Członek Komisji Egzaminacyjnej'
       subject: 'Przedmioty'
       grade: 'Oceny'
@@ -376,6 +413,7 @@ pl:
         examiners: "Członek Komisji"
         examinations_count: "Egzaminowani"
         certificates_count: "Świadectwa"
+        proposals_count: "Zgłoszenia"
         province_id: "Województwo"
         province_name: "Województwo"
         max_examinations: "Max miejsc"

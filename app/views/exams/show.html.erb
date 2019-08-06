@@ -65,6 +65,35 @@
   <% end %>
 
 
+  <!-- Proposals-->
+  <div class="row">
+    <div class="col-sm-11 col-sm-offset-1">
+      <div class="panel panel-proposal">
+        <div class="panel-heading">
+          <div class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_proposals" >
+              <span class="glyphicon glyphicon-import">&nbsp;<%= t "pages.proposal.index_for_exam.title" %></span>
+              <i class="indicator glyphicon glyphicon-chevron-right  pull-right"></i>
+            </a>
+          </div>
+        </div>
+        <div id="collapse_proposals" class="panel-collapse collapse"> <!-- id="collapse_proposals" -->
+          <div class="panel-body">
+            <div class="col-sm-12">
+
+              <% if proposal_policy_check(:proposal, params[:category_service], 'index') %>
+                <%= render 'proposals' %>
+              <% else %>
+                <p><%= t "pundit.proposal_policy.index_#{params[:category_service]}?" %></p>
+              <% end %>
+
+            </div> <!--/class="col-sm-12" -->
+          </div> <!-- /panel-body -->
+        </div> <!-- /id="collapse_proposals" -->
+      </div> <!-- /panel -->
+    </div> <!-- /col-sm-11 col-sm-offset-1 -->
+  </div> <!-- /row -->
+
   <!-- Examinations-->
   <% unless Esodes::WITHOUT_EXAMINATIONS.include?(@exam.esod_category) %>
   <div class="row">
