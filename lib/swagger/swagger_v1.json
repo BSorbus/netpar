@@ -1,2094 +1,2119 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "title": "NETPAR2015 API",
-        "description": "Attention! If you want to use this API, you need to use sessions/login in the first place. After correct login, your \"authentication_token\" will be a key for authorization to run all actions.",
-        "version": "1.0.1",
-        "contact": {
-            "name": "UKE-BI 2015-2019",
-            "email": "bogdan.jarzab@uke.gov.pl.com"
-        },
-        "termsOfService": "https://netpar2015.uke.gov.pl/api/v1/"
+  "swagger": "2.0",
+  "info": {
+    "title": "NETPAR2015 API",
+    "description": "Attention! If you want to use this API, you need to use sessions/login in the first place. After correct login, your \"authentication_token\" will be a key for authorization to run all actions.",
+    "version": "1.0.1",
+    "contact": {
+      "name": "UKE-BI 2015-2019",
+      "email": "bogdan.jarzab@uke.gov.pl.com"
     },
-    "host": "netpar2015.uke.gov.pl",
-    "schemes": [
-        "https"
-    ],
-    "basePath": "/api/v1",
-    "produces": [
-        "application/json"
-    ],
-    "securityDefinitions": {
-        "apiAuthTokenKey": {
+    "termsOfService": "http://localhost:3001/api/v1/"
+  },
+  "host": "localhost:3001",
+  "schemes": [
+    "http"
+  ],
+  "basePath": "/api/v1",
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic"
+    },
+    "apiKeyAuth": {
+      "name": "token",
+      "type": "apiKey",
+      "in": "header"
+    },
+    "apiAuthTokenKey": {
+      "name": "Authorization",
+      "type": "apiKey",
+      "in": "header",
+      "description": "API authentication_token"
+    }
+  },
+  "paths": {
+    "/token": {
+      "get": {
+        "summary": "Return a token",
+        "description": "The token endpoint returrns token",
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Token"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of user profile",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/token"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Login in NETPAR2015 API and return user profile",
+        "description": "The login endpoint created user session and returrns user[:authentication_token].",
+        "tags": [
+          "Sessions"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "The login JSON you want to post",
+            "schema": {
+              "$ref": "#/definitions/LoginParams"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of user profile",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/user"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "delete": {
+        "summary": "Logged out from NETPAR2015 and destroy user[:authentication_token]",
+        "description": "The logout endpoint destroyed user session and recreate user[:authentication_token].",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
             "name": "Authorization",
-            "type": "apiKey",
             "in": "header",
-            "description": "API authentication_token"
-        }
-    },
-    "paths": {
-        "/login": {
-            "post": {
-                "summary": "Login in NETPAR2015 API and return user profile",
-                "description": "The login endpoint created user session and returrns user[:authentication_token].",
-                "tags": [
-                    "Sessions"
-                ],
-                "parameters": [
-                    {
-                        "name": "user",
-                        "in": "body",
-                        "description": "The login JSON you want to post",
-                        "schema": {
-                            "$ref": "#/definitions/LoginParams"
-                        },
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of user profile",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/user"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable entity",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error"
-                    }
-                }
-            }
-        },
-        "/logout": {
-            "delete": {
-                "summary": "Logged out from NETPAR2015 and destroy user[:authentication_token]",
-                "description": "The logout endpoint destroyed user session and recreate user[:authentication_token].",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    }
-                ],
-                "tags": [
-                    "Sessions"
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No content head"
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/certificates/lot": {
-            "get": {
-                "summary": "Returns all certificates for category L - LOT",
-                "description": "The certificates/lot endpoint returns information about the UKE Certificates in aviation (LOT) services. \nThe response includes the display number and other details about each certificate, and lists the certificates in the\nproper display order.\n",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Certificates"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of certificates",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Certificate"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/certificates/mor": {
-            "get": {
-                "summary": "Returns all certificates for category M - MOR",
-                "description": "The certificates/mor endpoint returns information about the UKE Certificates in marine (MOR) services. \nThe response includes the display number and other details about each certificate, and lists the certificates in the\nproper display order.\n",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Certificates"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of certificates",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Certificate"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/certificates/ra": {
-            "get": {
-                "summary": "Returns all certificates for category R - RA",
-                "description": "The certificates/ra endpoint returns information about the UKE Certificates in amateur (RA) services. The response includes the display number and other details about each certificate, and lists the certificates in the proper display order.\n",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Certificates"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of certificates",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Certificate"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/certificates/lot_search_by_number": {
-            "get": {
-                "summary": "Returns all certificates for Certificate.where(category: \"L\", number: params[:number].upcase)",
-                "description": "The certificates/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each certificate of category \"L\"",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "number",
-                        "in": "query",
-                        "description": "Number for searched certificates. For example: L-1234",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Certificates"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of certificates",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Certificate"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/certificates/mor_search_by_number": {
-            "get": {
-                "summary": "Returns all certificates for Certificate.where(category: \"M\", number: params[:number].upcase)",
-                "description": "The certificates/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each certificate of category \"M\"",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "number",
-                        "in": "query",
-                        "description": "Number for searched certificates. For example: MA-00123",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Certificates"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of certificates",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Certificate"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/certificates/ra_search_by_number": {
-            "get": {
-                "summary": "Returns all certificates for Certificate.where(category: \"R\", number: params[:number].upcase)",
-                "description": "The certificates/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each certificate of category \"R\"",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "number",
-                        "in": "query",
-                        "description": "Number for searched certificates. For example: B-1234",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Certificates"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of certificates",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Certificate"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/certificates/all_search_by_number": {
-            "get": {
-                "summary": "Returns all certificates for Certificate.where(number: params[:number].upcase)",
-                "description": "The certificates/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each certificate",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "number",
-                        "in": "query",
-                        "description": "Number for searched certificates. For example: B-12",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Certificates"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of certificates",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Certificate"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/certificates/lot_search_by_customer_pesel": {
-            "get": {
-                "summary": "Returns all certificates for Certificate.joins(:customer).where(category: \"L\", customers: {pesel: params[:pesel]})",
-                "description": "The certificates/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each certificate of category \"L\"",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "pesel",
-                        "in": "query",
-                        "description": "Customer PESEL for searched certificates. For example: 69070610090",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Certificates"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of certificates",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Certificate"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/certificates/mor_search_by_customer_pesel": {
-            "get": {
-                "summary": "Returns all certificates for Certificate.joins(:customer).where(category: \"M\", customers: {pesel: params[:pesel]})",
-                "description": "The certificates/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each certificate of category \"M\"",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "pesel",
-                        "in": "query",
-                        "description": "Customer PESEL for searched certificates. For example: 69070610090",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Certificates"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of certificates",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Certificate"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/certificates/ra_search_by_customer_pesel": {
-            "get": {
-                "summary": "Returns all certificates for Certificate.joins(:customer).where(category: \"R\", customers: {pesel: params[:pesel]})",
-                "description": "The certificates/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each certificate of category \"R\"",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "pesel",
-                        "in": "query",
-                        "description": "Customer PESEL for searched certificates. For example: 69070610090",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Certificates"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of certificates",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Certificate"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/certificates/all_search_by_customer_pesel": {
-            "get": {
-                "summary": "Returns all certificates for Certificate.joins(:customer).where(customers: {pesel: params[:pesel]})",
-                "description": "The certificates/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each certificate",
-                "security": [
-                    {
-                        "apiAuthTokenKey": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "type": "string",
-                        "description": "Authorization token."
-                    },
-                    {
-                        "name": "pesel",
-                        "in": "query",
-                        "description": "Customer PESEL for searched certificates. For example: 69070610090",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Number of items to retrieve. Default is 10, maximum is 100."
-                    },
-                    {
-                        "name": "offset",
-                        "in": "query",
-                        "type": "integer",
-                        "format": "int32",
-                        "description": "Offset the list of returned results by this amount. Default is 0."
-                    }
-                ],
-                "tags": [
-                    "Certificates"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of certificates",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Certificate"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "404": {
-                        "description": "Not found",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/certificates/mor_search_by_multi_params": {
-          "get": {
-            "summary": "Returns all certificates for category: \"M\", params[:number_prefix], params[:number], params[:date_of_issue], params[:valid_thru], customers: {params[:name], params[:given_names], params[:birth_date]})",
-            "description": "The certificates/search_by_multi_params endpoint returns information for searched params[:number_prefix, :number, :data_of_issue, :valid_thru, :name, :given_names, :birth_date]. The response includes the display number and other details about each certificate of category \"M\"",
-            "security": [
-              {
-                "apiAuthTokenKey": []
-              }
-            ],
-            "parameters": [
-              {
-                "name": "Authorization",
-                "in": "header",
-                "type": "string",
-                "description": "Authorization token."
-              },
-              {
-                "name": "X-Real-IP",
-                "in": "header",
-                "type": "string",
-                "description": "X-Real-IP"
-              },
-              {
-                "name": "number_prefix",
-                "in": "query",
-                "description": "Prefix number for searched certificates. For example: MA-",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "number",
-                "in": "query",
-                "description": "Number for searched certificates. For example: 00123",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "date_of_issue",
-                "in": "query",
-                "description": "Date of issue for searched certificates. For example: 2018-07-17",
-                "required": true,
-                "type": "string",
-                "format": "date"
-              },
-              {
-                "name": "valid_thru",
-                "in": "query",
-                "description": "Date valid thru for searched certificates. For example: 2018-07-17",
-                "required": false,
-                "type": "string",
-                "format": "date"
-              },
-              {
-                "name": "name",
-                "in": "query",
-                "description": "Customer name for searched certificates. For example: Kowalski or Smith",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "given_names",
-                "in": "query",
-                "description": "Customer given names for searched certificates. For example: Jan or John",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "birth_date",
-                "in": "query",
-                "description": "Customer birth date for searched certificates. For example: 1990-08-20",
-                "required": true,
-                "type": "string",
-                "format": "date"
-              },
-              {
-                "name": "limit",
-                "in": "query",
-                "type": "integer",
-                "format": "int32",
-                "description": "Number of items to retrieve. Default is 10, maximum is 100."
-              },
-              {
-                "name": "offset",
-                "in": "query",
-                "type": "integer",
-                "format": "int32",
-                "description": "Offset the list of returned results by this amount. Default is 0."
-              }
-            ],
-            "tags": [
-              "Certificates"
-            ],
-            "responses": {
-              "200": {
-                "description": "An array of certificates",
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/Certificate"
-                  }
-                }
-              },
-              "401": {
-                "description": "Unauthorized",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "403": {
-                "description": "Forbidden",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "404": {
-                "description": "Not found",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "default": {
-                "description": "Unexpected error",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              }
-            }
+            "type": "string",
+            "description": "Authorization token."
           }
-        },
-        "/exams/{id}": {
-          "get": {
-            "summary": "Returns exams",
-            "description": "This endpoint returns information about the UKE Exam",
-            "security": [
-              {
-                "apiAuthTokenKey": []
-              }
-            ],
-            "parameters": [
-              {
-                "name": "Authorization",
-                "in": "header",
-                "type": "string",
-                "description": "Authorization token."
-              },
-              {
-                "name": "id",
-                "in": "path",
-                "description": "ID of searched exam.",
-                "required": true,
-                "type": "integer",
-                "format": "int32"
-              }
-            ],
-            "tags": [
-              "Exams"
-            ],
-            "responses": {
-              "200": {
-                "description": "Successful operation",
-                "schema": {
-                    "type": "object",
-                    "items": {
-                        "$ref": "#/definitions/Exam"
-                    }
-                }
-              },
-              "401": {
-                "description": "Unauthorized",
-                "schema": {
-                    "$ref": "#/definitions/Error"
-                }
-              },
-              "403": {
-                "description": "Forbidden",
-                "schema": {
-                    "$ref": "#/definitions/Error"
-                }
-              },
-              "404": {
-                "description": "Not found",
-                "schema": {
-                    "$ref": "#/definitions/Error"
-                }
-            },
-              "default": {
-                "description": "Unexpected error",
-                "schema": {
-                    "$ref": "#/definitions/Error"
-                }
-              }
+        ],
+        "tags": [
+          "Sessions"
+        ],
+        "responses": {
+          "204": {
+            "description": "No content head"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
             }
-          }
-        },
-        "/exams/lot": {
-          "get": {
-            "summary": "Returns all exams for category L - LOT",
-            "description": "The exams/lot endpoint returns information about the UKE Exams in aviation (LOT) services. \nThe response includes the display number and other details about each exam, and lists the exams in the\nproper display order.\n",
-            "security": [
-              {
-                "apiAuthTokenKey": []
-              }
-            ],
-            "parameters": [
-              {
-                "name": "Authorization",
-                "in": "header",
-                "type": "string",
-                "description": "Authorization token."
-              },
-              {
-                "name": "date_exam_min",
-                "in": "query",
-                "description": "Minimum date examination of searched exams. For example: 2018-07-17",
-                "required": false,
-                "type": "string",
-                "format": "date"
-              },
-              {
-                "name": "limit",
-                "in": "query",
-                "type": "integer",
-                "format": "int32",
-                "description": "Number of items to retrieve. Default is 10, maximum is 100."
-              },
-              {
-                "name": "offset",
-                "in": "query",
-                "type": "integer",
-                "format": "int32",
-                "description": "Offset the list of returned results by this amount. Default is 0."
-              }
-            ],
-            "tags": [
-              "Exams"
-            ],
-            "responses": {
-              "200": {
-                "description": "An array of exams",
-                "schema": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Exam"
-                    }
-                }
-              },
-              "401": {
-                "description": "Unauthorized",
-                "schema": {
-                    "$ref": "#/definitions/Error"
-                }
-              },
-              "403": {
-                "description": "Forbidden",
-                "schema": {
-                    "$ref": "#/definitions/Error"
-                }
-              },
-              "default": {
-                "description": "Unexpected error",
-                "schema": {
-                    "$ref": "#/definitions/Error"
-                }
-              }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
             }
-          }
-        },
-        "/exams/mor": {
-          "get": {
-            "summary": "Returns all exams for category M - MOR",
-            "description": "The exams/mor endpoint returns information about the UKE Exams in marine (MOR) services. \nThe response includes the display number and other details about each exam, and lists the exams in the\nproper display order.\n",
-            "security": [
-              {
-                "apiAuthTokenKey": []
-              }
-            ],
-            "parameters": [
-              {
-                "name": "Authorization",
-                "in": "header",
-                "type": "string",
-                "description": "Authorization token."
-              },
-              {
-                "name": "date_exam_min",
-                "in": "query",
-                "description": "Minimum date examination of searched exams. For example: 2018-07-17",
-                "required": false,
-                "type": "string",
-                "format": "date"
-              },
-              {
-                "name": "limit",
-                "in": "query",
-                "type": "integer",
-                "format": "int32",
-                "description": "Number of items to retrieve. Default is 10, maximum is 100."
-              },
-              {
-                "name": "offset",
-                "in": "query",
-                "type": "integer",
-                "format": "int32",
-                "description": "Offset the list of returned results by this amount. Default is 0."
-              }
-            ],
-            "tags": [
-              "Exams"
-            ],
-            "responses": {
-              "200": {
-                "description": "An array of exams",
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/Exam"
-                  }
-                }
-              },
-              "401": {
-                "description": "Unauthorized",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "403": {
-                "description": "Forbidden",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "default": {
-                "description": "Unexpected error",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              }
-            }
-          }
-        },
-        "/exams/ra": {
-          "get": {
-            "summary": "Returns all exams for category R - RA",
-            "description": "The exams/ra endpoint returns information about the UKE Exams in amateur (RA) services. The response includes the display number and other details about each exam, and lists the exams in the proper display order.\n",
-            "security": [
-              {
-                "apiAuthTokenKey": []
-              }
-            ],
-            "parameters": [
-              {
-                "name": "Authorization",
-                "in": "header",
-                "type": "string",
-                "description": "Authorization token."
-              },
-              {
-                "name": "date_exam_min",
-                "in": "query",
-                "description": "Minimum date examination of searched exams. For example: 2018-07-17",
-                "required": false,
-                "type": "string",
-                "format": "date"
-              },
-              {
-                "name": "limit",
-                "in": "query",
-                "type": "integer",
-                "format": "int32",
-                "description": "Number of items to retrieve. Default is 10, maximum is 100."
-              },
-              {
-                "name": "offset",
-                "in": "query",
-                "type": "integer",
-                "format": "int32",
-                "description": "Offset the list of returned results by this amount. Default is 0."
-              }
-            ],
-            "tags": [
-              "Exams"
-            ],
-            "responses": {
-              "200": {
-                "description": "An array of exams",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Exam"
-                  }
-                }
-              },
-              "401": {
-                "description": "Unauthorized",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "403": {
-                "description": "Forbidden",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "default": {
-                "description": "Unexpected error",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              }
-            }
-          }
-        },
-        "/exams/mor_next_and_free": {
-          "get": {
-            "summary": "Returns all exams for category M - MOR",
-            "description": "The exams/mor_next_and_free endpoint returns information about the UKE Exams in marine (MOR) services. The response includes the display number and other details about each exam, and lists the exams in the proper display order.\n",
-            "security": [
-              {
-                "apiAuthTokenKey": []
-              }
-            ],
-            "parameters": [
-              {
-                "name": "Authorization",
-                "in": "header",
-                "type": "string",
-                "description": "Authorization token."
-              },
-              {
-                "name": "date_exam_min",
-                "in": "query",
-                "description": "Minimum date examination of searched exams. For example: 2018-07-17",
-                "required": false,
-                "type": "string",
-                "format": "date"
-              },
-              {
-                "name": "q",
-                "in": "query",
-                "description": "Param for searched exams: Bydgo",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "name": "page_limit",
-                "in": "query",
-                "type": "integer",
-                "format": "int32",
-                "description": "Number of items to retrieve. Default is 10, maximum is 100."
-              },
-              {
-                "name": "page",
-                "in": "query",
-                "type": "integer",
-                "format": "int32",
-                "description": "Offset the list of returned results by this amount. Default is 0."
-              }
-            ],
-            "tags": [
-              "Exams"
-            ],
-            "responses": {
-              "200": {
-                "description": "An array of exams",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Exam"
-                  }
-                }
-              },
-              "401": {
-                "description": "Unauthorized",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "403": {
-                "description": "Forbidden",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "default": {
-                "description": "Unexpected error",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              }
-            }
-          }
-        },
-        "/exams/ra_next_and_free": {
-          "get": {
-            "summary": "Returns all exams for category R - RA",
-            "description": "The exams/ra endpoint returns information about the UKE Exams in amateur (RA) services. The response includes the display number and other details about each exam, and lists the exams in the proper display order.\n",
-            "security": [
-              {
-                "apiAuthTokenKey": []
-              }
-            ],
-            "parameters": [
-              {
-                "name": "Authorization",
-                "in": "header",
-                "type": "string",
-                "description": "Authorization token."
-              },
-              {
-                "name": "date_exam_min",
-                "in": "query",
-                "description": "Minimum date examination of searched exams. For example: 2018-07-17",
-                "required": false,
-                "type": "string",
-                "format": "date"
-              },
-              {
-                "name": "q",
-                "in": "query",
-                "description": "Param for searched exams: Bydgo",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "name": "page_limit",
-                "in": "query",
-                "type": "integer",
-                "format": "int32",
-                "description": "Number of items to retrieve. Default is 10, maximum is 100."
-              },
-              {
-                "name": "page",
-                "in": "query",
-                "type": "integer",
-                "format": "int32",
-                "description": "Offset the list of returned results by this amount. Default is 0."
-              }
-            ],
-            "tags": [
-              "Exams"
-            ],
-            "responses": {
-              "200": {
-                "description": "An array of exams",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Exam"
-                  }
-                }
-              },
-              "401": {
-                "description": "Unauthorized",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "403": {
-                "description": "Forbidden",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "default": {
-                "description": "Unexpected error",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              }
-            }
-          }
-        },
-        "/divisions/{id}": {
-          "get": {
-            "summary": "Returns division",
-            "description": "This endpoint returns information about the Division",
-            "security": [
-              {
-                "apiAuthTokenKey": []
-              }
-            ],
-            "parameters": [
-              {
-                "name": "Authorization",
-                "in": "header",
-                "type": "string",
-                "description": "Authorization token."
-              },
-              {
-                "name": "id",
-                "in": "path",
-                "description": "ID of searched division.",
-                "required": true,
-                "type": "integer",
-                "format": "int32"
-              }
-            ],
-            "tags": [
-              "Divisions"
-            ],
-            "responses": {
-              "200": {
-                "description": "Successful operation",
-                "schema": {
-                    "type": "object",
-                    "items": {
-                        "$ref": "#/definitions/Division"
-                    }
-                }
-              },
-              "401": {
-                "description": "Unauthorized",
-                "schema": {
-                    "$ref": "#/definitions/Error"
-                }
-              },
-              "403": {
-                "description": "Forbidden",
-                "schema": {
-                    "$ref": "#/definitions/Error"
-                }
-              },
-              "404": {
-                "description": "Not found",
-                "schema": {
-                    "$ref": "#/definitions/Error"
-                }
-            },
-              "default": {
-                "description": "Unexpected error",
-                "schema": {
-                    "$ref": "#/definitions/Error"
-                }
-              }
-            }
-          }
-        },
-        "/divisions/lot": {
-          "get": {
-            "summary": "Returns all divisions for category L - LOT",
-            "description": "The divisions/mor endpoint returns information about the Division in marine (MOR) services.",
-            "security": [
-              {
-                "apiAuthTokenKey": []
-              }
-            ],
-            "parameters": [
-              {
-                "name": "Authorization",
-                "in": "header",
-                "type": "string",
-                "description": "Authorization token."
-              }
-            ],
-            "tags": [
-              "Divisions"
-            ],
-            "responses": {
-              "200": {
-                "description": "An array of divisions",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Division"
-                  }
-                }
-              },
-              "401": {
-                "description": "Unauthorized",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "403": {
-                "description": "Forbidden",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "default": {
-                "description": "Unexpected error",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              }
-            }
-          }
-        },
-        "/divisions/mor": {
-          "get": {
-            "summary": "Returns all divisions for category M - MOR",
-            "description": "The divisions/mor endpoint returns information about the UKE Divisions in marine (MOR) services.",
-            "security": [
-              {
-                "apiAuthTokenKey": []
-              }
-            ],
-            "parameters": [
-              {
-                "name": "Authorization",
-                "in": "header",
-                "type": "string",
-                "description": "Authorization token."
-              }
-            ],
-            "tags": [
-              "Divisions"
-            ],
-            "responses": {
-              "200": {
-                "description": "An array of divisions",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Division"
-                  }
-                }
-              },
-              "401": {
-                "description": "Unauthorized",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "403": {
-                "description": "Forbidden",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "default": {
-                "description": "Unexpected error",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              }
-            }
-          }
-        },
-        "/divisions/ra": {
-          "get": {
-            "summary": "Returns all divisions for category R - RA",
-            "description": "The divisions/ra endpoint returns information about the UKE Divisions in amateur (RA) services. The response includes the display number and other details about each division, and lists the divisions in the proper display order.\n",
-            "security": [
-              {
-                "apiAuthTokenKey": []
-              }
-            ],
-            "parameters": [
-              {
-                "name": "Authorization",
-                "in": "header",
-                "type": "string",
-                "description": "Authorization token."
-              }
-            ],
-            "tags": [
-              "Divisions"
-            ],
-            "responses": {
-              "200": {
-                "description": "An array of divisions",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Division"
-                  }
-                }
-              },
-              "401": {
-                "description": "Unauthorized",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "403": {
-                "description": "Forbidden",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              },
-              "default": {
-                "description": "Unexpected error",
-                "schema": {
-                  "$ref": "#/definitions/Error"
-                }
-              }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
             }
           }
         }
+      }
     },
-    "definitions": {
-        "Citizenship": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "Unique identifier representing a specific citizenship."
-                },
-                "name": {
-                    "type": "string",
-                    "description": "Display name of citizenship."
-                },
-                "short": {
-                    "type": "string",
-                    "description": "Display short name of citizenship."
-                }
+    "/certificates/lot": {
+      "get": {
+        "summary": "Returns all certificates for category L - LOT",
+        "description": "The certificates/lot endpoint returns information about the UKE Certificates in aviation (LOT) services. \nThe response includes the display number and other details about each certificate, and lists the certificates in the\nproper display order.\n",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of certificates",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Certificate"
+              }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/certificates/mor": {
+      "get": {
+        "summary": "Returns all certificates for category M - MOR",
+        "description": "The certificates/mor endpoint returns information about the UKE Certificates in marine (MOR) services. \nThe response includes the display number and other details about each certificate, and lists the certificates in the\nproper display order.\n",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of certificates",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Certificate"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/certificates/ra": {
+      "get": {
+        "summary": "Returns all certificates for category R - RA",
+        "description": "The certificates/ra endpoint returns information about the UKE Certificates in amateur (RA) services. The response includes the display number and other details about each certificate, and lists the certificates in the proper display order.\n",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of certificates",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Certificate"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/certificates/lot_search_by_number": {
+      "get": {
+        "summary": "Returns all certificates for Certificate.where(category: \"L\", number: params[:number].upcase)",
+        "description": "The certificates/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each certificate of category \"L\"",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "number",
+            "in": "query",
+            "description": "Number for searched certificates. For example: L-1234",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of certificates",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Certificate"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/certificates/mor_search_by_number": {
+      "get": {
+        "summary": "Returns all certificates for Certificate.where(category: \"M\", number: params[:number].upcase)",
+        "description": "The certificates/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each certificate of category \"M\"",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "number",
+            "in": "query",
+            "description": "Number for searched certificates. For example: MA-00123",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of certificates",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Certificate"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/certificates/ra_search_by_number": {
+      "get": {
+        "summary": "Returns all certificates for Certificate.where(category: \"R\", number: params[:number].upcase)",
+        "description": "The certificates/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each certificate of category \"R\"",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "number",
+            "in": "query",
+            "description": "Number for searched certificates. For example: B-1234",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of certificates",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Certificate"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/certificates/all_search_by_number": {
+      "get": {
+        "summary": "Returns all certificates for Certificate.where(number: params[:number].upcase)",
+        "description": "The certificates/search_by_number endpoint returns information for searched params[:number]. The response includes the display number and other details about each certificate",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "number",
+            "in": "query",
+            "description": "Number for searched certificates. For example: B-12",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of certificates",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Certificate"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/certificates/lot_search_by_customer_pesel": {
+      "get": {
+        "summary": "Returns all certificates for Certificate.joins(:customer).where(category: \"L\", customers: {pesel: params[:pesel]})",
+        "description": "The certificates/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each certificate of category \"L\"",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "pesel",
+            "in": "query",
+            "description": "Customer PESEL for searched certificates. For example: 69070610090",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of certificates",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Certificate"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/certificates/mor_search_by_customer_pesel": {
+      "get": {
+        "summary": "Returns all certificates for Certificate.joins(:customer).where(category: \"M\", customers: {pesel: params[:pesel]})",
+        "description": "The certificates/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each certificate of category \"M\"",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "pesel",
+            "in": "query",
+            "description": "Customer PESEL for searched certificates. For example: 69070610090",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of certificates",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Certificate"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/certificates/ra_search_by_customer_pesel": {
+      "get": {
+        "summary": "Returns all certificates for Certificate.joins(:customer).where(category: \"R\", customers: {pesel: params[:pesel]})",
+        "description": "The certificates/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each certificate of category \"R\"",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "pesel",
+            "in": "query",
+            "description": "Customer PESEL for searched certificates. For example: 69070610090",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of certificates",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Certificate"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/certificates/all_search_by_customer_pesel": {
+      "get": {
+        "summary": "Returns all certificates for Certificate.joins(:customer).where(customers: {pesel: params[:pesel]})",
+        "description": "The certificates/search_by_customer_pesel endpoint returns information for searched params[:pesel]. The response includes the display number and other details about each certificate",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "pesel",
+            "in": "query",
+            "description": "Customer PESEL for searched certificates. For example: 69070610090",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of certificates",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Certificate"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/certificates/mor_search_by_multi_params": {
+      "get": {
+        "summary": "Returns all certificates for category: \"M\", params[:number_prefix], params[:number], params[:date_of_issue], params[:valid_thru], customers: {params[:name], params[:given_names], params[:birth_date]})",
+        "description": "The certificates/search_by_multi_params endpoint returns information for searched params[:number_prefix, :number, :data_of_issue, :valid_thru, :name, :given_names, :birth_date]. The response includes the display number and other details about each certificate of category \"M\"",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "X-Real-IP",
+            "in": "header",
+            "type": "string",
+            "description": "X-Real-IP"
+          },
+          {
+            "name": "number_prefix",
+            "in": "query",
+            "description": "Prefix number for searched certificates. For example: MA-",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "number",
+            "in": "query",
+            "description": "Number for searched certificates. For example: 00123",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "date_of_issue",
+            "in": "query",
+            "description": "Date of issue for searched certificates. For example: 2018-07-17",
+            "required": true,
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "name": "valid_thru",
+            "in": "query",
+            "description": "Date valid thru for searched certificates. For example: 2018-07-17",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Customer name for searched certificates. For example: Kowalski or Smith",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "given_names",
+            "in": "query",
+            "description": "Customer given names for searched certificates. For example: Jan or John",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "birth_date",
+            "in": "query",
+            "description": "Customer birth date for searched certificates. For example: 1990-08-20",
+            "required": true,
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Certificates"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of certificates",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Certificate"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/exams/{id}": {
+      "get": {
+        "summary": "Returns exams",
+        "description": "This endpoint returns information about the UKE Exam",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of searched exam.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "Exams"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/Exam"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/exams/lot": {
+      "get": {
+        "summary": "Returns all exams for category L - LOT",
+        "description": "The exams/lot endpoint returns information about the UKE Exams in aviation (LOT) services. \nThe response includes the display number and other details about each exam, and lists the exams in the\nproper display order.\n",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "date_exam_min",
+            "in": "query",
+            "description": "Minimum date examination of searched exams. For example: 2018-07-17",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Exams"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of exams",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Exam"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/exams/mor": {
+      "get": {
+        "summary": "Returns all exams for category M - MOR",
+        "description": "The exams/mor endpoint returns information about the UKE Exams in marine (MOR) services. \nThe response includes the display number and other details about each exam, and lists the exams in the\nproper display order.\n",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "date_exam_min",
+            "in": "query",
+            "description": "Minimum date examination of searched exams. For example: 2018-07-17",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Exams"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of exams",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Exam"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/exams/ra": {
+      "get": {
+        "summary": "Returns all exams for category R - RA",
+        "description": "The exams/ra endpoint returns information about the UKE Exams in amateur (RA) services. The response includes the display number and other details about each exam, and lists the exams in the proper display order.\n",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "date_exam_min",
+            "in": "query",
+            "description": "Minimum date examination of searched exams. For example: 2018-07-17",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Exams"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of exams",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Exam"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/exams/mor_next_and_free": {
+      "get": {
+        "summary": "Returns all exams for category M - MOR",
+        "description": "The exams/mor_next_and_free endpoint returns information about the UKE Exams in marine (MOR) services. The response includes the display number and other details about each exam, and lists the exams in the proper display order.\n",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "date_exam_min",
+            "in": "query",
+            "description": "Minimum date examination of searched exams. For example: 2018-07-17",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Param for searched exams: Bydgo",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page_limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Exams"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of exams",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Exam"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/exams/ra_next_and_free": {
+      "get": {
+        "summary": "Returns all exams for category R - RA",
+        "description": "The exams/ra endpoint returns information about the UKE Exams in amateur (RA) services. The response includes the display number and other details about each exam, and lists the exams in the proper display order.\n",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "date_exam_min",
+            "in": "query",
+            "description": "Minimum date examination of searched exams. For example: 2018-07-17",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Param for searched exams: Bydgo",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page_limit",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of items to retrieve. Default is 10, maximum is 100."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "format": "int32",
+            "description": "Offset the list of returned results by this amount. Default is 0."
+          }
+        ],
+        "tags": [
+          "Exams"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of exams",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Exam"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/divisions/{id}": {
+      "get": {
+        "summary": "Returns division",
+        "description": "This endpoint returns information about the Division",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of searched division.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "Divisions"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/Division"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/divisions/lot": {
+      "get": {
+        "summary": "Returns all divisions for category L - LOT",
+        "description": "The divisions/mor endpoint returns information about the Division in marine (MOR) services.",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          }
+        ],
+        "tags": [
+          "Divisions"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of divisions",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Division"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/divisions/mor": {
+      "get": {
+        "summary": "Returns all divisions for category M - MOR",
+        "description": "The divisions/mor endpoint returns information about the UKE Divisions in marine (MOR) services.",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          }
+        ],
+        "tags": [
+          "Divisions"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of divisions",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Division"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/divisions/ra": {
+      "get": {
+        "summary": "Returns all divisions for category R - RA",
+        "description": "The divisions/ra endpoint returns information about the UKE Divisions in amateur (RA) services. The response includes the display number and other details about each division, and lists the divisions in the proper display order.\n",
+        "security": [
+          {
+            "apiAuthTokenKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization token."
+          }
+        ],
+        "tags": [
+          "Divisions"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of divisions",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Division"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Citizenship": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique identifier representing a specific citizenship."
         },
-        "Customer": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "Unique identifier representing a specific customer."
-                },
-                "human": {
-                    "type": "boolean",
-                    "description": "The Customer is a human?"
-                },
-                "name": {
-                    "type": "string",
-                    "description": "Display name of customer."
-                },
-                "given_names": {
-                    "type": "string",
-                    "description": "Display given names of customer."
-                },
-                "address_city": {
-                    "type": "string",
-                    "description": "Display address city of customer."
-                },
-                "address_street": {
-                    "type": "string",
-                    "description": "Display address street of customer."
-                },
-                "address_house": {
-                    "type": "string",
-                    "description": "Display address house of customer."
-                },
-                "address_number": {
-                    "type": "string",
-                    "description": "Display address number of customer."
-                },
-                "address_postal_code": {
-                    "type": "string",
-                    "description": "Display address postal code of customer."
-                },
-                "address_post_office": {
-                    "type": "string",
-                    "description": "Display address post office of customer."
-                },
-                "address_pobox": {
-                    "type": "string",
-                    "description": "Display address post office box of division."
-                },
-                "c_address_city": {
-                    "type": "string",
-                    "description": "Display address city of correspondence address for customer."
-                },
-                "c_address_street": {
-                    "type": "string",
-                    "description": "Display address street of correspondence address for customer."
-                },
-                "c_address_house": {
-                    "type": "string",
-                    "description": "Display address house of correspondence address for customer."
-                },
-                "c_address_number": {
-                    "type": "string",
-                    "description": "Display address number of correspondence address for customer."
-                },
-                "c_address_postal_code": {
-                    "type": "string",
-                    "description": "Display address postal code of correspondence address for customer."
-                },
-                "c_address_post_office": {
-                    "type": "string",
-                    "description": "Display address post office of correspondence address for customer."
-                },
-                "c_address_pobox": {
-                    "type": "string",
-                    "description": "Display address post office box of correspondence address for customer."
-                },
-                "nip": {
-                    "type": "string",
-                    "description": "Display nip of customer."
-                },
-                "regon": {
-                    "type": "string",
-                    "description": "Display regon of customer."
-                },
-                "pesel": {
-                    "type": "string",
-                    "description": "Display pesel of customer."
-                },
-                "birth_date": {
-                    "type": "string",
-                    "description": "Display birth date of customer."
-                },
-                "birth_place": {
-                    "type": "string",
-                    "description": "Display birth place of customer."
-                },
-                "fathers_name": {
-                    "type": "string",
-                    "description": "Display fathers name of customer."
-                },
-                "mothers_name": {
-                    "type": "string",
-                    "description": "Display mothers name of customer."
-                },
-                "family_name": {
-                    "type": "string",
-                    "description": "Display family name of customer."
-                },
-                "citizenship": {
-                    "$ref": "#/definitions/Citizenship"
-                },
-                "phone": {
-                    "type": "string",
-                    "description": "Display phone of customer."
-                },
-                "fax": {
-                    "type": "string",
-                    "description": "Display fax of customer."
-                },
-                "email": {
-                    "type": "string",
-                    "description": "Display email of customer."
-                },
-                "note": {
-                    "type": "string",
-                    "description": "Display note of customer."
-                }
-            }
+        "name": {
+          "type": "string",
+          "description": "Display name of citizenship."
         },
-        "Division": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "Unique identifier representing a specific division."
-                },
-                "name": {
-                    "type": "string",
-                    "description": "Display name of division."
-                },
-                "english_name": {
-                    "type": "string",
-                    "description": "Display name of division for english."
-                },
-                "short_name": {
-                    "type": "string",
-                    "description": "Display short name of division."
-                },
-                "number_prefix": {
-                    "type": "string",
-                    "description": "Display prefix number for Certificate."
-                }
-            }
+        "short": {
+          "type": "string",
+          "description": "Display short name of citizenship."
+        }
+      }
+    },
+    "Customer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique identifier representing a specific customer."
         },
-        "Certificate": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "Unique identifier representing a specific certificate."
-                },
-                "number": {
-                    "type": "string",
-                    "description": "Display number of certificate."
-                },
-                "date_of_issue": {
-                    "type": "string",
-                    "description": "Date of issue of certificate."
-                },
-                "valid_thru": {
-                    "type": "string",
-                    "description": "Valid thru."
-                },
-                "note": {
-                    "type": "string",
-                    "description": "Note."
-                },
-                "category": {
-                    "type": "string",
-                    "description": "Certificate category. L - (LOT) aviation services, M - (MOR) marine services, R - (RA) amateur services."
-                },
-                "division": {
-                    "$ref": "#/definitions/Division"
-                },
-                "customer": {
-                    "$ref": "#/definitions/Customer"
-                },
-                "document_image": {
-                    "$ref": "#/definitions/document_image"
-                }
-            }
+        "human": {
+          "type": "boolean",
+          "description": "The Customer is a human?"
         },
-        "Exam": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "Unique identifier representing a specific exam."
-                },
-                "number": {
-                    "type": "string",
-                    "description": "Display number of certificate."
-                },
-                "date_exam": {
-                    "type": "string",
-                    "description": "Date of issue of certificate."
-                },
-                "place_exam": {
-                    "type": "string",
-                    "description": "Note."
-                },
-                "category": {
-                    "type": "string",
-                    "description": "Exam category. M - (MOR) marine services, R - (RA) amateur services."
-                },
-                "province_id": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "Province identifier"
-                },
-                "examinations_count": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "Current registered examinations"
-                },
-                "max_examinations": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "Maximum examinations"
-                },
-                "fullname": {
-                    "type": "string",
-                    "description": "Fullname for Exam"
-                }
-            }
+        "name": {
+          "type": "string",
+          "description": "Display name of customer."
         },
-        "Division": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "Unique identifier representing a specific division."
-                },
-                "name": {
-                    "type": "string",
-                    "description": "Display name of division."
-                },
-                "english_name": {
-                    "type": "string",
-                    "description": "Display english name of division."
-                },
-                "short_name": {
-                    "type": "string",
-                    "description": "Display short name of division."
-                },
-                "number_prefix": {
-                    "type": "string",
-                    "description": "Display number_prefix of division."
-                },
-                "category": {
-                    "type": "string",
-                    "description": "Division category. M - (MOR) marine services, R - (RA) amateur services."
-                },
-                "fullname": {
-                    "type": "string",
-                    "description": "Fullname for Exam"
-                }
-            }
+        "given_names": {
+          "type": "string",
+          "description": "Display given names of customer."
         },
-        "user": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string",
-                    "description": "Name of the NETPAR2015 user."
-                },
-                "email": {
-                    "type": "string",
-                    "description": "Email address of the NETPAR2015 user"
-                },
-                "authentication_token": {
-                    "type": "string",
-                    "description": "authentication token of the NETPAR2015 user."
-                }
-            }
+        "address_city": {
+          "type": "string",
+          "description": "Display address city of customer."
+        },
+        "address_street": {
+          "type": "string",
+          "description": "Display address street of customer."
+        },
+        "address_house": {
+          "type": "string",
+          "description": "Display address house of customer."
+        },
+        "address_number": {
+          "type": "string",
+          "description": "Display address number of customer."
+        },
+        "address_postal_code": {
+          "type": "string",
+          "description": "Display address postal code of customer."
+        },
+        "address_post_office": {
+          "type": "string",
+          "description": "Display address post office of customer."
+        },
+        "address_pobox": {
+          "type": "string",
+          "description": "Display address post office box of division."
+        },
+        "c_address_city": {
+          "type": "string",
+          "description": "Display address city of correspondence address for customer."
+        },
+        "c_address_street": {
+          "type": "string",
+          "description": "Display address street of correspondence address for customer."
+        },
+        "c_address_house": {
+          "type": "string",
+          "description": "Display address house of correspondence address for customer."
+        },
+        "c_address_number": {
+          "type": "string",
+          "description": "Display address number of correspondence address for customer."
+        },
+        "c_address_postal_code": {
+          "type": "string",
+          "description": "Display address postal code of correspondence address for customer."
+        },
+        "c_address_post_office": {
+          "type": "string",
+          "description": "Display address post office of correspondence address for customer."
+        },
+        "c_address_pobox": {
+          "type": "string",
+          "description": "Display address post office box of correspondence address for customer."
+        },
+        "nip": {
+          "type": "string",
+          "description": "Display nip of customer."
+        },
+        "regon": {
+          "type": "string",
+          "description": "Display regon of customer."
+        },
+        "pesel": {
+          "type": "string",
+          "description": "Display pesel of customer."
+        },
+        "birth_date": {
+          "type": "string",
+          "description": "Display birth date of customer."
+        },
+        "birth_place": {
+          "type": "string",
+          "description": "Display birth place of customer."
+        },
+        "fathers_name": {
+          "type": "string",
+          "description": "Display fathers name of customer."
+        },
+        "mothers_name": {
+          "type": "string",
+          "description": "Display mothers name of customer."
+        },
+        "family_name": {
+          "type": "string",
+          "description": "Display family name of customer."
+        },
+        "citizenship": {
+          "$ref": "#/definitions/Citizenship"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Display phone of customer."
+        },
+        "fax": {
+          "type": "string",
+          "description": "Display fax of customer."
+        },
+        "email": {
+          "type": "string",
+          "description": "Display email of customer."
+        },
+        "note": {
+          "type": "string",
+          "description": "Display note of customer."
+        }
+      }
+    },
+    "Division": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique identifier representing a specific division."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of division."
+        },
+        "english_name": {
+          "type": "string",
+          "description": "Display english name of division."
+        },
+        "short_name": {
+          "type": "string",
+          "description": "Display short name of division."
+        },
+        "number_prefix": {
+          "type": "string",
+          "description": "Display number_prefix of division."
+        },
+        "category": {
+          "type": "string",
+          "description": "Division category. M - (MOR) marine services, R - (RA) amateur services."
+        },
+        "fullname": {
+          "type": "string",
+          "description": "Fullname for Exam"
+        }
+      }
+    },
+    "Certificate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique identifier representing a specific certificate."
+        },
+        "number": {
+          "type": "string",
+          "description": "Display number of certificate."
+        },
+        "date_of_issue": {
+          "type": "string",
+          "description": "Date of issue of certificate."
+        },
+        "valid_thru": {
+          "type": "string",
+          "description": "Valid thru."
+        },
+        "note": {
+          "type": "string",
+          "description": "Note."
+        },
+        "category": {
+          "type": "string",
+          "description": "Certificate category. L - (LOT) aviation services, M - (MOR) marine services, R - (RA) amateur services."
+        },
+        "division": {
+          "$ref": "#/definitions/Division"
+        },
+        "customer": {
+          "$ref": "#/definitions/Customer"
         },
         "document_image": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "Unique identifier a specific attachment file."
-                },
-                "filename": {
-                    "type": "string",
-                    "description": "Name of attachment file."
-                },
-                "content_type": {
-                    "type": "string",
-                    "description": "Type of attachment file."
-                },
-                "size": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "Size of attachment file."
-                },
-                "url": {
-                    "type": "string",
-                    "description": "url of attachment file."
-                }
-            }
-        },
-        "LoginParams": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "Error": {
-            "type": "object",
-            "properties": {
-                "error": {
-                    "type": "string"
-                }
-            }
+          "$ref": "#/definitions/document_image"
         }
+      }
+    },
+    "Exam": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique identifier representing a specific exam."
+        },
+        "number": {
+          "type": "string",
+          "description": "Display number of certificate."
+        },
+        "date_exam": {
+          "type": "string",
+          "description": "Date of issue of certificate."
+        },
+        "place_exam": {
+          "type": "string",
+          "description": "Note."
+        },
+        "category": {
+          "type": "string",
+          "description": "Exam category. M - (MOR) marine services, R - (RA) amateur services."
+        },
+        "province_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Province identifier"
+        },
+        "examinations_count": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Current registered examinations"
+        },
+        "max_examinations": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Maximum examinations"
+        },
+        "fullname": {
+          "type": "string",
+          "description": "Fullname for Exam"
+        }
+      }
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the NETPAR2015 user."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the NETPAR2015 user"
+        },
+        "authentication_token": {
+          "type": "string",
+          "description": "authentication token of the NETPAR2015 user."
+        }
+      }
+    },
+    "token": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "User token."
+        }
+      }
+    },
+    "document_image": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique identifier a specific attachment file."
+        },
+        "filename": {
+          "type": "string",
+          "description": "Name of attachment file."
+        },
+        "content_type": {
+          "type": "string",
+          "description": "Type of attachment file."
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Size of attachment file."
+        },
+        "url": {
+          "type": "string",
+          "description": "url of attachment file."
+        }
+      }
+    },
+    "LoginParams": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      }
     }
+  }
 }

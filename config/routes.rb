@@ -175,6 +175,9 @@ Rails.application.routes.draw do
         get 'mor', on: :collection
         get 'ra', on: :collection
       end
+      get :token, controller: 'base_api'
+
+
       devise_scope :user do
         post 'sessions' => 'sessions#create' #, :as => 'login'
         delete 'sessions' => 'sessions#destroy' #, :as => 'logout'

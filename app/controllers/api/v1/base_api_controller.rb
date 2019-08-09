@@ -2,12 +2,14 @@ module Api
   module V1
     class BaseApiController < ApplicationController
 
+      before_action :authenticate_system_from_token, except: [:token]
+
       include Authenticable
 
-      protect_from_forgery with: :null_session
+      # protect_from_forgery with: :null_session
 
-      before_action :destroy_session
-      before_action :restricted_area
+      # before_action :destroy_session
+      # before_action :restricted_area
 
       def destroy_session
         request.session_options[:skip] = true

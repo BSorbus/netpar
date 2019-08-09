@@ -4,6 +4,7 @@ class CreateProposals < ActiveRecord::Migration
       t.integer :status,                        null: false, index: true
       t.string :category,                       limit: 1, null: false, index: true
       t.references :user, foreign_key: true
+      t.integer :external_user_id
       # customer
       #t.boolean :human,                           null: false, default: true
       t.string :name,                       limit: 160, default: "",   null: false
@@ -39,7 +40,7 @@ class CreateProposals < ActiveRecord::Migration
       #t.string :c_address_post_office,            limit: 50, default: ""
       #t.string :c_address_pobox,                  limit: 10, default: ""
       #t.integer  "c_address_teryt_pna_code_id"
-      # Eeexam
+      # Exam
       t.integer :esod_category
       #t.string   "examination_category",        limit: 1, default: "Z",   null: false
       t.integer :exam_id

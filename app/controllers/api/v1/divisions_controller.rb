@@ -1,7 +1,6 @@
 require 'esodes'
 
 class Api::V1::DivisionsController < Api::V1::BaseApiController
-  before_action :authenticate_with_token!#, only: [:update, :destroy]
 
   respond_to :json
 
