@@ -163,20 +163,14 @@ Rails.application.routes.draw do
         get 'all_search_by_customer_pesel', on: :collection
         get 'mor_search_by_multi_params', on: :collection
       end
-      resources :exams, only: [:show] do
-        get 'lot', on: :collection
-        get 'mor', on: :collection
-        get 'ra', on: :collection
-        get 'mor_next_and_free', on: :collection
-        get 'ra_next_and_free', on: :collection
+      resources :exams, only: [:index, :show]
+      resources :exam_fees, only: [:show] do
+        get 'find', on: :collection
       end
-      resources :divisions, only: [:show] do
-        get 'lot', on: :collection
-        get 'mor', on: :collection
-        get 'ra', on: :collection
-      end
-      get :token, controller: 'base_api'
+      resources :divisions, only: [:index, :show]
+      resources :proposals, param: :multi_app_identifier, except: [:new, :edit]
 
+      get :token, controller: 'base_api'
 
       devise_scope :user do
         post 'sessions' => 'sessions#create' #, :as => 'login'

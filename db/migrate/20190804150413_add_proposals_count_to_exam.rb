@@ -1,6 +1,6 @@
 class AddProposalsCountToExam < ActiveRecord::Migration
   def up
-    add_column :exams, :proposals_count, :integer, default: 0
+    add_column :exams, :proposals_important_count, :integer, default: 0
 
 #    Exam.reset_column_information
 #    Exam.all.each do |e|
@@ -9,7 +9,7 @@ class AddProposalsCountToExam < ActiveRecord::Migration
   end
 
   def down
-    remove_column :exams, :proposals_count
+    remove_column :exams, :proposals_important_count
   end
 
 end

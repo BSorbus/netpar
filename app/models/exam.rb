@@ -76,6 +76,10 @@ class Exam < ActiveRecord::Base
     self.esod_matters.order(:id).flat_map {|row| row.znak }.join(' <br>').html_safe
   end
 
+  def refresh_proposals_important_count
+    update(proposals_important_count: proposals.where.not(status: Proposal::PROPOSAL_NOT_APPROVED).size)
+  end
+
   def exam_has_examinations
     analize_value = true
     if self.examinations.any? 

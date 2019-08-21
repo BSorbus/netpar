@@ -413,7 +413,7 @@ pl:
         examiners: "Członek Komisji"
         examinations_count: "Egzaminowani"
         certificates_count: "Świadectwa"
-        proposals_count: "Zgłoszenia"
+        proposals_important_count: "Zgłoszenia"
         province_id: "Województwo"
         province_name: "Województwo"
         max_examinations: "Max miejsc"

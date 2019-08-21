@@ -1,4 +1,6 @@
 class Division < ActiveRecord::Base
+  has_many :proposals  
+  has_many :exam_fees  
   has_many :certificates  
   has_many :subjects, dependent: :destroy  
 

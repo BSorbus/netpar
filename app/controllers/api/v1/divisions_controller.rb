@@ -1,9 +1,23 @@
-require 'esodes'
-
 class Api::V1::DivisionsController < Api::V1::BaseApiController
+
+  DIVISION_R_A = 18
+  DIVISION_R_B = 19
+  DIVISION_R_C = 20
+  DIVISION_R_D = 21
 
   respond_to :json
 
+  def index
+    case params[:category]
+    when 'L', 'M'
+      divisions = Division.where(category: params[:category]).order(:name)
+    when 'R'
+      divisions = Division.where(category: params[:category]).where.not(id: [DIVISION_R_B, DIVISION_R_D]).order(:name)      
+    end
+
+    render status: :ok,
+           json: divisions, meta: {total_count: divisions.count}
+  end
 
   def show
     #authorize :exam, :show?
@@ -13,40 +27,7 @@ class Api::V1::DivisionsController < Api::V1::BaseApiController
     else
       render status: :not_found,
              json: { error: "Brak rekordu dla Division.where(id: #{params[:id]})" }
-
     end
   end
-
-  def lot
-    #authorize :exam, :index_l?
-
-    divisions = Division.where(category: "L").order(:name)
-
-    render status: :ok,
-           json: divisions, meta: {total_count: divisions.count}
-
-  end
-
-  def mor
-    #authorize :exam, :index_l?
-
-    divisions = Division.where(category: "M").order(:name)
-
-    render status: :ok,
-           json: divisions, meta: {total_count: divisions.count}
-
-  end
-
-  def ra
-    #authorize :exam, :index_l?
-
-    divisions = Division.where(category: "R").order(:name)
-
-    render status: :ok,
-           json: divisions, meta: {total_count: divisions.count}
-
-  end
-
-
 
 end

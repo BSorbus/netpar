@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190804150413) do
+ActiveRecord::Schema.define(version: 20190818220136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(version: 20190804150413) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
+
+  add_index "api_keys", ["name"], name: "index_api_keys_on_name", unique: true, using: :btree
 
   create_table "certificates", force: :cascade do |t|
     t.string   "number",             limit: 30, default: "",    null: false
@@ -148,6 +150,7 @@ ActiveRecord::Schema.define(version: 20190804150413) do
     t.datetime "updated_at",                            null: false
     t.string   "short_name"
     t.string   "number_prefix"
+    t.integer  "min_years_old",           default: 0
   end
 
   add_index "divisions", ["english_name", "category"], name: "index_divisions_on_english_name_and_category", unique: true, using: :btree
@@ -388,6 +391,16 @@ ActiveRecord::Schema.define(version: 20190804150413) do
   add_index "esod_outgoing_letters_matters", ["esod_outgoing_letter_id", "esod_matter_id"], name: "esod_outgoing_letters_matters_outgoing_letter_matter", unique: true, using: :btree
   add_index "esod_outgoing_letters_matters", ["esod_outgoing_letter_id"], name: "index_esod_outgoing_letters_matters_on_esod_outgoing_letter_id", using: :btree
 
+  create_table "exam_fees", force: :cascade do |t|
+    t.integer  "division_id"
+    t.integer  "esod_category"
+    t.decimal  "price",         precision: 8, scale: 2
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+  end
+
+  add_index "exam_fees", ["division_id", "esod_category"], name: "index_exam_fees_on_division_id_and_esod_category", unique: true, using: :btree
+
   create_table "examinations", force: :cascade do |t|
     t.string   "examination_category", limit: 1, default: "Z",   null: false
     t.integer  "division_id"
@@ -420,23 +433,23 @@ ActiveRecord::Schema.define(version: 20190804150413) do
   add_index "examiners", ["exam_id"], name: "index_examiners_on_exam_id", using: :btree
 
   create_table "exams", force: :cascade do |t|
-    t.string   "number",             limit: 30, default: "",  null: false
+    t.string   "number",                    limit: 30, default: "",  null: false
     t.date     "date_exam"
-    t.string   "place_exam",         limit: 50, default: ""
-    t.string   "chairman",           limit: 50, default: ""
-    t.string   "secretary",          limit: 50, default: ""
-    t.string   "category",           limit: 1,  default: "R", null: false
-    t.text     "note",                          default: ""
+    t.string   "place_exam",                limit: 50, default: ""
+    t.string   "chairman",                  limit: 50, default: ""
+    t.string   "secretary",                 limit: 50, default: ""
+    t.string   "category",                  limit: 1,  default: "R", null: false
+    t.text     "note",                                 default: ""
     t.integer  "user_id"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-    t.integer  "examinations_count",            default: 0
-    t.integer  "certificates_count",            default: 0
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+    t.integer  "examinations_count",                   default: 0
+    t.integer  "certificates_count",                   default: 0
     t.integer  "esod_category"
     t.integer  "province_id"
     t.integer  "max_examinations"
-    t.string   "province_name",      limit: 50, default: ""
-    t.integer  "proposals_count",               default: 0
+    t.string   "province_name",             limit: 50, default: ""
+    t.integer  "proposals_important_count",            default: 0
   end
 
   add_index "exams", ["category"], name: "index_exams_on_category", using: :btree
@@ -522,40 +535,45 @@ ActiveRecord::Schema.define(version: 20190804150413) do
   add_index "pna_codes", ["wojewodztwo"], name: "index_pna_codes_on_wojewodztwo", using: :btree
 
   create_table "proposals", force: :cascade do |t|
-    t.integer  "status",                                         null: false
-    t.string   "category",              limit: 1,                null: false
+    t.uuid     "multi_app_identifier",                                                    null: false
+    t.integer  "status",                                                                  null: false
+    t.string   "category",              limit: 1,                                         null: false
     t.integer  "user_id"
-    t.integer  "external_user_id"
-    t.string   "name",                  limit: 160, default: "", null: false
-    t.string   "given_names",           limit: 50,  default: "", null: false
-    t.string   "pesel",                 limit: 11,  default: ""
+    t.integer  "creator_id"
+    t.string   "name",                  limit: 160,                         default: "",  null: false
+    t.string   "given_names",           limit: 50,                          default: "",  null: false
+    t.string   "pesel",                 limit: 11,                          default: ""
     t.date     "birth_date"
-    t.string   "birth_place",           limit: 50,  default: ""
-    t.string   "phone",                 limit: 50,  default: ""
-    t.string   "email",                 limit: 50,  default: "", null: false
-    t.string   "address_city",          limit: 50,  default: "", null: false
-    t.string   "address_street",        limit: 50,  default: ""
-    t.string   "address_house",         limit: 10,  default: ""
-    t.string   "address_number",        limit: 10,  default: ""
-    t.string   "address_postal_code",   limit: 10,  default: ""
-    t.string   "c_address_city",        limit: 50,  default: ""
-    t.string   "c_address_street",      limit: 50,  default: ""
-    t.string   "c_address_house",       limit: 10,  default: ""
-    t.string   "c_address_number",      limit: 10,  default: ""
-    t.string   "c_address_postal_code", limit: 10,  default: ""
+    t.string   "birth_place",           limit: 50,                          default: ""
+    t.string   "phone",                 limit: 50,                          default: ""
+    t.string   "email",                 limit: 50,                          default: "",  null: false
+    t.string   "address_city",          limit: 50,                          default: "",  null: false
+    t.string   "address_street",        limit: 50,                          default: ""
+    t.string   "address_house",         limit: 10,                          default: ""
+    t.string   "address_number",        limit: 10,                          default: ""
+    t.string   "address_postal_code",   limit: 10,                          default: ""
+    t.string   "c_address_city",        limit: 50,                          default: ""
+    t.string   "c_address_street",      limit: 50,                          default: ""
+    t.string   "c_address_house",       limit: 10,                          default: ""
+    t.string   "c_address_number",      limit: 10,                          default: ""
+    t.string   "c_address_postal_code", limit: 10,                          default: ""
     t.integer  "esod_category"
     t.integer  "exam_id"
     t.string   "exam_fullname"
     t.date     "date_exam"
     t.integer  "division_id"
     t.string   "division_fullname"
+    t.integer  "exam_fee_id"
+    t.decimal  "exam_fee_price",                    precision: 8, scale: 2, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "proposals", ["category"], name: "index_proposals_on_category", using: :btree
+  add_index "proposals", ["multi_app_identifier"], name: "index_proposals_on_multi_app_identifier", using: :btree
   add_index "proposals", ["pesel"], name: "index_proposals_on_pesel", using: :btree
   add_index "proposals", ["status"], name: "index_proposals_on_status", using: :btree
+  add_index "proposals", ["user_id"], name: "index_proposals_on_user_id", using: :btree
 
   create_table "refile_attachments", force: :cascade do |t|
     t.integer  "oid",        null: false
@@ -777,6 +795,7 @@ ActiveRecord::Schema.define(version: 20190804150413) do
   add_foreign_key "esod_matters", "exams"
   add_foreign_key "esod_outgoing_letters_matters", "esod_matters"
   add_foreign_key "esod_outgoing_letters_matters", "esod_outgoing_letters"
+  add_foreign_key "exam_fees", "divisions"
   add_foreign_key "examinations", "certificates"
   add_foreign_key "examinations", "customers"
   add_foreign_key "examinations", "divisions"
@@ -787,7 +806,6 @@ ActiveRecord::Schema.define(version: 20190804150413) do
   add_foreign_key "grades", "examinations"
   add_foreign_key "grades", "subjects"
   add_foreign_key "grades", "users"
-  add_foreign_key "proposals", "users"
   add_foreign_key "subjects", "divisions"
   add_foreign_key "users", "departments"
 end
