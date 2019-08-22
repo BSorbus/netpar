@@ -117,7 +117,7 @@ class Exam < ActiveRecord::Base
   # * result   :
   #   * +scope+ -> collection 
   #
-  scope :finder_exam, ->(q, category, date_exam_min = nil, esod_category = nil) { where( create_sql_string("#{q}", "#{category}", "#{date_exam_min}", "#{esod_category}") ) }
+  scope :finder_exam, ->(q, category) { where( create_sql_string("#{q}", "#{category}") ) }
 
   # Method create SQL query string for finder select2: "exam_select"
   # * parameters   :
@@ -127,15 +127,12 @@ class Exam < ActiveRecord::Base
   # * result   :
   #   * +sql_string+ -> string for SQL WHERE... 
   #
-  def self.create_sql_string(query_str, category_scope, date_exam_min, esod_category)
+  def self.create_sql_string(query_str, category_scope)
     if query_str.blank?
       str_sql = "(exams.category = '#{category_scope}')"
     else
       str_sql = "(exams.category = '#{category_scope}') AND " + query_str.split.map { |par| one_param_sql(par) }.join(" AND ")
     end
-
-    str_sql += " AND (exams.date_exam >= '#{date_exam_min}')" unless date_exam_min.blank? 
-    str_sql += " AND (exams.esod_category = #{esod_category})" unless esod_category.blank? 
 
     return str_sql
   end

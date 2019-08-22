@@ -10,7 +10,11 @@ class Api::V1::ExamsController < Api::V1::BaseApiController
     params[:page] = params[:page]
     params[:page_limit] = params[:page_limit]
     date_exam_min = (Time.zone.today + 14.days).strftime("%Y-%m-%d")
-    @exams = Exam.order(:date_exam, :number).finder_exam(params[:q], params[:category], "#{date_exam_min}", Esodes::SESJA)
+
+    # Pokaż tylko sesje typu EGZAMIN, które będą nie wcześniej niż za 14 dni oraz dla których są wolne miejsca
+    extend_condition = "(exams.esod_category = #{Esodes::SESJA}) AND (exams.date_exam >= '#{date_exam_min}') AND (examinations_count + proposals_important_count < max_examinations)" 
+
+    @exams = Exam.where("#{extend_condition}").order(:date_exam, :number).finder_exam(params[:q], params[:category])
     @exams_on_page = @exams.page(params[:page]).per(params[:page_limit])
 
     render status: :ok,
