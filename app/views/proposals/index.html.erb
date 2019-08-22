@@ -1,0 +1,34 @@
+<div class="col-sm-12">
+  <div class="row">
+    <h3 class="center">
+      <span class="glyphicon glyphicon-proposal glyp-index-title" aria-hidden="true"></span>
+      <span class="index-title"><%= t "pages.proposal_#{params[:category_service]}.index.title" %></span>
+    </h3>
+  </div> <!--/row -->
+</div> <!--/col-sm-12 -->
+
+
+<div class="col-sm-12">
+  <table id="proposals" class="hover cell-border" width="100%" data-source="<%= datatables_index_proposals_path(format: :json) %>">
+    <thead>
+      <tr>
+          <th> 0 ID </th>
+          <th> 1 Name</th>
+          <th> 2 Given names</th>
+          <th> 3 Pesel</th>
+          <th> 4 Birth date</th>
+          <th> 5 City address</th>
+          <th> 6 division.name</th>
+          <th> 7 exam.number</th>
+          <th> 8 proposal_status.name</th>
+          <th> 9 Category</th>
+          <th>10 Akcje</th>
+      </tr>
+    </thead>
+
+    <tbody>
+       <!--data from JSON -->
+    </tbody>
+  </table>
+</div> <!--/col-sm-12 -->
+

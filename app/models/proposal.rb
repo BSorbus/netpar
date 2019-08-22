@@ -2,12 +2,7 @@
 
 class Proposal < ActiveRecord::Base
 
-  PROPOSAL_CREATED = 1
-  PROPOSAL_APPROVED = 2
-  PROPOSAL_NOT_APPROVED = 3
-  PROPOSAL_PAYED = 4
-  PROPOSAL_CLOSED = 5
-
+  belongs_to :proposal_status
   belongs_to :division
   belongs_to :exam_fee
 #  belongs_to :exam, counter_cache: proposals_important_count
@@ -25,12 +20,13 @@ class Proposal < ActiveRecord::Base
 #  validates_associated :grades
 
   # validates
-  #validates :multi_app_identifier, presence: true
-  #validates :category, presence: true, inclusion: { in: %w(M R) }
-  #validates :division, presence: true
-  #validates :exam_fee, presence: true
+  validates :multi_app_identifier, presence: true
+  validates :category, presence: true, inclusion: { in: %w(M R) }
+  validates :proposal_status, presence: true
+  validates :division, presence: true
+  validates :exam_fee, presence: true
+  validates :exam, presence: true
 #  validates :customer, presence: true
-  #validates :exam, presence: true
 #  validates :user, presence: true
 #  validates :esod_matter, uniqueness: { case_sensitive: false, scope: [:examination_result] }, allow_blank: true
 #  validates :esod_category, presence: true, inclusion: { in: Esodes::ALL_CATEGORIES_EXAMINATIONS }

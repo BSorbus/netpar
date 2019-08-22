@@ -59,6 +59,21 @@
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=t "link_to.exams" %> <span class="caret"></span></a>
 
     <ul class="dropdown-menu">
+      <% if policy(:proposal).index_m? %>
+        <li><%= link_to proposals_path(category_service: "m") do %>
+          <span class="glyphicon glyphicon-import"></span>&nbsp;<%=t "link_to.proposals_m" %>
+          <% end %>
+        </li>
+      <% end %>
+      <% if policy(:proposal).index_r? %>
+        <li><%= link_to proposals_path(category_service: "r") do %>
+          <span class="glyphicon glyphicon-import"></span>&nbsp;<%=t "link_to.proposals_r" %>
+          <% end %>
+        </li>
+      <% end %>
+
+      <li class="divider"></li>
+
       <% if policy(:exam).index_l? %>
         <li><%= link_to exams_path(category_service: "l") do %>
           <span class="glyphicon glyphicon-education"></span>&nbsp;<%=t "link_to.exams_l" %>

@@ -534,9 +534,15 @@ ActiveRecord::Schema.define(version: 20190818220136) do
   add_index "pna_codes", ["powiat"], name: "index_pna_codes_on_powiat", using: :btree
   add_index "pna_codes", ["wojewodztwo"], name: "index_pna_codes_on_wojewodztwo", using: :btree
 
+  create_table "proposal_statuses", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "proposals", force: :cascade do |t|
     t.uuid     "multi_app_identifier",                                                    null: false
-    t.integer  "status",                                                                  null: false
+    t.integer  "proposal_status_id"
     t.string   "category",              limit: 1,                                         null: false
     t.integer  "user_id"
     t.integer  "creator_id"
@@ -570,9 +576,12 @@ ActiveRecord::Schema.define(version: 20190818220136) do
   end
 
   add_index "proposals", ["category"], name: "index_proposals_on_category", using: :btree
+  add_index "proposals", ["division_id"], name: "index_proposals_on_division_id", using: :btree
+  add_index "proposals", ["exam_fee_id"], name: "index_proposals_on_exam_fee_id", using: :btree
+  add_index "proposals", ["exam_id"], name: "index_proposals_on_exam_id", using: :btree
   add_index "proposals", ["multi_app_identifier"], name: "index_proposals_on_multi_app_identifier", using: :btree
   add_index "proposals", ["pesel"], name: "index_proposals_on_pesel", using: :btree
-  add_index "proposals", ["status"], name: "index_proposals_on_status", using: :btree
+  add_index "proposals", ["proposal_status_id"], name: "index_proposals_on_proposal_status_id", using: :btree
   add_index "proposals", ["user_id"], name: "index_proposals_on_user_id", using: :btree
 
   create_table "refile_attachments", force: :cascade do |t|
@@ -806,6 +815,10 @@ ActiveRecord::Schema.define(version: 20190818220136) do
   add_foreign_key "grades", "examinations"
   add_foreign_key "grades", "subjects"
   add_foreign_key "grades", "users"
+  add_foreign_key "proposals", "divisions"
+  add_foreign_key "proposals", "exam_fees"
+  add_foreign_key "proposals", "exams"
+  add_foreign_key "proposals", "proposal_statuses"
   add_foreign_key "subjects", "divisions"
   add_foreign_key "users", "departments"
 end

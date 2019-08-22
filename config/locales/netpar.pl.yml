@@ -134,15 +134,12 @@ pl:
     examination_r:
       index:
         title: 'Sesje RA'
-    proposal_l:
-      index:
-        title: 'Zgłoszenia LOT'
     proposal_m:
       index:
-        title: 'Zgłoszenia MOR'
+        title: 'Elektroniczne Zgłoszenia MOR'
     proposal_r:
       index:
-        title: 'Zgłoszenia RA'
+        title: 'Elektroniczne Zgłoszenia RA'
     work:
       index:
         title: 'Operacje'
@@ -194,7 +191,10 @@ pl:
     charts_certificates_l: 'Wykresy LOT'
     charts_certificates_m: 'Wykresy MOR'
     charts_certificates_r: 'Wykresy RA'
-    exams: 'Sesje'
+    proposals: 'Elektroniczne Zgłoszenia'
+    proposals_m: 'Elektroniczne Zgłoszenia MOR'
+    proposals_r: 'Elektroniczne Zgłoszenia RA'
+    exams: 'Sesje i Zgłoszenia'
     exams_l: 'Sesje LOT'
     exams_m: 'Sesje MOR'
     exams_r: 'Sesje RA'
@@ -401,6 +401,21 @@ pl:
         category: 'Kategoria'
         note: 'Uwagi'
         flat_all_esod_matters: 'ESOD'
+      proposal:
+        name: 'Nazwisko'
+        given_names: 'Imiona'
+        pesel: 'Pesel'
+        birth_date: 'Data urodzenia'
+        birth_place: 'Miejsce urodzenia'
+        address_city: 'Miejscowość'
+        esod_category: 'Rodzaj wniosku'
+        division_id: 'Typ świadectwa'
+        division: 'Typ świadectwa'
+        exam_id: 'Sesja egzaminacyjna'
+        exam: 'Sesja egzaminacyjna'
+        proposal_status_id: 'Status'
+        proposal_status: 'Status'
+        category: 'Kategoria'
       exam:
         esod_category: 'Rodzaj sesji'
         number: 'Numer'

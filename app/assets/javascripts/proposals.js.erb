@@ -1,0 +1,132 @@
+$(document).ready(function() {
+  var oProposalTable = $('#proposals').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    ajax: { 
+      url: $('#proposals').data('source'),
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
+    columns: [
+      { "targets": [0],
+        "title": "ID",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [1],
+        "title": "<%= Proposal.human_attribute_name('name') %>" }, 
+      { "targets": [2],
+        "title": "<%= Proposal.human_attribute_name('given_names') %>" }, 
+      { "targets": [3],
+        "title": "<%= Proposal.human_attribute_name('pesel') %>" }, 
+      { "targets": [4],
+        "title": "<%= Proposal.human_attribute_name('birth_date') %>" }, 
+      { "targets": [5],
+        "title": "<%= Proposal.human_attribute_name('address_city') %>" }, 
+      { "targets": [6],
+        "title": "<%= Proposal.human_attribute_name('division_id') %>" }, 
+      { "targets": [7],
+        "title": "<%= Proposal.human_attribute_name('exam_id') %>" }, 
+      { "targets": [8],
+        "title": "<%= Proposal.human_attribute_name('proposal_status_id') %>" }, 
+      { "targets": [9],
+        "title": "<%= Proposal.human_attribute_name('category') %>",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [10],
+        "title": "Akcje",
+        "searchable": false,
+        "sortable": false } 
+    ],
+    order: [[ 1, "desc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+ 
+
+  var oExamProposalsTable = $('#exam-proposals').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    ajax: { 
+      url: $('#exam-proposals').data('source'),
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    iDisplayLength: -1,
+    columns: [
+      { "targets": [0],
+        "title": "ID",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [1],
+        "title": "<%= Proposal.human_attribute_name('name') %>" }, 
+      { "targets": [2],
+        "title": "<%= Proposal.human_attribute_name('given_names') %>" }, 
+      { "targets": [3],
+        "title": "<%= Proposal.human_attribute_name('pesel') %>" }, 
+      { "targets": [4],
+        "title": "<%= Proposal.human_attribute_name('birth_date') %>" }, 
+      { "targets": [5],
+        "title": "<%= Proposal.human_attribute_name('address_city') %>" }, 
+      { "targets": [6],
+        "title": "<%= Proposal.human_attribute_name('division_id') %>" }, 
+      { "targets": [7],
+        "title": "<%= Proposal.human_attribute_name('status') %>" }, 
+      { "targets": [8],
+        "title": "<%= Proposal.human_attribute_name('category') %>",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [9],
+        "title": "Akcje",
+        "searchable": false,
+        "sortable": false } 
+    ],
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#collapse_proposals" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
+    order: [[ 1, "desc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+  // jezeli nastepuje wyswietlenie panelu, to zaladuj dane
+  $('#collapse_proposals').on('shown.bs.collapse', function (){
+  //  Wykomentowalem wiersz ponizej poniewaz powoduje podwojne pobieranie danych    
+  //  oExamProposalsTable.ajax.reload();
+    oExamProposalsTable.draw();
+  });
+
+ 
+  
+});
+

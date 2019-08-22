@@ -2,7 +2,7 @@ class CreateProposals < ActiveRecord::Migration
   def change
     create_table :proposals do |t|
       t.uuid :multi_app_identifier,         null: false, index: true
-      t.integer :status,                    null: false, index: true
+      t.references :proposal_status, index: true, foreign_key: true
       t.string :category,                   limit: 1, null: false, index: true
       t.references :user, index: true
       t.integer :creator_id
@@ -27,12 +27,12 @@ class CreateProposals < ActiveRecord::Migration
       t.string :c_address_postal_code,      limit: 10, default: ""
       # Exam
       t.integer :esod_category
-      t.integer :exam_id
+      t.references :exam, index: true, foreign_key: true
       t.string :exam_fullname
       t.date :date_exam
-      t.integer :division_id
+      t.references :division, index: true, foreign_key: true
       t.string :division_fullname
-      t.integer :exam_fee_id
+      t.references :exam_fee, index: true, foreign_key: true
       t.decimal :exam_fee_price, precision: 8, scale: 2, default: 0.00
 
       t.timestamps
