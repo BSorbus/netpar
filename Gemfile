@@ -27,6 +27,7 @@ group :development do
   gem 'spring-commands-rspec'
   gem 'brakeman', require: false
   gem 'nokogiri', '1.7.0.1', require: false
+  #gem "nokogiri", '~> 1.10.4', require: false
 end
 group :development, :test do
   gem 'byebug'
