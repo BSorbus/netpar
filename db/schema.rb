@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190818220136) do
+ActiveRecord::Schema.define(version: 20190818220137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -145,12 +145,13 @@ ActiveRecord::Schema.define(version: 20190818220136) do
   create_table "divisions", force: :cascade do |t|
     t.string   "name"
     t.string   "english_name"
-    t.string   "category",      limit: 1, default: "R", null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.string   "category",            limit: 1, default: "R",   null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.string   "short_name"
     t.string   "number_prefix"
-    t.integer  "min_years_old",           default: 0
+    t.integer  "min_years_old",                 default: 0
+    t.boolean  "face_image_required",           default: false
   end
 
   add_index "divisions", ["english_name", "category"], name: "index_divisions_on_english_name_and_category", unique: true, using: :btree
