@@ -66,8 +66,8 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
         :name, :given_names, :pesel, :birth_date, :birth_place, :phone, :email,
         :address_city, :address_street, :address_house, :address_number, :address_postal_code,
         :c_address_city, :c_address_street, :c_address_house, :c_address_number, :c_address_postal_code,
-        :esod_category, :exam_id, :exam_fullname, :date_exam, :division_id, :division_fullname, :exam_fee_id, :exam_fee_price )
+        :esod_category, :exam_id, :exam_fullname, :date_exam, :division_id, :division_fullname, 
+        :exam_fee_id, :exam_fee_price, :face_image_blob_url, :bank_pdf_blob_url )
     end
 
 end
-
