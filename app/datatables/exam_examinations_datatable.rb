@@ -64,7 +64,7 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
         link_to(' ', @view.examination_path(record.category.downcase, record, back_url: @view.exam_path(record.exam.category.downcase, record.exam)), 
                         method: :delete, 
                         data: { confirm: "Czy na pewno chcesz usunąć ten wpis?" }, 
-                        class: "glyphicon glyphicon-trash", title: 'Usuń', rel: 'tooltip')  
+                        class: "glyphicon glyphicon-trash text-danger", title: 'Usuń', rel: 'tooltip')  
 
       ]
     end

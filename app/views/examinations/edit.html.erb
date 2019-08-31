@@ -5,7 +5,9 @@
     <div class="panel panel-examination">
       <div class="panel-heading">
         <div class="panel-title">
-	        <span class="glyphicon glyphicon-check">&nbsp;<%=t "pages.examination.edit.title"%>:&nbsp;<%= @examination.fullname %></span>    
+          <span class='<%= t("pages.examination.model_icon") %>'></span>
+          <span class='<%= t("pages.examination_#{params[:category_service]}.model_icon") %>'>&nbsp;</span>
+          <span><%=t "pages.examination.edit.title"%>:&nbsp;<%= @examination.fullname %></span>
         </div>
       </div>
         <div class="panel-body">

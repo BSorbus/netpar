@@ -7,11 +7,15 @@ pl:
       index:
         title: 'Zapraszamy do programu NetPAR 2015'
     user:
+      model_icon: 'fa fa-user-circle'
       index:
         title: 'Użytkownicy'
       show:
         title: 'Użytkownik'
+      edit:
+        title: 'Użytkownik - edycja danych'
     role:
+      model_icon: 'glyphicon glyphicon-sunglasses'
       index:
         title: 'Role'
       show:
@@ -21,6 +25,7 @@ pl:
       new:
         title: 'Nowa Rola'
     department:
+      model_icon: 'fa fa-flag'
       index:
         title: 'Oddziały'
       show:
@@ -30,11 +35,15 @@ pl:
       new:
         title: 'Nowy Oddział'
     certificate:
+      model_icon: 'fa fa-certificate'
       index:
         title: 'Świadectwa'
+      index_for_exam:
+        title: 'Świadectwa'
       show_charts:
-        title: 'Statystyki'
+        title: 'Wykresy'
     certificate_l:
+      model_icon: 'fa fa-fighter-jet'
       index:
         title: 'Świadectwa LOT'
       show:
@@ -44,6 +53,7 @@ pl:
       new:
         title: ' Nowe Świadectwo - LOT'
     certificate_m:
+      model_icon: 'fa fa-ship'
       index:
         title: 'Świadectwa MOR'
       show:
@@ -53,6 +63,7 @@ pl:
       new:
         title: ' Nowe Świadectwo - MOR'
     certificate_r:
+      model_icon: 'fa fa-podcast'
       index:
         title: 'Świadectwa RA'
       show:
@@ -61,7 +72,14 @@ pl:
         title: 'Świadectwo RA - edycja danych'
       new:
         title: ' Nowe Świadectwo - RA'
+    exam:
+      model_icon: 'fa fa-graduation-cap'
+      index:
+        title: 'Sesje egzaminacyjne'
+      show_charts:
+        title: 'Statystyki'
     exam_l:
+      model_icon: 'fa fa-fighter-jet'
       index:
         title: 'Sesje LOT'
       show:
@@ -73,6 +91,7 @@ pl:
       statistic_filter:
         title: 'Statystyka LOT'
     exam_m:
+      model_icon: 'fa fa-ship'
       index:
         title: 'Sesje MOR'
       show:
@@ -84,6 +103,7 @@ pl:
       statistic_filter:
         title: 'Statystyka MOR'
     exam_r:
+      model_icon: 'fa fa-podcast'
       index:
         title: 'Sesje RA'
       show:
@@ -95,6 +115,7 @@ pl:
       statistic_filter:
         title: 'Statystyka RA'
     customer:
+      model_icon: 'fa fa-user'
       index:
         title: 'Klienci'
       show:
@@ -103,18 +124,8 @@ pl:
         title: ' Klient - edycja danych'
       new:
         title: ' Nowy Klient'
-    proposal:
-      index_for_exam:
-        title: 'Elektroniczne Zgłoszenia'
-      index_for_customer:
-        title: 'Elektroniczne Zgłoszenia'
-      show:
-        title: 'Elektroniczne Zgłoszenie'
-      edit:
-        title: 'Elektroniczne Zgłoszenie - edycja danych'
-      new:
-        title: ' Nowe Elektroniczne Zgłoszenie'
     examination:
+      model_icon: 'fa fa-check-square'
       index_for_exam:
         title: 'Osoby Egzaminowane'
       index_for_customer:
@@ -126,28 +137,65 @@ pl:
       new:
         title: ' Nowa Osoba Egzaminowana'
     examination_l:
+      model_icon: 'fa fa-fighter-jet'
       index:
         title: 'Sesje LOT'
     examination_m:
+      model_icon: 'fa fa-ship'
       index:
         title: 'Sesje MOR'
     examination_r:
+      model_icon: 'fa fa-podcast'
       index:
         title: 'Sesje RA'
+    charts_certificates:
+      model_icon: 'fa fa-line-chart'
+    statistic_exams:
+      model_icon: 'fa fa-signal'
+    proposal:
+      model_icon: 'fa fa-download'
+      index_for_exam:
+        title: 'Elektroniczne Zgłoszenia'
+      index_for_customer:
+        title: 'Elektroniczne Zgłoszenia'
+      show:
+        title: 'Elektroniczne Zgłoszenie'
+      edit:
+        title: 'Elektroniczne Zgłoszenie - edycja danych'
+      new:
+        title: ' Nowe Elektroniczne Zgłoszenie'
     proposal_m:
+      model_icon: 'fa fa-ship'
       index:
         title: 'Elektroniczne Zgłoszenia MOR'
+      show:
+        title: 'Elektroniczne Zgłoszenie MOR'
     proposal_r:
+      model_icon: 'fa fa-podcast'
       index:
         title: 'Elektroniczne Zgłoszenia RA'
+      show:
+        title: 'Elektroniczne Zgłoszenie RA'
     work:
+      model_icon: 'fa fa-clock-o'
       index:
         title: 'Operacje'
+      index_user_works:
+        title: 'Historia aktywności i działań'
+      show:
+        title: 'Historia operacji'
       trackable_panel:
         title: 'Historia'
     document:
+      model_icon: 'fa fa-paperclip'
+      show:
+        title: 'Załączniki'
       form:
         or_input_remote_url: '...lub wybierz'
+    scan_and_print:
+      model_icon: 'fa fa-print'
+      show:
+        title: 'Wydruki'
     esod_matter:
       index:
         title: 'ESOD - Sprawy'
@@ -178,6 +226,46 @@ pl:
         title: 'Pozwolenia NETPAR2000'
       show:
         title: 'Pozwolenie NETPAR2000'
+  proposals:
+    status_id_1_name: 'Zgłoszenie utworzone'
+    status_id_2_name: 'Zgłoszenie zatwierdzone'
+    status_id_3_name: 'Zgłoszenie odrzucone'
+    status_id_4_name: 'Zgłoszenie zamknięte'
+    new:
+      title: 'Kreator Zgłoszenia'
+    index:
+      title: 'Zgłoszenia'
+      navbar: 'Zgłoszenia'
+      no_data: 'Brak zgłoszeń'
+      no_data_comment: 'Aktualnie nie masz zarejestowanych żadnych zgłoszeń. Wybierz przycisk "Utwórz Zgłoszenie" aby utworzyć i wysłać elektroniczne zgłoszenie na egzamin.'
+    form_step1:
+      fieldset_title: 'Dane podstawowe'
+      submit: 'Adres'
+    form_step2:
+      fieldset_title: 'Adres'
+      submit_back: 'Dane podstawowe'
+      submit: 'Adres korespondencyjny'
+    form_step3:
+      fieldset_title: 'Adres korepondencyjny'
+      submit_back: 'Adres'
+      submit: 'Typ i rodzaj'
+    form_step4:
+      fieldset_title: 'Typ i rodzaj'
+      submit_back: 'Adres korespondencyjny'
+      submit: 'Załączniki'
+    form_step5:
+      fieldset_title: 'Załączniki'
+      submit_back: 'Typ i rodzaj'
+      submit: 'Podsumowanie'
+    form_step6:
+      fieldset_title: 'Podsumowanie'
+      submit_back: 'Załączniki'
+      submit: 'Zapisz i wyślij zgłoszenie!'
+    proposal:
+      rec_info: 'Zgłoszenie %{data}'
+      navbar: 'Zgłoszenie'
+    show:
+      title: 'Zgłoszenie'
   link_to:
     management: 'Zarządzanie'
     works: 'Operacje'
@@ -402,20 +490,40 @@ pl:
         note: 'Uwagi'
         flat_all_esod_matters: 'ESOD'
       proposal:
-        name: 'Nazwisko'
-        given_names: 'Imiona'
-        pesel: 'Pesel'
-        birth_date: 'Data urodzenia'
-        birth_place: 'Miejsce urodzenia'
-        address_city: 'Miejscowość'
-        esod_category: 'Rodzaj wniosku'
-        division_id: 'Typ świadectwa'
-        division: 'Typ świadectwa'
-        exam_id: 'Sesja egzaminacyjna'
-        exam: 'Sesja egzaminacyjna'
         proposal_status_id: 'Status'
         proposal_status: 'Status'
-        category: 'Kategoria'
+        status: 'Status'
+        status_name: 'Status zgłoszenia'
+        creator: 'Użytkownik'
+        creator_id: 'Użytkownik'
+        name: 'Nazwisko'
+        given_names: 'Imię'
+        pesel: 'Pesel'
+        birth_date: "Data urodzenia"
+        birth_place: "Miejsce urodzenia"
+        phone: 'Telefon'
+        address_city: 'Miejscowość'
+        address_street: 'Ulica'
+        address_house: 'Dom'
+        address_number: 'Lokal'
+        address_postal_code: 'Kod pocztowy'
+        c_address_city: 'Miejscowość'
+        c_address_street: 'Ulica'
+        c_address_house: 'Dom'
+        c_address_number: 'Lokal'
+        c_address_postal_code: 'Kod pocztowy'
+        category: 'Typ świadectwa'
+        category_name: 'Typ świadectwa'
+        exam_id: 'Sesja egzaminacyjna'
+        exam_fullname: 'Sesja egzaminacyjna'
+        date_exam: 'Data egzaminu'
+        division_id: 'Rodzaj'
+        division_fullname: 'Rodzaj'
+        exam_fee_id: 'Opłata'
+        exam_fee_price: 'Wymagana opłata'
+        face_image: 'Zdjęcie'
+        bank_pdf: 'Bankowe potwierdzenie wykonania przelewu'
+        confirm_that_the_data_is_correct: 'Dane powyższe są zgodne z prawdą, co potwierdzam'
       exam:
         esod_category: 'Rodzaj sesji'
         number: 'Numer'

@@ -1,0 +1,42 @@
+<fieldset class="my-fieldset">
+  <legend class="my-fieldset"><%= t('proposals.form_step5.fieldset_title') %></legend>
+
+  <div class="row">
+
+    <div class="form-group col-sm-12">
+      <p><strong><%= Proposal.human_attribute_name(:exam_fee_price) %></strong></p>
+      <%= number_with_precision(partial_data.exam_fee_price, precision: 2, delimiter: ' ', separator: ',') %><span> PLN</span>
+    </div>
+
+    <div class="form-group col-sm-6">
+      <p><strong><%= Proposal.human_attribute_name(:bank_pdf) %></strong></p>
+      <% if partial_data.bank_pdf.attached? %>
+        <p><%= partial_data.bank_pdf.blob.filename %>, <%= number_to_human_size(partial_data.bank_pdf.blob.byte_size) %></p>
+        <%= link_to(  image_tag(
+                        partial_data.bank_pdf.preview(resize: '500x500'), 
+                        style: 'border: 1px solid #CCC;'),  
+                      url_for(partial_data.bank_pdf),
+                      target: "_blank"  
+                    ) %>
+      <% end %>
+    </div>
+    
+    <% if partial_data.division_face_image_required %>
+      <div class="form-group col-sm-6">
+        <p><strong><%= Proposal.human_attribute_name(:face_image) %></strong></p>
+        <% if partial_data.face_image.attached? %>
+          <p><%= partial_data.face_image.blob.filename %>, <%= number_to_human_size(partial_data.face_image.blob.byte_size) %></p>
+          <%= link_to(  image_tag(
+                          partial_data.face_image.representation(resize: '500x500'), 
+                          style: 'border: 1px solid #CCC;'),  
+                        url_for(partial_data.face_image),
+                        target: "_blank"  
+                      )  %>
+       <% end %>
+      </div>
+    <% end %>
+
+  </div> <!--/row -->
+        
+</fieldset>
+

@@ -53,9 +53,8 @@ class ProposalDatatable < AjaxDatatablesRails::Base
         record.exam_id.present? ? link_to(record.exam.fullname, @view.exam_path(record.category.downcase, record.exam)) : '',
         record.proposal_status.name,
         record.category, 
-        ''
-        # link_to(' ', @view.proposal_path(params[:category_service], record, back_url: @view.exam_path(record.exam.category.downcase, record.exam)), 
-        #                 class: 'glyphicon glyphicon-eye-open', title: 'Pokaż', rel: 'tooltip')
+        link_to(' ', @view.proposal_path(record.category.downcase, record, back_url: @view.proposals_path), 
+                        class: 'glyphicon glyphicon-eye-open', title: 'Pokaż', rel: 'tooltip')
       ]
     end
   end

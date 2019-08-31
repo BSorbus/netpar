@@ -2,12 +2,12 @@
 <!-- Dane -->
 <div class="row">
   <div class="col-sm-12">
-    <div class="panel panel-exam">
+    <div class="panel panel-proposal">
       <div class="panel-heading">
         <div class="panel-title">
-          <span class='<%= t("pages.exam.model_icon") %>'></span>
-          <span class='<%= t("pages.exam_#{params[:category_service]}.model_icon") %>'>&nbsp;</span>
-          <span><%=t "pages.exam.edit.title"%>:&nbsp;<%= @exam.fullname %></span>
+          <span class='<%= t("pages.proposal.model_icon") %>'></span>
+          <span class='<%= t("pages.proposal_#{params[:category_service]}.model_icon") %>'>&nbsp;</span>
+          <span><%=t "pages.proposal.edit.title"%>:&nbsp;<%= @proposal.fullname %></span>
         </div>
       </div>
         <div class="panel-body">
@@ -16,7 +16,7 @@
           </div> <!--/col-sm-1-->
 
           <div class="col-sm-11">
-						<%= form_for @exam, url: exam_path(@exam, category_service: params[:category_service]) do |f| %>
+						<%= form_for @proposal, url: proposal_path(@proposal, category_service: params[:category_service]) do |f| %>
 						  <%= render 'form', f: f %>
 						<% end %>
           </div> <!--/col-sm-11 col-sm-offset-1-->

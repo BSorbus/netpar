@@ -1,6 +1,6 @@
 class ProposalsController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, except: [:show_charts, :index, :datatables_index, :datatables_index_exam]
+  after_action :verify_authorized, except: [:show_charts, :index, :datatables_index, :datatables_index_exam, :approved]
 
   before_action :set_proposal, only: [:show, :edit, :update, :proposal_to_pdf]
 
@@ -90,8 +90,14 @@ class ProposalsController < ApplicationController
     end
   end
 
+  # PATCH/PUT /proposals/1
+  def approved
+    puts '-----------------------APPROVED-------------------------------'
+    redirect_to proposals_path(@proposal, category_service: params[:category_service])    
+  end
+
   # GET /proposals/1/edit
-  def edit
+  def edit # as not approved
     proposal_authorize(@proposal, "edit", params[:category_service])
  
     respond_to do |format|
@@ -104,23 +110,15 @@ class ProposalsController < ApplicationController
   # PATCH/PUT /proposals/1.json
   def update
     @proposal.user = current_user
+    @proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_NOT_APPROVED
  
     proposal_authorize(@proposal, "update", params[:category_service])
 
     respond_to do |format|
-      if @proposal.update(proposal_params)
-        @proposal.works.create!(trackable_url: "#{proposal_path(@proposal, category_service: params[:category_service])}", action: :update, user: current_user, 
-          parameters: @proposal.to_json(except: [:exam_id, :division_id, :customer_id, :user_id], 
-                                          include: {
-                                            exam: {only: [:id, :number, :date_exam]},
-                                            division: {only: [:id, :name]},
-                                            customer: {only: [:id, :name, :given_names, :birth_date]},
-                                            user: {only: [:id, :name, :email]}
-                                            }
-                                          ) )
+      if @proposal.update(proposal_not_approved_params)
+        flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.fullname)
 
-        flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.number)
-        format.html { redirect_to proposal_path(@proposal, category_service: params[:category_service], back_url: params[:back_url]) }
+        format.html { redirect_to proposal_path(@proposal, category_service: params[:category_service]) }
         format.json { render :show, status: :ok, location: @proposal }
       else
         format.html { render :edit, locals: { back_url: params[:back_url] } }
@@ -152,5 +150,8 @@ class ProposalsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def proposal_params
       params.require(:proposal).permit(:esod_category, :customer_id, :category, :note, :user_id)
+    end
+    def proposal_not_approved_params
+      params.require(:proposal).permit(:proposa_status_id, :not_approved_comment, :user_id)
     end
 end

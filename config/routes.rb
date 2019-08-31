@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   scope ':category_service', constraints: { category_service: /[lmr]/ } do
     resources :proposals, except: [:create, :destroy] do
       #get 'show_charts', on: :collection
+      patch 'approved', on: :member
       post 'datatables_index', on: :collection
       post 'datatables_index_exam', on: :collection # for Exam
       get 'proposal_to_pdf', on: :member

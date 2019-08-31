@@ -111,95 +111,126 @@ img {
 }
 
 .panel-user {
-  border-color: #ddd  
-}
-.panel-user > .panel-heading {
-  background: #a4bacc;
-  color: white; 
+  border-color: #ddd;
+  a:link {
+    text-decoration:none; 
+  };
+  .panel-heading {
+    background: #a4bacc;
+    color: white;
+  } 
 }
 
 .panel-role {
-  border-color: #ddd  
-}
-.panel-role > .panel-heading {
-  background: #616aa2; //#5E703F; 
-  color: white; 
+  border-color: #ddd;
+  a:link {
+    text-decoration:none; 
+  };
+  .panel-heading {
+    background: #616aa2; //#5E703F;
+    color: white;
+  } 
 }
 
 .panel-department {
-  border-color: #ddd  
-}
-.panel-department > .panel-heading {
-  background: #5d719e; 
-  color: white; 
-  //opacity: 0;
+  border-color: #ddd;
+  a:link {
+    text-decoration:none; 
+  };
+  .panel-heading {
+    background: #5d719e;
+    color: white;
+  } 
 }
 
 .panel-customer {
-  border-color: #ddd  
-}
-.panel-customer > .panel-heading {
-  background: #528394;  
-  color: white; 
+  border-color: #ddd;
+  a:link {
+    text-decoration:none; 
+  };
+  .panel-heading {
+    background: #528394;
+    color: white;
+  } 
 }
 
 .panel-exam {
-  border-color: #ddd  
-}
-.panel-exam > .panel-heading {
-  background: #4e7f5f; //#7fc196;
-  color: white; 
+  border-color: #ddd;
+  a:link {
+    text-decoration:none; 
+  };
+  .panel-heading {
+    background: #4e7f5f; //#7fc196;
+    color: white;
+  } 
 }
 
 .panel-certificate {
-  border-color: #ddd  
-}
-.panel-certificate > .panel-heading {
-  background: #4f8989; //#98b9c4;
-  color: white; 
+  border-color: #ddd;
+  a:link {
+    text-decoration:none; 
+  };
+  .panel-heading {
+    background: #4f8989; //#98b9c4;
+    color: white;
+  } 
 }
 
- 
 .panel-examination {
-  border-color: #ddd  
-}
-.panel-examination > .panel-heading {
-  background: #446161; 
-  color: white; 
+  border-color: #ddd;
+  a:link {
+    text-decoration:none; 
+  };
+  .panel-heading {
+    background: #446161;
+    color: white;
+  } 
 }
 
 .panel-proposal {
-  border-color: #ddd  
-}
-.panel-proposal > .panel-heading {
-  background: darken(#BECC25, 18%); 
-  color: white; 
-}
-
-
-.panel-attach {
-  border-color: #ddd  
-}
-.panel-attach > .panel-heading {
-  background: #89877a; //#5E5E5E;
-  color: white; 
+  border-color: #ddd;
+  a:link {
+    text-decoration:none; 
+  };
+  .panel-heading {
+    background: darken(#BECC25, 18%); 
+    color: white;
+  } 
 }
 
 .panel-work {
-  border-color: #ddd  
+  border-color: #ddd;
+  a:link {
+    text-decoration:none; 
+  };
+  .panel-heading {
+    background: #DCDCDC; //Gainsboro  
+    color: black;
+  } 
 }
-.panel-work > .panel-heading {
-  background: #DCDCDC; //Gainsboro  
-  color: black; 
+
+.panel-attach {
+  border-color: #ddd;
+  a:link {
+    text-decoration:none; 
+  };
+  .panel-heading {
+    background: #89877a; //#5E5E5E;  
+    color: white;
+  } 
 }
 
 .panel-print {
-  border-color: #ddd  
+  border-color: #ddd;
+  a:link {
+    text-decoration:none; 
+  };
+  .panel-heading {
+    background: #777777;  
+    color: white;
+  } 
 }
-.panel-print > .panel-heading {
-  background: #777777;
-  color: white; 
-}
+
 
 
 .color-section-applicant-top {
@@ -511,4 +542,22 @@ $RibbonOrderBackground : #9C4BE6;
     content: "";
     position: absolute;
     right: -1px;
+}
+
+
+fieldset.my-fieldset {
+    border: 1px groove #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+}
+
+legend.my-fieldset {
+    font-size: 1.2em !important;
+    font-weight: normal !important;
+    text-align: left !important;
+    width:auto;
+    padding:0 10px;
+    border-bottom:none;
 }

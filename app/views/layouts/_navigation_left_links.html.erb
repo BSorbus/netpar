@@ -14,19 +14,22 @@
     <ul class="dropdown-menu">
       <% if policy(:certificate).index_l? %>
         <li><%= link_to certificates_path(category_service: "l") do %>
-          <span class="glyphicon glyphicon-certificate"></span>&nbsp;<%=t "link_to.certificates_l" %>
+          <span class='<%= t("pages.certificate.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.certificates_l" %>
           <% end %>
         </li>
       <% end %>
       <% if policy(:certificate).index_m? %>
         <li><%= link_to certificates_path(category_service: "m") do %>
-          <span class="glyphicon glyphicon-certificate"></span>&nbsp;<%=t "link_to.certificates_m" %>
+          <span class='<%= t("pages.certificate.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.certificates_m" %>
           <% end %>
         </li>
       <% end %>
       <% if policy(:certificate).index_r? %>
         <li><%= link_to certificates_path(category_service: "r") do %>
-          <span class="glyphicon glyphicon-certificate"></span>&nbsp;<%=t "link_to.certificates_r" %>
+          <span class='<%= t("pages.certificate.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.certificates_r" %>
           <% end %>
         </li>
       <% end %>
@@ -35,19 +38,22 @@
 
       <% if policy(:exam).index_l? %>
         <li><%= link_to show_charts_certificates_path(category_service: "l") do %>
-          <span class="glyphicon glyphicon-signal"></span>&nbsp;<%=t "link_to.charts_certificates_l" %>
+          <span class='<%= t("pages.charts_certificates.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.charts_certificates_l" %>
           <% end %>
         </li>
       <% end %>
       <% if policy(:exam).index_m? %>
         <li><%= link_to show_charts_certificates_path(category_service: "m") do %>
-          <span class="glyphicon glyphicon-signal"></span>&nbsp;<%=t "link_to.charts_certificates_m" %>
+          <span class='<%= t("pages.charts_certificates.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.charts_certificates_m" %>
           <% end %>
         </li>
       <% end %>
       <% if policy(:exam).index_r? %>
         <li><%= link_to show_charts_certificates_path(category_service: "r") do %>
-          <span class="glyphicon glyphicon-signal"></span>&nbsp;<%=t "link_to.charts_certificates_r" %>
+          <span class='<%= t("pages.charts_certificates.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.charts_certificates_r" %>
           <% end %>
         </li>
       <% end %>
@@ -61,13 +67,15 @@
     <ul class="dropdown-menu">
       <% if policy(:proposal).index_m? %>
         <li><%= link_to proposals_path(category_service: "m") do %>
-          <span class="glyphicon glyphicon-import"></span>&nbsp;<%=t "link_to.proposals_m" %>
+          <span class='<%= t("pages.proposal.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.proposals_m" %>
           <% end %>
         </li>
       <% end %>
       <% if policy(:proposal).index_r? %>
         <li><%= link_to proposals_path(category_service: "r") do %>
-          <span class="glyphicon glyphicon-import"></span>&nbsp;<%=t "link_to.proposals_r" %>
+          <span class='<%= t("pages.proposal.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.proposals_r" %>
           <% end %>
         </li>
       <% end %>
@@ -76,19 +84,22 @@
 
       <% if policy(:exam).index_l? %>
         <li><%= link_to exams_path(category_service: "l") do %>
-          <span class="glyphicon glyphicon-education"></span>&nbsp;<%=t "link_to.exams_l" %>
+          <span class='<%= t("pages.exam.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.exams_l" %>
           <% end %>
         </li>
       <% end %>
       <% if policy(:exam).index_m? %>
         <li><%= link_to exams_path(category_service: "m") do %>
-          <span class="glyphicon glyphicon-education"></span>&nbsp;<%=t "link_to.exams_m" %>
+          <span class='<%= t("pages.exam.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.exams_m" %>
           <% end %>
         </li>
       <% end %>
       <% if policy(:exam).index_r? %>
         <li><%= link_to exams_path(category_service: "r") do %>
-          <span class="glyphicon glyphicon-education"></span>&nbsp;<%=t "link_to.exams_r" %>
+          <span class='<%= t("pages.exam.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.exams_r" %>
           <% end %>
         </li>
       <% end %>
@@ -97,19 +108,22 @@
 
       <% if policy(:exam).index_l? %>
         <li><%= link_to statistic_filter_exams_path(category_service: "l") do %>
-          <span class="glyphicon glyphicon-education"></span>&nbsp;<%=t "link_to.statistic_exams_l" %>
+          <span class='<%= t("pages.statistic_exams.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.statistic_exams_l" %>
           <% end %>
         </li>
       <% end %>
       <% if policy(:exam).index_m? %>
         <li><%= link_to statistic_filter_exams_path(category_service: "m") do %>
-          <span class="glyphicon glyphicon-education"></span>&nbsp;<%=t "link_to.statistic_exams_m" %>
+          <span class='<%= t("pages.statistic_exams.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.statistic_exams_m" %>
           <% end %>
         </li>
       <% end %>
       <% if policy(:exam).index_r? %>
         <li><%= link_to statistic_filter_exams_path(category_service: "r") do %>
-          <span class="glyphicon glyphicon-education"></span>&nbsp;<%=t "link_to.statistic_exams_r" %>
+          <span class='<%= t("pages.statistic_exams.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.statistic_exams_r" %>
           <% end %>
         </li>
       <% end %>
@@ -118,7 +132,8 @@
 
   <% if policy(:customer).index? %>
     <li><%= link_to customers_path do %>
-    	<span class="glyphicon glyphicon-user"></span>&nbsp;<%=t "link_to.customers" %>
+      <span class='<%= t("pages.customer.model_icon") %>'></span>&nbsp;
+      <%=t "link_to.customers" %>
       <% end %>
     </li>
   <% end %>

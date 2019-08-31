@@ -3,7 +3,7 @@
 
   <% if policy(:work).index? %>
     <li><%= link_to works_path do %>
-      <span class="glyphicon glyphicon-time"></span>&nbsp;<%=t "link_to.works" %>
+      <span class="<%= t('pages.work.model_icon') %>"></span>&nbsp;<%=t "link_to.works" %>
       <% end %>
     </li>
   <% end %>
@@ -16,21 +16,21 @@
 
         <% if policy(:user).index? %>
           <li><%= link_to users_path do %>
-            <span class="glyphicon glyphicon-heart"></span>&nbsp;<%=t "devise.link_to.users" %>
+            <span class="<%= t('pages.user.model_icon') %>"></span>&nbsp;<%=t "devise.link_to.users" %>
             <% end %>
           </li>
         <% end %>
 
         <% if policy(:department).index? %>
           <li><%= link_to departments_path do %>
-            <span class="glyphicon glyphicon-flag"></span>&nbsp;<%=t "link_to.departments" %>
+            <span class="<%= t('pages.department.model_icon') %>"></span>&nbsp;<%=t "link_to.departments" %>
             <% end %>
           </li>
         <% end %>
 
         <% if policy(:role).index? %>
           <li><%= link_to roles_path do %>
-            <span class="glyphicon glyphicon-sunglasses"></span>&nbsp;<%=t "link_to.roles" %>
+            <span class="<%= t('pages.role.model_icon') %>"></span>&nbsp;<%=t "link_to.roles" %>
             <% end %>
           </li>
         <% end %>

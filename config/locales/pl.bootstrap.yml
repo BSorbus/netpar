@@ -18,6 +18,8 @@ pl:
       confirm_account_on: 'Na pewno chcesz włączyć konto: "%{data}"?'
       confirm_link_esod_matter: 'Na pewno chcesz powiązać wybraną sprawę z "%{data}"?'
       confirm_find_customer_befere_new: 'Na pewno Klient: "%{data}" jeszcze nie jest zarejestrowany? Możesz to sprawdzić w polu obok ("Klient"). Na pewno chcesz utworzyć nowy wpis?'
+      confirm_approved: 'Na pewno chcesz zatwierdzić zgłoszenie: "%{data}"?'
+      confirm_not_approved: 'Na pewno chcesz odrzucić zgłoszenie: "%{data}"?'
       destroy: " Usuń"
       destroy_account: "Usuń moje konto"
       new: " Nowy"
@@ -43,6 +45,8 @@ pl:
       exam_committee_docx: " Skład Komisji"
       show: " Pokaż"
       show_charts: ' Statystyki'
+      proposal_approved: ' Zatwierdź'
+      proposal_not_approved: ' Odrzuć'
     titles:
       edit: "Edycja %{model}"
       save: "Zapisz %{model}"

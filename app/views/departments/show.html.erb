@@ -4,15 +4,17 @@
   <!-- Dane -->
   <div class="row">
     <div class="col-sm-12">
+
       <div class="panel panel-department">
-        <div class="panel-heading">
-          <div class="panel-title">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_data" >
-              <span class="glyphicon glyphicon-flag">&nbsp;<%=t "pages.department.show.title"%>:&nbsp;<%= @department.short %></span>
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_data">
+          <div class="panel-heading">
+            <div class="panel-title">
+              <span class='<%= t("pages.department.model_icon") %>'>&nbsp;</span>
+              <span><%=t "pages.department.show.title"%>:&nbsp;<%= @department.short %></span>
               <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
-            </a>
-          </div> 
-        </div>
+            </div> 
+          </div>
+        </a>
         <div id="collapse_data" class="panel-collapse collapse in"> <!-- id="collapse_data" -->
           <div class="panel-body">         
             <div class="col-sm-11 col-sm-offset-1">
@@ -31,14 +33,15 @@
   <div class="row">
     <div class="col-sm-10 col-sm-offset-2">
       <div class="panel panel-print">
-        <div class="panel-heading">
-          <div class="panel-title">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_scan_and_print" >
-              <span class="glyphicon glyphicon-print"> Wydruki</span>
-              <i class="indicator glyphicon glyphicon-chevron-right  pull-right"></i>
-            </a>
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_scan_and_print">
+          <div class="panel-heading">
+            <div class="panel-title">
+              <span class='<%= t("pages.scan_and_print.model_icon") %>'>&nbsp;</span>
+              <span><%=t "pages.scan_and_print.show.title"%></span>
+              <i class="indicator glyphicon glyphicon-chevron-right pull-right"></i>
+            </div> 
           </div>
-        </div>
+        </a>
         <div id="collapse_scan_and_print" class="panel-collapse collapse"> <!-- id="collapse_scan_and_print" -->
           <div class="panel-body">
             <div class="col-sm-12">
@@ -53,6 +56,7 @@
   </div> <!-- /row -->
 
 
+
   <% if policy(:department).work? %>
     <%#= render partial: "works" %>
     <%= render partial: "works/works_in_panel", locals: {trackable_type: 'Department', trackable_id: @department.id} %>
@@ -62,15 +66,17 @@
   <!-- Użytkownicy-->
   <div class="row">
     <div class="col-sm-11 col-sm-offset-1">
+
       <div class="panel panel-user">
-        <div class="panel-heading">
-          <div class="panel-title">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_users" >
-              <span class="glyphicon glyphicon-heart">&nbsp;<%= t "pages.user.index.title" %></span>
-              <i class="indicator glyphicon glyphicon-chevron-right  pull-right"></i>
-            </a>
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_users">
+          <div class="panel-heading">
+            <div class="panel-title">
+              <span class='<%= t("pages.user.model_icon") %>'>&nbsp;</span>
+              <span><%= t "pages.user.index.title" %></span>
+              <i class="indicator glyphicon glyphicon-chevron-right pull-right"></i>
+            </div> 
           </div>
-        </div>
+        </a>
         <div id="collapse_users" class="panel-collapse collapse"> <!-- id="collapse_users" -->
           <div class="panel-body">
             <div class="col-sm-12">
