@@ -8,13 +8,11 @@ class CreateProposalStatuses < ActiveRecord::Migration
 	#  PROPOSAL_STATUS_CREATED = 1
 	#  PROPOSAL_STATUS_APPROVED = 2
 	#  PROPOSAL_STATUS_NOT_APPROVED = 3
-	#  PROPOSAL_STATUS_PAYED = 4
-	#  PROPOSAL_STATUS_CLOSED = 5
+	#  PROPOSAL_STATUS_CLOSED = 4
 
     proposal_status1 = ProposalStatus.create(name: "Nowe")
     proposal_status2 = ProposalStatus.create(name: "Zaakceptowane")
     proposal_status3 = ProposalStatus.create(name: "Odrzucone")
-    proposal_status4 = ProposalStatus.create(name: "Opłacone")
-    proposal_status5 = ProposalStatus.create(name: "Zamknięte")
+    proposal_status4 = ProposalStatus.create(name: "Zamknięte")
   end
 end
