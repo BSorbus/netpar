@@ -32,13 +32,22 @@
     <% end %>
 
 		<% if proposal_policy_check(@proposal, params[:category_service], 'edit') %>
-
-      <%= link_to update_approved_proposal_path(@proposal.category.downcase, @proposal),
+<!-- 
+      <%#= link_to update_approved_proposal_path(@proposal.category.downcase, @proposal),
                           method: :patch,
                           data: { confirm: t('helpers.links.confirm_approved', data: proposal_rec_info(@proposal)) }, 
                           class: "btn btn-success",
                           disabled: ! @proposal.can_or_not_approved? do %>
         <span class="glyphicon glyphicon-check"></span>
+        <%#= t("helpers.links.proposal_approved") %>
+      <%# end %>
+
+ -->
+
+      <%= link_to edit_approved_proposal_path(@proposal.category.downcase, @proposal), 
+                          class: "btn btn-success",
+                          disabled: ! @proposal.can_or_not_approved? do %>
+        <span class="fa fa-check"></span>
         <%= t("helpers.links.proposal_approved") %>
       <% end %>
 

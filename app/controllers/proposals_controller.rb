@@ -2,7 +2,7 @@ class ProposalsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:show_charts, :index, :datatables_index, :datatables_index_exam, :approved]
 
-  before_action :set_proposal, only: [:show, :edit, :update, :edit_not_approved, :update_not_approved, :update_approved, :proposal_to_pdf]
+  before_action :set_proposal, only: [:show, :edit, :edit_approved, :edit_not_approved, :update, :update_approved, :update_not_approved, :proposal_to_pdf]
 
   # def show_charts
   #   respond_to do |format|
@@ -100,7 +100,16 @@ class ProposalsController < ApplicationController
     end
   end
 
-  # GET /proposals/1/edit
+  # GET /proposals/1/edit_approved
+  def edit_approved
+    proposal_authorize(@proposal, "edit", params[:category_service])
+ 
+    respond_to do |format|
+      format.html { render :edit_approved, locals: { back_url: params[:back_url] } }
+    end
+  end
+
+  # GET /proposals/1/edit_not_approved
   def edit_not_approved
     proposal_authorize(@proposal, "edit", params[:category_service])
  
@@ -113,7 +122,6 @@ class ProposalsController < ApplicationController
   # PATCH/PUT /proposals/1.json
   def update
     @proposal.user = current_user
-    @proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_NOT_APPROVED
  
     proposal_authorize(@proposal, "update", params[:category_service])
 
@@ -138,12 +146,12 @@ class ProposalsController < ApplicationController
     proposal_authorize(@proposal, "update", params[:category_service])
 
     respond_to do |format|
-      if @proposal.save
+      if @proposal.update(proposal_approved_params)
         flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.fullname)
 
         format.html { redirect_to proposal_path(@proposal, category_service: params[:category_service]) }
       else
-        format.html { render :show, locals: { back_url: params[:back_url] } }
+        format.html { render :edit_approved, locals: { back_url: params[:back_url] } }
       end
     end
   end
@@ -189,6 +197,9 @@ class ProposalsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def proposal_params
       params.require(:proposal).permit(:esod_category, :customer_id, :category, :note, :user_id)
+    end
+    def proposal_approved_params
+      params.require(:proposal).permit(:proposa_status_id, :user_id)
     end
     def proposal_not_approved_params
       params.require(:proposal).permit(:proposa_status_id, :not_approved_comment, :user_id)

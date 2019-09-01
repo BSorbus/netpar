@@ -164,6 +164,9 @@ pl:
         title: 'Elektroniczne Zgłoszenie - edycja danych'
       new:
         title: ' Nowe Elektroniczne Zgłoszenie'
+      edit_approved:
+        model_icon: 'fa fa-check'
+        title: 'Elektroniczne Zgłoszenie - akceptacja zgłoszenia'
       edit_not_approved:
         model_icon: 'fa fa-ban'
         title: 'Elektroniczne Zgłoszenie - odrzucenie zgłoszenia'
@@ -231,7 +234,7 @@ pl:
         title: 'Pozwolenie NETPAR2000'
   proposals:
     status_id_1_name: 'Zgłoszenie utworzone'
-    status_id_2_name: 'Zgłoszenie zatwierdzone'
+    status_id_2_name: 'Zgłoszenie zaakcepowane'
     status_id_3_name: 'Zgłoszenie odrzucone'
     status_id_4_name: 'Zgłoszenie zamknięte'
     new:

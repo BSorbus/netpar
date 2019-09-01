@@ -10,8 +10,9 @@
 
     <div class="row">
       <div class="form-group col-sm-12">
-        <%= f.label :not_approved_comment, class: 'control-label' %>
-        <%= f.text_area :not_approved_comment, :rows => 4, :cols => 50, class: 'form-control input-sm', disabled: false %>
+        <p>I titaj będzie przypisywanie użytkownika do już istniejących, itp.</p>
+        <%#= f.label :not_approved_comment, class: 'control-label' %>
+        <%#= f.text_area :not_approved_comment, :rows => 4, :cols => 50, class: 'form-control input-sm', disabled: false %>
       </div>
     </div>
 
@@ -32,6 +33,6 @@
  
     <%= link_to t('Back', default: t("helpers.links.back")), proposal_path(params[:category_service], @proposal), :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
 
-    <%= f.submit nil, data: { confirm: t('helpers.links.confirm_not_approved', data: @proposal.fullname) }, :class => 'btn btn-primary disabled' %>
+    <%= f.submit nil, data: { confirm: t('helpers.links.confirm_approved', data: @proposal.fullname) }, :class => 'btn btn-primary disabled' %>
   </div> <!-- /row -->
 <% end %>

@@ -1,18 +1,15 @@
 class Api::V1::DivisionsController < Api::V1::BaseApiController
 
-  DIVISION_R_A = 18
-  DIVISION_R_B = 19
-  DIVISION_R_C = 20
-  DIVISION_R_D = 21
-
   respond_to :json
 
   def index
     case params[:category]
-    when 'L', 'M'
+    when 'L'
       divisions = Division.where(category: params[:category]).order(:name)
+    when 'M'
+      divisions = Division.where(category: params[:category], id: Division::DIVISION_M_FOR_SHOW).order(:name)
     when 'R'
-      divisions = Division.where(category: params[:category]).where.not(id: [DIVISION_R_B, DIVISION_R_D]).order(:name)      
+      divisions = Division.where(category: params[:category], id: Division::DIVISION_R_FOR_SHOW).order(:name)      
     end
 
     render status: :ok,
