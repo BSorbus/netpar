@@ -5,14 +5,16 @@
 
     <div class="form-group col-sm-6">
       <% unless partial_data.bank_pdf_blob_path.blank? %>
-          <%= link_to( Proposal.human_attribute_name(:bank_pdf), "#{Rails.application.secrets[:egzaminy_host]}#{partial_data.bank_pdf_blob_path}", target: "_blank") %>        
+          <p><strong><%= Proposal.human_attribute_name(:bank_pdf) %></strong></p>
+          <%= link_to( image_tag("bank_pdf.png", class: "img-thumbnail", height: '120', width: '87'), "#{Rails.application.secrets[:egzaminy_host]}#{partial_data.bank_pdf_blob_path}", target: "_blank") %>        
       <% end %>
     </div>
     
     <% if partial_data.division.face_image_required %>
       <div class="form-group col-sm-6">
         <% unless partial_data.face_image_blob_path.blank? %>
-          <%= link_to( Proposal.human_attribute_name(:face_image), "#{Rails.application.secrets[:egzaminy_host]}#{partial_data.face_image_blob_path}", target: "_blank") %>
+          <p><strong><%= Proposal.human_attribute_name(:face_image) %></strong></p>
+          <%= link_to( image_tag("no_photo.jpg", class: "img-thumbnail", height: '120', width: '95'), "#{Rails.application.secrets[:egzaminy_host]}#{partial_data.face_image_blob_path}", target: "_blank") %>
         <% end %>
       </div>
     <% end %>
