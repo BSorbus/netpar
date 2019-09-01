@@ -33,6 +33,8 @@ class Proposal < ActiveRecord::Base
   validates :division, presence: true
   validates :exam_fee, presence: true
   validates :exam, presence: true
+  validates :not_approved_comment, presence: true, length: { minimum: 10 }, if: "proposal_status_id == #{PROPOSAL_STATUS_NOT_APPROVED}"
+
 #  validates :customer, presence: true
 #  validates :user, presence: true
 #  validates :esod_matter, uniqueness: { case_sensitive: false, scope: [:examination_result] }, allow_blank: true
@@ -59,6 +61,10 @@ class Proposal < ActiveRecord::Base
 
   def fullname
     "#{name} #{given_names}, #{pesel}, #{exam_fullname}"
+  end
+
+  def can_or_not_approved?
+    proposal_status_id == Proposal::PROPOSAL_STATUS_CREATED
   end
 
   private

@@ -2,7 +2,7 @@ class ProposalsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:show_charts, :index, :datatables_index, :datatables_index_exam, :approved]
 
-  before_action :set_proposal, only: [:show, :edit, :update, :proposal_to_pdf]
+  before_action :set_proposal, only: [:show, :edit, :update, :edit_not_approved, :update_not_approved, :update_approved, :proposal_to_pdf]
 
   # def show_charts
   #   respond_to do |format|
@@ -90,12 +90,6 @@ class ProposalsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /proposals/1
-  def approved
-    puts '-----------------------APPROVED-------------------------------'
-    redirect_to proposals_path(@proposal, category_service: params[:category_service])    
-  end
-
   # GET /proposals/1/edit
   def edit # as not approved
     proposal_authorize(@proposal, "edit", params[:category_service])
@@ -103,6 +97,15 @@ class ProposalsController < ApplicationController
     respond_to do |format|
       format.json
       format.html { render :edit, locals: { back_url: params[:back_url] } }
+    end
+  end
+
+  # GET /proposals/1/edit
+  def edit_not_approved
+    proposal_authorize(@proposal, "edit", params[:category_service])
+ 
+    respond_to do |format|
+      format.html { render :edit_not_approved, locals: { back_url: params[:back_url] } }
     end
   end
 
@@ -115,7 +118,7 @@ class ProposalsController < ApplicationController
     proposal_authorize(@proposal, "update", params[:category_service])
 
     respond_to do |format|
-      if @proposal.update(proposal_not_approved_params)
+      if @proposal.update(proposal_params)
         flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.fullname)
 
         format.html { redirect_to proposal_path(@proposal, category_service: params[:category_service]) }
@@ -123,6 +126,42 @@ class ProposalsController < ApplicationController
       else
         format.html { render :edit, locals: { back_url: params[:back_url] } }
         format.json { render json: @proposal.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /proposals/1
+  def update_approved
+    @proposal.user = current_user
+    @proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_APPROVED
+ 
+    proposal_authorize(@proposal, "update", params[:category_service])
+
+    respond_to do |format|
+      if @proposal.save
+        flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.fullname)
+
+        format.html { redirect_to proposal_path(@proposal, category_service: params[:category_service]) }
+      else
+        format.html { render :show, locals: { back_url: params[:back_url] } }
+      end
+    end
+  end
+
+  # PATCH/PUT /proposals/1
+  def update_not_approved
+    @proposal.user = current_user
+    @proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_NOT_APPROVED
+ 
+    proposal_authorize(@proposal, "update", params[:category_service])
+
+    respond_to do |format|
+      if @proposal.update(proposal_not_approved_params)
+        flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.fullname)
+
+        format.html { redirect_to proposal_path(@proposal, category_service: params[:category_service]) }
+      else
+        format.html { render :edit_not_approved, locals: { back_url: params[:back_url] } }
       end
     end
   end
