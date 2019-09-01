@@ -34,7 +34,10 @@ class CreateProposals < ActiveRecord::Migration
       t.string :division_fullname
       t.references :exam_fee, index: true, foreign_key: true
       t.decimal :exam_fee_price, precision: 8, scale: 2, default: 0.00
-
+      t.text :face_image_blob_path
+      t.text :bank_pdf_blob_path
+      t.text :not_approved_comment
+ 
       t.timestamps
     end
   end

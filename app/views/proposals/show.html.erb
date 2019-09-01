@@ -8,6 +8,7 @@
         <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_data">
           <div class="panel-heading">
             <div class="panel-title">
+              <span class='<%= t("pages.proposal.model_icon") %>'></span>
               <span class='<%= t("pages.proposal_#{params[:category_service]}.model_icon") %>'>&nbsp;</span>
               <span><%=t "pages.proposal_#{params[:category_service]}.show.title"%>:&nbsp;<%= @proposal.fullname %></span>
               <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>

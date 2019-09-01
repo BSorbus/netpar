@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190831011742) do
+ActiveRecord::Schema.define(version: 20190818220137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -572,11 +572,11 @@ ActiveRecord::Schema.define(version: 20190831011742) do
     t.string   "division_fullname"
     t.integer  "exam_fee_id"
     t.decimal  "exam_fee_price",                    precision: 8, scale: 2, default: 0.0
+    t.text     "face_image_blob_path"
+    t.text     "bank_pdf_blob_path"
+    t.text     "not_approved_comment"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "face_image_blob_url"
-    t.text     "bank_pdf_blob_url"
-    t.text     "not_approved_comment"
   end
 
   add_index "proposals", ["category"], name: "index_proposals_on_category", using: :btree
