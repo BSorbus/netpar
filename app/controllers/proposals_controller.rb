@@ -146,7 +146,18 @@ class ProposalsController < ApplicationController
     proposal_authorize(@proposal, "update", params[:category_service])
 
     respond_to do |format|
-      if @proposal.update(proposal_approved_params)
+      if @proposal.update_rec_and_push(proposal_approved_params)
+        @proposal.works.create!(trackable_url: "#{proposal_path(@proposal, category_service: params[:category_service])}", action: :update, user: current_user, 
+          parameters: @proposal.to_json(except: {proposal: [:id, :proposal_status_id, :user_id]}, 
+                  include: { 
+                    exam: {
+                      only: [:id, :number, :date_exam, :place_exam] },
+                    proposal_status: {
+                      only: [:id, :name] },
+                    user: {
+                      only: [:id, :name, :email] } 
+                          }))
+
         flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.fullname)
 
         format.html { redirect_to proposal_path(@proposal, category_service: params[:category_service]) }
