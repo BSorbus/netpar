@@ -58,7 +58,7 @@
 
   <% if proposal_policy_check(@proposal, params[:category_service], 'work') %>
     <%#= render partial: "works" %>
-    <%= render partial: "works/works_in_panel", locals: {trackable_type: 'Exam', trackable_id: @proposal.id} %>
+    <%= render partial: "works/works_in_panel", locals: {trackable_type: 'Proposal', trackable_id: @proposal.id} %>
   <% end %>
 
 

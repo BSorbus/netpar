@@ -29,7 +29,6 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
     else
       render json: { errors: proposal.errors }, status: :unprocessable_entity
     end
-#    render json: { errors: "create proposal err" }, status: :unprocessable_entity
   end
 
   def update

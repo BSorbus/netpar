@@ -1,12 +1,27 @@
+require 'net/http'
+
 class Proposal < ActiveRecord::Base
 
-  CATEGORY_NAME_M = "Świadectwo służby morskiej i żeglugi śródlądowej"
-  CATEGORY_NAME_R = "Świadectwo służby radioamatorskiej"
+  HTTP_ERRORS = [
+    EOFError,
+    Errno::ECONNRESET,
+    Errno::EINVAL,
+    Net::HTTPBadResponse,
+    Net::HTTPHeaderSyntaxError,
+    Net::ProtocolError,
+    Timeout::Error,
+    Errno::ECONNREFUSED
+  ]
 
   PROPOSAL_STATUS_CREATED = 1
   PROPOSAL_STATUS_APPROVED = 2
   PROPOSAL_STATUS_NOT_APPROVED = 3
   PROPOSAL_STATUS_CLOSED = 4
+
+  PROPOSAL_STATUSES = [PROPOSAL_STATUS_CREATED, PROPOSAL_STATUS_APPROVED, PROPOSAL_STATUS_NOT_APPROVED, PROPOSAL_STATUS_CLOSED]
+
+  CATEGORY_NAME_M = "Świadectwo służby morskiej i żeglugi śródlądowej"
+  CATEGORY_NAME_R = "Świadectwo służby radioamatorskiej"
 
 
   belongs_to :proposal_status
@@ -63,8 +78,129 @@ class Proposal < ActiveRecord::Base
     "#{name} #{given_names}, #{pesel}, #{exam_fullname}"
   end
 
+  def fullname_and_id
+    "#{fullname} (#{id})"
+  end
+
   def can_or_not_approved?
-    proposal_status_id == Proposal::PROPOSAL_STATUS_CREATED
+    true #test!
+    #proposal_status_id == Proposal::PROPOSAL_STATUS_CREATED
+  end
+
+  def update_rec_and_push(proposal_params)
+    self.attributes = proposal_params
+    if invalid?
+      return false
+    else
+      ActiveRecord::Base.transaction do
+        begin
+          egzaminy_proposal_obj = EgzaminyProposal.new(multi_app_identifier: self.multi_app_identifier, egzaminy_proposal: JSON.parse(self.to_json) )
+          response = egzaminy_proposal_obj.request_update
+          rescue *HTTP_ERRORS => e
+            Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push - API ERROR" (1) ====')
+            Rails.logger.error("#{e}")
+            errors.add(:base, "#{e}")
+            Rails.logger.error('=============================================================================')
+            raise ActiveRecord::Rollback, "#{e}"
+            false
+          rescue StandardError => e
+            Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push - API ERROR" (2) ====')
+            Rails.logger.error("#{e}")
+            errors.add(:base, "#{e}")
+            Rails.logger.error('=============================================================================')
+            raise ActiveRecord::Rollback, "#{e}"
+            false
+          else
+            case response
+            when Net::HTTPOK, Net::HTTPCreated
+              save!
+              true   # success response
+            when Net::HTTPClientError, Net::HTTPInternalServerError
+              Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push" (3) ================')
+              Rails.logger.error("code: #{response.code}, message: #{response.message}, body: #{response.body}")
+              errors.add(:base, "code: #{response.code}, message: #{response.message}, body: #{response.body}")
+              Rails.logger.error('=============================================================================')
+              raise ActiveRecord::Rollback, "code: #{response.code}, message: #{response.message}"
+              false
+            when response.class != 'String'
+              Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push" (4) ================')
+              Rails.logger.error("code: #{response.code}, message: #{response.message}, body: #{response.body}")
+              errors.add(:base, "code: #{response.code}, message: #{response.message}, body: #{response.body}")
+              Rails.logger.error('=============================================================================')
+              raise ActiveRecord::Rollback, "code: #{response.code}, message: #{response.message}, body: #{response.body}"
+              false
+            else
+              Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push" (5) ================')
+              Rails.logger.error("#{response}")
+              errors.add(:base, "#{response}")
+              Rails.logger.error('=============================================================================')
+              raise ActiveRecord::Rollback, "#{response}"
+              false
+            end # /case response
+          end # /else         
+        end # /begin
+      end # /transaction
+    
+  end
+
+
+  def send_proposal
+  begin
+    egzaminy_proposal_obj = EgzaminyProposal.new(egzaminy_proposal: JSON.parse(self.to_json) )
+    response = egzaminy_proposal_obj.request_update
+    rescue *HTTP_ERRORS => e
+      Rails.logger.error('======== API ERROR "models/proposal/save - API ERROR" (1) ===================')
+      Rails.logger.error("#{e}")
+      errors.add(:base, "#{e}")
+      Rails.logger.error('=============================================================================')
+      raise ActiveRecord::Rollback, "#{e}"
+      false
+    rescue StandardError => e
+      Rails.logger.error('======== API ERROR "models/proposal/save - API ERROR" (2) ===================')
+      Rails.logger.error("#{e}")
+      errors.add(:base, "#{e}")
+      Rails.logger.error('=============================================================================')
+      raise ActiveRecord::Rollback, "#{e}"
+      false
+    else
+      case response
+      when Net::HTTPOK, Net::HTTPCreated
+        save!
+        true   # success response
+      when Net::HTTPClientError, Net::HTTPInternalServerError
+        Rails.logger.error('======== API ERROR "models/proposal/save" (3) ===============================')
+        Rails.logger.error("code: #{response.code}, message: #{response.message}, body: #{response.body}")
+        errors.add(:base, "code: #{response.code}, message: #{response.message}, body: #{response.body}")
+        Rails.logger.error('=============================================================================')
+        raise ActiveRecord::Rollback, "code: #{response.code}, message: #{response.message}"
+        false
+      when response.class != 'String'
+        Rails.logger.error('======== API ERROR "models/proposal/save" (4) ===============================')
+        Rails.logger.error("code: #{response.code}, message: #{response.message}, body: #{response.body}")
+        errors.add(:base, "code: #{response.code}, message: #{response.message}, body: #{response.body}")
+        Rails.logger.error('=============================================================================')
+        raise ActiveRecord::Rollback, "code: #{response.code}, message: #{response.message}, body: #{response.body}"
+        false
+      else
+        Rails.logger.error('======== API ERROR "models/proposal/save" (5) ===============================')
+        Rails.logger.error("#{response}")
+        errors.add(:base, "#{response}")
+        Rails.logger.error('=============================================================================')
+        raise ActiveRecord::Rollback, "#{response}"
+        false
+      end
+    end
+  rescue  => exception
+    Rails.logger.error('============= ERROR models/proposal/save =======================================')
+    Rails.logger.error('... rescue => exception')
+    Rails.logger.error("... #{exception.message}")
+    Rails.logger.error("... #{exception.couse.message}")
+    # Handle exception that caused the transaction to fail
+    # e.message and e.cause.message can be helpful
+    errors.add(:base, "#{exception.message}")
+    errors.add(:base, "#{exception.couse.message}")
+    Rails.logger.error('================================================================================')
+    false
   end
 
   private
