@@ -19,10 +19,15 @@ class Division < ActiveRecord::Base
 
   DIVISION_R_FOR_SHOW = [ DIVISION_R_A, DIVISION_R_C ]  
 
+  DIVISION_EXCLUDE_FOR_NEW = [ DIVISION_R_B, DIVISION_R_D ]  
+
   has_many :proposals  
   has_many :exam_fees  
   has_many :certificates  
   has_many :subjects, dependent: :destroy  
+
+  has_many :exams_divisions, dependent: :destroy
+  has_many :exams, through: :exams_divisions
 
   accepts_nested_attributes_for :subjects
 
@@ -36,5 +41,6 @@ class Division < ActiveRecord::Base
   # scopes
   scope :only_category_scope, ->(cat)  { where(category: cat.upcase) }
   scope :by_name, -> { order(:name) }
+  scope :only_not_exclude, ->()  { where.not(id: [DIVISION_EXCLUDE_FOR_NEW]) }
 
 end

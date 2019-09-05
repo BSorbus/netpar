@@ -347,19 +347,11 @@ class ExamsController < ApplicationController
       @exam.date_exam = @esod_matter.termin_realizacji - Esodes::limit_time_add_to_exam(@exam.category)
       @exam.place_exam = @esod_matter.exam_place
     end
-
-    (1..8).each { @exam.examiners.build }
   end
 
   # GET /exams/1/edit
   def edit
     exam_authorize(@exam, "edit", params[:category_service])
-
-    count = @exam.examiners.size
-    add_empty = 8 - count
-    add_empty += 1 if count >= 8
-    #@exam.examiners.build
-    (1..add_empty).each { @exam.examiners.build }
   end
 
   # POST /exams
@@ -493,6 +485,6 @@ class ExamsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def exam_params
-      params.require(:exam).permit(:esod_category, :number, :date_exam, :place_exam, :chairman, :secretary, :category, :note, :user_id, :province_id, :max_examinations, examiners_attributes: [:id, :name, :_destroy])
+      params.require(:exam).permit(:esod_category, :number, :date_exam, :place_exam, :chairman, :secretary, :category, :note, :user_id, :province_id, :max_examinations, examiners_attributes: [:id, :name, :_destroy], division_ids: [])
     end
 end

@@ -55,37 +55,37 @@
 
     <hr class="hr-without-top-margin">
 
-    <div class="row">
-      <div class="form-group col-sm-6">
-        <%= f.label :chairman, class: 'control-label' %>
-        <%= f.text_field :chairman, class: 'form-control input-sm', disabled: input_disabled %>
-      </div>
-      <div class="form-group col-sm-6">
-        <%= f.label :secretary, class: 'control-label' %>
-        <%= f.text_field :secretary, class: 'form-control input-sm', disabled: input_disabled %>
-      </div>
-    </div>  <!-- /row -->
 
-    <div class="row">
-      <div class="col-sm-6">
-        <p><strong>Członkowie komisji:</strong></p>
-      </div>
-    </div>  <!-- /row -->
+    <fieldset class="my-fieldset">
+      <legend class="my-fieldset">Skład komisji</legend>
 
-    <%= f.fields_for :examiners do |e| %>
       <div class="row">
         <div class="form-group col-sm-6">
-          <%#= e.label :name, class: 'control-label' %>
-          <%= e.text_field :name, class: 'form-control input-sm', disabled: input_disabled %>
-
-          <% unless @exam.new_record? %>
-            <%= e.check_box :_destroy %>
-            <%= e.label :_destroy, 'usuń' %>
-          <% end%>
-
+          <%= f.label :chairman, class: 'control-label' %>
+          <%= f.text_field :chairman, class: 'form-control input-sm', disabled: input_disabled %>
+        </div>
+        <div class="form-group col-sm-6">
+          <%= f.label :secretary, class: 'control-label' %>
+          <%= f.text_field :secretary, class: 'form-control input-sm', disabled: input_disabled %>
         </div>
       </div>  <!-- /row -->
-    <% end %>  <!-- /f.fields_for -->
+
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <p><strong>Członkowie:</strong></p>
+          <div class='transports clearfix'>
+            <div class='transports-sub-form'>
+              <%#= f.fields_for :transports, business_trip.reload.transports do |transport_form|  %>
+              <%= f.fields_for :examiners do |examiner_form|  %>
+                <%= render 'examiner_fields', f: examiner_form %> 
+              <% end %>
+            </div>
+            <%= link_to_add_fields( t("helpers.links.link_to_add_fields_nested"), f, :examiners) %>
+          </div>
+
+        </div>
+      </div> <!--/row -->
+    </fieldset>
 
 
     <div class="row">
@@ -97,6 +97,19 @@
 
 
   </div> <!-- /col-sm-7 -->
+  <div class="col-sm-5">
+
+    <fieldset class="my-fieldset">
+      <legend class="my-fieldset"><%= ExamsDivision.model_name.human %></legend>
+
+      <%= f.collection_check_boxes :division_ids, Division.only_category_scope(params[:category_service].upcase).only_not_exclude.order(:id).all, :id, :name do |b| %>
+        <ul>
+          <%= b.check_box %>
+          <%= b.label %>
+        </ul>
+      <% end %>
+    </fieldset>
+  </div> <!-- /col-sm-5 -->
 
 </div> <!-- /row -->
 

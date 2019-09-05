@@ -47,6 +47,8 @@ pl:
       show_charts: ' Statystyki'
       proposal_approved: ' Zaakceptuj'
       proposal_not_approved: ' Odrzuć'
+      link_to_add_fields_nested: '[ + Dodaj ]'
+      link_to_remove_fields_nested: '[ - Usuń ]'
     titles:
       edit: "Edycja %{model}"
       save: "Zapisz %{model}"

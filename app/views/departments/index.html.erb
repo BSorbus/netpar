@@ -27,8 +27,12 @@
   <div class="col-sm-12">
     <div class="row">
       <% if policy(:department).new? %>
-        <%= link_to t('New', default: t("helpers.links.new")), new_department_path, 
-                            :class => 'btn btn-primary glyphicon glyphicon-plus pull-right' %> 
+
+        <%= link_to new_department_path, class: "btn btn-primary" do %>
+          <span class="glyphicon glyphicon-plus"></span>
+          <%= t("helpers.links.new") %>
+        <% end %>
+
       <% end %>
     </div> <!--/row -->
   </div> <!--/col-sm-12 -->

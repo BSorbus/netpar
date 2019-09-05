@@ -86,6 +86,23 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong>Dopuszczone rodzaje świadectw:</strong></p>
+
+        <table class="table table-hover">
+          <tbody>
+            <% @exam.divisions.order(:name).each do |division| %>
+              <tr>
+                <td><%= division.name %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
 
     <div class="row">
       <div class="form-group col-sm-12">

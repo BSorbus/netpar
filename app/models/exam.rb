@@ -19,6 +19,12 @@ class Exam < ActiveRecord::Base
   has_many :examination_customers, through: :examinations, source: :customer
   has_many :esod_matters, class_name: "Esod::Matter", foreign_key: :exam_id, dependent: :nullify
 
+  has_many :exams_divisions, dependent: :destroy
+  has_many :divisions, through: :exams_divisions
+
+  accepts_nested_attributes_for :examiners, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :exams_divisions, reject_if: :all_blank, allow_destroy: true
+
   # validates
   validates :esod_category, presence: true, inclusion: { in: Esodes::ALL_CATEGORIES_EXAMS }
   validates :number, presence: true,
@@ -31,6 +37,7 @@ class Exam < ActiveRecord::Base
   validates :category, presence: true, inclusion: { in: %w(L M R) }
   validates :user, presence: true
 
+  # TODO Testy! - odblokować na koniec
   validates :province_id, presence: true
   validates :max_examinations, numericality: true, allow_blank: true
 
