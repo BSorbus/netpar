@@ -33,7 +33,7 @@
 		<% if proposal_policy_check(@proposal, params[:category_service], 'edit') %>
 
       <%= link_to edit_approved_proposal_path(@proposal.category.downcase, @proposal), 
-                          class: "btn btn-success",
+                          class: "btn btn-primary",
                           disabled: ! @proposal.can_or_not_approved? do %>
         <span class="fa fa-check"></span>
         <%= t("helpers.links.proposal_approved") %>

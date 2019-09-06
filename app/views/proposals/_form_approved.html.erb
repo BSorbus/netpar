@@ -36,10 +36,10 @@
     <% end %>
 
     <%= link_to proposal_path(params[:category_service], @proposal), class: "btn btn-default" do %>
-      <span class="glyphicon glyphicon-arrow-left"></span>
+      <span class="fa fa-undo"></span>
       <%= t("helpers.links.back") %>
     <% end %>
 
-    <%= f.submit nil, data: { confirm: t('helpers.links.confirm_approved', data: @proposal.fullname) }, :class => 'btn btn-primary disabled' %>
+    <%= f.submit nil, data: { confirm: t('helpers.links.confirm_approved', data: @proposal.fullname) }, class: 'btn btn-success disabled' %>
   </div> <!-- /row -->
 <% end %>
