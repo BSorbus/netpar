@@ -203,22 +203,35 @@
   <!-- for "Show" -->
   <div class="row">
 
-    <%= link_to t('Index', default: t("helpers.links.index")), customers_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+    <%= link_to customers_path(), class: "btn btn-default" do %>
+      <span class="fa fa-list"></span>
+      <%= t("helpers.links.index") %>
+    <% end %>
 
-    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
-
+    <%= link_to :back, class: "btn btn-default" do %>
+      <span class="fa fa-undo"></span>
+      <%= t("helpers.links.back") %>
+    <% end %>
 
     <% if policy(@customer).destroy? %>
-      <%= link_to t('Delete', default: t("helpers.links.destroy")), customer_path(@customer),
+
+      <%= link_to customer_path(@customer),
                           method: :delete,
-                          data: { confirm: t('helpers.links.confirm_destroy', data: @customer.fullname) },
-                          :class => "btn btn-danger glyphicon glyphicon-trash" %>
+                          data: { confirm: t('helpers.links.confirm_destroy', data: @customer.fullname) }, 
+                          class: "btn btn-danger" do %>
+        <span class="fa fa-trash-o"></span>
+        <%= t("helpers.links.destroy") %>
+      <% end %>
+
     <% end %>
     <% if policy(@customer).edit? %>
-      <%= link_to t('Edit', default: t("helpers.links.edit")), edit_customer_path(@customer), 
-                        :class => "btn btn-primary glyphicon glyphicon-edit" %>  
 
+      <%= link_to edit_customer_path(@customer), class: "btn btn-primary" do %>
+        <span class="fa fa-edit"></span>
+        <%= t("helpers.links.edit") %>
       <% end %>
+
+    <% end %>
     <% if policy(@customer).merge? %>
       <button class="btn btn-warning glyphicon glyphicon-link pull-right" type="button" data-toggle="collapse" data-target=".link-form" aria-expanded="false" > Scalanie kartotek
       </button>

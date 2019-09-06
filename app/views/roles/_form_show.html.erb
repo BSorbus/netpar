@@ -38,21 +38,36 @@
 <% if input_disabled %>
   <!-- for "Show" -->
   <div class="row">
-    <%= link_to t('Index', default: t("helpers.links.index")), roles_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+    <%= link_to roles_path(), class: "btn btn-default" do %>
+      <span class="fa fa-list"></span>
+      <%= t("helpers.links.index") %>
+    <% end %>
 
-    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+    <%= link_to :back, class: "btn btn-default" do %>
+      <span class="fa fa-undo"></span>
+      <%= t("helpers.links.back") %>
+    <% end %>
 
 
     <% if policy(@role).destroy? %>
-      <%= link_to t('Delete', default: t("helpers.links.destroy")), role_path(@role),
+
+      <%= link_to role_path(@role),
                           method: :delete,
                           data: { confirm: t('helpers.links.confirm_destroy', data: @role.name) }, 
-                          :class => "btn btn-danger glyphicon glyphicon-trash" %>
+                          class: "btn btn-danger" do %>
+        <span class="fa fa-trash-o"></span>
+        <%= t("helpers.links.destroy") %>
+      <% end %>
+
     <% end %>
 
     <% if policy(@role).edit? %>
-      <%= link_to t('Edit', default: t("helpers.links.edit")), edit_role_path(@role), 
-                      :class => "btn btn-primary glyphicon glyphicon-edit" %>  
+
+      <%= link_to edit_role_path(@role), class: "btn btn-primary" do %>
+        <span class="fa fa-edit"></span>
+        <%= t("helpers.links.edit") %>
+      <% end %>
+
     <% end %>
   </div> <!-- /row -->
 <% else %>

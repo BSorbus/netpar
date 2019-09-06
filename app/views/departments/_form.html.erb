@@ -94,11 +94,18 @@
   <% else %>
     <!-- form "New"/"Edit" -->
     <div class="row">
-      <%= link_to t('Index', default: t("helpers.links.index")), departments_path, :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+      <%= link_to departments_path(), class: "btn btn-default" do %>
+        <span class="fa fa-list"></span>
+        <%= t("helpers.links.index") %>
+      <% end %>
 
-      <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+      <%= link_to :back, class: "btn btn-default" do %>
+        <span class="fa fa-undo"></span>
+        <%= t("helpers.links.back") %>
+      <% end %>
 
-      <%= f.submit nil, :class => 'btn btn-primary' %>
+
+      <%= f.submit nil, :class => 'btn btn-success' %>
     </div> <!-- /row -->
   <% end %>
   

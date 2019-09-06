@@ -137,9 +137,12 @@
   <!-- form "New"/"Edit" -->
   <div class="row">
 
-    <%= link_to t('Back', default: t("helpers.links.back")), back_url, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+    <%= link_to back_url, class: "btn btn-default" do %>
+      <span class="fa fa-undo"></span>
+      <%= t("helpers.links.back") %>
+    <% end %>
 
-    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= f.submit nil, :class => 'btn btn-success' %>
   </div> <!-- /row -->
 
 <% end %>

@@ -141,25 +141,42 @@
 <% if input_disabled %>
   <!-- for "Show" -->
   <div class="row">
-    <%= link_to t('Index', default: t("helpers.links.index")), exams_path(params[:category_service]), :class => 'btn btn-default glyphicon glyphicon-th-list' %>
+    <%= link_to exams_path(params[:category_service]), class: "btn btn-default" do %>
+      <span class="fa fa-list"></span>
+      <%= t("helpers.links.index") %>
+    <% end %>
 
-    <%= link_to t('Back', default: t("helpers.links.back")), :back, :class => 'btn btn-default glyphicon glyphicon-arrow-left' %>
+    <%= link_to :back, class: "btn btn-default" do %>
+      <span class="fa fa-undo"></span>
+      <%= t("helpers.links.back") %>
+    <% end %>
 
     <% if exam_policy_check(@exam, params[:category_service], 'destroy') %>
-      <%= link_to t('Delete', default: t("helpers.links.destroy")), exam_path(@exam, category_service: @exam.category.downcase),
+
+      <%= link_to exam_path(@exam, category_service: @exam.category.downcase),
                           method: :delete,
                           data: { confirm: t('helpers.links.confirm_destroy', data: @exam.fullname) }, 
-                          :class => "btn btn-danger glyphicon glyphicon-trash" %>
+                          class: "btn btn-danger" do %>
+        <span class="fa fa-trash-o"></span>
+        <%= t("helpers.links.destroy") %>
+      <% end %>
+
     <% end %>
 
     <% if exam_policy_check(@exam, params[:category_service], 'edit') %>
-      <%= link_to t('Edit', default: t("helpers.links.edit")), edit_exam_path(@exam, category_service: @exam.category.downcase), 
-                          :class => 'btn btn-primary glyphicon glyphicon-edit' %> 
+
+      <%= link_to edit_exam_path(@exam, category_service: @exam.category.downcase), class: "btn btn-primary" do %>
+        <span class="fa fa-edit"></span>
+        <%= t("helpers.links.edit") %>
+      <% end %>
+
     <% end %>
 
     <% if exam_policy_check(@exam, params[:category_service], 'edit') %>
-      <%= link_to t('send_exam_committee_docx', default: t("helpers.links.exam_committee_docx")), committee_docx_exam_path(@exam, category_service: @exam.category.downcase, format: "docx"), 
-                          :class => 'btn btn-info glyphicon glyphicon-retweet pull-right' %> 
+      <%= link_to committee_docx_exam_path(@exam, category_service: @exam.category.downcase, format: "docx"), class: 'btn btn-info pull-right' do %> 
+        <span class="glyphicon glyphicon-retweet"></span>
+        <%= t("helpers.links.exam_committee_docx") %>
+      <% end %>
 
     <% end %>
 
