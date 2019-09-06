@@ -15,7 +15,7 @@ class ExamProposalsDatatable < AjaxDatatablesRails::Base
                               Proposal.given_names
                               Proposal.pesel
                               Proposal.birth_date
-                              Proposal.address_city
+                              Proposal.c_address_city
                               Division.name
                               ProposalStatus.name
                             )
@@ -29,7 +29,7 @@ class ExamProposalsDatatable < AjaxDatatablesRails::Base
                               Proposal.given_names
                               Proposal.pesel
                               Proposal.birth_date
-                              Proposal.address_city
+                              Proposal.c_address_city
                               Division.name 
                               ProposalStatus.name 
                             )
@@ -47,7 +47,7 @@ class ExamProposalsDatatable < AjaxDatatablesRails::Base
         record.given_names,
         record.pesel,
         record.birth_date,
-        record.address_city,
+        record.c_address_city,
         record.division.name,
         record.proposal_status.name,
         record.category, 
