@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190905141447) do
+ActiveRecord::Schema.define(version: 20190908121234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -553,41 +553,42 @@ ActiveRecord::Schema.define(version: 20190905141447) do
   end
 
   create_table "proposals", force: :cascade do |t|
-    t.uuid     "multi_app_identifier",                                                    null: false
+    t.uuid     "multi_app_identifier",                                                     null: false
     t.integer  "proposal_status_id"
-    t.string   "category",              limit: 1,                                         null: false
+    t.string   "category",               limit: 1,                                         null: false
     t.integer  "user_id"
     t.integer  "creator_id"
-    t.string   "name",                  limit: 160,                         default: "",  null: false
-    t.string   "given_names",           limit: 50,                          default: "",  null: false
-    t.string   "pesel",                 limit: 11,                          default: ""
+    t.string   "name",                   limit: 160,                         default: "",  null: false
+    t.string   "given_names",            limit: 50,                          default: "",  null: false
+    t.string   "pesel",                  limit: 11,                          default: ""
     t.date     "birth_date"
-    t.string   "birth_place",           limit: 50,                          default: ""
-    t.string   "phone",                 limit: 50,                          default: ""
-    t.string   "email",                 limit: 50,                          default: "",  null: false
-    t.string   "address_city",          limit: 50,                          default: "",  null: false
-    t.string   "address_street",        limit: 50,                          default: ""
-    t.string   "address_house",         limit: 10,                          default: ""
-    t.string   "address_number",        limit: 10,                          default: ""
-    t.string   "address_postal_code",   limit: 10,                          default: ""
-    t.string   "c_address_city",        limit: 50,                          default: ""
-    t.string   "c_address_street",      limit: 50,                          default: ""
-    t.string   "c_address_house",       limit: 10,                          default: ""
-    t.string   "c_address_number",      limit: 10,                          default: ""
-    t.string   "c_address_postal_code", limit: 10,                          default: ""
+    t.string   "birth_place",            limit: 50,                          default: ""
+    t.string   "phone",                  limit: 50,                          default: ""
+    t.string   "email",                  limit: 50,                          default: "",  null: false
+    t.string   "address_city",           limit: 50,                          default: "",  null: false
+    t.string   "address_street",         limit: 50,                          default: ""
+    t.string   "address_house",          limit: 10,                          default: ""
+    t.string   "address_number",         limit: 10,                          default: ""
+    t.string   "address_postal_code",    limit: 10,                          default: ""
+    t.string   "c_address_city",         limit: 50,                          default: ""
+    t.string   "c_address_street",       limit: 50,                          default: ""
+    t.string   "c_address_house",        limit: 10,                          default: ""
+    t.string   "c_address_number",       limit: 10,                          default: ""
+    t.string   "c_address_postal_code",  limit: 10,                          default: ""
     t.integer  "esod_category"
     t.integer  "exam_id"
     t.string   "exam_fullname"
-    t.date     "date_exam"
+    t.date     "exam_date_exam"
     t.integer  "division_id"
     t.string   "division_fullname"
     t.integer  "exam_fee_id"
-    t.decimal  "exam_fee_price",                    precision: 8, scale: 2, default: 0.0
+    t.decimal  "exam_fee_price",                     precision: 8, scale: 2, default: 0.0
     t.text     "face_image_blob_path"
     t.text     "bank_pdf_blob_path"
     t.text     "not_approved_comment"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "division_min_years_old"
   end
 
   add_index "proposals", ["category"], name: "index_proposals_on_category", using: :btree

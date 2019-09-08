@@ -10,6 +10,7 @@ class ProposalDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Proposalple: 'proposals.email'
     @sortable_columns ||= %w( 
+                              Proposal.created_at
                               Proposal.name
                               Proposal.given_names
                               Proposal.pesel
@@ -25,6 +26,7 @@ class ProposalDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Proposalple: 'proposals.email'
     @searchable_columns ||= %w(
+                              Proposal.created_at
                               Proposal.name
                               Proposal.given_names
                               Proposal.pesel
@@ -44,6 +46,7 @@ class ProposalDatatable < AjaxDatatablesRails::Base
   
       [
         record.id,
+        record.created_at.strftime("%Y-%m-%d %H:%M:%S"),
         record.name,
         record.given_names,
         record.pesel,
