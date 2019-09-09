@@ -119,10 +119,10 @@ class ProposalsController < ApplicationController
   # PATCH/PUT /proposals/1
   # PATCH/PUT /proposals/1.json
   def update
-    @proposal.user = current_user
- 
     proposal_authorize(@proposal, "update", params[:category_service])
 
+    @proposal.user = current_user
+ 
     respond_to do |format|
       if @proposal.update(proposal_params)
         flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.fullname)
@@ -138,11 +138,11 @@ class ProposalsController < ApplicationController
 
   # PATCH/PUT /proposals/1
   def update_approved
+    proposal_authorize(@proposal, "update", params[:category_service])
+
     @proposal.user = current_user
     @proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_APPROVED
  
-    proposal_authorize(@proposal, "update", params[:category_service])
-
     respond_to do |format|
       if @proposal.update_rec_and_push(proposal_approved_params)
         @proposal.works.create!(trackable_url: "#{proposal_path(@proposal, category_service: params[:category_service])}", action: :update, user: current_user, 
@@ -167,10 +167,10 @@ class ProposalsController < ApplicationController
 
   # PATCH/PUT /proposals/1
   def update_not_approved
+    proposal_authorize(@proposal, "update", params[:category_service])
+
     @proposal.user_id = current_user.id
     @proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_NOT_APPROVED
- 
-    proposal_authorize(@proposal, "update", params[:category_service])
 
     respond_to do |format|
       if @proposal.update_rec_and_push(proposal_not_approved_params)
