@@ -237,6 +237,7 @@ pl:
     status_id_2_name: 'Zgłoszenie zaakcepowane'
     status_id_3_name: 'Zgłoszenie odrzucone'
     status_id_4_name: 'Zgłoszenie zamknięte'
+    status_id_5_name: 'Zgłoszenie anulowane'
     new:
       title: 'Kreator Zgłoszenia'
     index:

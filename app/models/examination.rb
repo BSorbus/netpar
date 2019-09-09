@@ -31,15 +31,7 @@ class Examination < ActiveRecord::Base
   scope :only_category_r, -> { where(category: "R") }
 
   # callbacks
-  before_save :check_max_examinations, on: :create
 
-
-  def check_max_examinations
-    if self.exam.examinations_count + self.exam.proposals_important_count >= (self.exam.max_examinations ||= 0) 
-      errors[:base] << "Przekroczona maksymalna liczba miejsc w tej sesji egzaminacyjnej"
-      false
-    end    
-  end
 
   def fullname
     "#{customer.fullname}  =>  #{exam.fullname}"

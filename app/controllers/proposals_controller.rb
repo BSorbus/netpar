@@ -171,6 +171,7 @@ class ProposalsController < ApplicationController
     @proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_NOT_APPROVED
  
     proposal_authorize(@proposal, "update", params[:category_service])
+
     respond_to do |format|
       if @proposal.update_rec_and_push(proposal_not_approved_params)
         @proposal.works.create!(trackable_url: "#{proposal_path(@proposal, category_service: params[:category_service])}", action: :update, user: current_user, 

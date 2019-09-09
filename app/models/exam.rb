@@ -37,7 +37,6 @@ class Exam < ActiveRecord::Base
   validates :category, presence: true, inclusion: { in: %w(L M R) }
   validates :user, presence: true
 
-  # TODO Testy! - odblokować na koniec
   validates :province_id, presence: true
   validates :max_examinations, numericality: true, allow_blank: true
 

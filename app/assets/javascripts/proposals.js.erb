@@ -27,21 +27,37 @@ $(document).ready(function() {
       { "targets": [1],
         "title": "<%= Proposal.human_attribute_name('created_at') %>" }, 
       { "targets": [2],
-        "title": "<%= Proposal.human_attribute_name('name') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('proposal_status_id') %>",
+        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+          // sData - wartosc celi, oData - wiersza
+          if (oData[2] == 'Zaakceptowane' ) {
+            $(nTd).css('background-color', '#DFF0D8'); 
+          }
+          else if (oData[2] == 'Odrzucone' ) {
+            $(nTd).css('background-color', '#FF8C8C'); //Red mix
+          }
+          else if (oData[2] == 'Zamknięte' ) {
+            $(nTd).css('background-color', '#CCC');  
+          }
+          else if (oData[2] == 'Anulowane' ) {
+            $(nTd).css('background-color', '#FFC04D'); //Orange mix 
+          }
+        }
+      }, 
       { "targets": [3],
-        "title": "<%= Proposal.human_attribute_name('given_names') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('name') %>" }, 
       { "targets": [4],
-        "title": "<%= Proposal.human_attribute_name('pesel') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('given_names') %>" }, 
       { "targets": [5],
-        "title": "<%= Proposal.human_attribute_name('birth_date') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('pesel') %>" }, 
       { "targets": [6],
-        "title": "<%= Proposal.human_attribute_name('c_address_city') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('birth_date') %>" }, 
       { "targets": [7],
-        "title": "<%= Proposal.human_attribute_name('division_id') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('c_address_city') %>" }, 
       { "targets": [8],
-        "title": "<%= Proposal.human_attribute_name('exam_id') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('division_id') %>" }, 
       { "targets": [9],
-        "title": "<%= Proposal.human_attribute_name('proposal_status_id') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('exam_id') %>" }, 
       { "targets": [10],
         "title": "<%= Proposal.human_attribute_name('category') %>",
         "visible": false,

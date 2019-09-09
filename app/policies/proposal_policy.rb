@@ -80,11 +80,11 @@ class ProposalPolicy < ApplicationPolicy
   end
 
   def edit_m?
-    user_activities.include? 'proposal_m:update'
+    @model.can_edit? && (user_activities.include? 'proposal_m:update')
   end
 
   def edit_r?
-    user_activities.include? 'proposal_r:update'
+    @model.can_edit? && (user_activities.include? 'proposal_r:update')
   end
 
   def edit?

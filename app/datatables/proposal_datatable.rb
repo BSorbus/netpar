@@ -11,6 +11,7 @@ class ProposalDatatable < AjaxDatatablesRails::Base
     # Proposalple: 'proposals.email'
     @sortable_columns ||= %w( 
                               Proposal.created_at
+                              ProposalStatus.name
                               Proposal.name
                               Proposal.given_names
                               Proposal.pesel
@@ -18,7 +19,6 @@ class ProposalDatatable < AjaxDatatablesRails::Base
                               Proposal.c_address_city
                               Division.name
                               Exam.number
-                              ProposalStatus.name
                             )
   end
 
@@ -27,6 +27,7 @@ class ProposalDatatable < AjaxDatatablesRails::Base
     # Proposalple: 'proposals.email'
     @searchable_columns ||= %w(
                               Proposal.created_at
+                              ProposalStatus.name 
                               Proposal.name
                               Proposal.given_names
                               Proposal.pesel
@@ -34,7 +35,6 @@ class ProposalDatatable < AjaxDatatablesRails::Base
                               Proposal.c_address_city
                               Division.name 
                               Exam.number 
-                              ProposalStatus.name 
                             )
   end
 
@@ -47,6 +47,7 @@ class ProposalDatatable < AjaxDatatablesRails::Base
       [
         record.id,
         record.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+        record.proposal_status.name,
         record.name,
         record.given_names,
         record.pesel,
@@ -54,7 +55,6 @@ class ProposalDatatable < AjaxDatatablesRails::Base
         record.c_address_city,
         record.division.name,
         record.exam_id.present? ? link_to(record.exam.fullname, @view.exam_path(record.category.downcase, record.exam)) : '',
-        record.proposal_status.name,
         record.category, 
         link_to(' ', @view.proposal_path(record.category.downcase, record, back_url: @view.proposals_path), 
                         class: 'glyphicon glyphicon-eye-open', title: 'Pokaż', rel: 'tooltip')

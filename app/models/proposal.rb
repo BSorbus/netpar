@@ -17,8 +17,9 @@ class Proposal < ActiveRecord::Base
   PROPOSAL_STATUS_APPROVED = 2
   PROPOSAL_STATUS_NOT_APPROVED = 3
   PROPOSAL_STATUS_CLOSED = 4
+  PROPOSAL_STATUS_ANNULLED = 5
 
-  PROPOSAL_STATUSES = [PROPOSAL_STATUS_CREATED, PROPOSAL_STATUS_APPROVED, PROPOSAL_STATUS_NOT_APPROVED, PROPOSAL_STATUS_CLOSED]
+  PROPOSAL_STATUSES = [PROPOSAL_STATUS_CREATED, PROPOSAL_STATUS_APPROVED, PROPOSAL_STATUS_NOT_APPROVED, PROPOSAL_STATUS_CLOSED, PROPOSAL_STATUS_ANNULLED]
 
   CATEGORY_NAME_M = "Świadectwo służby morskiej i żeglugi śródlądowej"
   CATEGORY_NAME_R = "Świadectwo służby radioamatorskiej"
@@ -83,8 +84,8 @@ class Proposal < ActiveRecord::Base
   end
 
   def can_or_not_approved?
-    true #test!
-    #proposal_status_id == Proposal::PROPOSAL_STATUS_CREATED
+    #true #test!
+    proposal_status_id == Proposal::PROPOSAL_STATUS_CREATED
   end
 
   def update_rec_and_push(proposal_params)
@@ -201,6 +202,10 @@ class Proposal < ActiveRecord::Base
     errors.add(:base, "#{exception.couse.message}")
     Rails.logger.error('================================================================================')
     false
+  end
+
+  def can_edit?
+    [PROPOSAL_STATUS_CREATED].include?(proposal_status_id) 
   end
 
   private
