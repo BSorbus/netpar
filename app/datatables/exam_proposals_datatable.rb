@@ -11,13 +11,13 @@ class ExamProposalsDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Proposalple: 'proposals.email'
     @sortable_columns ||= %w( 
+                              ProposalStatus.name
                               Proposal.name
                               Proposal.given_names
                               Proposal.pesel
                               Proposal.birth_date
                               Proposal.c_address_city
                               Division.name
-                              ProposalStatus.name
                             )
   end
 
@@ -25,13 +25,13 @@ class ExamProposalsDatatable < AjaxDatatablesRails::Base
     # list columns inside the Array in string dot notation.
     # Proposalple: 'proposals.email'
     @searchable_columns ||= %w(
+                              ProposalStatus.name 
                               Proposal.name
                               Proposal.given_names
                               Proposal.pesel
                               Proposal.birth_date
                               Proposal.c_address_city
                               Division.name 
-                              ProposalStatus.name 
                             )
   end
 
@@ -43,17 +43,16 @@ class ExamProposalsDatatable < AjaxDatatablesRails::Base
   
       [
         record.id,
+        record.proposal_status.name,
         record.name,
         record.given_names,
         record.pesel,
         record.birth_date,
         record.c_address_city,
         record.division.name,
-        record.proposal_status.name,
         record.category, 
-        ''
-        # link_to(' ', @view.proposal_path(params[:category_service], record, back_url: @view.exam_path(record.exam.category.downcase, record.exam)), 
-        #                 class: 'glyphicon glyphicon-eye-open', title: 'Pokaż', rel: 'tooltip')
+        link_to(' ', @view.proposal_path(record.category.downcase, record, back_url: @view.exam_path(record.exam.category.downcase, record.exam)), 
+                        class: "fa fa-eye", title: 'Pokaż', rel: 'tooltip')
       ]
     end
   end

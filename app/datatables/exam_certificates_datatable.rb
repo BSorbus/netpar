@@ -56,12 +56,12 @@ class ExamCertificatesDatatable < AjaxDatatablesRails::Base
         show_customer ? link_to(record.customer.fullname_and_address, @view.customer_path(record.customer)) : 'xxx-xxx',
         record.category, 
         link_to(' ', @view.certificate_path(params[:category_service], record, back_url: @view.exam_path(record.exam.category.downcase, record.exam)), 
-                        class: 'glyphicon glyphicon-eye-open', title: 'Pokaż', rel: 'tooltip') + 
+                        class: "fa fa-eye", title: 'Pokaż', rel: 'tooltip') + 
                     " " + 
         link_to(' ', @view.certificate_path(params[:category_service], record, back_url: @view.exam_path(record.exam.category.downcase, record.exam)), 
                         method: :delete, 
                         data: { confirm: "Czy na pewno chcesz usunąć ten wpis?" }, 
-                        class: "glyphicon glyphicon-trash text-danger", title: 'Usuń', rel: 'tooltip')  
+                        class: "fa fa-trash-o text-danger", title: 'Usuń', rel: 'tooltip')  
       ]
     end
   end

@@ -30,6 +30,13 @@
       <%= t("helpers.links.index") %>
     <% end %>
 
+    <% unless back_url.blank? %>
+      <%= link_to back_url, class: "btn btn-default" do %>
+        <span class="fa fa-undo"></span>
+        <%= t("helpers.links.back") %>
+      <% end %>
+    <% end %>
+
 		<% if proposal_policy_check(@proposal, params[:category_service], 'edit') %>
 
       <%= link_to edit_approved_proposal_path(@proposal.category.downcase, @proposal), 

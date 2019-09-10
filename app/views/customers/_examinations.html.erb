@@ -55,12 +55,12 @@
                 <td><%= examination.note %></td>
                 <td>
                   <%= link_to ' ', examination_path(examination, category_service: examination.category.downcase, back_url: customer_path(@customer)), 
-                        :class => "glyphicon glyphicon-eye-open", title: t('tooltip.show'), rel: 'tooltip' %>
+                        :class => "fa fa-eye", title: t('tooltip.show'), rel: 'tooltip' %>
                     
                   <%= link_to ' ', examination_path(examination, category_service: examination.category.downcase, back_url: customer_path(@customer)),
                         method: :delete,
                         data: { confirm: t('helpers.links.confirm_destroy', data: examination.fullname) }, 
-                        :class => "glyphicon glyphicon-trash", title: t('tooltip.destroy'), rel: 'tooltip' %>
+                        :class => "fa fa-trash-o", title: t('tooltip.destroy'), rel: 'tooltip' %>
 
                 </td>
                 <td>

@@ -102,19 +102,35 @@ $(document).ready(function() {
         "searchable": false,
         "sortable": false }, 
       { "targets": [1],
-        "title": "<%= Proposal.human_attribute_name('name') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('status') %>",
+        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+          // sData - wartosc celi, oData - wiersza
+          if (oData[1] == 'Zaakceptowane' ) {
+            $(nTd).css('background-color', '#DFF0D8'); 
+          }
+          else if (oData[1] == 'Odrzucone' ) {
+            $(nTd).css('background-color', '#FF8C8C'); //Red mix
+          }
+          else if (oData[1] == 'Zamknięte' ) {
+            $(nTd).css('background-color', '#CCC');  
+          }
+          else if (oData[1] == 'Anulowane' ) {
+            $(nTd).css('background-color', '#FFC04D'); //Orange mix 
+          }
+        }
+      }, 
       { "targets": [2],
-        "title": "<%= Proposal.human_attribute_name('given_names') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('name') %>" }, 
       { "targets": [3],
-        "title": "<%= Proposal.human_attribute_name('pesel') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('given_names') %>" }, 
       { "targets": [4],
-        "title": "<%= Proposal.human_attribute_name('birth_date') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('pesel') %>" }, 
       { "targets": [5],
-        "title": "<%= Proposal.human_attribute_name('address_city') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('birth_date') %>" }, 
       { "targets": [6],
-        "title": "<%= Proposal.human_attribute_name('division_id') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('address_city') %>" }, 
       { "targets": [7],
-        "title": "<%= Proposal.human_attribute_name('status') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('division_id') %>" }, 
       { "targets": [8],
         "title": "<%= Proposal.human_attribute_name('category') %>",
         "visible": false,

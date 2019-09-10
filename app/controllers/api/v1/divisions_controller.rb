@@ -3,17 +3,16 @@ class Api::V1::DivisionsController < Api::V1::BaseApiController
   respond_to :json
 
   def index
-    case params[:category]
-    when 'L'
-      divisions = Division.where(category: params[:category]).order(:name)
-    when 'M'
-      divisions = Division.where(category: params[:category], id: Division::DIVISION_M_FOR_SHOW).order(:name)
-    when 'R'
-      divisions = Division.where(category: params[:category], id: Division::DIVISION_R_FOR_SHOW).order(:name)      
-    end
+    params[:q] = params[:q]
+    params[:page] = params[:page]
+    params[:page_limit] = params[:page_limit]
+    params[:category] = params[:category]
+
+    @divisions = Division.only_not_exclude.order(:name).finder_division(params[:q], params[:category])
+    @divisions_on_page = @divisions.page(params[:page]).per(params[:page_limit])
 
     render status: :ok,
-           json: divisions, meta: {total_count: divisions.count}
+           json: @divisions_on_page, meta: {total_count: @divisions.count}
   end
 
   def show

@@ -205,7 +205,7 @@ class Proposal < ActiveRecord::Base
   end
 
   def can_edit?
-    [PROPOSAL_STATUS_CREATED].include?(self.proposal_status_id) 
+    [PROPOSAL_STATUS_CREATED].include?(proposal_status_id) 
   end
 
   private
