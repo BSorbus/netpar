@@ -34,7 +34,7 @@
                 <% end %>
                   
                 <% if policy(:esod).new? %> 
-                  <button class="btn btn-success glyphicon glyphicon-plus" type="button" data-toggle="collapse" data-target=".esod-matter-new" aria-expanded="false" ><%= t("helpers.links.new_esod_matter") %>
+                  <button class="btn btn-success fa fa-plus" type="button" data-toggle="collapse" data-target=".esod-matter-new" aria-expanded="false" ><%= t("helpers.links.new_esod_matter") %>
                   </button>
 
                   <% if matterable.esod_matters.where(czy_otwarta: true).any? %>

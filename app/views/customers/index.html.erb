@@ -33,16 +33,14 @@
 
 
 <div class="col-sm-12">
-  <div class="row">
-    <% if policy(:customer).new? %>
+  <% if policy(:customer).new? %>
 
-      <%= link_to new_customer_path(), class: "btn btn-primary" do %>
-        <span class="glyphicon glyphicon-plus"></span>
-        <%= t("helpers.links.new") %>
-      <% end %>
-
+    <%= link_to new_customer_path(), class: "btn btn-primary" do %>
+      <span class="fa fa-plus"></span>
+      <%= t("helpers.links.new") %>
     <% end %>
-  </div> <!--/row -->
+
+  <% end %>
 </div> <!--/col-sm-12 -->
 
 

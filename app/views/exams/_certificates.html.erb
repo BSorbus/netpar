@@ -23,12 +23,10 @@
 
 
   <div class="col-sm-12">
-    <div class="row">
 
-      <% if certificate_policy_check(:certificate, params[:category_service], 'new') %>
-        <%= link_to t('New', default: t("helpers.links.new")), new_certificate_path(params[:category_service], exam_id: @exam.id, back_url: exam_path(params[:category_service], @exam) ), 
-                              :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
-      <% end  %> 
+    <% if certificate_policy_check(:certificate, params[:category_service], 'new') %>
+      <%= link_to t('New', default: t("helpers.links.new")), new_certificate_path(params[:category_service], exam_id: @exam.id, back_url: exam_path(params[:category_service], @exam) ), 
+                            :class => 'btn btn-primary fa fa-plus' %> 
+    <% end  %> 
 
-    </div> <!--/row -->
   </div> <!--/col-sm-12 -->

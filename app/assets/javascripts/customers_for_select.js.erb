@@ -1,0 +1,74 @@
+$(document).ready(function() {
+  var oCustomerForSelecttable = $('#customers-for-select').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    oSearch: {sSearch: $('#customers-for-select').data('initialsearch')},
+    scrollX: true,
+    ajax: { 
+      url: $('#customers-for-select').data('source'),
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
+    columns: [
+      { "targets": [0],
+        "title": "ID",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [1],
+        "title": "<%= Customer.human_attribute_name('email') %>" }, 
+      { "targets": [2],
+        "title": "<%= Customer.human_attribute_name('name') %>" }, 
+      { "targets": [3],
+        "title": "<%= Customer.human_attribute_name('given_names') %>" }, 
+      { "targets": [4],
+        "title": "<%= Customer.human_attribute_name('pesel') %>" }, 
+      { "targets": [5],
+        "title": "<%= Customer.human_attribute_name('birth_place') %>" },
+      { "targets": [6],
+        "title": "<%= Customer.human_attribute_name('birth_date') %>" }, 
+      { "targets": [7],
+        "title": "<%= Customer.human_attribute_name('address_postal_code') %>" }, 
+      { "targets": [8],
+        "title": "<%= Customer.human_attribute_name('address_city') %>" }, 
+      { "targets": [9],
+        "title": "<%= Customer.human_attribute_name('address_street') %>" }, 
+      { "targets": [10],
+        "title": "<%= Customer.human_attribute_name('address_house') %>" }, 
+      { "targets": [11],
+        "title": "<%= Customer.human_attribute_name('address_number') %>" } 
+    ],
+    order: [[ 2, "asc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+  $('#customers-for-select tbody').on( 'click', 'tr', function () {
+    if ( $(this).hasClass('selected') ) {
+      $(this).removeClass('selected');
+      document.getElementById("proposal_customer_id").value = '';
+      document.getElementById("submit_proposal_approved").disabled = true;
+    }
+    else {
+      oCustomerForSelecttable.$('tr.selected').removeClass('selected');
+      $(this).addClass('selected');
+      document.getElementById("proposal_customer_id").value = oCustomerForSelecttable.row( this ).data()[0];
+      document.getElementById("submit_proposal_approved").disabled = false;
+    }
+  } );
+
+
+});
+

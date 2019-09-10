@@ -24,16 +24,14 @@
 
 
   <div class="col-sm-12">
-    <div class="row">
 
-      <% if examination_policy_check(:examination, params[:category_service], 'new') %>
-        <%= link_to t('New', default: t("helpers.links.new")), new_examination_path(params[:category_service], exam_id: @exam.id, back_url: exam_path(params[:category_service], @exam) ), 
-                              :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
-      <% end  %> 
+    <% if examination_policy_check(:examination, params[:category_service], 'new') %>
+      <%= link_to t('New', default: t("helpers.links.new")), new_examination_path(params[:category_service], exam_id: @exam.id, back_url: exam_path(params[:category_service], @exam) ), 
+                            :class => 'btn btn-primary fa fa-plus' %> 
+    <% end  %> 
 
-      <% if @exam.examinations.where(examination_result: 'P', certificate: nil).any? && certificate_policy_check(:certificate, params[:category_service], 'new') %>
-        <button id="exam-examinations-certificate-generation-and-refresh" ajax-path="<%= certificates_generation_exam_path(params[:category_service], @exam) %>" class="btn btn-success glyphicon glyphicon-certificate pull-right"><%= t('Certificate Generation', default: t("link_to.certificates_generation")) %></button>
-      <% end  %> 
+    <% if @exam.examinations.where(examination_result: 'P', certificate: nil).any? && certificate_policy_check(:certificate, params[:category_service], 'new') %>
+      <button id="exam-examinations-certificate-generation-and-refresh" ajax-path="<%= certificates_generation_exam_path(params[:category_service], @exam) %>" class="btn btn-success glyphicon glyphicon-certificate pull-right"><%= t('Certificate Generation', default: t("link_to.certificates_generation")) %></button>
+    <% end  %> 
 
-    </div> <!--/row -->
   </div> <!--/col-sm-12 -->

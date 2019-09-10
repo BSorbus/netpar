@@ -77,7 +77,7 @@
       <div class="row">
         <% if examination_policy_check(:examination, category_service, 'new') %>
           <%= link_to t('New', default: t("helpers.links.new")), new_examination_path(category_service: category_service, customer_id: @customer.id, back_url: customer_path(@customer)), 
-                              :class => 'btn btn-primary glyphicon glyphicon-plus' %> 
+                              :class => 'btn btn-primary fa fa-plus' %> 
         <% end %>
       </div> <!--/row -->
     </div> <!--/col-sm-12 -->

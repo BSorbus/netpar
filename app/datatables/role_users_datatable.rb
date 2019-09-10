@@ -40,7 +40,7 @@ class RoleUsersDatatable < AjaxDatatablesRails::Base
         record.department.present? ? link_to(record.department.short, @view.department_path(record.department)) : '',
         user_has_role ? '<div style="text-align: center"><div class="glyphicon glyphicon-ok"></div></div>' : '',
         user_has_role ? "<button ajax-path='" + @view.role_user_path(role_id: options[:only_for_current_role_id], id: record.id) + "' ajax-method='DELETE' class='button-xs-danger glyphicon glyphicon-minus' ></button>"
-                      : "<button ajax-path='" + @view.role_users_path(role_id: options[:only_for_current_role_id], id: record.id) + "' ajax-method='POST' class='button-xs-success glyphicon glyphicon-plus' ></button>"
+                      : "<button ajax-path='" + @view.role_users_path(role_id: options[:only_for_current_role_id], id: record.id) + "' ajax-method='POST' class='button-xs-success fa fa-plus' ></button>"
       ]
     end
   end

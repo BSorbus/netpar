@@ -1,11 +1,6 @@
 class ProposalSerializer < ActiveModel::Serializer
-  attributes :id, :name, :given_names, :pesel, :birth_date, :address_city, :category, :fullname
+  attributes :id, :multi_app_identifier, :proposal_status_id, :not_approved_comment, :creator_id, :user_id, :fullname
 
-  #belongs_to :customer
-
-  def fullname
-    "#{name} #{given_names}"
-  end
 
 end
 

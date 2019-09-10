@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190909105045) do
+ActiveRecord::Schema.define(version: 20190910210400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -565,11 +565,6 @@ ActiveRecord::Schema.define(version: 20190909105045) do
     t.string   "birth_place",            limit: 50,                          default: ""
     t.string   "phone",                  limit: 50,                          default: ""
     t.string   "email",                  limit: 50,                          default: "",  null: false
-    t.string   "address_city",           limit: 50,                          default: "",  null: false
-    t.string   "address_street",         limit: 50,                          default: ""
-    t.string   "address_house",          limit: 10,                          default: ""
-    t.string   "address_number",         limit: 10,                          default: ""
-    t.string   "address_postal_code",    limit: 10,                          default: ""
     t.string   "c_address_city",         limit: 50,                          default: ""
     t.string   "c_address_street",       limit: 50,                          default: ""
     t.string   "c_address_house",        limit: 10,                          default: ""
@@ -590,9 +585,11 @@ ActiveRecord::Schema.define(version: 20190909105045) do
     t.datetime "updated_at"
     t.integer  "division_min_years_old"
     t.string   "division_short_name"
+    t.integer  "customer_id"
   end
 
   add_index "proposals", ["category"], name: "index_proposals_on_category", using: :btree
+  add_index "proposals", ["customer_id"], name: "index_proposals_on_customer_id", using: :btree
   add_index "proposals", ["division_id"], name: "index_proposals_on_division_id", using: :btree
   add_index "proposals", ["exam_fee_id"], name: "index_proposals_on_exam_fee_id", using: :btree
   add_index "proposals", ["exam_id"], name: "index_proposals_on_exam_id", using: :btree

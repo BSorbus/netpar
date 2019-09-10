@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-sm-12">
+    <blockquote>
+      <p>
+      Akceptując zgłoszenie musisz powiązać osobę opisaną w elektronicznym zgłoszeniu z już istniejącym w systemie Netpar2015 Klientem (lub dodać nowego klienta i dopiero wtedy połączyć)<br>
+      ...Wyszukaj Klienta, zaznacz w tabeli poniżej (poprzez "klik") wybrany w wiersz i naciśnij "Aktualizuj Elektroniczne Zgłoszenie".<br>
+      (Jeżeli nie zaznaczysz wiersza w tabeli przycisk "Aktualizuj Elektroniczne Zgłoszenie" będzie zablokowany)
+      </p>
+    </blockquote>
+  </div> <!-- /col-sm-6 -->
+</div> <!-- /row -->
+
+<% search_value = f.object.pesel.blank? ? "#{f.object.name} #{f.object.given_names} #{f.object.c_address_city}" : "#{f.object.pesel}" %>
+<%= f.hidden_field :customer_id %>
+
+<div class="row">
+  <div class="col-sm-12">
+
+    <table id="customers-for-select" class="hover cell-border" width="100%" 
+      data-source="<%= datatables_for_select_index_customers_path(format: :json) %>"
+      data-initialsearch="<%= search_value %>">
+      <thead>
+        <tr>
+          <th> 0 ID </th>
+          <th> 1 Email</th>
+          <th> 2 Name</th>
+          <th> 3 Given names</th>
+          <th> 4 Pesel</th>
+          <th> 5 Birth Place</th>
+          <th> 6 Birth Date</th>
+          <th> 7 Address postal code</th>
+          <th> 8 Address city</th>
+          <th> 9 Address street</th>
+          <th>10 Address house</th>
+          <th>11 Address number</th>
+        </tr>
+      </thead>
+
+      <tbody>
+         <!--data from JSON -->
+      </tbody>
+    </table>
+
+
+  </div> <!-- /col-sm-12 -->
+
+  <div class="col-sm-12">
+
+    <% if policy(:customer).new? %>
+
+      <%= link_to new_customer_path(back_url: edit_approved_proposal_path(@proposal.category.downcase, @proposal) ), class: "btn btn-primary" do %>
+        <span class="fa fa-plus"></span>
+        <%= t("helpers.links.new") %>
+      <% end %>
+
+    <% end  %> 
+  </div> <!-- /col-sm-12 -->
+
+</div> <!-- /row -->
+
+

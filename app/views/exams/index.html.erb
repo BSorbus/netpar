@@ -36,16 +36,14 @@
 
 
 <div class="col-sm-12">
-  <div class="row">
 
-    <% if exam_policy_check(:exam, params[:category_service], 'new') %>
+  <% if exam_policy_check(:exam, params[:category_service], 'new') %>
 
-      <%= link_to new_exam_path(params[:category_service], back_url: exams_path(params[:category_service])), class: "btn btn-primary" do %>
-        <span class="glyphicon glyphicon-plus"></span>
-        <%= t("helpers.links.new") %>
-      <% end %>
-
+    <%= link_to new_exam_path(params[:category_service], back_url: exams_path(params[:category_service])), class: "btn btn-primary" do %>
+      <span class="fa fa-plus"></span>
+      <%= t("helpers.links.new") %>
     <% end %>
 
-  </div> <!--/row -->
+  <% end %>
+
 </div> <!--/col-sm-12 -->

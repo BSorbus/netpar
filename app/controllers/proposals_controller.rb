@@ -223,7 +223,7 @@ class ProposalsController < ApplicationController
       params.require(:proposal).permit(:esod_category, :customer_id, :category, :note, :user_id)
     end
     def proposal_approved_params
-      params.require(:proposal).permit(:proposa_status_id, :user_id)
+      params.require(:proposal).permit(:proposa_status_id, :user_id, :customer_id)
     end
     def proposal_not_approved_params
       params.require(:proposal).permit(:proposa_status_id, :not_approved_comment, :user_id)

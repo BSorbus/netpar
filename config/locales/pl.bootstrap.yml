@@ -41,6 +41,7 @@ pl:
       new_esod_matter_letter_outgoing: " ESOD: Nowe pismo wychodzące"
       new_esod_matter_letter_internal: " ESOD: Nowe pismo wewnętrzne"
       link_esod_matter: " ESOD: Przypisz istniejącą sprawę"
+      link_customer: " Przypisz istniejącącego klienta"
       filter: " Filtruj dane"
       exam_committee_docx: " Skład Komisji"
       show: " Pokaż"

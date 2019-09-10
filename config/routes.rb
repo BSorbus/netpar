@@ -101,6 +101,7 @@ Rails.application.routes.draw do
 
   resources :customers do
     post 'datatables_index', on: :collection
+    post 'datatables_for_select_index', on: :collection
     get 'select2_index', on: :collection
     post 'merge', on: :member
     get 'envelope_to_pdf', on: :member

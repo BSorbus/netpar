@@ -191,7 +191,7 @@
                   <h1>AAA<%= @customer.name %></h1>
                   <%= link_to t("helpers.links.new_customer"), new_customer_path(customer: @customer.attributes),
                         data: { confirm: t('helpers.links.confirm_find_customer_befere_new', data: @customer.fullname_and_address_and_pesel_nip_and_birth_date) },
-                        class: 'btn btn-primary glyphicon glyphicon-plus pull-right' %>
+                        class: 'btn btn-primary fa fa-plus pull-right' %>
                 </div> <!-- /.col-sm-12 -->
               </div>
 
@@ -211,7 +211,7 @@
 
             <div class="row">
               <div class="col-sm-12">
-                <%= button_tag t("helpers.links.new_#{resource_service}"), type: 'submit', class: 'btn btn-primary glyphicon glyphicon-plus pull-right' %>
+                <%= button_tag t("helpers.links.new_#{resource_service}"), type: 'submit', class: 'btn btn-primary fa fa-plus pull-right' %>
               </div> <!-- /.col-sm-12 -->
             </div> <!-- /row -->
             <div class="row">
@@ -282,7 +282,7 @@
 
             <div class="row">
               <div class="col-sm-12">
-                <%= button_tag t("helpers.links.edit_#{resource_service}"), type: 'submit', class: 'btn btn-primary glyphicon glyphicon-edit pull-right' %>
+                <%= button_tag t("helpers.links.edit_#{resource_service}"), type: 'submit', class: 'btn btn-primary fa fa-edit pull-right' %>
               </div> <!-- /.col-sm-12 -->
             </div> <!-- /row -->
             <div class="row">

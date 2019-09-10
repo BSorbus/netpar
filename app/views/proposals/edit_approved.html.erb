@@ -12,13 +12,17 @@
       </div>
         <div class="panel-body">
           <div class="col-sm-1">
-	        	<h1 class="text-success"><span class='<%= t("pages.proposal.edit_approved.model_icon") %>'></span></h1> 
+	        	<h1 class="center text-success"><span class='<%= t("pages.proposal.edit_approved.model_icon") %>'></span></h1> 
           </div> <!--/col-sm-1-->
 
           <div class="col-sm-11">
+
 						<%= form_for @proposal, url: update_approved_proposal_path(@proposal, category_service: params[:category_service]) do |f| %>
+
 						  <%= render 'form_approved', f: f %>
+
 						<% end %>
+
           </div> <!--/col-sm-11 col-sm-offset-1-->
     
         </div>

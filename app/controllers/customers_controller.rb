@@ -1,6 +1,6 @@
 class CustomersController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, except: [:index, :datatables_index, :select2_index]
+  after_action :verify_authorized, except: [:index, :datatables_index, :datatables_for_select_index, :select2_index]
 
   before_action :set_customer, only: [:show, :edit, :update, :destroy, :merge, :envelope_to_pdf, :history_to_pdf]
 
@@ -16,6 +16,13 @@ class CustomersController < ApplicationController
   def datatables_index
     respond_to do |format|
       format.json{ render json: CustomerDatatable.new(view_context) }
+    end
+  end
+
+  # POST /customers
+  def datatables_for_select_index
+    respond_to do |format|
+      format.json{ render json: CustomerForSelectDatatable.new(view_context) }
     end
   end
 

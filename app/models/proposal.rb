@@ -28,9 +28,8 @@ class Proposal < ActiveRecord::Base
   belongs_to :proposal_status
   belongs_to :division
   belongs_to :exam_fee
-#  belongs_to :exam, counter_cache: proposals_important_count
   belongs_to :exam
-#  belongs_to :customer
+  belongs_to :customer
   belongs_to :user
 #  belongs_to :certificate 
 

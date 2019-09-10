@@ -16,11 +16,15 @@ class Customer < ActiveRecord::Base
 
   has_many :certificates
   has_many :certificated_documentable, through: :certificates, source: :documents
+
   has_many :examinations
   has_many :examinationed_documentable, through: :examinations, source: :documents
+
   has_many :exams, through: :certificates
   has_many :examed_documentable, through: :exams, source: :documents
 
+  has_many :proposals
+  
   # validates
   validates :name, presence: true,
                     length: { in: 1..160 }
