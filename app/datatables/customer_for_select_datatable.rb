@@ -17,6 +17,7 @@ class CustomerForSelectDatatable < AjaxDatatablesRails::Base
                               Customer.pesel 
                               Customer.birth_place 
                               Customer.birth_date 
+                              Customer.family_name 
                               Customer.address_postal_code 
                               Customer.address_city 
                               Customer.address_street 
@@ -35,6 +36,7 @@ class CustomerForSelectDatatable < AjaxDatatablesRails::Base
                               Customer.pesel 
                               Customer.birth_place 
                               Customer.birth_date 
+                              Customer.family_name 
                               Customer.address_postal_code 
                               Customer.address_city 
                               Customer.address_street 
@@ -55,6 +57,7 @@ class CustomerForSelectDatatable < AjaxDatatablesRails::Base
         record.pesel,
         record.birth_place,
         record.birth_date,
+        record.family_name,
         record.address_postal_code, 
         record.address_city,
         record.address_street,

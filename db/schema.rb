@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190910210400) do
+ActiveRecord::Schema.define(version: 20190911184213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -586,6 +586,8 @@ ActiveRecord::Schema.define(version: 20190910210400) do
     t.integer  "division_min_years_old"
     t.string   "division_short_name"
     t.integer  "customer_id"
+    t.string   "family_name",                                                default: ""
+    t.string   "citizenship_code",                                           default: ""
   end
 
   add_index "proposals", ["category"], name: "index_proposals_on_category", using: :btree
