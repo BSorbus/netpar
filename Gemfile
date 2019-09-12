@@ -59,6 +59,9 @@ gem 'pesel' # https://github.com/macuk/pesel
 # gem 'gmaps4rails'
 
 # gem 'rtesseract' #OCR
+
+
+gem "mini_magick", ">= 4.9.4"
 gem 'refile', '0.6.2', require: ['refile/rails']
 gem 'refile-mini_magick', '0.2.0'
 gem 'refile-postgres', '~> 1.4.0'
