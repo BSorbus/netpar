@@ -82,3 +82,5 @@ gem 'groupdate'
 
 gem 'mina', '1.0.7'
 gem 'mina-whenever', '1.0.0'
+
+gem 'country_select', '~> 4.0'
