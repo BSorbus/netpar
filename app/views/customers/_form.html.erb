@@ -115,14 +115,14 @@
       </div>
 
       <div class="row">
-        <div class="form-group col-sm-6">
+        <div class="form-group col-sm-4">
           <div class="human" >
             <%= f.label :fathers_name, class: 'control-label' %>
             <%= f.text_field :fathers_name, class: 'form-control input-sm', disabled: input_disabled %>
           </div>
         </div>
 
-        <div class="form-group col-sm-6">
+        <div class="form-group col-sm-4">
           <div class="human" >
             <%= f.label :mothers_name, class: 'control-label' %>
             <%= f.text_field :mothers_name, class: 'form-control input-sm', disabled: input_disabled %>
@@ -131,14 +131,14 @@
       </div>
 
       <div class="row">
-        <div class="form-group col-sm-6">
+        <div class="form-group col-sm-4">
           <div class="human" >
             <%= f.label :family_name, class: 'control-label' %>
             <%= f.text_field :family_name, class: 'form-control input-sm', disabled: input_disabled %>
           </div>
         </div>
 
-        <div class="form-group required col-sm-6">
+        <div class="form-group required col-sm-8">
           <div class="human">
             <%= f.label :citizenship_code, class: 'control-label' %>
             <%= f.country_select :citizenship_code, priority_countries = ["pl"], options = {}, :class => "form-control input-sm" %>

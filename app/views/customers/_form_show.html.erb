@@ -87,24 +87,24 @@
     </div>
 
     <div class="row">
-      <div class="form-group col-sm-6">
+      <div class="form-group col-sm-4">
         <p><strong><%= Customer.human_attribute_name(:fathers_name) %></strong></p>
         <h5><%= @customer.fathers_name %></h5>
       </div>
 
-      <div class="form-group col-sm-6">
+      <div class="form-group col-sm-4">
         <p><strong><%= Customer.human_attribute_name(:mothers_name) %></strong></p>
         <h5><%= @customer.mothers_name %></h5>
       </div>
     </div>
 
     <div class="row">
-      <div class="form-group col-sm-6">
+      <div class="form-group col-sm-4">
         <p><strong><%= Customer.human_attribute_name(:family_name) %></strong></p>
         <h5><%= @customer.family_name %></h5>
       </div>
 
-      <div class="form-group col-sm-6">
+      <div class="form-group col-sm-8">
         <p><strong><%= Customer.human_attribute_name(:citizenship_code) %></strong></p>
         <%= ISO3166::Country[@customer.citizenship_code].translations['pl'] %> - <%= @customer.citizenship_code%>
         <%#= partial_data.try(:citizenship_code) %>
