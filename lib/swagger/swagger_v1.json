@@ -1778,24 +1778,6 @@
     }
   },
   "definitions": {
-    "Citizenship": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Unique identifier representing a specific citizenship."
-        },
-        "name": {
-          "type": "string",
-          "description": "Display name of citizenship."
-        },
-        "short": {
-          "type": "string",
-          "description": "Display short name of citizenship."
-        }
-      }
-    },
     "Customer": {
       "type": "object",
       "properties": {
@@ -1904,8 +1886,9 @@
           "type": "string",
           "description": "Display family name of customer."
         },
-        "citizenship": {
-          "$ref": "#/definitions/Citizenship"
+        "citizenship_code": {
+          "type": "string",
+          "description": "Display citizenship code"
         },
         "phone": {
           "type": "string",

@@ -10,7 +10,7 @@
   </div> <!-- /col-sm-6 -->
 </div> <!-- /row -->
 
-<% search_value = f.object.pesel.blank? ? "#{f.object.name} #{f.object.given_names} #{f.object.c_address_city}" : "#{f.object.pesel}" %>
+<% search_value = f.object.pesel.blank? ? "#{f.object.name} #{f.object.given_names}" : "#{f.object.pesel}" %>
 <%= f.hidden_field :customer_id %>
 
 <div class="row">

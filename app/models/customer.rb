@@ -3,7 +3,6 @@ require 'esodes'
 class Customer < ActiveRecord::Base
   require 'pesel'
 
-  belongs_to :citizenship
   belongs_to :user
   belongs_to :address_teryt_pna_code, class_name: "Teryt::PnaCode", foreign_key: :address_teryt_pna_code_id
   belongs_to :c_address_teryt_pna_code, class_name: "Teryt::PnaCode", foreign_key: :c_address_teryt_pna_code_id
@@ -44,7 +43,8 @@ class Customer < ActiveRecord::Base
   #validate :check_address_on_teryt_pna, unless: :is_address_in_poland?
   #validate :check_c_address_on_teryt_pna, unless: :is_c_address_in_poland?, if: "c_address_postal_code.present? || c_address_city.present? || c_address_street.present? || c_address_post_office.present?"
 
-  validates :citizenship, presence: true
+  validates :citizenship_code, presence: true,
+                    length: { is: 2 }, if: :is_human?
   validates :user, presence: true
 
   # callbacks
@@ -274,7 +274,7 @@ class Customer < ActiveRecord::Base
       numer_budynku: c_address_house.present? ? "#{c_address_house}" : "#{address_house}",
       miasto_poczty: c_address_post_office.present? ? "#{c_address_post_office}" : "#{address_post_office}",
       skrytka_epuap: nil,
-      panstwo: "#{citizenship.short}",
+      panstwo: "#{citizenship_code}",
       email: email, 
       typ: "fizyczny", 
       initialized_from_esod: false,
@@ -291,7 +291,7 @@ class Customer < ActiveRecord::Base
     address.numer_lokalu = c_address_number.present? ? "#{c_address_number}" : "#{address_number}"
     address.numer_budynku = c_address_house.present? ? "#{c_address_house}" : "#{address_house}"
     miasto_poczty = c_address_post_office.present? ? "#{c_address_post_office}" : "#{address_post_office}"
-    address.panstwo = "#{citizenship.short}"
+    address.panstwo = "#{citizenship_code}"
     address.email = email
     if address.changed?
       address.netpar_user = push_user

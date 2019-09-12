@@ -27,7 +27,7 @@ RSpec.describe Customer, type: :model do
   it { should respond_to(:fathers_name) }
   it { should respond_to(:mothers_name) }
   it { should respond_to(:family_name) }
-  it { should respond_to(:citizenship_id) }
+  it { should respond_to(:citizenship_code) }
   it { should respond_to(:phone) }
   it { should respond_to(:fax) }
   it { should respond_to(:email) }

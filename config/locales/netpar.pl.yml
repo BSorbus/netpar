@@ -583,7 +583,7 @@ pl:
         birth_place: 'Miejsce urodzenia'
         fathers_name: 'Imię ojca'
         family_name: 'Nazwisko rodowe'
-        citizenship_id: 'Obywatelstwo'
+        citizenship_code: 'Obywatelstwo'
         mothers_name: 'Imię matki'
         phone: 'Telefon'
         fax: 'Fax'

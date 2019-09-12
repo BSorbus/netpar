@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190911184213) do
+ActiveRecord::Schema.define(version: 20190912155359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,15 +53,6 @@ ActiveRecord::Schema.define(version: 20190911184213) do
   add_index "certificates", ["number"], name: "index_certificates_on_number", using: :btree
   add_index "certificates", ["user_id"], name: "index_certificates_on_user_id", using: :btree
 
-  create_table "citizenships", force: :cascade do |t|
-    t.string   "name"
-    t.string   "short"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "citizenships", ["name"], name: "index_citizenships_on_name", unique: true, using: :btree
-
   create_table "confirmation_logs", force: :cascade do |t|
     t.string   "remote_ip"
     t.text     "request_json"
@@ -96,7 +87,6 @@ ActiveRecord::Schema.define(version: 20190911184213) do
     t.string   "fathers_name",                limit: 50,  default: ""
     t.string   "mothers_name",                limit: 50,  default: ""
     t.string   "family_name",                 limit: 50,  default: ""
-    t.integer  "citizenship_id",                          default: 2
     t.string   "phone",                       limit: 50,  default: ""
     t.string   "fax",                         limit: 50,  default: ""
     t.string   "email",                       limit: 50,  default: ""
@@ -108,6 +98,7 @@ ActiveRecord::Schema.define(version: 20190911184213) do
     t.boolean  "c_address_in_poland",                     default: true, null: false
     t.integer  "address_teryt_pna_code_id"
     t.integer  "c_address_teryt_pna_code_id"
+    t.string   "citizenship_code"
   end
 
   add_index "customers", ["address_city"], name: "index_customers_on_address_city", using: :btree
@@ -115,7 +106,6 @@ ActiveRecord::Schema.define(version: 20190911184213) do
   add_index "customers", ["address_teryt_pna_code_id"], name: "index_customers_on_address_teryt_pna_code_id", using: :btree
   add_index "customers", ["birth_date"], name: "index_customers_on_birth_date", using: :btree
   add_index "customers", ["c_address_teryt_pna_code_id"], name: "index_customers_on_c_address_teryt_pna_code_id", using: :btree
-  add_index "customers", ["citizenship_id"], name: "index_customers_on_citizenship_id", using: :btree
   add_index "customers", ["given_names"], name: "index_customers_on_given_names", using: :btree
   add_index "customers", ["name"], name: "index_customers_on_name", using: :btree
   add_index "customers", ["nip"], name: "index_customers_on_nip", using: :btree
@@ -802,7 +792,6 @@ ActiveRecord::Schema.define(version: 20190911184213) do
   add_foreign_key "certificates", "divisions"
   add_foreign_key "certificates", "exams"
   add_foreign_key "certificates", "users"
-  add_foreign_key "customers", "citizenships"
   add_foreign_key "customers", "teryt_pna_codes", column: "address_teryt_pna_code_id"
   add_foreign_key "customers", "teryt_pna_codes", column: "c_address_teryt_pna_code_id"
   add_foreign_key "customers", "users"

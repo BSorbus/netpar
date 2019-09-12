@@ -105,9 +105,11 @@
       </div>
 
       <div class="form-group col-sm-6">
-        <p><strong><%= Customer.human_attribute_name(:citizenship_id) %></strong></p>
-        <h5><%= @customer.citizenship.fullname %></h5>
+        <p><strong><%= Customer.human_attribute_name(:citizenship_code) %></strong></p>
+        <%= ISO3166::Country[@customer.citizenship_code].translations['pl'] %> - <%= @customer.citizenship_code%>
+        <%#= partial_data.try(:citizenship_code) %>
       </div>
+
     </div>
   </div> <!-- /col-sm-6 -->
 

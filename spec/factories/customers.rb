@@ -22,7 +22,7 @@ FactoryBot.define do
     fathers_name "Father"
     mothers_name "Mother"
     family_name "Famili"
-    citizenship nil
+    citizenship_code "PL"
     phone "phone"
     fax "fax"
     email "t.c@uke.gov.pl"

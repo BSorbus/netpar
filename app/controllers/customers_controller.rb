@@ -153,8 +153,6 @@ class CustomersController < ApplicationController
         @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :create, user: current_user, 
           parameters: @customer.to_json(except: {customer: [:fullname_and_address_and_pesel_nip_and_birth_date]}, 
                   include: { 
-                    citizenship: {
-                      only: [:id, :name] },
                     user: {
                       only: [:id, :name, :email] } 
                           }))
@@ -180,8 +178,6 @@ class CustomersController < ApplicationController
         @customer.works.create!(trackable_url: "#{customer_path(@customer)}", action: :update, user: current_user, 
           parameters: @customer.to_json(except: {customer: [:fullname_and_address_and_pesel_nip_and_birth_date]}, 
                   include: { 
-                    citizenship: {
-                      only: [:id, :name] },
                     user: {
                       only: [:id, :name, :email] } 
                           }))
@@ -205,8 +201,6 @@ class CustomersController < ApplicationController
       Work.create!(trackable: @customer, action: :destroy, user: current_user, 
           parameters: @customer.to_json(except: {customer: [:fullname_and_address_and_pesel_nip_and_birth_date]}, 
                   include: { 
-                    citizenship: {
-                      only: [:id, :name] },
                     user: {
                       only: [:id, :name, :email] } 
                           }))
@@ -227,6 +221,6 @@ class CustomersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def customer_params
-      params.require(:customer).permit(:human, :name, :given_names, :address_in_poland, :address_teryt_pna_code_id, :address_city, :address_street, :address_house, :address_number, :address_postal_code, :address_post_office, :address_pobox, :c_address_in_poland, :c_address_teryt_pna_code_id, :c_address_city, :c_address_street, :c_address_house, :c_address_number, :c_address_postal_code, :c_address_post_office, :c_address_pobox, :nip, :regon, :pesel, :birth_date, :birth_place, :fathers_name, :mothers_name, :family_name, :citizenship_id, :phone, :fax, :email, :note, :user_id)
+      params.require(:customer).permit(:human, :name, :given_names, :address_in_poland, :address_teryt_pna_code_id, :address_city, :address_street, :address_house, :address_number, :address_postal_code, :address_post_office, :address_pobox, :c_address_in_poland, :c_address_teryt_pna_code_id, :c_address_city, :c_address_street, :c_address_house, :c_address_number, :c_address_postal_code, :c_address_post_office, :c_address_pobox, :nip, :regon, :pesel, :birth_date, :birth_place, :fathers_name, :mothers_name, :family_name, :citizenship_code, :phone, :fax, :email, :note, :user_id)
     end
 end

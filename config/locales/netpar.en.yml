@@ -145,7 +145,7 @@ en:
         fathers_name: 'Fathers name'
         mothers_name: 'Mothers name'
         family_name: 'Family name'
-        citizenship_id: 'Citizenship'
+        citizenship_code: 'Citizenship'
         phone: 'Telefon'
         fax: 'Fax'
         email: 'Email'
