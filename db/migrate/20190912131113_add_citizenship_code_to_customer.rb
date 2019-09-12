@@ -1,9 +1,5 @@
 class AddCitizenshipCodeToCustomer < ActiveRecord::Migration
-  def up
+  def change
     add_column :customers, :citizenship_code, :string
-  end
-
-  def down
-    remove_column :customers, :citizenship_code
   end
 end
