@@ -228,6 +228,7 @@ pl:
       links_www3_title: 'Świadectwa'
       links_www3: 'http://bip.uke.gov.pl/swiadectwa-operatora-urzadzen-radiowych-tresci/swiadectwa-amatorskie,3.html'
     license:
+      model_icon: 'fa fa-book'
       index:
         title: 'Pozwolenia NETPAR2000'
       show:

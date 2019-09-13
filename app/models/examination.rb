@@ -6,6 +6,7 @@ class Examination < ActiveRecord::Base
   belongs_to :customer
   belongs_to :user
   belongs_to :certificate 
+  belongs_to :proposal 
 
   has_many :works, as: :trackable
   has_many :documents, as: :documentable, :source_type => "Examination", dependent: :destroy

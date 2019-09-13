@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190912155359) do
+ActiveRecord::Schema.define(version: 20190913015957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -406,12 +406,14 @@ ActiveRecord::Schema.define(version: 20190912155359) do
     t.integer  "certificate_id"
     t.boolean  "supplementary",                  default: false, null: false
     t.integer  "esod_category"
+    t.integer  "proposal_id"
   end
 
   add_index "examinations", ["certificate_id"], name: "index_examinations_on_certificate_id", using: :btree
   add_index "examinations", ["customer_id"], name: "index_examinations_on_customer_id", using: :btree
   add_index "examinations", ["division_id"], name: "index_examinations_on_division_id", using: :btree
   add_index "examinations", ["exam_id"], name: "index_examinations_on_exam_id", using: :btree
+  add_index "examinations", ["proposal_id"], name: "index_examinations_on_proposal_id", using: :btree
   add_index "examinations", ["user_id"], name: "index_examinations_on_user_id", using: :btree
 
   create_table "examiners", force: :cascade do |t|
@@ -814,6 +816,7 @@ ActiveRecord::Schema.define(version: 20190912155359) do
   add_foreign_key "examinations", "customers"
   add_foreign_key "examinations", "divisions"
   add_foreign_key "examinations", "exams"
+  add_foreign_key "examinations", "proposals"
   add_foreign_key "examinations", "users"
   add_foreign_key "examiners", "exams"
   add_foreign_key "exams", "users"

@@ -31,7 +31,8 @@ class Proposal < ActiveRecord::Base
   belongs_to :exam
   belongs_to :customer
   belongs_to :user
-#  belongs_to :certificate 
+
+  has_one :examination, dependent: :destroy
 
   has_many :works, as: :trackable
   has_many :documents, as: :documentable, :source_type => "Proposal", dependent: :destroy
