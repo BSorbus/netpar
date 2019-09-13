@@ -590,6 +590,15 @@ legend.my-fieldset {
     border-bottom:none;
 }
 
+table.dataTable {
+    border-bottom: 1px solid black !important;
+}
+
+table.dataTable tfoot th {
+  border-top: 0;
+  border-bottom: 1px solid black;
+}
+
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     padding : 0px;
     margin-left: 0px;
