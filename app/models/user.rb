@@ -88,7 +88,8 @@ class User < ActiveRecord::Base
     cipher.key = Rails.application.secrets[:esod_secret_key_for_generate_user_token] #KEY
     str = iv + str
     data = cipher.update(str) + cipher.final
-    Base64.urlsafe_encode64(data)
+    #Base64.urlsafe_encode64(data)
+    Base64.urlsafe_encode64(data).gsub('=', '.').gsub('-', '_')    
   end
 
   def generate_authentication_token!
