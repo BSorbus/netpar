@@ -100,7 +100,7 @@ class ProposalsController < ApplicationController
 
   # GET /proposals/1/edit_approved
   def edit_approved
-    proposal_authorize(@proposal, "edit", params[:category_service])
+    proposal_authorize(@proposal, "edit_approved", params[:category_service])
  
     respond_to do |format|
       format.html { render :edit_approved, locals: { back_url: params[:back_url] } }
@@ -109,7 +109,7 @@ class ProposalsController < ApplicationController
 
   # GET /proposals/1/edit_not_approved
   def edit_not_approved
-    proposal_authorize(@proposal, "edit", params[:category_service])
+    proposal_authorize(@proposal, "edit_not_approved", params[:category_service])
  
     respond_to do |format|
       format.html { render :edit_not_approved, locals: { back_url: params[:back_url] } }
@@ -138,7 +138,7 @@ class ProposalsController < ApplicationController
 
   # PATCH/PUT /proposals/1
   def update_approved
-    proposal_authorize(@proposal, "update", params[:category_service])
+    proposal_authorize(@proposal, "update_approved", params[:category_service])
 
     @proposal.user = current_user
     @proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_APPROVED
@@ -167,7 +167,7 @@ class ProposalsController < ApplicationController
 
   # PATCH/PUT /proposals/1
   def update_not_approved
-    proposal_authorize(@proposal, "update", params[:category_service])
+    proposal_authorize(@proposal, "update_not_approved", params[:category_service])
 
     @proposal.user_id = current_user.id
     @proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_NOT_APPROVED
@@ -199,14 +199,15 @@ class ProposalsController < ApplicationController
   end
 
   private
-    def proposal_authorize(model_class, action, category)
-      unless ['index', 'show', 'new', 'create', 'edit', 'update', 'destroy', 'print', 'work'].include?(action)
+    def proposal_authorize(model_class, action, category_service)
+      unless ['l', 'm', 'r'].include?(category_service)
          raise "Ruby injection"
       end
-      unless ['l', 'm', 'r'].include?(category)
+      unless ['index', 'show', 'new', 'create', 'edit', 'update', 'destroy', 'print', 'work', 
+              'edit_approved', 'edit_not_approved', 'update_approved', 'update_not_approved'].include?(action)
          raise "Ruby injection"
       end
-      authorize model_class,"#{action}_#{category}?"      
+      authorize model_class,"#{action}_#{category_service}?"      
     end
 
     def set_proposal

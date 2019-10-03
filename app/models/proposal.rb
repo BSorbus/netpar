@@ -36,11 +36,6 @@ class Proposal < ActiveRecord::Base
 
   has_many :works, as: :trackable
   has_many :documents, as: :documentable, :source_type => "Proposal", dependent: :destroy
-#  has_many :grades, dependent: :destroy  
-#  has_many :esod_matters, class_name: "Esod::Matter", foreign_key: :examination_id, dependent: :nullify
-
-#  accepts_nested_attributes_for :grades
-#  validates_associated :grades
 
   # validates
   validates :multi_app_identifier, presence: true
@@ -81,11 +76,6 @@ class Proposal < ActiveRecord::Base
 
   def fullname_and_id
     "#{fullname} (#{id})"
-  end
-
-  def can_or_not_approved?
-    #true #test!
-    proposal_status_id == Proposal::PROPOSAL_STATUS_CREATED
   end
 
   def update_rec_and_push(proposal_params)
@@ -144,68 +134,20 @@ class Proposal < ActiveRecord::Base
     
   end
 
-
-  def send_proposal
-  begin
-    egzaminy_proposal_obj = EgzaminyProposal.new(egzaminy_proposal: JSON.parse(self.to_json) )
-    response = egzaminy_proposal_obj.request_update
-    rescue *HTTP_ERRORS => e
-      Rails.logger.error('======== API ERROR "models/proposal/save - API ERROR" (1) ===================')
-      Rails.logger.error("#{e}")
-      errors.add(:base, "#{e}")
-      Rails.logger.error('=============================================================================')
-      raise ActiveRecord::Rollback, "#{e}"
-      false
-    rescue StandardError => e
-      Rails.logger.error('======== API ERROR "models/proposal/save - API ERROR" (2) ===================')
-      Rails.logger.error("#{e}")
-      errors.add(:base, "#{e}")
-      Rails.logger.error('=============================================================================')
-      raise ActiveRecord::Rollback, "#{e}"
-      false
-    else
-      case response
-      when Net::HTTPOK, Net::HTTPCreated
-        save!
-        true   # success response
-      when Net::HTTPClientError, Net::HTTPInternalServerError
-        Rails.logger.error('======== API ERROR "models/proposal/save" (3) ===============================')
-        Rails.logger.error("code: #{response.code}, message: #{response.message}, body: #{response.body}")
-        errors.add(:base, "code: #{response.code}, message: #{response.message}, body: #{response.body}")
-        Rails.logger.error('=============================================================================')
-        raise ActiveRecord::Rollback, "code: #{response.code}, message: #{response.message}"
-        false
-      when response.class != 'String'
-        Rails.logger.error('======== API ERROR "models/proposal/save" (4) ===============================')
-        Rails.logger.error("code: #{response.code}, message: #{response.message}, body: #{response.body}")
-        errors.add(:base, "code: #{response.code}, message: #{response.message}, body: #{response.body}")
-        Rails.logger.error('=============================================================================')
-        raise ActiveRecord::Rollback, "code: #{response.code}, message: #{response.message}, body: #{response.body}"
-        false
-      else
-        Rails.logger.error('======== API ERROR "models/proposal/save" (5) ===============================')
-        Rails.logger.error("#{response}")
-        errors.add(:base, "#{response}")
-        Rails.logger.error('=============================================================================')
-        raise ActiveRecord::Rollback, "#{response}"
-        false
-      end
-    end
-  rescue  => exception
-    Rails.logger.error('============= ERROR models/proposal/save =======================================')
-    Rails.logger.error('... rescue => exception')
-    Rails.logger.error("... #{exception.message}")
-    Rails.logger.error("... #{exception.couse.message}")
-    # Handle exception that caused the transaction to fail
-    # e.message and e.cause.message can be helpful
-    errors.add(:base, "#{exception.message}")
-    errors.add(:base, "#{exception.couse.message}")
-    Rails.logger.error('================================================================================')
-    false
-  end
-
   def can_edit?
     [PROPOSAL_STATUS_CREATED].include?(proposal_status_id) 
+  end
+
+  def can_edit_approved?
+    [PROPOSAL_STATUS_CREATED].include?(proposal_status_id) 
+  end
+
+  def can_edit_not_approved?
+    [PROPOSAL_STATUS_CREATED].include?(proposal_status_id) 
+  end
+
+  def insert_new_examination
+
   end
 
   private
@@ -215,7 +157,7 @@ class Proposal < ActiveRecord::Base
     end
 
     def check_max_examinations
-      if (self.exam.proposals_important_count + self.exam.examinations_count) >= (self.exam.max_examinations ||= 0) 
+      if (self.exam.proposals_important_count) >= (self.exam.max_examinations ||= 0) 
         errors[:base] << "Przekroczona maksymalna liczba miejsc w tej sesji egzaminacyjnej"
         false
       end    

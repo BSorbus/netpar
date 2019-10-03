@@ -87,6 +87,22 @@ class ProposalPolicy < ApplicationPolicy
     (@model.can_edit?) && (user_activities.include? 'proposal_r:update')
   end
 
+  def edit_approved_m?
+    (@model.can_edit_approved?) && (user_activities.include? 'proposal_m:update')
+  end
+
+  def edit_approved_r?
+    (@model.can_edit_approved?) && (user_activities.include? 'proposal_r:update')
+  end
+
+  def edit_not_approved_m?
+    (@model.can_edit_not_approved?) && (user_activities.include? 'proposal_m:update')
+  end
+
+  def edit_not_approved_r?
+    (@model.can_edit_not_approved?) && (user_activities.include? 'proposal_r:update')
+  end
+
   def edit?
     false
   end
@@ -101,6 +117,22 @@ class ProposalPolicy < ApplicationPolicy
 
   def update_r?
     edit_r?
+  end
+
+  def update_approved_m?
+    edit_approved_m?
+  end
+
+  def update_approved_r?
+    edit_approved_r?
+  end
+
+  def update_not_approved_m?
+    edit_not_approved_m?
+  end
+
+  def update_not_approved_r?
+    edit_not_approved_r?
   end
 
   def update?

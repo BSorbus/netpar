@@ -55,9 +55,7 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
                   "birth_date": "#{params[:birth_date]}" }
 
     if params[:number_prefix].blank? || params[:number].blank? || params[:date_of_issue].blank? || params[:name].blank? || params[:given_names].blank? || params[:birth_date].blank? || (params[:valid_thru].blank? && ! ['GL-', 'GS-', 'MA-', 'GS-', 'GC-', 'IW-'].include?(params[:number_prefix]))
-      resp_json = { error: "Brak wszystkich parametrów / All parameters are missing" }
-      render status: :not_acceptable,
-             json: resp_json
+      render_not_params
     else
       req_number = ActionController::Base.helpers.sanitize("#{params[:number_prefix]}"+"#{params[:number]}")
       req_date_of_issue = ActionController::Base.helpers.sanitize(params[:date_of_issue])
@@ -66,69 +64,131 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
       req_given_names = ActionController::Base.helpers.sanitize(params[:given_names]) 
       req_birth_date = ActionController::Base.helpers.sanitize(params[:birth_date])
 
-      equal_data = nil
-      # najpierw szukaj Certificaty
-      certs = Certificate.joins(:customer).references(:customer).limit(1)
-          .where(canceled: false, category: "M", date_of_issue: "#{req_date_of_issue}", valid_thru: "#{req_valid_thru}", customers: {birth_date: "#{req_birth_date}"})
-          .where("TRIM(certificates.number) = '#{req_number}' AND TRIM(UPPER(unaccent(customers.name))) = UPPER(unaccent('#{req_name}')) AND
-                  TRIM(UPPER(unaccent(customers.given_names))) = UPPER(unaccent('#{req_given_names}'))")
+      certificate = Certificate.find_by("certificates.canceled = false AND certificates.category = 'M' AND TRIM(certificates.number) = '#{req_number}'")
 
-      if certs.present?
-        equal_data = certs.first.works.new(trackable_url: nil, action: nil, user: nil, 
-          parameters: certs.first.to_json(except: [:exam_id, :division_id, :customer_id, :user_id], 
-                                          include: {
-                                            exam: {only: [:id, :number, :date_exam]},
-                                            division: {only: [:id, :name]},
-                                            customer: {only: [:id, :name, :given_names, :birth_date]},
-                                            user: {only: [:id, :name, :email]}
-                                            }
-                                          ) )
+      if certificate.blank?
+        render_not_found(requ_json)
+      else
+        resp_json = campare_data(req_number, req_date_of_issue, req_valid_thru, req_name, req_given_names, req_birth_date, certificate )
+        resp_json.blank? ? render_not_found(requ_json) : render_data_is_equal(requ_json, resp_json) 
+      end
+    end
+  end
+
+  private
+
+    def render_not_params
+      render status: :not_acceptable, json: { error: "Brak wszystkich parametrów / All parameters are missing" }
+    end
+
+    def render_not_found(requ_json)
+      resp_json = { error: "Brak danych / No data" }
+      ConfirmationLog.create!(remote_ip: "#{request.headers['X-Real-IP']}", request_json: "#{requ_json}", response_json: "#{resp_json}")
+      render status: :not_found, json: resp_json
+    end
+
+    def render_data_is_equal(requ_json, resp_json)
+      ConfirmationLog.create!(remote_ip: "#{request.headers['X-Real-IP']}", request_json: "#{requ_json}", response_json: "#{resp_json}")
+      render status: :ok, json: resp_json
+    end
+
+    def campare_data(number, date_of_issue, valid_thru, name, given_names, birth_date, certificate_record)
+      resp_json = campare_data_basic(number, date_of_issue, valid_thru, name, given_names, birth_date, certificate_record)
+      resp_json = campare_data_with_history(number, date_of_issue, valid_thru, name, given_names, birth_date, certificate_record) if resp_json.blank?
+      
+      return resp_json
+    end
+
+    def campare_data_basic(number, date_of_issue, valid_thru, name, given_names, birth_date, certificate_record)
+      if  certificate_record.number.strip == number.strip && 
+          certificate_record.date_of_issue.to_s == date_of_issue.to_s && 
+          certificate_record.valid_thru.to_s == valid_thru.to_s &&
+            I18n.transliterate(certificate_record.customer.name).upcase.strip == I18n.transliterate(name).upcase.strip &&
+            I18n.transliterate(certificate_record.customer.given_names).upcase.strip == I18n.transliterate(given_names).upcase.strip &&
+            certificate_record.customer.birth_date.to_s == birth_date.to_s
+
+        return  {
+                  "certificates": [
+                    {
+                      "id": certificate_record.id,
+                      "number": number,
+                      "date_of_issue": date_of_issue,
+                      "valid_thru": valid_thru,
+                      "category": certificate_record.category,
+                      "division": {
+                        "id": certificate_record.division_id,
+                        "name": certificate_record.division.name,
+                        "english_name": certificate_record.division.english_name,
+                        "short_name": certificate_record.division.short_name,
+                        "number_prefix": certificate_record.division.number_prefix
+                      },
+                      "customer": {
+                        "id": certificate_record.customer_id,
+                        "name": name,
+                        "given_names": given_names,
+                        "birth_date": birth_date
+                      }
+                    }
+                  ],
+                  "meta": {
+                    "collection": {
+                      "offset": 0,
+                      "limit": 1,
+                      "objects": 1
+                    }
+                  }
+                }
+
+      end
+    end
+
+    def campare_data_with_history(number, date_of_issue, valid_thru, name, given_names, birth_date, certificate_record)
+      resp_json = nil
+      certificate_record.works.where(action: [:create, :update]).each do |history_record|
+        resp_json = campare_data_with_history_row(number, date_of_issue, valid_thru, name, given_names, birth_date, certificate_record, history_record)
+        break if resp_json.present?
       end
 
-      if equal_data.nil?
-        # szukaj w historii jeżeli nie znalazłeś w Certifikatach
-        certificates = Certificate.joins(:customer).references(:customer).limit(1)
-          .where(canceled: false, category: 'M', customers: {birth_date: "#{req_birth_date}"})
-          .where("TRIM(certificates.number) = '#{req_number}' AND TRIM(UPPER(unaccent(customers.name))) = UPPER(unaccent('#{req_name}')) AND
-                  TRIM(UPPER(unaccent(customers.given_names))) = UPPER(unaccent('#{req_given_names}'))")
+      return resp_json
+    end
 
-        works = certificates.first.works if certificates.present?
+    def campare_data_with_history_row(number, date_of_issue, valid_thru, name, given_names, birth_date, certificate_record, history_record)
+      if JSON.parse(history_record.parameters)['number'].present? &&
+         JSON.parse(history_record.parameters)['date_of_issue'].present? &&
+         JSON.parse(history_record.parameters)['valid_thru'].present? && 
+         JSON.parse(history_record.parameters)['customer'].present?
 
-        if works.present?
-          works.each do |rec|
-            if JSON.parse(rec.parameters)['date_of_issue'] == req_date_of_issue 
-              if params[:valid_thru].present?
-                equal_data = rec if JSON.parse(rec.parameters)['valid_thru'] == req_valid_thru
-              else
-                equal_data = rec
-              end
-            end
-          end
-        end
-      end 
+        if JSON.parse(history_record.parameters)['customer']['name'].present? &&
+           JSON.parse(history_record.parameters)['customer']['given_names'].present? &&
+           JSON.parse(history_record.parameters)['customer']['birth_date'].present?
 
-      unless equal_data.nil?
-        division = Division.find("#{JSON.parse(equal_data.parameters)['division']['id']}")
-        resp_json = {
+          if JSON.parse(history_record.parameters)['number'].strip == number.strip &&
+             JSON.parse(history_record.parameters)['date_of_issue'] == date_of_issue &&
+             JSON.parse(history_record.parameters)['valid_thru'] == valid_thru &&
+             I18n.transliterate(JSON.parse(history_record.parameters)['customer']['name']).upcase.strip == I18n.transliterate(name).upcase.strip &&
+             I18n.transliterate(JSON.parse(history_record.parameters)['customer']['given_names']).upcase.strip == I18n.transliterate(given_names).upcase.strip &&
+             JSON.parse(history_record.parameters)['customer']['birth_date'] == birth_date
+
+            return  {
                       "certificates": [
                         {
-                          "id": "#{JSON.parse(equal_data.parameters)['id']}",
-                          "number": "#{JSON.parse(equal_data.parameters)['number']}",
-                          "date_of_issue": "#{JSON.parse(equal_data.parameters)['date_of_issue']}",
-                          "valid_thru": "#{JSON.parse(equal_data.parameters)['valid_thru']}",
-                          "category": "#{JSON.parse(equal_data.parameters)['category']}",
+                          "id": JSON.parse(history_record.parameters)['id'],
+                          "number": number,
+                          "date_of_issue": date_of_issue,
+                          "valid_thru": valid_thru,
+                          "category": certificate_record.category,
                           "division": {
-                            "id": "#{JSON.parse(equal_data.parameters)['division']['id']}",
-                            "name": division.name,
-                            "english_name": division.english_name,
-                            "short_name": division.short_name,
-                            "number_prefix": division.number_prefix
+                            "id": certificate_record.division_id,
+                            "name": certificate_record.division.name,
+                            "english_name": certificate_record.division.english_name,
+                            "short_name": certificate_record.division.short_name,
+                            "number_prefix": certificate_record.division.number_prefix
                           },
                           "customer": {
-                            "id": "#{JSON.parse(equal_data.parameters)['customer']['id']}",
-                            "name": "#{JSON.parse(equal_data.parameters)['customer']['name']}",
-                            "given_names": "#{JSON.parse(equal_data.parameters)['customer']['given_names']}",
-                            "birth_date": "#{JSON.parse(equal_data.parameters)['customer']['birth_date']}",
+                            "id": JSON.parse(history_record.parameters)['customer']['id'],
+                            "name": JSON.parse(history_record.parameters)['customer']['name'],
+                            "given_names": JSON.parse(history_record.parameters)['customer']['given_names'],
+                            "birth_date": JSON.parse(history_record.parameters)['customer']['birth_date']
                           }
                         }
                       ],
@@ -141,19 +201,10 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
                       }
                     }
 
-        render status: :ok,
-               json: resp_json
-      else
-        resp_json = { error: "Brak danych / No data" }
-        render status: :not_found,
-               json: resp_json
+          end 
+        end
       end
-
     end
-
-    ConfirmationLog.create!(remote_ip: "#{request.headers['X-Real-IP']}", request_json: "#{requ_json}", response_json: "#{resp_json}")
-
-  end
 
 
 end

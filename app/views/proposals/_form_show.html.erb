@@ -37,22 +37,18 @@
       <% end %>
     <% end %>
 
-		<% if proposal_policy_check(@proposal, params[:category_service], 'edit') %>
-
-      <%= link_to edit_approved_proposal_path(@proposal.category.downcase, @proposal), 
-                          class: "btn btn-primary",
-                          disabled: ! @proposal.can_or_not_approved? do %>
+		<% if proposal_policy_check(@proposal, params[:category_service], 'edit_approved') %>
+      <%= link_to edit_approved_proposal_path(@proposal.category.downcase, @proposal), class: "btn btn-primary" do %>
         <span class="fa fa-check"></span>
         <%= t("helpers.links.proposal_approved") %>
       <% end %>
+    <% end %>
 
-      <%= link_to edit_not_approved_proposal_path(@proposal.category.downcase, @proposal), 
-                          class: "btn btn-danger",
-                          disabled: ! @proposal.can_or_not_approved? do %>
+    <% if proposal_policy_check(@proposal, params[:category_service], 'edit_not_approved') %>
+      <%= link_to edit_not_approved_proposal_path(@proposal.category.downcase, @proposal), class: "btn btn-danger" do %>
         <span class="fa fa-ban"></span>
         <%= t("helpers.links.proposal_not_approved") %>
       <% end %>
-
     <% end %>
 
   </div> <!-- /col-sm-12 -->
