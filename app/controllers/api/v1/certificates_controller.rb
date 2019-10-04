@@ -93,13 +93,13 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
     end
 
     def campare_data(number, date_of_issue, valid_thru, name, given_names, birth_date, certificate_record)
-      resp_json = campare_data_basic(number, date_of_issue, valid_thru, name, given_names, birth_date, certificate_record)
+      resp_json = campare_data_with_current_record(number, date_of_issue, valid_thru, name, given_names, birth_date, certificate_record)
       resp_json = campare_data_with_history(number, date_of_issue, valid_thru, name, given_names, birth_date, certificate_record) if resp_json.blank?
       
       return resp_json
     end
 
-    def campare_data_basic(number, date_of_issue, valid_thru, name, given_names, birth_date, certificate_record)
+    def campare_data_with_current_record(number, date_of_issue, valid_thru, name, given_names, birth_date, certificate_record)
       if  certificate_record.number.strip == number.strip && 
           certificate_record.date_of_issue.to_s == date_of_issue.to_s && 
           certificate_record.valid_thru.to_s == valid_thru.to_s &&
@@ -123,10 +123,10 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
                         "number_prefix": certificate_record.division.number_prefix
                       },
                       "customer": {
-                        "id": certificate_record.customer_id,
-                        "name": name,
-                        "given_names": given_names,
-                        "birth_date": birth_date
+                        "id": certificate_record.customer.id,
+                        "name": certificate_record.customer.name,
+                        "given_names": certificate_record.customer.given_names,
+                        "birth_date": certificate_record.customer.birth_date
                       }
                     }
                   ],
