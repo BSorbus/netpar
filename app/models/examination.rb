@@ -75,6 +75,29 @@ class Examination < ActiveRecord::Base
     end
   end
 
+  def save_and_grades_add
+    ActiveRecord::Base.transaction do
+      save_result = self.save
+      if save_result
+        self.division.subjects.where("'?' = ANY (esod_categories)", self.esod_category).order(:item).each do |subject|
+          if Esodes::ORDINARY_EXAMINATIONS.include?(self.esod_category) #egzamin zwykły/zwykły PW 
+            self.grades.create!(user: self.user, subject: subject)
+          else #jesli to egzamin poprawkowy/odnowienie z egzaminem, poprawkowy
+            # poszukaj ocen z oceną negatywną
+            customer_last_examination = Examination.where(customer: self.customer, division: self.division, examination_result: 'N').last # Negatywny z prawem do poprawki
+            if customer_last_examination.present?
+              self.grades.create!(user: self.user, subject: subject) if customer_last_examination.grades.where(grade_result: 'N', subject: subject).any?
+            else
+              self.grades.create!(user: self.user, subject: subject)
+            end
+          end
+        end
+      end
+      return save_result
+    end
+  end
+
+
   def generate_certificate(gen_user_id)
     go_create_new = true
 

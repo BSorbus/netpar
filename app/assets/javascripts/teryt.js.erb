@@ -19,7 +19,7 @@ $(document).ready(function() {
       results: function(data, page) {
         //var more = (page * 16) < data.total_count;
         var more = (page * 16) < data.meta.total_count;
-        var provinces = $.map(data.pit_teryt_provinces, function(province, i) {
+        var provinces = $.map(data.provinces, function(province, i) {
           return { id: province.id, text: province.name };
         });
         return { results: provinces, more: more };

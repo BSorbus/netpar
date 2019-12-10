@@ -145,7 +145,7 @@ class ProposalsController < ApplicationController
  
     respond_to do |format|
       if @proposal.update_rec_and_push(proposal_approved_params)
-        @proposal.works.create!(trackable_url: "#{proposal_path(@proposal, category_service: params[:category_service])}", action: :update, user: current_user, 
+        @proposal.works.create!(trackable_url: "#{proposal_path(@proposal, category_service: params[:category_service])}", action: :approved, user: current_user, 
           parameters: @proposal.to_json(except: {proposal: [:id, :proposal_status_id, :user_id]}, 
                   include: { 
                     exam: {
@@ -155,6 +155,8 @@ class ProposalsController < ApplicationController
                     user: {
                       only: [:id, :name, :email] } 
                           }))
+
+        @proposal.add_to_examinations
 
         flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.fullname)
 
@@ -174,7 +176,7 @@ class ProposalsController < ApplicationController
 
     respond_to do |format|
       if @proposal.update_rec_and_push(proposal_not_approved_params)
-        @proposal.works.create!(trackable_url: "#{proposal_path(@proposal, category_service: params[:category_service])}", action: :update, user: current_user, 
+        @proposal.works.create!(trackable_url: "#{proposal_path(@proposal, category_service: params[:category_service])}", action: :reject, user: current_user, 
           parameters: @proposal.to_json(except: {proposal: [:id, :proposal_status_id, :user_id]}, 
                   include: { 
                     exam: {

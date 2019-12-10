@@ -1,6 +1,7 @@
 require 'net/http'
 
 class Proposal < ActiveRecord::Base
+  delegate :url_helpers, to: 'Rails.application.routes'
 
   HTTP_ERRORS = [
     EOFError,
@@ -60,7 +61,9 @@ class Proposal < ActiveRecord::Base
   # callbacks
   before_save :check_max_examinations, on: :create
 
+  after_save :destroy_examination_if_annuled
   after_save :refresh_exam_proposals_important_count
+
   after_destroy :refresh_exam_proposals_important_count
 
       # params.require(:proposal).permit(:multi_app_identifier, :proposal_status_id, :category, :creator_id, :user_id, 
@@ -146,7 +149,28 @@ class Proposal < ActiveRecord::Base
     [PROPOSAL_STATUS_CREATED].include?(proposal_status_id) 
   end
 
-  def insert_new_examination
+  def add_to_examinations
+ #   examination = self.build_examination OR
+    examination = Examination.new
+    examination.proposal_id = self.id
+    examination.examination_category = "Z"
+    examination.division_id = self.division_id
+    examination.exam_id = self.exam_id
+    examination.customer_id = self.customer_id 
+    examination.category = self.category
+    examination.user_id = self.user_id
+    examination.supplementary = false
+    examination.esod_category = self.esod_category
+
+#    examination.examination_result
+#    examination.certificate_id
+#       examination.supplementary = false ewentualnie do zmiany jak będzie obsługa poprawkowych
+#       examination_category = "Z",
+
+    examination.save_and_grades_add
+
+    examination.works.create!(trackable_url: "#{url_helpers.examination_path(examination, category_service: examination.category.downcase)}", 
+          action: :create, user: examination.user_id, parameters: examination.attributes.to_json)
 
   end
 
@@ -154,6 +178,10 @@ class Proposal < ActiveRecord::Base
 
     def refresh_exam_proposals_important_count
       exam.refresh_proposals_important_count
+    end
+
+    def destroy_examination_if_annuled
+      self.examination.destroy if self.examination.present? && self.proposal_status_id_changed?(to: PROPOSAL_STATUS_ANNULLED)
     end
 
     def check_max_examinations

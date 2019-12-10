@@ -131,8 +131,8 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/teryt/provinces/:id', to: 'pit_teryt_provinces#show'
-  get '/teryt/provinces_select2_index', to: 'pit_teryt_provinces#select2_index'
+  get '/teryt/provinces/:id', to: 'pit_teryt#province_show'
+  get '/teryt/provinces_select2_index', to: 'pit_teryt#provinces_select2_index'
 
 
   namespace :esod do
