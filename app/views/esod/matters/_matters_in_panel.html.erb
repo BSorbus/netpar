@@ -4,14 +4,15 @@
 <div class="row">
   <div class="col-sm-11 col-sm-offset-1">
     <div class="panel panel-esod-matter">
-      <div class="panel-heading">
-        <div class="panel-title">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_esod-matter" >
-            <span class="glyphicon glyphicon-retweet">&nbsp;ESOD - Powiązane Sprawy</span>
-            <i class="indicator glyphicon glyphicon-chevron-right  pull-right"></i>
-          </a>
-        </div>
-      </div>
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_esod-matter">
+          <div class="panel-heading">
+            <div class="panel-title">
+              <span class='<%= t("pages.esod_matter.model_icon") %>'></span>
+              <span><%=t "pages.esod_matter.index.title"%></span>
+              <span><i class="indicator glyphicon glyphicon-chevron-right  pull-right"></i></span>
+            </div> 
+          </div>
+        </a>
       <div id="collapse_esod-matter" class="panel-collapse collapse"> <!-- id="collapse_esod-matter" -->
         <div class="panel-body">
 
@@ -29,17 +30,23 @@
             <div class="row">
               <div class="col-sm-12">
                 <% if policy(:esod).link? %> 
-                  <button class="btn btn-success glyphicon glyphicon-link" type="button" data-toggle="collapse" data-target=".esod-matter-link" aria-expanded="false" ><%= t("helpers.links.link_esod_matter") %>
+                  <button class="btn btn-success" type="button" data-toggle="collapse" data-target=".esod-matter-link" aria-expanded="false" >
+                    <span><%= icon("link") %></span>
+                    <%= t("helpers.links.link_esod_matter") %>
                   </button>
                 <% end %>
                   
                 <% if policy(:esod).new? %> 
-                  <button class="btn btn-success fa fa-plus" type="button" data-toggle="collapse" data-target=".esod-matter-new" aria-expanded="false" ><%= t("helpers.links.new_esod_matter") %>
+                  <button class="btn btn-success" type="button" data-toggle="collapse" data-target=".esod-matter-new" aria-expanded="false" >
+                    <span><%= icon("plus") %></span>
+                    <%= t("helpers.links.new_esod_matter") %>
                   </button>
 
                   <% if matterable.esod_matters.where(czy_otwarta: true).any? %>
-                  <button class="btn btn-info glyphicon glyphicon-envelope" type="button" data-toggle="collapse" data-target=".esod-matter-letter" aria-expanded="false" ><%= t("helpers.links.new_esod_matter_letter") %>
-                  </button>
+                    <button class="btn btn-info" type="button" data-toggle="collapse" data-target=".esod-matter-letter" aria-expanded="false" >
+                      <span><%= icon("envelope") %></span>
+                      <%= t("helpers.links.new_esod_matter_letter") %>
+                    </button>
                   <% end %>                  
                 <% end %>
                 

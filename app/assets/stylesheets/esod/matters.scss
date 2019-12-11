@@ -3,13 +3,26 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .panel-esod-matter {
+  border-color: #ddd;
+  a:link {
+    text-decoration:none; 
+  };
+  .panel-heading {
+    background:  #091a2a;
+    color: white; 
+  } 
+}
+
+/*
+
+.panel-esod-matter {
   border-color: #ddd  
 }
 .panel-esod-matter > .panel-heading {
   background:  #091a2a;
   color: white; 
 }
-
+*/
 .panel-esod-incoming-letter {
   border-color: #ddd  
 }

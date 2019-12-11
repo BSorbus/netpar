@@ -203,6 +203,7 @@ pl:
       show:
         title: 'Wydruki'
     esod_matter:
+      model_icon: 'fa fa-retweet'
       index:
         title: 'ESOD - Sprawy'
       show:

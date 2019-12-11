@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190913015957) do
+ActiveRecord::Schema.define(version: 20191211081559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -393,18 +393,16 @@ ActiveRecord::Schema.define(version: 20190913015957) do
   add_index "exam_fees", ["division_id", "esod_category"], name: "index_exam_fees_on_division_id_and_esod_category", unique: true, using: :btree
 
   create_table "examinations", force: :cascade do |t|
-    t.string   "examination_category", limit: 1, default: "Z",   null: false
     t.integer  "division_id"
-    t.string   "examination_result",   limit: 1
+    t.string   "examination_result", limit: 1
     t.integer  "exam_id"
     t.integer  "customer_id"
-    t.text     "note",                           default: ""
-    t.string   "category",             limit: 1
+    t.text     "note",                         default: ""
+    t.string   "category",           limit: 1
     t.integer  "user_id"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.integer  "certificate_id"
-    t.boolean  "supplementary",                  default: false, null: false
     t.integer  "esod_category"
     t.integer  "proposal_id"
   end
@@ -622,10 +620,9 @@ ActiveRecord::Schema.define(version: 20190913015957) do
     t.integer  "item"
     t.string   "name"
     t.integer  "division_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.boolean  "for_supplementary", default: false, null: false
-    t.string   "esod_categories",   default: [],                 array: true
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "esod_categories", default: [],              array: true
   end
 
   add_index "subjects", ["division_id"], name: "index_subjects_on_division_id", using: :btree

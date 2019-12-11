@@ -3,8 +3,13 @@ class ProposalStatus < ActiveRecord::Base
   PROPOSAL_STATUS_CREATED = 1
   PROPOSAL_STATUS_APPROVED = 2
   PROPOSAL_STATUS_NOT_APPROVED = 3
-  PROPOSAL_STATUS_PAYED = 4
-  PROPOSAL_STATUS_CLOSED = 5
+  PROPOSAL_STATUS_CLOSED = 4
+  PROPOSAL_STATUS_ANNULLED = 5
+  PROPOSAL_STATUS_EXAMINATION_RESULT_B = 6  # "Negatywny bez prawa do poprawki" 
+  PROPOSAL_STATUS_EXAMINATION_RESULT_N = 7  # "Negatywny z prawem do poprawki" 
+  PROPOSAL_STATUS_EXAMINATION_RESULT_O = 8  # "Nieobecny" 
+  PROPOSAL_STATUS_EXAMINATION_RESULT_P = 9  # "Pozytywny" 
+  PROPOSAL_STATUS_EXAMINATION_RESULT_Z = 10 # "Zmiana terminu" 
 
   # relations
   has_many :proposals, dependent: :nullify

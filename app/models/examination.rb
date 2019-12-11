@@ -32,6 +32,7 @@ class Examination < ActiveRecord::Base
   scope :only_category_r, -> { where(category: "R") }
 
   # callbacks
+  after_save :close_proposal_if_change_examination_result, if: "proposal_id.present?"
 
 
   def fullname
@@ -162,5 +163,43 @@ class Examination < ActiveRecord::Base
     end
   end
 
+
+  def close_proposal_if_change_examination_result
+    puts '------------------------------------------------------------------'
+    puts "self.examination_result_changed?: #{self.examination_result_changed?}"
+    if self.examination_result_changed?
+
+      self.proposal.user_id = self.user_id
+      case self.examination_result
+      when 'B'
+        self.proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_EXAMINATION_RESULT_B
+      when 'N'
+        self.proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_EXAMINATION_RESULT_N
+      when 'O'
+        self.proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_EXAMINATION_RESULT_O
+      when 'P'
+        self.proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_EXAMINATION_RESULT_P
+      when 'Z'
+        self.proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_EXAMINATION_RESULT_Z
+      else
+        raise "examination.examination_result bad value"
+      end  
+
+      if self.proposal.update_rec_and_push(nil)
+        self.proposal.works.create!(trackable_url: "#{Rails.application.routes.url_helpers.proposal_path(self.proposal, category_service: self.category.downcase)}", 
+          action: :closed, user_id: self.user_id, 
+          parameters: self.proposal.to_json(except: {proposal: [:id, :proposal_status_id, :user_id]}, 
+                  include: { 
+                    exam: {
+                      only: [:id, :number, :date_exam, :place_exam] },
+                    proposal_status: {
+                      only: [:id, :name] },
+                    user: {
+                      only: [:id, :name, :email] } 
+                          }))
+      end
+    end
+    puts '------------------------------------------------------------------'
+  end
 
 end

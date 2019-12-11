@@ -69,6 +69,8 @@ gem 'refile-postgres', '~> 1.4.0'
 gem 'active_model_serializers', '0.9.5'
 
 gem 'font-awesome-sass', '4.7.0'
+#gem 'font_awesome5_rails'
+
 # gem 'yomu'
 # gem 'pdf-reader'
 

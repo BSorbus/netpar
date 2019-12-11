@@ -1,7 +1,6 @@
 require 'net/http'
 
 class Proposal < ActiveRecord::Base
-  delegate :url_helpers, to: 'Rails.application.routes'
 
   HTTP_ERRORS = [
     EOFError,
@@ -19,8 +18,22 @@ class Proposal < ActiveRecord::Base
   PROPOSAL_STATUS_NOT_APPROVED = 3
   PROPOSAL_STATUS_CLOSED = 4
   PROPOSAL_STATUS_ANNULLED = 5
+  PROPOSAL_STATUS_EXAMINATION_RESULT_B = 6  # "Negatywny bez prawa do poprawki" 
+  PROPOSAL_STATUS_EXAMINATION_RESULT_N = 7  # "Negatywny z prawem do poprawki" 
+  PROPOSAL_STATUS_EXAMINATION_RESULT_O = 8  # "Nieobecny" 
+  PROPOSAL_STATUS_EXAMINATION_RESULT_P = 9  # "Pozytywny" 
+  PROPOSAL_STATUS_EXAMINATION_RESULT_Z = 10 # "Zmiana terminu" 
 
-  PROPOSAL_STATUSES = [PROPOSAL_STATUS_CREATED, PROPOSAL_STATUS_APPROVED, PROPOSAL_STATUS_NOT_APPROVED, PROPOSAL_STATUS_CLOSED, PROPOSAL_STATUS_ANNULLED]
+  PROPOSAL_STATUSES = [ PROPOSAL_STATUS_CREATED, 
+                        PROPOSAL_STATUS_APPROVED, 
+                        PROPOSAL_STATUS_NOT_APPROVED, 
+                        PROPOSAL_STATUS_CLOSED, 
+                        PROPOSAL_STATUS_ANNULLED,
+                        PROPOSAL_STATUS_EXAMINATION_RESULT_B,
+                        PROPOSAL_STATUS_EXAMINATION_RESULT_N,
+                        PROPOSAL_STATUS_EXAMINATION_RESULT_O,
+                        PROPOSAL_STATUS_EXAMINATION_RESULT_P,
+                        PROPOSAL_STATUS_EXAMINATION_RESULT_Z ]
 
   CATEGORY_NAME_M = "Świadectwo służby morskiej i żeglugi śródlądowej"
   CATEGORY_NAME_R = "Świadectwo służby radioamatorskiej"
@@ -61,8 +74,8 @@ class Proposal < ActiveRecord::Base
   # callbacks
   before_save :check_max_examinations, on: :create
 
-  after_save :destroy_examination_if_annuled
   after_save :refresh_exam_proposals_important_count
+  after_save :destroy_examination_if_annuled
 
   after_destroy :refresh_exam_proposals_important_count
 
@@ -82,7 +95,7 @@ class Proposal < ActiveRecord::Base
   end
 
   def update_rec_and_push(proposal_params)
-    self.attributes = proposal_params
+    self.attributes = proposal_params if proposal_params.present?
     if invalid?
       return false
     else
@@ -134,7 +147,6 @@ class Proposal < ActiveRecord::Base
           end # /else         
         end # /begin
       end # /transaction
-    
   end
 
   def can_edit?
@@ -153,25 +165,19 @@ class Proposal < ActiveRecord::Base
  #   examination = self.build_examination OR
     examination = Examination.new
     examination.proposal_id = self.id
-    examination.examination_category = "Z"
     examination.division_id = self.division_id
     examination.exam_id = self.exam_id
     examination.customer_id = self.customer_id 
     examination.category = self.category
     examination.user_id = self.user_id
-    examination.supplementary = false
     examination.esod_category = self.esod_category
-
 #    examination.examination_result
 #    examination.certificate_id
-#       examination.supplementary = false ewentualnie do zmiany jak będzie obsługa poprawkowych
-#       examination_category = "Z",
 
-    examination.save_and_grades_add
-
-    examination.works.create!(trackable_url: "#{url_helpers.examination_path(examination, category_service: examination.category.downcase)}", 
-          action: :create, user: examination.user_id, parameters: examination.attributes.to_json)
-
+    if examination.save_and_grades_add
+      examination.works.create!(trackable_url: "#{Rails.application.routes.url_helpers.examination_path(examination, category_service: examination.category.downcase)}", 
+        action: :create, user_id: examination.user_id, parameters: examination.attributes.to_json)
+    end
   end
 
   private

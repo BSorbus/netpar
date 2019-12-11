@@ -174,7 +174,7 @@
 
     <% if exam_policy_check(@exam, params[:category_service], 'edit') %>
       <%= link_to committee_docx_exam_path(@exam, category_service: @exam.category.downcase, format: "docx"), class: 'btn btn-info pull-right' do %> 
-        <span class="glyphicon glyphicon-retweet"></span>
+        <span><%= icon('users') %></span>
         <%= t("helpers.links.exam_committee_docx") %>
       <% end %>
 

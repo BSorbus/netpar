@@ -235,7 +235,8 @@
 
     <% end %>
     <% if policy(@customer).merge? %>
-      <button class="btn btn-warning glyphicon glyphicon-link pull-right" type="button" data-toggle="collapse" data-target=".link-form" aria-expanded="false" > Scalanie kartotek
+      <button class="btn btn-warning pull-right" type="button" data-toggle="collapse" data-target=".link-form" aria-expanded="false" >
+        <span><%= icon("link") %></span> Scalanie kartotek
       </button>
     <% end %>
   </div> <!-- /row -->
