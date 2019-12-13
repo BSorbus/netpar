@@ -165,8 +165,6 @@ class Examination < ActiveRecord::Base
 
 
   def close_proposal_if_change_examination_result
-    puts '------------------------------------------------------------------'
-    puts "self.examination_result_changed?: #{self.examination_result_changed?}"
     if self.examination_result_changed?
 
       self.proposal.user_id = self.user_id
@@ -199,7 +197,6 @@ class Examination < ActiveRecord::Base
                           }))
       end
     end
-    puts '------------------------------------------------------------------'
   end
 
 end

@@ -1,0 +1,21 @@
+<div class="col-sm-12">
+
+  <div class="row">  <!--dla Świadectwa -->
+    <div class="col-sm-2">
+      <p class="lead">Sesja egzaminacyjna</p>
+    </div><!-- /.col-sm-2 -->
+  
+    <% if examination_policy_check(:examination, params[:category_service], 'print') %>
+      <div class="col-sm-2">
+        <%= link_to image_tag("proposal_card_#{params[:category_service]}.jpg", class: "img-thumbnail" ), 
+              proposal_card_to_pdf_proposal_path(@proposal, category_service: @proposal.exam.category.downcase, format: "pdf"), 
+              target: "_blank" %>  
+
+        <h5>Wniosek</h5>
+      </div><!-- /.col-sm-2 -->
+    <% end %>
+
+  </div class="row">  <!--/dla Świadectwa -->
+
+
+</div> <!--/col-sm-12 -->

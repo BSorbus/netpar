@@ -49,7 +49,27 @@
 
     <% if policy(:customer).new? %>
 
-      <%= link_to new_customer_path(back_url: edit_approved_proposal_path(@proposal.category.downcase, @proposal) ), class: "btn btn-primary" do %>
+      <%= link_to new_customer_path(customer: { name: f.object.name, 
+                                                given_names: f.object.given_names,
+                                                pesel: f.object.pesel,
+                                                birth_date: f.object.birth_date,
+                                                birth_place: f.object.birth_place,
+                                                phone: f.object.phone,
+                                                email: f.object.email,
+                                                family_name: f.object.family_name,
+                                                citizenship_code: f.object.citizenship_code,
+                                                c_address_city: f.object.c_address_city,
+                                                c_address_street: f.object.c_address_street,
+                                                c_address_house: f.object.c_address_house,
+                                                c_address_number: f.object.c_address_number,
+                                                c_address_postal_code: f.object.c_address_postal_code,
+                                                address_city: f.object.c_address_city,
+                                                address_street: f.object.c_address_street,
+                                                address_house: f.object.c_address_house,
+                                                address_number: f.object.c_address_number,
+                                                address_postal_code: f.object.c_address_postal_code
+                                              }, 
+            back_url: edit_approved_proposal_path(@proposal.category.downcase, @proposal) ), class: "btn btn-primary" do %>
         <span class="fa fa-plus"></span>
         <%= t("helpers.links.new") %>
       <% end %>
