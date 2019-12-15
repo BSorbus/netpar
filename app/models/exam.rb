@@ -83,7 +83,7 @@ class Exam < ActiveRecord::Base
   end
 
   def refresh_proposals_important_count
-    update(proposals_important_count: proposals.where.not(proposal_status_id: ProposalStatus::PROPOSAL_STATUS_NOT_APPROVED).size)
+    update_columns(proposals_important_count: proposals.where(proposal_status_id: ProposalStatus::PROPOSAL_IMPORTANT_STATUSES).size)
   end
 
   def exam_has_examinations

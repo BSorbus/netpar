@@ -11,6 +11,15 @@ class ProposalStatus < ActiveRecord::Base
   PROPOSAL_STATUS_EXAMINATION_RESULT_P = 9  # "Pozytywny" 
   PROPOSAL_STATUS_EXAMINATION_RESULT_Z = 10 # "Zmiana terminu" 
 
+  PROPOSAL_IMPORTANT_STATUSES = [ PROPOSAL_STATUS_CREATED, 
+                                  PROPOSAL_STATUS_APPROVED, 
+                                  PROPOSAL_STATUS_CLOSED, 
+                                  PROPOSAL_STATUS_EXAMINATION_RESULT_B,
+                                  PROPOSAL_STATUS_EXAMINATION_RESULT_N,
+                                  PROPOSAL_STATUS_EXAMINATION_RESULT_O,
+                                  PROPOSAL_STATUS_EXAMINATION_RESULT_P,
+                                  PROPOSAL_STATUS_EXAMINATION_RESULT_Z ]
+
   # relations
   has_many :proposals, dependent: :nullify
 

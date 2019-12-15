@@ -121,6 +121,8 @@ class PdfExaminationCardsM < Prawn::Document
     text "Potwierdzam zapoznanie się z przyznanymi mi ocenami oraz oświadczam, że zostałem/-am poinformowany/-a o:"
     text "1) wyniku egzaminu,"
     text "2) prawie przystąpienia do egzaminu poprawkowego oraz możliwych miejscach i terminach przeprowadzenia tego egzaminu**"
+    text " "
+    text "Proszę o wydanie świadectwa operatora urządzeń radiowych na podstawie zdanego egzaminu.**"
 
 
 
@@ -135,7 +137,7 @@ class PdfExaminationCardsM < Prawn::Document
     draw_text "Karta egzaminacyjna podlega zwrotowi do sekretarza sesji egzaminacyjnej w czasie bieżącej sesji. Niezwrócenie karty jest", :at => [12,  70], size: 8, :style => :italic
     draw_text "równoznaczne z niezdaniem całego egzaminu.", :at => [12,  60], size: 8, :style => :italic
 
-    draw_text "** W przypadku pozytywnego wyniku egzaminu pkt 2 należy skreślić", :at => [5, 40], size: 8, :style => :italic
+    draw_text "** niewłaściwe skreślić, stosownie do wyniku egzaminu", :at => [5, 40], size: 8, :style => :italic
 
   end
 

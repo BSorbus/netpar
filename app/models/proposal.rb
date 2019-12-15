@@ -72,7 +72,7 @@ class Proposal < ActiveRecord::Base
   scope :only_category_r, -> { where(category: "R") }
 
   # callbacks
-  before_save :check_max_examinations, on: :create
+  before_save :check_max_examinations, if: "self.new_record?"
 
   after_save :refresh_exam_proposals_important_count
   after_save :destroy_examination_if_annuled
