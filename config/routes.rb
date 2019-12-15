@@ -31,8 +31,6 @@ Rails.application.routes.draw do
       patch 'update_not_approved', on: :member
       post 'datatables_index', on: :collection
       post 'datatables_index_exam', on: :collection # for Exam
-      get 'proposal_card_to_pdf', on: :member
-      get 'proposal_to_pdf', on: :member
     end
     resources :certificates do
       get 'show_charts', on: :collection

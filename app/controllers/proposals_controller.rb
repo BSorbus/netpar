@@ -2,7 +2,7 @@ class ProposalsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:show_charts, :index, :datatables_index, :datatables_index_exam, :approved]
 
-  before_action :set_proposal, only: [:show, :edit, :edit_approved, :edit_not_approved, :update, :update_approved, :update_not_approved, :proposal_to_pdf]
+  before_action :set_proposal, only: [:show, :edit, :edit_approved, :edit_not_approved, :update, :update_approved, :update_not_approved]
 
   # def show_charts
   #   respond_to do |format|
@@ -42,39 +42,6 @@ class ProposalsController < ApplicationController
         render json: @proposals_on_page, each_serializer: ProposalSerializer, meta: {total_count: @proposals.count}
       } 
     end
-  end
-
-  def proposal_card_to_pdf
-    proposal_authorize(:proposal, "print", params[:category_service])
-
-    # where(id: param[:id]) czyli pojedynczy rekord @proposals_all -> @proposal ale jako lista 
-    #@proposal = Proposal.joins(:customer).references(:customer).where(id: params[:id]).all
-    @proposals = Proposal.where(id: params[:id]).all
-
-    if @proposals.empty?
-      redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
-    else
-      respond_to do |format|
-        format.pdf do
-          case params[:category_service]
-          when 'l'
-            pdf = PdfProposalCardsL.new(@proposals, @proposals.first.exam, view_context)
-          when 'm'
-            pdf = PdfProposalCardsM.new(@proposals, @proposals.first.exam, view_context)
-          when 'r'
-            pdf = PdfProposalCardsR.new(@proposals, @proposals.first.exam, view_context)
-          end    
-          #pdf = PdfCertificatesL.new(@certificates_all, view_context)
-          send_data pdf.render,
-          filename: "Proposal_Card_#{params[:category_service]}_#{@proposals.first.name}_#{@proposals.first.given_names}_#{@proposals.first.exam_fullname}.pdf",
-          type: "application/pdf",
-          disposition: "inline"   
-        end
-      end
-      @proposals.first.works.create!(trackable_url: "#{proposal_path(@proposals, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
-                        parameters: {pdf_type: 'proposal_card', filename: "Proposal_Card_#{params[:category_service]}_#{@proposals.first.name}_#{@proposals.first.given_names}_#{@proposals.first.exam_fullname}.pdf"}.to_json)
-
-    end 
   end
 
   # GET /proposals/1

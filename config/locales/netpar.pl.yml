@@ -532,6 +532,7 @@ pl:
         exam_fee_price: 'Wymagana opłata'
         face_image: 'Zdjęcie'
         bank_pdf: 'Bankowe potwierdzenie wykonania przelewu'
+        consent_pdf: 'Zgoda prawnego opiekuna'
         confirm_that_the_data_is_correct: 'Dane powyższe są zgodne z prawdą, co potwierdzam'
         not_approved_comment: 'Powód odrzucenia zgłoszenia'
         created_at: 'Utworzono'
