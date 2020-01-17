@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191215193049) do
+ActiveRecord::Schema.define(version: 20200117195115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -555,8 +555,6 @@ ActiveRecord::Schema.define(version: 20191215193049) do
     t.string   "birth_place",            limit: 50,                          default: ""
     t.string   "phone",                  limit: 50,                          default: ""
     t.string   "email",                  limit: 50,                          default: "",  null: false
-    t.string   "c_address_city",         limit: 50,                          default: ""
-    t.string   "c_address_street",       limit: 50,                          default: ""
     t.string   "c_address_house",        limit: 10,                          default: ""
     t.string   "c_address_number",       limit: 10,                          default: ""
     t.string   "c_address_postal_code",  limit: 10,                          default: ""
@@ -579,6 +577,20 @@ ActiveRecord::Schema.define(version: 20191215193049) do
     t.string   "family_name",                                                default: ""
     t.string   "citizenship_code",                                           default: ""
     t.text     "consent_pdf_blob_path"
+    t.boolean  "lives_in_poland"
+    t.integer  "address_id"
+    t.string   "teryt_code"
+    t.string   "province_code"
+    t.string   "province_name"
+    t.string   "district_code"
+    t.string   "district_name"
+    t.string   "commune_code"
+    t.string   "commune_name"
+    t.string   "city_code"
+    t.string   "city_name"
+    t.string   "street_code"
+    t.string   "street_name"
+    t.string   "street_attribute"
   end
 
   add_index "proposals", ["category"], name: "index_proposals_on_category", using: :btree

@@ -1,4 +1,6 @@
 pl:
+  "true": "Tak"
+  "false": "Nie"
   home: 'Strona główna'
   content_title: "NetPAR 2015"
   restricted_area: "Adres IP - Wywołanie z obszaru ograniczonego!"
@@ -510,13 +512,12 @@ pl:
         birth_place: "Miejsce urodzenia"
         family_name: 'Nazwisko rodowe'
         phone: 'Telefon'
-        address_city: 'Miejscowość'
-        address_street: 'Ulica'
-        address_house: 'Dom'
-        address_number: 'Lokal'
-        address_postal_code: 'Kod pocztowy'
-        c_address_city: 'Miejscowość'
-        c_address_street: 'Ulica'
+        lives_in_poland: 'Mieszkam w Polsce'
+        province_name: 'Województwo'
+        district_name: 'Powiat'
+        commune_name: 'Gmina'
+        city_name: 'Miejscowość'
+        street_name: 'Ulica'
         c_address_house: 'Dom'
         c_address_number: 'Lokal'
         c_address_postal_code: 'Kod pocztowy'

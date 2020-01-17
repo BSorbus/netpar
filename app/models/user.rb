@@ -85,7 +85,7 @@ class User < ActiveRecord::Base
     cipher.encrypt
     iv = OpenSSL::Random.random_bytes(cipher.iv_len)
     cipher.iv = iv
-    cipher.key = Rails.application.secrets[:esod_secret_key_for_generate_user_token] #KEY
+    cipher.key = Rails.application.secrets[:esod_secret_key_for_generate_user_token][0..15] #KEY
     str = iv + str
     data = cipher.update(str) + cipher.final
     #Base64.urlsafe_encode64(data)
