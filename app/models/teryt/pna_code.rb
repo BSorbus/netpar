@@ -55,10 +55,9 @@ class Teryt::PnaCode < ActiveRecord::Base
   #
   def self.one_param_sql(query_str)
     escaped_query_str = sanitize("%#{query_str}%")
-#   "(" + %w(teryt_pna_codes.pna teryt_pna_codes.sym_nazwa teryt_pna_codes.sympod_nazwa teryt_pna_codes.uli_nazwa teryt_pna_codes.gmi_nazwa teryt_pna_codes.pow_nazwa).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
-    "(" + %w(teryt_pna_codes.pna teryt_pna_codes.mie_nazwa teryt_pna_codes.uli_nazwa teryt_pna_codes.gmi_nazwa).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
+    # "(" + %w(teryt_pna_codes.pna teryt_pna_codes.sym_nazwa teryt_pna_codes.uli_nazwa teryt_pna_codes.gmi_nazwa teryt_pna_codes.pow_nazwa teryt_pna_codes.woj_nazwa).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
+    "(" + %w(teryt_pna_codes.pna teryt_pna_codes.mie_nazwa teryt_pna_codes.uli_nazwa teryt_pna_codes.gmi_nazwa teryt_pna_codes.pow_nazwa teryt_pna_codes.woj_nazwa).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
   end
-
 
 
 end

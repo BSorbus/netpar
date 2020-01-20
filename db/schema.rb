@@ -11,11 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200117195115) do
+ActiveRecord::Schema.define(version: 20200120182109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
+  enable_extension "pg_trgm"
 
   create_table "api_keys", force: :cascade do |t|
     t.string   "name"
@@ -671,21 +672,12 @@ ActiveRecord::Schema.define(version: 20200117195115) do
     t.datetime "updated_at",                 null: false
   end
 
-  add_index "teryt_pna_codes", ["gmi"], name: "index_teryt_pna_codes_on_gmi", using: :btree
-  add_index "teryt_pna_codes", ["gmi_nazwa"], name: "index_teryt_pna_codes_on_gmi_nazwa", using: :btree
-  add_index "teryt_pna_codes", ["mie_nazwa", "uli_nazwa", "pna"], name: "index_teryt_pna_codes_on_mie_nazwa_and_uli_nazwa_and_pna", using: :btree
-  add_index "teryt_pna_codes", ["mie_nazwa"], name: "index_teryt_pna_codes_on_mie_nazwa", using: :btree
-  add_index "teryt_pna_codes", ["pna"], name: "index_teryt_pna_codes_on_pna", using: :btree
-  add_index "teryt_pna_codes", ["pna_teryt"], name: "index_teryt_pna_codes_on_pna_teryt", using: :btree
-  add_index "teryt_pna_codes", ["pow"], name: "index_teryt_pna_codes_on_pow", using: :btree
-  add_index "teryt_pna_codes", ["pow_nazwa"], name: "index_teryt_pna_codes_on_pow_nazwa", using: :btree
-  add_index "teryt_pna_codes", ["sym"], name: "index_teryt_pna_codes_on_sym", using: :btree
-  add_index "teryt_pna_codes", ["sym_nazwa"], name: "index_teryt_pna_codes_on_sym_nazwa", using: :btree
-  add_index "teryt_pna_codes", ["sympod"], name: "index_teryt_pna_codes_on_sympod", using: :btree
-  add_index "teryt_pna_codes", ["sympod_nazwa"], name: "index_teryt_pna_codes_on_sympod_nazwa", using: :btree
-  add_index "teryt_pna_codes", ["uli_nazwa"], name: "index_teryt_pna_codes_on_uli_nazwa", using: :btree
-  add_index "teryt_pna_codes", ["woj"], name: "index_teryt_pna_codes_on_woj", using: :btree
-  add_index "teryt_pna_codes", ["woj_nazwa"], name: "index_teryt_pna_codes_on_woj_nazwa", using: :btree
+  add_index "teryt_pna_codes", ["gmi_nazwa"], name: "teryt_pna_codes_gmi_nazwa_idx", using: :gin
+  add_index "teryt_pna_codes", ["mie_nazwa"], name: "teryt_pna_codes_mie_nazwa_idx", using: :gin
+  add_index "teryt_pna_codes", ["pna"], name: "teryt_pna_codes_pna_idx", using: :gin
+  add_index "teryt_pna_codes", ["pow_nazwa"], name: "teryt_pna_codes_pow_nazwa_idx", using: :gin
+  add_index "teryt_pna_codes", ["uli_nazwa"], name: "teryt_pna_codes_uli_nazwa_idx", using: :gin
+  add_index "teryt_pna_codes", ["woj_nazwa"], name: "teryt_pna_codes_woj_nazwa_idx", using: :gin
 
   create_table "teryt_simc_codes", force: :cascade do |t|
     t.string   "woj",        limit: 2
