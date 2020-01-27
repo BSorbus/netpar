@@ -98,6 +98,71 @@
 
       <hr class="hr-without-top-margin">
 
+
+
+
+
+
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <%= f.check_box :lives_in_poland, autofocus: true, onclick: "terytIsRequired(this.checked)" %>&nbsp;&nbsp; 
+              <%= f.label :lives_in_poland, class: 'control-label' %>
+            </div>
+          </div> <!--/row -->
+
+          <div class="row">
+            <div class="form-group required col-sm-12 show_if_lives_in_poland" id="customer_address_slide_select2">
+              <%= f.label :address_id, class: "control-label" %> 
+              <%= f.hidden_field :address_id, 
+                                class: "form-control input-sm select2teryt_items", 
+                                placeholder: "Wyszukaj adres",
+                                style: "width:100%",
+                                disabled: false, #!@proposal.lives_in_poland,
+                                id: "address_id_select",
+                                autofocus: false %>
+            </div>
+          </div> <!--/row -->
+
+
+          <div class="row">
+            <div class="form-group col-sm-8">
+              <%= f.label :province_name, class: 'control-label' %>
+              <%= f.text_field :province_name, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-8">
+              <%= f.label :district_name, class: 'control-label' %>
+              <%= f.text_field :district_name, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-8">
+              <%= f.label :commune_name, class: 'control-label' %>
+              <%= f.text_field :commune_name, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-sm-8">
+              <%= f.label :city_name, class: 'control-label' %>
+              <%= f.text_field :city_name, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-8">
+              <%= f.label :street_name, class: 'control-label' %>
+              <%= f.text_field :street_name, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+          </div>
+
+
+
+
+
+
+      <hr class="hr-without-top-margin">
+
       <div class="row">
         <div class="form-group col-sm-4">
           <div class="human" >

@@ -5,7 +5,7 @@ $(document).ready(function() {
     minimumInputLength: 0,
     allowClear: false,
     ajax: {
-      url: "/teryt/provinces_select2_index.json",
+      url: "/pit_teryt/provinces_select2_index.json",
       dataType: 'json',
       quietMillis: 250,
       type: 'GET',
@@ -37,7 +37,7 @@ $(document).ready(function() {
     initSelection: function(element, callback) {
       var id=$(element).val();
       if (id!=="") {
-        $.get("/teryt/provinces/"+id+".json", function(data_from_json) {
+        $.get("/pit_teryt/provinces/"+id+".json", function(data_from_json) {
           if(data_from_json)
             callback({ id: data_from_json.id, text: data_from_json.name });
         });
@@ -47,5 +47,149 @@ $(document).ready(function() {
   });
 
 
-});
 
+
+
+
+
+  function markMatchOneWord (text, term) {
+    if (text) {
+      // Find where the match is
+      var match = text.toUpperCase().indexOf(term.toUpperCase());
+
+      // If there is no match
+      if (match < 0) {
+        return text;
+      } else {
+        // text is before the match
+        var leftStr = text.substring(0, match);
+
+        // matched text
+        var matchStr = '<span class="select2-rendered__match">' + text.substring(match, match + term.length) + '</span>';
+
+        // text after the match
+        rightStr = text.substring(match + term.length);
+
+        return leftStr + matchStr + rightStr;
+      }
+    } else {
+      return "";
+    }
+  };
+
+  function markMatch (text, term) {
+    var separateWords = term.split(" ");
+    var allMatchedStr = text;
+    separateWords.forEach (function(e) {
+      allMatchedStr = markMatchOneWord (allMatchedStr, e);
+    }); 
+    return allMatchedStr
+  };
+
+  function itemFormatResult(item, container, query, escapeMarkup) {
+    if (item.id) {
+      if (item.data_obj.postCodeNumbers) {
+        var postNumbers = "<span>&nbsp&nbsp[&nbspnumery:&nbsp" + item.data_obj.postCodeNumbers + "&nbsp]</span>"
+      } else {
+        var postNumbers = ""
+      };
+
+      if (item.data_obj.streetName) {
+        return  '<div>' + markMatch(item.data_obj.cityName, query.term) + ',&nbsp<small>' + item.data_obj.streetAttribute + '</small>&nbsp' + markMatch(item.data_obj.streetName, query.term) +
+                '<small>'     + '<span class="pull-right">' + markMatch(item.data_obj.provinceName, query.term) + '</span><br>' +
+                '<span>&nbsp&nbsp&nbsp&nbsp&nbsp[&nbsp' + item.data_obj.cityType + '&nbsp]</span>' +
+                                '<span class="pull-right">' + markMatch(item.data_obj.districtName, query.term) + '</span><br>' +
+                '<span>&nbsp&nbsp&nbsp&nbsp&nbsp' + markMatch(item.data_obj.postCode, query.term) + '</span>' + postNumbers +
+                                '<span class="pull-right">' + markMatch(item.data_obj.communeName, query.term) + '</span>' + '</small></div>';
+      } else {
+        return  '<div>' + markMatch(item.data_obj.cityName, query.term) + 
+                '<small>'     + '<span class="pull-right">' + markMatch(item.data_obj.provinceName, query.term) + '</span><br>' +
+                '<span>&nbsp&nbsp&nbsp&nbsp&nbsp[&nbsp' + item.data_obj.cityType + '&nbsp]</span>' +
+                                '<span class="pull-right">' + markMatch(item.data_obj.districtName, query.term) + '</span><br>' +
+                '<span>&nbsp&nbsp&nbsp&nbsp&nbsp' + markMatch(item.data_obj.postCode, query.term) + '</span>' + postNumbers +
+                                '<span class="pull-right">' + markMatch(item.data_obj.communeName, query.term) + '</span>' + '</small></div>';
+      } 
+    } else {
+      return "";
+    }
+  };
+
+  function itemFormatSelection(item) {
+    if (item.id) {
+      if (item.data_obj.streetName) {
+        return  '<div>' + item.data_obj.cityName + ',&nbsp<small>' + item.data_obj.streetAttribute + '</small>&nbsp' + item.data_obj.streetName + 
+                                          '<span class="small pull-right">' + item.data_obj.cityType + '&nbsp[&nbsp' + item.data_obj.provinceName + 
+                                          ',&nbsp' + item.data_obj.districtName + 
+                                          ',&nbsp' + item.data_obj.communeName + '&nbsp]</span></div>';
+      } else {
+        return  '<div>' + item.data_obj.cityName +  
+                                          '<span class="small pull-right">' + item.data_obj.cityType + '&nbsp[&nbsp' + item.data_obj.provinceName + 
+                                          ',&nbsp' + item.data_obj.districtName + 
+                                          ',&nbsp' + item.data_obj.communeName + '&nbsp]</span></div>';
+      } 
+    } else {
+      return "";
+    }
+  };
+
+  $('.select2teryt_items').select2({ 
+    minimumInputLength: 5,
+    allowClear: false,
+    ajax: {
+      url: "/pit_teryt/items.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 30,
+          page: page -1
+          //Uwaga! sztuczna mrowka gdyż API PitTeryt zle obsluguje paginacje
+        };
+      },
+      results: function(data, page) {
+        var more = (page * 30) < data.meta.totalCount;
+        var items = $.map(data.items, function(item, i) {
+          //return { data_obj: item, id: item.id, text: item.cityName };
+          return { data_obj: item, id: item.id };
+        });
+        return { results: items, more: more };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/pit_teryt/items/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            //callback({ data_obj: data_from_json, id: data_from_json.id, text: 'data_from_json.cityName' });
+            callback({ data_obj: data_from_json, id: data_from_json.id });
+        });
+      }
+    },
+    formatResult: itemFormatResult, // omitted for brevity, see the source of this page
+    formatSelection: itemFormatSelection, // omitted for brevity, see the source of this page
+    dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+    escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+  })
+  .on("select2-selecting", function(e) {
+    document.getElementById("customer_province_name").value = e.choice.data_obj.provinceName;
+    document.getElementById("customer_district_name").value = e.choice.data_obj.districtName;
+    document.getElementById("customer_commune_name").value = e.choice.data_obj.communeName;
+    document.getElementById("customer_city_name").value = e.choice.data_obj.cityName;
+    document.getElementById("customer_street_name").value = e.choice.data_obj.streetName;
+    document.getElementById("customer_street_name").value = e.choice.data_obj.streetName;
+      document.getElementById("customer_address_postal_code").value = e.choice.data_obj.postCode;
+  });
+
+
+});

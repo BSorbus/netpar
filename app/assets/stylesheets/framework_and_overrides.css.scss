@@ -601,3 +601,7 @@ legend.my-fieldset {
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     border: 0px;
 }
+
+.select2-rendered__match {
+  text-decoration: underline;
+}

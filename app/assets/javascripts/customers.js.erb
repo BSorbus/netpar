@@ -114,6 +114,7 @@ $(document).ready(function(){
   $("#address_in_poland_switch").on("click", function(){
     if ($('#address_in_poland_switch').is(':checked')) {
       $("#customer_address_slide_select").slideDown('normal');
+      $("#customer_address_slide_select2").slideDown('normal');
       document.getElementById("customer_address_city").readOnly = true;
       document.getElementById("customer_address_street").readOnly = true;
       document.getElementById("customer_address_post_office").readOnly = true;
@@ -141,6 +142,7 @@ $(document).ready(function(){
       } 
     } else {
       $("#customer_address_slide_select").slideUp('normal');
+      $("#customer_address_slide_select2").slideUp('normal');
       document.getElementById("customer_address_postal_code").readOnly = false;
       document.getElementById("customer_address_city").readOnly = false;
       document.getElementById("customer_address_street").readOnly = false;
@@ -151,6 +153,7 @@ $(document).ready(function(){
   if ($("#address_in_poland_switch").length > 0) {
     if ($('#address_in_poland_switch').is(':checked')) {
       $("#customer_address_slide_select").slideDown('normal');
+      $("#customer_address_slide_select2").slideDown('normal');
       document.getElementById("customer_address_city").readOnly = true;
       document.getElementById("customer_address_street").readOnly = true;
       document.getElementById("customer_address_post_office").readOnly = true;
@@ -170,6 +173,7 @@ $(document).ready(function(){
       } 
     } else {
       $("#customer_address_slid_select").slideUp('normal');
+      $("#customer_address_slid_select2").slideUp('normal');
       document.getElementById("customer_address_postal_code").readOnly = false;
       document.getElementById("customer_address_city").readOnly = false;
       document.getElementById("customer_address_street").readOnly = false;
