@@ -4,8 +4,8 @@ class Customer < ActiveRecord::Base
   require 'pesel'
 
   belongs_to :user
-  belongs_to :address_teryt_pna_code, class_name: "Teryt::PnaCode", foreign_key: :address_teryt_pna_code_id
-  belongs_to :c_address_teryt_pna_code, class_name: "Teryt::PnaCode", foreign_key: :c_address_teryt_pna_code_id
+  #belongs_to :address_teryt_pna_code, class_name: "Teryt::PnaCode", foreign_key: :address_teryt_pna_code_id
+  #belongs_to :c_address_teryt_pna_code, class_name: "Teryt::PnaCode", foreign_key: :c_address_teryt_pna_code_id
 
   has_one :esod_contractor, class_name: "Esod::Contractor", dependent: :nullify
   has_one :esod_address, class_name: "Esod::Address", dependent: :nullify
@@ -54,6 +54,7 @@ class Customer < ActiveRecord::Base
   #before_save :update_esod_address, unless: "esod_address_id.blank?"
 
   before_destroy :customer_has_links, prepend: true
+  #after_initialize { self.lives_in_poland = true }
 
 
 

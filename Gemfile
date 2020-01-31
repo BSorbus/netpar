@@ -75,7 +75,7 @@ gem 'font-awesome-sass', '4.7.0'
 # gem 'pdf-reader'
 
 gem 'rack-cors', require: 'rack/cors'
-gem 'swagger_engine', '0.0.3'
+gem 'swagger_engine'#, '0.0.3'
 
 gem 'savon', '2.11.1'
 gem 'whenever', '0.9.7', require: false

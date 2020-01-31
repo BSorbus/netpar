@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 20200120182109) do
     t.integer  "address_teryt_pna_code_id"
     t.integer  "c_address_teryt_pna_code_id"
     t.string   "citizenship_code"
-    t.boolean  "lives_in_poland",                         default: true
+    t.boolean  "lives_in_poland"
     t.integer  "address_id"
     t.string   "teryt_code",                  limit: 20,  default: ""
     t.string   "province_code",               limit: 20,  default: ""
@@ -116,6 +116,8 @@ ActiveRecord::Schema.define(version: 20200120182109) do
     t.string   "street_code",                 limit: 20,  default: ""
     t.string   "street_name",                 limit: 50,  default: ""
     t.string   "street_attribute",            limit: 20,  default: ""
+    t.string   "post_code",                   limit: 20,  default: ""
+    t.string   "post_code_numbers",           limit: 100, default: ""
   end
 
   add_index "customers", ["address_city"], name: "index_customers_on_address_city", using: :btree

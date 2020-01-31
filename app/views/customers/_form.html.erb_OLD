@@ -36,46 +36,27 @@
 
   <div class="row">
     <div class="col-sm-6">
-
       <div class="row">
         <div class="form-group col-sm-8">
-          <%= f.check_box :lives_in_poland, autofocus: true, onclick: "terytIsRequired(this.checked)" %>&nbsp;&nbsp; 
-          <%= f.label :lives_in_poland, class: 'control-label' %>
+          <%= f.label :address_in_poland, class: 'control-label' %><br>
+          <%= f.check_box :address_in_poland, disabled: input_disabled, id: "address_in_poland_switch" %>
         </div>
         <div class="form-group col-sm-4">
           <small class="help-block pull-right"><%=t 'help_block_text.customer.form.address' %></small>
         </div>
-      </div> <!--/row -->
+      </div>
 
       <div class="row">
-        <div class="form-group required col-sm-12 show_if_lives_in_poland">
-          <%= f.label :address_id, class: "control-label" %> 
-          <%= f.hidden_field :address_id, 
+        <div class="form-group col-sm-12" id="customer_address_slide_select">
+          <%#= f.label :address_teryt_pna_code_id, class: "control-label" %>
+          <%= f.hidden_field :address_teryt_pna_code_id,
                             class: "form-control input-sm", 
-                            placeholder: "Wyszukaj adres",
+                            placeholder: "Wybierz miejscowość (ulicę/gminę/kod pocztowy)",
                             style: "width:100%",
-                            disabled: false, #!@proposal.lives_in_poland,
-                            id: "customer_address_select2teryt_items",
-                            autofocus: false %>
+                            id: "customer_address_teryt_pna_code_select" %>
+          <small class="help-block"><%=t 'help_block_text.select2_teryt_pna_code' %></small>
         </div>
-      </div> <!--/row -->
-
-      <%= f.hidden_field :teryt_code %>
-      <%= f.hidden_field :province_name %>
-      <%= f.hidden_field :province_code %>
-      <%= f.hidden_field :district_name %>
-      <%= f.hidden_field :district_code %>
-      <%= f.hidden_field :commune_name %>
-      <%= f.hidden_field :commune_code %>
-      <%= f.hidden_field :city_name %>
-      <%= f.hidden_field :city_code %>
-      <%= f.hidden_field :city_parent_name %>
-      <%= f.hidden_field :city_parent_code %>
-      <%= f.hidden_field :street_attribute %>
-      <%= f.hidden_field :street_name %>
-      <%= f.hidden_field :street_code %>
-      <%= f.hidden_field :post_code %>
-      <%= f.hidden_field :post_code_numbers %>
+      </div>
 
       <div class="row">
         <div class="form-group col-sm-8">
@@ -114,6 +95,118 @@
           <%= f.text_field :address_pobox, class: 'form-control input-sm', disabled: input_disabled %>
         </div>
       </div>
+
+      <hr class="hr-without-top-margin">
+
+
+
+
+
+
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <%= f.check_box :lives_in_poland, autofocus: true, onclick: "terytIsRequired(this.checked)" %>&nbsp;&nbsp; 
+              <%= f.label :lives_in_poland, class: 'control-label' %>
+            </div>
+          </div> <!--/row -->
+
+          <div class="row">
+            <div class="form-group required col-sm-12 show_if_lives_in_poland">
+              <%= f.label :address_id, class: "control-label" %> 
+              <%= f.hidden_field :address_id, 
+                                class: "form-control input-sm", 
+                                placeholder: "Wyszukaj adres",
+                                style: "width:100%",
+                                disabled: false, #!@proposal.lives_in_poland,
+                                id: "customer_address_select2teryt_items",
+                                autofocus: false %>
+            </div>
+          </div> <!--/row -->
+
+
+          <div class="row">
+            <div class="form-group col-sm-4">
+              <%= f.label :teryt_code, class: 'control-label' %>
+              <%= f.text_field :teryt_code, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-8">
+              <%= f.label :province_name, class: 'control-label' %>
+              <%= f.text_field :province_name, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+            <div class="form-group col-sm-4">
+              <%= f.label :province_code, class: 'control-label' %>
+              <%= f.text_field :province_code, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-8">
+              <%= f.label :district_name, class: 'control-label' %>
+              <%= f.text_field :district_name, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+            <div class="form-group col-sm-4">
+              <%= f.label :district_code, class: 'control-label' %>
+              <%= f.text_field :district_code, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-8">
+              <%= f.label :commune_name, class: 'control-label' %>
+              <%= f.text_field :commune_name, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+            <div class="form-group col-sm-4">
+              <%= f.label :commune_code, class: 'control-label' %>
+              <%= f.text_field :commune_code, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-8">
+              <%= f.label :city_name, class: 'control-label' %>
+              <%= f.text_field :city_name, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+            <div class="form-group col-sm-4">
+              <%= f.label :city_code, class: 'control-label' %>
+              <%= f.text_field :city_code, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-8">
+              <%= f.label :city_parent_name, class: 'control-label' %>
+              <%= f.text_field :city_parent_name, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+            <div class="form-group col-sm-4">
+              <%= f.label :city_parent_code, class: 'control-label' %>
+              <%= f.text_field :city_parent_code, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-2">
+              <%= f.label :street_attribute, class: 'control-label' %>
+              <%= f.text_field :street_attribute, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+            <div class="form-group col-sm-6">
+              <%= f.label :street_name, class: 'control-label' %>
+              <%= f.text_field :street_name, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+            <div class="form-group col-sm-4">
+              <%= f.label :street_code, class: 'control-label' %>
+              <%= f.text_field :street_code, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-8">
+              <%= f.label :post_code, class: 'control-label' %>
+              <%= f.text_field :post_code, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+            <div class="form-group col-sm-4">
+              <%= f.label :post_code_numbers, class: 'control-label' %>
+              <%= f.text_field :post_code_numbers, class: 'form-control input-sm', disabled: input_disabled, readonly: true %>
+            </div>
+          </div>
+
+
+
 
 
 
@@ -306,22 +399,3 @@
   <% end %>
   
 <% end %>
-
-<script type="text/javascript">
-
-  //terytIsRequired( $('#proposal_lives_in_poland').is(':checked') );
-  if ($('#customer_lives_in_poland').is(':checked')) {
-    //set value
-//    setValuesAndReadOnlyForInPoland();
-    setReadOnlyForInPoland()
-    //show and hide fields
-    showHideFieldsForInPoland();
-  } else {
-    //set values
-//    setValuesAndReadOnlyForNotInPoland();
-    setReadOnlyForNotInPoland()
-    //show and hide fields
-    showHideFieldsForNotInPoland();
-  };
-
-</script>

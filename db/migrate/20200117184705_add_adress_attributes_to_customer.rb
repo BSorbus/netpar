@@ -1,6 +1,6 @@
 class AddAdressAttributesToCustomer < ActiveRecord::Migration
   def change
-    add_column :customers, :lives_in_poland, :boolean,          default: true
+    add_column :customers, :lives_in_poland, :boolean
     add_column :customers, :address_id, :integer
     add_column :customers, :teryt_code, :string,                limit: 20, default: ""
     add_column :customers, :province_code, :string,             limit: 20, default: ""
@@ -16,5 +16,7 @@ class AddAdressAttributesToCustomer < ActiveRecord::Migration
     add_column :customers, :street_code, :string,               limit: 20, default: ""
     add_column :customers, :street_name, :string,               limit: 50, default: ""
     add_column :customers, :street_attribute, :string,          limit: 20, default: ""
+    add_column :customers, :post_code, :string,                 limit: 20, default: ""
+    add_column :customers, :post_code_numbers, :string,         limit: 100, default: ""
   end
 end

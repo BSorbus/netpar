@@ -1,0 +1,58 @@
+function displayHumanFields() {
+  var list = document.getElementsByClassName("human");
+  for (var i = 0; i < list.length; i++) {
+    //list[i].style.display="";
+    $(list[i]).slideDown('normal');
+    //$(list[i]).fadeIn('slow');
+
+  };
+  var list = document.getElementsByClassName("no-human");
+  for (var i = 0; i < list.length; i++) {
+    //list[i].style.display="none";
+    //$(list[i]).slideUp('normal');
+    $(list[i]).fadeOut('slow');
+  };
+
+};
+
+function displayNoHumanFields() {
+  var list = document.getElementsByClassName("human");
+  for (var i = 0; i < list.length; i++) {
+    //list[i].style.display="none";
+    //$(list[i]).slideUp('normal');
+    $(list[i]).fadeOut('slow');
+  };
+  var list = document.getElementsByClassName("no-human");
+  for (var i = 0; i < list.length; i++) {
+    //list[i].style.display="";
+    $(list[i]).slideDown('normal');
+    //$(list[i]).fadeIn('slow');
+  };
+};
+
+
+
+$(document).ready(function(){
+// if use turbolinks 5.0.0
+//$(document).on('turbolinks:load', function () {
+
+  $("#human_switch").on("click", function(){
+    if ($('#human_switch').is(':checked')) {
+      displayHumanFields();
+    } else {
+      displayNoHumanFields()
+    }
+  });    
+
+  if ($("#human_switch").length > 0) {
+    if ($('#human_switch').is(':checked')) {
+      displayHumanFields();
+    } 
+    else {
+      displayNoHumanFields()      
+    }
+  };
+  
+  
+});
+

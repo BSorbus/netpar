@@ -405,7 +405,7 @@ pl:
       department: 'Oddział'
       certificate: 'Świadectwo'
       exam: 'Sesja'
-      exams_division: 'Dopuszczone rodzaje świadectw'
+      exams_division: 'Dopuszczone rodzaje świadectw w programie "Egzaminy"'
       customer: 'Klient'
       document: 'Załącznik'
       examination: 'Osoba Egzaminowana'
