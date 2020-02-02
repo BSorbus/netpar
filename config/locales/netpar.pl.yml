@@ -593,6 +593,10 @@ pl:
         fax: 'Fax'
         email: 'Email'
         note: 'Uwagi'
+        lives_in_poland: 'kontrola TERYT + PNA (adres w Polsce)'
+        address_id: 'Adres'
+        c_lives_in_poland: 'kontrola TERYT + PNA (adres korspondencyjny w Polsce)'
+        c_address_id: 'Adres korespondencyjny'
       examination:
         esod_category: 'Rodzaj wniosku'
         division_id: 'Typ świadectwa'

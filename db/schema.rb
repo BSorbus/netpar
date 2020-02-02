@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200120182109) do
+ActiveRecord::Schema.define(version: 20200201164705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,24 @@ ActiveRecord::Schema.define(version: 20200120182109) do
     t.string   "street_attribute",            limit: 20,  default: ""
     t.string   "post_code",                   limit: 20,  default: ""
     t.string   "post_code_numbers",           limit: 100, default: ""
+    t.boolean  "c_lives_in_poland"
+    t.integer  "c_address_id"
+    t.string   "c_teryt_code",                limit: 20,  default: ""
+    t.string   "c_province_code",             limit: 20,  default: ""
+    t.string   "c_province_name",             limit: 50,  default: ""
+    t.string   "c_district_code",             limit: 20,  default: ""
+    t.string   "c_district_name",             limit: 50,  default: ""
+    t.string   "c_commune_code",              limit: 20,  default: ""
+    t.string   "c_commune_name",              limit: 50,  default: ""
+    t.string   "c_city_code",                 limit: 20,  default: ""
+    t.string   "c_city_name",                 limit: 50,  default: ""
+    t.string   "c_city_parent_code",          limit: 20,  default: ""
+    t.string   "c_city_parent_name",          limit: 50,  default: ""
+    t.string   "c_street_code",               limit: 20,  default: ""
+    t.string   "c_street_name",               limit: 50,  default: ""
+    t.string   "c_street_attribute",          limit: 20,  default: ""
+    t.string   "c_post_code",                 limit: 20,  default: ""
+    t.string   "c_post_code_numbers",         limit: 100, default: ""
   end
 
   add_index "customers", ["address_city"], name: "index_customers_on_address_city", using: :btree

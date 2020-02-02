@@ -21,7 +21,7 @@ function setValuesAndReadOnlyForInPoland() {
         document.getElementById("customer_city_name").value = data_from_json.cityName;
         document.getElementById("customer_city_code").value = data_from_json.cityCode;
         document.getElementById("customer_city_parent_name").value = data_from_json.cityParentName;
-        document.getElementById("customer_city_parent_code").value = "";
+        document.getElementById("customer_city_parent_code").value = data_from_json.cityParentCode;
         document.getElementById("customer_street_name").value = data_from_json.streetName;
         document.getElementById("customer_street_code").value = data_from_json.streetCode;
         document.getElementById("customer_street_attribute").value = data_from_json.streetAttribute;
@@ -55,27 +55,28 @@ function setReadOnlyForNotInPoland() {
 
 function setValuesAndReadOnlyForNotInPoland() {
   //$("#customer_address_select2teryt_items").select2("val", "");
-  document.getElementById("customer_teryt_code").value = ""; 
-  document.getElementById("customer_province_name").value = ""; 
-  document.getElementById("customer_province_code").value = "";
-  document.getElementById("customer_district_name").value = ""; 
-  document.getElementById("customer_district_code").value = "";
-  document.getElementById("customer_commune_name").value = ""; 
-  document.getElementById("customer_commune_code").value = "";
-  document.getElementById("customer_city_name").value = ""; 
-  document.getElementById("customer_city_code").value = "";
-  document.getElementById("customer_city_parent_name").value = ""; 
-  document.getElementById("customer_city_parent_code").value = "";
-  document.getElementById("customer_street_name").value = ""; 
-  document.getElementById("customer_street_code").value = "";
-  document.getElementById("customer_street_attribute").value = "";
-  document.getElementById("customer_post_code").value = "";
-  document.getElementById("customer_post_code_numbers").value = "";
+  // powyzej blokuj zawsze
+  // document.getElementById("customer_teryt_code").value = ""; 
+  // document.getElementById("customer_province_name").value = ""; 
+  // document.getElementById("customer_province_code").value = "";
+  // document.getElementById("customer_district_name").value = ""; 
+  // document.getElementById("customer_district_code").value = "";
+  // document.getElementById("customer_commune_name").value = ""; 
+  // document.getElementById("customer_commune_code").value = "";
+  // document.getElementById("customer_city_name").value = ""; 
+  // document.getElementById("customer_city_code").value = "";
+  // document.getElementById("customer_city_parent_name").value = ""; 
+  // document.getElementById("customer_city_parent_code").value = "";
+  // document.getElementById("customer_street_name").value = ""; 
+  // document.getElementById("customer_street_code").value = "";
+  // document.getElementById("customer_street_attribute").value = "";
+  // document.getElementById("customer_post_code").value = "";
+  // document.getElementById("customer_post_code_numbers").value = "";
 
-  document.getElementById("customer_address_city").value = "";
-  document.getElementById("customer_address_street").value = "";
-  document.getElementById("customer_address_postal_code").value = "";
-  document.getElementById("customer_address_post_office").value = "";
+  // document.getElementById("customer_address_city").value = "";
+  // document.getElementById("customer_address_street").value = "";
+  // document.getElementById("customer_address_postal_code").value = "";
+  // document.getElementById("customer_address_post_office").value = "";
   setReadOnlyForNotInPoland();
 };
 

@@ -100,11 +100,11 @@ $(document).ready(function() {
       };
 
       return  '<div>' + cityName + streetName +
-              '<small>'     + '<span class="pull-right">' + markMatch(item.data_obj.provinceName, query.term) + '</span><br>' +
+              '<small>'     + '<span class="pull-right">&nbsp' + markMatch(item.data_obj.provinceName, query.term) + '</span><br>' +
               '<span>&nbsp&nbsp&nbsp&nbsp&nbsp[&nbsp' + item.data_obj.cityType + '&nbsp]</span>' +
-                              '<span class="pull-right">' + markMatch(item.data_obj.districtName, query.term) + '</span><br>' +
+                              '<span class="pull-right">&nbsp' + markMatch(item.data_obj.districtName, query.term) + '</span><br>' +
               '<span>&nbsp&nbsp&nbsp&nbsp&nbsp' + markMatch(item.data_obj.postCode, query.term) + '</span>' + postNumbers +
-                              '<span class="pull-right">' + markMatch(item.data_obj.communeName, query.term) + '</span>' + '</small></div>';
+                              '<span class="pull-right">&nbsp' + markMatch(item.data_obj.communeName, query.term) + '</span>' + '</small></div>';
     } else {
       return "";
     }
@@ -200,7 +200,7 @@ $(document).ready(function() {
     document.getElementById("customer_city_name").value = e.choice.data_obj.cityName;
     document.getElementById("customer_city_code").value = e.choice.data_obj.cityCode;
     document.getElementById("customer_city_parent_name").value = e.choice.data_obj.cityParentName;
-    document.getElementById("customer_city_parent_code").value = "";
+    document.getElementById("customer_city_parent_code").value = e.choice.data_obj.cityParentCode;
     document.getElementById("customer_street_name").value = e.choice.data_obj.streetName;
     document.getElementById("customer_street_code").value = e.choice.data_obj.streetCode;
     document.getElementById("customer_street_attribute").value = e.choice.data_obj.streetAttribute;
@@ -224,6 +224,97 @@ $(document).ready(function() {
     document.getElementById("customer_address_post_office").value = e.choice.data_obj.cityParentName;
     document.getElementById("customer_address_post_office").readOnly = true;
     document.getElementById("customer_address_house").focus();
+  });
+
+
+
+
+  $('#customer_c_address_select2teryt_items').select2({ 
+    minimumInputLength: 5,
+    allowClear: false,
+    ajax: {
+      url: "/pit_teryt/items.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 30,
+          page: page -1
+          //Uwaga! sztuczna mrowka gdyż API PitTeryt zle obsluguje paginacje
+        };
+      },
+      results: function(data, page) {
+        var more = (page * 30) < data.meta.totalCount;
+        var items = $.map(data.items, function(item, i) {
+          //return { data_obj: item, id: item.id, text: item.cityName };
+          return { data_obj: item, id: item.id };
+        });
+        return { results: items, more: more };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/pit_teryt/items/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            //callback({ data_obj: data_from_json, id: data_from_json.id, text: 'data_from_json.cityName' });
+            callback({ data_obj: data_from_json, id: data_from_json.id });
+        });
+      }
+    },
+    formatResult: itemFormatResult, // omitted for brevity, see the source of this page
+    formatSelection: itemFormatSelection, // omitted for brevity, see the source of this page
+    dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+    escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+  })
+  .on("select2-selecting", function(e) {
+    //document.getElementById("customer_lives_in_poland").value = true;
+    //document.getElementById("customer_address_id").value = e.choice.data_obj.id;
+    document.getElementById("customer_c_teryt_code").value = e.choice.data_obj.terytId;
+    document.getElementById("customer_c_province_name").value = e.choice.data_obj.provinceName;
+    document.getElementById("customer_c_province_code").value = e.choice.data_obj.provinceCode;
+    document.getElementById("customer_c_district_name").value = e.choice.data_obj.districtName;
+    document.getElementById("customer_c_district_code").value = e.choice.data_obj.districtCode;
+    document.getElementById("customer_c_commune_name").value = e.choice.data_obj.communeName;
+    document.getElementById("customer_c_commune_code").value = e.choice.data_obj.communeCode;
+    document.getElementById("customer_c_city_name").value = e.choice.data_obj.cityName;
+    document.getElementById("customer_c_city_code").value = e.choice.data_obj.cityCode;
+    document.getElementById("customer_c_city_parent_name").value = e.choice.data_obj.cityParentName;
+    document.getElementById("customer_c_city_parent_code").value = e.choice.data_obj.cityParentCode;
+    document.getElementById("customer_c_street_name").value = e.choice.data_obj.streetName;
+    document.getElementById("customer_c_street_code").value = e.choice.data_obj.streetCode;
+    document.getElementById("customer_c_street_attribute").value = e.choice.data_obj.streetAttribute;
+    if(e.choice.data_obj.postCode) {
+      document.getElementById("customer_c_post_code").value = e.choice.data_obj.postCode;
+      document.getElementById("customer_c_post_code_numbers").value = e.choice.data_obj.postCodeNumbers;
+
+      document.getElementById("customer_c_address_postal_code").value = e.choice.data_obj.postCode;
+      document.getElementById("customer_c_address_postal_code").readOnly = true;
+    } else {
+      document.getElementById("customer_c_post_code").value = "";
+      document.getElementById("customer_c_post_code_numbers").value = "";
+
+      document.getElementById("customer_c_address_postal_code").value = "";
+      document.getElementById("customer_c_address_postal_code").readOnly = false;
+    };
+    document.getElementById("customer_c_address_city").value = e.choice.data_obj.cityName;
+    document.getElementById("customer_c_address_city").readOnly = true;
+    document.getElementById("customer_c_address_street").value = e.choice.data_obj.streetName;
+    document.getElementById("customer_c_address_street").readOnly = true;
+    document.getElementById("customer_c_address_post_office").value = e.choice.data_obj.cityParentName;
+    document.getElementById("customer_c_address_post_office").readOnly = true;
+    document.getElementById("customer_c_address_house").focus();
   });
 
 

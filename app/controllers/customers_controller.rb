@@ -133,6 +133,7 @@ class CustomersController < ApplicationController
   def new
     @customer = params[:customer].present? ? Customer.new(customer_params) : Customer.new
     @customer.lives_in_poland = true
+    @customer.c_lives_in_poland = true
     authorize :customer, :new?
   end
 
@@ -230,6 +231,9 @@ class CustomersController < ApplicationController
           :city_code, :city_name, :city_parent_code, :city_parent_name, :street_code, :street_name, :street_attribute, :post_code, :post_code_numbers, 
         :c_address_in_poland, :c_address_teryt_pna_code_id, :c_address_city, :c_address_street, :c_address_house, :c_address_number, :c_address_postal_code, 
         :c_address_post_office, :c_address_pobox, 
+          :c_lives_in_poland, :c_address_id, :c_teryt_code, 
+          :c_province_code, :c_province_name, :c_district_code, :c_district_name, :c_commune_code, :c_commune_name, 
+          :c_city_code, :c_city_name, :c_city_parent_code, :c_city_parent_name, :c_street_code, :c_street_name, :c_street_attribute, :c_post_code, :c_post_code_numbers, 
         :nip, :regon, :pesel, :birth_date, :birth_place, :fathers_name, :mothers_name, :family_name, :citizenship_code, :phone, :fax, :email, :note, :user_id)
     end
 end

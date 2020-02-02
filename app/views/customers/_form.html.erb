@@ -175,26 +175,61 @@
 
 
     <div class="col-sm-6">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <div class="row">
         <div class="form-group col-sm-8">
-          <%= f.label :c_address_in_poland, class: 'control-label' %><br>
-          <%= f.check_box :c_address_in_poland, disabled: input_disabled, id: "c_address_in_poland_switch" %>
+          <%= f.check_box :c_lives_in_poland, autofocus: true, onclick: "terytCorrespondenceIsRequired(this.checked)" %>&nbsp;&nbsp; 
+          <%= f.label :c_lives_in_poland, class: 'control-label' %>
         </div>
         <div class="form-group col-sm-4">
           <small class="help-block pull-right"><%=t 'help_block_text.customer.form.c_address' %></small>
         </div>
-      </div>
+      </div> <!--/row -->
+
       <div class="row">
-        <div class="form-group col-sm-12" id="customer_c_address_slide_select">
-          <%#= f.label :c_address_teryt_pna_code_id, class: "control-label" %>
-          <%= f.hidden_field :c_address_teryt_pna_code_id,
+        <div class="form-group required col-sm-12 show_if_c_lives_in_poland">
+          <%= f.label :c_address_id, class: "control-label" %> 
+          <%= f.hidden_field :c_address_id, 
                             class: "form-control input-sm", 
-                            placeholder: "Wybierz miejscowość (ulicę/gminę/kod pocztowy)",
+                            placeholder: "Wyszukaj adres",
                             style: "width:100%",
-                            id: "customer_c_address_teryt_pna_code_select" %>
-          <small class="help-block"><%=t 'help_block_text.select2_teryt_pna_code' %></small>
+                            disabled: false, #!@proposal.lives_in_poland,
+                            id: "customer_c_address_select2teryt_items",
+                            autofocus: false %>
         </div>
-      </div>
+      </div> <!--/row -->
+
+      <%= f.hidden_field :c_teryt_code %>
+      <%= f.hidden_field :c_province_name %>
+      <%= f.hidden_field :c_province_code %>
+      <%= f.hidden_field :c_district_name %>
+      <%= f.hidden_field :c_district_code %>
+      <%= f.hidden_field :c_commune_name %>
+      <%= f.hidden_field :c_commune_code %>
+      <%= f.hidden_field :c_city_name %>
+      <%= f.hidden_field :c_city_code %>
+      <%= f.hidden_field :c_city_parent_name %>
+      <%= f.hidden_field :c_city_parent_code %>
+      <%= f.hidden_field :c_street_attribute %>
+      <%= f.hidden_field :c_street_name %>
+      <%= f.hidden_field :c_street_code %>
+      <%= f.hidden_field :c_post_code %>
+      <%= f.hidden_field :c_post_code_numbers %>
 
       <div class="row">
         <div class="form-group col-sm-8">
@@ -223,6 +258,7 @@
           <%= f.label :c_address_postal_code, class: 'control-label' %>
           <%= f.text_field :c_address_postal_code, class: 'form-control input-sm', disabled: input_disabled %>
         </div>
+
         <div class="form-group col-sm-6">
           <%= f.label :c_address_post_office, class: 'control-label' %>
           <%= f.text_field :c_address_post_office, class: 'form-control input-sm', disabled: input_disabled %>
@@ -233,7 +269,28 @@
         </div>
       </div>
 
+
       <hr class="hr-without-top-margin">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       <div class="row">
         <div class="form-group col-sm-4">
@@ -313,15 +370,30 @@
   if ($('#customer_lives_in_poland').is(':checked')) {
     //set value
 //    setValuesAndReadOnlyForInPoland();
-    setReadOnlyForInPoland()
+    setReadOnlyForInPoland();
     //show and hide fields
     showHideFieldsForInPoland();
   } else {
     //set values
 //    setValuesAndReadOnlyForNotInPoland();
-    setReadOnlyForNotInPoland()
+    setReadOnlyForNotInPoland();
     //show and hide fields
     showHideFieldsForNotInPoland();
+  };
+
+
+  if ($('#customer_c_lives_in_poland').is(':checked')) {
+    //set value
+//    setValuesAndReadOnlyForInPoland();
+    setCorrespondenceReadOnlyForInPoland();
+    //show and hide fields
+    showCorrespondenceHideFieldsForInPoland();
+  } else {
+    //set values
+//    setValuesAndReadOnlyForNotInPoland();
+    setCorrespondenceReadOnlyForNotInPoland();
+    //show and hide fields
+    showCorrespondenceHideFieldsForNotInPoland();
   };
 
 </script>

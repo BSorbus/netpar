@@ -1,0 +1,123 @@
+function setCorrespondenceReadOnlyForInPoland() {
+  document.getElementById("customer_c_address_city").readOnly = true;
+  document.getElementById("customer_c_address_street").readOnly = true;
+  document.getElementById("customer_c_address_post_office").readOnly = true;        
+  document.getElementById("customer_c_address_postal_code").readOnly = true;
+};
+
+function setCorrespondenceValuesAndReadOnlyForInPoland() {
+  setCorrespondenceReadOnlyForInPoland();
+  var id = $("#customer_c_address_select2teryt_items").val();
+  if (id) {
+    $.get("/pit_teryt/items/"+id+".json", function(data_from_json) {
+      if(data_from_json) {
+        document.getElementById("customer_c_teryt_code").value = data_from_json.terytId;
+        document.getElementById("customer_c_province_name").value = data_from_json.provinceName;
+        document.getElementById("customer_c_province_code").value = data_from_json.provinceCode;
+        document.getElementById("customer_c_district_name").value = data_from_json.districtName;
+        document.getElementById("customer_c_district_code").value = data_from_json.districtCode;
+        document.getElementById("customer_c_commune_name").value = data_from_json.communeName;
+        document.getElementById("customer_c_commune_code").value = data_from_json.communeCode;
+        document.getElementById("customer_c_city_name").value = data_from_json.cityName;
+        document.getElementById("customer_c_city_code").value = data_from_json.cityCode;
+        document.getElementById("customer_c_city_parent_name").value = data_from_json.cityParentName;
+        document.getElementById("customer_c_city_parent_code").value = data_from_json.cityParentCode;
+        document.getElementById("customer_c_street_name").value = data_from_json.streetName;
+        document.getElementById("customer_c_street_code").value = data_from_json.streetCode;
+        document.getElementById("customer_c_street_attribute").value = data_from_json.streetAttribute;
+        document.getElementById("customer_c_post_code").value = data_from_json.postCode;
+        document.getElementById("customer_c_post_code_numbers").value = data_from_json.postCodeNumbers;
+
+        document.getElementById("customer_c_address_city").value = data_from_json.cityName; 
+        document.getElementById("customer_c_address_street").value = data_from_json.streetName;
+        document.getElementById("customer_c_address_post_office").value = data_from_json.cityParentName;
+        document.getElementById("customer_c_address_city").readOnly = true;
+        document.getElementById("customer_c_address_street").readOnly = true;
+        document.getElementById("customer_c_address_post_office").readOnly = true;        
+        if(data_from_json.postCode) {
+          document.getElementById("customer_c_address_postal_code").value = data_from_json.postCode;
+          document.getElementById("customer_c_address_postal_code").readOnly = true;
+        } else {
+          document.getElementById("customer_c_address_postal_code").value = "";
+          document.getElementById("customer_c_address_postal_code").readOnly = false;
+        }
+      }
+    })
+  } 
+};
+
+function setCorrespondenceReadOnlyForNotInPoland() {
+  document.getElementById("customer_c_address_city").readOnly = false;
+  document.getElementById("customer_c_address_street").readOnly = false;
+  document.getElementById("customer_c_address_post_office").readOnly = false;    
+  document.getElementById("customer_c_address_postal_code").readOnly = false;
+};
+
+function setCorrespondenceValuesAndReadOnlyForNotInPoland() {
+  //$("#customer_address_select2teryt_items").select2("val", "");
+  // powyzej blokuj zawsze
+  // document.getElementById("customer_c_teryt_code").value = ""; 
+  // document.getElementById("customer_c_province_name").value = ""; 
+  // document.getElementById("customer_c_province_code").value = "";
+  // document.getElementById("customer_c_district_name").value = ""; 
+  // document.getElementById("customer_c_district_code").value = "";
+  // document.getElementById("customer_c_commune_name").value = ""; 
+  // document.getElementById("customer_c_commune_code").value = "";
+  // document.getElementById("customer_c_city_name").value = ""; 
+  // document.getElementById("customer_c_city_code").value = "";
+  // document.getElementById("customer_c_city_parent_name").value = ""; 
+  // document.getElementById("customer_c_city_parent_code").value = "";
+  // document.getElementById("customer_c_street_name").value = ""; 
+  // document.getElementById("customer_c_street_code").value = "";
+  // document.getElementById("customer_c_street_attribute").value = "";
+  // document.getElementById("customer_c_post_code").value = "";
+  // document.getElementById("customer_c_post_code_numbers").value = "";
+
+  // document.getElementById("customer_c_address_city").value = "";
+  // document.getElementById("customer_c_address_street").value = "";
+  // document.getElementById("customer_c_address_postal_code").value = "";
+  // document.getElementById("customer_c_address_post_office").value = "";
+  setCorrespondenceReadOnlyForNotInPoland();
+};
+
+
+function showCorrespondenceHideFieldsForInPoland() {
+  var list = document.getElementsByClassName("show_if_c_lives_in_poland");
+  for (var i = 0; i < list.length; i++) {
+    //$(list[i]).show();
+    $(list[i]).slideDown('normal');
+  };
+  var list = document.getElementsByClassName("show_unless_c_lives_in_poland");
+  for (var i = 0; i < list.length; i++) {
+    //$(list[i]).hide();
+    $(list[i]).slideUp('normal');
+  };
+};
+
+function showCorrespondenceHideFieldsForNotInPoland() {
+  var list = document.getElementsByClassName("show_if_c_lives_in_poland");
+  for (var i = 0; i < list.length; i++) {
+    //$(list[i]).hide();
+    $(list[i]).slideUp('normal');
+  };
+  var list = document.getElementsByClassName("show_unless_c_lives_in_poland");
+  for (var i = 0; i < list.length; i++) {
+    //$(list[i]).show();
+    $(list[i]).slideDown('normal');
+  };
+};
+
+
+function terytCorrespondenceIsRequired(status_checkbox) {
+  if (status_checkbox) {
+    //set value
+    setCorrespondenceValuesAndReadOnlyForInPoland();
+    //show and hide fields
+    showCorrespondenceHideFieldsForInPoland();
+  } else {
+    //set values
+    setCorrespondenceValuesAndReadOnlyForNotInPoland();
+    //show and hide fields
+    showCorrespondenceHideFieldsForNotInPoland();
+  };
+};
