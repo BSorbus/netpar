@@ -3,28 +3,28 @@
 
   <div class="row">
     <div class="form-group col-sm-7">
-      <p><strong><%= Proposal.human_attribute_name(:category_name) %></strong><br>
-      <%= category_name(partial_data) %></p>
+      <p><strong><%= Proposal.human_attribute_name(:esod_category) %></strong></p>
+      <h5><%= partial_data.esod_category_name %></</h5>
     </div>
     <div class="form-group col-sm-5">
-      <p><strong><%= Proposal.human_attribute_name(:esod_category) %></strong><br>
-      <%= partial_data.esod_category_name %></p>
+      <p><strong><%= Proposal.human_attribute_name(:category_name) %></strong></p>
+      <h5><%= category_name(partial_data) %></h5>
+    </div>
+  </div> <!--/row -->
+  <div class="row">
+    <div class="form-group col-sm-12">
+      <p><strong><%= Proposal.human_attribute_name(:division_fullname) %></strong></p>
+      <h5><%= partial_data.division_fullname %></h5>
     </div>
   </div> <!--/row -->
   <div class="row">
     <div class="form-group col-sm-7">
-      <p><strong><%= Proposal.human_attribute_name(:division_fullname) %></strong><br>
-      <%= partial_data.division_fullname %></p>
-    </div>
-  </div> <!--/row -->
-  <div class="row">
-    <div class="form-group col-sm-7">
-      <p><strong><%= Proposal.human_attribute_name(:exam_fullname) %></strong><br>
-      <%= partial_data.exam_fullname %></p>
+      <p><strong><%= Proposal.human_attribute_name(:exam_fullname) %></strong></p>
+      <h5><%= partial_data.exam_fullname %></h5>
     </div>
     <div class="form-group col-sm-5">
-      <p><strong><%= Proposal.human_attribute_name(:exam_date_exam) %></strong><br>
-      <%= partial_data.exam_date_exam.strftime("%Y-%m-%d") if partial_data.exam_date_exam.present? %></p>
+      <p><strong><%= Proposal.human_attribute_name(:exam_date_exam) %></strong></p>
+      <h5><%= partial_data.exam_date_exam.strftime("%Y-%m-%d") if partial_data.exam_date_exam.present? %></h5>
     </div>
   </div> <!--/row -->
 
