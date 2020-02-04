@@ -521,6 +521,7 @@ pl:
         c_address_house: 'Dom'
         c_address_number: 'Lokal'
         c_address_postal_code: 'Kod pocztowy'
+        esod_category: 'Rodzaj wniosku'
         category: 'Służba'
         category_name: 'Służba'
         exam_id: 'Sesja egzaminacyjna'

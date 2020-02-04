@@ -87,11 +87,23 @@ class Customer < ActiveRecord::Base
   end
 
   def address_cecha_street
-    self.address_teryt_pna_code.present? ? self.address_teryt_pna_code.uli_cecha_nazwa : self.address_street
+    #self.address_teryt_pna_code.present? ? self.address_teryt_pna_code.uli_cecha_nazwa : self.address_street
+    if self.address_id.present? 
+      attr_street_name = self.street_attribute.present? ? self.street_attribute.strip : ""
+      attr_street_name + self.address_street
+    else
+      self.address_street
+    end      
   end
 
   def c_address_cecha_street
-    self.c_address_teryt_pna_code.present? ? self.c_address_teryt_pna_code.uli_cecha_nazwa : self.c_address_street
+    #self.c_address_teryt_pna_code.present? ? self.c_address_teryt_pna_code.uli_cecha_nazwa : self.c_address_street
+    if self.c_address_id.present? 
+      attr_street_name = self.c_street_attribute.present? ? self.c_street_attribute.strip : ""
+      attr_street_name + self.c_address_street
+    else
+      self.c_address_street
+    end      
   end
 
   def fullname_and_address_for_envelope

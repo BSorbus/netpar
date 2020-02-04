@@ -27,43 +27,58 @@ $(document).ready(function() {
       { "targets": [1],
         "title": "<%= Proposal.human_attribute_name('created_at') %>" }, 
       { "targets": [2],
+        "title": "<%= Proposal.human_attribute_name('esod_category') %>",
+        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+          // sData - wartosc celi, oData - wiersza
+          if (oData[2] == 'Wniosek o egzamin poprawkowy' ) {
+            $(nTd).css('background-color', '#FFFFE0'); 
+          }
+          else if (oData[2] == 'Wniosek o odnowienie z egzaminem' ) {
+            $(nTd).css('background-color', '#D8ECF3'); 
+          }
+          else if (oData[2] == 'Wniosek o odnowienie z egzaminem, poprawkowy' ) {
+            $(nTd).css('background-color', '#FFFFE0'); 
+          }
+        }
+      },
+      { "targets": [3],
         "title": "<%= Proposal.human_attribute_name('proposal_status_id') %>",
         fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
           // sData - wartosc celi, oData - wiersza
-          if (oData[2] == 'Zaakceptowane' ) {
+          if (oData[3] == 'Zaakceptowane' ) {
             $(nTd).css('background-color', '#DFF0D8'); 
           }
-          else if (oData[2] == 'Odrzucone' ) {
+          else if (oData[3] == 'Odrzucone' ) {
             $(nTd).css('background-color', '#FF8C8C'); //Red mix
           }
-          else if (oData[2] == 'Zamknięte' ) {
+          else if (oData[3] == 'Zamknięte' ) {
             $(nTd).css('background-color', '#CCC');  
           }
-          else if (oData[2] == 'Anulowane' ) {
+          else if (oData[3] == 'Anulowane' ) {
             $(nTd).css('background-color', '#FFC04D'); //Orange mix 
           }
         }
       }, 
-      { "targets": [3],
-        "title": "<%= Proposal.human_attribute_name('name') %>" }, 
       { "targets": [4],
-        "title": "<%= Proposal.human_attribute_name('given_names') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('name') %>" }, 
       { "targets": [5],
-        "title": "<%= Proposal.human_attribute_name('pesel') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('given_names') %>" }, 
       { "targets": [6],
-        "title": "<%= Proposal.human_attribute_name('birth_date') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('pesel') %>" }, 
       { "targets": [7],
-        "title": "<%= Proposal.human_attribute_name('city_name') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('birth_date') %>" }, 
       { "targets": [8],
-        "title": "<%= Proposal.human_attribute_name('division_id') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('city_name') %>" }, 
       { "targets": [9],
-        "title": "<%= Proposal.human_attribute_name('exam_id') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('division_id') %>" }, 
       { "targets": [10],
+        "title": "<%= Proposal.human_attribute_name('exam_id') %>" }, 
+      { "targets": [11],
         "title": "<%= Proposal.human_attribute_name('category') %>",
         "visible": false,
         "searchable": false,
         "sortable": false }, 
-      { "targets": [11],
+      { "targets": [12],
         "title": "Akcje",
         "searchable": false,
         "sortable": false } 
@@ -102,41 +117,56 @@ $(document).ready(function() {
         "searchable": false,
         "sortable": false }, 
       { "targets": [1],
+        "title": "<%= Proposal.human_attribute_name('esod_category') %>",
+        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+          // sData - wartosc celi, oData - wiersza
+          if (oData[1] == 'Wniosek o egzamin poprawkowy' ) {
+            $(nTd).css('background-color', '#FFFFE0'); 
+          }
+          else if (oData[1] == 'Wniosek o odnowienie z egzaminem' ) {
+            $(nTd).css('background-color', '#D8ECF3'); 
+          }
+          else if (oData[1] == 'Wniosek o odnowienie z egzaminem, poprawkowy' ) {
+            $(nTd).css('background-color', '#FFFFE0'); 
+          }
+        }
+      },
+      { "targets": [2],
         "title": "<%= Proposal.human_attribute_name('status') %>",
         fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
           // sData - wartosc celi, oData - wiersza
-          if (oData[1] == 'Zaakceptowane' ) {
+          if (oData[2] == 'Zaakceptowane' ) {
             $(nTd).css('background-color', '#DFF0D8'); 
           }
-          else if (oData[1] == 'Odrzucone' ) {
+          else if (oData[2] == 'Odrzucone' ) {
             $(nTd).css('background-color', '#FF8C8C'); //Red mix
           }
-          else if (oData[1] == 'Zamknięte' ) {
+          else if (oData[2] == 'Zamknięte' ) {
             $(nTd).css('background-color', '#CCC');  
           }
-          else if (oData[1] == 'Anulowane' ) {
+          else if (oData[2] == 'Anulowane' ) {
             $(nTd).css('background-color', '#FFC04D'); //Orange mix 
           }
         }
       }, 
-      { "targets": [2],
-        "title": "<%= Proposal.human_attribute_name('name') %>" }, 
       { "targets": [3],
-        "title": "<%= Proposal.human_attribute_name('given_names') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('name') %>" }, 
       { "targets": [4],
-        "title": "<%= Proposal.human_attribute_name('pesel') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('given_names') %>" }, 
       { "targets": [5],
-        "title": "<%= Proposal.human_attribute_name('birth_date') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('pesel') %>" }, 
       { "targets": [6],
-        "title": "<%= Proposal.human_attribute_name('city_name') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('birth_date') %>" }, 
       { "targets": [7],
-        "title": "<%= Proposal.human_attribute_name('division_id') %>" }, 
+        "title": "<%= Proposal.human_attribute_name('city_name') %>" }, 
       { "targets": [8],
+        "title": "<%= Proposal.human_attribute_name('division_id') %>" }, 
+      { "targets": [9],
         "title": "<%= Proposal.human_attribute_name('category') %>",
         "visible": false,
         "searchable": false,
         "sortable": false }, 
-      { "targets": [9],
+      { "targets": [10],
         "title": "Akcje",
         "searchable": false,
         "sortable": false } 

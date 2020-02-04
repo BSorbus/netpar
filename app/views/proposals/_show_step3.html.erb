@@ -2,31 +2,30 @@
   <legend class="my-fieldset"><%= t('proposals.form_step3.fieldset_title') %></legend>
 
   <div class="row">
-    <div class="form-group col-sm-8">
-      <p><strong><%= Proposal.human_attribute_name(:category_name) %></strong></p>
-      <h5><%= category_name(partial_data) %></h5>
+    <div class="form-group col-sm-7">
+      <p><strong><%= Proposal.human_attribute_name(:category_name) %></strong><br>
+      <%= category_name(partial_data) %></p>
+    </div>
+    <div class="form-group col-sm-5">
+      <p><strong><%= Proposal.human_attribute_name(:esod_category) %></strong><br>
+      <%= partial_data.esod_category_name %></p>
     </div>
   </div> <!--/row -->
   <div class="row">
-    <div class="form-group col-sm-8">
-      <p><strong><%= Proposal.human_attribute_name(:division_fullname) %></strong></p>
-      <h5><%= partial_data.try(:division_fullname) %></h5>
-    </div>
-    <div class="form-group col-sm-4">
-      <p><strong><%= Proposal.human_attribute_name(:exam_fee_price) %></strong></p>
-      <h5><%= number_with_precision(partial_data.exam_fee_price, precision: 2, delimiter: ' ', separator: ',') %><span> PLN</span></h5>
+    <div class="form-group col-sm-7">
+      <p><strong><%= Proposal.human_attribute_name(:division_fullname) %></strong><br>
+      <%= partial_data.division_fullname %></p>
     </div>
   </div> <!--/row -->
   <div class="row">
-    <div class="form-group col-sm-8">
-      <p><strong><%= Proposal.human_attribute_name(:exam_fullname) %></strong></p>
-      <h5><%= link_to partial_data.exam_fullname, exam_path(partial_data.exam.category.downcase, partial_data.exam) %></h5>
+    <div class="form-group col-sm-7">
+      <p><strong><%= Proposal.human_attribute_name(:exam_fullname) %></strong><br>
+      <%= partial_data.exam_fullname %></p>
     </div>
-    <div class="form-group col-sm-4">
-      <p><strong><%= Proposal.human_attribute_name(:exam_date_exam) %></strong></p>
-      <h5><%= partial_data.try(:exam_date_exam).strftime("%Y-%m-%d") %></h5>
+    <div class="form-group col-sm-5">
+      <p><strong><%= Proposal.human_attribute_name(:exam_date_exam) %></strong><br>
+      <%= partial_data.exam_date_exam.strftime("%Y-%m-%d") if partial_data.exam_date_exam.present? %></p>
     </div>
   </div> <!--/row -->
 
 </fieldset>
-

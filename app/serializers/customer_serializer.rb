@@ -7,8 +7,8 @@ class CustomerSerializer < ActiveModel::Serializer
     :phone, :fax, :email, :note, :user_id, :created_at, :updated_at, :fullname_and_address_and_pesel_nip_and_birth_date  
 
 
-  has_one :address_teryt_pna_code
-  has_one :c_address_teryt_pna_code
+  #has_one :address_teryt_pna_code
+  #has_one :c_address_teryt_pna_code
 
 
 end

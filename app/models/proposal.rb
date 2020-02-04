@@ -1,4 +1,5 @@
 require 'net/http'
+require 'esodes'
 
 class Proposal < ActiveRecord::Base
 
@@ -86,6 +87,10 @@ class Proposal < ActiveRecord::Base
 
   def fullname_and_id
     "#{fullname} (#{id})"
+  end
+
+  def esod_category_name
+    Esodes::esod_matter_iks_name(esod_category)
   end
 
   def update_rec_and_push(proposal_params)
