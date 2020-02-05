@@ -61,10 +61,10 @@ class ExamDatatable < AjaxDatatablesRails::Base
         record.province_name,
         record.chairman,
         record.secretary,
-        '<div style="text-align: center"><span class="badge alert-warning">' + "#{record.max_examinations}" + '</span></div>',
-        '<div style="text-align: center"><span class="badge alert-info">' + "#{record.proposals_important_count}" + '</span></div>',
-        '<div style="text-align: center"><span class="badge alert-info">' + "#{record.examinations_count}" + '</span></div>',
-        '<div style="text-align: center"><span class="badge alert-success">' + "#{record.certificates_count}" + '</span></div>',
+        display_max_examinations(record.max_examinations),
+        display_proposals_important_count(record.proposals_important_count),
+        display_examinations_count(record.examinations_count),
+        display_certificates_count(record.certificates_count),
         record.category 
       ]
     end
@@ -88,5 +88,24 @@ class ExamDatatable < AjaxDatatablesRails::Base
     end  
   end
 
-  # ==== Insert 'presenter'-like methods below if necessary
+  def display_max_examinations(count)
+    count ||= 0
+    count > 0 ? '<div style="text-align: center"><span class="badge alert-warning">' + "#{count}" + '</span></div>' : ''
+  end
+
+  def display_proposals_important_count(count)
+    count ||= 0
+    count > 0 ? '<div style="text-align: center"><span class="badge alert-info">' + "#{count}" + '</span></div>' : ''
+  end
+
+  def display_examinations_count(count)
+    count ||= 0
+    count > 0 ? '<div style="text-align: center"><span class="badge alert-info">' + "#{count}" + '</span></div>' : ''
+  end
+
+  def display_certificates_count(count)
+    count ||= 0
+    count > 0 ? '<div style="text-align: center"><span class="badge alert-success">' + "#{count}" + '</span></div>' : ''
+  end
+
 end
