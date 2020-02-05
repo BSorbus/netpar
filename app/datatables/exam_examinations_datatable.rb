@@ -61,10 +61,7 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
         link_to(' ', @view.examination_path(record.category.downcase, record, back_url: @view.exam_path(record.exam.category.downcase, record.exam)), 
                         class: "fa fa-eye", title: 'Pokaż', rel: 'tooltip') + 
                     " " +
-        link_to(' ', @view.examination_path(record.category.downcase, record, back_url: @view.exam_path(record.exam.category.downcase, record.exam)), 
-                        method: :delete, 
-                        data: { confirm: "Czy na pewno chcesz usunąć ten wpis?" }, 
-                        class: "fa fa-trash-o text-danger", title: 'Usuń', rel: 'tooltip')  
+        link_or_icon(record)
 
       ]
     end
@@ -73,6 +70,18 @@ class ExamExaminationsDatatable < AjaxDatatablesRails::Base
   def get_raw_records
     #Examination.joins(:division, :customer, :exam).where(exam_id: options[:only_for_current_exam_id]).includes(:division, :customer, :exam, :certificate, :esod_matter).references(:division, :customer, :exam, :certificate, :esod_matter).all
     Examination.joins(:division, :customer, :exam).where(exam_id: options[:only_for_current_exam_id]).includes(:division, :customer, :exam, :certificate).references(:division, :customer, :exam, :certificate).all
+  end
+
+  def link_or_icon(rec)
+    if rec.proposal_id.present?
+      link_to(' ', @view.proposal_path(rec.proposal.category.downcase, rec.proposal_id), 
+                      class: "fa fa-download", title: 'Pokaż elektroniczne zgłoszenie', rel: 'tooltip')
+    else
+      link_to(' ', @view.examination_path(rec.category.downcase, rec, back_url: @view.exam_path(rec.exam.category.downcase, rec.exam)), 
+                              method: :delete, 
+                              data: { confirm: "Czy na pewno chcesz usunąć ten wpis?" }, 
+                              class: "fa fa-trash-o text-danger", title: 'Usuń', rel: 'tooltip')
+    end
   end
 
   # ==== Insert 'presenter'-like methods below if necessary
