@@ -70,6 +70,26 @@ class Examination < ActiveRecord::Base
     self.esod_matters.order(:id).flat_map {|row| row.znak_with_padlock }.join(' <br>').html_safe
   end
 
+  def is_in_proposals_with_status_created
+    if self.customer_id.present?
+      pesel = self.customer.pesel
+      if pesel.present?
+        Proposal.find_by(exam_id: self.exam_id, pesel: pesel, proposal_status_id: Proposal::PROPOSAL_STATUS_CREATED)
+      else
+        email = self.customer.email
+        if email.present?
+          Proposal.find_by(exam_id: self.exam_id, email: email.downcase, proposal_status_id: Proposal::PROPOSAL_STATUS_CREATED)
+        else
+          name = self.customer.name.downcase
+          given_names = self.customer.given_names.downcase
+          birth_date = self.customer.birth_date
+          Proposal.find_by(["exam_id = :exam_id AND birth_date = :birth_date AND LOWER(name) = :name AND LOWER(given_names) = :given_names AND proposal_status_id = :proposal_status_id", 
+            {exam_id: self.exam_id, birth_date: birth_date, name: name, given_names: given_names, proposal_status_id: Proposal::PROPOSAL_STATUS_CREATED}])
+        end
+      end
+    end
+  end
+
   def check_exam_esod_category
     if Esodes::WITHOUT_EXAMINATIONS.include?(self.exam.esod_category) 
       errors.add(:exam_id, ' - nie można dodawać osób egzaminowanych do sesji typu: "Sesja bez egzaminu lub z egzaminem poza UKE"')

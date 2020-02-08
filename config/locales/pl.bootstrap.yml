@@ -46,6 +46,7 @@ pl:
       exam_committee_docx: " Skład Komisji"
       show: " Pokaż"
       show_charts: ' Statystyki'
+      show_proposal: "Pokaż Elektroniczne Zgłoszenie"
       proposal_approved: ' Zaakceptuj'
       proposal_not_approved: ' Odrzuć'
       link_to_add_fields_nested: '[ + Dodaj ]'

@@ -68,9 +68,17 @@ class ProposalsController < ApplicationController
   # GET /proposals/1/edit_approved
   def edit_approved
     proposal_authorize(@proposal, "edit_approved", params[:category_service])
- 
-    respond_to do |format|
-      format.html { render :edit_approved, locals: { back_url: params[:back_url] } }
+
+    # jesli jest nierozpatrzone elektroniczne zgloszenie z takimi parametrami
+    finded_examination = @proposal.is_in_examinations
+
+    if finded_examination.present?
+      flash_message :error, t('activerecord.messages.error.is_in_examinations', data: @proposal.fullname)
+      redirect_to examination_path(finded_examination.category.downcase, finded_examination)
+    else
+      respond_to do |format|
+        format.html { render :edit_approved, locals: { back_url: params[:back_url] } }
+      end
     end
   end
 

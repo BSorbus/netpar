@@ -160,6 +160,25 @@ class Proposal < ActiveRecord::Base
     [PROPOSAL_STATUS_CREATED].include?(proposal_status_id) 
   end
 
+  def is_in_examinations
+    examinations = Examination.joins(:customer).where(proposal_id: nil, exam_id: self.exam_id, customers: {pesel: [self.pesel]}).references(:customer)
+    if examinations.present?
+      return examinations.first
+    else
+      examinations = Examination.joins(:customer).where(proposal_id: nil, exam_id: self.exam_id).
+        where('LOWER("customers"."email") = :email', {email: self.email}).references(:customer)
+      if examinations.present?
+        return examinations.first
+      else
+        examinations = Examination.joins(:customer).where(proposal_id: nil, exam_id: self.exam_id, customers: {birth_date: [self.birth_date]}).
+          where('LOWER("customers"."name") = :name AND LOWER("customers"."given_names") = :given_names', {name: self.name, given_names: self.given_names}).references(:customer)
+        if examinations.present?
+          return examinations.first
+        end
+      end
+    end
+  end
+
   def add_to_examinations
  #   examination = self.build_examination OR
     examination = Examination.new

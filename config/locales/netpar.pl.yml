@@ -447,6 +447,8 @@ pl:
         esod_matter_link: 'Wystąpił błąd w czasie przypisywania sprawy "%{child}" do "%{parent}"'
         account_off: 'Wystąpił błąd w czasie wyłączania konta "%{data}".'
         account_on: 'Wystąpił błąd w czasie włączania konta "%{data}".'
+        is_in_examinations: 'Jest już dodany wniosek, którego parametry odpowiadaję zgłoszeniu: "%{data}". Usuń z sesji egzaminacyjnej ręcznie dodany wpis i ponów akcjeptację Elektronicznego Zgłoszenia.'
+        is_in_proposals_with_status_created: 'To nierozpatrzone Elektroniczne Zgłoszenie ma parametry, które próbujesz wpisać. Zamiast dodawać dane "z ręki" zaakceptuj to Elektroniczne Zgłoszenie.'
       notice:
         no_records: 'Brak danych!'
     attributes:
@@ -543,6 +545,7 @@ pl:
         confirm_that_the_data_is_correct: 'Dane powyższe są zgodne z prawdą, co potwierdzam'
         not_approved_comment: 'Powód odrzucenia zgłoszenia'
         created_at: 'Utworzono'
+        examination: 'Osoba egzaminowana'
       exam:
         esod_category: 'Rodzaj sesji'
         number: 'Numer'
@@ -612,6 +615,8 @@ pl:
         exam: 'Sesja egzaminacyjna'
         customer_id: 'Klient'
         customer: 'Klient'
+        proposal_id: 'Elektroniczne Zgłoszenie'
+        proposal: 'Elektroniczne Zgłoszenie'
         category: 'Kategoria'
         note: 'Uwagi'
         certificate_id: 'Wygenerowano świadectwo'

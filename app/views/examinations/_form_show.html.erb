@@ -38,6 +38,17 @@
       </div>
     </div>
 
+    <% if @examination.proposal_id.present? %>
+      <% if proposal_policy_check(@examination.proposal, params[:category_service], 'show') %>
+        <div class="row">
+          <div class="form-group col-sm-12">
+            <p><strong><%= Examination.human_attribute_name(:proposal_id) %></strong></p>
+            <h5><%= link_to( @examination.proposal.fullname, proposal_path(@examination.proposal.category.downcase, @examination.proposal) ) %></h5>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
     <div class="row">
       <div class="form-group col-sm-8">
         <p><strong><%= Examination.human_attribute_name(:examination_result) %></strong></p>
@@ -116,16 +127,19 @@
       <%= t("helpers.links.back") %>
     <% end %>
 
-    <% if examination_policy_check(@examination, params[:category_service], 'destroy') %>
 
-      <%= link_to examination_path(@examination, category_service: @examination.category.downcase, back_url: back_url),
-                          method: :delete,
-                          data: { confirm: t('helpers.links.confirm_destroy', data: @examination.fullname) }, 
-                          class: "btn btn-danger" do %>
-        <span class="fa fa-trash-o"></span>
-        <%= t("helpers.links.destroy") %>
+    <% if @examination.proposal_id.blank? %>
+      <% if examination_policy_check(@examination, params[:category_service], 'destroy') %>
+
+        <%= link_to examination_path(@examination, category_service: @examination.category.downcase, back_url: back_url),
+                            method: :delete,
+                            data: { confirm: t('helpers.links.confirm_destroy', data: @examination.fullname) }, 
+                            class: "btn btn-danger" do %>
+          <span class="fa fa-trash-o"></span>
+          <%= t("helpers.links.destroy") %>
+        <% end %>
+
       <% end %>
-
     <% end %>
 
     <% if examination_policy_check(@examination, params[:category_service], 'edit') %>

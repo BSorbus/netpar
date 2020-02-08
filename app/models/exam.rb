@@ -41,7 +41,7 @@ class Exam < ActiveRecord::Base
   validates :max_examinations, numericality: true, allow_blank: true
 
 #  validates :esod_matter, uniqueness: { case_sensitive: false }, allow_blank: true
-  validate :exam_has_examinations, on: :update, if: "esod_category != esod_category_was"
+  validate :exam_has_examinations, on: :update, if: "(esod_category != esod_category_was) || (date_exam != date_exam_was)"
 
 
   # scopes
@@ -89,11 +89,13 @@ class Exam < ActiveRecord::Base
   def exam_has_examinations
     analize_value = true
     if self.examinations.any? 
-      errors.add(:esod_category, " - Nie można zmieniać Rodzaju Sesji do której są przypisane Osoby Egzaminowane.")
+      errors.add(:esod_category, " - Nie można zmieniać Rodzaju Sesjido której są przypisane Osoby Egzaminowane.") if (esod_category != esod_category_was)
+      errors.add(:date_exam, " - Nie można zmieniać Daty Sesji do której są przypisane Osoby Egzaminowane.") if (date_exam != date_exam_was)
       analize_value = false
     end
     if self.proposals.any? 
-      errors.add(:esod_category, " - Nie można zmieniać Rodzaju Sesji do której złożone Elektronicznie Zgłoszenia.")
+      errors.add(:esod_category, " - Nie można zmieniać Rodzaju Sesji do której są złożone Elektronicznie Zgłoszenia.") if (esod_category != esod_category_was)
+      errors.add(:date_exam, " - Nie można zmieniać Daty Sesji do której są złożone Elektronicznie Zgłoszenia.") if (date_exam != date_exam_was)
       analize_value = false
     end
     analize_value
