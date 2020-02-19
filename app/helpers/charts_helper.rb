@@ -32,8 +32,8 @@ module ChartsHelper
     line_chart confirmation_logs_by_month_charts_path(), adapter: "highcharts"
   end
 
-  def chart_proposals_by_day_division
-    line_chart proposals_by_day_division_charts_path(category_service: params[:category_service]), adapter: "highcharts"
+  def chart_proposals_by_week_division
+    line_chart proposals_by_week_division_charts_path(category_service: params[:category_service]), adapter: "highcharts"
   end
 
 end

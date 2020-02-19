@@ -71,7 +71,7 @@ Rails.application.routes.draw do
       get 'certificates_date_of_issu_by_month_division', on: :collection
 
       get 'confirmation_logs_by_month', on: :collection
-      get 'proposals_by_day_division', on: :collection
+      get 'proposals_by_week_division', on: :collection
     end
   end
 
