@@ -13,7 +13,6 @@ class ProposalStatus < ActiveRecord::Base
 
   PROPOSAL_IMPORTANT_STATUSES = [ PROPOSAL_STATUS_CREATED, 
                                   PROPOSAL_STATUS_APPROVED, 
-                                  PROPOSAL_STATUS_CLOSED, 
                                   PROPOSAL_STATUS_EXAMINATION_RESULT_B,
                                   PROPOSAL_STATUS_EXAMINATION_RESULT_N,
                                   PROPOSAL_STATUS_EXAMINATION_RESULT_O,

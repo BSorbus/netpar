@@ -89,7 +89,12 @@ class User < ActiveRecord::Base
     str = iv + str
     data = cipher.update(str) + cipher.final
     #Base64.urlsafe_encode64(data)
-    Base64.urlsafe_encode64(data).gsub('=', '.').gsub('-', '_')    
+    #Base64.urlsafe_encode64(data).gsub('=', '.').gsub('-', '_')    
+    # 2020-05-18
+    ret = Base64.encode64(data)
+    ret = ret.gsub('+', '_')
+    ret = ret.gsub('/', '-')
+    ret = ret.gsub('=', '.')
   end
 
   def generate_authentication_token!

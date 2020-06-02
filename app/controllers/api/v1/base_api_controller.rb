@@ -21,6 +21,7 @@ module Api
       # Restricted for API request
       def request_from_the_security_area?
         @ips = [
+                '::1',              # localhost
                 '127.0.0.1',        # localhost
                 '10.2.0.0/16',      # Białystok 
                 '10.3.0.0/16',      # Bydgoszcz
@@ -44,7 +45,8 @@ module Api
                 '10.21.0.0/16',     # Centrala
                 '10.100.0.0/16',    # Centrala
                 '172.16.1.75',      # netpar2015.uke.gov.pl
-                '10.250.125.0/24'   # Połączenia VPN BYBI
+                '10.250.125.0/24',  # Połączenia VPN BYBI
+                '10.250.132.0/23'   # Zamiast '10.250.105.0/24' Połączenia VPN inny
               ] 
         allowed = false
         # Convert remote IP (request.remote_ip is a string) to an integer.

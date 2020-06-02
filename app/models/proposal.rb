@@ -36,6 +36,9 @@ class Proposal < ActiveRecord::Base
                         PROPOSAL_STATUS_EXAMINATION_RESULT_P,
                         PROPOSAL_STATUS_EXAMINATION_RESULT_Z ]
 
+  PROPOSAL_STATUSES_WITH_COMMENT = [ PROPOSAL_STATUS_NOT_APPROVED, 
+                                     PROPOSAL_STATUS_CLOSED ]
+
   CATEGORY_NAME_M = "Świadectwo służby morskiej i żeglugi śródlądowej"
   CATEGORY_NAME_R = "Świadectwo służby radioamatorskiej"
 
@@ -59,7 +62,8 @@ class Proposal < ActiveRecord::Base
   validates :division, presence: true
   validates :exam_fee, presence: true
   validates :exam, presence: true
-  validates :not_approved_comment, presence: true, length: { minimum: 10 }, if: "proposal_status_id == #{PROPOSAL_STATUS_NOT_APPROVED}"
+  # validates :not_approved_comment, presence: true, length: { minimum: 10 }, if: "proposal_status_id == #{PROPOSAL_STATUS_NOT_APPROVED}"
+  validates :not_approved_comment, presence: true, length: { minimum: 10 }, if: "#{PROPOSAL_STATUSES_WITH_COMMENT}.include?(proposal_status_id)"
 
 #  validates :customer, presence: true
 #  validates :user, presence: true
@@ -158,6 +162,10 @@ class Proposal < ActiveRecord::Base
 
   def can_edit_not_approved?
     [PROPOSAL_STATUS_CREATED].include?(proposal_status_id) 
+  end
+
+  def can_edit_closed?
+    [PROPOSAL_STATUS_CREATED, PROPOSAL_STATUS_NOT_APPROVED, PROPOSAL_STATUS_ANNULLED, PROPOSAL_STATUS_CLOSED].exclude?(proposal_status_id) && ( examination.nil? || examination.examination_result.nil? )
   end
 
   def is_in_examinations

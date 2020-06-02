@@ -103,6 +103,14 @@ class ProposalPolicy < ApplicationPolicy
     (@model.can_edit_not_approved?) && (user_activities.include? 'proposal_r:update')
   end
 
+  def edit_closed_m?
+    (@model.can_edit_closed?) && (user_activities.include? 'proposal_m:update')
+  end
+
+  def edit_closed_r?
+    (@model.can_edit_closed?) && (user_activities.include? 'proposal_r:update')
+  end
+
   def edit?
     false
   end
@@ -133,6 +141,14 @@ class ProposalPolicy < ApplicationPolicy
 
   def update_not_approved_r?
     edit_not_approved_r?
+  end
+
+  def update_closed_m?
+    edit_closed_m?
+  end
+
+  def update_closed_r?
+    edit_closed_r?
   end
 
   def update?

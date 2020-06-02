@@ -7,19 +7,19 @@
         <div class="panel-title">
           <span class='<%= t("pages.proposal.model_icon") %>'></span>
           <span class='<%= t("pages.proposal_#{params[:category_service]}.model_icon") %>'>&nbsp;</span>
-          <span><%=t "pages.proposal.edit_not_approved.title" %>:&nbsp;<%= @proposal.fullname %></span>
+          <span><%=t "pages.proposal.edit_closed.title" %>:&nbsp;<%= @proposal.fullname %></span>
         </div>
       </div>
         <div class="panel-body">
           <div class="col-sm-1">
-	        	<h1 class="center text-danger"><span class='<%= t("pages.proposal.edit_not_approved.model_icon") %>'></span></h1> 
+	        	<h1 class="center text-warning"><span class='<%= t("pages.proposal.edit_closed.model_icon") %>'></span></h1> 
           </div> <!--/col-sm-1-->
 
           <div class="col-sm-11">
 
-						<%= form_for @proposal, url: update_not_approved_proposal_path(@proposal, category_service: params[:category_service]) do |f| %>
+						<%= form_for @proposal, url: update_closed_proposal_path(@proposal, category_service: params[:category_service]) do |f| %>
 
-						  <%= render 'form_not_approved', f: f %>
+						  <%= render 'form_closed', f: f %>
 
 						<% end %>
 

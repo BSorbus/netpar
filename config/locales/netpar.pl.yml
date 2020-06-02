@@ -172,6 +172,9 @@ pl:
       edit_not_approved:
         model_icon: 'fa fa-ban'
         title: 'Elektroniczne Zgłoszenie - odrzucenie zgłoszenia'
+      edit_closed:
+        model_icon: 'fa fa-ban'
+        title: 'Elektroniczne Zgłoszenie - zamknięcie zgłoszenia'
     proposal_m:
       model_icon: 'fa fa-ship'
       index:
@@ -543,7 +546,7 @@ pl:
         bank_pdf: 'Bankowe potwierdzenie wykonania przelewu'
         consent_pdf: 'Zgoda prawnego opiekuna'
         confirm_that_the_data_is_correct: 'Dane powyższe są zgodne z prawdą, co potwierdzam'
-        not_approved_comment: 'Powód odrzucenia zgłoszenia'
+        not_approved_comment: 'Powód odrzucenia lub zamknięcia zgłoszenia'
         created_at: 'Utworzono'
         examination: 'Osoba egzaminowana'
       exam:

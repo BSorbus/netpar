@@ -62,8 +62,10 @@ class ChartsController < ApplicationController
 
     data_array = []
     Division.only_category_scope(params[:category_service]).all.each do |division|
+#      data_array << { name: "#{division.short_name}", 
+#                      data: Proposal.where(category: params[:category_service].upcase, division: division).where.not(proposal_status_id: Proposal::PROPOSAL_STATUS_ANNULLED).group_by_week(:created_at, last: total_weeks, format: '%Y-%m-%d').count.map{|k,v| [k,v]} }
       data_array << { name: "#{division.short_name}", 
-                      data: Proposal.where(category: params[:category_service].upcase, division: division).where.not(proposal_status_id: Proposal::PROPOSAL_STATUS_ANNULLED).group_by_week(:created_at, last: total_weeks, format: '%Y-%m-%d').count.map{|k,v| [k,v]} }
+                      data: Proposal.where(category: params[:category_service].upcase, division: division).where.not(proposal_status_id: Proposal::PROPOSAL_STATUS_ANNULLED).group_by_day(:created_at, last: total_days, format: '%Y-%m-%d').count.map{|k,v| [k,v]} }
     end
     render json: data_array.to_json 
   end
