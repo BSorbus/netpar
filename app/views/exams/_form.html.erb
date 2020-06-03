@@ -102,7 +102,7 @@
     <fieldset class="my-fieldset">
       <legend class="my-fieldset"><%= ExamsDivision.model_name.human %></legend>
 
-      <%= f.collection_check_boxes :division_ids, Division.only_category_scope(params[:category_service].upcase).only_not_exclude.order(:id).all, :id, :name do |b| %>
+      <%= f.collection_check_boxes :division_ids, Division.only_category_scope(params[:category_service].upcase).only_not_exclude_for_internet.order(:id).all, :id, :name do |b| %>
         <ul>
           <%= b.check_box %>
           <%= b.label %>

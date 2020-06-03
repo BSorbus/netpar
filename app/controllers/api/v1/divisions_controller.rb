@@ -8,7 +8,7 @@ class Api::V1::DivisionsController < Api::V1::BaseApiController
     params[:page_limit] = params[:page_limit]
     params[:category] = params[:category]
 
-    @divisions = Division.only_not_exclude.order(:name).finder_division(params[:q], params[:category])
+    @divisions = Division.only_not_exclude_for_internet.order(:name).finder_division(params[:q], params[:category])
     @divisions_on_page = @divisions.page(params[:page]).per(params[:page_limit])
 
     render status: :ok,

@@ -10,16 +10,17 @@ class Division < ActiveRecord::Base
   DIVISION_M_CSO = 16 # CSO "świadectwo operatora stacji nadbrzeżnej CSO"
   DIVISION_M_IWC = 17 # IWC "świadectwo operatora radiotelefonisty w służbie śródlądowej IWC"
 
-  DIVISION_M_FOR_SHOW = [ DIVISION_M_LRC, DIVISION_M_SRC, DIVISION_M_VHF, DIVISION_M_CSO, DIVISION_M_IWC ]  
+  # DIVISION_M_FOR_SHOW = [ DIVISION_M_LRC, DIVISION_M_SRC, DIVISION_M_VHF, DIVISION_M_CSO, DIVISION_M_IWC ]  
 
   DIVISION_R_A = 18
   DIVISION_R_B = 19
   DIVISION_R_C = 20
   DIVISION_R_D = 21
 
-  DIVISION_R_FOR_SHOW = [ DIVISION_R_A, DIVISION_R_C ]  
+#  DIVISION_R_FOR_SHOW = [ DIVISION_R_A, DIVISION_R_C ]  
 
   DIVISION_EXCLUDE_FOR_NEW = [ DIVISION_R_B, DIVISION_R_D ]  
+  DIVISION_EXCLUDE_FOR_INTERNET = [ DIVISION_R_B, DIVISION_R_D, DIVISION_M_G1E, DIVISION_M_G2E, DIVISION_M_GOC, DIVISION_M_ROC, DIVISION_M_CSO ]  
 
   has_many :proposals  
   has_many :exam_fees  
@@ -42,6 +43,7 @@ class Division < ActiveRecord::Base
   scope :only_category_scope, ->(cat)  { where(category: cat.upcase) }
   scope :by_name, -> { order(:name) }
   scope :only_not_exclude, ->()  { where.not(id: DIVISION_EXCLUDE_FOR_NEW) }
+  scope :only_not_exclude_for_internet, ->()  { where.not(id: DIVISION_EXCLUDE_FOR_INTERNET) }
 
 
   # Scope for select2: "division_select"
