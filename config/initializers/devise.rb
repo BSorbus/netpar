@@ -305,6 +305,6 @@ Devise.setup do |config|
   # config.captcha_for_confirmation = true
 
   # Time period for account expiry from last_activity_at
-  config.expire_after = 90.days
+  config.expire_after = 6.months
 
 end

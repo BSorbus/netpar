@@ -564,7 +564,7 @@ pl:
         proposals_important_count: "Zgłoszenia"
         province_id: "Województwo"
         province_name: "Województwo"
-        max_examinations: "Max miejsc"
+        max_examinations: "Max zgłoszeń przez Internet"
         flat_all_esod_matters: 'ESOD'
       exam/examiners:
         name: 'Nazwisko i imię'
