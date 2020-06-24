@@ -34,6 +34,8 @@ class Exam < ActiveRecord::Base
   validates :date_exam, presence: true
   validates :place_exam, presence: true,
                     length: { in: 1..50 }
+  validates :info, presence: true, 
+                    length: { in: 1..60 }
   validates :category, presence: true, inclusion: { in: %w(L M R) }
   validates :user, presence: true
 
@@ -41,7 +43,7 @@ class Exam < ActiveRecord::Base
   validates :max_examinations, numericality: true, allow_blank: true
 
 #  validates :esod_matter, uniqueness: { case_sensitive: false }, allow_blank: true
-  validate :exam_has_examinations, on: :update, if: "(esod_category != esod_category_was) || (date_exam != date_exam_was)"
+  validate :exam_has_examinations, on: :update, if: "(esod_category != esod_category_was) || (date_exam != date_exam_was) || (info != info_was)"
 
 
   # scopes
@@ -63,11 +65,11 @@ class Exam < ActiveRecord::Base
 
 
   def fullname
-    "#{number}, z dn. #{date_exam}, #{place_exam} [#{province_name}]"
+    "#{number}, z dn. #{date_exam}, #{place_exam} [#{province_name}] #{info}"
   end
 
   def fullname_and_id
-    "#{number}, z dn. #{date_exam}, #{place_exam} (#{id})"
+    "#{number}, z dn. #{date_exam}, #{place_exam} [#{province_name}] #{info}(#{id})"
   end
 
   def place_and_date
@@ -96,6 +98,7 @@ class Exam < ActiveRecord::Base
     if self.proposals.any? 
       errors.add(:esod_category, " - Nie można zmieniać Rodzaju Sesji do której są złożone Elektronicznie Zgłoszenia.") if (esod_category != esod_category_was)
       errors.add(:date_exam, " - Nie można zmieniać Daty Sesji do której są złożone Elektronicznie Zgłoszenia.") if (date_exam != date_exam_was)
+      errors.add(:info, " - Nie można zmieniać Informacji dodatkowych o Sesji do której są złożone Elektronicznie Zgłoszenia.") if ((info != info_was) && info_was != '')  
       analize_value = false
     end
     analize_value
@@ -154,7 +157,7 @@ class Exam < ActiveRecord::Base
   #
   def self.one_param_sql(query_str)
     escaped_query_str = sanitize("%#{query_str}%")
-    "(" + %w(exams.number to_char(exams.date_exam,'YYYY-mm-dd') exams.place_exam exams.province_name).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
+    "(" + %w(exams.number to_char(exams.date_exam,'YYYY-mm-dd') exams.place_exam exams.province_name exams.info).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
   end
 
   def generate_all_certificates(gen_user_id)

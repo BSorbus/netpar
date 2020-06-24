@@ -13,8 +13,8 @@ module Esodes
   # 10.40.1.6:8243(epl-esb2) 
 
 #  API_SERVER = "https://10.40.1.4:443" # LB programowy PROD
-  API_SERVER = "https://10.60.0.135:443" # LB sprzetowy ESB (F5)
-#  API_SERVER = "https://10.40.2.4:8443" # LB programowy ESB-TEST
+#  API_SERVER = "https://10.60.0.135:443" # LB sprzetowy ESB (F5)
+  API_SERVER = "https://10.40.2.4:8443" # LB programowy ESB-TEST
 #  API_SERVER = "https://10.60.0.105:443" # LB sprzetowy ESB-TEST (uwaga! inny port)
 #  API_SERVER = "https://10.60.0.100:8443"
   API_TOKEN_EXPIRE = 590.seconds    #  10.minutes
@@ -73,6 +73,8 @@ module Esodes
   JRWA_M = [5431]
   JRWA_R = [5432]
   JRWA_ALL = [5430, 5431, 5432]
+
+  DEFAULT_SPOSOB_PRZESLANIA_IF_PROPOSAL = 78
 
 
   def self.log_soap_error(error_obj, options = {}) 
@@ -274,6 +276,7 @@ module Esodes
     return my_array.sort_by{|e| e[:nazwa].upcase}
   end
 
+  # DEFAULT_SPOSOB_PRZESLANIA_IF_PROPOSAL = 78
   def self.sposob_przeslania_array
     my_array = []
     doc = Nokogiri::XML(File.open("app/models/esod/sposob_przeslania.xml")) do |config|

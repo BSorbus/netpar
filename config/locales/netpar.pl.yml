@@ -553,7 +553,7 @@ pl:
         esod_category: 'Rodzaj sesji'
         number: 'Numer'
         date_exam: 'Data'
-        place_exam: 'Miejscowość'
+        place_exam: 'Miejsce'
         chairman: 'Przewodniczący'
         secretary: 'Sekretarz'
         category: 'Kategoria'
@@ -564,6 +564,7 @@ pl:
         proposals_important_count: "Zgłoszenia"
         province_id: "Województwo"
         province_name: "Województwo"
+        info: "Informacje dodatkowe"
         max_examinations: "Max zgłoszeń przez Internet"
         flat_all_esod_matters: 'ESOD'
       exam/examiners:
@@ -743,15 +744,18 @@ pl:
     exam_l:
       form:
         number: 'np. 123/2015/L'
+        info: 'np. Bydgoszcz, ul. Wojska Polskiego 23, godzina 10:00'
       index:
     exam_m:
       form:
         number: 'np. 123/2015/M'
+        info: 'np. Bydgoszcz, ul. Wojska Polskiego 23, godzina 10:00'
       index:
     exam_r:
       show:
       form:
         number: 'np. 123/2015/A'
+        info: 'np. Bydgoszcz, ul. Wojska Polskiego 23, godzina 10:00'
       index:
     certificate_l:
       form:

@@ -11,28 +11,48 @@
       <ns1:wyszukajSposobyPrzeslaniaResponse>
          <return>
             <sposobPrzeslania>
-               <nazwa>Osobiście</nazwa>
-               <nrid>6</nrid>
+               <nazwa>Przesyłka pocztowa</nazwa>
+               <nrid>1</nrid>
             </sposobPrzeslania>
             <sposobPrzeslania>
                <nazwa>Przesyłka kurierska</nazwa>
                <nrid>2</nrid>
             </sposobPrzeslania>
             <sposobPrzeslania>
-               <nazwa>Przesyłka pocztowa</nazwa>
-               <nrid>1</nrid>
-            </sposobPrzeslania>
-            <sposobPrzeslania>
-               <nazwa>ePUAP</nazwa>
-               <nrid>7</nrid>
+               <nazwa>E-mail</nazwa>
+               <nrid>3</nrid>
             </sposobPrzeslania>
             <sposobPrzeslania>
                <nazwa>FAX</nazwa>
                <nrid>4</nrid>
             </sposobPrzeslania>
             <sposobPrzeslania>
-               <nazwa>E-mail</nazwa>
-               <nrid>3</nrid>
+               <nazwa>Osobiście</nazwa>
+               <nrid>6</nrid>
+            </sposobPrzeslania>
+            <sposobPrzeslania>
+               <nazwa>ePUAP</nazwa>
+               <nrid>7</nrid>
+            </sposobPrzeslania>
+            <sposobPrzeslania>
+               <nazwa>Posłaniec</nazwa>
+               <nrid>8</nrid>
+            </sposobPrzeslania>
+            <sposobPrzeslania>
+               <nazwa>Transmisja - ePUAP</nazwa>
+               <nrid>41</nrid>
+            </sposobPrzeslania>
+            <sposobPrzeslania>
+               <nazwa>Paczka</nazwa>
+               <nrid>42</nrid>
+            </sposobPrzeslania>
+            <sposobPrzeslania>
+               <nazwa>PUE</nazwa>
+               <nrid>75</nrid>
+            </sposobPrzeslania>
+            <sposobPrzeslania>
+               <nazwa>EGZAMINY</nazwa>
+               <nrid>78</nrid>
             </sposobPrzeslania>
          </return>
       </ns1:wyszukajSposobyPrzeslaniaResponse>

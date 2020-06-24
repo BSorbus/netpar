@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200204074552) do
+ActiveRecord::Schema.define(version: 20200624074428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "unaccent"
   enable_extension "pg_trgm"
+  enable_extension "unaccent"
 
   create_table "api_keys", force: :cascade do |t|
     t.string   "name"
@@ -276,11 +276,21 @@ ActiveRecord::Schema.define(version: 20200204074552) do
     t.datetime "updated_at",                                                     null: false
     t.integer  "zgoda",                                          default: 1
     t.integer  "tajemnica",                                      default: 1
+    t.integer  "document_id"
   end
 
   add_index "esod_incoming_letters", ["esod_address_id"], name: "index_esod_incoming_letters_on_esod_address_id", using: :btree
   add_index "esod_incoming_letters", ["esod_contractor_id"], name: "index_esod_incoming_letters_on_esod_contractor_id", using: :btree
   add_index "esod_incoming_letters", ["tytul"], name: "index_esod_incoming_letters_on_tytul", using: :btree
+
+  create_table "esod_incoming_letters_documents", force: :cascade do |t|
+    t.integer  "esod_incoming_letter_id"
+    t.integer  "document_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "esod_incoming_letters_documents", ["esod_incoming_letter_id", "document_id"], name: "esod_incoming_letters_documents_uniq", unique: true, using: :btree
 
   create_table "esod_incoming_letters_matters", force: :cascade do |t|
     t.integer "esod_incoming_letter_id"
@@ -314,9 +324,19 @@ ActiveRecord::Schema.define(version: 20200204074552) do
     t.integer  "netpar_user"
     t.datetime "created_at",                                                             null: false
     t.datetime "updated_at",                                                             null: false
+    t.integer  "document_id"
   end
 
   add_index "esod_internal_letters", ["tytul"], name: "index_esod_internal_letters_on_tytul", using: :btree
+
+  create_table "esod_internal_letters_documents", force: :cascade do |t|
+    t.integer  "esod_internal_letter_id"
+    t.integer  "document_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "esod_internal_letters_documents", ["esod_internal_letter_id", "document_id"], name: "esod_internal_letters_documents_uniq", unique: true, using: :btree
 
   create_table "esod_internal_letters_matters", force: :cascade do |t|
     t.integer "esod_internal_letter_id"
@@ -404,6 +424,15 @@ ActiveRecord::Schema.define(version: 20200204074552) do
 
   add_index "esod_outgoing_letters", ["tytul"], name: "index_esod_outgoing_letters_on_tytul", using: :btree
 
+  create_table "esod_outgoing_letters_documents", force: :cascade do |t|
+    t.integer  "esod_outgoing_letter_id"
+    t.integer  "document_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "esod_outgoing_letters_documents", ["esod_outgoing_letter_id", "document_id"], name: "esod_outgoing_letters_documents_uniq", unique: true, using: :btree
+
   create_table "esod_outgoing_letters_matters", force: :cascade do |t|
     t.integer "esod_outgoing_letter_id"
     t.integer "esod_matter_id"
@@ -478,11 +507,16 @@ ActiveRecord::Schema.define(version: 20200204074552) do
     t.integer  "max_examinations"
     t.string   "province_name",             limit: 50, default: ""
     t.integer  "proposals_important_count",            default: 0
+    t.string   "info",                                 default: ""
   end
 
   add_index "exams", ["category"], name: "index_exams_on_category", using: :btree
   add_index "exams", ["date_exam"], name: "index_exams_on_date_exam", using: :btree
+  add_index "exams", ["info"], name: "exams_info_idx", using: :gin
   add_index "exams", ["number", "category"], name: "index_exams_on_number_and_category", unique: true, using: :btree
+  add_index "exams", ["number"], name: "exams_number_idx", using: :gin
+  add_index "exams", ["place_exam"], name: "exams_place_exam_idx", using: :gin
+  add_index "exams", ["province_name"], name: "exams_province_name_idx", using: :gin
   add_index "exams", ["user_id"], name: "index_exams_on_user_id", using: :btree
 
   create_table "exams_divisions", force: :cascade do |t|

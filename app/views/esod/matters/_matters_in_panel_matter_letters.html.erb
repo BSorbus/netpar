@@ -54,9 +54,52 @@
                     <div class="row">
                       <div class="form-group col-sm-12">
                         <%= f.label :uwagi, class: 'control-label' %>
-                        <%= f.text_area :uwagi, rows: 4, class: 'form-control input-sm' %>
+                        <%= f.text_area :uwagi, rows: 2, class: 'form-control input-sm' %>
                       </div>
                     </div>  <!-- /row -->
+
+                    <% if esod_incoming_letter.class.reflect_on_association(:documents).present? %>
+                      <div class="row">
+                        <div class="form-group col-sm-12">
+
+                          <fieldset class="my-fieldset">
+                            <legend class="my-fieldset">Załącz "Odwzorowanie"</legend>
+
+                            <%= f.collection_radio_buttons :document_id, matterable.documents.all, :id, :fileattach_filename do |rb| %>
+<!-- 
+                            <%#= f.collection_radio_buttons :document_id, 
+                                                            matterable.documents.all, 
+                                                            :id, :fileattach_filename, 
+                                                            { checked: matterable.documents.any? ? matterable.documents.last.id : nil  } do |rb| %>
+ -->
+                              <%= rb.radio_button %>
+                              <%= rb.label %>
+                              <br>
+                            <% end %>
+
+                          </fieldset>
+
+                        </div>
+                      </div>  <!-- /row -->
+
+                      <div class="row">
+                        <div class="form-group col-sm-12">
+
+                          <fieldset class="my-fieldset">
+                            <legend class="my-fieldset">Załącz pliki do pisma</legend>
+
+                            <%= f.collection_check_boxes :document_ids, matterable.documents.all, :id, :fileattach_filename do |cb| %>
+                              <%= cb.check_box %>
+                              <%= cb.label %>
+                              <br>
+                            <% end %>
+
+                          </fieldset>
+
+                        </div>
+                      </div>  <!-- /row -->
+                    <% end %>
+
 
                     <% if matterable.has_attribute?(:customer_id) %> 
                       <div class="row">
@@ -160,7 +203,7 @@
             <div class="col-sm-11">
               <br>
 
-              <%= form_for([matterable, @esod_outgoing_letter]) do |f| %>
+              <%= form_for([matterable, esod_outgoing_letter]) do |f| %>
 
                 <div class="row">
                   <div class="col-sm-6">
@@ -179,9 +222,46 @@
                     <div class="row">
                       <div class="form-group col-sm-12">
                         <%= f.label :uwagi, class: 'control-label' %>
-                        <%= f.text_area :uwagi, rows: 4, class: 'form-control input-sm' %>
+                        <%= f.text_area :uwagi, rows: 2, class: 'form-control input-sm' %>
                       </div>
                     </div>  <!-- /row -->
+
+                    <% if esod_outgoing_letter.class.reflect_on_association(:documents).present? %>
+                      <div class="row">
+                        <div class="form-group col-sm-12">
+
+                          <fieldset class="my-fieldset">
+                            <legend class="my-fieldset">Załącz "Odwzorowanie"</legend>
+
+                            <%= f.collection_radio_buttons :document_id, matterable.documents.all, :id, :fileattach_filename do |rb| %>
+
+                              <%= rb.radio_button %>
+                              <%= rb.label %>
+                              <br>
+                            <% end %>
+
+                          </fieldset>
+
+                        </div>
+                      </div>  <!-- /row -->
+
+                      <div class="row">
+                        <div class="form-group col-sm-12">
+
+                          <fieldset class="my-fieldset">
+                            <legend class="my-fieldset">Załącz pliki do pisma</legend>
+
+                            <%= f.collection_check_boxes :document_ids, matterable.documents.all, :id, :fileattach_filename do |cb| %>
+                              <%= cb.check_box %>
+                              <%= cb.label %>
+                              <br>
+                            <% end %>
+
+                          </fieldset>
+
+                        </div>
+                      </div>  <!-- /row -->
+                    <% end %>
 
                     <% if matterable.has_attribute?(:customer_id) %> 
                       <div class="row">
@@ -226,17 +306,22 @@
                       </div>
                     </div>  <!-- /row -->
 
-                    <% if matterable.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).any? %> 
+<!-- 
+
+                    <%# if matterable.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).any? %> 
                       <div class="row">
                         <div class="col-sm-12">
                           <p><strong>Załącz do pisma:</strong></p>
                         </div>
                         <div class="form-group col-sm-12">
-                          <%= check_box_tag "esod_outgoing_letter[document_id]", matterable.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last.id, true %>&nbsp;&nbsp;
-                          <%= matterable.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last.fileattach_filename %>
+                          <%#= check_box_tag "esod_outgoing_letter[document_id]", matterable.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last.id, true %>&nbsp;&nbsp;
+                          <%#= matterable.documents.where(fileattach_content_type: ['image/jpeg', 'image/png', 'application/pdf']).last.fileattach_filename %>
                         </div>
                       </div>
-                    <% end %>
+                    <%# end %>
+
+
+ -->
 
                   </div> <!-- /col-sm-6 -->
 
@@ -260,7 +345,7 @@
             <div class="col-sm-11">
               <br>
 
-              <%= form_for([matterable, @esod_internal_letter]) do |f| %>
+              <%= form_for([matterable, esod_internal_letter]) do |f| %>
 
                 <div class="row">
                   <div class="col-sm-6">
@@ -273,9 +358,46 @@
                     <div class="row">
                       <div class="form-group col-sm-12">
                         <%= f.label :uwagi, class: 'control-label' %>
-                        <%= f.text_area :uwagi, rows: 4, class: 'form-control input-sm' %>
+                        <%= f.text_area :uwagi, rows: 2, class: 'form-control input-sm' %>
                       </div>
                     </div>  <!-- /row -->
+
+                    <% if esod_internal_letter.class.reflect_on_association(:documents).present? %>
+                      <div class="row">
+                        <div class="form-group col-sm-12">
+
+                          <fieldset class="my-fieldset">
+                            <legend class="my-fieldset">Załącz "Odwzorowanie"</legend>
+
+                            <%= f.collection_radio_buttons :document_id, matterable.documents.all, :id, :fileattach_filename do |rb| %>
+                              <%= rb.radio_button %>
+                              <%= rb.label %>
+                              <br>
+                            <% end %>
+
+                          </fieldset>
+
+                        </div>
+                      </div>  <!-- /row -->
+
+                      <div class="row">
+                        <div class="form-group col-sm-12">
+
+                          <fieldset class="my-fieldset">
+                            <legend class="my-fieldset">Załącz pliki do pisma</legend>
+
+                            <%= f.collection_check_boxes :document_ids, matterable.documents.all, :id, :fileattach_filename do |cb| %>
+                              <%= cb.check_box %>
+                              <%= cb.label %>
+                              <br>
+                            <% end %>
+
+                          </fieldset>
+
+                        </div>
+                      </div>  <!-- /row -->
+                    <% end %>
+
                   </div>  <!-- /col-sm-6 -->
 
                   <div class="col-sm-6">

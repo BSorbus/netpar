@@ -43,7 +43,7 @@ class EsodInternalLettersController < ApplicationController
     def esod_internal_letter_params
       params.require(:esod_internal_letter).permit(:nrid, :numer_ewidencyjny, :tytul, :uwagi, :identyfikator_rodzaju_dokumentu_wewnetrznego, 
         :identyfikator_typu_dcmd, :identyfikator_dostepnosci_dokumentu, :pelna_wersja_cyfrowa, :data_utworzenia, :identyfikator_osoby_tworzacej, 
-        :data_modyfikacji, :identyfikator_osoby_modyfikujacej, :initialized_from_esod, :netpar_user)
+        :data_modyfikacji, :identyfikator_osoby_modyfikujacej, :initialized_from_esod, :netpar_user, :document_id, document_ids: [])
     end
 
 

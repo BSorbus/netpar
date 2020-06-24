@@ -2,7 +2,12 @@ class Esod::OutgoingLetter < ActiveRecord::Base
   has_many :esod_outgoing_letters_matters, class_name: 'Esod::OutgoingLettersMatter', foreign_key: :esod_outgoing_letter_id 
   has_many :esod_matters, through: :esod_outgoing_letters_matters
 
+  has_many :esod_outgoing_letters_documents, class_name: 'Esod::OutgoingLettersDocument', foreign_key: :esod_outgoing_letter_id 
+  has_many :documents, through: :esod_outgoing_letters_documents
+
   has_many :works, as: :trackable, source_type: 'Esod::OutgoingLetter'
+
+  accepts_nested_attributes_for :esod_outgoing_letters_documents, reject_if: :all_blank, allow_destroy: true
 
   def fullname
     "#{self.esod_outgoing_letters_matters.last.sygnatura}"
@@ -39,6 +44,23 @@ class Esod::OutgoingLetter < ActiveRecord::Base
     else
       2
     end
+  end
+
+  def zalaczniki
+    zalaczniki_array = []
+
+    self.documents.each do |row|
+
+      zalaczniki_array <<  {
+                              # "idKategorii" => "#{Esodes::esod_attached_file_category(row.fileattach_content_type)}",
+                              "idKategorii" => 4,
+                              "nazwa" => "#{row.fileattach_filename}",
+                              "tresc" => Base64.strict_encode64(row.fileattach.read)
+                            }
+
+    end
+
+    return zalaczniki_array
   end
 
   def push_soap_and_save(matter)
@@ -92,7 +114,8 @@ class Esod::OutgoingLetter < ActiveRecord::Base
           "czyAdresGlowny" => true,
           "identyfikatorAdresu" => "#{self.identyfikator_adresu}",
           "identyfikatorSposobuWysylki" => "#{self.identyfikator_sposobu_wysylki}"
-        }
+        },
+        "zalacznik" => JSON.parse(self.zalaczniki.to_json)
       }
     }
 

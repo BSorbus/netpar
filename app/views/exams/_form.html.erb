@@ -32,19 +32,23 @@
     </div>  <!-- /row -->
 
     <div class="row">
-      <div class="form-group col-sm-12">
+      <div class="form-group col-sm-6">
         <%= f.label :place_exam, class: 'control-label' %>
         <%= f.text_field :place_exam, class: 'form-control input-sm', disabled: input_disabled %>
       </div>
-    </div>  <!-- /row -->
-
-    <div class="row">
-      <div class="form-group col-sm-9">
+      <div class="form-group col-sm-6">
         <%= f.label :province_id, class: "control-label" %>
         <%= f.hidden_field :province_id,
                           class: "form-control input-sm province_select", 
                           placeholder: "Wybierz województwo",
                           style: "width:100%" %>
+      </div>
+    </div>  <!-- /row -->
+
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <%= f.label :info, class: 'control-label' %>
+        <%= f.text_field :info, class: 'form-control input-sm', placeholder: t("placeholder_text.exam_#{params[:category_service]}.form.info"), disabled: input_disabled %>
       </div>
 
       <div class="form-group col-sm-3">
@@ -103,11 +107,11 @@
       <legend class="my-fieldset"><%= ExamsDivision.model_name.human %></legend>
 
       <%= f.collection_check_boxes :division_ids, Division.only_category_scope(params[:category_service].upcase).only_not_exclude_for_internet.order(:id).all, :id, :name do |b| %>
-        <ul>
-          <%= b.check_box %>
-          <%= b.label %>
-        </ul>
+        <%= b.check_box %>
+        <%= b.label %>
+        <br>
       <% end %>
+
     </fieldset>
   </div> <!-- /col-sm-5 -->
 

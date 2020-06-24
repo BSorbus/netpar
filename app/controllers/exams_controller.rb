@@ -485,6 +485,6 @@ class ExamsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def exam_params
-      params.require(:exam).permit(:esod_category, :number, :date_exam, :place_exam, :chairman, :secretary, :category, :note, :user_id, :province_id, :max_examinations, examiners_attributes: [:id, :name, :_destroy], division_ids: [])
+      params.require(:exam).permit(:esod_category, :number, :date_exam, :place_exam, :info, :chairman, :secretary, :category, :note, :user_id, :province_id, :max_examinations, examiners_attributes: [:id, :name, :_destroy], division_ids: [])
     end
 end

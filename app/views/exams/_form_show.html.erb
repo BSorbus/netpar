@@ -37,6 +37,13 @@
     </div>  <!-- /row -->
 
     <div class="row">
+      <div class="form-group col-sm-6">
+        <p><strong><%= Exam.human_attribute_name(:info) %></strong></p>
+        <h5><%= @exam.info %></h5>
+      </div>
+    </div>  <!-- /row -->
+
+    <div class="row">
       <div class="form-group col-sm-3">
         <p><strong><%= Exam.human_attribute_name(:max_examinations) %></strong></p>
         <h5><%= @exam.max_examinations %></h5>
