@@ -9,9 +9,9 @@
         <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_data">
           <div class="panel-heading">
             <div class="panel-title">
-              <span class='<%= t("pages.statistic_exams.model_icon") %>'></span>&nbsp;
-              <span class='<%= t("pages.exam_#{params[:category_service]}.model_icon") %>'></span>&nbsp;
-              <%=t "pages.exam_#{params[:category_service]}.statistic_filter.title"%></span>
+              <span class='<%= t("pages.statistic_certificates.model_icon") %>'></span>&nbsp;
+              <span class='<%= t("pages.certificate_#{params[:category_service]}.model_icon") %>'></span>&nbsp;
+              <%=t "pages.certificate_#{params[:category_service]}.statistic_filter.title"%></span>
               <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
             </div> 
           </div>
@@ -19,16 +19,15 @@
         <div id="collapse_data" class="panel-collapse collapse in"> <!-- id="collapse_data" -->
           <div class="panel-body">         
             <div class="col-sm-11 col-sm-offset-1">
-              <%= form_tag({controller: "/exams", category_service: params[:category_service], action: "statistic_to_pdf", format: "pdf"}, method: "get") do %>
+              <%= form_tag({controller: "/certificates", category_service: params[:category_service], action: "statistic_to_pdf", format: "pdf"}, method: "get") do %>
 
                 <div class="row">
 
                   <div class="col-sm-5">
                     <blockquote class="bg-success">
-                      <p class="text-muted">Statystyka</p>
-                      <p class="bg-success">Wykaz zawiera informacje statystyczne sesji egzaminacyjnych 
-                        (lub bezegzaminacyjnych/z egazaminem poza UKE) za okres "Data od" - "Data do" 
-                        z podziałem na typy świadectw, rodzaje sesji, wniosków, itd.
+                      <p class="text-muted">Raport</p>
+                      <p class="bg-success">Wykaz zawiera listę wydanych świadectw z datą wydania "Data od" - "Data do",  
+                        z podziałem na typy świadectw.
                       </p>
                     </blockquote>
                   </div> <!-- /.col-sm-5 -->              

@@ -42,6 +42,8 @@ Rails.application.routes.draw do
       get 'search', on: :collection
       get 'certificate_to_pdf', on: :member
       post 'esod_matter_link', on: :member
+      get 'statistic_filter', on: :collection
+      get 'statistic_to_pdf', on: :collection
     end
     resources :exams do
       post 'datatables_index', on: :collection

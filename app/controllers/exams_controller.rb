@@ -204,7 +204,7 @@ class ExamsController < ApplicationController
 
     if (params[:date_start]).blank? || (params[:date_end]).blank?
       flash_message :error, 'Musisz zdefiniować parametry "Data od" i "Data do"'
-      render :statistic_filter
+      render 'statistic_filter.html.erb'
     else
       respond_to do |format|
         format.pdf do

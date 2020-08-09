@@ -102,6 +102,36 @@ class CertificatesController < ApplicationController
     end 
   end
 
+  # GET /:category_service/statistic_filter
+  def statistic_filter
+    certificate_authorize(:certificate, "print", params[:category_service])
+
+    respond_to do |format|
+      format.html { render :statistic_filter }
+    end
+  end
+
+  # GET /:category_service/statistic_filter
+  def statistic_to_pdf
+    certificate_authorize(:certificate, "print", params[:category_service])
+
+    if (params[:date_start]).blank? || (params[:date_end]).blank?
+      flash_message :error, 'Musisz zdefiniować parametry "Data od" i "Data do"'
+      render 'statistic_filter.html.erb'
+    else
+      respond_to do |format|
+        format.pdf do
+          pdf = PdfCertificateStatistic.new(params[:category_service], params[:date_start], params[:date_end], view_context)
+          send_data pdf.render,
+          filename: "Report_#{params[:category_service]}_#{params[:date_start]}_#{params[:date_end]}.pdf",
+          type: "application/pdf",
+          disposition: "inline"
+        end
+      end
+    end
+  end
+
+
   # GET /certificates/1
   # GET /certificates/1.json
   def show

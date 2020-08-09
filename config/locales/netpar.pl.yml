@@ -54,6 +54,8 @@ pl:
         title: 'Świadectwo LOT - edycja danych'
       new:
         title: ' Nowe Świadectwo - LOT'
+      statistic_filter:
+        title: 'Raport LOT'
     certificate_m:
       model_icon: 'fa fa-ship'
       index:
@@ -64,6 +66,8 @@ pl:
         title: 'Świadectwo MOR - edycja danych'
       new:
         title: ' Nowe Świadectwo - MOR'
+      statistic_filter:
+        title: 'Raport MOR'
     certificate_r:
       model_icon: 'fa fa-podcast'
       index:
@@ -74,6 +78,8 @@ pl:
         title: 'Świadectwo RA - edycja danych'
       new:
         title: ' Nowe Świadectwo - RA'
+      statistic_filter:
+        title: 'Raport RA'
     exam:
       model_icon: 'fa fa-graduation-cap'
       index:
@@ -152,6 +158,8 @@ pl:
         title: 'Sesje RA'
     charts_certificates:
       model_icon: 'fa fa-line-chart'
+    statistic_certificates:
+      model_icon: 'fa fa-list-ol'
     statistic_exams:
       model_icon: 'fa fa-signal'
     proposal:
@@ -301,6 +309,9 @@ pl:
     exams_l: 'Sesje LOT'
     exams_m: 'Sesje MOR'
     exams_r: 'Sesje RA'
+    statistic_certificates_l: 'Raport LOT'
+    statistic_certificates_m: 'Raport MOR'
+    statistic_certificates_r: 'Raport RA'
     statistic_exams_l: 'Statystyka LOT'
     statistic_exams_m: 'Statystyka MOR'
     statistic_exams_r: 'Statystyka RA'
