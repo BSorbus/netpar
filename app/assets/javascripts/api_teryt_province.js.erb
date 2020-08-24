@@ -1,0 +1,79 @@
+//document.addEventListener('turbolinks:load', function() {
+$(document).ready(function() {
+
+  // Provinces
+  function provinceFormatResult(item, container, query, escapeMarkup) {
+    if (isEmpty(item.id)) {
+      return "";
+    } else {
+      return  markMatch(item.data_obj.name, query.term) + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.data_obj.id + '&nbsp]</span>';
+    }
+  };
+  function provinceFormatSelection(item) {
+    if (isEmpty(item.id)) {
+      return "";
+    } else {
+      return  item.data_obj.name + '&nbsp&nbsp<span class="pull-right">[&nbsp' + item.data_obj.id + '&nbsp]</span>';
+    }
+  };
+
+  $('.select2teryt_provinces').select2({
+    minimumInputLength: 0,
+    allowClear: false,
+    ajax: {
+      url: "/api_teryt/provinces.json",
+      dataType: 'json',
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 100,
+          page: page
+        }
+      },
+      // results: function(data, page) {
+      //   return { results: data, more: false };
+      // }
+      results: function(data, page) {
+        //var more = (page * 16) < data.total_count;
+        var more = (page * 100) < data.total;
+        var provinces = $.map(data.items, function(province, i) {
+          return { data_obj: province, id: province.id, text: province.name };
+        });
+        return { results: provinces, more: more };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/api_teryt/provinces/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            //callback({ data_obj: data_from_json, id: data_from_json.id, text: 'data_from_json.cityName' });
+            callback({ data_obj: data_from_json, id: data_from_json.combineId });
+        });
+      }
+    },
+    formatResult: provinceFormatResult, // omitted for brevity, see the source of this page
+    formatSelection: provinceFormatSelection, // omitted for brevity, see the source of this page
+    dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+    escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+  })
+  .on("select2-selecting", function(e) {
+    //$("#yourSelector").select2("data", { id: 1, text: "Some Text" });
+    //$("#district_id_select").select2("val", "")
+    //$("#district_id_select").select2("readonly", false);
+    //document.getElementById("id_submit_button").disabled = true; 
+  });
+
+
+});
+

@@ -57,6 +57,7 @@ Rails.application.routes.draw do
       post 'esod_matter_link', on: :member
       get 'statistic_filter', on: :collection
       get 'statistic_to_pdf', on: :collection
+      get 'statistic2_to_pdf', on: :collection
     end
     resources :examinations do
       post 'datatables_index_exam', on: :collection # for Exam
@@ -141,6 +142,11 @@ Rails.application.routes.draw do
 
   get '/pit_teryt/provinces/:id',           to: 'pit_teryt#province_show'
   get '/pit_teryt/provinces_select2_index', to: 'pit_teryt#provinces_select2_index'
+
+  get '/api_teryt/items',                   to: 'api_teryt#items'
+  get '/api_teryt/items/:id',               to: 'api_teryt#item_show'
+  get '/api_teryt/provinces_select2_index', to: 'api_teryt#provinces_select2_index'
+  get '/api_teryt/provinces/:id',           to: 'api_teryt#province_show'
 
 
   namespace :esod do

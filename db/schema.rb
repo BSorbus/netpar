@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200624074428) do
+ActiveRecord::Schema.define(version: 20200818110819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -664,6 +664,7 @@ ActiveRecord::Schema.define(version: 20200624074428) do
     t.string   "street_code",            limit: 20,                          default: ""
     t.string   "street_name",            limit: 50,                          default: ""
     t.string   "street_attribute",       limit: 20,                          default: ""
+    t.string   "address_combine_id",     limit: 26,                          default: "",  null: false
   end
 
   add_index "proposals", ["category"], name: "index_proposals_on_category", using: :btree

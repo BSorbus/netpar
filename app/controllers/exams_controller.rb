@@ -218,6 +218,25 @@ class ExamsController < ApplicationController
     end
   end
 
+  # GET /:category_service/statistic_filter
+  def statistic2_to_pdf
+    exam_authorize(:exam, "print", params[:category_service])
+
+    if (params[:date_start2]).blank? || (params[:date_end2]).blank? || (params[:max_day]).blank?
+      flash_message :error, 'Musisz zdefiniować parametry "Data od", "Data do" oraz "Ilość dni - wskaźnik"'
+      render 'statistic_filter.html.erb'
+    else
+      respond_to do |format|
+        format.pdf do
+          pdf = PdfExamStatistic2.new(params[:category_service], params[:date_start2], params[:date_end2], params[:max_day], view_context)
+          send_data pdf.render,
+          filename: "Statistic2_#{params[:category_service]}_#{params[:date_start2]}_#{params[:date_end2]}_#{params[:max_day]}_dni.pdf",
+          type: "application/pdf",
+          disposition: "inline"
+        end
+      end
+    end
+  end
 
   def committee_docx
     exam_authorize(@exam, "edit", params[:category_service])

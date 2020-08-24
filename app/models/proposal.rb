@@ -107,17 +107,17 @@ class Proposal < ActiveRecord::Base
           egzaminy_proposal_obj = EgzaminyProposal.new(multi_app_identifier: self.multi_app_identifier, egzaminy_proposal: JSON.parse(self.to_json) )
           response = egzaminy_proposal_obj.request_update
           rescue *HTTP_ERRORS => e
-            Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push - API ERROR" (1) ====')
+            Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push - API ERROR" (1) =======')
             Rails.logger.error("#{e}")
             errors.add(:base, "#{e}")
-            Rails.logger.error('=============================================================================')
+            Rails.logger.error('================================================================================')
             raise ActiveRecord::Rollback, "#{e}"
             false
           rescue StandardError => e
-            Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push - API ERROR" (2) ====')
+            Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push - API ERROR" (2) =======')
             Rails.logger.error("#{e}")
             errors.add(:base, "#{e}")
-            Rails.logger.error('=============================================================================')
+            Rails.logger.error('================================================================================')
             raise ActiveRecord::Rollback, "#{e}"
             false
           else
@@ -126,24 +126,24 @@ class Proposal < ActiveRecord::Base
               save!
               true   # success response
             when Net::HTTPClientError, Net::HTTPInternalServerError
-              Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push" (3) ================')
+              Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push" (3) ===================')
               Rails.logger.error("code: #{response.code}, message: #{response.message}, body: #{response.body}")
               errors.add(:base, "code: #{response.code}, message: #{response.message}, body: #{response.body}")
-              Rails.logger.error('=============================================================================')
+              Rails.logger.error('================================================================================')
               raise ActiveRecord::Rollback, "code: #{response.code}, message: #{response.message}"
               false
             when response.class != 'String'
-              Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push" (4) ================')
+              Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push" (4) ===================')
               Rails.logger.error("code: #{response.code}, message: #{response.message}, body: #{response.body}")
               errors.add(:base, "code: #{response.code}, message: #{response.message}, body: #{response.body}")
-              Rails.logger.error('=============================================================================')
+              Rails.logger.error('================================================================================')
               raise ActiveRecord::Rollback, "code: #{response.code}, message: #{response.message}, body: #{response.body}"
               false
             else
-              Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push" (5) ================')
+              Rails.logger.error('======== API ERROR "models/proposal/update_rec_and_push" (5) ===================')
               Rails.logger.error("#{response}")
               errors.add(:base, "#{response}")
-              Rails.logger.error('=============================================================================')
+              Rails.logger.error('================================================================================')
               raise ActiveRecord::Rollback, "#{response}"
               false
             end # /case response
