@@ -11,9 +11,8 @@ class PdfExamStatistic2 < Prawn::Document
     super(:page_size => "A4", :page_layout => :portrait)
     #super(:page_size => "A4", :page_layout => :landscape)
     #super()
-    @exams = Exam.where(category: category.upcase, date_exam: date_start..date_end).where.not(esod_category: Esodes::WITHOUT_EXAMINATIONS).order(:date_exam, :number)
-    # @exams_without_examinations = Exam.where(category: category.upcase, date_exam: date_start..date_end, esod_category: Esodes::WITHOUT_EXAMINATIONS).order(:date_exam, :number)
-    @exams_without_examinations = Exam.where(category: category.upcase, date_exam: date_start..date_end).order(:date_exam, :number)
+    @exams_with_examinations =     Exam.where(category: category.upcase, date_exam: date_start..date_end).where.not(esod_category: Esodes::WITHOUT_EXAMINATIONS).order(:date_exam, :number)
+    @exams_without_examinations = Exam.where(category: category.upcase, date_exam: date_start..date_end, esod_category: Esodes::WITHOUT_EXAMINATIONS).order(:date_exam, :number)
     @max_day = max_day
     @date_start = date_start
     @date_end = date_end
@@ -29,7 +28,6 @@ class PdfExamStatistic2 < Prawn::Document
     font "DejaVu Sans", size: 10
 
     bounding_box([0, 710], :width => 525, :height => 699) do 
-    #bounding_box([0, 462], :width => 770, :height => 451) do 
       display_exams_without_examinations_table
     end
 
@@ -44,10 +42,10 @@ class PdfExamStatistic2 < Prawn::Document
 
   def display_exams_without_examinations_table
     #bounding_box([0, 687], :width => 525, :height => 678) do 
-      if table_exams_without_examinations_data.empty?
+      if table_exams_with_examinations_data.empty?
         text "- brak danych -"
       else
-        table( table_exams_without_examinations_data,
+        table( table_exams_with_examinations_data,
               :header => 1,   # True or 1... ilość wierszy jako nagłowek
               #:column_widths => [85, 62, 378], # 525 portrait, 770 landscape
               #:column_widths => [84, 62, 624], # 525 portrait, 770 landscape
@@ -75,18 +73,18 @@ class PdfExamStatistic2 < Prawn::Document
     #end  
   end
 
-  def table_exams_without_examinations_data
+  def table_exams_with_examinations_data
     table_data ||= [
                     ["Sesja",
                      "Data wydania / Ilość dni / ilość świadectw / Wydane świadectwa"]
                     ] + 
-                     @exams_without_examinations.map { |p| [ 
+                     @exams_with_examinations.map { |p| [ 
                         "#{p.number} \n #{p.date_exam}",
                         certificates_date_of_issue_is_ok_sub(p)
                       ] } + 
                     [ ["","<b><i><color rgb='e60000'>zestawienie sumaryczne:</color></i></b>"],
-                     [  "<b><i><color rgb='e60000'>łącznie:  #{@exams_without_examinations.size}</color></i></b>", 
-                        ""    #certificates_date_of_issue_is_ok_sub(@exams_without_examinations)
+                     [  "<b><i><color rgb='e60000'>łącznie:  #{@exams_with_examinations.size}</color></i></b>", 
+                        ""    #certificates_date_of_issue_is_ok_sub(@exams_with_examinations)
                      ]
                     ]
 
