@@ -9,7 +9,7 @@ function setCorrespondenceValuesAndReadOnlyForInPoland() {
   setCorrespondenceReadOnlyForInPoland();
   var id = $("#customer_c_address_select2teryt_items").val();
   if (id) {
-    $.get("/pit_teryt/items/"+id+".json", function(data_from_json) {
+    $.get("/api_teryt/items/"+id+".json", function(data_from_json) {
       if(data_from_json) {
         document.getElementById("customer_c_province_name").value = data_from_json.provinceName;
         document.getElementById("customer_c_province_code").value = data_from_json.provinceCode;
@@ -19,8 +19,8 @@ function setCorrespondenceValuesAndReadOnlyForInPoland() {
         document.getElementById("customer_c_commune_code").value = data_from_json.communeCode;
         document.getElementById("customer_c_city_name").value = data_from_json.cityName;
         document.getElementById("customer_c_city_code").value = data_from_json.cityCode;
-        document.getElementById("customer_c_city_parent_name").value = data_from_json.cityParentName;
-        document.getElementById("customer_c_city_parent_code").value = data_from_json.cityParentCode;
+        document.getElementById("customer_c_city_parent_name").value = data_from_json.parentCityName;
+        document.getElementById("customer_c_city_parent_code").value = data_from_json.parentCityCode;
         document.getElementById("customer_c_street_name").value = data_from_json.streetName;
         document.getElementById("customer_c_street_code").value = data_from_json.streetCode;
         document.getElementById("customer_c_street_attribute").value = data_from_json.streetAttribute;
@@ -29,7 +29,7 @@ function setCorrespondenceValuesAndReadOnlyForInPoland() {
 
         document.getElementById("customer_c_address_city").value = data_from_json.cityName; 
         document.getElementById("customer_c_address_street").value = data_from_json.streetName;
-        document.getElementById("customer_c_address_post_office").value = data_from_json.cityParentName;
+        document.getElementById("customer_c_address_post_office").value = data_from_json.parentCityName;
         document.getElementById("customer_c_address_city").readOnly = true;
         document.getElementById("customer_c_address_street").readOnly = true;
         document.getElementById("customer_c_address_post_office").readOnly = true;        

@@ -137,12 +137,6 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/pit_teryt/items',                   to: 'pit_teryt#items'
-  get '/pit_teryt/items/:id',               to: 'pit_teryt#item_show'
-
-  get '/pit_teryt/provinces/:id',           to: 'pit_teryt#province_show'
-  get '/pit_teryt/provinces_select2_index', to: 'pit_teryt#provinces_select2_index'
-
   get '/api_teryt/items',                   to: 'api_teryt#items'
   get '/api_teryt/items/:id',               to: 'api_teryt#item_show'
   get '/api_teryt/provinces',               to: 'api_teryt#provinces'
