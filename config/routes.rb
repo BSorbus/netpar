@@ -145,7 +145,7 @@ Rails.application.routes.draw do
 
   get '/api_teryt/items',                   to: 'api_teryt#items'
   get '/api_teryt/items/:id',               to: 'api_teryt#item_show'
-  get '/api_teryt/provinces_select2_index', to: 'api_teryt#provinces_select2_index'
+  get '/api_teryt/provinces',               to: 'api_teryt#provinces'
   get '/api_teryt/provinces/:id',           to: 'api_teryt#province_show'
 
 

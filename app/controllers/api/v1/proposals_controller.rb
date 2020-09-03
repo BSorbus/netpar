@@ -63,7 +63,7 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
     def proposal_params
       params.require(:proposal).permit(:multi_app_identifier, :proposal_status_id, :category, :creator_id, 
         :name, :given_names, :pesel, :citizenship_code, :birth_date, :birth_place, :family_name, :phone, :email,
-        :lives_in_poland, :address_id, :address_combine_id, :teryt_code, :province_code, :province_name, :district_code, :district_name,
+        :lives_in_poland, :address_combine_id, :province_code, :province_name, :district_code, :district_name,
         :commune_code, :commune_name, :city_code, :city_name, :city_parent_code, :city_parent_name, :street_code, :street_name, :street_attribute,
         :c_address_house, :c_address_number, :c_address_postal_code,
         :esod_category, :exam_id, :exam_fullname, :exam_date_exam, :division_id, :division_fullname, :division_min_years_old, 

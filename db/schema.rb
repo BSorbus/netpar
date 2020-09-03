@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200818110819) do
+ActiveRecord::Schema.define(version: 20200903100818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,86 +63,78 @@ ActiveRecord::Schema.define(version: 20200818110819) do
   end
 
   create_table "customers", force: :cascade do |t|
-    t.boolean  "human",                                   default: true, null: false
-    t.string   "name",                        limit: 160, default: "",   null: false
-    t.string   "given_names",                 limit: 50,  default: ""
-    t.string   "address_city",                limit: 50,  default: ""
-    t.string   "address_street",              limit: 50,  default: ""
-    t.string   "address_house",               limit: 10,  default: ""
-    t.string   "address_number",              limit: 10,  default: ""
-    t.string   "address_postal_code",         limit: 10,  default: ""
-    t.string   "address_post_office",         limit: 50,  default: ""
-    t.string   "address_pobox",               limit: 10,  default: ""
-    t.string   "c_address_city",              limit: 50,  default: ""
-    t.string   "c_address_street",            limit: 50,  default: ""
-    t.string   "c_address_house",             limit: 10,  default: ""
-    t.string   "c_address_number",            limit: 10,  default: ""
-    t.string   "c_address_postal_code",       limit: 10,  default: ""
-    t.string   "c_address_post_office",       limit: 50,  default: ""
-    t.string   "c_address_pobox",             limit: 10,  default: ""
-    t.string   "nip",                         limit: 13,  default: ""
-    t.string   "regon",                       limit: 9,   default: ""
-    t.string   "pesel",                       limit: 11,  default: ""
+    t.boolean  "human",                             default: true, null: false
+    t.string   "name",                  limit: 160, default: "",   null: false
+    t.string   "given_names",           limit: 50,  default: ""
+    t.string   "address_city",          limit: 50,  default: ""
+    t.string   "address_street",        limit: 50,  default: ""
+    t.string   "address_house",         limit: 10,  default: ""
+    t.string   "address_number",        limit: 10,  default: ""
+    t.string   "address_postal_code",   limit: 10,  default: ""
+    t.string   "address_post_office",   limit: 50,  default: ""
+    t.string   "address_pobox",         limit: 10,  default: ""
+    t.string   "c_address_city",        limit: 50,  default: ""
+    t.string   "c_address_street",      limit: 50,  default: ""
+    t.string   "c_address_house",       limit: 10,  default: ""
+    t.string   "c_address_number",      limit: 10,  default: ""
+    t.string   "c_address_postal_code", limit: 10,  default: ""
+    t.string   "c_address_post_office", limit: 50,  default: ""
+    t.string   "c_address_pobox",       limit: 10,  default: ""
+    t.string   "nip",                   limit: 13,  default: ""
+    t.string   "regon",                 limit: 9,   default: ""
+    t.string   "pesel",                 limit: 11,  default: ""
     t.date     "birth_date"
-    t.string   "birth_place",                 limit: 50,  default: ""
-    t.string   "fathers_name",                limit: 50,  default: ""
-    t.string   "mothers_name",                limit: 50,  default: ""
-    t.string   "family_name",                 limit: 50,  default: ""
-    t.string   "phone",                       limit: 50,  default: ""
-    t.string   "fax",                         limit: 50,  default: ""
-    t.string   "email",                       limit: 50,  default: ""
-    t.text     "note",                                    default: ""
+    t.string   "birth_place",           limit: 50,  default: ""
+    t.string   "fathers_name",          limit: 50,  default: ""
+    t.string   "mothers_name",          limit: 50,  default: ""
+    t.string   "family_name",           limit: 50,  default: ""
+    t.string   "phone",                 limit: 50,  default: ""
+    t.string   "fax",                   limit: 50,  default: ""
+    t.string   "email",                 limit: 50,  default: ""
+    t.text     "note",                              default: ""
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "address_in_poland",                       default: true, null: false
-    t.boolean  "c_address_in_poland",                     default: true, null: false
-    t.integer  "address_teryt_pna_code_id"
-    t.integer  "c_address_teryt_pna_code_id"
     t.string   "citizenship_code"
     t.boolean  "lives_in_poland"
-    t.integer  "address_id"
-    t.string   "teryt_code",                  limit: 20,  default: ""
-    t.string   "province_code",               limit: 20,  default: ""
-    t.string   "province_name",               limit: 50,  default: ""
-    t.string   "district_code",               limit: 20,  default: ""
-    t.string   "district_name",               limit: 50,  default: ""
-    t.string   "commune_code",                limit: 20,  default: ""
-    t.string   "commune_name",                limit: 50,  default: ""
-    t.string   "city_code",                   limit: 20,  default: ""
-    t.string   "city_name",                   limit: 50,  default: ""
-    t.string   "city_parent_code",            limit: 20,  default: ""
-    t.string   "city_parent_name",            limit: 50,  default: ""
-    t.string   "street_code",                 limit: 20,  default: ""
-    t.string   "street_name",                 limit: 50,  default: ""
-    t.string   "street_attribute",            limit: 20,  default: ""
-    t.string   "post_code",                   limit: 20,  default: ""
-    t.string   "post_code_numbers",           limit: 100, default: ""
+    t.string   "province_code",         limit: 20,  default: ""
+    t.string   "province_name",         limit: 50,  default: ""
+    t.string   "district_code",         limit: 20,  default: ""
+    t.string   "district_name",         limit: 50,  default: ""
+    t.string   "commune_code",          limit: 20,  default: ""
+    t.string   "commune_name",          limit: 50,  default: ""
+    t.string   "city_code",             limit: 20,  default: ""
+    t.string   "city_name",             limit: 50,  default: ""
+    t.string   "city_parent_code",      limit: 20,  default: ""
+    t.string   "city_parent_name",      limit: 50,  default: ""
+    t.string   "street_code",           limit: 20,  default: ""
+    t.string   "street_name",           limit: 50,  default: ""
+    t.string   "street_attribute",      limit: 20,  default: ""
+    t.string   "post_code",             limit: 20,  default: ""
+    t.string   "post_code_numbers",     limit: 100, default: ""
     t.boolean  "c_lives_in_poland"
-    t.integer  "c_address_id"
-    t.string   "c_teryt_code",                limit: 20,  default: ""
-    t.string   "c_province_code",             limit: 20,  default: ""
-    t.string   "c_province_name",             limit: 50,  default: ""
-    t.string   "c_district_code",             limit: 20,  default: ""
-    t.string   "c_district_name",             limit: 50,  default: ""
-    t.string   "c_commune_code",              limit: 20,  default: ""
-    t.string   "c_commune_name",              limit: 50,  default: ""
-    t.string   "c_city_code",                 limit: 20,  default: ""
-    t.string   "c_city_name",                 limit: 50,  default: ""
-    t.string   "c_city_parent_code",          limit: 20,  default: ""
-    t.string   "c_city_parent_name",          limit: 50,  default: ""
-    t.string   "c_street_code",               limit: 20,  default: ""
-    t.string   "c_street_name",               limit: 50,  default: ""
-    t.string   "c_street_attribute",          limit: 20,  default: ""
-    t.string   "c_post_code",                 limit: 20,  default: ""
-    t.string   "c_post_code_numbers",         limit: 100, default: ""
+    t.string   "c_province_code",       limit: 20,  default: ""
+    t.string   "c_province_name",       limit: 50,  default: ""
+    t.string   "c_district_code",       limit: 20,  default: ""
+    t.string   "c_district_name",       limit: 50,  default: ""
+    t.string   "c_commune_code",        limit: 20,  default: ""
+    t.string   "c_commune_name",        limit: 50,  default: ""
+    t.string   "c_city_code",           limit: 20,  default: ""
+    t.string   "c_city_name",           limit: 50,  default: ""
+    t.string   "c_city_parent_code",    limit: 20,  default: ""
+    t.string   "c_city_parent_name",    limit: 50,  default: ""
+    t.string   "c_street_code",         limit: 20,  default: ""
+    t.string   "c_street_name",         limit: 50,  default: ""
+    t.string   "c_street_attribute",    limit: 20,  default: ""
+    t.string   "c_post_code",           limit: 20,  default: ""
+    t.string   "c_post_code_numbers",   limit: 100, default: ""
+    t.string   "address_combine_id",    limit: 26,  default: ""
+    t.string   "c_address_combine_id",  limit: 26,  default: ""
   end
 
   add_index "customers", ["address_city"], name: "index_customers_on_address_city", using: :btree
   add_index "customers", ["address_street"], name: "index_customers_on_address_street", using: :btree
-  add_index "customers", ["address_teryt_pna_code_id"], name: "index_customers_on_address_teryt_pna_code_id", using: :btree
   add_index "customers", ["birth_date"], name: "index_customers_on_birth_date", using: :btree
-  add_index "customers", ["c_address_teryt_pna_code_id"], name: "index_customers_on_c_address_teryt_pna_code_id", using: :btree
   add_index "customers", ["given_names"], name: "index_customers_on_given_names", using: :btree
   add_index "customers", ["name"], name: "index_customers_on_name", using: :btree
   add_index "customers", ["nip"], name: "index_customers_on_nip", using: :btree
@@ -503,11 +495,11 @@ ActiveRecord::Schema.define(version: 20200818110819) do
     t.integer  "examinations_count",                   default: 0
     t.integer  "certificates_count",                   default: 0
     t.integer  "esod_category"
-    t.integer  "province_id"
     t.integer  "max_examinations"
     t.string   "province_name",             limit: 50, default: ""
     t.integer  "proposals_important_count",            default: 0
     t.string   "info",                                 default: ""
+    t.string   "province_id",               limit: 2,  default: "",  null: false
   end
 
   add_index "exams", ["category"], name: "index_exams_on_category", using: :btree
@@ -588,25 +580,6 @@ ActiveRecord::Schema.define(version: 20200818110819) do
 
   add_index "old_passwords", ["password_archivable_type", "password_archivable_id"], name: "index_password_archivable", using: :btree
 
-  create_table "pna_codes", force: :cascade do |t|
-    t.string   "pna"
-    t.string   "miejscowosc"
-    t.string   "ulica"
-    t.string   "numery"
-    t.string   "wojewodztwo"
-    t.string   "powiat"
-    t.string   "gmina"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "pna_codes", ["gmina"], name: "index_pna_codes_on_gmina", using: :btree
-  add_index "pna_codes", ["miejscowosc", "ulica"], name: "index_pna_codes_on_miejscowosc_and_ulica", using: :btree
-  add_index "pna_codes", ["miejscowosc"], name: "index_pna_codes_on_miejscowosc", using: :btree
-  add_index "pna_codes", ["pna"], name: "index_pna_codes_on_pna", using: :btree
-  add_index "pna_codes", ["powiat"], name: "index_pna_codes_on_powiat", using: :btree
-  add_index "pna_codes", ["wojewodztwo"], name: "index_pna_codes_on_wojewodztwo", using: :btree
-
   create_table "proposal_statuses", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -649,8 +622,6 @@ ActiveRecord::Schema.define(version: 20200818110819) do
     t.string   "citizenship_code",                                           default: ""
     t.text     "consent_pdf_blob_path"
     t.boolean  "lives_in_poland"
-    t.integer  "address_id"
-    t.string   "teryt_code",             limit: 20,                          default: ""
     t.string   "province_code",          limit: 20,                          default: ""
     t.string   "province_name",          limit: 50,                          default: ""
     t.string   "district_code",          limit: 20,                          default: ""
@@ -664,7 +635,7 @@ ActiveRecord::Schema.define(version: 20200818110819) do
     t.string   "street_code",            limit: 20,                          default: ""
     t.string   "street_name",            limit: 50,                          default: ""
     t.string   "street_attribute",       limit: 20,                          default: ""
-    t.string   "address_combine_id",     limit: 26,                          default: "",  null: false
+    t.string   "address_combine_id",     limit: 26,                          default: ""
   end
 
   add_index "proposals", ["category"], name: "index_proposals_on_category", using: :btree
@@ -713,101 +684,6 @@ ActiveRecord::Schema.define(version: 20200818110819) do
   end
 
   add_index "subjects", ["division_id"], name: "index_subjects_on_division_id", using: :btree
-
-  create_table "teryt_pna_codes", force: :cascade do |t|
-    t.string   "woj",            limit: 2
-    t.string   "woj_nazwa",      limit: 36
-    t.string   "pow",            limit: 2
-    t.string   "pow_nazwa",      limit: 36
-    t.string   "gmi",            limit: 2
-    t.string   "gmi_nazwa",      limit: 36
-    t.string   "nazdod",         limit: 50
-    t.string   "rodz_gmi",       limit: 1
-    t.string   "rodz_gmi_nazwa"
-    t.string   "rm",             limit: 2
-    t.string   "rm_nazwa",       limit: 56
-    t.string   "sym",            limit: 7
-    t.string   "sym_nazwa",      limit: 56
-    t.string   "sympod",         limit: 7
-    t.string   "sympod_nazwa"
-    t.string   "sym_ul",         limit: 5
-    t.string   "mie_nazwa",      limit: 115
-    t.string   "uli_nazwa"
-    t.string   "cecha",          limit: 5
-    t.string   "nazwa_1",        limit: 100
-    t.string   "nazwa_2",        limit: 100
-    t.date     "stan_na"
-    t.string   "teryt",                      null: false
-    t.string   "pna",            limit: 6
-    t.string   "numery"
-    t.string   "pna_teryt"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
-
-  add_index "teryt_pna_codes", ["gmi_nazwa"], name: "teryt_pna_codes_gmi_nazwa_idx", using: :gin
-  add_index "teryt_pna_codes", ["mie_nazwa"], name: "teryt_pna_codes_mie_nazwa_idx", using: :gin
-  add_index "teryt_pna_codes", ["pna"], name: "teryt_pna_codes_pna_idx", using: :gin
-  add_index "teryt_pna_codes", ["pow_nazwa"], name: "teryt_pna_codes_pow_nazwa_idx", using: :gin
-  add_index "teryt_pna_codes", ["uli_nazwa"], name: "teryt_pna_codes_uli_nazwa_idx", using: :gin
-  add_index "teryt_pna_codes", ["woj_nazwa"], name: "teryt_pna_codes_woj_nazwa_idx", using: :gin
-
-  create_table "teryt_simc_codes", force: :cascade do |t|
-    t.string   "woj",        limit: 2
-    t.string   "pow",        limit: 2
-    t.string   "gmi",        limit: 2
-    t.string   "rodz_gmi",   limit: 1
-    t.string   "rm",         limit: 2
-    t.string   "mz",         limit: 1
-    t.string   "nazwa",      limit: 56
-    t.string   "sym",        limit: 7
-    t.string   "sympod",     limit: 7
-    t.date     "stan_na"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-  end
-
-  add_index "teryt_simc_codes", ["gmi"], name: "index_teryt_simc_codes_on_gmi", using: :btree
-  add_index "teryt_simc_codes", ["pow"], name: "index_teryt_simc_codes_on_pow", using: :btree
-  add_index "teryt_simc_codes", ["sym"], name: "index_teryt_simc_codes_on_sym", using: :btree
-  add_index "teryt_simc_codes", ["sympod"], name: "index_teryt_simc_codes_on_sympod", using: :btree
-  add_index "teryt_simc_codes", ["woj"], name: "index_teryt_simc_codes_on_woj", using: :btree
-
-  create_table "teryt_terc_codes", force: :cascade do |t|
-    t.string   "woj",        limit: 2
-    t.string   "pow",        limit: 2
-    t.string   "gmi",        limit: 2
-    t.string   "rodz",       limit: 1
-    t.string   "nazwa",      limit: 36
-    t.string   "nazdod",     limit: 50
-    t.date     "stan_na"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-  end
-
-  add_index "teryt_terc_codes", ["gmi"], name: "index_teryt_terc_codes_on_gmi", using: :btree
-  add_index "teryt_terc_codes", ["pow"], name: "index_teryt_terc_codes_on_pow", using: :btree
-  add_index "teryt_terc_codes", ["woj"], name: "index_teryt_terc_codes_on_woj", using: :btree
-
-  create_table "teryt_ulic_codes", force: :cascade do |t|
-    t.string   "woj",        limit: 2
-    t.string   "pow",        limit: 2
-    t.string   "gmi",        limit: 2
-    t.string   "rodz_gmi",   limit: 1
-    t.string   "sym",        limit: 7
-    t.string   "sym_ul",     limit: 5
-    t.string   "cecha",      limit: 5
-    t.string   "nazwa_1",    limit: 100
-    t.string   "nazwa_2",    limit: 100
-    t.date     "stan_na"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
-
-  add_index "teryt_ulic_codes", ["gmi"], name: "index_teryt_ulic_codes_on_gmi", using: :btree
-  add_index "teryt_ulic_codes", ["pow"], name: "index_teryt_ulic_codes_on_pow", using: :btree
-  add_index "teryt_ulic_codes", ["sym"], name: "index_teryt_ulic_codes_on_sym", using: :btree
-  add_index "teryt_ulic_codes", ["woj"], name: "index_teryt_ulic_codes_on_woj", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -869,8 +745,6 @@ ActiveRecord::Schema.define(version: 20200818110819) do
   add_foreign_key "certificates", "divisions"
   add_foreign_key "certificates", "exams"
   add_foreign_key "certificates", "users"
-  add_foreign_key "customers", "teryt_pna_codes", column: "address_teryt_pna_code_id"
-  add_foreign_key "customers", "teryt_pna_codes", column: "c_address_teryt_pna_code_id"
   add_foreign_key "customers", "users"
   add_foreign_key "esod_addresses", "customers"
   add_foreign_key "esod_contractors", "customers"

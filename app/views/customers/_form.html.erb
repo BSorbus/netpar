@@ -49,8 +49,8 @@
 
       <div class="row">
         <div class="form-group required col-sm-12 show_if_lives_in_poland">
-          <%= f.label :address_id, class: "control-label" %> 
-          <%= f.hidden_field :address_id, 
+          <%= f.label :address_combine_id, class: "control-label" %> 
+          <%= f.hidden_field :address_combine_id, 
                             class: "form-control input-sm", 
                             placeholder: "Wyszukaj adres",
                             style: "width:100%",
@@ -60,7 +60,6 @@
         </div>
       </div> <!--/row -->
 
-      <%= f.hidden_field :teryt_code %>
       <%= f.hidden_field :province_name %>
       <%= f.hidden_field :province_code %>
       <%= f.hidden_field :district_name %>
@@ -203,8 +202,8 @@
 
       <div class="row">
         <div class="form-group required col-sm-12 show_if_c_lives_in_poland">
-          <%= f.label :c_address_id, class: "control-label" %> 
-          <%= f.hidden_field :c_address_id, 
+          <%= f.label :c_address_combine_id, class: "control-label" %> 
+          <%= f.hidden_field :c_address_combine_id, 
                             class: "form-control input-sm", 
                             placeholder: "Wyszukaj adres",
                             style: "width:100%",
@@ -214,7 +213,6 @@
         </div>
       </div> <!--/row -->
 
-      <%= f.hidden_field :c_teryt_code %>
       <%= f.hidden_field :c_province_name %>
       <%= f.hidden_field :c_province_code %>
       <%= f.hidden_field :c_district_name %>

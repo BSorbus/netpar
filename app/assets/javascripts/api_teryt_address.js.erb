@@ -1,99 +1,17 @@
 //document.addEventListener('turbolinks:load', function() {
 $(document).ready(function() {
 
-  $('.province_select').select2({
-    minimumInputLength: 0,
-    allowClear: false,
-    ajax: {
-      url: "/pit_teryt/provinces_select2_index.json",
-      dataType: 'json',
-      quietMillis: 250,
-      type: 'GET',
-      data: function(term, page) {
-        return {
-          q: term,
-          page_limit: 16,
-          page: 1
-        };
-      },
-      results: function(data, page) {
-        //var more = (page * 16) < data.total_count;
-        var more = (page * 16) < data.meta.total_count;
-        var provinces = $.map(data.provinces, function(province, i) {
-          return { id: province.id, text: province.name };
-        });
-        return { results: provinces, more: more };
-      }
-    },
-    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR);
-      if (jqXHR.status == 401) {
-        window.location.reload();
-      } else {
-        getErrorMessage(jqXHR, jqXHR.status);
-      }
-      return errorThrown + " " + jqXHR.responseText;
-    },
-    initSelection: function(element, callback) {
-      var id=$(element).val();
-      if (id!=="") {
-        $.get("/pit_teryt/provinces/"+id+".json", function(data_from_json) {
-          if(data_from_json)
-            callback({ id: data_from_json.id, text: data_from_json.name });
-        });
-      }
-    },
-    dropdownCssClass: "bigdrop"
-  });
+        // formatResult: function(result, container, query, escapeMarkup) {
+        //     var markup=[];
+        //     markMatch(this.text(result), query.term, markup, escapeMarkup);
+        //     return markup.join("");
+        // },
 
-
-
-
-
-  function markMatchOneWord (text, term) {
-    if (text) {
-      // Find marked before, find class <span class='select2-match'>
-      var markedPreviousIndexStart = text.indexOf( "<span class='select2-match'>" );
-      // Find where the match is
-      if (markedPreviousIndexStart >= 0) {
-        return text;
-      } else {
-        // Find where the match is
-        var match = text.toUpperCase().indexOf(term.toUpperCase());
-        // If there is no match
-        if (match < 0) {
-          return text;
-        } else {
-          // text is before the match
-          var leftStr = text.substring(0, match);
-          // matched text
-          var matchStr = "<span class='select2-match'>" + text.substring(match, match + term.length) + "</span>";
-          // text after the match
-          rightStr = text.substring(match + term.length);
-          return leftStr + matchStr + rightStr;
-        }
-      }
-    } else {
-      return "";
-    }
-  };
-
-  function markMatch (text, term) {
-    var separateWords = term.split(" ");
-    var allMatchedStr = text;
-    separateWords.forEach (function(e) {
-      allMatchedStr = markMatchOneWord (allMatchedStr, e);
-    }); 
-    return allMatchedStr
-  };
-
-  function itemFormatResult(item, container, query, escapeMarkup) {
+  function addressFormatResult(item, container, query, escapeMarkup) {
     if (item.id) {
       var cityName = markMatch(item.data_obj.cityName, query.term);
-      if (item.data_obj.cityName !== item.data_obj.cityParentName) {
-        //nie wyszukuje po cityParentName, wiec nie zaznaczamy
-        //var cityName = cityName + "&nbsp(" + markMatch(item.data_obj.cityParentName, query.term) + ")";
-        var cityName = cityName + "&nbsp(" + item.data_obj.cityParentName + ")";
+      if (item.data_obj.cityName !== item.data_obj.parentCityName) {
+        var cityName = cityName + "&nbsp(" + markMatch(item.data_obj.parentCityName, query.term) + ")";
       };
 
       if (item.data_obj.postCodeNumbers) {
@@ -115,18 +33,18 @@ $(document).ready(function() {
 
       return                  cityName + streetName  +         "<div class='pull-right'>&nbsp" + provinceName + "</div><br>" + 
                               postCode + postNumbers +         "<div class='pull-right'>&nbsp" + districtName + "</div><br>" +
-                  "<small>" + item.data_obj.cityType + "</small><div class='pull-right'>&nbsp" + communeName + "</div>";
+                  "<small>" + item.data_obj.cityTypeName + "</small><div class='pull-right'>&nbsp" + communeName + "</div>";
 
     } else {
       return "";
     }
   };
 
-  function itemFormatSelection(item) {
+  function addressFormatSelection(item) {
     if (item.id) {
       var cityName = item.data_obj.cityName;
-      if (item.data_obj.cityName !== item.data_obj.cityParentName) {
-        var cityName = cityName + " (" + item.data_obj.cityParentName + ")";
+      if (item.data_obj.cityName !== item.data_obj.parentCityName) {
+        var cityName = cityName + " (" + item.data_obj.parentCityName + ")";
       };
 
       if (item.data_obj.postCode) {
@@ -145,17 +63,17 @@ $(document).ready(function() {
               ' [' + item.data_obj.provinceName + 
               ', ' + item.data_obj.districtName + 
               ', ' + item.data_obj.communeName + 
-              '] ' + item.data_obj.cityType;
+              '] ' + item.data_obj.cityTypeName;
     } else {
       return "";
     }
   };
- 
+
   $('#customer_address_select2teryt_items').select2({ 
     minimumInputLength: 5,
     allowClear: false,
     ajax: {
-      url: "/pit_teryt/items.json",
+      url: "/api_teryt/items.json",
       dataType: 'json',
       quietMillis: 250,
       type: 'GET',
@@ -163,15 +81,14 @@ $(document).ready(function() {
         return {
           q: term,
           page_limit: 30,
-          page: page -1
-          //Uwaga! sztuczna mrowka gdyż API PitTeryt zle obsluguje paginacje
+          page: page
         };
       },
       results: function(data, page) {
-        var more = (page * 30) < data.meta.totalCount;
+        var more = (page * 30) < data.total;
         var items = $.map(data.items, function(item, i) {
           //return { data_obj: item, id: item.id, text: item.cityName };
-          return { data_obj: item, id: item.id };
+          return { data_obj: item, id: item.combineId };
         });
         return { results: items, more: more };
       }
@@ -188,22 +105,20 @@ $(document).ready(function() {
     initSelection: function(element, callback) {
       var id=$(element).val();
       if (id!=="") {
-        $.get("/pit_teryt/items/"+id+".json", function(data_from_json) {
+        $.get("/api_teryt/items/"+id+".json", function(data_from_json) {
           if(data_from_json)
             //callback({ data_obj: data_from_json, id: data_from_json.id, text: 'data_from_json.cityName' });
-            callback({ data_obj: data_from_json, id: data_from_json.id });
+            callback({ data_obj: data_from_json, id: data_from_json.combineId });
         });
       }
     },
-    formatResult: itemFormatResult, // omitted for brevity, see the source of this page
-    formatSelection: itemFormatSelection, // omitted for brevity, see the source of this page
+    formatResult: addressFormatResult, // omitted for brevity, see the source of this page
+    formatSelection: addressFormatSelection, // omitted for brevity, see the source of this page
     dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
     escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
   })
   .on("select2-selecting", function(e) {
     //document.getElementById("customer_lives_in_poland").value = true;
-    //document.getElementById("customer_address_id").value = e.choice.data_obj.id;
-    document.getElementById("customer_teryt_code").value = e.choice.data_obj.terytId;
     document.getElementById("customer_province_name").value = e.choice.data_obj.provinceName;
     document.getElementById("customer_province_code").value = e.choice.data_obj.provinceCode;
     document.getElementById("customer_district_name").value = e.choice.data_obj.districtName;
@@ -212,8 +127,8 @@ $(document).ready(function() {
     document.getElementById("customer_commune_code").value = e.choice.data_obj.communeCode;
     document.getElementById("customer_city_name").value = e.choice.data_obj.cityName;
     document.getElementById("customer_city_code").value = e.choice.data_obj.cityCode;
-    document.getElementById("customer_city_parent_name").value = e.choice.data_obj.cityParentName;
-    document.getElementById("customer_city_parent_code").value = e.choice.data_obj.cityParentCode;
+    document.getElementById("customer_city_parent_name").value = e.choice.data_obj.parentCityName;
+    document.getElementById("customer_city_parent_code").value = e.choice.data_obj.parentCityCode;
     document.getElementById("customer_street_name").value = e.choice.data_obj.streetName;
     document.getElementById("customer_street_code").value = e.choice.data_obj.streetCode;
     document.getElementById("customer_street_attribute").value = e.choice.data_obj.streetAttribute;
@@ -234,19 +149,17 @@ $(document).ready(function() {
     document.getElementById("customer_address_city").readOnly = true;
     document.getElementById("customer_address_street").value = e.choice.data_obj.streetName;
     document.getElementById("customer_address_street").readOnly = true;
-    document.getElementById("customer_address_post_office").value = e.choice.data_obj.cityParentName;
+    document.getElementById("customer_address_post_office").value = e.choice.data_obj.parentCityName;
     document.getElementById("customer_address_post_office").readOnly = true;
     document.getElementById("customer_address_house").focus();
   });
-
-
 
 
   $('#customer_c_address_select2teryt_items').select2({ 
     minimumInputLength: 5,
     allowClear: false,
     ajax: {
-      url: "/pit_teryt/items.json",
+      url: "/api_teryt/items.json",
       dataType: 'json',
       quietMillis: 250,
       type: 'GET',
@@ -254,15 +167,14 @@ $(document).ready(function() {
         return {
           q: term,
           page_limit: 30,
-          page: page -1
-          //Uwaga! sztuczna mrowka gdyż API PitTeryt zle obsluguje paginacje
+          page: page
         };
       },
       results: function(data, page) {
-        var more = (page * 30) < data.meta.totalCount;
+        var more = (page * 30) < data.total;
         var items = $.map(data.items, function(item, i) {
           //return { data_obj: item, id: item.id, text: item.cityName };
-          return { data_obj: item, id: item.id };
+          return { data_obj: item, id: item.combineId };
         });
         return { results: items, more: more };
       }
@@ -279,22 +191,20 @@ $(document).ready(function() {
     initSelection: function(element, callback) {
       var id=$(element).val();
       if (id!=="") {
-        $.get("/pit_teryt/items/"+id+".json", function(data_from_json) {
+        $.get("/api_teryt/items/"+id+".json", function(data_from_json) {
           if(data_from_json)
             //callback({ data_obj: data_from_json, id: data_from_json.id, text: 'data_from_json.cityName' });
-            callback({ data_obj: data_from_json, id: data_from_json.id });
+            callback({ data_obj: data_from_json, id: data_from_json.combineId });
         });
       }
     },
-    formatResult: itemFormatResult, // omitted for brevity, see the source of this page
-    formatSelection: itemFormatSelection, // omitted for brevity, see the source of this page
+    formatResult: addressFormatResult, // omitted for brevity, see the source of this page
+    formatSelection: addressFormatSelection, // omitted for brevity, see the source of this page
     dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
     escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
   })
   .on("select2-selecting", function(e) {
-    //document.getElementById("customer_lives_in_poland").value = true;
-    //document.getElementById("customer_address_id").value = e.choice.data_obj.id;
-    document.getElementById("customer_c_teryt_code").value = e.choice.data_obj.terytId;
+     //document.getElementById("customer_lives_in_poland").value = true;
     document.getElementById("customer_c_province_name").value = e.choice.data_obj.provinceName;
     document.getElementById("customer_c_province_code").value = e.choice.data_obj.provinceCode;
     document.getElementById("customer_c_district_name").value = e.choice.data_obj.districtName;
@@ -303,8 +213,8 @@ $(document).ready(function() {
     document.getElementById("customer_c_commune_code").value = e.choice.data_obj.communeCode;
     document.getElementById("customer_c_city_name").value = e.choice.data_obj.cityName;
     document.getElementById("customer_c_city_code").value = e.choice.data_obj.cityCode;
-    document.getElementById("customer_c_city_parent_name").value = e.choice.data_obj.cityParentName;
-    document.getElementById("customer_c_city_parent_code").value = e.choice.data_obj.cityParentCode;
+    document.getElementById("customer_c_city_parent_name").value = e.choice.data_obj.parentCityName;
+    document.getElementById("customer_c_city_parent_code").value = e.choice.data_obj.parentCityCode;
     document.getElementById("customer_c_street_name").value = e.choice.data_obj.streetName;
     document.getElementById("customer_c_street_code").value = e.choice.data_obj.streetCode;
     document.getElementById("customer_c_street_attribute").value = e.choice.data_obj.streetAttribute;
@@ -325,10 +235,11 @@ $(document).ready(function() {
     document.getElementById("customer_c_address_city").readOnly = true;
     document.getElementById("customer_c_address_street").value = e.choice.data_obj.streetName;
     document.getElementById("customer_c_address_street").readOnly = true;
-    document.getElementById("customer_c_address_post_office").value = e.choice.data_obj.cityParentName;
+    document.getElementById("customer_c_address_post_office").value = e.choice.data_obj.parentCityName;
     document.getElementById("customer_c_address_post_office").readOnly = true;
     document.getElementById("customer_c_address_house").focus();
-  });
+ });
 
 
 });
+

@@ -58,9 +58,13 @@ class Exam < ActiveRecord::Base
 
 
   def save_province_name
-    province = PitTerytProvince.new(id: province_id)
-    province.run_request
-    self.province_name = province.name
+    # province = PitTerytProvince.new(id: province_id)
+    # province.run_request
+    # self.province_name = province.name
+    province = ApiTerytProvince.new(id: province_id)
+    province.request_for_one_row
+    province_hash = JSON.parse(province.response.body)
+    self.province_name = province_hash.fetch('name', '') if province_hash.present?
   end
 
 

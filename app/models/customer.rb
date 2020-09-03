@@ -40,8 +40,6 @@ class Customer < ActiveRecord::Base
   validates :birth_date, presence: true, if: :is_human?
   validate :check_pesel_and_birth_date, unless: "pesel.blank?"
   validate :unique_name_given_names_birth_date_birth_place_fathers_name, if: :is_human?
-  #validate :check_address_on_teryt_pna, unless: :is_address_in_poland?
-  #validate :check_c_address_on_teryt_pna, unless: :is_c_address_in_poland?, if: "c_address_postal_code.present? || c_address_city.present? || c_address_street.present? || c_address_post_office.present?"
 
   validates :citizenship_code, presence: true,
                     length: { is: 2 }, if: :is_human?
@@ -62,14 +60,6 @@ class Customer < ActiveRecord::Base
     human == true
   end
 
-  def is_address_in_poland?
-    address_in_poland == true
-  end
-
-  def is_c_address_in_poland?
-    c_address_in_poland == true
-  end
-
   def fullname
     "#{name} #{given_names}"
   end
@@ -88,7 +78,7 @@ class Customer < ActiveRecord::Base
 
   def address_cecha_street
     #self.address_teryt_pna_code.present? ? self.address_teryt_pna_code.uli_cecha_nazwa : self.address_street
-    if self.address_id.present? 
+    if self.address_combine_id.present? 
       attr_street_name = self.street_attribute.present? ? self.street_attribute.strip : ""
       attr_street_name + self.address_street
     else
@@ -98,7 +88,7 @@ class Customer < ActiveRecord::Base
 
   def c_address_cecha_street
     #self.c_address_teryt_pna_code.present? ? self.c_address_teryt_pna_code.uli_cecha_nazwa : self.c_address_street
-    if self.c_address_id.present? 
+    if self.c_address_combine_id.present? 
       attr_street_name = self.c_street_attribute.present? ? self.c_street_attribute.strip : ""
       attr_street_name + self.c_address_street
     else
@@ -156,28 +146,6 @@ class Customer < ActiveRecord::Base
     if Customer.where(name: name, given_names: given_names, birth_date: birth_date, birth_place: birth_place, fathers_name: fathers_name).where.not(id: id).any? 
       errors.add(:base, "Błąd! Klient: \"#{name} #{given_names} ur.#{birth_place} #{birth_date}, ojciec: #{fathers_name}\" jest już zarejestrowany!")
     end
-  end
-
-  def check_address_on_teryt_pna
-    teryt_pna_code = Teryt::PnaCode.find_by(pna: address_postal_code)
-    teryt_pna_code = Teryt::PnaCode.find_by(sym_nazwa: address_city, uli_nazwa: address_street) unless teryt_pna_code.present?
-    teryt_pna_code = Teryt::PnaCode.find_by(sympod_nazwa: address_city, uli_nazwa: address_street) unless teryt_pna_code.present?
-    teryt_pna_code = Teryt::PnaCode.find_by(sym_nazwa: address_post_office, uli_nazwa: address_street) unless teryt_pna_code.present?
-    teryt_pna_code = Teryt::PnaCode.find_by(sympod_nazwa: address_post_office, uli_nazwa: address_street) unless teryt_pna_code.present?
-    errors.add(:base, "Błąd! Nie można wyłączać weyfikacji TERYT+PNA dla adresów występujących w rejestrze") if teryt_pna_code.present?
-    errors.add(:address_in_poland, " -  zaznacz weryfikowanie") if teryt_pna_code.present?
-    analize_value = false
-  end
-
-  def check_c_address_on_teryt_pna
-    teryt_pna_code = Teryt::PnaCode.find_by(pna: c_address_postal_code)
-    teryt_pna_code = Teryt::PnaCode.find_by(sym_nazwa: c_address_city, uli_nazwa: c_address_street) unless teryt_pna_code.present?
-    teryt_pna_code = Teryt::PnaCode.find_by(sympod_nazwa: c_address_city, uli_nazwa: c_address_street) unless teryt_pna_code.present?
-    teryt_pna_code = Teryt::PnaCode.find_by(sym_nazwa: c_address_post_office, uli_nazwa: c_address_street) unless teryt_pna_code.present?
-    teryt_pna_code = Teryt::PnaCode.find_by(sympod_nazwa: c_address_post_office, uli_nazwa: c_address_street) unless teryt_pna_code.present?
-    errors.add(:base, "Błąd! Nie można wyłączać weyfikacji TERYT+PNA dla adresów występujących w rejestrze") if teryt_pna_code.present?
-    errors.add(:c_address_in_poland, " -  zaznacz weryfikowanie") if teryt_pna_code.present?
-    analize_value = false
   end
 
   def customer_has_links

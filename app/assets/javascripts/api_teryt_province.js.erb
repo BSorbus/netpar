@@ -58,7 +58,7 @@ $(document).ready(function() {
         $.get("/api_teryt/provinces/"+id+".json", function(data_from_json) {
           if(data_from_json)
             //callback({ data_obj: data_from_json, id: data_from_json.id, text: 'data_from_json.cityName' });
-            callback({ data_obj: data_from_json, id: data_from_json.combineId });
+            callback({ data_obj: data_from_json, id: data_from_json.id });
         });
       }
     },

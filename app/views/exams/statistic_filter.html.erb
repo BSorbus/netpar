@@ -60,7 +60,7 @@
                   <div class="col-sm-5">
                     <blockquote class="bg-success">
                       <p class="text-muted">Wskaźniki</p>
-                      <p class="bg-success">Wykaz zawiera informacje dotyczące przekraczania "terminu-wskaźnika" wydawania świadectw licząc od dnia sesji egzaminacyjnej do dnia daty wydania świadectwa.
+                      <p class="bg-success">Wykaz zawiera informacje dotyczące przekraczania "terminu-wskaźnika" wydawania świadectw licząc od dnia sesji egzaminacyjnej do dnia daty wydania świadectwa. Analizie podlegają dokumenty z zakresu dat "od-do" i dotyczą terminu sesji ("analizuj względem sesja") lub daty wydania świadectwa ("analizuj względem dokument")
                       </p>
                     </blockquote>
                   </div> <!-- /.col-sm-5 -->              
@@ -80,6 +80,15 @@
                       <%= label_tag :max_day, "Ilość dni - wskaźnik", :class => 'control-label' %><br>
                       <%= number_field_tag :max_day, 7, min: 1, max: 30, step: 1, :class => 'form-control input-sm' %>
                     </div>                    
+
+                    <div class="form-group col-sm-6">
+                      <%= label_tag :theme, "Analizuj względem", :class => 'control-label' %><br>
+                      <%= radio_button_tag(:theme, 'sesja') %>
+                      <%= label_tag :theme_sesja, "sesja" %><br>
+                      <%= radio_button_tag(:theme, 'dokument') %>
+                      <%= label_tag :theme_dokument, "dokument" %><br>
+                    </div>
+
 
                   </div> <!-- /.col-sm-7 -->              
 

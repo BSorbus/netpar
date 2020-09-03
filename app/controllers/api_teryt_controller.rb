@@ -26,7 +26,7 @@ class ApiTerytController < ApplicationController
     end
   end
 
-  def provinces_select2_index
+  def provinces
     items_obj = ApiTerytProvince.new(q: "#{params[:q]}", page: "#{params[:page]}", page_limit: "#{params[:page_limit]}")
     if items_obj.request_for_collection # return true
       render json: JSON.parse(items_obj.response.body), status: items_obj.response.code
