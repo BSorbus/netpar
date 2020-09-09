@@ -113,9 +113,33 @@ class Examination < ActiveRecord::Base
             end
           end
         end
+        proposal_files_add
       end
       return save_result
     end
+  end
+
+  def proposal_files_add
+    if self.proposal.present?
+
+      consent_file_url = "#{Rails.application.secrets[:egzaminy_host]}#{proposal.consent_pdf_blob_path}" if proposal.consent_pdf_blob_path.present?
+      face_file_url    = "#{Rails.application.secrets[:egzaminy_host]}#{proposal.face_image_blob_path}"  if proposal.face_image_blob_path.present?
+      bank_file_url    = "#{Rails.application.secrets[:egzaminy_host]}#{proposal.bank_pdf_blob_path}"    if proposal.bank_pdf_blob_path.present?
+
+      self.file_to_documents_attach(consent_file_url) if consent_file_url.present?
+      self.file_to_documents_attach(face_file_url) if face_file_url.present?
+      self.file_to_documents_attach(bank_file_url) if bank_file_url.present?
+
+    end
+  end
+
+  def file_to_documents_attach(file_url)
+    filename = File.basename(URI.parse( file_url ).path)
+
+    doc = self.documents.new  
+    doc.fileattach = open(file_url)
+    doc.fileattach_filename = filename
+    doc.save
   end
 
 
