@@ -168,7 +168,7 @@ class PdfExaminationProtocolM < Prawn::Document
     move_down 35
     text "PROTOKÓŁ Nr #{@exam.number}", size: 13, :align => :center
     move_down 10    
-    text "KOMISJI EGZAMINACYJNEJ D/S OPERATORÓW URZĄDZEŃ RADIOWYCH", size: 13, :align => :center    
+    text "SESJI EGZAMINACYJNEJ D/S OPERATORÓW URZĄDZEŃ RADIOWYCH", size: 13, :align => :center    
     text "W SŁUŻBIE RADIOKOMUNIKACYJNEJ MORSKIEJ I ŻEGLUGI ŚRÓDLĄDOWEJ", size: 13, :align => :center    
     move_down 10    
     text "Egzamin przeprowadzono #{@exam.date_exam} w #{@exam.place_exam}", size: 9
