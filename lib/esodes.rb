@@ -12,11 +12,12 @@ module Esodes
   # 10.40.1.5:8243(epl-esb1) i 
   # 10.40.1.6:8243(epl-esb2) 
 
-#  API_SERVER = "https://10.40.1.4:443" # LB programowy PROD
-#  API_SERVER = "https://10.60.0.135:443" # LB sprzetowy ESB (F5)
-#  API_SERVER = "https://10.40.2.4:8443" # LB programowy ESB-TEST
-      #  API_SERVER = "https://10.60.0.105:443" # LB sprzetowy ESB-TEST (F5) (uwaga! inny port)
-#  API_SERVER = "https://10.60.0.100:8443"
+      #  API_SERVER = "https://10.60.0.135:443" # LB sprzetowy (F5)
+      #  API_SERVER = "https://10.60.0.105:443" # LB sprzetowy TEST (F5)
+
+      #  API_SERVER = "https://10.40.1.4:443"  # LB programowy starej ESB
+      #  API_SERVER = "https://10.40.2.4:8443" # LB programowy starej ESB-TEST
+
   API_TOKEN_EXPIRE = 590.seconds    #  10.minutes
 #  API_SYSTEM_USER = "admin"
 #  API_SYSTEM_USER_PASS = "admin"

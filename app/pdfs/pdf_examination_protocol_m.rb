@@ -117,7 +117,7 @@ class PdfExaminationProtocolM < Prawn::Document
 
     bounding_box([0, cursor], :width => 525, :height => h ) do
       move_down 15
-      text "Członkowie Komisji Egzaminacyjnej", :align => :center
+      text "Zespół egzaminacyjny", :align => :center
 
       move_down 12    
       text_box "1. Przewodniczący sesji:",      :at => [ 20, cursor], :width => 115, :height => 12, size: 9, :align => :left
@@ -142,9 +142,9 @@ class PdfExaminationProtocolM < Prawn::Document
 
 
       move_down 45  
-      text_box "." * 200,                                           :at => [295, cursor], :width => 225, :height => 12, size: 6, :align => :left  
+      text_box "." * 200,                          :at => [295, cursor], :width => 225, :height => 12, size: 6, :align => :left  
       move_down 7    
-      text_box "Zatwierdził Przewodniczący Komisji Egzaminacyjnej", :at => [300, cursor], :width => 225, :height => 12, size: 8, :align => :left
+      text_box "Zatwierdził przewodniczący sesji", :at => [335, cursor], :width => 225, :height => 12, size: 8, :align => :left
 
       #transparent(0.1) { stroke_bounds }
     end   
