@@ -23,6 +23,7 @@ class Customer < ActiveRecord::Base
   has_many :examed_documentable, through: :exams, source: :documents
 
   has_many :proposals
+  has_many :proposalted_documentable, through: :proposals, source: :documents
   
   # validates
   validates :name, presence: true,
@@ -158,6 +159,10 @@ class Customer < ActiveRecord::Base
       errors[:base] << "Nie można usunąć konta Klienta do którego są przypisane Egzaminy."
       analize_value = false
     end
+    if self.proposals.any? 
+      errors[:base] << "Nie można usunąć konta Klienta do którego są przypisane Elektroniczne Zgłoszenia."
+      analize_value = false
+    end
     analize_value
   end
 
@@ -203,7 +208,27 @@ class Customer < ActiveRecord::Base
     unless self.id == source_customer.id
       source_customer.certificates.update_all(customer_id: self.id)
       source_customer.examinations.update_all(customer_id: self.id)
+      source_customer.proposals.update_all(customer_id: self.id)
       source_customer.documents.update_all(documentable_id: self.id)
+
+      if source_customer.esod_contractor.present?
+        if self.esod_contractor.present?
+          source_customer.esod_contractor.esod_incoming_letters.update_all(esod_contractor_id: self.esod_contractor.id)
+          # source_customer.esod_contractor.destroy
+        else
+          source_customer.esod_contractor.update_columns(customer_id: self.id)
+        end
+      end
+
+      if source_customer.esod_address.present?
+        if self.esod_address.present?
+          source_customer.esod_address.esod_incoming_letters.update_all(esod_address_id: self.esod_address.id)
+          # source_customer.esod_address.destroy
+        else
+          source_customer.esod_address.update_columns(customer_id: self.id)
+        end
+      end
+
       source_customer.works.update_all(trackable_id: self.id)
       source_customer.destroy!
     end

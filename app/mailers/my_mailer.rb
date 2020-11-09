@@ -3,7 +3,7 @@ class MyMailer < Devise::Mailer
   include Devise::Controllers::UrlHelpers # Optional. eg. `confirmation_url`
   default template_path: 'devise/mailer' # to make sure that your mailer uses the devise views
   default from: Rails.application.secrets.email_provider_username
-  default cc: Rails.application.secrets.email_provider_username
+  default bcc: Rails.application.secrets.email_bcc_username
 
   # Overrides same inside Devise::Mailer
   def confirmation_instructions(record, token, opts={})
