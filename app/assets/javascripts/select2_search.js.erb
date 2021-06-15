@@ -732,7 +732,7 @@ $(document).ready(function() {
         };
       },
       results: function(data, page) {
-        //var more = (page * 10) < data.total_count;
+        // var more = (page * 10) < data.total_count;
         var more = (page * 10) < data.meta.total_count;
         var matters = $.map(data.matters, function(matter, i) {
           return { data_obj: matter, id: matter.id, text: matter.fullname };
@@ -752,7 +752,7 @@ $(document).ready(function() {
     initSelection: function(element, callback) {
       var id=$(element).val();
       if (id!=="") {
-        $.get("/esod/matters/"+id+".json", function(data_from_json) {
+        $.get("/esod/matters/" + id + ".json", function(data_from_json) {
           if(data_from_json)
             callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname });
         });
