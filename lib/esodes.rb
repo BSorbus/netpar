@@ -71,9 +71,11 @@ module Esodes
   ACTION_EDIT = [ODNOWIENIE_BEZ_EGZAMINU, DUPLIKAT, WYMIANA, PROTOKOL]
 
   JRWA_L = [5430]
-  JRWA_M = [5431]
+#  JRWA_M = [5431]
+  JRWA_M = [5411]
   JRWA_R = [5432]
-  JRWA_ALL = [5430, 5431, 5432]
+#  JRWA_ALL = [5430, 5431, 5432]
+  JRWA_ALL = [5430, 5411, 5432]
 
   DEFAULT_SPOSOB_PRZESLANIA_IF_PROPOSAL = 78
 
@@ -185,7 +187,8 @@ module Esodes
     when 'L'
       5430
     when 'M'
-      5431
+      5411
+      # 5431
     when 'R'
       5432
     else
