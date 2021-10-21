@@ -104,7 +104,7 @@
                     <% if matterable.has_attribute?(:customer_id) %> 
                       <div class="row">
                         <div class="form-group col-sm-12">
-                          <p><strong>Nadawca:</strong></p>
+                          <p><strong>Nadawca/Odbiorca:</strong></p>
                           <h5><%= policy(:customer).show? ? link_to( matterable.customer.fullname_and_address, customer_path(matterable.customer) ) : 'xxx-xxx' %></h5>
                         </div>
                       </div>
