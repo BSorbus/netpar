@@ -311,22 +311,160 @@ class Customer < ActiveRecord::Base
   def check_and_push_data_to_esod(options = {})
     pusher = options[:push_user] || self.user_id
     if self.esod_contractor.present?
-      self.update_data_to_esod_and_update_self if self.update_self_esod_contractor(pusher) || 
-                                                  self.update_self_esod_address(pusher)
+      # BJ 2021-10-21
+      # self.update_data_to_esod_and_update_self if self.update_self_esod_contractor(pusher) || 
+      #                                             self.update_self_esod_address(pusher)
+      self.update_self_esod_contractor(pusher)
+      self.update_self_esod_address(pusher)
+      self.upsert_data_to_esod_and_update_self
     else
       self.create_self_esod_contractor(pusher)
       self.create_self_esod_address(pusher) 
       # szukaj w ESOD po pesel (i pozostałych danych?) - jak nie ma to dopisz
       # ??? nie wiem, czy tak ma być
-      self.insert_data_to_esod_and_update_self
+      # BJ 2021-10-21
+      # self.insert_data_to_esod_and_update_self
+      self.upsert_data_to_esod_and_update_self
     end
   end
+
+  def upsert_data_to_esod_and_update_self
+    client = Savon.client(
+      encoding: "UTF-8",
+      wsdl: "#{Rails.application.secrets[:wso2ei_url]}/services/KontrahentESODUsluga?wsdl",
+      endpoint: "#{Rails.application.secrets[:wso2ei_url]}/services/KontrahentESODUsluga.KontrahentESODUslugaHttpsSoap11Endpoint",
+      namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+                    "xmlns:kon" => "http://kontrahentESOD.uslugi.epl.uke.gov.pl/"
+                   },
+      env_namespace: :soapenv,
+      namespace_identifier: :kon, 
+      strip_namespaces: true,
+      logger: Rails.logger,
+      log_level: :debug,
+      log: true,
+      pretty_print_xml: true,
+      soap_version: 1,
+      wsse_timestamp: true,
+      ssl_verify_mode: :none,
+      headers: { "Authorization" => "Basic #{Esodes::base64_user_and_pass}" },
+      wsse_auth: [Esodes::EsodTokenData.netpar_user.email, Esodes::EsodTokenData.token_string],
+      soap_header: { "kon:metaParametry" => 
+                      { "kon:identyfikatorStanowiska" => Esodes::EsodTokenData.token_stanowiska.first[:nrid] } 
+                    }
+    )
+
+    message_body = { 
+      "parametryOperacjiWyszukajModyfikujUtworzKontrahenta" => {
+        "imie" => self.esod_contractor.imie,
+        "nazwisko" => self.esod_contractor.nazwisko,
+        "pesel" => self.esod_contractor.pesel,
+        "rodzajOsoby" => {
+          "nrid" => 1
+        },
+        "adres" => { 
+          "kodPocztowy" => self.esod_address.kod_pocztowy,
+          "miasto" => self.esod_address.miasto,
+          "miastoPoczty" => self.esod_address.miasto_poczty,
+          "numerBudynku" => self.esod_address.numer_budynku,
+          "numerLokalu" => self.esod_address.numer_lokalu,
+          "panstwo" => self.esod_address.panstwo, 
+          "typ" => "fizyczny",
+          "ulica" => self.esod_address.ulica
+        },
+        "dodatkoweAtrybuty" => { 
+          "atrybut" => {
+            "identyfikator" => "NETPAR",
+            "wartosc" => self.esod_contractor.customer_id
+          }
+        }
+      }
+    }
+
+    response = client.call(:wyszukaj_modyfikuj_utworz_kontrahenta, message: message_body )
+
+    if response.success?
+      response.xpath("//*[local-name()='return']").each do |ret|
+        ret.xpath("//*[local-name()='osoba']").each do |row|      
+          contractor = self.esod_contractor
+          contractor.imie = row.xpath("./*[local-name()='imie']").text
+          contractor.nazwisko = row.xpath("./*[local-name()='nazwisko']").text
+          contractor.nrid = row.xpath("./*[local-name()='nrid']").text
+          contractor.pesel = row.xpath("./*[local-name()='pesel']").text
+          contractor.save
+
+          row.xpath("//*[local-name()='adres']").each do |sub|      
+            address = self.esod_address
+            address.nrid = sub.xpath("./*[local-name()='nrid']").text
+            address.save
+          end
+
+        end 
+      end
+    end
+
+    rescue Savon::HTTPError => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "upsert_data_to_esod_and_update_self", 
+                              soap_function:  "wyszukaj_modyfikuj_utworz_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
+
+    rescue Savon::SOAPFault => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "upsert_data_to_esod_and_update_self", 
+                              soap_function:  "wyszukaj_modyfikuj_utworz_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
+    rescue Savon::InvalidResponseError => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "upsert_data_to_esod_and_update_self", 
+                              soap_function:  "wyszukaj_modyfikuj_utworz_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
+
+    rescue Savon::Error => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "upsert_data_to_esod_and_update_self", 
+                              soap_function:  "wyszukaj_modyfikuj_utworz_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
+    rescue SocketError => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "upsert_data_to_esod_and_update_self", 
+                              soap_function:  "wyszukaj_modyfikuj_utworz_kontrahenta", 
+                              base_obj:   self )
+
+      false
+
+    rescue => error
+      Esodes::log_soap_error( error,
+                              file:      '\models\customer.rb', 
+                              function:  "upsert_data_to_esod_and_update_self", 
+                              soap_function:  "wyszukaj_modyfikuj_utworz_kontrahenta", 
+                              base_obj:   self )
+
+      false
+  end
+
 
   def insert_data_to_esod_and_update_self
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "#{Esodes::API_SERVER}/services/KontrahentESODUsluga?wsdl",
-      endpoint: "#{Esodes::API_SERVER}/services/KontrahentESODUsluga.KontrahentESODUslugaHttpsSoap11Endpoint",
+      wsdl: "#{Rails.application.secrets[:wso2ei_url]}/services/KontrahentESODUsluga?wsdl",
+      endpoint: "#{Rails.application.secrets[:wso2ei_url]}/services/KontrahentESODUsluga.KontrahentESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
                     "xmlns:kon" => "http://kontrahentESOD.uslugi.epl.uke.gov.pl/"
                    },
@@ -449,8 +587,8 @@ class Customer < ActiveRecord::Base
   def update_data_to_esod_and_update_self
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "#{Esodes::API_SERVER}/services/KontrahentESODUsluga?wsdl",
-      endpoint: "#{Esodes::API_SERVER}/services/KontrahentESODUsluga.KontrahentESODUslugaHttpsSoap11Endpoint",
+      wsdl: "#{Rails.application.secrets[:wso2ei_url]}/services/KontrahentESODUsluga?wsdl",
+      endpoint: "#{Rails.application.secrets[:wso2ei_url]}/services/KontrahentESODUsluga.KontrahentESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
                     "xmlns:kon" => "http://kontrahentESOD.uslugi.epl.uke.gov.pl/"
                    },

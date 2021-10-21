@@ -1,0 +1,141 @@
+<% input_disabled ||= false  
+   #if input_disabled is not passed to the partial it doesn't crash. 
+   # We default it to false 
+%>
+
+<%= form_errors_for @division %>
+
+<div class="row">
+  <div class="col-sm-12">
+
+    <div class="row">
+      <div class="form-group col-sm-3">
+        <p><strong><%= Division.human_attribute_name(:short_name) %></strong></p>
+        <h5><%= @division.short_name %></h5>
+      </div>
+
+      <div class="form-group col-sm-3">
+        <p><strong><%= Division.human_attribute_name(:category) %></strong></p>
+        <h5><%= @division.category %></h5>
+      </div>
+
+      <div class="form-group col-sm-3">
+        <p><strong><%= Division.human_attribute_name(:number_prefix) %></strong></p>
+        <h5><%= @division.number_prefix %></h5>
+      </div>
+    </div>  <!-- /row -->
+
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <p><strong><%= Division.human_attribute_name(:name) %></strong></p>
+        <h5><%= @division.name %></h5>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <p><strong><%= Division.human_attribute_name(:english_name) %></strong></p>
+        <h5><%= @division.english_name %></h5>
+      </div>
+    </div>  <!-- /row -->
+
+  </div>  <!-- /col-sm-12 -->
+</div>  <!-- /row -->
+
+<hr class="hr-without-top-margin">
+
+<div class="row">
+  <div class="col-sm-12">
+
+    <div class="row">
+      <div class="form-group col-sm-3">
+        <p><strong><%= Division.human_attribute_name(:min_years_old) %></strong></p>
+        <h5><%= @division.min_years_old %></h5>
+      </div>
+      <div class="form-group col-sm-3">
+        <p><strong><%= Division.human_attribute_name(:face_image_required) %></strong></p>
+        <h5><%= @division.face_image_required? ? 'Tak' : 'Nie' %></h5>
+      </div>
+      <div class="form-group col-sm-3">
+        <p><strong><%= Division.human_attribute_name(:for_new_certificate) %></strong></p>
+        <h5><%= @division.for_new_certificate? ? 'Tak' : 'Nie' %></h5>
+      </div>
+      <div class="form-group col-sm-3">
+        <p><strong><%= Division.human_attribute_name(:proposal_via_internet) %></strong></p>
+        <h5><%= @division.proposal_via_internet? ? 'Tak' : 'Nie' %></h5>
+      </div>
+    </div>
+
+  </div>  <!-- /col-sm-12 -->
+</div>  <!-- /row -->
+
+
+<div class="row">
+  <div class="form-group col-sm-12">
+
+    <fieldset class="my-fieldset-short">
+      <legend class="my-fieldset">Egzamin obejmuje przedmioty:</legend>
+
+        <div class="row">
+          <div class="form-group required col-sm-1">
+            <strong><%= Subject.human_attribute_name(:item) %></strong>
+          </div>
+          <div class="form-group required col-sm-6">
+            <strong><%= Subject.human_attribute_name(:name) %></strong>
+          </div>
+          <div class="form-group required col-sm-1">
+            <strong><%= Subject.human_attribute_name(:esod_categories) %></strong>
+          </div>
+          <div class="form-group required col-sm-4">
+            <strong><%= Subject.human_attribute_name(:test_template) %></strong>
+          </div>
+        </div>  <!-- /row -->
+
+        <%= render partial: "subject", collection: @division.subjects.order(:item), as: :subject %>
+
+    </fieldset>
+
+  </div> <!-- /col-sm-12 -->
+</div> <!-- /row -->
+
+<hr class="hr-without-top-margin">
+
+<% if input_disabled %>
+  <!-- for "Show" -->
+  <div class="row">
+    <%= link_to divisions_path(), class: "btn btn-default" do %>
+      <span class="fa fa-list"></span>
+      <%= t("helpers.links.index") %>
+    <% end %>
+
+    <%= link_to :back, class: "btn btn-default" do %>
+      <span class="fa fa-undo"></span>
+      <%= t("helpers.links.back") %>
+    <% end %>
+
+
+    <% if policy(@division).destroy? %>
+
+      <%= link_to division_path(@division),
+                          method: :delete,
+                          data: { confirm: t('helpers.links.confirm_destroy', data: @division.short_name) }, 
+                          class: "btn btn-danger" do %>
+        <span class="fa fa-trash-o"></span>
+        <%= t("helpers.links.destroy") %>
+      <% end %>
+
+    <% end %>
+
+    <% if policy(@division).edit? %>
+
+      <%= link_to edit_division_path(@division), class: "btn btn-primary" do %>
+        <span class="fa fa-edit"></span>
+        <%= t("helpers.links.edit") %>
+      <% end %>
+
+    <% end %>
+  </div> <!-- /row -->
+<% else %>
+  <!-- form "New"/"Edit" -->
+<% end %>
+  
+
+

@@ -122,8 +122,8 @@ class Esod::Matter < ActiveRecord::Base
 
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "#{Esodes::API_SERVER}/services/SprawaESODUsluga?wsdl",
-      endpoint: "#{Esodes::API_SERVER}/services/SprawaESODUsluga.SprawaESODUslugaHttpsSoap11Endpoint",
+      wsdl: "#{Rails.application.secrets[:wso2ei_url]}/services/SprawaESODUsluga?wsdl",
+      endpoint: "#{Rails.application.secrets[:wso2ei_url]}/services/SprawaESODUsluga.SprawaESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
                     "xmlns:spr" => "http://sprawaESOD.uslugi.epl.uke.gov.pl/"
                   },
@@ -245,8 +245,8 @@ class Esod::Matter < ActiveRecord::Base
 
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "#{Esodes::API_SERVER}/services/SprawaESODUsluga?wsdl",
-      endpoint: "#{Esodes::API_SERVER}/services/SprawaESODUsluga.SprawaESODUslugaHttpsSoap11Endpoint",
+      wsdl: "#{Rails.application.secrets[:wso2ei_url]}/services/SprawaESODUsluga?wsdl",
+      endpoint: "#{Rails.application.secrets[:wso2ei_url]}/services/SprawaESODUsluga.SprawaESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
                     "xmlns:spr" => "http://sprawaESOD.uslugi.epl.uke.gov.pl/"
                   },
@@ -342,8 +342,8 @@ class Esod::Matter < ActiveRecord::Base
 
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "#{Esodes::API_SERVER}/services/SprawaESODUsluga?wsdl",
-      endpoint: "#{Esodes::API_SERVER}/services/SprawaESODUsluga.SprawaESODUslugaHttpsSoap11Endpoint",
+      wsdl: "#{Rails.application.secrets[:wso2ei_url]}/services/SprawaESODUsluga?wsdl",
+      endpoint: "#{Rails.application.secrets[:wso2ei_url]}/services/SprawaESODUsluga.SprawaESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
                     "xmlns:spr" => "http://sprawaESOD.uslugi.epl.uke.gov.pl/"
                   },

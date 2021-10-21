@@ -77,8 +77,8 @@ class Esod::IncomingLetter < ActiveRecord::Base
 
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "#{Esodes::API_SERVER}/services/DokumentPrzychodzacyESODUsluga?wsdl",
-      endpoint: "#{Esodes::API_SERVER}/services/DokumentPrzychodzacyESODUsluga.DokumentPrzychodzacyESODUslugaHttpsSoap11Endpoint",
+      wsdl: "#{Rails.application.secrets[:wso2ei_url]}/services/DokumentPrzychodzacyESODUsluga?wsdl",
+      endpoint: "#{Rails.application.secrets[:wso2ei_url]}/services/DokumentPrzychodzacyESODUsluga.DokumentPrzychodzacyESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
                     "xmlns:dok" => "http://dokumentprzychodzacyESOD.dokument.uslugi.epl.uke.gov.pl/" 
                   },

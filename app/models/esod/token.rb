@@ -9,8 +9,8 @@ class Esod::Token
     client = Savon.client(
       encoding: "UTF-8",
 
-      wsdl: "#{Esodes::API_SERVER}/services/BezpieczenstwoESODUsluga?wsdl",
-      endpoint: "#{Esodes::API_SERVER}/services/BezpieczenstwoESODUsluga.BezpieczenstwoESODUslugaHttpsSoap11Endpoint",
+      wsdl: "#{Rails.application.secrets[:wso2ei_url]}/services/BezpieczenstwoESODUsluga?wsdl",
+      endpoint: "#{Rails.application.secrets[:wso2ei_url]}/services/BezpieczenstwoESODUsluga.BezpieczenstwoESODUslugaHttpsSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
                     "xmlns:tec" => "http://bezpieczenstwoESOD.uslugi.epl.uke.gov.pl/" },
       env_namespace: :soapenv,

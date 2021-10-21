@@ -29,7 +29,9 @@
       <div class="form-group col-sm-12">
         <%= f.label :division_id, class: 'control-label' %>
         <%= f.select :division_id, 
-              Division.only_category_scope(params[:category_service]).by_name.collect {|p| [ "#{p.name} (#{p.short_name})", p.id ]},
+              @examination.new_record? ? 
+                Division.only_category_scope(params[:category_service]).only_not_exclude.by_name.collect {|p| [ "#{p.name} (#{p.short_name})", p.id ]} :
+                Division.only_category_scope(params[:category_service]).by_name.collect {|p| [ "#{p.name} (#{p.short_name})", p.id ]} ,
               { include_blank: false, multiple: false }, 
               { class: 'form-control input-sm', disabled: !@examination.new_record? } %>
       </div>

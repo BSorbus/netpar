@@ -116,6 +116,7 @@ Rails.application.routes.draw do
   end
 
   resources :departments
+  resources :divisions
 
   resources :roles do
   	resources :users, only: [:create, :destroy], controller: 'roles/users'

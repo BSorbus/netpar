@@ -35,6 +35,13 @@
           </li>
         <% end %>
 
+        <% if policy(:division).index? %>
+          <li><%= link_to divisions_path do %>
+            <span class="<%= t('pages.division.model_icon') %>"></span>&nbsp;<%=t "link_to.divisions" %>
+            <% end %>
+          </li>
+        <% end %>
+
       </ul>
     </li>
   <% end %>

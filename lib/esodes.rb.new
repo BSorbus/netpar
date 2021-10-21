@@ -224,8 +224,8 @@ module Esodes
     end
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "#{Esodes::API_SERVER}/services/SlownikESODUsluga?wsdl",
-      endpoint: "#{Esodes::API_SERVER}/services/SlownikESODUsluga.SlownikESODUslugaHttpSoap11Endpoint",
+      wsdl: "#{Rails.application.secrets[:wso2ei_url]}/services/SlownikESODUsluga?wsdl",
+      endpoint: "#{Rails.application.secrets[:wso2ei_url]}/services/SlownikESODUsluga.SlownikESODUslugaHttpSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/" },
       env_namespace: :soapenv,
       namespace_identifier: :dok, 
@@ -266,8 +266,8 @@ module Esodes
     end
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "#{Esodes::API_SERVER}/services/SlownikESODUsluga?wsdl",
-      endpoint: "#{Esodes::API_SERVER}/services/SlownikESODUsluga.SlownikESODUslugaHttpSoap11Endpoint",
+      wsdl: "#{Rails.application.secrets[:wso2ei_url]}/services/SlownikESODUsluga?wsdl",
+      endpoint: "#{Rails.application.secrets[:wso2ei_url]}/services/SlownikESODUsluga.SlownikESODUslugaHttpSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/" },
       env_namespace: :soapenv,
       namespace_identifier: :dok, 
@@ -319,8 +319,8 @@ module Esodes
     end
     client = Savon.client(
       encoding: "UTF-8",
-      wsdl: "#{Esodes::API_SERVER}/services/SlownikESODUsluga?wsdl",
-      endpoint: "#{Esodes::API_SERVER}/services/SlownikESODUsluga.SlownikESODUslugaHttpSoap11Endpoint",
+      wsdl: "#{Rails.application.secrets[:wso2ei_url]}/services/SlownikESODUsluga?wsdl",
+      endpoint: "#{Rails.application.secrets[:wso2ei_url]}/services/SlownikESODUsluga.SlownikESODUslugaHttpSoap11Endpoint",
       namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/" },
       env_namespace: :soapenv,
       namespace_identifier: :dok, 

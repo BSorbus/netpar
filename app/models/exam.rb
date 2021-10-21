@@ -39,7 +39,8 @@ class Exam < ActiveRecord::Base
   validates :category, presence: true, inclusion: { in: %w(L M R) }
   validates :user, presence: true
 
-  validates :province_id, presence: true
+  validates :province_id, presence: true, if: "(online == false)"
+  validates :province_id, absence: true, if: "(online == true)"
   validates :max_examinations, numericality: true, allow_blank: true
 
 #  validates :esod_matter, uniqueness: { case_sensitive: false }, allow_blank: true

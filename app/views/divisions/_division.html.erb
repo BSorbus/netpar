@@ -1,0 +1,15 @@
+<td>
+  <%= link_to division.short_name, division %>
+</td>
+<td>
+  <%= division.category %>
+</td>
+<td>
+  <%= division.number_prefix %>
+</td>
+<td>
+  <%= division.name %>
+</td>
+<td>
+  <%= division.for_new_certificate? ? '' : 'blokada nowych' %>
+</td>

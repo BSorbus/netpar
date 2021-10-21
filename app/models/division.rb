@@ -31,19 +31,24 @@ class Division < ActiveRecord::Base
   has_many :exams, through: :exams_divisions
 
   accepts_nested_attributes_for :subjects
-
+  # accepts_nested_attributes_for :examiners,
+  #                               reject_if: proc { |attributes| attributes['name'].blank? },
+  #                               allow_destroy: true
   # validates
-  validates :name, presence: true, uniqueness: { :case_sensitive => false, :scope => [:category] }
+  validates :name, presence: true, uniqueness: { case_sensitive: false, scope: [:category] }
+  validates :english_name, presence: true, allow_blank: true, uniqueness: { case_sensitive: false, scope: [:category] }
   validates :category, presence: true, inclusion: { in: %w(L M R) }
-  validates :short_name, presence: true
-  validates :number_prefix, presence: true
+  validates :short_name, presence: true, length: { in: 1..10 }, uniqueness: { case_sensitive: false, scope: [:category] }
+  validates :number_prefix, presence: true, length: { in: 1..10 }
 
 
   # scopes
   scope :only_category_scope, ->(cat)  { where(category: cat.upcase) }
   scope :by_name, -> { order(:name) }
-  scope :only_not_exclude, ->()  { where.not(id: DIVISION_EXCLUDE_FOR_NEW) }
-  scope :only_not_exclude_for_internet, ->()  { where.not(id: DIVISION_EXCLUDE_FOR_INTERNET) }
+  # scope :only_not_exclude, ->()  { where.not(id: DIVISION_EXCLUDE_FOR_NEW) }
+  # scope :only_not_exclude_for_internet, ->()  { where.not(id: DIVISION_EXCLUDE_FOR_INTERNET) }
+  scope :only_not_exclude, ->()  { where(for_new_certificate: true) }
+  scope :only_not_exclude_for_internet, ->()  { where(proposal_via_internet: true) }
 
 
   # Scope for select2: "division_select"

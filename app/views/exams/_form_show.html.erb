@@ -26,6 +26,13 @@
     </div>  <!-- /row -->
 
     <div class="row">
+      <div class="form-group col-sm-2">
+        <p><strong><%= Exam.human_attribute_name(:online) %></strong></p>
+        <h5><%= @exam.online? ? 'Tak' : 'Nie' %></h5>
+      </div>
+    </div>  <!-- /row -->
+
+    <div class="row">
       <div class="form-group col-sm-6">
         <p><strong><%= Exam.human_attribute_name(:place_exam) %></strong></p>
         <h5><%= @exam.place_exam %></h5>

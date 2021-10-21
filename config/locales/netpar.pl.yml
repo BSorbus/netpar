@@ -36,6 +36,16 @@ pl:
         title: 'Oddział - edycja danych'
       new:
         title: 'Nowy Oddział'
+    division:
+      model_icon: 'fa fa-address-card'
+      index:
+        title: 'Typy Świadectw'
+      show:
+        title: 'Typ Świadectwa'
+      edit:
+        title: 'Typ Świadectwa - edycja danych'
+      new:
+        title: 'Nowy Typ Świadectwa'
     certificate:
       model_icon: 'fa fa-certificate'
       index:
@@ -294,6 +304,7 @@ pl:
     works: 'Operacje'
     roles: 'Role'
     departments: 'Oddziały'
+    divisions: 'Typy Świadectw'
     customers: 'Klienci'
     certificates: 'Świadectwa'
     certificates_l: 'Świadectwa LOT'
@@ -343,6 +354,12 @@ pl:
       update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych oddziału!'
       create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć oddziałów!'
       destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać oddziałów!'
+    division_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy typów świadectw!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów typu świadectwa!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych typu świadectwa!'
+      create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć typów świadectw!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać typów świadectw!'
     customer_policy:
       index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy klientów!'
       show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów klienta!'
@@ -422,6 +439,7 @@ pl:
       role: 'Rola'
       user: 'Użytkownik'
       department: 'Oddział'
+      division: 'Typ Świadectwa'
       certificate: 'Świadectwo'
       exam: 'Sesja'
       exams_division: 'Dopuszczone rodzaje świadectw w programie "Egzaminy"'
@@ -497,6 +515,16 @@ pl:
         fax: 'Fax'
         email: 'Email'
         director: 'Dyrektor'
+      division:
+        name: 'Nazwa'
+        english_name: 'Nazwa EN'
+        short_name: 'Skrót'
+        category: 'Służba'
+        number_prefix: 'Prefix'
+        min_years_old: 'Minimalny wiek'
+        face_image_required: 'Wymagane zdjęcie'
+        for_new_certificate: 'Dozwolony dla nowych dokumentów'
+        proposal_via_internet: 'Dozwolony dla zapisów przez internet'
       document:
         fileattach: 'Załącznik'
         fileattach_filename: 'Nazwa pliku'
@@ -578,6 +606,7 @@ pl:
         info: "Informacje dodatkowe"
         max_examinations: "Max zgłoszeń przez Internet"
         flat_all_esod_matters: 'ESOD'
+        online: "Sesja on-line"
       exam/examiners:
         name: 'Nazwisko i imię'
       examiner:
@@ -637,7 +666,8 @@ pl:
       subject:
         name: 'Nazwa'
         item: 'No'
-        esod_categories: 'Rodzaje wniosków'
+        esod_categories: 'kategorie ESOD'
+        test_template: 'Wzorzec testu'
       grade:
         subject_id: 'Przedmiot'
         grade_result: 'Ocena'
@@ -728,6 +758,12 @@ pl:
         esod_address: 'Address'
         initialized_from_esod: 'Założona w ESOD?'
         netpar_user: 'NETPAR: User'
+    errors:
+      models:
+        exam:
+          attributes:
+            province_id:
+              present: 'nie może posiadać wartości jeżeli sesja jest określona jako "on-line"'
   tooltip:
     show: 'Pokaż'
     edit: 'Edycja'
@@ -743,11 +779,14 @@ pl:
         name: 'np. Jan Kowalski'
         email: 'np. j.kowalski@uke.gov.pl'
     department:
-      show:
       form:
         short: 'np. UKE-BY'
         name: 'np. Urząd Komunikacji Elektronicznej Oddział w Bydgoszczy'
-      index:
+    division:
+      form:
+        short_name: 'np. GOC'
+        number_prefix: 'np. GG-'
+        name: 'świadectwo ogólne operatora GMDSS'
     exam_l:
       form:
         number: 'np. 123/2015/L'

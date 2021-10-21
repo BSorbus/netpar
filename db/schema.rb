@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200903100818) do
+ActiveRecord::Schema.define(version: 20211004105108) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -164,16 +164,17 @@ ActiveRecord::Schema.define(version: 20200903100818) do
   create_table "divisions", force: :cascade do |t|
     t.string   "name"
     t.string   "english_name"
-    t.string   "category",            limit: 1, default: "R",   null: false
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
+    t.string   "category",              limit: 1, default: "R",   null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.string   "short_name"
     t.string   "number_prefix"
-    t.integer  "min_years_old",                 default: 0
-    t.boolean  "face_image_required",           default: false
+    t.integer  "min_years_old",                   default: 0
+    t.boolean  "face_image_required",             default: false
+    t.boolean  "for_new_certificate",             default: true,  null: false
+    t.boolean  "proposal_via_internet",           default: true,  null: false
   end
 
-  add_index "divisions", ["english_name", "category"], name: "index_divisions_on_english_name_and_category", unique: true, using: :btree
   add_index "divisions", ["name", "category"], name: "index_divisions_on_name_and_category", unique: true, using: :btree
 
   create_table "documents", force: :cascade do |t|
@@ -482,16 +483,16 @@ ActiveRecord::Schema.define(version: 20200903100818) do
   add_index "examiners", ["exam_id"], name: "index_examiners_on_exam_id", using: :btree
 
   create_table "exams", force: :cascade do |t|
-    t.string   "number",                    limit: 30, default: "",  null: false
+    t.string   "number",                    limit: 30, default: "",    null: false
     t.date     "date_exam"
     t.string   "place_exam",                limit: 50, default: ""
     t.string   "chairman",                  limit: 50, default: ""
     t.string   "secretary",                 limit: 50, default: ""
-    t.string   "category",                  limit: 1,  default: "R", null: false
+    t.string   "category",                  limit: 1,  default: "R",   null: false
     t.text     "note",                                 default: ""
     t.integer  "user_id"
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
     t.integer  "examinations_count",                   default: 0
     t.integer  "certificates_count",                   default: 0
     t.integer  "esod_category"
@@ -499,7 +500,8 @@ ActiveRecord::Schema.define(version: 20200903100818) do
     t.string   "province_name",             limit: 50, default: ""
     t.integer  "proposals_important_count",            default: 0
     t.string   "info",                                 default: ""
-    t.string   "province_id",               limit: 2,  default: "",  null: false
+    t.string   "province_id",               limit: 2,  default: "",    null: false
+    t.boolean  "online",                               default: false, null: false
   end
 
   add_index "exams", ["category"], name: "index_exams_on_category", using: :btree
@@ -587,18 +589,18 @@ ActiveRecord::Schema.define(version: 20200903100818) do
   end
 
   create_table "proposals", force: :cascade do |t|
-    t.uuid     "multi_app_identifier",                                                     null: false
+    t.uuid     "multi_app_identifier",                                                       null: false
     t.integer  "proposal_status_id"
-    t.string   "category",               limit: 1,                                         null: false
+    t.string   "category",               limit: 1,                                           null: false
     t.integer  "user_id"
     t.integer  "creator_id"
-    t.string   "name",                   limit: 160,                         default: "",  null: false
-    t.string   "given_names",            limit: 50,                          default: "",  null: false
+    t.string   "name",                   limit: 160,                         default: "",    null: false
+    t.string   "given_names",            limit: 50,                          default: "",    null: false
     t.string   "pesel",                  limit: 11,                          default: ""
     t.date     "birth_date"
     t.string   "birth_place",            limit: 50,                          default: ""
     t.string   "phone",                  limit: 50,                          default: ""
-    t.string   "email",                  limit: 50,                          default: "",  null: false
+    t.string   "email",                  limit: 50,                          default: "",    null: false
     t.string   "c_address_house",        limit: 10,                          default: ""
     t.string   "c_address_number",       limit: 10,                          default: ""
     t.string   "c_address_postal_code",  limit: 10,                          default: ""
@@ -636,6 +638,7 @@ ActiveRecord::Schema.define(version: 20200903100818) do
     t.string   "street_name",            limit: 50,                          default: ""
     t.string   "street_attribute",       limit: 20,                          default: ""
     t.string   "address_combine_id",     limit: 26,                          default: ""
+    t.boolean  "exam_online",                                                default: false, null: false
   end
 
   add_index "proposals", ["category"], name: "index_proposals_on_category", using: :btree
@@ -681,6 +684,7 @@ ActiveRecord::Schema.define(version: 20200903100818) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.string   "esod_categories", default: [],              array: true
+    t.string   "test_template",   default: ""
   end
 
   add_index "subjects", ["division_id"], name: "index_subjects_on_division_id", using: :btree

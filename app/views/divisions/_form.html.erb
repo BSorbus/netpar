@@ -1,0 +1,154 @@
+<%= form_for [@division], :html => { :role => 'form division' } do |f| %>
+
+  <% input_disabled ||= false  
+     #if input_disabled is not passed to the partial it doesn't crash. 
+     # We default it to false 
+  %>
+
+  <%= form_errors_for @division %>
+
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+
+        <div class="form-group col-sm-3">
+          <%= f.label :short_name, class: 'control-label' %>
+          <%= f.text_field :short_name, autofocus: true, class: 'form-control input-sm', placeholder: t('placeholder_text.division.form.short_name'), disabled: input_disabled %>
+        </div>
+
+        <div class="form-group col-sm-3">
+          <%= f.label :category, class: 'control-label' %>
+          <%= f.select :category, 
+                options_for_select([["L - lotnicza", 'L'],
+                                    ["M - morska i żeglugi śródlądowej", 'M'], 
+                                    ["R - radioamatorska", 'R']], 
+                    selected: @division.category), 
+                { include_blank: false}, 
+                { autofocus: false, class: 'form-control input-sm', 
+                  disabled: input_disabled } %>
+
+        </div>
+
+        <div class="form-group col-sm-3">
+          <%= f.label :number_prefix, class: 'control-label' %>
+          <%= f.text_field :number_prefix, class: 'form-control input-sm', placeholder: t('placeholder_text.division.form.number_prefix'), disabled: input_disabled %>
+        </div>
+
+      </div>  <!-- /row -->
+
+      <div class="row">
+
+        <div class="form-group col-sm-6">
+          <%= f.label :name, class: 'control-label' %>
+          <%= f.text_field :name, class: 'form-control input-sm', placeholder: t('placeholder_text.division.form.name'), disabled: input_disabled %>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <%= f.label :english_name, class: 'control-label' %>
+          <%= f.text_field :english_name, class: 'form-control input-sm', disabled: input_disabled %>
+        </div>
+
+      </div>  <!-- /row -->
+
+
+    </div>  <!-- /col-sm-12 -->
+  </div>  <!-- /row -->
+
+  <hr class="hr-without-top-margin">
+
+  <div class="row">
+    <div class="col-sm-12">
+
+      <div class="row">
+
+        <div class="form-group col-sm-3">
+          <%= f.label :min_years_old, class: 'control-label' %>
+          <%= f.number_field :min_years_old, class: 'form-control input-sm', min: 0, step: 1, disabled: input_disabled %>
+        </div>
+
+        <div class="form-group col-sm-3">
+          <%= f.label :face_image_required, class: 'control-label' %><br>
+          <%= f.check_box :face_image_required, disabled: input_disabled %>
+        </div>
+
+        <div class="form-group col-sm-3">
+          <%= f.label :for_new_certificate, class: 'control-label' %><br>
+          <%= f.check_box :for_new_certificate, disabled: input_disabled %>
+        </div>
+
+        <div class="form-group col-sm-3">
+          <%= f.label :proposal_via_internet, class: 'control-label' %><br>
+          <%= f.check_box :proposal_via_internet, disabled: input_disabled %>
+        </div>
+
+      </div>  <!-- /row -->
+
+    </div>  <!-- /col-sm-12 -->
+  </div>  <!-- /row -->
+
+  <div class="row">
+    <div class="form-group col-sm-12">
+
+      <fieldset class="my-fieldset">
+        <legend class="my-fieldset">Egzamin obejmuje przedmioty:</legend>
+
+        <div class="row">
+          <div class="form-group col-sm-12">
+
+            <div class="row">
+              <div class="form-group required col-sm-1">
+                <strong><%= Subject.human_attribute_name(:item) %></strong>
+              </div>
+              <div class="form-group required col-sm-6">
+                <strong><%= Subject.human_attribute_name(:name) %></strong>
+              </div>
+              <div class="form-group required col-sm-1">
+                <strong><%= Subject.human_attribute_name(:esod_categories) %></strong>
+              </div>
+              <div class="form-group required col-sm-2">
+                <strong><%= Subject.human_attribute_name(:test_template) %></strong>
+              </div>
+            </div>  <!-- /row -->
+
+            <div class='subjects clearfix'>
+              <div class='subjects-sub-form'>
+                <%= f.fields_for :subjects do |subject_form|  %>
+                  <%= render 'subject_fields', f: subject_form %> 
+                <% end %>
+              </div>
+              <%= link_to_add_fields( t("helpers.links.link_to_add_fields_nested"), f, :subjects) %>
+            </div>
+
+          </div>
+        </div> <!--/row -->
+      </fieldset>
+
+    </div>  <!-- /col-sm-12 -->
+  </div>  <!-- /row -->
+
+  <hr class="hr-without-top-margin">
+
+  <% if input_disabled %>
+    <!-- for "Show" -->
+  <% else %>
+    <!-- form "New"/"Edit" -->
+    <div class="row">
+      <%= link_to divisions_path(), class: "btn btn-default" do %>
+        <span class="fa fa-list"></span>
+        <%= t("helpers.links.index") %>
+      <% end %>
+
+      <%= link_to :back, class: "btn btn-default" do %>
+        <span class="fa fa-undo"></span>
+        <%= t("helpers.links.back") %>
+      <% end %>
+
+
+      <%= f.submit nil, :class => 'btn btn-success' %>
+    </div> <!-- /row -->
+  <% end %>
+  
+<% end %>
+
+
