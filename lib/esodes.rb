@@ -13,7 +13,7 @@ module Esodes
   # 10.40.1.6:8243(epl-esb2) 
 
       #  API_SERVER = "https://10.60.0.135:443" # LB sprzetowy (F5)
-      API_SERVER = "https://10.60.0.105:443" # LB sprzetowy TEST (F5)
+      #  API_SERVER = "https://10.60.0.105:443" # LB sprzetowy TEST (F5)
 
       #  API_SERVER = "https://10.40.1.4:443"  # LB programowy starej ESB
       #  API_SERVER = "https://10.40.2.4:8443" # LB programowy starej ESB-TEST
