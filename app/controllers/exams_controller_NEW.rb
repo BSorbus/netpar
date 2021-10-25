@@ -503,23 +503,11 @@ class ExamsController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    # def exam_params
-    #   params.require(:exam).permit(:esod_category, :number, :date_exam, :place_exam, :info, :chairman, :secretary, :category, :note, :user_id, 
-    #     :province_id, :max_examinations, :online, examiners_attributes: [:id, :name, :_destroy], exams_divisions_attributes: [:id, :division_id, :_destroy]).tap do |xx|
-
-    #     aa
-    #   end
-    # end
-
     def exam_params
       params.require(:exam).permit(:esod_category, :number, :date_exam, :place_exam, :info, :chairman, :secretary, :category, :note, :user_id, 
-        :province_id, :max_examinations, :online, examiners_attributes: [:id, :name, :_destroy], division_ids: []).tap do |xx|
+        :province_id, :max_examinations, :online, examiners_attributes: [:id, :name, :_destroy], exams_divisions_attributes: [:id, :division_id, :_destroy]).tap do |xx|
 
- # => {"esod_category"=>"47", "number"=>"73/21/A", "date_exam"=>"2021-12-03", "place_exam"=>"UKE Poznań", "info"=>"ul. Kasprzaka 54, godz. 13:00", "chairman"=>"", "secretary"=>"", "note"=>"", 
- # "province_id"=>"04", "max_examinations"=>"4", "division_ids"=>["18", ""]}
-
-
+        aa
       end
     end
-
 end

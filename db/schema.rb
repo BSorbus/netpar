@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20211004105108) do
+ActiveRecord::Schema.define(version: 20211023141447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -524,6 +524,18 @@ ActiveRecord::Schema.define(version: 20211004105108) do
   add_index "exams_divisions", ["exam_id", "division_id"], name: "index_exams_divisions_on_exam_id_and_division_id", unique: true, using: :btree
   add_index "exams_divisions", ["exam_id"], name: "index_exams_divisions_on_exam_id", using: :btree
 
+  create_table "exams_divisions_subjects", force: :cascade do |t|
+    t.integer  "exams_division_id"
+    t.integer  "subject_id"
+    t.string   "testportal_test_id", default: "", null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "exams_divisions_subjects", ["exams_division_id", "subject_id"], name: "exams_divisions_subjects_unique", unique: true, using: :btree
+  add_index "exams_divisions_subjects", ["exams_division_id"], name: "index_exams_divisions_subjects_on_exams_division_id", using: :btree
+  add_index "exams_divisions_subjects", ["subject_id"], name: "index_exams_divisions_subjects_on_subject_id", using: :btree
+
   create_table "grades", force: :cascade do |t|
     t.integer  "examination_id"
     t.integer  "subject_id"
@@ -775,6 +787,7 @@ ActiveRecord::Schema.define(version: 20211004105108) do
   add_foreign_key "exams", "users"
   add_foreign_key "exams_divisions", "divisions"
   add_foreign_key "exams_divisions", "exams"
+  add_foreign_key "exams_divisions_subjects", "exams_divisions", on_delete: :cascade
   add_foreign_key "grades", "examinations"
   add_foreign_key "grades", "subjects"
   add_foreign_key "grades", "users"

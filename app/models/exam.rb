@@ -5,27 +5,33 @@ class Exam < ActiveRecord::Base
  
   has_many :certificates, dependent: :destroy
   has_many :examinations, dependent: :destroy
+  has_many :exams_divisions, dependent: :destroy
+#  has_many :exams_divisions, dependent: :restrict_with_error
   has_many :proposals, dependent: :destroy
   has_many :examiners, inverse_of: :exam, dependent: :destroy  
 
-  accepts_nested_attributes_for :examiners,
-                                reject_if: proc { |attributes| attributes['name'].blank? },
-                                allow_destroy: true
-  validates_associated :examiners
+  # accepts_nested_attributes_for :examiners,
+  #                               reject_if: proc { |attributes| attributes['name'].blank? },
+  #                               allow_destroy: true
 
   has_many :works, as: :trackable
   has_many :documents, as: :documentable, dependent: :destroy
+
   has_many :certificate_customers, through: :certificates, source: :customer
   has_many :examination_customers, through: :examinations, source: :customer
   has_many :esod_matters, class_name: "Esod::Matter", foreign_key: :exam_id, dependent: :nullify
 
-  has_many :exams_divisions, dependent: :destroy
   has_many :divisions, through: :exams_divisions
+  has_many :subjects, through: :exams_divisions
+  has_many :exams_divisions_subjects, through: :exams_divisions
 
   accepts_nested_attributes_for :examiners, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :exams_divisions, reject_if: :all_blank, allow_destroy: true
 
   # validates
+  validates_associated :examiners
+  validates_associated :exams_divisions
+
   validates :esod_category, presence: true, inclusion: { in: Esodes::ALL_CATEGORIES_EXAMS }
   validates :number, presence: true,
                     length: { in: 1..30 },
@@ -45,7 +51,14 @@ class Exam < ActiveRecord::Base
 
 #  validates :esod_matter, uniqueness: { case_sensitive: false }, allow_blank: true
   validate :exam_has_examinations, on: :update, if: "(esod_category != esod_category_was) || (date_exam != date_exam_was) || (info != info_was)"
+#  validate :exam_has_valid_exams_divisions#, on: :update, if: "(online == true)"
 
+
+#  validate_nested_uniqueness_of :exams_divisions, uniq_key: :division_id, scope: [:exam], case_sensitive: false #, error_key: :addresses_address_type_nested_taken
+#translation missing: pl.activerecord.errors.models.exam.attributes.base.nested_taken
+  validate_nested_uniqueness_of :exams_divisions, uniq_key: :division_id, scope: [:exam], case_sensitive: false, error_key: :exams_divisions_nested_taken
+
+#   validate_nested_uniqueness_of :features, uniq_key: :feature_type_id, scope: [:featurable], case_sensitive: false, error_key: :nested_taken
 
   # scopes
 	scope :only_category_l, -> { where(category: "L") }
@@ -125,6 +138,14 @@ class Exam < ActiveRecord::Base
     end
     analize_value
   end
+
+  def exam_has_valid_exams_divisions
+    puts '--------------------------------------------------------------'    
+    puts '                validate :exam_has_valid_exams_divisions      '
+    puts '--------------------------------------------------------------'        
+#      self.errors[:base] << "call from :exam_has_valid_exams_divisions."
+
+  end
   
   # Scope for select2: "exam_select"
   # * parameters   :
@@ -173,5 +194,6 @@ class Exam < ActiveRecord::Base
     end
 
   end
+
 
 end

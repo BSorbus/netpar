@@ -99,4 +99,12 @@ class DivisionsController < ApplicationController
       params.require(:division).permit(:short_name, :category, :number_prefix, :name, :english_name, :min_years_old, :face_image_required, 
         :for_new_certificate, :proposal_via_internet, subjects_attributes: [:id, :item, :name, :esod_categories, :test_template, :_destroy])
     end
+
+    # def division_params
+    #   params.require(:division).permit(:short_name, :category, :number_prefix, :name, :english_name, :min_years_old, :face_image_required, 
+    #     :for_new_certificate, :proposal_via_internet, subjects_attributes: [:id, :item, :name, :esod_categories, :test_template, :_destroy]).tap do |parameters|
+    #       parameters[subjects_attributes:[:esod_categories]] = parameters[subjects_attributes:[:esod_categories]].try(:split)
+    #   end
+    # end
+
 end

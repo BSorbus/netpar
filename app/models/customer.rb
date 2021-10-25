@@ -355,26 +355,28 @@ class Customer < ActiveRecord::Base
 
     message_body = { 
       "parametryOperacjiWyszukajModyfikujUtworzKontrahenta" => {
-        "imie" => self.esod_contractor.imie,
-        "nazwisko" => self.esod_contractor.nazwisko,
-        "pesel" => self.esod_contractor.pesel,
-        "rodzajOsoby" => {
-          "nrid" => 1
-        },
-        "adres" => { 
-          "kodPocztowy" => self.esod_address.kod_pocztowy,
-          "miasto" => self.esod_address.miasto,
-          "miastoPoczty" => self.esod_address.miasto_poczty,
-          "numerBudynku" => self.esod_address.numer_budynku,
-          "numerLokalu" => self.esod_address.numer_lokalu,
-          "panstwo" => self.esod_address.panstwo, 
-          "typ" => "fizyczny",
-          "ulica" => self.esod_address.ulica
-        },
-        "dodatkoweAtrybuty" => { 
-          "atrybut" => {
-            "identyfikator" => "NETPAR",
-            "wartosc" => self.esod_contractor.customer_id
+        "osoba" => {
+          "imie" => self.esod_contractor.imie,
+          "nazwisko" => self.esod_contractor.nazwisko,
+          "pesel" => self.esod_contractor.pesel,
+          "rodzajOsoby" => {
+            "nrid" => 1
+          },
+          "adres" => { 
+            "kodPocztowy" => self.esod_address.kod_pocztowy,
+            "miasto" => self.esod_address.miasto,
+            "miastoPoczty" => self.esod_address.miasto_poczty,
+            "numerBudynku" => self.esod_address.numer_budynku,
+            "numerLokalu" => self.esod_address.numer_lokalu,
+            "panstwo" => self.esod_address.panstwo, 
+            "typ" => "fizyczny",
+            "ulica" => self.esod_address.ulica
+          },
+          "dodatkoweAtrybuty" => { 
+            "atrybut" => {
+              "identyfikator" => "NETPAR",
+              "wartosc" => self.esod_contractor.customer_id
+            }
           }
         }
       }

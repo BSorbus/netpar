@@ -2,6 +2,7 @@ class Subject < ActiveRecord::Base
   belongs_to :division
 
   has_many :grades, dependent: :nullify  
+  has_many :exams_divisions_subjects
 
   # validates
   validates :item, presence: true,

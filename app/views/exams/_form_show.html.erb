@@ -25,12 +25,23 @@
       </div>
     </div>  <!-- /row -->
 
+
     <div class="row">
       <div class="form-group col-sm-2">
         <p><strong><%= Exam.human_attribute_name(:online) %></strong></p>
         <h5><%= @exam.online? ? 'Tak' : 'Nie' %></h5>
       </div>
     </div>  <!-- /row -->
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <fieldset class="my-fieldset">
+          <legend class="my-fieldset">Identyfikatory testów</legend>
+
+
+        </fieldset>
+      </div>
+    </div>
 
     <div class="row">
       <div class="form-group col-sm-6">
@@ -71,52 +82,37 @@
 
     <hr class="hr-without-top-margin">
 
-    <div class="row">
-      <div class="form-group col-sm-6">
-        <p><strong><%= Exam.human_attribute_name(:chairman) %></strong></p>
-        <h5><%= @exam.chairman %></h5>
+    <fieldset class="my-fieldset">
+      <legend class="my-fieldset">Skład komisji</legend>
+      <div class="row">
+        <div class="form-group col-sm-6">
+          <p><strong><%= Exam.human_attribute_name(:chairman) %></strong></p>
+          <h5><%= @exam.chairman %></h5>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <p><strong><%= Exam.human_attribute_name(:secretary) %></strong></p>
+          <h5><%= @exam.secretary %></h5>
+        </div>
       </div>
 
-      <div class="form-group col-sm-6">
-        <p><strong><%= Exam.human_attribute_name(:secretary) %></strong></p>
-        <h5><%= @exam.secretary %></h5>
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <p><strong>Członkowie komisji:</strong></p>
+
+          <table class="table table-hover">
+            <tbody>
+              <% @exam.examiners.order(:name).each do |examiner| %>
+                <tr>
+                  <td><%= examiner.name %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+        </div>
       </div>
-    </div>
-
-    <div class="row">
-      <div class="form-group col-sm-12">
-        <p><strong>Członkowie komisji:</strong></p>
-
-        <table class="table table-hover">
-          <tbody>
-            <% @exam.examiners.order(:name).each do |examiner| %>
-              <tr>
-                <td><%= examiner.name %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="form-group col-sm-12">
-        <p><strong><%= ExamsDivision.model_name.human %>:</strong></p>
-
-        <table class="table table-hover">
-          <tbody>
-            <% @exam.divisions.order(:name).each do |division| %>
-              <tr>
-                <td><%= division.name %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-
-      </div>
-    </div>
-
+    </fieldset>
 
     <div class="row">
       <div class="form-group col-sm-12">
@@ -146,8 +142,40 @@
 
     </div> <!-- /row -->
 
-  </div> <!-- /col-sm-6 -->
+  </div> <!-- /col-sm-5 -->
 </div> <!-- /row -->
+
+<div class="row">
+  <div class="form-group col-sm-12">
+    <fieldset class="my-fieldset">
+      <legend class="my-fieldset"><%= ExamsDivision.model_name.human %></legend>
+<!-- 
+        <table class="table table-hover">
+          <tbody>
+            <%# @exam.divisions.order(:name).each do |division| %>
+              <tr>
+                <td><%#= division.name %></td>
+              </tr>
+            <%# end %>
+          </tbody>
+        </table>
+
+ -->
+        <table class="table table-hover">
+          <tbody>
+            <% @exam.exams_divisions.each do |exams_division| %>
+              <tr>
+                <td><%= exams_division.division.name %></td>
+                <td><%= exams_division.flat_all_exams_divisions_subjects %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+
+    </fieldset>
+  </div>
+</div>
 
 <hr class="hr-without-top-margin">
 
