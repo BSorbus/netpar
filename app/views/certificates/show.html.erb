@@ -28,9 +28,6 @@
     </div> <!-- /col-sm-12-->
   </div> <!-- /row -->
 
-  <% if policy(:esod).index? || policy(:esod).show? %>
-    <%= render partial: "esod/matters/matters_in_panel", locals: {matterable: @certificate, esod_incoming_letter: @esod_incoming_letter, esod_outgoing_letter: @esod_outgoing_letter, esod_internal_letter: @esod_internal_letter} %>
-  <% end %>
   <%= render partial: "documents/documents_in_panel", locals: {documentable: @certificate} %>
 
   <!-- Wydruki -->
@@ -64,5 +61,9 @@
     <%= render partial: "works/works_in_panel", locals: {trackable_type: 'Certificate', trackable_id: @certificate.id} %>
   <% end %>
 
+  <!-- Esod -->
+  <% if policy(:esod).index? || policy(:esod).show? %>
+    <%= render partial: "esod/matters/matters_in_panel", locals: {matterable: @certificate, esod_incoming_letter: @esod_incoming_letter, esod_outgoing_letter: @esod_outgoing_letter, esod_internal_letter: @esod_internal_letter} %>
+  <% end %>
 
 </div> <!-- /class="panel-group" id="myaccordion" -->

@@ -32,11 +32,7 @@
   </div> <!-- /row -->
 
 
-  <% if policy(:esod).index? || policy(:esod).show? %>
-    <%= render partial: "esod/matters/matters_in_panel", locals: {matterable: @examination, esod_incoming_letter: @esod_incoming_letter, esod_outgoing_letter: @esod_outgoing_letter, esod_internal_letter: @esod_internal_letter} %>
-  <% end %>
   <%= render partial: "documents/documents_in_panel", locals: {documentable: @examination} %>
-
 
   <!-- Wydruki -->
   <div class="row">
@@ -70,5 +66,9 @@
     <%= render partial: "works/works_in_panel", locals: {trackable_type: 'Examination', trackable_id: @examination.id} %>
   <% end %>
 
+  <!-- Esod -->
+  <% if policy(:esod).index? || policy(:esod).show? %>
+    <%= render partial: "esod/matters/matters_in_panel", locals: {matterable: @examination, esod_incoming_letter: @esod_incoming_letter, esod_outgoing_letter: @esod_outgoing_letter, esod_internal_letter: @esod_internal_letter} %>
+  <% end %>
 
 </div> <!-- /class="panel-group" id="myaccordion" -->

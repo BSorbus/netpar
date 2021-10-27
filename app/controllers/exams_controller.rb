@@ -513,11 +513,59 @@ class ExamsController < ApplicationController
 
     def exam_params
       params.require(:exam).permit(:esod_category, :number, :date_exam, :place_exam, :info, :chairman, :secretary, :category, :note, :user_id, 
-        :province_id, :max_examinations, :online, examiners_attributes: [:id, :name, :_destroy], division_ids: []).tap do |xx|
+        :province_id, :max_examinations, :online, examiners_attributes: [:id, :name, :_destroy], division_ids: []).tap do |tap_xx|
 
- # => {"esod_category"=>"47", "number"=>"73/21/A", "date_exam"=>"2021-12-03", "place_exam"=>"UKE Poznań", "info"=>"ul. Kasprzaka 54, godz. 13:00", "chairman"=>"", "secretary"=>"", "note"=>"", 
- # "province_id"=>"04", "max_examinations"=>"4", "division_ids"=>["18", ""]}
+      # INSERT
+      # {"esod_category"=>"47", "number"=>"73/21/A", "date_exam"=>"2021-12-03", "place_exam"=>"UKE Poznań", "province_id"=>"04", 
+      #   "info"=>"ul. Kasprzaka 54, godz. 13:00", "max_examinations"=>"4", "chairman"=>"A", "secretary"=>"B", 
+      #     "examiners_attributes"=>{
+      #       "1635237929099"=>{"name"=>"C1", "_destroy"=>"false"}, 
+      #       "1635237934309"=>{"name"=>"C2", "_destroy"=>"false"}}, 
+      #   "note"=>"", 
+      #     "division_ids"=>["18", "20", ""]}
 
+      # UPDATE
+      # {"esod_category"=>"47", "number"=>"73/21/A", "date_exam"=>"2021-12-03", "place_exam"=>"UKE Poznań", "province_id"=>"04", 
+      #   "info"=>"ul. Kasprzaka 54, godz. 13:00", "max_examinations"=>"4", "chairman"=>"A", "secretary"=>"B", 
+      #     "examiners_attributes"=>{
+      #       "0"=>{"name"=>"C1", "_destroy"=>"false", "id"=>"6342"}, 
+      #       "1"=>{"name"=>"C2", "_destroy"=>"false", "id"=>"6343"}, 
+      #       "1635238843867"=>{"name"=>"C3", "_destroy"=>"false"}}, 
+      #     "note"=>"", 
+      #       "division_ids"=>["18", "20", ""]}      
+
+        # exams_divisions_attributes:
+        # {"0"=>{"division_id"=>"18", "_destroy"=>"false", "id"=>"6342"}, 
+        #  "1"=>{"division_id"=>"20", "_destroy"=>"true", "id"=>"6343"}, 
+        #  "1635238843867"=>{"division_id"=>"21", "_destroy"=>"false"}}
+
+        divisions_ids_array = tap_xx.fetch(:division_ids).reject(&:empty?).map(&:to_i)
+        exams_divisions_was = ExamsDivision.where(exam_id: 10730)
+        exams_divisions_was_array = exams_divisions_was.pluck(:division_id)
+        exams_divisions_attr = {}
+
+        # new
+        (divisions_ids_array - exams_divisions_was_array).each do |x|
+          # exams_divisions_attr[(exams_divisions_attr.size).to_s] = {"division_id"=>"#{x}", "_destroy"=>"false"}
+          exams_divisions_attr[(exams_divisions_attr.size).to_s] = {division_id: x, _destroy: "false"}
+        end
+
+        # delete
+        (exams_divisions_was_array - divisions_ids_array).each do |x|
+          exams_divisions_attr[(exams_divisions_attr.size).to_s] = {division_id: x, _destroy: "true", id: "#{exams_divisions_was.find_by(division_id: x).id}"}
+        end
+
+        # no change
+        (exams_divisions_was_array & divisions_ids_array).each do |x|
+          exams_divisions_attr[(exams_divisions_attr.size).to_s] = {division_id: x, _destroy: "false", id: "#{exams_divisions_was.find_by(division_id: x).id}"}
+        end
+
+        puts 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+        tap_xx.delete :division_ids
+        tap_xx[:exams_divisions_attributes] = exams_divisions_attr
+        puts 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+        puts tap_xx
+        puts 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 
       end
     end

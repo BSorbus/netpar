@@ -15,7 +15,7 @@ class ExamsDivision < ActiveRecord::Base
 #  before_destroy :exams_division_has_links, prepend: true
 
   # validates
-#  validate :all_generated_tests_valid, on: :create
+  validate :all_generated_tests_valid, on: :create
 
   # callbacks
   after_initialize :build_testportal_tests_and_save_identifiers, if: "self.new_record?"
@@ -29,14 +29,8 @@ class ExamsDivision < ActiveRecord::Base
   def all_generated_tests_valid
     puts '--------------------------------------------------------------'    
     puts '                validate :all_generated_tests_valid            '
-    puts self.exam
     puts '--------------------------------------------------------------'        
-#      self.errors[:base] << "call from all_generated_tests_valid."
-#     self.errors[:base] << "call from all_generated_tests_valid."
-#    self.exam.errors[:base] << "call from all_generated_tests_valid."
-#    errors.add(:exam_id, "Błąd! : call from all_generated_tests_valid.")
-    self.errors.add(:base, "Błąd! : call from all_generated_tests_valid.")
-    false
+    # errors.add(:exam_id, "Błąd! : call from all_generated_tests_valid.")
   end
 
   private

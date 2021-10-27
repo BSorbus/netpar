@@ -33,15 +33,17 @@
       </div>
     </div>  <!-- /row -->
 
-    <div class="row">
-      <div class="form-group col-sm-12">
-        <fieldset class="my-fieldset">
-          <legend class="my-fieldset">Identyfikatory testów</legend>
+    <% if @exam.online? %>
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <fieldset class="my-fieldset">
+            <legend class="my-fieldset">Identyfikatory testów</legend>
 
 
-        </fieldset>
+          </fieldset>
+        </div>
       </div>
-    </div>
+    <% end %>
 
     <div class="row">
       <div class="form-group col-sm-6">
