@@ -540,34 +540,30 @@ class ExamsController < ApplicationController
         #  "1635238843867"=>{"division_id"=>"21", "_destroy"=>"false"}}
 
         divisions_ids_array = tap_xx.fetch(:division_ids).reject(&:empty?).map(&:to_i)
-        exams_divisions_was = ExamsDivision.where(exam_id: 10730)
-        exams_divisions_was_array = exams_divisions_was.pluck(:division_id)
+        exams_divisions = ExamsDivision.where(exam_id: params[:id])
+        exams_divisions_array = exams_divisions.pluck(:division_id)
         exams_divisions_attr = {}
 
         # new
-        (divisions_ids_array - exams_divisions_was_array).each do |x|
+        (divisions_ids_array - exams_divisions_array).each do |x|
           # exams_divisions_attr[(exams_divisions_attr.size).to_s] = {"division_id"=>"#{x}", "_destroy"=>"false"}
           exams_divisions_attr[(exams_divisions_attr.size).to_s] = {division_id: x, _destroy: "false"}
         end
 
         # delete
-        (exams_divisions_was_array - divisions_ids_array).each do |x|
-          exams_divisions_attr[(exams_divisions_attr.size).to_s] = {division_id: x, _destroy: "true", id: "#{exams_divisions_was.find_by(division_id: x).id}"}
+        (exams_divisions_array - divisions_ids_array).each do |x|
+          exams_divisions_attr[(exams_divisions_attr.size).to_s] = {division_id: x, _destroy: "true", id: "#{exams_divisions.find_by(division_id: x).id}"}
         end
 
         # no change
-        (exams_divisions_was_array & divisions_ids_array).each do |x|
-          exams_divisions_attr[(exams_divisions_attr.size).to_s] = {division_id: x, _destroy: "false", id: "#{exams_divisions_was.find_by(division_id: x).id}"}
+        (exams_divisions_array & divisions_ids_array).each do |x|
+          exams_divisions_attr[(exams_divisions_attr.size).to_s] = {division_id: x, _destroy: "false", id: "#{exams_divisions.find_by(division_id: x).id}"}
         end
 
-        puts 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
         tap_xx.delete :division_ids
         tap_xx[:exams_divisions_attributes] = exams_divisions_attr
-        puts 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-        puts tap_xx
-        puts 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-
       end
+
     end
 
 end
