@@ -546,7 +546,12 @@ class ExamsController < ApplicationController
 
         # new
         (divisions_ids_array - exams_divisions_array).each do |x|
-          # exams_divisions_attr[(exams_divisions_attr.size).to_s] = {"division_id"=>"#{x}", "_destroy"=>"false"}
+          # Jest OK - zastosuj jeżeli nie budujesz elementów z poziomu modelu.           
+          # exams_divisions_subjects_attr = {}
+          # Division.find(x).subjects.order(:item).each do |subiect|
+          #   exams_divisions_subjects_attr[exams_divisions_subjects_attr.size.to_s] = {subject_id: subiect.id, _destroy: "false"}
+          # end
+          # exams_divisions_attr[(exams_divisions_attr.size).to_s] = {division_id: x, _destroy: "false", exams_divisions_subjects_attributes: exams_divisions_subjects_attr}
           exams_divisions_attr[(exams_divisions_attr.size).to_s] = {division_id: x, _destroy: "false"}
         end
 

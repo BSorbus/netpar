@@ -33,18 +33,6 @@
       </div>
     </div>  <!-- /row -->
 
-    <% if @exam.online? %>
-      <div class="row">
-        <div class="form-group col-sm-12">
-          <fieldset class="my-fieldset">
-            <legend class="my-fieldset">Identyfikatory testów</legend>
-
-
-          </fieldset>
-        </div>
-      </div>
-    <% end %>
-
     <div class="row">
       <div class="form-group col-sm-6">
         <p><strong><%= Exam.human_attribute_name(:place_exam) %></strong></p>
@@ -151,18 +139,6 @@
   <div class="form-group col-sm-12">
     <fieldset class="my-fieldset">
       <legend class="my-fieldset"><%= ExamsDivision.model_name.human %></legend>
-<!-- 
-        <table class="table table-hover">
-          <tbody>
-            <%# @exam.divisions.order(:name).each do |division| %>
-              <tr>
-                <td><%#= division.name %></td>
-              </tr>
-            <%# end %>
-          </tbody>
-        </table>
-
- -->
         <table class="table table-hover">
           <tbody>
             <% @exam.exams_divisions.each do |exams_division| %>

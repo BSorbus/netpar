@@ -34,8 +34,9 @@
     <div class="row">
       <div class="form-group col-sm-2">
         <%= f.label :online, class: 'control-label' %><br>
-<!--         <%#= f.check_box :online, disabled: !@exam.new_record?, id: "online_switch" %>-->
-        <%= f.check_box :online, disabled: true, id: "online_switch" %>
+        <%= f.check_box :online, disabled: (params[:category_service] != 'r'), id: "online_switch" %>
+<!--         <%= f.check_box :online, disabled: !@exam.new_record?, id: "online_switch" %>-->
+<!--         <%#= f.check_box :online, disabled: true, id: "online_switch" %>  -->
       </div>
     </div>  <!-- /row -->
 

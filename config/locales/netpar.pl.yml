@@ -442,6 +442,7 @@ pl:
       division: 'Typ Świadectwa'
       certificate: 'Świadectwo'
       exam: 'Sesja'
+      exam/divisions: 'Dopuszczone typy świadectw w programie "Egzaminy"'
       exams_division: 'Dopuszczone typy świadectw w programie "Egzaminy"'
       customer: 'Klient'
       document: 'Załącznik'
@@ -481,6 +482,7 @@ pl:
         account_on: 'Wystąpił błąd w czasie włączania konta "%{data}".'
         is_in_examinations: 'Jest już dodany wniosek, którego parametry odpowiadaję zgłoszeniu: "%{data}". Usuń z sesji egzaminacyjnej ręcznie dodany wpis i ponów akcjeptację Elektronicznego Zgłoszenia.'
         is_in_proposals_with_status_created: 'To nierozpatrzone Elektroniczne Zgłoszenie ma parametry, które próbujesz wpisać. Zamiast dodawać dane "z ręki" zaakceptuj to Elektroniczne Zgłoszenie.'
+        has_empty_testportal_id: 'Sesja Online "%{data}", której dotyczy zgłoszenie nie ma jeszcze testów w TestPortalu!'
       notice:
         no_records: 'Brak danych!'
     attributes:
@@ -607,8 +609,19 @@ pl:
         max_examinations: "Max zgłoszeń przez Internet"
         flat_all_esod_matters: 'ESOD'
         online: "Sesja on-line"
+        exams_divisions: 'Dopuszczone Typy świadectw w programie "Egzaminy"'
       exam/examiners:
         name: 'Nazwisko i imię'
+      exam/exams_divisions:
+        base: '[Dopuszczone Typy świadectw w programie "Egzaminy"]'
+        exam_id: '[Dopuszczone Typy świadectw w programie "Egzaminy"] Sesja egzaminacyjna'
+        division_id: '[Dopuszczone Typy świadectw w programie "Egzaminy"] Typ świadectwa w programie "Egzaminy"'
+        exams_divisions_subjects: '[Dopuszczone Typy świadectw w programie "Egzaminy"] Zbiór Przedmiotów testu'
+      exam/exams_divisions/exams_divisions_subjects:
+        base: 'Zbiór Testów w programie "TestPortal"'
+        exams_division_id: 'Typ świadectwa w programie "Egzaminy"'
+        subject_id: 'Przedmiot testu'
+        testportal_test_id: 'Identyfikator testu pobierany z programu "TestPortal"'
       examiner:
         name: 'Nazwisko i imię'
       customer:

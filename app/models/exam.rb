@@ -6,7 +6,6 @@ class Exam < ActiveRecord::Base
   has_many :certificates, dependent: :destroy
   has_many :examinations, dependent: :destroy
   has_many :exams_divisions, dependent: :destroy
-#  has_many :exams_divisions, dependent: :restrict_with_error
   has_many :proposals, dependent: :destroy
   has_many :examiners, inverse_of: :exam, dependent: :destroy  
 
@@ -50,11 +49,10 @@ class Exam < ActiveRecord::Base
   validates :max_examinations, numericality: true, allow_blank: true
 
 #  validates :esod_matter, uniqueness: { case_sensitive: false }, allow_blank: true
-  validate :exam_has_examinations, on: :update, if: "(esod_category != esod_category_was) || (date_exam != date_exam_was) || (info != info_was)"
-#  validate :exam_has_valid_exams_divisions#, on: :update, if: "(online == true)"
+  validate :exam_has_examinations, on: :update, if: :important_data_changed 
+#  validate :exam_has_valid_exams_divisions_and_subjects#, on: :update, if: "(online == true)"
 
 
-#  validate_nested_uniqueness_of :exams_divisions, uniq_key: :division_id, scope: [:exam], case_sensitive: false #, error_key: :addresses_address_type_nested_taken
 #translation missing: pl.activerecord.errors.models.exam.attributes.base.nested_taken
   validate_nested_uniqueness_of :exams_divisions, uniq_key: :division_id, scope: [:exam], case_sensitive: false, error_key: :exams_divisions_nested_taken
 
@@ -70,6 +68,13 @@ class Exam < ActiveRecord::Base
   before_save :save_province_name, if: :province_id_changed? 
   before_destroy :exam_has_links, prepend: true
 
+  def important_data_changed
+    (esod_category != esod_category_was) || 
+    (date_exam != date_exam_was) || 
+    (place_exam != place_exam_was) || 
+    (info != info_was) || 
+    (online != online_was)
+  end
 
   def save_province_name
     # province = PitTerytProvince.new(id: province_id)
@@ -106,16 +111,29 @@ class Exam < ActiveRecord::Base
     update_columns(proposals_important_count: proposals.where(proposal_status_id: ProposalStatus::PROPOSAL_IMPORTANT_STATUSES).size)
   end
 
+  def all_exams_divisions_subjects_has_testportal_id
+    if self.online?
+      # self.exams_divisions_subjects
+      false
+    else 
+      true
+    end
+  end
+
   def exam_has_examinations
     analize_value = true
-    if self.examinations.any? 
+    if self.examinations.any?
       errors.add(:esod_category, " - Nie można zmieniać Rodzaju Sesjido której są przypisane Osoby Egzaminowane.") if (esod_category != esod_category_was)
       errors.add(:date_exam, " - Nie można zmieniać Daty Sesji do której są przypisane Osoby Egzaminowane.") if (date_exam != date_exam_was)
+      errors.add(:place_exam, " - Nie można zmieniać Miejsca Sesji do której są przypisane Osoby Egzaminowane.") if (place_exam != place_exam_was)
+      errors.add(:online, " - Nie można zmieniać Sesja/Sesja Online do której są przypisane Osoby Egzaminowane.") if (online != online_was)
       analize_value = false
     end
     if self.proposals.any? 
       errors.add(:esod_category, " - Nie można zmieniać Rodzaju Sesji do której są złożone Elektronicznie Zgłoszenia.") if (esod_category != esod_category_was)
       errors.add(:date_exam, " - Nie można zmieniać Daty Sesji do której są złożone Elektronicznie Zgłoszenia.") if (date_exam != date_exam_was)
+      errors.add(:place_exam, " - Nie można zmieniać Miejsca Sesji do której są złożone Elektronicznie Zgłoszenia.") if (place_exam != place_exam_was)
+      errors.add(:online, " - Nie można zmieniać Sesja/Sesja Online do której są złożone Elektronicznie Zgłoszenia.") if (online != online_was)
       errors.add(:info, " - Nie można zmieniać Informacji dodatkowych o Sesji do której są złożone Elektronicznie Zgłoszenia.") if ((info != info_was) && info_was != '')  
       analize_value = false
     end

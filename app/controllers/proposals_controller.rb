@@ -124,29 +124,36 @@ class ProposalsController < ApplicationController
   def update_approved
     proposal_authorize(@proposal, "update_approved", params[:category_service])
 
-    @proposal.user = current_user
-    @proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_APPROVED
- 
-    respond_to do |format|
-      if @proposal.update_rec_and_push(proposal_approved_params)
-        @proposal.works.create!(trackable_url: "#{proposal_path(@proposal, category_service: params[:category_service])}", action: :approved, user: current_user, 
-          parameters: @proposal.to_json(except: {proposal: [:id, :proposal_status_id, :user_id]}, 
-                  include: { 
-                    exam: {
-                      only: [:id, :number, :date_exam, :place_exam] },
-                    proposal_status: {
-                      only: [:id, :name] },
-                    user: {
-                      only: [:id, :name, :email] } 
-                          }))
-
-        @proposal.add_to_examinations
-
-        flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.fullname)
-
-        format.html { redirect_to proposal_path(@proposal, category_service: params[:category_service]) }
-      else
+    unless @proposal.exam.all_exams_divisions_subjects_has_testportal_id
+      flash_message :error, t('activerecord.messages.error.has_empty_testportal_id', data: @proposal.exam.fullname)
+      respond_to do |format|
         format.html { render :edit_approved, locals: { back_url: params[:back_url] } }
+      end
+    else
+      @proposal.user = current_user
+      @proposal.proposal_status_id = Proposal::PROPOSAL_STATUS_APPROVED
+
+      respond_to do |format|
+        if @proposal.update_rec_and_push(proposal_approved_params)
+          @proposal.works.create!(trackable_url: "#{proposal_path(@proposal, category_service: params[:category_service])}", action: :approved, user: current_user, 
+            parameters: @proposal.to_json(except: {proposal: [:id, :proposal_status_id, :user_id]}, 
+                    include: { 
+                      exam: {
+                        only: [:id, :number, :date_exam, :place_exam] },
+                      proposal_status: {
+                        only: [:id, :name] },
+                      user: {
+                        only: [:id, :name, :email] } 
+                            }))
+
+          @proposal.add_to_examinations
+
+          flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.fullname)
+
+          format.html { redirect_to proposal_path(@proposal, category_service: params[:category_service]) }
+        else
+          format.html { render :edit_approved, locals: { back_url: params[:back_url] } }
+        end
       end
     end
   end
