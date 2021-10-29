@@ -141,7 +141,7 @@
       <legend class="my-fieldset"><%= ExamsDivision.model_name.human %></legend>
         <table class="table table-hover">
           <tbody>
-            <% @exam.exams_divisions.each do |exams_division| %>
+            <% @exam.exams_divisions.joins(:division).order("divisions.short_name").each do |exams_division| %>
               <tr>
                 <td><%= exams_division.division.name %></td>
                 <td><%= exams_division.flat_all_exams_divisions_subjects %></td>
