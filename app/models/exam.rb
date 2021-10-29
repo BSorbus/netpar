@@ -51,6 +51,7 @@ class Exam < ActiveRecord::Base
 #  validates :esod_matter, uniqueness: { case_sensitive: false }, allow_blank: true
   validate :exam_has_examinations, on: :update, if: :important_data_changed 
 #  validate :exam_has_valid_exams_divisions_and_subjects#, on: :update, if: "(online == true)"
+  validate :used_exams_divisions_presence
 
 
 #translation missing: pl.activerecord.errors.models.exam.attributes.base.nested_taken
@@ -213,5 +214,26 @@ class Exam < ActiveRecord::Base
 
   end
 
+  private
+
+    # def used_exams_divisions_presence
+    #   if exams_divisions.reject(&:marked_for_destruction?).reject { |x| not FeatureType.only_address_ext_type_email.ids.include?(x.feature_type_id) }.empty?
+    #     key_names = FeatureType.only_address_ext_type_email.pluck(:name).flatten
+    #     errors.add(:base, :exams_divisions_used_presence, data: key_names)
+    #   end
+    # end
+
+    def used_exams_divisions_presence
+      exams_divisions_ids_not_marked = exams_divisions.reject(&:marked_for_destruction?).map(&:division_id)
+      exams_divisions_ids_all = exams_divisions.pluck(:division_id)
+      exams_divisions_ids_for_destroy = exams_divisions_ids_all - exams_divisions_ids_not_marked
+
+      exams_divisions_ids_for_destroy.each do |division_key|         
+        if examinations.where(division_id: division_key).any? || proposals.where(division_id: division_key, proposal_status_id: ProposalStatus::PROPOSAL_IMPORTANT_STATUSES).any?
+          key_names = Division.find(division_key).short_name
+          errors.add(:base, :exams_divisions_used_presence, data: key_names)
+        end
+      end
+    end
 
 end

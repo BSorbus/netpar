@@ -609,19 +609,19 @@ pl:
         max_examinations: "Max zgłoszeń przez Internet"
         flat_all_esod_matters: 'ESOD'
         online: "Sesja on-line"
-        exams_divisions: 'Dopuszczone Typy świadectw w programie "Egzaminy"'
+        exams_divisions: 'Dopuszczone Typy świadectw w programie Egzaminy'
       exam/examiners:
         name: 'Nazwisko i imię'
       exam/exams_divisions:
-        base: '[Dopuszczone Typy świadectw w programie "Egzaminy"]'
-        exam_id: '[Dopuszczone Typy świadectw w programie "Egzaminy"] Sesja egzaminacyjna'
-        division_id: '[Dopuszczone Typy świadectw w programie "Egzaminy"] Typ świadectwa w programie "Egzaminy"'
-        exams_divisions_subjects: '[Dopuszczone Typy świadectw w programie "Egzaminy"] Zbiór Przedmiotów testu'
+        base: '[Dopuszczone Typy świadectw w programie Egzaminy]'
+        exam_id: '[Dopuszczone Typy świadectw w programie Egzaminy] Sesja egzaminacyjna'
+        division_id: '[Dopuszczone Typy świadectw w programie Egzaminy] Typ świadectwa w programie "Egzaminy"'
+        exams_divisions_subjects: '[Dopuszczone Typy świadectw w programie Egzaminy] Zbiór Przedmiotów testu'
       exam/exams_divisions/exams_divisions_subjects:
-        base: 'Zbiór Testów w programie "TestPortal"'
-        exams_division_id: 'Typ świadectwa w programie "Egzaminy"'
+        base: 'Zbiór Testów w programie TestPortal'
+        exams_division_id: 'Typ świadectwa w programie Egzaminy'
         subject_id: 'Przedmiot testu'
-        testportal_test_id: 'Identyfikator testu pobierany z programu "TestPortal"'
+        testportal_test_id: 'Identyfikator testu pobierany z programu TestPortal'
       examiner:
         name: 'Nazwisko i imię'
       customer:
@@ -778,7 +778,8 @@ pl:
             province_id:
               present: 'nie może posiadać wartości jeżeli sesja jest określona jako "on-line"'
             base:
-              exams_divisions_nested_taken: 'Dopuszczone typy świadectw w programie "Egzaminy" - Typy świadectwa muszą być unikalne!'
+              exams_divisions_nested_taken: '[Dopuszczone typy świadectw w programie Egzaminy] - Typy świadectwa muszą być unikalne!'
+              exams_divisions_used_presence: "[Dopuszczone Typy świadectw w programie Egzaminy] - Nie można usuwać Typu świadectwa '%{data}' jeśli jest już użyty"
   tooltip:
     show: 'Pokaż'
     edit: 'Edycja'

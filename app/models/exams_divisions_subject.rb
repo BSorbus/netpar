@@ -14,7 +14,7 @@ class ExamsDivisionsSubject < ActiveRecord::Base
 
   def colorized_testportal_id
     testportal_test_id.empty? ? 
-    "<span class='pull-right'> [ <span class='text-danger'>Brak testu w TestPortalu</span> ] </span>" : 
+    "<span class='pull-right'> [ <span class='text-danger'>Brak identyfikatora testu z TestPortal</span> ] </span>" : 
     "<span class='pull-right'> [ <span class='text-success'>#{testportal_test_id}</span> ] </span>"
   end
 
