@@ -20,28 +20,10 @@ namespace :cronjobs do
   end
   desc "Create tests in TestPortal and save keys into NETPAR"
   task testportal_set_tests: :environment do
-    start_run = Time.current
-    puts '----------------------------------------------------------------'
-    puts "task testportal_set_tests run...START: #{start_run}"
-
-    ExamsDivisionsSubject.where(testportal_test_id: "").each do |eds|
-      eds.set_testportal_test_id
-    end
-
-    puts "START: #{start_run}  END: #{Time.current}"
-    puts '----------------------------------------------------------------'
+    ApiTestportalTest::testportal_whenever_tests_set
   end
   desc "Clean tests in TestPortal and Netpar"
   task testportal_clean_tests: :environment do
-    start_run = Time.current
-    puts '----------------------------------------------------------------'
-    puts "task testportal_set_tests run...START: #{start_run}"
-
-    ExamsDivisionsSubject.where(testportal_test_id: "").each do |eds|
-      eds.clen_testportal_test_id
-    end
-
-    puts "START: #{start_run}  END: #{Time.current}"
-    puts '----------------------------------------------------------------'
+    ApiTestportalTest::testportal_whenever_tests_clean
   end
 end

@@ -79,8 +79,8 @@ class Proposal < ActiveRecord::Base
   # callbacks
   before_save :check_max_examinations, if: "self.new_record?"
 
-  after_save :refresh_exam_proposals_important_count
   after_save :destroy_examination_if_annuled
+  after_save :refresh_exam_proposals_important_count
 
   after_destroy :refresh_exam_proposals_important_count
 
