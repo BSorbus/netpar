@@ -227,13 +227,16 @@ class ApiTestportalTest
     # check exist id_test and recereate if deleted
     puts '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - '
     puts "check_and_recreate_testportal_test_id..."
-    ExamsDivisionsSubject.where.not(testportal_test_id: "").each do |eds|
+    # Tylko dla wpisów powiązanych z sesjami typu Online
+    # ExamsDivisionsSubject.where.not(testportal_test_id: "").each do |eds|
+    ExamsDivisionsSubject.joins(:subject, [exams_division: :exam]).where(exams: {online: true} ).where.not(testportal_test_id: "").each do |eds|
       eds.check_and_recreate_testportal_test_id
     end    
     # add other select params
     puts '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - '
     puts "set_testportal_test_id..."
-    ExamsDivisionsSubject.where(testportal_test_id: "").each do |eds|
+    # ExamsDivisionsSubject.where(testportal_test_id: "").each do |eds|
+    ExamsDivisionsSubject.joins(:subject, [exams_division: :exam]).where(testportal_test_id: "", exams: {online: true} ).each do |eds|
       eds.set_testportal_test_id
     end    
 

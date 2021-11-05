@@ -191,31 +191,22 @@ class ExaminationsController < ApplicationController
       flash_message :error, t('activerecord.messages.error.is_in_proposals_with_status_created')
       redirect_to proposal_path(params[:category_service], finded_proposal)
     else
-      respond_to do |format|
-        if @examination.save_and_grades_add
-          # @examination.division.subjects.where("'?' = ANY (esod_categories)", @examination.esod_category).order(:item).each do |subject|
-          #   if Esodes::ORDINARY_EXAMINATIONS.include?(@examination.esod_category) #egzamin zwykły/zwykły PW 
-          #     @examination.grades.create!(user: @examination.user, subject: subject)
-          #   else #jesli to egzamin poprawkowy/odnowienie z egzaminem, poprawkowy
-          #     # poszukaj ocen z oceną negatywną
-          #     customer_last_examination = Examination.where(customer: @examination.customer, division: @examination.division, examination_result: 'N').last # Negatywny z prawem do poprawki
-          #     if customer_last_examination.present?
-          #       @examination.grades.create!(user: @examination.user, subject: subject) if customer_last_examination.grades.where(grade_result: 'N', subject: subject).any?
-          #     else
-          #       @examination.grades.create!(user: @examination.user, subject: subject)
-          #     end
-          #   end
-          # end
+      if @examination.exam.online?
+        flash_message :error, t('activerecord.messages.error.if_parent_exam_is_online_examination_created_only_via_proposal')
+        redirect_to proposals_path(params[:category_service])
+      else
+        respond_to do |format|
+          if @examination.save_and_grades_add
+            @examination.works.create!(trackable_url: "#{examination_path(@examination, category_service: params[:category_service])}", action: :create, user: current_user, 
+              parameters: @examination.attributes.to_json)
+            flash_message :success, t('activerecord.messages.successfull.created', data: @examination.fullname)
 
-          @examination.works.create!(trackable_url: "#{examination_path(@examination, category_service: params[:category_service])}", action: :create, user: current_user, 
-            parameters: @examination.attributes.to_json)
-
-          flash_message :success, t('activerecord.messages.successfull.created', data: @examination.fullname)
-          format.html { redirect_to examination_path(@examination, category_service: params[:category_service], back_url: params[:back_url]) }
-          format.json { render :show, status: :created, location: @examination }
-        else
-          format.html { render :new, locals: { back_url: params[:back_url]} }
-          format.json { render json: @examination.errors, status: :unprocessable_entity }
+            format.html { redirect_to examination_path(@examination, category_service: params[:category_service], back_url: params[:back_url]) }
+            format.json { render :show, status: :created, location: @examination }
+          else
+            format.html { render :new, locals: { back_url: params[:back_url]} }
+            format.json { render json: @examination.errors, status: :unprocessable_entity }
+          end
         end
       end
     end
