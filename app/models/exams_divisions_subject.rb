@@ -9,8 +9,8 @@ class ExamsDivisionsSubject < ActiveRecord::Base
   #                   length: { in: 1..100 }
 
   # callbacks
-  # after_initialize :initialize_testportal_test_id, if: "self.new_record?"
-
+  after_save :set_testportal_test_id, if: "self.persisted?"
+  after_destroy :clear_data_after_cos_tam
 
   def colorized_testportal_id
     testportal_test_id.empty? ? 
@@ -27,28 +27,48 @@ class ExamsDivisionsSubject < ActiveRecord::Base
   end
 
   def check_and_recreate_testportal_test_id
-    id_test = ApiTestportalTest::check_exist_test_in_testportal(self.testportal_test_id)
+    api_call_correct, id_test = ApiTestportalTest::check_exist_test_in_testportal(self.testportal_test_id)
     # Test jest użyty w Netpar lecz usunięty z Testportal
-    if id_test.blank?
-      self.set_testportal_test_id
+    if api_call_correct
+      if id_test.blank?
+        self.set_testportal_test_id
+      end    
     end    
   end
 
+  def clear_data_after_cos_tam
+    # if self.persisted?
+    # else
+
+    puts '----------------------------------------------------------------'
+    puts "CALL ExamsDivisionsSubject: after_destroy :clear_data_after_cos_tam"
+    puts "self.persisted?: #{self.persisted?}"
+    puts "self.id: #{self.id}"
+    puts "self.testportal_test_id.blank?: #{self.testportal_test_id.blank?}"
+    puts '----------------------------------------------------------------'
+  end
+
   def set_testportal_test_id
-    # sprawdz czy jest test o takiej nazwie i takiej kategorii 
-    id_test = ApiTestportalTest::test_id_in_testportal_where_category_and_name(self.full_netpar_test_name_for_testportal, self.full_netpar_category_name_for_testportal)
-    unless id_test.blank?
-      # jeżeli jest, to od razu przypisz
-      self.update_columns(testportal_test_id: "#{id_test}")
-    else
-      # jezeli nie ma, to pobierz identyfikator wzorca
-      template_id_test = "#{self.subject.test_template}"
-      # duplikuj z wzorca nadajac stosowna nazwe
-      name_test = self.full_netpar_test_name_for_testportal
-      id_test = ApiTestportalTest::duplicate_test_from_template(template_id_test, name_test)
-      self.update_columns(testportal_test_id: "#{id_test}")
+    if self.testportal_test_id.blank? && self.exams_division.exam.online?
+      # sprawdz czy jest test o takiej nazwie i takiej kategorii 
+      api_call_correct, id_test = ApiTestportalTest::test_id_in_testportal_where_category_and_name(self.full_netpar_test_name_for_testportal, self.full_netpar_category_name_for_testportal)
+      if api_call_correct
+        unless id_test.blank?
+          # jeżeli jest, to od razu przypisz
+          self.update_columns(testportal_test_id: "#{id_test}")
+        else
+          # jezeli nie ma, to pobierz identyfikator wzorca
+          template_id_test = "#{self.subject.test_template}"
+          # duplikuj z wzorca nadajac stosowna nazwe
+          name_test = self.full_netpar_test_name_for_testportal
+          api_call_correct, id_test = ApiTestportalTest::duplicate_test_from_template(template_id_test, name_test)
+          self.update_columns(testportal_test_id: "#{id_test}")
+        end
+        puts "info -> SET testportal_test_id: #{id_test} INTO ExamsDivionsSubject.id: #{self.id}"
+      else
+        puts "info -> NO SET testportal_test_id because API ERROR(s)"
+      end
     end
-    puts "SET test_id: #{id_test} INTO ExamsDivionsSubject.id: #{self.id}"
   end
   
   def set_access_code_testportal_test_id
@@ -73,9 +93,5 @@ class ExamsDivisionsSubject < ActiveRecord::Base
   end
 
   private
-
-    def initialize_testportal_test_id
-      self.testportal_test_id = "#{Time.now.strftime('%Y-%m-%d %H:%M:%S:%N')}"
-    end
 
 end

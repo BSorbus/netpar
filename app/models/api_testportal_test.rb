@@ -172,32 +172,38 @@ class ApiTestportalTest
   # methods for external action
   def self.test_id_in_testportal_where_category_and_name(check_test_name, check_category_name)
     find_result = ""
+    api_call_correct = false
     api_testtemplates_obj = ApiTestportalTest.new(test_name: "#{check_test_name}")
-    if api_testtemplates_obj.request_for_collection
+    api_call_correct = api_testtemplates_obj.request_for_collection
+    if api_call_correct
       testtemplates_hash = JSON.parse(api_testtemplates_obj.response.body) if api_testtemplates_obj.response.body.present? 
       testtemplates_hash_without_root = testtemplates_hash['tests'] unless testtemplates_hash.blank?
       testtemplate_hash = testtemplates_hash_without_root.find {|x| (x["categoryName"] == "#{check_category_name}") && (x["name"] == "#{check_test_name}")} unless testtemplates_hash_without_root.blank?
       find_result = testtemplate_hash["idTest"] unless testtemplate_hash.blank?
     end
-    find_result
+    return api_call_correct, find_result
   end
 
   def self.check_exist_test_in_testportal(checked_id_test)
     find_result = ""
+    api_call_correct = false
     items_obj = ApiTestportalTest.new()
-    if items_obj.request_for_collection
+    api_call_correct = items_obj.request_for_collection
+    if api_call_correct
       testtemplates_hash = JSON.parse(items_obj.response.body) if items_obj.response.body.present? 
       testtemplates_hash_without_root = testtemplates_hash['tests'] unless testtemplates_hash.blank?
       testtemplate_hash = testtemplates_hash_without_root.find {|x| (x["idTest"] == "#{checked_id_test}")} unless testtemplates_hash_without_root.blank?
       find_result = testtemplate_hash["name"] unless testtemplate_hash.blank?
     end
-    find_result
+    return api_call_correct, find_result
   end
 
   def self.duplicate_test_from_template(template_id_test, new_name_test)
     duplicate_result = ""
+    api_call_correct = false
     item_obj = ApiTestportalTest.new(id_test: "#{template_id_test}", test_name: "#{new_name_test}")
-    if item_obj.request_for_duplicate # return true
+    api_call_correct = item_obj.request_for_duplicate
+    if api_call_correct
       item_hash = JSON.parse(item_obj.response.body)
 
       # { "idTest"=>"ILVSuB2SeUUTToCnw5CNDtBkS4irBVe4kE81s5wr_Nb0piLalBYPbM7D2_UtK4_ZNQ", 
@@ -215,7 +221,7 @@ class ApiTestportalTest
 
       duplicate_result = item_hash["idTest"] unless item_hash.blank?
     end
-    duplicate_result
+    return api_call_correct, duplicate_result
   end
 
   def self.testportal_whenever_tests_set
