@@ -58,6 +58,19 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
     end
   end
 
+  def grades
+    proposal = Proposal.find_by(multi_app_identifier: params[:multi_app_identifier])
+    if proposal.present?
+      # render json: proposal.examination.grades, status: :ok, root: true
+      render status: :ok, json: proposal.examination.grades, root: "grades", 
+        meta: { total_count: proposal.examination.grades.count,
+                multi_app_identifier: params[:multi_app_identifier]}
+
+    else
+      render json: { error: "Brak rekordu dla Proposal.where(multi_app_identifier: #{params[:multi_app_identifier]})" }, status: :not_found
+    end
+  end
+
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def proposal_params

@@ -9,8 +9,8 @@ class ExamsDivisionsSubject < ActiveRecord::Base
   #                   length: { in: 1..100 }
 
   # callbacks
-  after_save :set_testportal_test_id, if: "self.persisted?"
-  after_destroy :clear_data_after_cos_tam
+  after_save :set_testportal_test_id, if: "(self.testportal_test_id.blank?) && (self.persisted?)"
+  after_destroy :destroy_testportal_test_after_destroy_eds, unless: "(self.testportal_test_id.blank?) && (self.persisted?)"
 
   def colorized_testportal_id
     testportal_test_id.empty? ? 
@@ -26,30 +26,8 @@ class ExamsDivisionsSubject < ActiveRecord::Base
     "#{self.exams_division.exam.category}_#{self.exams_division.division.short_name}_#{self.subject.id}"
   end
 
-  def check_and_recreate_testportal_test_id
-    api_call_correct, id_test = ApiTestportalTest::check_exist_test_in_testportal(self.testportal_test_id)
-    # Test jest użyty w Netpar lecz usunięty z Testportal
-    if api_call_correct
-      if id_test.blank?
-        self.set_testportal_test_id
-      end    
-    end    
-  end
-
-  def clear_data_after_cos_tam
-    # if self.persisted?
-    # else
-
-    puts '----------------------------------------------------------------'
-    puts "CALL ExamsDivisionsSubject: after_destroy :clear_data_after_cos_tam"
-    puts "self.persisted?: #{self.persisted?}"
-    puts "self.id: #{self.id}"
-    puts "self.testportal_test_id.blank?: #{self.testportal_test_id.blank?}"
-    puts '----------------------------------------------------------------'
-  end
-
   def set_testportal_test_id
-    if self.testportal_test_id.blank? && self.exams_division.exam.online?
+    if self.exams_division.exam.online?
       # sprawdz czy jest test o takiej nazwie i takiej kategorii 
       api_call_correct, id_test = ApiTestportalTest::test_id_in_testportal_where_category_and_name(self.full_netpar_test_name_for_testportal, self.full_netpar_category_name_for_testportal)
       if api_call_correct
@@ -71,6 +49,22 @@ class ExamsDivisionsSubject < ActiveRecord::Base
     end
   end
   
+  def destroy_testportal_test_after_destroy_eds
+    item_obj = ApiTestportalTest.new(id_test: self.testportal_test_id)
+    item_obj.request_for_destroy
+    puts "info -> DESTROY testportal_test_id: #{self.testportal_test_id} because ExamsDivionsSubject.id: #{self.id} destroyed"
+  end
+
+  def check_and_recreate_testportal_test_id
+    api_call_correct, id_test = ApiTestportalTest::check_exist_test_in_testportal(self.testportal_test_id)
+    # Test jest użyty w Netpar lecz usunięty z Testportal
+    if api_call_correct
+      if id_test.blank?
+        self.set_testportal_test_id
+      end    
+    end    
+  end
+
   def set_access_code_testportal_test_id
     # sprawdz czy jest test o takich parametrach
     # jezeli jest, to pobierz pierwszy id!

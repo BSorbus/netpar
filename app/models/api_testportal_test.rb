@@ -130,13 +130,13 @@ class ApiTestportalTest
 
 
   def request_for_destroy
-    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/manager/me/tests/#{@id}")
+    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/manager/me/tests/#{@id_test}")
     http = Net::HTTP.new(uri.host, uri.port)
     # SSL 
     http.use_ssl = true if uri.scheme == "https" 
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE if uri.scheme == "https" # Sets the HTTPS verify mode
     # /SSL 
-    req = Net::HTTP::Delete.new(uri.path, {'Content-Type' => 'application/json', 'Authorization' => "Token token=#{NetparUser.netparuser_token}"})
+    req = Net::HTTP::Delete.new(uri.path, {'Content-Type' => 'application/json', 'API-Key' => "#{Rails.application.secrets[:testportal_api_key]}"})
     @response = http.request(req)
 
   rescue *HTTP_ERRORS => e

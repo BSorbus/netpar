@@ -188,7 +188,9 @@ Rails.application.routes.draw do
         get 'find', on: :collection
       end
       resources :divisions, only: [:index, :show]
-      resources :proposals, param: :multi_app_identifier, except: [:new, :edit]
+      resources :proposals, param: :multi_app_identifier, except: [:new, :edit] do
+        get 'grades', on: :member
+      end
 
       get :token, controller: 'base_api'
 
