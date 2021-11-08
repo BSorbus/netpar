@@ -26,6 +26,16 @@ class ExamsDivisionsSubject < ActiveRecord::Base
     "#{self.exams_division.exam.category}_#{self.exams_division.division.short_name}_#{self.subject.id}"
   end
 
+  def check_and_recreate_testportal_test_id
+    api_call_correct, id_test = ApiTestportalTest::check_exist_test_in_testportal(self.testportal_test_id)
+    # Test jest użyty w Netpar lecz usunięty z Testportal
+    if api_call_correct
+      if id_test.blank?
+        self.set_testportal_test_id
+      end    
+    end    
+  end
+
   def set_testportal_test_id
     if self.exams_division.exam.online?
       # sprawdz czy jest test o takiej nazwie i takiej kategorii 
@@ -51,39 +61,17 @@ class ExamsDivisionsSubject < ActiveRecord::Base
   
   def destroy_testportal_test_after_destroy_eds
     item_obj = ApiTestportalTest.new(id_test: self.testportal_test_id)
-    item_obj.request_for_destroy
-    puts "info -> DESTROY testportal_test_id: #{self.testportal_test_id} because ExamsDivionsSubject.id: #{self.id} destroyed"
-  end
-
-  def check_and_recreate_testportal_test_id
-    api_call_correct, id_test = ApiTestportalTest::check_exist_test_in_testportal(self.testportal_test_id)
-    # Test jest użyty w Netpar lecz usunięty z Testportal
-    if api_call_correct
-      if id_test.blank?
-        self.set_testportal_test_id
-      end    
-    end    
-  end
-
-  def set_access_code_testportal_test_id
-    # sprawdz czy jest test o takich parametrach
-    # jezeli jest, to pobierz pierwszy id!
-    # jezeli nie ma, to dodaj nowy test
-    # self.testportal_test_id = "#{Time.now.strftime('%Y-%m-%d %H:%M:%S:%N')}"
-    self.update_columns(testportal_test_id: "#{Time.now.strftime('%Y-%m-%d %H:%M:%S:%N')}")
-    #self.update_columns(testportal_test_id: id_testu_from_testportal)
-    self.exams_division.exam.examinations.where(division: self.division).each do |examination|
-      examination.grades.where(subject: examination.subject).each do |grade|
-        #self.update_columns(testportal_test_id: id_testu_from_testportal)
-      end
-
+    if item_obj.request_for_destroy
+      puts "info -> DESTROY testportal_test_id: #{self.testportal_test_id} because ExamsDivionsSubject.id: #{self.id} destroyed"
     end
-    #
   end
 
   def clean_testportal_test_id
-    # usun z testportalu test
-    self.testportal_test_id = ""
+    item_obj = ApiTestportalTest.new(id_test: self.testportal_test_id)
+    if item_obj.request_for_destroy
+      puts "info -> DESTROY testportal_test_id: #{self.testportal_test_id} because Exam is not Online"
+      self.update_columns(testportal_test_id: "")
+    end
   end
 
   private

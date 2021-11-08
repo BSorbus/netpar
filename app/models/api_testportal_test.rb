@@ -44,7 +44,6 @@ class ApiTestportalTest
 
     @response = http.request(request)
 
-
   rescue *HTTP_ERRORS => e
     Rails.logger.error('== API ERROR "models/api_testportal_test .request_for_collection"(1) ===========')
     Rails.logger.error("#{e}")
@@ -102,29 +101,32 @@ class ApiTestportalTest
   rescue *HTTP_ERRORS => e
     Rails.logger.error('== API ERROR "models/api_testportal_test .request_for_duplicate"(1) ============')
     Rails.logger.error("#{e}")
-    errors.add(:base, "#{e}")
     Rails.logger.error('================================================================================')
-    #false    # non-success response
-    "#{e}"
+    errors.add(:base, "API ERROR 'models/api_testportal_test .request_for_duplicate(1) #{Time.zone.now}")
+    errors.add(:base, "#{e}")
+    false    # non-success response
+    #"#{e}"
   rescue StandardError => e
     Rails.logger.error('== API ERROR "models/api_testportal_test .request_for_duplicate"(2) ============')
     Rails.logger.error("#{e}")
-    errors.add(:base, "#{e}")
     Rails.logger.error('================================================================================')
-    #false    # non-success response
-    "#{e}"
+    errors.add(:base, "API ERROR 'models/api_testportal_test .request_for_duplicate(2) #{Time.zone.now}")
+    errors.add(:base, "#{e}")
+    false    # non-success response
+    #"#{e}"
   else
     case response
     when Net::HTTPOK
-      #true   # success response
-      response
-    when Net::HTTPClientError, Net::HTTPInternalServerError
+      true   # success response
+      #response
+    when Net::HTTPClientError, Net::HTTPInternalServerError, Net::HTTPNoContent
       Rails.logger.error('== API ERROR "models/api_testportal_test .request_for_duplicate"(3) ============')
       Rails.logger.error("code: #{response.code}, message: #{response.message}, body: #{response.body}")
-      errors.add(:base, "code: #{response.code}, message: #{response.message}, body: #{response.body}")
       Rails.logger.error('================================================================================')
-      #false  # non-success response
-      response
+      errors.add(:base, "API ERROR 'models/api_testportal_test .request_for_duplicate(3) #{Time.zone.now}")
+      errors.add(:base, "code: #{response.code}, message: #{response.message}, body: #{response.body}")
+      false  # non-success response
+      #response
     end
   end
 
@@ -142,29 +144,32 @@ class ApiTestportalTest
   rescue *HTTP_ERRORS => e
     Rails.logger.error('== API ERROR "models/api_testportal_test .request_for_destroy"(1) ==============')
     Rails.logger.error("#{e}")
-    errors.add(:base, "#{e}")
     Rails.logger.error('================================================================================')
-    #false    # non-success response
-    "#{e}"
+    errors.add(:base, "API ERROR 'models/api_testportal_test .request_for_destroy(1) #{Time.zone.now}")
+    errors.add(:base, "#{e}")
+    false    # non-success response
+    #"#{e}"
   rescue StandardError => e
     Rails.logger.error('== API ERROR "models/api_testportal_test .request_for_destroy"(2) ==============')
     Rails.logger.error("#{e}")
-    errors.add(:base, "#{e}")
     Rails.logger.error('================================================================================')
-    #false    # non-success response
-    "#{e}"
+    errors.add(:base, "API ERROR 'models/api_testportal_test .request_for_destroy(2) #{Time.zone.now}")
+    errors.add(:base, "#{e}")
+    false    # non-success response
+    #"#{e}"
   else
     case response
-    when Net::HTTPNoContent
-      #true   # success response
-      response
-    when Net::HTTPClientError, Net::HTTPInternalServerError
+    when Net::HTTPOK
+      true   # success response
+      #response
+    when Net::HTTPClientError, Net::HTTPInternalServerError, Net::HTTPNoContent
       Rails.logger.error('== API ERROR "models/api_testportal_test .request_for_destroy"(3) ==============')
       Rails.logger.error("code: #{response.code}, message: #{response.message}, body: #{response.body}")
-      errors.add(:base, "code: #{response.code}, message: #{response.message}, body: #{response.body}")
       Rails.logger.error('================================================================================')
-      #false  # non-success response
-      response
+      errors.add(:base, "API ERROR 'models/api_testportal_test .request_for_destroy(3) #{Time.zone.now}")
+      errors.add(:base, "code: #{response.code}, message: #{response.message}, body: #{response.body}")
+      false  # non-success response
+      #response
     end
   end
 
@@ -227,23 +232,31 @@ class ApiTestportalTest
   def self.testportal_whenever_tests_set
     start_run = Time.current
     puts '----------------------------------------------------------------'
-    puts "task testportal_set_tests run...START: #{start_run}"
-    puts "ApiTestportalTest::testportal_whenever_tests_set"
+    puts "  * task testportal_set_tests run...START: #{start_run}"
+    puts "  * ApiTestportalTest::testportal_whenever_tests_set"
 
     # check exist id_test and recereate if deleted
     puts '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - '
-    puts "check_and_recreate_testportal_test_id..."
-    # Tylko dla wpisów powiązanych z sesjami typu Online
+    puts "  # 1). check_and_recreate_testportal_test_id..."
+    # only for Online sessions
     # ExamsDivisionsSubject.where.not(testportal_test_id: "").each do |eds|
-    ExamsDivisionsSubject.joins(:subject, [exams_division: :exam]).where(exams: {online: true} ).where.not(testportal_test_id: "").each do |eds|
+    ExamsDivisionsSubject.joins(:subject, [exams_division: :exam]).where(exams: {online: true}).where.not(testportal_test_id: "").reload.each do |eds|
       eds.check_and_recreate_testportal_test_id
     end    
-    # add other select params
     puts '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - '
-    puts "set_testportal_test_id..."
+
+    puts "  # 2). set_testportal_test_id..."
     # ExamsDivisionsSubject.where(testportal_test_id: "").each do |eds|
-    ExamsDivisionsSubject.joins(:subject, [exams_division: :exam]).where(testportal_test_id: "", exams: {online: true} ).each do |eds|
+    ExamsDivisionsSubject.joins(:subject, [exams_division: :exam]).where(testportal_test_id: "", exams: {online: true} ).reload.each do |eds|
       eds.set_testportal_test_id
+    end    
+    puts '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - '
+
+    puts "  # 3). set_testportal_access_code_id..."
+    date_exam_min = (Time.zone.today).strftime("%Y-%m-%d")
+    extend_condition = "(exams.date_exam >= '#{date_exam_min}')" 
+    Grade.joins(examination: [:exam]).where(exams: {online: true}).where("#{extend_condition}").order("exams.date_exam, exams.number").reload.each do |grade|
+      grade.set_testportal_access_code_id
     end    
 
     puts "START: #{start_run}  END: #{Time.current}"
@@ -253,12 +266,13 @@ class ApiTestportalTest
   def self.testportal_whenever_tests_clean
     start_run = Time.current
     puts '----------------------------------------------------------------'
-    puts "task testportal_set_tests run...START: #{start_run}"
+    puts "  * task testportal_whenever_tests_clean run...START: #{start_run}"
+    puts "  * ApiTestportalTest::testportal_whenever_tests_set"
 
-    # add other select params
-    ExamsDivisionsSubject.where.not(testportal_test_id: "").each do |eds|
-      puts "id: #{eds.id}"
-      # eds.set_testportal_test_id
+    puts "  # 1). clean_testportal_test_id..."
+    # ExamsDivisionsSubject.joins(exams_division: [:exam]).where(exams: {online: false}).where.not(testportal_test_id: "").reload.each do |eds|
+    ExamsDivisionsSubject.joins(exams_division: [:exam]).where.not(testportal_test_id: "", exams: {online: true}).reload.each do |eds|
+      eds.clean_testportal_test_id
     end    
 
     puts "START: #{start_run}  END: #{Time.current}"

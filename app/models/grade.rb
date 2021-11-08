@@ -23,4 +23,8 @@ class Grade < ActiveRecord::Base
     end  
   end
 
+  def set_testportal_access_code_id
+    
+  end
+
 end
