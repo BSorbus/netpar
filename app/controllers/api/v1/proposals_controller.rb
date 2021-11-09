@@ -17,7 +17,7 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
     if proposal.present?
       render json: proposal, status: :ok, root: false
     else
-      render json: { error: "Brak rekordu dla Proposal.where(id: #{params[:id]})" }, status: :not_found
+      render json: { error: "W systemie Netpar2015 brak Elektronicznego Zgłoszenia (id: #{params[:id]})" }, status: :not_found
     end
   end
 
@@ -41,7 +41,7 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
         render json: { errors: proposal.errors }, status: :unprocessable_entity
       end
     else
-      render json: { error: "Brak rekordu dla Proposal.where(multi_app_identifier: #{params[:multi_app_identifier]})" }, status: :not_found
+      render json: { error: "W systemie Netpar2015 brak Elektronicznego Zgłoszenia (multi_app_identifier: #{params[:multi_app_identifier]})" }, status: :not_found
     end
   end
 
@@ -54,20 +54,22 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
         render json: { errors: proposal.errors }, status: :unprocessable_entity
       end
     else
-      render json: { error: "Brak rekordu dla Proposal.where(multi_app_identifier: #{params[:multi_app_identifier]})" }, status: :not_found
+      render json: { error: "W systemie Netpar2015 brak Elektronicznego Zgłoszenia (multi_app_identifier: #{params[:multi_app_identifier]})" }, status: :not_found
     end
   end
 
   def grades
     proposal = Proposal.find_by(multi_app_identifier: params[:multi_app_identifier])
     if proposal.present?
-      # render json: proposal.examination.grades, status: :ok, root: true
-      render status: :ok, json: proposal.examination.grades, root: "grades", 
-        meta: { total_count: proposal.examination.grades.count,
-                multi_app_identifier: params[:multi_app_identifier]}
-
+      if proposal.examination.present?
+        render status: :ok, json: proposal.examination.grades, root: "grades", 
+          meta: { total_count: proposal.examination.grades.count,
+                  multi_app_identifier: params[:multi_app_identifier]}
+      else
+        render json: { error: "Elektroniczne Zgłoszenie (multi_app_identifier: #{params[:multi_app_identifier]}) nie zostało jeszcze zaakceptowane w systemie Netpar2015" }, status: :not_found
+      end
     else
-      render json: { error: "Brak rekordu dla Proposal.where(multi_app_identifier: #{params[:multi_app_identifier]})" }, status: :not_found
+      render json: { error: "W systemie Netpar2015 brak Elektronicznego Zgłoszenia (multi_app_identifier: #{params[:multi_app_identifier]})" }, status: :not_found
     end
   end
 
