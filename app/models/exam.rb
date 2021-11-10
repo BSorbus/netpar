@@ -114,7 +114,7 @@ class Exam < ActiveRecord::Base
 
   def all_exams_divisions_subjects_has_testportal_id
     if self.online?
-      self.exams_divisions.exams_divisions_subjects.where(testportal_test_id: "").any?
+      self.exams_divisions_subjects.where(testportal_test_id: "").empty?
     else 
       true
     end

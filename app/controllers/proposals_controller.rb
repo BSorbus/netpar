@@ -210,7 +210,7 @@ class ProposalsController < ApplicationController
                       only: [:id, :name, :email] } 
                           }))
 
-        @proposal.examination.destroy
+        @proposal.examination.destroy unless @proposal.examination.nil?
 
         flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.fullname)
 

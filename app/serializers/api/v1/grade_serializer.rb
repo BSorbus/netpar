@@ -1,6 +1,6 @@
 class Api::V1::GradeSerializer < ActiveModel::Serializer
 
-  attributes :id, :examination_id, :subject_id, :grade_result, :testportal_url
+  attributes :id, :examination_id, :subject_id, :grade_result, :testportal_access_code_id, :testportal_url
 
 
   def testportal_url
