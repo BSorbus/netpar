@@ -63,6 +63,19 @@ class CreateRoleService
     end
   end
 
+  def division_manager
+    role = Role.find_or_create_by!(name: "Menadżer Typów Świadectw") do |role|
+      role.activities += %w(division:index division:show division:create division:update division:delete division:work)
+      role.save!
+    end
+  end 
+  def division_observer
+    role = Role.find_or_create_by!(name: "Obserwator Typów Świadectw") do |role|
+      role.activities += %w(division:index division:show)
+      role.save!
+    end
+  end
+
   # exam_l
   def exam_l_manager
     role = Role.find_or_create_by!(name: "Menadżer Sesji Egzaminacyjnych Świadectw Lotniczych") do |role|
