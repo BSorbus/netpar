@@ -1,10 +1,13 @@
 class Api::V1::GradeSerializer < ActiveModel::Serializer
 
-  attributes :id, :examination_id, :subject_id, :grade_result, :testportal_access_code_id, :testportal_url
-
+  attributes :id, :examination_id, :subject_id, :grade_result, :testportal_access_code_id, :subject_name, :testportal_url
 
   def testportal_url
     "https://do testportalu"
+  end
+
+  def subject_name
+    "#{object.subject.name}"    
   end
 
   # attributes :id, :number, :date_of_issue, :valid_thru, :note, :category, :url, :document_image
