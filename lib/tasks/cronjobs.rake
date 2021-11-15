@@ -26,4 +26,8 @@ namespace :cronjobs do
   task testportal_clean_tests: :environment do
     ApiTestportalTest::testportal_whenever_tests_clean
   end
+  desc "Activate tests in TestPortal"
+  task testportal_clean_tests: :environment do
+    ApiTestportalTest::testportal_whenever_tests_activate
+  end
 end

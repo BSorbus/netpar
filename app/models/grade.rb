@@ -28,17 +28,29 @@ class Grade < ActiveRecord::Base
     end  
   end
 
-  def set_testportal_access_code_id
+  def set_testportal_access_code_id(params = {})
     if self.examination.exam.online?
       # Nie sprawdzamy czy jest test o takiej nazwie i takiej kategorii, gdyż nie jest możliwe dodawanie examinations, gdy nie ma 
-      # odszukaj właściwy identyfikator testu
-      id_test = ExamsDivisionsSubject.joins(:exams_division, exams_division: [:exam]).where(subject: self.subject, exams_divisions: {division_id: self.examination.division_id} ).first.testportal_test_id
-      api_call_correct, access_code = ApiTestportalAccessCode::access_code_add_to_test("#{id_test}")
-      if api_call_correct
-        unless access_code.blank?
-          # jeżeli jest, to od razu przypisz
-          self.update_columns(testportal_access_code_id: "#{access_code}")
-          puts "info -> SET testportal_access_code_id: #{id_test} INTO Grade.id: #{self.id}"
+      # odszukaj właściwy identyfikator testu jeżeli nie został podany w parametrze
+      id_test = params.fetch(:id_test, ExamsDivisionsSubject.joins(:exams_division, exams_division: [:exam]).where(subject: self.subject, exams_divisions: {division_id: self.examination.division_id} ).first.testportal_test_id)
+      force_new_code = params.fetch(:force_new_code, false)
+
+      if self.testportal_access_code_id.blank? || force_new_code
+        api_call_correct, access_code_hash = ApiTestportalAccessCode::access_code_add_to_test("#{id_test}")
+        if api_call_correct
+          access_code = ""
+          if access_code_hash["accessCodes"].present? 
+            if access_code_hash["accessCodes"].first.present?
+              if access_code_hash["accessCodes"].first["accessCode"].present?            
+                access_code = access_code_hash["accessCodes"].first["accessCode"] 
+              end
+            end
+          end
+          unless access_code.blank?
+            # jeżeli jest, to od razu przypisz
+            self.update_columns(testportal_access_code_id: "#{access_code}")
+            puts "info -> SET testportal_access_code_id: #{id_test} INTO Grade.id: #{self.id}"
+          end
         end
       end
     end

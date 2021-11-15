@@ -24,6 +24,8 @@ class Exam < ActiveRecord::Base
   has_many :subjects, through: :exams_divisions
   has_many :exams_divisions_subjects, through: :exams_divisions
 
+  has_many :grades, through: :examinations
+
   accepts_nested_attributes_for :examiners, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :exams_divisions, reject_if: :all_blank, allow_destroy: true
 

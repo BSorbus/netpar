@@ -1,9 +1,14 @@
 class Api::V1::GradeSerializer < ActiveModel::Serializer
 
-  attributes :id, :examination_id, :subject_id, :grade_result, :testportal_access_code_id, :subject_name, :testportal_url
+  attributes :id, :examination_id, :subject_id, :grade_result, :testportal_access_code_id, :subject_name, :testportal_test_info
 
-  def testportal_url
-    "https://do testportalu"
+  def testportal_test_info
+    data = {}
+    id_test = ExamsDivisionsSubject.joins(:exams_division, exams_division: [:exam]).where(subject: object.subject, exams_divisions: {division_id: object.examination.division_id} ).first.testportal_test_id
+    api_call_correct, test_hash = ApiTestportalTest::test_info_in_testportal_where_test_id("#{id_test}")
+    if api_call_correct
+      data = test_hash unless test_hash.blank?
+    end 
   end
 
   def subject_name

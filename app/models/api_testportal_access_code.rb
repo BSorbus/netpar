@@ -122,22 +122,23 @@ class ApiTestportalAccessCode
   end
 
   def self.access_code_add_to_test(id_test)
-    access_code_result = ""
+    access_code_result = {}
     api_call_correct = false
     item_obj = ApiTestportalAccessCode.new(id_test: "#{id_test}")
     api_call_correct = item_obj.request_for_access_code_add
     if api_call_correct
-      item_hash = JSON.parse(item_obj.response.body)
-      # { "idTest"=>"IDrbtp6qOYySO8-GJyldADrz5z7_uUCKkWEJhgV9Xkek3IvaGzG642GAYDu1-DVo3A", 
-      #   "idTerm"=>"II9MdrdATMPNbpJVL6H9mFncS-ncjtmOpwEdBphV6KIPJfwffNMEM3qQmADWRPqZxg", 
-      #   "accessCodes"=>[
-      #     {"idRespondent"=>"IKvyyDVeXZXzCjZzfHsw0arejgO4BrZQKJ8iMM5fkvMN7iCZXem8yZApwH0cI5zoWQ", 
-      #       "accessCode"=>"tNBrPMxtKkBA", 
-      #       "sendInvitationOnTestActivation"=>false, 
-      #       "used"=>false}
-      #     ]
-      #   }
-      access_code_result = item_hash["accessCodes"].first["accessCode"] unless item_hash.blank?
+      # item_hash = JSON.parse(item_obj.response.body)
+      # access_code_result = item_hash["accessCodes"].first["accessCode"] unless item_hash.blank?
+      # # { "idTest"=>"IDrbtp6qOYySO8-GJyldADrz5z7_uUCKkWEJhgV9Xkek3IvaGzG642GAYDu1-DVo3A", 
+      # #   "idTerm"=>"II9MdrdATMPNbpJVL6H9mFncS-ncjtmOpwEdBphV6KIPJfwffNMEM3qQmADWRPqZxg", 
+      # #   "accessCodes"=>[
+      # #     {"idRespondent"=>"IKvyyDVeXZXzCjZzfHsw0arejgO4BrZQKJ8iMM5fkvMN7iCZXem8yZApwH0cI5zoWQ", 
+      # #       "accessCode"=>"tNBrPMxtKkBA", 
+      # #       "sendInvitationOnTestActivation"=>false, 
+      # #       "used"=>false}
+      # #     ]
+      # #   }
+      access_code_result = JSON.parse(item_obj.response.body)
     end
     return api_call_correct, access_code_result
   end

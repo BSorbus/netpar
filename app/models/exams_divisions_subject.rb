@@ -27,10 +27,10 @@ class ExamsDivisionsSubject < ActiveRecord::Base
   end
 
   def check_and_recreate_testportal_test_id
-    api_call_correct, id_test = ApiTestportalTest::check_exist_test_in_testportal(self.testportal_test_id)
+    api_call_correct, test_hash = ApiTestportalTest::test_info_in_testportal_where_test_id(self.testportal_test_id)
     # Test jest użyty w Netpar lecz usunięty z Testportal
     if api_call_correct
-      if id_test.blank?
+      if test_hash.blank?
         self.set_testportal_test_id
       end    
     end    
@@ -42,17 +42,31 @@ class ExamsDivisionsSubject < ActiveRecord::Base
       api_call_correct, id_test = ApiTestportalTest::test_id_in_testportal_where_category_and_name(self.full_netpar_test_name_for_testportal, self.full_netpar_category_name_for_testportal)
       if api_call_correct
         unless id_test.blank?
-          # jeżeli jest, to od razu przypisz
-          self.update_columns(testportal_test_id: "#{id_test}")
+          # jeżeli test jest, to od razu przypisz
+          old_test_id = self.testportal_test_id
+          if old_test_id != id_test
+            self.update_columns(testportal_test_id: "#{id_test}")
+            puts "info -> SET testportal_test_id: #{id_test} INTO ExamsDivionsSubject.id: #{self.id}"
+            # odśwież klucze dostępu
+            self.exams_division.exam.grades.where(subject_id: self.subject_id).each do |grade|
+              grade.set_testportal_access_code_id(id_test: "#{id_test}", force_new_code: true)
+            end
+          end
         else
           # jezeli nie ma, to pobierz identyfikator wzorca
           template_id_test = "#{self.subject.test_template}"
           # duplikuj z wzorca nadajac stosowna nazwe
           name_test = self.full_netpar_test_name_for_testportal
           api_call_correct, id_test = ApiTestportalTest::duplicate_test_from_template(template_id_test, name_test)
-          self.update_columns(testportal_test_id: "#{id_test}")
+          if api_call_correct
+            self.update_columns(testportal_test_id: "#{id_test}")
+            puts "info -> SET testportal_test_id: #{id_test} INTO ExamsDivionsSubject.id: #{self.id}"
+            # odśwież klucze dostępu
+            self.exams_division.exam.grades.where(subject_id: self.subject_id).each do |grade|
+              grade.set_testportal_access_code_id(id_test: "#{id_test}", force_new_code: true)
+            end
+          end
         end
-        puts "info -> SET testportal_test_id: #{id_test} INTO ExamsDivionsSubject.id: #{self.id}"
       else
         puts "info -> NO SET testportal_test_id because API ERROR(s)"
       end
@@ -63,6 +77,13 @@ class ExamsDivisionsSubject < ActiveRecord::Base
     item_obj = ApiTestportalTest.new(id_test: self.testportal_test_id)
     if item_obj.request_for_destroy
       puts "info -> DESTROY testportal_test_id: #{self.testportal_test_id} because ExamsDivionsSubject.id: #{self.id} destroyed"
+    end
+  end
+
+  def testportal_test_activate
+    item_obj = ApiTestportalTest.new(id_test: self.testportal_test_id)
+    if item_obj.request_for_activate
+      puts "info -> testportal_test_id: #{self.testportal_test_id} ACTIVATED"
     end
   end
 
