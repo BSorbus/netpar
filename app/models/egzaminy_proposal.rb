@@ -26,7 +26,7 @@ class EgzaminyProposal
   end
 
   def request_update
-    uri = URI("#{Rails.application.secrets[:egzaminy_api_url]}/proposals/#{@multi_app_identifier}")
+    uri = URI("#{Rails.application.secrets[:egzaminy_api_url]}/api/v1/proposals/#{@multi_app_identifier}")
     request = Net::HTTP::Patch.new(uri)
 
     request["Content-Type"] = "application/json"

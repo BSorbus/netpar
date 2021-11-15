@@ -22,7 +22,7 @@ class ApiTestportalCategory
 
 
   def request_for_collection
-    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/manager/me/tests/categories")
+    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/api/v1/manager/me/tests/categories")
     # set query parameters
     http = Net::HTTP.new(uri.host, uri.port)
     # SSL

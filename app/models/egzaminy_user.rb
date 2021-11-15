@@ -22,7 +22,7 @@ class EgzaminyUser
   end
 
   def request_for_token 
-    uri = URI.parse("#{Rails.application.secrets[:egzaminy_api_url]}/token")
+    uri = URI.parse("#{Rails.application.secrets[:egzaminy_api_url]}/api/v1/token")
     request = Net::HTTP::Get.new(uri)
     request.basic_auth(@username, @password)
 

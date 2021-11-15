@@ -24,7 +24,7 @@ class ApiTestportalTest
 
 
   def request_for_collection
-    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/manager/me/tests/headers")
+    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/api/v1/manager/me/tests/headers")
     # set query parameters
     params = {}
     params[:idTestCategory] = "#{@id_test_category}" unless @id_test_category.blank?
@@ -77,7 +77,7 @@ class ApiTestportalTest
   end
 
   def request_for_one_row
-    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/manager/me/tests/headers/#{@id_test}")
+    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/api/v1/manager/me/tests/headers/#{@id_test}")
     # set query parameters
     # params = {}
     # params[:idTestCategory] = "#{@id_test_category}" unless @id_test_category.blank?
@@ -135,7 +135,7 @@ class ApiTestportalTest
 
   def request_for_duplicate
     # uri = URI("http://localhost:3001/api/v1/exam_fees/find")
-    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/manager/me/tests/#{@id_test}/duplicate")
+    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/api/v1/manager/me/tests/#{@id_test}/duplicate")
     http = Net::HTTP.new(uri.host, uri.port)
     # SSL 
     http.use_ssl = true if uri.scheme == "https" 
@@ -187,7 +187,7 @@ class ApiTestportalTest
 
   def request_for_activate
     # uri = URI("http://localhost:3001/api/v1/exam_fees/find")
-    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/manager/me/tests/#{@id_test}/activate")
+    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/api/v1/manager/me/tests/#{@id_test}/activate")
     http = Net::HTTP.new(uri.host, uri.port)
     # SSL 
     http.use_ssl = true if uri.scheme == "https" 
@@ -231,7 +231,7 @@ class ApiTestportalTest
   end
 
   def request_for_destroy
-    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/manager/me/tests/#{@id_test}")
+    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/api/v1/manager/me/tests/#{@id_test}")
     http = Net::HTTP.new(uri.host, uri.port)
     # SSL 
     http.use_ssl = true if uri.scheme == "https" 

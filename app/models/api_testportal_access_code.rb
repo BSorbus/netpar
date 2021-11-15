@@ -22,7 +22,7 @@ class ApiTestportalAccessCode
   end
 
   def request_for_collection
-    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/manager/me/tests/#{@id_test}/current-date/access-codes")
+    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/api/v1/manager/me/tests/#{@id_test}/current-date/access-codes")
     # set query parameters
     http = Net::HTTP.new(uri.host, uri.port)
     # SSL
@@ -72,7 +72,7 @@ class ApiTestportalAccessCode
 
   def request_for_access_code_add
     # uri = URI("http://localhost:3001/api/v1/exam_fees/find")
-    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/manager/me/tests/#{@id_test}/current-date/access-codes/add")
+    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/api/v1/manager/me/tests/#{@id_test}/current-date/access-codes/add")
     http = Net::HTTP.new(uri.host, uri.port)
     # SSL 
     http.use_ssl = true if uri.scheme == "https" 
