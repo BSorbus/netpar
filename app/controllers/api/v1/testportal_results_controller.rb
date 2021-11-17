@@ -91,15 +91,19 @@ class Api::V1::TestportalResultsController < Api::V1::BaseApiController
     #   render json: { error: "Brak rekordu dla Proposal.where(multi_app_identifier: #{params[:multi_app_identifier]})" }, status: :not_found
     # end
 
-    grade = Grade.find_by(testportal_access_code_id: params[:testResult][:accessCode])
-    if grade.present?
-      if grade.update(testportal_params)
-          render json: { message: "Result saved" }, status: :ok
-      else
-        render json: { errors: grade.errors }, status: :unprocessable_entity
-      end
+    unless params[:testResult][:formattedPercents].present?
+      render json: { errors: "'formattedPercents' parameter is missing" }, status: :not_acceptable
     else
-      render json: { error: "Not found accessCode: #{params[:testResult][:accessCode]}" }, status: :not_found
+      grade = Grade.find_by(testportal_access_code_id: params[:testResult][:accessCode])
+      if grade.present?
+        if grade.update(testportal_params)
+            render json: { message: "Result saved" }, status: :ok
+        else
+          render json: { errors: grade.errors }, status: :unprocessable_entity
+        end
+      else
+        render json: { error: "Not found accessCode: #{params[:testResult][:accessCode]}" }, status: :not_found
+      end
     end
   end
 
