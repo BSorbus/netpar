@@ -191,6 +191,7 @@ Rails.application.routes.draw do
       resources :proposals, param: :multi_app_identifier, except: [:new, :edit] do
         get 'grades', on: :member
       end
+      resources :testportal_results, only: [:create]
 
       get :token, controller: 'base_api'
 

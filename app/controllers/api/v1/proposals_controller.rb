@@ -62,7 +62,7 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
     proposal = Proposal.find_by(multi_app_identifier: params[:multi_app_identifier])
     if proposal.present?
       if proposal.examination.present?
-        render status: :ok, json: proposal.examination.grades, root: "grades", 
+        render status: :ok, json: proposal.examination.grades.order(:id), root: "grades", 
           meta: { total_count: proposal.examination.grades.count,
                   multi_app_identifier: params[:multi_app_identifier]}
       else
