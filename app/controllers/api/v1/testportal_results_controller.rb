@@ -27,7 +27,7 @@ class Api::V1::TestportalResultsController < Api::V1::BaseApiController
         # if grade.update(testportal_params)
 
      puts '-----------------------------------------'
-        default = (params[:testResult][:formattedPercents].to_i >= 60) ? { grade_result: "T" } : { grade_result: "N" }  
+     puts   default = (params[:testResult][:percents] >= 60) ? { grade_result: "T" } : { grade_result: "N" }  
      puts '-----------------------------------------'
         puts default
         if grade.update(testportal_params)
@@ -44,7 +44,7 @@ class Api::V1::TestportalResultsController < Api::V1::BaseApiController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def testportal_params
-      defaults = (params[:testResult][:formattedPercents].to_i >= 60) ? { grade_result: "T" } : { grade_result: "N" }  
+      defaults = (params[:testResult][:percents] >= 60) ? { grade_result: "T" } : { grade_result: "N" }  
       params.require(:testResult).permit().reverse_merge(defaults)
     end
 
