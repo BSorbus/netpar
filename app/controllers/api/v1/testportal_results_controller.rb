@@ -24,6 +24,12 @@ class Api::V1::TestportalResultsController < Api::V1::BaseApiController
     else
       grade = Grade.find_by(testportal_access_code_id: params[:testResult][:accessCode])
       if grade.present?
+        # if grade.update(testportal_params)
+
+     puts '-----------------------------------------'
+        default = (params[:testResult][:formattedPercents].to_i >= 60) ? { grade_result: "T" } : { grade_result: "N" }  
+     puts '-----------------------------------------'
+        puts default
         if grade.update(testportal_params)
             render json: { message: "Result saved" }, status: :ok
         else
