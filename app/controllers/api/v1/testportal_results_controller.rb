@@ -13,12 +13,8 @@ class Api::V1::TestportalResultsController < Api::V1::BaseApiController
       grade = Grade.find_by(testportal_access_code_id: params[:testResult][:accessCode])
       if grade.present?
         # if grade.update(testportal_params)
-
-         puts '-----------------------------------------'
-         puts   testportal_params 
-         puts '-----------------------------------------'
-
-        if grade.update(testportal_params)
+        grade.grade_result = (params[:testResult][:percents] >= 60) ? "P" : "N"
+        if grade.save
             render json: { message: "Result saved" }, status: :ok
         else
           render json: { errors: grade.errors }, status: :unprocessable_entity
