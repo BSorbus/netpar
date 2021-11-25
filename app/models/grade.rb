@@ -32,7 +32,12 @@ class Grade < ActiveRecord::Base
     if self.examination.exam.online?
       # Nie sprawdzamy czy jest test o takiej nazwie i takiej kategorii, gdyż nie jest możliwe dodawanie examinations, gdy nie ma 
       # odszukaj właściwy identyfikator testu jeżeli nie został podany w parametrze
-      id_test = params.fetch(:id_test, ExamsDivisionsSubject.joins(:exams_division, exams_division: [:exam]).where(subject: self.subject, exams_divisions: {division_id: self.examination.division_id} ).first.testportal_test_id)
+      id_test = params.fetch(:id_test, 
+                ExamsDivisionsSubject.joins(:exams_division, exams_division: [:exam]).
+                  where(subject_id: self.subject.id, 
+                        exams_divisions: {division_id: self.examination.division_id},
+                        exams: {id: self.examination.exam.id}).first.testportal_test_id)
+
       force_new_code = params.fetch(:force_new_code, false)
 
       if self.testportal_access_code_id.blank? || force_new_code
