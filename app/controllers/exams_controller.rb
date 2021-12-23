@@ -283,62 +283,7 @@ class ExamsController < ApplicationController
   def show
     exam_authorize(:exam, "show", params[:category_service])
 
-    # for matter_add action
-    @esod_matter = @exam.esod_matters.new(
-      nrid: nil,
-      znak: nil,
-      znak_sprawy_grupujacej: nil,
-      symbol_jrwa: Esodes::esod_matter_service_jrwa(@exam.category).to_s,
-      tytul: "#{@exam.number}, #{@exam.place_exam}",
-      termin_realizacji: @exam.date_exam + Esodes::limit_time_add_to_exam(@exam.category),
-      identyfikator_kategorii_sprawy: @exam.category == 'L' ? Esodes::SESJA_BEZ_EGZAMINOW : Esodes::SESJA,
-      identyfikator_stanowiska_referenta: nil,
-      czy_otwarta: true,
-      initialized_from_esod: nil,
-      netpar_user: nil )
-
-    @esod_matter.esod_matter_notes.build
-
-    # for incoming_letter_add action
-    @esod_incoming_letter = @exam.esod_matters.last.esod_incoming_letters.new()
-#      nrid: nil,
-#      numer_ewidencyjny: nil,
-#      tytul: "Skład komisji / ??? ...@exam.number",
-#      data_pisma: nil,
-#      data_nadania: nil,
-#      data_wplyniecia: DateTime.now.to_date,
-#      znak_pisma_wplywajacego: nil,
-#      identyfikator_typu_dcmd: 1,
-#      identyfikator_rodzaju_dokumentu: 1,
-#      identyfikator_sposobu_przeslania: 1,
-#      identyfikator_miejsca_przechowywania: nil, #t.integer 
-#      termin_na_odpowiedz: nil,
-#      pelna_wersja_cyfrowa: true,
-#      naturalny_elektroniczny: false,
-#      liczba_zalacznikow: 0,
-#      uwagi: nil,
-#      identyfikator_osoby: nil,
-#      identyfikator_adresu: nil,
-#      esod_contractor: nil,
-#      esod_address: nil,
-#      initialized_from_esod: nil,
-#      netpar_user: nil )
-
-    # for outgoing_letter_add action
-    @esod_outgoing_letter = @exam.esod_matters.last.esod_outgoing_letters.new(nrid: nil)
-
-    # for internal_letter_add action
-    @esod_internal_letter = @exam.esod_matters.last.esod_internal_letters.new(
-      nrid: nil,
-      numer_ewidencyjny: nil,
-      tytul: "#{@exam.number}, #{@exam.place_exam}, [#{@exam.esod_category_name}]",
-      identyfikator_rodzaju_dokumentu_wewnetrznego: nil,
-      identyfikator_typu_dcmd: 1,
-      identyfikator_dostepnosci_dokumentu: 1,
-      uwagi: nil,
-      pelna_wersja_cyfrowa: true,
-      initialized_from_esod: nil,
-      netpar_user: nil )
+    set_initial_esod_data
 
     respond_to do |format|
       # for jBuilder
@@ -462,6 +407,7 @@ class ExamsController < ApplicationController
       redirect_to exams_url
     else 
       flash_message :error, t('activerecord.messages.error.destroyed', data: @exam.number)
+      set_initial_esod_data
       render :show
       #redirect_to :back
     end      
@@ -510,6 +456,65 @@ class ExamsController < ApplicationController
     #     aa
     #   end
     # end
+
+    def set_initial_esod_data
+    # for matter_add action
+    @esod_matter = @exam.esod_matters.new(
+      nrid: nil,
+      znak: nil,
+      znak_sprawy_grupujacej: nil,
+      symbol_jrwa: Esodes::esod_matter_service_jrwa(@exam.category).to_s,
+      tytul: "#{@exam.number}, #{@exam.place_exam}",
+      termin_realizacji: @exam.date_exam + Esodes::limit_time_add_to_exam(@exam.category),
+      identyfikator_kategorii_sprawy: @exam.category == 'L' ? Esodes::SESJA_BEZ_EGZAMINOW : Esodes::SESJA,
+      identyfikator_stanowiska_referenta: nil,
+      czy_otwarta: true,
+      initialized_from_esod: nil,
+      netpar_user: nil )
+
+    @esod_matter.esod_matter_notes.build
+
+    # for incoming_letter_add action
+    @esod_incoming_letter = @exam.esod_matters.last.esod_incoming_letters.new()
+#      nrid: nil,
+#      numer_ewidencyjny: nil,
+#      tytul: "Skład komisji / ??? ...@exam.number",
+#      data_pisma: nil,
+#      data_nadania: nil,
+#      data_wplyniecia: DateTime.now.to_date,
+#      znak_pisma_wplywajacego: nil,
+#      identyfikator_typu_dcmd: 1,
+#      identyfikator_rodzaju_dokumentu: 1,
+#      identyfikator_sposobu_przeslania: 1,
+#      identyfikator_miejsca_przechowywania: nil, #t.integer 
+#      termin_na_odpowiedz: nil,
+#      pelna_wersja_cyfrowa: true,
+#      naturalny_elektroniczny: false,
+#      liczba_zalacznikow: 0,
+#      uwagi: nil,
+#      identyfikator_osoby: nil,
+#      identyfikator_adresu: nil,
+#      esod_contractor: nil,
+#      esod_address: nil,
+#      initialized_from_esod: nil,
+#      netpar_user: nil )
+
+    # for outgoing_letter_add action
+    @esod_outgoing_letter = @exam.esod_matters.last.esod_outgoing_letters.new(nrid: nil)
+
+    # for internal_letter_add action
+    @esod_internal_letter = @exam.esod_matters.last.esod_internal_letters.new(
+      nrid: nil,
+      numer_ewidencyjny: nil,
+      tytul: "#{@exam.number}, #{@exam.place_exam}, [#{@exam.esod_category_name}]",
+      identyfikator_rodzaju_dokumentu_wewnetrznego: nil,
+      identyfikator_typu_dcmd: 1,
+      identyfikator_dostepnosci_dokumentu: 1,
+      uwagi: nil,
+      pelna_wersja_cyfrowa: true,
+      initialized_from_esod: nil,
+      netpar_user: nil )
+    end
 
     def exam_params
       params.require(:exam).permit(:esod_category, :number, :date_exam, :place_exam, :info, :chairman, :secretary, :category, :note, :user_id, 

@@ -11,7 +11,7 @@ class Api::V1::ExamsController < Api::V1::BaseApiController
     params[:page_limit] = params[:page_limit]
     params[:division_id] = params[:division_id]
 
-    date_exam_min = (Time.zone.today + 7.days).strftime("%Y-%m-%d")
+    date_exam_min = (Time.zone.today + 14.days).strftime("%Y-%m-%d")
     # Pokaż tylko sesje typu EGZAMIN, które będą nie wcześniej niż za 14 dni oraz dla których są wolne miejsca
     extend_condition = "(exams.esod_category = #{Esodes::SESJA}) AND (exams.date_exam >= '#{date_exam_min}') AND (proposals_important_count < max_examinations)" 
 
