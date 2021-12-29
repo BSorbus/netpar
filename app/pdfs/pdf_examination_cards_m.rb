@@ -71,7 +71,7 @@ class PdfExaminationCardsM < Prawn::Document
                      examination.grades.order(:id).map { |p| [ 
                         p.subject.item, 
                         p.subject.name,
-                        "",
+                        p.grade_result_name,
                         ""
                       ] }
   end
