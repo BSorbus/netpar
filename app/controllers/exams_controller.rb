@@ -394,12 +394,13 @@ class ExamsController < ApplicationController
   # DELETE /exams/1.json
   def destroy
     exam_authorize(@exam, "destroy", params[:category_service])
+    # destroyed_clone = @exam.clone
 
     if @exam.destroy
       Work.create!(trackable: @exam, action: :destroy, user: current_user, 
           parameters: @exam.to_json(except: [:user_id], 
                                     include: {
-                                      esod_matter: {only: [:znak]}, 
+                                      # esod_matter: {only: [:znak]}, 
                                       user: {only: [:id, :name, :email]},
                                       examiners: {only: [:name]}
                                     }))
