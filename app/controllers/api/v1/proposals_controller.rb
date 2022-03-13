@@ -73,6 +73,21 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
     end
   end
 
+  def grades_with_result
+    proposal = Proposal.find_by(multi_app_identifier: params[:multi_app_identifier])
+    if proposal.present?
+      if proposal.examination.present?
+        grades = proposal.examination.grades #.where(grade_result: 'N').order(:id) 
+        render status: :ok, json: grades, each_serializer: Api::V1::GradeWithResultSerializer, root: "grades_with_result", meta: {total_count: grades.count, multi_app_identifier: params[:multi_app_identifier]}
+      else
+        render json: { error: "Elektroniczne Zgłoszenie (multi_app_identifier: #{params[:multi_app_identifier]}) nie zostało jeszcze zaakceptowane w systemie Netpar2015" }, status: :not_found
+      end
+    else
+      render json: { error: "W systemie Netpar2015 brak Elektronicznego Zgłoszenia (multi_app_identifier: #{params[:multi_app_identifier]})" }, status: :not_found
+    end
+  end
+
+
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def proposal_params

@@ -190,6 +190,7 @@ Rails.application.routes.draw do
       resources :divisions, only: [:index, :show]
       resources :proposals, param: :multi_app_identifier, except: [:new, :edit] do
         get 'grades', on: :member
+        get 'grades_with_result', on: :member
       end
       resources :testportal_results, only: [:create]
 
