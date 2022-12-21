@@ -10,6 +10,7 @@ class Api::V1::ExamsController < Api::V1::BaseApiController
     params[:page] = params[:page]
     params[:page_limit] = params[:page_limit]
     params[:division_id] = params[:division_id]
+    params[:category] = category_params_validate(params[:category])
 
     date_exam_min = (Time.zone.today + 14.days).strftime("%Y-%m-%d")
     # Pokaż tylko sesje typu EGZAMIN, które będą nie wcześniej niż za 14 dni oraz dla których są wolne miejsca
@@ -33,4 +34,11 @@ class Api::V1::ExamsController < Api::V1::BaseApiController
     end
   end
 
+  private
+    def category_params_validate(category_service)
+      unless ['l', 'm', 'r', 'L', 'M', 'R', '', nil].include?(category_service)
+        raise "Ruby injection"
+      end
+      return category_service
+    end
 end
