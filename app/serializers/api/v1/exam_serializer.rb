@@ -6,7 +6,8 @@ class Api::V1::ExamSerializer < ActiveModel::Serializer
   end
 
   def province_name_with_quote
-  	online ? " [online], " : " [#{province_name}], "
+    # online ? " [online], " : " [#{province_name}], "
+    online ? " , " : " [#{province_name}], "
   end
 
 end
