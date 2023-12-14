@@ -5,7 +5,7 @@ class Esod::Token
 
   include ApplicationHelper
 
-  def initialize(esod_email, esod_pass)
+  def initialize(esod_login, esod_pass)
     client = Savon.client(
       encoding: "UTF-8",
 
@@ -30,13 +30,13 @@ class Esod::Token
 
     message_body = { 
       "parametrWystawTokenESOD" => {
-        "identyfikatorUzytkownika" => "#{esod_email}",
+        "identyfikatorUzytkownika" => "#{esod_login}",
         "skrotHasla" => "#{esod_pass}"
         }
       }
 
     response = client.call( :wystaw_token_esod, message: message_body )
-#    response = client.call(:wystaw_token, message: { "identyfikatorUzytkownika" => "#{esod_email}", "skrotHasla" => "#{esod_pass}" } )
+#    response = client.call(:wystaw_token, message: { "identyfikatorUzytkownika" => "#{esod_login}", "skrotHasla" => "#{esod_pass}" } )
 
     if response.success?
       @token_string = response.to_hash[:wystaw_token_esod_response][:return][:token]

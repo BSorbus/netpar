@@ -1,18 +1,23 @@
 module Esodes
 
   # instancja testowa
-  # 10.40.2.4:8443 LB 
+  # 10.60.0.105:443" LB sprzetowy ESB-TEST (uwaga! inny port)
+  # 10.40.2.4:8443 LB programowy 
   # 10.40.2.5:8243(epl-tesb1) i 
   # 10.40.2.6:8243(epl-tesb2) 
 
   # instancja produkcyjna
+  # 10.60.0.135:443" # LB sprzetowy ESB
   # 10.40.1.4:443 LB 
   # 10.40.1.5:8243(epl-esb1) i 
   # 10.40.1.6:8243(epl-esb2) 
 
-  API_SERVER = "https://10.40.1.4:443" # LB programowy PROD
-#  API_SERVER = "https://10.40.2.4:8443" # LB programowy ESB-TEST
-#  API_SERVER = "https://10.60.0.105:443" # LB sprzetowy ESB-TEST (uwaga! inny port)
+      #  API_SERVER = "https://10.60.0.135:443" # LB sprzetowy (F5)
+      #  API_SERVER = "https://10.60.0.105:443" # LB sprzetowy TEST (F5)
+
+      #  API_SERVER = "https://10.40.1.4:443"  # LB programowy starej ESB
+      #  API_SERVER = "https://10.40.2.4:8443" # LB programowy starej ESB-TEST
+
   API_TOKEN_EXPIRE = 590.seconds    #  10.minutes
 #  API_SYSTEM_USER = "admin"
 #  API_SYSTEM_USER_PASS = "admin"
@@ -66,9 +71,11 @@ module Esodes
   ACTION_EDIT = [ODNOWIENIE_BEZ_EGZAMINU, DUPLIKAT, WYMIANA, PROTOKOL]
 
   JRWA_L = [5430]
-  JRWA_M = [5431]
-  JRWA_R = [5432]
-  JRWA_ALL = [5430, 5431, 5432]
+  JRWA_M = [5411] # JRWA_M = [5431]
+  JRWA_R = [5412] # JRWA_R = [5432]
+  JRWA_ALL = [5430, 5411, 5412] #  JRWA_ALL = [5430, 5431, 5432]
+
+  DEFAULT_SPOSOB_PRZESLANIA_IF_PROPOSAL = 78
 
 
   def self.log_soap_error(error_obj, options = {}) 
@@ -178,9 +185,11 @@ module Esodes
     when 'L'
       5430
     when 'M'
-      5431
+      5411
+      # 5431
     when 'R'
-      5432
+      5412
+      # 5432
     else
       raise "Error value for Esodes::esod_matter_jrwa (#{service})!"
     end
@@ -217,39 +226,11 @@ module Esodes
 
 
   def self.rodzaj_dokumentu_przychodzacego_array
-    my_token = Esodes::EsodTokenData.token_string 
-    if Esodes::EsodTokenData.response_token_errors.present? 
-      errors.add(:base, "Błąd! #{Esodes::EsodTokenData.response_token_errors}")
-      return false
-    end
-    client = Savon.client(
-      encoding: "UTF-8",
-      wsdl: "#{Rails.application.secrets[:wso2ei_url]}/services/SlownikESODUsluga?wsdl",
-      endpoint: "#{Rails.application.secrets[:wso2ei_url]}/services/SlownikESODUsluga.SlownikESODUslugaHttpSoap11Endpoint",
-      namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/" },
-      env_namespace: :soapenv,
-      namespace_identifier: :dok, 
-      strip_namespaces: true,
-      logger: Rails.logger,
-      log_level: :debug, # [:debug, :info, :warn, :error, :fatal]
-      log: true,
-      pretty_print_xml: true,
-      soap_version: 1,
-      wsse_timestamp: true,
-      ssl_verify_mode: :none,
-      headers: { "Authorization" => "Basic #{Esodes::base64_user_and_pass}" },
-      wsse_auth: [Esodes::EsodTokenData.netpar_user.email, my_token],
-      soap_header: {}
-    )
-
-    message_body = { 
-      "parametryOperacjiWyszukajRodzajeDokumentowPrzychodzacych" => {}
-    }
-  
-    response = client.call(:wyszukaj_rodzaje_dokumentow_przychodzacych, message: message_body )
     my_array = []
-
-    response.xpath("//*[local-name()='return']").each do |ret|
+    doc = Nokogiri::XML(File.open("app/models/esod/rodzaj_dokumentow_przychodzacych.xml")) do |config|
+      config.strict.nonet
+    end
+    doc.xpath("//*[local-name()='return']").each do |ret|
       ret.xpath("//*[local-name()='rodzajDokumentuPrzychodzacego']").each do |row|
         my_array << { nrid:  row.xpath("./*[local-name()='nrid']").text,
                       nazwa: row.xpath("./*[local-name()='nazwa']").text }
@@ -259,38 +240,11 @@ module Esodes
   end
 
   def self.rodzaj_dokumentu_wychodzacego_array
-    my_token = Esodes::EsodTokenData.token_string 
-    if Esodes::EsodTokenData.response_token_errors.present? 
-      errors.add(:base, "Błąd! #{Esodes::EsodTokenData.response_token_errors}")
-      return false
-    end
-    client = Savon.client(
-      encoding: "UTF-8",
-      wsdl: "#{Rails.application.secrets[:wso2ei_url]}/services/SlownikESODUsluga?wsdl",
-      endpoint: "#{Rails.application.secrets[:wso2ei_url]}/services/SlownikESODUsluga.SlownikESODUslugaHttpSoap11Endpoint",
-      namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/" },
-      env_namespace: :soapenv,
-      namespace_identifier: :dok, 
-      strip_namespaces: true,
-      logger: Rails.logger,
-      log_level: :debug, # [:debug, :info, :warn, :error, :fatal]
-      log: true,
-      pretty_print_xml: true,
-      soap_version: 1,
-      wsse_timestamp: true,
-      ssl_verify_mode: :none,
-      headers: { "Authorization" => "Basic #{Esodes::base64_user_and_pass}" },
-      wsse_auth: [Esodes::EsodTokenData.netpar_user.email, my_token],
-      soap_header: {}
-    )
-
-    message_body = { 
-      "parametryOperacjiWyszukajRodzajeDokumentowWychodzacych" => {}
-    }
-  
-    response = client.call(:wyszukaj_rodzaje_dokumentow_wychodzacych, message: message_body )
     my_array = []
-    response.xpath("//*[local-name()='return']").each do |ret|
+    doc = Nokogiri::XML(File.open("app/models/esod/rodzaj_dokumentow_wychodzacych.xml")) do |config|
+      config.strict.nonet
+    end
+    doc.xpath("//*[local-name()='return']").each do |ret|
       ret.xpath("//*[local-name()='rodzajDokumentuWychodzacego']").each do |row|
         my_array << { nrid:  row.xpath("./*[local-name()='nrid']").text,
                       nazwa: row.xpath("./*[local-name()='nazwa']").text }
@@ -312,41 +266,11 @@ module Esodes
   end
 
   def self.rodzaj_wysylki_array
-    my_token = Esodes::EsodTokenData.token_string 
-    if Esodes::EsodTokenData.response_token_errors.present? 
-      errors.add(:base, "Błąd! #{Esodes::EsodTokenData.response_token_errors}")
-      return false
-    end
-    client = Savon.client(
-      encoding: "UTF-8",
-      wsdl: "#{Rails.application.secrets[:wso2ei_url]}/services/SlownikESODUsluga?wsdl",
-      endpoint: "#{Rails.application.secrets[:wso2ei_url]}/services/SlownikESODUsluga.SlownikESODUslugaHttpSoap11Endpoint",
-      namespaces: { "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/" },
-      env_namespace: :soapenv,
-      namespace_identifier: :dok, 
-      strip_namespaces: true,
-      logger: Rails.logger,
-      log_level: :debug, # [:debug, :info, :warn, :error, :fatal]
-      log: true,
-      pretty_print_xml: true,
-      soap_version: 1,
-      wsse_timestamp: true,
-      ssl_verify_mode: :none,
-      headers: { "Authorization" => "Basic #{Esodes::base64_user_and_pass}" },
-      wsse_auth: [Esodes::EsodTokenData.netpar_user.email, my_token],
-      soap_header: {}
-    )
-
-#    message_body = { 
-#      "parametryOperacjiWyszukajRodzajeWysylek" => {}
-#    }
-    message_body = { 
-      parametry_operacji_wyszukaj_rodzaje_wysylek: {}
-    }
-  
-    response = client.call(:wyszukaj_rodzaje_wysylek, message: message_body )
     my_array = []
-    response.xpath("//*[local-name()='return']").each do |ret|
+    doc = Nokogiri::XML(File.open("app/models/esod/rodzaj_wysylki.xml")) do |config|
+      config.strict.nonet
+    end
+    doc.xpath("//*[local-name()='return']").each do |ret|
       ret.xpath("//*[local-name()='rodzajWysylki']").each do |row|
         my_array << { nrid:  row.xpath("./*[local-name()='nrid']").text,
                       nazwa: row.xpath("./*[local-name()='nazwa']").text }
@@ -355,6 +279,7 @@ module Esodes
     return my_array.sort_by{|e| e[:nazwa].upcase}
   end
 
+  # DEFAULT_SPOSOB_PRZESLANIA_IF_PROPOSAL = 78
   def self.sposob_przeslania_array
     my_array = []
     doc = Nokogiri::XML(File.open("app/models/esod/sposob_przeslania.xml")) do |config|
@@ -469,7 +394,7 @@ module Esodes
     end
 
     def self.token_string
-      self.reload_token_and_other if self.netpar_user.blank? || self.netpar_user.esod_token_expired_at.blank? || self.netpar_user.esod_token_expired_at <= Time.current || self.netpar_user.esod_token.blank? 
+      self.reload_token_and_other #if self.netpar_user.esod_token_expired_at.blank? || self.netpar_user.esod_token_expired_at <= Time.current || self.netpar_user.esod_token.blank? 
       self.netpar_user.esod_token
     end
 
@@ -482,7 +407,7 @@ module Esodes
     end
 
     def self.rodzaj_dokumentu_przychodzacego
-      unless @rodzaj_dokumentu_przychodzacego != [] #&& @token_last_used + API_TOKEN_EXPIRE > Time.current
+      unless @rodzaj_dokumentu_przychodzacego != [] && @token_last_used + API_TOKEN_EXPIRE > Time.current
         @token_last_used = Time.current
         @rodzaj_dokumentu_przychodzacego = Esodes::rodzaj_dokumentu_przychodzacego_array #[ { :nrid=>"11", :nazwa=>"AAA"}, { :nrid=>"22", :nazwa=>"BBB"} ]
       end
@@ -490,7 +415,7 @@ module Esodes
     end
 
     def self.rodzaj_dokumentu_wychodzacego
-      unless @rodzaj_dokumentu_wychodzacego != [] #&& @token_last_used + API_TOKEN_EXPIRE > Time.current
+      unless @rodzaj_dokumentu_wychodzacego != [] && @token_last_used + API_TOKEN_EXPIRE > Time.current
         @token_last_used = Time.current
         @rodzaj_dokumentu_wychodzacego = Esodes::rodzaj_dokumentu_wychodzacego_array
       end
@@ -498,7 +423,7 @@ module Esodes
     end
 
     def self.rodzaj_dokumentu_wewnetrznego
-      unless @rodzaj_dokumentu_wewnetrznego != [] #&& @token_last_used + API_TOKEN_EXPIRE > Time.current
+      unless @rodzaj_dokumentu_wewnetrznego != [] && @token_last_used + API_TOKEN_EXPIRE > Time.current
         @token_last_used = Time.current
         @rodzaj_dokumentu_wewnetrznego = Esodes::rodzaj_dokumentu_wewnetrznego_array
       end
@@ -506,7 +431,7 @@ module Esodes
     end
 
     def self.rodzaj_wysylki
-      unless @rodzaj_wysylki != [] #&& @token_last_used + API_TOKEN_EXPIRE > Time.current
+      unless @rodzaj_wysylki != [] && @token_last_used + API_TOKEN_EXPIRE > Time.current
         @token_last_used = Time.current
         @rodzaj_wysylki = Esodes::rodzaj_wysylki_array
       end
@@ -514,7 +439,7 @@ module Esodes
     end
 
     def self.sposob_przeslania
-      unless @sposob_przeslania != [] #&& @token_last_used + API_TOKEN_EXPIRE > Time.current
+      unless @sposob_przeslania != [] && @token_last_used + API_TOKEN_EXPIRE > Time.current
         @token_last_used = Time.current
         @sposob_przeslania = Esodes::sposob_przeslania_array
       end
@@ -522,7 +447,7 @@ module Esodes
     end
 
     def self.dostepnosc_dokumentu
-      unless @dostepnosc_dokumentu != [] #&& @token_last_used + API_TOKEN_EXPIRE > Time.current
+      unless @dostepnosc_dokumentu != [] && @token_last_used + API_TOKEN_EXPIRE > Time.current
         @token_last_used = Time.current
         @dostepnosc_dokumentu = Esodes::dostepnosc_dokumentu_array
       end

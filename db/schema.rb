@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20211110100530) do
+ActiveRecord::Schema.define(version: 20231214134950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -732,6 +732,7 @@ ActiveRecord::Schema.define(version: 20211110100530) do
     t.string   "esod_encryped_password"
     t.string   "esod_token"
     t.datetime "esod_token_expired_at"
+    t.string   "wso2_name"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree

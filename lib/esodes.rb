@@ -380,7 +380,8 @@ module Esodes
     end
 
     def self.reload_token_and_other
-      responseToken = Esod::Token.new(self.netpar_user.email, self.netpar_user.esod_encryped_password)
+      # responseToken = Esod::Token.new(self.netpar_user.email, self.netpar_user.esod_encryped_password)
+      responseToken = Esod::Token.new(self.netpar_user.wso2_name, self.netpar_user.esod_encryped_password)
       self.response_token_errors = responseToken.response_errors
       if self.response_token_errors.blank?
         self.netpar_user.update_columns(esod_token: responseToken.token_string, esod_token_expired_at: Time.current + API_TOKEN_EXPIRE) 
