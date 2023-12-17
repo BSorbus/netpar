@@ -10,7 +10,10 @@ class ExamsDivisionsSubject < ActiveRecord::Base
 
   # callbacks
   after_save :set_testportal_test_id, if: "(self.testportal_test_id.blank?) && (self.persisted?)"
-  after_destroy :destroy_testportal_test_after_destroy_eds, unless: "(self.testportal_test_id.blank?) && (self.persisted?)"
+
+  # after_destroy :destroy_testportal_test_after_destroy_eds, unless: "(self.testportal_test_id.blank?) && (self.persisted?)"
+  # 2023-12-17
+  before_destroy :destroy_testportal_test_after_destroy_eds, unless: "(self.testportal_test_id.blank?) && (self.persisted?)"
 
   def colorized_testportal_id
     testportal_test_id.empty? ? 
@@ -90,7 +93,7 @@ class ExamsDivisionsSubject < ActiveRecord::Base
   def clean_testportal_test_id
     item_obj = ApiTestportalTest.new(id_test: self.testportal_test_id)
     if item_obj.request_for_destroy
-      puts "info -> DESTROY testportal_test_id: #{self.testportal_test_id} because Exam is not Online"
+      puts "info -> DESTROY testportal_test_id: #{self.testportal_test_id}"
       self.update_columns(testportal_test_id: "")
     end
   end
