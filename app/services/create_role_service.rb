@@ -89,6 +89,13 @@ class CreateRoleService
       role.save!
     end
   end
+  # exam_l
+  def exam_l_super_manager
+    role = Role.find_or_create_by!(name: "Super Menadżer Sesji Egzaminacyjnych Świadectw Lotniczych") do |role|
+      role.activities += %w(exam_l:force_delete)
+      role.save!
+    end
+  end
 
   # exam_m
   def exam_m_manager
@@ -103,6 +110,12 @@ class CreateRoleService
       role.save!
     end
   end
+  def exam_m_super_manager
+    role = Role.find_or_create_by!(name: "Super Menadżer Sesji Egzaminacyjnych Świadectw Morskich") do |role|
+      role.activities += %w(exam_m:force_delete)
+      role.save!
+    end
+  end
 
   # exam_r
   def exam_r_manager
@@ -114,6 +127,12 @@ class CreateRoleService
   def exam_r_observer
     role = Role.find_or_create_by!(name: "Obserwator Sesji Egzaminacyjnych Świadectw Radioamtorskich") do |role|
       role.activities += %w(exam_r:index exam_r:show)
+      role.save!
+    end
+  end
+  def exam_r_super_manager
+    role = Role.find_or_create_by!(name: "Super Menadżer Sesji Egzaminacyjnych Świadectw Radioamtorskich") do |role|
+      role.activities += %w(exam_r:force_delete)
       role.save!
     end
   end

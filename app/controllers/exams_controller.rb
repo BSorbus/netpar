@@ -4,7 +4,7 @@ class ExamsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index, :select2_index, :certificates_generation]
 
-  before_action :set_exam, only: [:show, :edit, :update, :destroy, :examination_cards_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf, :committee_docx, :esod_matter_link]
+  before_action :set_exam, only: [:show, :edit, :update, :destroy, :force_destroy, :examination_cards_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf, :committee_docx, :esod_matter_link]
   before_action :set_esod_user_id, only: [:show]
 
   # GET /exams
@@ -414,6 +414,27 @@ class ExamsController < ApplicationController
     end      
   end
 
+  def force_destroy
+    exam_authorize(@exam, "force_destroy", params[:category_service])
+    # destroyed_clone = @exam.clone
+
+    if @exam.force_destroy
+      Work.create!(trackable: @exam, action: :destroy, user: current_user, 
+          parameters: @exam.to_json(except: [:user_id], 
+                                    include: {
+                                      user: {only: [:id, :name, :email]},
+                                      examiners: {only: [:name]}
+                                    }))
+      flash_message :success, t('activerecord.messages.successfull.destroyed', data: @exam.number)
+      redirect_to exams_url
+    else 
+      flash_message :error, t('activerecord.messages.error.destroyed', data: @exam.number)
+      set_initial_esod_data
+      render :show
+      #redirect_to :back
+    end      
+  end
+
   def certificates_generation 
     @exam = Exam.find(params[:id]) 
     # wywołanie funkcji z JS, by nie odświeżać całej strony
@@ -426,7 +447,7 @@ class ExamsController < ApplicationController
 
   private
     def exam_authorize(model_class, action, category)
-      unless ['index', 'show', 'new', 'create', 'edit', 'update', 'destroy', 'print', 'work'].include?(action)
+      unless ['index', 'show', 'new', 'create', 'edit', 'update', 'destroy', 'force_destroy', 'print', 'work'].include?(action)
          raise "Ruby injection"
       end
       unless ['l', 'm', 'r'].include?(category)

@@ -119,6 +119,18 @@ class ExamPolicy < ApplicationPolicy
     user_activities.include? 'exam_r:delete'
   end
  
+  def force_destroy_l?
+    user_activities.include? 'exam_l:force_delete'
+  end
+ 
+  def force_destroy_m?
+    user_activities.include? 'exam_m:force_delete'
+  end
+ 
+  def force_destroy_r?
+    user_activities.include? 'exam_r:force_delete'
+  end
+ 
   def destroy?
     false
   end

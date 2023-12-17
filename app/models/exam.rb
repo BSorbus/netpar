@@ -216,6 +216,100 @@ class Exam < ActiveRecord::Base
 
   end
 
+  def force_destroy
+
+    self.esod_matters.each do |em|
+      em.esod_matter_notes.each do |r|
+        r.destroy
+      end
+      em.esod_incoming_letters_matters.each do |r|
+        r.destroy
+      end
+      em.esod_outgoing_letters_matters.each do |r|
+        r.destroy
+      end
+      em.esod_internal_letters_matters.each do |r|
+        r.destroy
+      end
+      em.destroy
+    end
+    puts '------------------------'
+    puts 'end esod_matters'
+    puts '------------------------'
+
+    self.documents.each do |r|
+      r.destroy
+    end
+    puts '------------------------'
+    puts 'end documents'
+    puts '------------------------'
+
+    self.examiners.each do |r|
+      r.destroy
+    end
+    puts '------------------------'
+    puts 'examiners'
+    puts '------------------------'
+
+    self.grades.each do |r|
+      r.destroy
+    end
+    puts '------------------------'
+    puts 'end grades'
+    puts '------------------------'
+
+    self.exams_divisions_subjects.each do |r|
+      r.destroy
+    end
+    puts '------------------------'
+    puts 'end exams_divisions_subjects'
+    puts '------------------------'
+
+    self.exams_divisions.each do |r|
+      r.destroy
+    end
+    puts '------------------------'
+    puts 'end exams_divisions'
+    puts '------------------------'
+
+    self.certificates.each do |r|
+      unless r.destroy
+        puts '======================== certificate ======================='
+        puts r.errors
+        puts '========================================================='
+      end
+    end
+    puts '------------------------'
+    puts 'end certificates'
+    puts '------------------------'
+
+    self.proposals.each do |r|
+      unless r.destroy
+        puts '======================== proposal ======================='
+        puts r.errors
+        puts '========================================================='
+      end
+    end
+    puts '------------------------'
+    puts 'end proposals'
+    puts '------------------------'
+    self.examinations.each do |r|
+      unless r.destroy
+        puts '======================= examinaton ======================'
+        puts r.errors
+        puts '========================================================='
+      end
+    end
+    puts '------------------------'
+    puts 'end examinations'
+    puts '------------------------'
+
+    self.reload
+    self.destroy
+  end
+
+
+
   private
 
     # def used_exams_divisions_presence

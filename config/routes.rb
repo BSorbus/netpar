@@ -58,6 +58,7 @@ Rails.application.routes.draw do
       get 'statistic_filter', on: :collection
       get 'statistic_to_pdf', on: :collection
       get 'statistic2_to_pdf', on: :collection
+      post 'force_destroy', on: :member
     end
     resources :examinations do
       post 'datatables_index_exam', on: :collection # for Exam

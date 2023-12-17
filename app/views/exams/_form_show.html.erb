@@ -200,6 +200,20 @@
 
     <% end %>
 
+    <% if exam_policy_check(@exam, params[:category_service], 'force_destroy') %>
+
+      <%= link_to force_destroy_exam_path(@exam, category_service: @exam.category.downcase),
+                          method: :post,
+                          data: { confirm: t('helpers.links.confirm_force_destroy', data: @exam.fullname) }, 
+                          class: "btn btn-danger" do %>
+        <span class="fa fa-trash-o"></span>
+        <%= t("helpers.links.force_destroy") %>
+      <% end %>
+
+    <% end %>
+
+
+
   </div> <!-- /row -->
 <% else %>
   <!-- form "New"/"Edit" -->

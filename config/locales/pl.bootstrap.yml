@@ -14,6 +14,7 @@ pl:
       cancel: "Wróć"
       confirm: "Czy na pewno?"
       confirm_destroy: 'Na pewno chcesz usunąć wpis: "%{data}"?'
+      confirm_force_destroy: 'Na pewno chcesz usunąć wpis: "%{data}" wraz ze wszystkimi obiektami zależnymi?'
       confirm_account_off: 'Na pewno chcesz wyłączyć konto: "%{data}"?'
       confirm_account_on: 'Na pewno chcesz włączyć konto: "%{data}"?'
       confirm_link_esod_matter: 'Na pewno chcesz powiązać wybraną sprawę z "%{data}"?'
@@ -21,6 +22,7 @@ pl:
       confirm_approved: 'Na pewno chcesz zaakceptować zgłoszenie: "%{data}"?'
       confirm_not_approved: 'Na pewno chcesz odrzucić zgłoszenie: "%{data}"?'
       confirm_closed: 'Na pewno chcesz zamknąć zgłoszenie: "%{data}"?'
+      force_destroy: " Usuń bez względu na wszystko!"
       destroy: " Usuń"
       destroy_account: "Usuń moje konto"
       new: " Nowy"
