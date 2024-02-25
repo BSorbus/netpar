@@ -308,8 +308,6 @@ class Exam < ActiveRecord::Base
     self.destroy
   end
 
-
-
   private
 
     # def used_exams_divisions_presence

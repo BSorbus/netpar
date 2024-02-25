@@ -14,10 +14,11 @@ class ApiTestportalTest
     Errno::ECONNREFUSED
   ]
 
-  attr_accessor :response, :id_test_category, :test_name, :id_test
+  attr_accessor :response, :id_test_category, :test_name, :id_test, :id_attempt
 
   def initialize(params = {})
     @id_test = params.fetch(:id_test, '')
+    @id_attempt = params.fetch(:id_attempt, '')
     @test_name = params.fetch(:test_name, '')
     @id_test_category = params.fetch(:id_test_category, '')
   end
@@ -132,6 +133,123 @@ class ApiTestportalTest
       #response
     end
   end
+
+  def request_for_one_row_colletion_sheets
+    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/api/v1/manager/me/tests/#{@id_test}/test-sheets/headers")
+    # set query parameters
+    # params = {}
+    # params[:idTestCategory] = "#{@id_test_category}" unless @id_test_category.blank?
+    # params[:name] = "#{@test_name}" unless @test_name.blank?
+    # uri.query = URI.encode_www_form(params)
+    # /set query parameters
+    http = Net::HTTP.new(uri.host, uri.port)
+    # SSL
+    http.use_ssl = true if uri.scheme == "https"
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE if uri.scheme == "https" # Sets the HTTPS verify mode
+    # /SSL
+
+    request = Net::HTTP::Get.new(uri.request_uri)
+    request["User-Agent"] = "UKE Egzaminy"
+    request["Content-Type"] = "application/json"
+    request["API-Key"] = "#{Rails.application.secrets[:testportal_api_key]}"
+
+    @response = http.request(request)
+
+  rescue *HTTP_ERRORS => e
+    Rails.logger.error('== API ERROR "models/api_testportal_test .request_for_one_row_colletion_sheets"(1) ==')
+    Rails.logger.error("#{e}")
+    Rails.logger.error('=====================================================================================')
+    errors.add(:base, "API ERROR 'models/api_testportal_test .request_for_one_row(1) #{Time.zone.now}")
+    errors.add(:base, "#{e}")
+    false    # non-success response
+    #"#{e}"
+  rescue StandardError => e
+    Rails.logger.error('== API ERROR "models/api_testportal_test .request_for_one_row_colletion_sheets"(2) ==')
+    Rails.logger.error("#{e}")
+    Rails.logger.error('=====================================================================================')
+    errors.add(:base, "API ERROR 'models/api_testportal_test .request_for_one_row(2) #{Time.zone.now}")
+    errors.add(:base, "#{e}")
+    false    # non-success response
+    #"#{e}"
+  else
+    case response
+    when Net::HTTPOK
+      true   # success response
+      #response
+    when Net::HTTPNotFound
+      true
+    when Net::HTTPForbidden
+      true
+    when Net::HTTPClientError, Net::HTTPInternalServerError
+      Rails.logger.error('== API ERROR "models/api_testportal_test .request_for_one_row_colletion_sheets"(3) ==')
+      Rails.logger.error("code: #{response.code}, message: #{response.message}, body: #{response.body}")
+      Rails.logger.error('=====================================================================================')
+      errors.add(:base, "API ERROR 'models/api_testportal_test .request_for_one_row(3) #{Time.zone.now}")
+      errors.add(:base, "code: #{response.code}, message: #{response.message}, body: #{response.body}")
+      false  # non-success response
+      #response
+    end
+  end
+
+  def request_for_one_sheets_pdf
+    uri = URI("#{Rails.application.secrets[:testportal_api_url]}/api/v1/manager/me/tests/#{@id_test}/test-sheets/#{id_attempt}/pdf")
+    # set query parameters
+    # params = {}
+    # params[:idTestCategory] = "#{@id_test_category}" unless @id_test_category.blank?
+    # params[:name] = "#{@test_name}" unless @test_name.blank?
+    # uri.query = URI.encode_www_form(params)
+    # /set query parameters
+    http = Net::HTTP.new(uri.host, uri.port)
+    # SSL
+    http.use_ssl = true if uri.scheme == "https"
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE if uri.scheme == "https" # Sets the HTTPS verify mode
+    # /SSL
+
+    request = Net::HTTP::Get.new(uri.request_uri)
+    request["User-Agent"] = "UKE Egzaminy"
+    request["Content-Type"] = "application/json"
+    request["API-Key"] = "#{Rails.application.secrets[:testportal_api_key]}"
+
+    @response = http.request(request)
+
+  rescue *HTTP_ERRORS => e
+    Rails.logger.error('== API ERROR "models/api_testportal_test .request_for_one_row_colletion_sheets"(1) ==')
+    Rails.logger.error("#{e}")
+    Rails.logger.error('=====================================================================================')
+    errors.add(:base, "API ERROR 'models/api_testportal_test .request_for_one_row(1) #{Time.zone.now}")
+    errors.add(:base, "#{e}")
+    false    # non-success response
+    #"#{e}"
+  rescue StandardError => e
+    Rails.logger.error('== API ERROR "models/api_testportal_test .request_for_one_row_colletion_sheets"(2) ==')
+    Rails.logger.error("#{e}")
+    Rails.logger.error('=====================================================================================')
+    errors.add(:base, "API ERROR 'models/api_testportal_test .request_for_one_row(2) #{Time.zone.now}")
+    errors.add(:base, "#{e}")
+    false    # non-success response
+    #"#{e}"
+  else
+    case response
+    when Net::HTTPOK
+      true   # success response
+      #response
+    when Net::HTTPNotFound
+      true
+    when Net::HTTPForbidden
+      true
+    when Net::HTTPClientError, Net::HTTPInternalServerError
+      Rails.logger.error('== API ERROR "models/api_testportal_test .request_for_one_row_colletion_sheets"(3) ==')
+      Rails.logger.error("code: #{response.code}, message: #{response.message}, body: #{response.body}")
+      Rails.logger.error('=====================================================================================')
+      errors.add(:base, "API ERROR 'models/api_testportal_test .request_for_one_row(3) #{Time.zone.now}")
+      errors.add(:base, "code: #{response.code}, message: #{response.message}, body: #{response.body}")
+      false  # non-success response
+      #response
+    end
+  end
+
+
+
 
   def request_for_duplicate
     # uri = URI("http://localhost:3001/api/v1/exam_fees/find")
@@ -288,21 +406,6 @@ class ApiTestportalTest
     return api_call_correct, find_result
   end
 
-  # # poprawne i działa lecz poniżej drugi sposób
-  # def self.check_exist_test_in_testportal(checked_id_test)
-  #   find_result = ""
-  #   api_call_correct = false
-  #   items_obj = ApiTestportalTest.new()
-  #   api_call_correct = items_obj.request_for_collection
-  #   if api_call_correct
-  #     testtemplates_hash = JSON.parse(items_obj.response.body) if items_obj.response.body.present? 
-  #     testtemplates_hash_without_root = testtemplates_hash['tests'] unless testtemplates_hash.blank?
-  #     testtemplate_hash = testtemplates_hash_without_root.find {|x| (x["idTest"] == "#{checked_id_test}")} unless testtemplates_hash_without_root.blank?
-  #     find_result = testtemplate_hash["name"] unless testtemplate_hash.blank?
-  #   end
-  #   return api_call_correct, find_result
-  # end
-
   def self.test_info_in_testportal_where_test_id(checked_id_test)
     hash_result = {}
     api_call_correct = false
@@ -352,6 +455,43 @@ class ApiTestportalTest
       duplicate_result = item_hash["idTest"] unless item_hash.blank?
     end
     return api_call_correct, duplicate_result
+  end
+
+  def self.get_all_headers_sheets_by_test_id(id_test)
+    data_result = ""
+    api_call_correct = false
+    item_obj = ApiTestportalTest.new(id_test: "#{id_test}")
+    api_call_correct = item_obj.request_for_one_row_colletion_sheets
+    if api_call_correct
+      item_hash = JSON.parse(item_obj.response.body) if item_obj.response.class == Net::HTTPOK 
+      data_result = item_hash["testSheets"] unless item_hash.blank?
+    end
+    return api_call_correct, data_result    
+  end
+
+  def self.get_identifiers_headers_sheets_by_test_id(id_test)
+    data_array = []
+    api_call_correct, hash_result = ApiTestportalTest.test_info_in_testportal_where_test_id(id_test)
+    if api_call_correct
+      test_name = hash_result["name"]
+      api_call_correct, data_result = ApiTestportalTest.get_all_headers_sheets_by_test_id("#{id_test}")
+      if api_call_correct
+        data_result.each do |e|
+          id_attempt = e["idAttempt"]
+          personaldata_fields_array = e["personalData"]["fieldsList"]
+          nazwisko = personaldata_fields_array.select{|a| a["fieldName"] == "lastName"}[0]["fieldValue"]
+          imie     = personaldata_fields_array.select{|a| a["fieldName"] == "firstName"}[0]["fieldValue"]
+          code_id  = personaldata_fields_array.select{|a| a["fieldName"] == "passcode"}[0]["fieldValue"]
+          data_array << { id_test: "#{id_test}",
+                          name_test: "#{test_name}", 
+                          id_attempt: "#{id_attempt}",
+                          testportal_access_code_id: "#{code_id}", 
+                          nazwisko: "#{nazwisko}",
+                          imie: "#{imie}" }
+        end
+      end
+    end
+    return data_array
   end
 
   def self.testportal_whenever_tests_set

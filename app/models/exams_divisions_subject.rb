@@ -98,6 +98,25 @@ class ExamsDivisionsSubject < ActiveRecord::Base
     end
   end
 
+  def download_results_pdfs_from_testportal_and_save
+    data_to_saved_array = ApiTestportalTest.get_identifiers_headers_sheets_by_test_id(self.id_test)
+    data_to_saved_array.each do |to_save|
+      file_name = "#{to_save[:name_test].gsub('/','_')} - #{to_save[:nazwisko]} #{to_save[:imie]}.pdf"
+      grade = Grade.find_by(testportal_access_code_id: "#{to_save[:testportal_access_code_id]}")
+      examination = grade.examination
+
+      item_obj = ApiTestportalTest.new(id_test: "#{to_save[:id_test]}", id_attempt: "#{to_save[:id_attempt]}")
+
+      api_call_correct = item_obj.request_for_one_sheets_pdf
+      if api_call_correct
+        refile_document = examination.documents.create( fileattach: StringIO.new(item_obj.response.body),
+                                                        fileattach_filename: "#{file_name}",
+                                                        fileattach_content_type: "application/pdf" )
+      end
+    end
+    return data_to_saved_array.size
+  end
+
   private
 
 end

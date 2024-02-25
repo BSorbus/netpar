@@ -471,6 +471,7 @@ pl:
         esod_matter_link: 'Pomyślnie przyłączono do "%{parent}" sprawę "%{child}".'
         account_off: 'Pomyślnie wyłączono konto "%{data}".'
         account_on: 'Pomyślnie włączono konto "%{data}".'
+        download_testportal_pdfs: 'Pomyślnie pobrano z TestPortalu %{sum_files} plików pdf do "%{data}".'
       error:
         created: 'Wystąpił błąd w czasie dodawania nowego wpisu.'
         updated: 'Wystąpił błąd w czasie aktualizowania wpisu "%{data}".'
@@ -484,6 +485,7 @@ pl:
         is_in_proposals_with_status_created: 'To nierozpatrzone Elektroniczne Zgłoszenie ma parametry, które próbujesz wpisać. Zamiast dodawać dane "z ręki" zaakceptuj to Elektroniczne Zgłoszenie.'
         if_parent_exam_is_online_examination_created_only_via_proposal: 'Dla sesji "OnLine" wnioski mogą być rejestrowane jedynie za pośrednictwem Elektronicznych Zgłoszeń.'
         has_empty_testportal_id: 'Sesja Online "%{data}", której dotyczy zgłoszenie nie ma jeszcze testów w TestPortalu!'
+        download_testportal_pdfs: 'Wystąpił błąd w czasie pobierania z TestPortalu plików pdf dla "%{data}".'
       notice:
         no_records: 'Brak danych!'
     attributes:

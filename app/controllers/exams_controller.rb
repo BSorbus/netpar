@@ -4,7 +4,7 @@ class ExamsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index, :select2_index, :certificates_generation]
 
-  before_action :set_exam, only: [:show, :edit, :update, :destroy, :force_destroy, :examination_cards_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf, :committee_docx, :esod_matter_link]
+  before_action :set_exam, only: [:show, :edit, :update, :destroy, :force_destroy, :download_testportal_pdfs, :examination_cards_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf, :committee_docx, :esod_matter_link]
   before_action :set_esod_user_id, only: [:show]
 
   # GET /exams
@@ -434,6 +434,29 @@ class ExamsController < ApplicationController
       #redirect_to :back
     end      
   end
+
+  def download_testportal_pdfs
+    exam_authorize(@exam, "update", params[:category_service])
+
+    sum_file_downloaded = 0
+    @exam.exams_divisions_subjects.each do |eds|
+      sum_file_downloaded += eds.download_results_pdfs_from_testportal_and_save
+    end
+    if sum_file_downloaded > 0
+      Work.create!(trackable: @exam, action: :download_testportal_pdfs, user: current_user, 
+          parameters: @exam.to_json(except: [:user_id], 
+                                    include: {
+                                      user: {only: [:id, :name, :email]},
+                                      examiners: {only: [:name]}
+                                    }))
+      flash_message :success, t('activerecord.messages.successfull.download_testportal_pdfs', data: @exam.number, sum_files: sum_file_downloaded)
+    else 
+      flash_message :error, t('activerecord.messages.error.download_testportal_pdfs', data: @exam.number)
+    end      
+    set_initial_esod_data
+    render :show
+  end
+
 
   def certificates_generation 
     @exam = Exam.find(params[:id]) 
