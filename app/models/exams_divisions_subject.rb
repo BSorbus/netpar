@@ -99,7 +99,7 @@ class ExamsDivisionsSubject < ActiveRecord::Base
   end
 
   def download_results_pdfs_from_testportal_and_save
-    data_to_saved_array = ApiTestportalTest.get_identifiers_headers_sheets_by_test_id(self.id_test)
+    data_to_saved_array = ApiTestportalTest.get_identifiers_headers_sheets_by_test_id(self.testportal_test_id)
     data_to_saved_array.each do |to_save|
       file_name = "#{to_save[:name_test].gsub('/','_')} - #{to_save[:nazwisko]} #{to_save[:imie]}.pdf"
       grade = Grade.find_by(testportal_access_code_id: "#{to_save[:testportal_access_code_id]}")
