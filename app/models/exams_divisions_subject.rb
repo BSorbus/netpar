@@ -109,9 +109,10 @@ class ExamsDivisionsSubject < ActiveRecord::Base
 
       api_call_correct = item_obj.request_for_one_sheets_pdf
       if api_call_correct
-        refile_document = examination.documents.create( fileattach: StringIO.new(item_obj.response.body),
-                                                        fileattach_filename: "#{file_name}",
-                                                        fileattach_content_type: "application/pdf" )
+        refile_document = examination.documents.create( 
+          fileattach: StringIO.new(item_obj.response.body),
+          fileattach_filename: "#{file_name}",
+          fileattach_content_type: "application/pdf" ) unless examination.documents.where(fileattach_filename: "#{file_name}").any?
       end
     end
     return data_to_saved_array.size
