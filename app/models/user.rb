@@ -3,33 +3,22 @@ require 'base64'
 
 
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :rememberable, :omniauthable
-  devise  :database_authenticatable, 
-          :recoverable, 
-          :timeoutable, 
-          :registerable, 
-          :confirmable, 
-  		    :trackable, 
-          :validatable,
-          :lockable,
-            :password_expirable,
-            :secure_validatable, 
-            :password_archivable, 
-            :expirable,
-          :authentication_keys => [:email]
 
-  #gem 'devise_security_extension'
-  #devise :password_expirable, 
-  #        :secure_validatable, 
-  #        :password_archivable, 
-  #        :session_limitable, 
-  #        :expirable
+  USER_DEFAULT_FIRST_NAME = "nowy"
+  USER_DEFAULT_LAST_NAME  = "użytkownik"
+  USER_DEFAULT_USER_NAME  = "nowy użytkownik"
+
 
 	#validates_format_of :email, :with =>  /\A[\w+\-.]+@uke.gov.pl/i
   #validates define in /config/initializers/device.rb -> config.email_regexp = /\A([\w\.%\+\-]+)@uke\.gov\.pl\z/i
 
-  validates :authentication_token, uniqueness: true, allow_blank: true
+  include ActionView::Helpers::TextHelper # for truncate
+
+  delegate :url_helpers, to: 'Rails.application.routes'
+
+  devise :saml_authenticatable, :trackable
+
+  # validates :authentication_token, uniqueness: true, allow_blank: true
 
   has_and_belongs_to_many :roles
 
@@ -44,11 +33,32 @@ class User < ActiveRecord::Base
   has_many :works, as: :trackable
   has_many :trackables, class_name: 'Work', primary_key: 'id', foreign_key: 'user_id'
 
-  scope :by_name, -> { order(:name) }
+  # scope :by_name, -> { order(:name) }
+  scope :by_name, -> { order(:user_name) }
 
+  # validates
+  validates :user_name, presence: true,
+                    length: { in: 1..100 }
+
+  validates :email, presence: true,
+                    length: { in: 1..100 },
+                    uniqueness: { case_sensitive: false },
+                    format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
+
+  before_validation :set_initial_data_corrected #, on: :create
+  after_commit :set_default_data, on: :create
 
   before_destroy :user_has_a_history_of_activity, prepend: true
-  before_create :generate_authentication_token!
+
+  def set_default_data
+    # if self.id != 1 # Jestśli to nie jest Administrator
+    # role = Role.find(name: "Obserwator Składnic")
+    # role = CreateRoleService.new.proposal_writer
+    # self.roles << role 
+    if author_id.blank?
+      self.update_columns(author_id: id) 
+    end
+  end
 
   def user_has_a_history_of_activity
     analize_value = true
@@ -97,18 +107,33 @@ class User < ActiveRecord::Base
     ret = ret.gsub('=', '.')
   end
 
-  def generate_authentication_token!
-    begin
-      self.authentication_token = Devise.friendly_token
-    end while self.class.exists?(authentication_token: authentication_token)
-  end
-
-  def fullname
-    "#{name} (#{email})"
+  def name
+    "#{first_name} #{last_name}"
   end
 
   def fullname_and_id
-    "#{name} - #{email} (#{id})"
+    "#{first_name} #{last_name} (#{id})"
+  end
+
+
+  def name_was
+    "#{first_name_was} #{last_name_was}"
+  end
+
+  def fullname
+    name.blank? ? "#{email}" : "#{email} (#{name})"
+  end
+
+  def fullname_was
+    name_was.blank? ? "#{email_was}" : "#{email_was} (#{name_was})"
+  end
+
+  def last_name_to_display
+    (last_name == USER_DEFAULT_LAST_NAME || last_name.blank?) ? "" : last_name    
+  end
+
+  def first_name_to_display
+    (first_name == USER_DEFAULT_FIRST_NAME || first_name.blank?) ? "" : first_name    
   end
 
 
@@ -226,5 +251,16 @@ class User < ActiveRecord::Base
     end
   end
 
+  private
+  
+    def set_initial_data_corrected
+      self.email.downcase if self.email.present?
+      
+      self.first_name = USER_DEFAULT_FIRST_NAME if self.first_name.blank?
+      self.last_name  = USER_DEFAULT_LAST_NAME  if self.last_name.blank?
+      self.user_name  = USER_DEFAULT_USER_NAME  if self.user_name.blank?
+
+      user_name  = "#{first_name} #{last_name}"
+    end 
 
 end

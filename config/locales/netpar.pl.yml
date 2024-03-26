@@ -508,6 +508,8 @@ pl:
         department_id: 'Oddział'
         last_activity_at: 'Ostatnia aktywność'
         password_changed_at: 'Ostatnia zmiana hasła'
+        first_name: 'Imię'
+        last_name: 'Nazwisko'
       department:
         short: 'Skrót'
         name: 'Nazwa'

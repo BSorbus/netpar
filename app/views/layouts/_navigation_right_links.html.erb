@@ -46,15 +46,25 @@
     </li>
   <% end %>
 
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-user"></span>&nbsp;<%= current_user.name %> <span class="caret"></span></a>
 
-  <li><%= link_to edit_user_registration_path do %>
-    <span class="fa fa-edit"></span>&nbsp;<%= current_user.name %>
-    <% end %>
+    <ul class="dropdown-menu">
+      <li>
+        <%= link_to edit_user_path(current_user) do %>
+          <span class="fa fa-user"></span>&nbsp;<%=t "devise.link_to.edit_registration" %>
+        <% end %>
+      </li>
+
+      <li>
+        <%= link_to destroy_user_session_path, :method=>'delete' do %>
+          <span class="glyphicon glyphicon-log-out"></span>&nbsp;<%=t "devise.link_to.sign_out" %>
+        <% end %>
+      </li>
+
+    </ul>
   </li>
-  <li><%= link_to destroy_user_session_path, :method=>'delete' do %>
-    <span class="glyphicon glyphicon-log-out"></span>&nbsp;<%=t "devise.link_to.sign_out" %>
-    <% end %>
-  </li>
+
 <% else %>
   <% if request_from_the_security_area? %>
     <li><%= link_to new_user_session_path do %>

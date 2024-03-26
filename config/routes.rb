@@ -4,11 +4,15 @@ Rails.application.routes.draw do
     post 'datatables_index', on: :collection
   end
 
+  # devise_for :users, controllers: {
+  #   passwords: 'users/passwords',
+  #   sessions: 'users/sessions',
+  #   registrations: 'users/registrations',
+  #   unlocks: 'users/unlocks'
+  # }
+
   devise_for :users, controllers: {
-    passwords: 'users/passwords',
-    sessions: 'users/sessions',
-    registrations: 'users/registrations',
-    unlocks: 'users/unlocks'
+    saml_sessions: 'users/saml_sessions'
   }
 
   resources :users do

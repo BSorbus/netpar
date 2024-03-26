@@ -12,8 +12,11 @@ gem 'turbolinks', '2.5.3'
 gem 'jbuilder', '~> 2.0'
 gem 'pg', '0.20'
 gem 'bootstrap-sass', '3.3.7'
-gem 'devise', '3.5.10'
-gem 'devise_security_extension', '0.10.0'
+#gem 'devise', '3.5.10'
+#gem 'devise_security_extension', '0.10.0'
+gem "devise", "= 4.8.1"
+gem 'devise_saml_authenticatable'
+
 gem 'rails_email_validator'
 gem 'pundit'
 group :development do
@@ -89,3 +92,6 @@ gem 'mina', '1.0.7'
 gem 'mina-whenever', '1.0.0'
 
 gem 'country_select', '~> 4.0'
+
+gem 'loofah', '2.2.3'
+gem 'rails-html-sanitizer', '1.0.4'

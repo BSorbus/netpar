@@ -9,6 +9,7 @@ pl:
       sign_out: 'Wyloguj się'
       new_password: 'Zapomniałeś hasła?'
       new_confirmation: 'Nie otrzymałeś instrukcji aktywacji konta?'
+      edit_registration: 'Konto'
       new_unlock: 'Nie otrzymałeś instrukcji odblokowania konta?'
     confirmations:
       confirmed: "Twoje konto zostało aktywowane. Zaloguj się."
@@ -19,7 +20,6 @@ pl:
           title: 'Nie otrzymałeś instrukcji aktywacji konta?' 
           header_text: 'Wyślemy na Twój email instrukcję aktywacji konta'
           button_submit: 'Wyślij instrukcję'
-          footer_text: 'Twój email musi być zarejestrowany'
     failure:
       already_authenticated: "Jesteś aktualnie zalogowany."
       inactive: "Twoje konto nie zostało jeszcze aktywowane."
@@ -31,14 +31,14 @@ pl:
       timeout: "Sesja wygasła, zaloguj się ponownie by kontynuować."
       unauthenticated: "Aby kontynuować musisz się zalogować."
       unconfirmed: "Aby kontynuować musisz aktywować swoje konto."
-      deleted_account: "Konto zostało usunięte lub wyłączone!"  
+      deleted_account: "Konto zostało wyłączone!"  
     mailer:
       confirmation_instructions:
-        subject: "NetPAR 2015 - Instrukcja aktywacji konta"
+        subject: "POLA - Instrukcja aktywacji konta"
       reset_password_instructions:
-        subject: "NetPAR 2015 - Instrukcja zresetowania hasła"
+        subject: "POLA - Instrukcja zresetowania hasła"
       unlock_instructions:
-        subject: "NetPAR 2015 - Instrukcja odblokowania konta"
+        subject: "POLA - Instrukcja odblokowania konta"
     omniauth_callbacks:
       failure: "Logowanie przez konto %{kind} zakończyło się błędem: \"%{reason}\"."
       success: "Zalogowałeś się pomyślnie przez konto %{kind}."
@@ -53,7 +53,6 @@ pl:
           title: 'Nie znasz lub zapomniałeś hasło?' 
           header_text: 'Wyślemy na Twój email instrukcję resetowania hasła'
           button_submit: 'Wyślij instrukcję'
-          footer_text: 'Twój email musi być zarejestrowany'
         edit: 
           title: 'Zmiana hasła' 
           header_text: 'Podaj teraz nowe hasło, powtórz je i zapisz aby zmiana hasła została dokonana'
@@ -101,7 +100,6 @@ pl:
           title: 'Nie dostałeś instrukcji odblokowania konta?' 
           header_text: 'Wyślemy na Twój email instrukcję odblokowania konta'
           button_submit: 'Wyślij instrukcję'
-          footer_text: 'Twój email musi być zarejestrowany'
   errors:
     messages:
       already_confirmed: "już został aktywowany, proszę spróbować się zalogować."
