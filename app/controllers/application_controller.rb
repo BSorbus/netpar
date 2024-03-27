@@ -59,7 +59,8 @@ class ApplicationController < ActionController::Base
             '10.21.0.0/16',     # Centrala
             '10.100.0.0/16',    # Centrala
             '10.250.125.0/24',  # Połączenia VPN BYBI
-            '10.250.132.0/23'   # Zamiast '10.250.105.0/24' Połączenia VPN inny
+            '10.250.132.0/23',  # Zamiast '10.250.105.0/24' Połączenia VPN inny
+            '10.30.2.51'        # Chrome na CyberArk
           ] 
     allowed = false
     # Convert remote IP (request.remote_ip is a string) to an integer.
