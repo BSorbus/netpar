@@ -472,6 +472,7 @@ pl:
         account_off: 'Pomyślnie wyłączono konto "%{data}".'
         account_on: 'Pomyślnie włączono konto "%{data}".'
         download_testportal_pdfs: 'Pomyślnie pobrano z TestPortalu %{sum_files} plików pdf do "%{data}".'
+        activate_testportal_tests: 'Pomyślnie aktywowano w TestPortalu testy do "%{data}".'
       error:
         created: 'Wystąpił błąd w czasie dodawania nowego wpisu.'
         updated: 'Wystąpił błąd w czasie aktualizowania wpisu "%{data}".'
@@ -486,6 +487,7 @@ pl:
         if_parent_exam_is_online_examination_created_only_via_proposal: 'Dla sesji "OnLine" wnioski mogą być rejestrowane jedynie za pośrednictwem Elektronicznych Zgłoszeń.'
         has_empty_testportal_id: 'Sesja Online "%{data}", której dotyczy zgłoszenie nie ma jeszcze testów w TestPortalu!'
         download_testportal_pdfs: 'Wystąpił błąd w czasie pobierania z TestPortalu plików pdf dla "%{data}".'
+        activate_testportal_tests: 'Wystąpił błąd w czasie aktywowania w TestPortalu testów dla "%{data}".'
       notice:
         no_records: 'Brak danych!'
     attributes:

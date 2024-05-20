@@ -84,10 +84,13 @@ class ExamsDivisionsSubject < ActiveRecord::Base
   end
 
   def testportal_test_activate
+    to_return = false
     item_obj = ApiTestportalTest.new(id_test: self.testportal_test_id)
     if item_obj.request_for_activate
       puts "info -> testportal_test_id: #{self.testportal_test_id} ACTIVATED"
+      to_return = true
     end
+    return to_return
   end
 
   def clean_testportal_test_id

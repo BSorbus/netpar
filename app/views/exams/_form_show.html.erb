@@ -190,6 +190,14 @@
         <%= t("helpers.links.edit") %>
       <% end %>
 
+      <%= link_to activate_testportal_tests_exam_path(@exam, category_service: @exam.category.downcase),
+                          method: :post,
+                          data: { confirm: t('helpers.links.confirm_activate_tests', data: @exam.fullname) }, 
+                          class: "btn btn-info" do %>
+        <span class="fa fa-play"></span>
+        <%= t("helpers.links.activate_tests") %>
+      <% end %>
+
       <%= link_to download_testportal_pdfs_exam_path(@exam, category_service: @exam.category.downcase),
                           method: :post,
                           data: { confirm: t('helpers.links.confirm_download_pdfs', data: @exam.fullname) }, 

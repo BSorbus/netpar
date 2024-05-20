@@ -457,6 +457,28 @@ class ExamsController < ApplicationController
     render :show
   end
 
+  def activate_testportal_tests
+    exam_authorize(@exam, "update", params[:category_service])
+
+    all_test_activated = true
+    @exam.exams_divisions_subjects.each do |eds|
+      all_test_activated = false unless eds.testportal_test_activate
+    end
+    if all_test_activated
+      Work.create!(trackable: @exam, action: :activate_testportal_tests, user: current_user, 
+          parameters: @exam.to_json(except: [:user_id], 
+                                    include: {
+                                      user: {only: [:id, :name, :email]},
+                                      examiners: {only: [:name]}
+                                    }))
+      flash_message :success, t('activerecord.messages.successfull.activate_testportal_tests', data: @exam.number)
+    else 
+      flash_message :error, t('activerecord.messages.error.activate_testportal_tests', data: @exam.number)
+    end      
+    set_initial_esod_data
+    render :show
+  end
+
 
   def certificates_generation 
     @exam = Exam.find(params[:id]) 

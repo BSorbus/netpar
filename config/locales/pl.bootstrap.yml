@@ -23,6 +23,8 @@ pl:
       confirm_not_approved: 'Na pewno chcesz odrzucić zgłoszenie: "%{data}"?'
       confirm_closed: 'Na pewno chcesz zamknąć zgłoszenie: "%{data}"?'
       confirm_download_pdfs: 'Na pewno chcesz pobrać wyniki egzamiu: "%{data}" w postaci plików pdf?'
+      confirm_activate_tests: 'Na pewno chcesz aktywować w Testportalu testy dla: "%{data}"?'
+      activate_tests: " Aktywuj testy w Testportalu"
       download_pdfs: " Pobierz wyniki z TestPortalu (pliki *.pdf)"
       force_destroy: " Usuń bez względu na wszystko!"
       destroy: " Usuń"
