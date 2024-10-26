@@ -12,10 +12,12 @@ gem 'turbolinks', '2.5.3'
 gem 'jbuilder', '~> 2.0'
 gem 'pg', '0.20'
 gem 'bootstrap-sass', '3.3.7'
-#gem 'devise', '3.5.10'
-#gem 'devise_security_extension', '0.10.0'
-gem "devise", "= 4.8.1"
-gem 'devise_saml_authenticatable'
+gem 'devise', '3.5.10'
+gem 'devise_security_extension', '0.10.0'
+
+# SSO
+#gem "devise", "= 4.8.1"
+#gem 'devise_saml_authenticatable'
 
 gem 'rails_email_validator'
 gem 'pundit'

@@ -4,15 +4,11 @@ Rails.application.routes.draw do
     post 'datatables_index', on: :collection
   end
 
-  # devise_for :users, controllers: {
-  #   passwords: 'users/passwords',
-  #   sessions: 'users/sessions',
-  #   registrations: 'users/registrations',
-  #   unlocks: 'users/unlocks'
-  # }
-
   devise_for :users, controllers: {
-    saml_sessions: 'users/saml_sessions'
+    passwords: 'users/passwords',
+    sessions: 'users/sessions',
+    registrations: 'users/registrations',
+    unlocks: 'users/unlocks'
   }
 
   resources :users do
@@ -64,7 +60,6 @@ Rails.application.routes.draw do
       get 'statistic2_to_pdf', on: :collection
       post 'force_destroy', on: :member
       post 'download_testportal_pdfs', on: :member
-      post 'activate_testportal_tests', on: :member
     end
     resources :examinations do
       post 'datatables_index_exam', on: :collection # for Exam
@@ -126,7 +121,7 @@ Rails.application.routes.draw do
   resources :divisions
 
   resources :roles do
-  	resources :users, only: [:create, :destroy], controller: 'roles/users'
+    resources :users, only: [:create, :destroy], controller: 'roles/users'
     post 'datatables_index_user', on: :collection # for User
   end
 
