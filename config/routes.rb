@@ -60,6 +60,7 @@ Rails.application.routes.draw do
       get 'statistic2_to_pdf', on: :collection
       post 'force_destroy', on: :member
       post 'download_testportal_pdfs', on: :member
+      post 'activate_testportal_tests', on: :member
     end
     resources :examinations do
       post 'datatables_index_exam', on: :collection # for Exam

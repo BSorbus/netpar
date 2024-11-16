@@ -7,6 +7,8 @@ module Esodes
   # 10.40.2.6:8243(epl-tesb2) 
 
   # instancja produkcyjna
+  # 10.100.3.24 ?
+  # 10.100.3.28 lbwww esod.uke.gov.pl
   # 10.60.0.135:443" # LB sprzetowy ESB
   # 10.40.1.4:443 LB 
   # 10.40.1.5:8243(epl-esb1) i 
