@@ -49,6 +49,7 @@ Rails.application.routes.draw do
       post 'datatables_index', on: :collection
       get 'select2_index', on: :collection
       get 'examination_cards_to_pdf', on: :member
+      get 'examination_attestations_to_pdf', on: :member
       get 'examination_protocol_to_pdf', on: :member
       get 'certificates_to_pdf', on: :member
       get 'envelopes_to_pdf', on: :member

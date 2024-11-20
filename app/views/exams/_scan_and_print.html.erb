@@ -9,7 +9,7 @@
         </label>
 
         <!-- don't display for category "L" => not(category: 'L') -->
-        <% Division.where(id: @exam.certificates.map(&:division_id), category: ['M','R']).each do |d| %>
+        <% Division.where(id: @exam.examinations.map(&:division_id), category: ['M','R']).each do |d| %>
           <label class="btn btn-default" value="<%= d.id %>">
             <input type="radio" name="btns" id="option<%= d.id %>" autocomplete="off" checked ><%= d.short_name %>
           </label>
@@ -62,6 +62,21 @@
 
           <h5>Karty egzaminacyjne</h5>
         </div><!-- /.col-sm-2 -->
+
+        <!-- zaswiadczenia dla Radioamatorow-->
+        <% if @exam.category.downcase == 'r' %>
+          <div class="col-sm-2 checked-order-prn">
+            <div class="folded-purple"><h3>Nazwisko, Imię</h3></div>
+
+            <%= link_to image_tag("attestation_#{params[:category_service]}.jpg", class: "img-thumbnail" ), 
+                  examination_attestations_to_pdf_exam_path(@exam, category_service: @exam.category.downcase, format: "pdf"), 
+                  target: "_blank" %>  
+
+            <h5>Zaświadczenia</h5>
+          </div><!-- /.col-sm-2 -->
+        <% end %>
+        <!-- /zaswiadczenia -->
+
       <% end %>
 
       <% if exam_policy_check(:exam, params[:category_service], 'print') %>

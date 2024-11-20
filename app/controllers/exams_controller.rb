@@ -4,7 +4,7 @@ class ExamsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index, :select2_index, :certificates_generation]
 
-  before_action :set_exam, only: [:show, :edit, :update, :destroy, :force_destroy, :download_testportal_pdfs, :examination_cards_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf, :committee_docx, :esod_matter_link]
+  before_action :set_exam, only: [:show, :edit, :update, :destroy, :force_destroy, :download_testportal_pdfs, :examination_cards_to_pdf, :examination_attestations_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf, :committee_docx, :esod_matter_link]
   before_action :set_esod_user_id, only: [:show]
 
   # GET /exams
@@ -67,6 +67,43 @@ class ExamsController < ApplicationController
           #pdf = PdfCertificatesL.new(@certificates_all, view_context)
           send_data pdf.render,
           filename: "Examination_Cards_#{params[:category_service]}_#{@exam.number}.pdf",
+          type: "application/pdf",
+          disposition: "inline"   
+        end
+      end
+      @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
+                        parameters: {pdf_type: 'examination_cards', filename: "Examination_Cards_#{params[:category_service]}_#{@exam.number}.pdf"}.to_json)
+    end 
+  end
+
+  def examination_attestations_to_pdf
+    exam_authorize(:examination, "print", params[:category_service])
+
+    case params[:prnorder]
+    when 'customers.name, customers.given_names'
+      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
+    else # 'id'
+      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order("examinations.id").all
+    end
+
+    if @examinations_all.empty?
+      redirect_to :back, alert: t('activerecord.messages.notice.no_records') and return
+    else
+      respond_to do |format|
+        format.pdf do
+          case params[:category_service]
+          when 'l'
+            pdf = PdfExaminationCardsL.new(@examinations_all, @exam, view_context)
+            # pdf = PdfExaminationAttestationsL.new(@examinations_all, @exam, view_context)
+          when 'm'
+            pdf = PdfExaminationCardsM.new(@examinations_all, @exam, view_context)
+            # pdf = PdfExaminationAttestationsM.new(@examinations_all, @exam, view_context)
+          when 'r'
+            pdf = PdfExaminationAttestationsR.new(@examinations_all, @exam, view_context)
+          end    
+          #pdf = PdfCertificatesL.new(@certificates_all, view_context)
+          send_data pdf.render,
+          filename: "Examination_Attestations_#{params[:category_service]}_#{@exam.number}.pdf",
           type: "application/pdf",
           disposition: "inline"   
         end
