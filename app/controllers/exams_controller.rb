@@ -81,9 +81,11 @@ class ExamsController < ApplicationController
 
     case params[:prnorder]
     when 'customers.name, customers.given_names'
-      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
+      # @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order("customers.name, customers.given_names").all
+      @examinations_all = Examination.joins(:proposal).references(:proposal).where(exam_id: params[:id]).order("proposals.name, proposals.given_names").all
     else # 'id'
-      @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order("examinations.id").all
+      # @examinations_all = Examination.joins(:customer).references(:customer).where(exam_id: params[:id]).order("examinations.id").all
+      @examinations_all = Examination.joins(:proposal).references(:proposal).where(exam_id: params[:id]).order("examinations.id").all
     end
 
     if @examinations_all.empty?
