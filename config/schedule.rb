@@ -21,6 +21,6 @@ end
 every '30 5,23 * * *' do
   rake "cronjobs:testportal_clean_tests"
 end
-every '0 0 * * *' do
-  rake "cronjobs:testportal_activate"
-end
+# every '0 0 * * *' do
+#   rake "cronjobs:testportal_activate"
+# end
