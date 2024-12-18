@@ -101,7 +101,7 @@ class ExamsController < ApplicationController
             pdf = PdfExaminationCardsM.new(@examinations_all, @exam, view_context)
             # pdf = PdfExaminationAttestationsM.new(@examinations_all, @exam, view_context)
           when 'r'
-            pdf = PdfExaminationAttestationsR.new(@examinations_all, @exam, view_context)
+            pdf = PdfExaminationAttestationsR.new(current_user, @examinations_all, @exam, view_context)
           end    
           #pdf = PdfCertificatesL.new(@certificates_all, view_context)
           send_data pdf.render,

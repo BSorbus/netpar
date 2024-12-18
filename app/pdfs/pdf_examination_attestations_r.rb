@@ -2,12 +2,13 @@ require 'esodes'
 
 class PdfExaminationAttestationsR < Prawn::Document
 
-  def initialize(examinations, exam, view)
+  def initialize(current_user, examinations, exam, view)
     # New document, A4 paper, landscaped
     # pdf = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)
     # wiec komentuje super() i ...
     super(:page_size => "A4", :page_layout => :portrait)
     #super()
+    @current_user = current_user
     @examinations = examinations
     @exam = exam
     @view = view
@@ -50,7 +51,8 @@ class PdfExaminationAttestationsR < Prawn::Document
 
   def header_right_corner
     move_up 100
-    text "#{@exam.place_and_date}", size: 11, :valign => :top, :align => :right
+    # text "#{@exam.place_and_date}", size: 11, :valign => :top, :align => :right
+    text "#{@current_user.department.address_city}, dn. #{@exam.date_exam}", size: 11, :valign => :top, :align => :right
   end
 
   def title

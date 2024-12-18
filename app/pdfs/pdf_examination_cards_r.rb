@@ -122,7 +122,8 @@ class PdfExaminationCardsR < Prawn::Document
     text "1) wyniku egzaminu,"
     text "2) prawie przystąpienia do egzaminu poprawkowego oraz możliwych miejscach i terminach przeprowadzenia tego egzaminu**"
     text " "
-    text "Proszę o wydanie świadectwa operatora urządzeń radiowych na podstawie zdanego egzaminu.**"
+    text " "
+    # text "Proszę o wydanie świadectwa operatora urządzeń radiowych na podstawie zdanego egzaminu.**"
 
 
 
