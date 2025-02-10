@@ -4,7 +4,9 @@ class ExamsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index, :select2_index, :certificates_generation]
 
-  before_action :set_exam, only: [:show, :edit, :update, :destroy, :force_destroy, :download_testportal_pdfs, :examination_cards_to_pdf, :examination_attestations_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf, :committee_docx, :esod_matter_link]
+  before_action :set_exam, only: [:show, :edit, :update, :destroy, :force_destroy, :download_testportal_pdfs, 
+    :examination_cards_to_pdf, :examination_attestations_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf, 
+    :committee_docx, :esod_matter_link, :activate_testportal_tests]
   before_action :set_esod_user_id, only: [:show]
 
   # GET /exams
