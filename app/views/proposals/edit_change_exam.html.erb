@@ -1,0 +1,31 @@
+<br>
+<!-- Dane -->
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-proposal">
+      <div class="panel-heading">
+        <div class="panel-title">
+          <span class='<%= t("pages.proposal.model_icon") %>'></span>
+          <span class='<%= t("pages.proposal_#{params[:category_service]}.model_icon") %>'>&nbsp;</span>
+          <span><%=t "pages.proposal.edit_change_exam.title" %>:&nbsp;<%= @proposal.fullname %></span>
+        </div>
+      </div>
+        <div class="panel-body">
+          <div class="col-sm-1">
+	        	<h1 class="center text-warning"><span class='<%= t("pages.proposal.edit_change_exam.model_icon") %>'></span></h1> 
+          </div> <!--/col-sm-1-->
+
+          <div class="col-sm-11">
+
+						<%= form_for @proposal, url: update_change_exam_proposal_path(@proposal, category_service: params[:category_service]) do |f| %>
+
+						  <%= render 'form_change_exam', f: f %>
+
+						<% end %>
+
+          </div> <!--/col-sm-11 col-sm-offset-1-->
+    
+        </div>
+    </div> <!-- /panel -->
+  </div> <!-- /col-sm-12--> 
+</div> <!-- /row -->

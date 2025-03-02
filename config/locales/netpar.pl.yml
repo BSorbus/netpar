@@ -193,6 +193,9 @@ pl:
       edit_closed:
         model_icon: 'fa fa-ban'
         title: 'Elektroniczne Zgłoszenie - zamknięcie zgłoszenia'
+      edit_change_exam:
+        model_icon: 'fa fa-edit'
+        title: 'Elektroniczne Zgłoszenie - zmiana sesji egzaminacyjnej'
     proposal_m:
       model_icon: 'fa fa-ship'
       index:
@@ -594,7 +597,7 @@ pl:
         bank_pdf: 'Bankowe potwierdzenie wykonania przelewu'
         consent_pdf: 'Zgoda prawnego opiekuna'
         confirm_that_the_data_is_correct: 'Dane powyższe są zgodne z prawdą, co potwierdzam'
-        not_approved_comment: 'Powód odrzucenia lub zamknięcia zgłoszenia'
+        not_approved_comment: 'Powód odrzucenia/zamknięcia/zmiany zgłoszenia'
         created_at: 'Utworzono'
         examination: 'Osoba egzaminowana'
       exam:

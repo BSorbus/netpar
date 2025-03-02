@@ -26,20 +26,19 @@ class ExamsController < ApplicationController
 
   def select2_index
     params[:q] = params[:q]
-    @exams = Exam.order(:number).finder_exam(params[:q], (params[:category_service]).upcase)
+    if params[:after_today].present? && params[:division_id].present?
+      @exams = Exam.joins(:exams_divisions).where("exams.date_exam >= ? ", Time.zone.today).
+                where("exams_divisions.division_id = ?", params[:division_id]).
+                order(:number).finder_exam(params[:q], (params[:category_service]).upcase)
+    else
+      @exams = Exam.order(:number).finder_exam(params[:q], (params[:category_service]).upcase)
+    end
     @exams_on_page = @exams.page(params[:page]).per(params[:page_limit])
 
     respond_to do |format|
-      format.html
       format.json { 
         render json: @exams_on_page, each_serializer: ExamSerializer, meta: {total_count: @exams.count}
       } 
-#      format.json { 
-#        render json: { 
-#          exams: @exams_on_page.as_json(methods: :fullname, only: [:id, :fullname]),
-#          total_count: @exams.count 
-#        } 
-#      }
     end
   end
 

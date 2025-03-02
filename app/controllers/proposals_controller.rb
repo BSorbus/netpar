@@ -2,7 +2,8 @@ class ProposalsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:show_charts, :index, :datatables_index, :datatables_index_exam]
 
-  before_action :set_proposal, only: [:show, :edit, :edit_approved, :edit_not_approved, :edit_closed, :update, :update_approved, :update_not_approved, :update_closed]
+  before_action :set_proposal, only: [:show, :edit, :edit_approved, :edit_not_approved, :edit_closed, :edit_change_exam, 
+                                      :update, :update_approved, :update_not_approved, :update_closed, :update_change_exam]
 
   # def show_charts
   #   respond_to do |format|
@@ -97,6 +98,15 @@ class ProposalsController < ApplicationController
  
     respond_to do |format|
       format.html { render :edit_closed, locals: { back_url: params[:back_url] } }
+    end
+  end
+
+  # GET /proposals/1/edit_not_approved
+  def edit_change_exam
+    proposal_authorize(@proposal, "edit_change_exam", params[:category_service])
+ 
+    respond_to do |format|
+      format.html { render :edit_change_exam, locals: { back_url: params[:back_url] } }
     end
   end
 
@@ -221,13 +231,51 @@ class ProposalsController < ApplicationController
     end
   end
 
+  def update_change_exam
+    proposal_authorize(@proposal, "update_change_exam", params[:category_service])
+
+    @proposal.user_id = current_user.id
+    if params[:proposal][:exam_id].present? 
+      if params[:proposal][:exam_id] != @proposal.exam_id
+        exam = Exam.find(params[:proposal][:exam_id])
+        @proposal.exam_fullname = exam.fullname
+        @proposal.exam_date_exam = exam.date_exam
+      end
+    end
+
+    respond_to do |format|
+      if @proposal.update_rec_and_push(proposal_change_exam_params)
+        @proposal.works.create!(trackable_url: "#{proposal_path(@proposal, category_service: params[:category_service])}", action: :change_exam, user: current_user, 
+          parameters: @proposal.to_json(except: {proposal: [:id, :proposal_status_id, :user_id]}, 
+                  include: { 
+                    exam: {
+                      only: [:id, :number, :date_exam, :place_exam] },
+                    proposal_status: {
+                      only: [:id, :name] },
+                    user: {
+                      only: [:id, :name, :email] } 
+                          }))
+        # najbezpieczniej usunąć stary examination gdyż może zawierać klucze do testportalu
+        @proposal.examination.destroy if @proposal.examination.present?
+        @proposal.add_to_examinations 
+
+        flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.fullname)
+
+        format.html { redirect_to proposal_path(@proposal, category_service: params[:category_service]) }
+      else
+        format.html { render :edit_change_exam, locals: { back_url: params[:back_url] } }
+      end
+    end
+  end
+
   private
     def proposal_authorize(model_class, action, category_service)
       unless ['l', 'm', 'r'].include?(category_service)
          raise "Ruby injection"
       end
       unless ['index', 'show', 'new', 'create', 'edit', 'update', 'destroy', 'print', 'work', 
-              'edit_approved', 'edit_not_approved', 'edit_closed', 'update_approved', 'update_not_approved', 'update_closed'].include?(action)
+              'edit_approved', 'edit_not_approved', 'edit_closed', 'edit_change_exam', 
+              'update_approved', 'update_not_approved', 'update_closed', 'update_change_exam'].include?(action)
          raise "Ruby injection"
       end
       authorize model_class,"#{action}_#{category_service}?"      
@@ -254,5 +302,8 @@ class ProposalsController < ApplicationController
     end
     def proposal_closed_params
       params.require(:proposal).permit(:proposal_status_id, :not_approved_comment, :user_id)
+    end
+    def proposal_change_exam_params
+      params.require(:proposal).permit(:exam_id, :exam_fullname, :exam_date_exam, :not_approved_comment, :user_id)
     end
 end

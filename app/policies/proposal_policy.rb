@@ -111,6 +111,14 @@ class ProposalPolicy < ApplicationPolicy
     (@model.can_edit_closed?) && (user_activities.include? 'proposal_r:update')
   end
 
+  def edit_change_exam_m?
+    (@model.can_edit_change_exam?) && (user_activities.include? 'proposal_m:update')
+  end
+
+  def edit_change_exam_r?
+    (@model.can_edit_change_exam?) && (user_activities.include? 'proposal_r:update')
+  end
+
   def edit?
     false
   end
@@ -149,6 +157,14 @@ class ProposalPolicy < ApplicationPolicy
 
   def update_closed_r?
     edit_closed_r?
+  end
+
+  def update_change_exam_m?
+    edit_change_exam_m?
+  end
+
+  def update_change_exam_r?
+    edit_change_exam_r?
   end
 
   def update?

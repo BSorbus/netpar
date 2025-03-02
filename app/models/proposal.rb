@@ -62,7 +62,6 @@ class Proposal < ActiveRecord::Base
   validates :division, presence: true
   validates :exam_fee, presence: true
   validates :exam, presence: true
-  # validates :not_approved_comment, presence: true, length: { minimum: 10 }, if: "proposal_status_id == #{PROPOSAL_STATUS_NOT_APPROVED}"
   validates :not_approved_comment, presence: true, length: { minimum: 10 }, if: "#{PROPOSAL_STATUSES_WITH_COMMENT}.include?(proposal_status_id)"
 
 #  validates :customer, presence: true
@@ -70,6 +69,8 @@ class Proposal < ActiveRecord::Base
 #  validates :esod_matter, uniqueness: { case_sensitive: false, scope: [:examination_result] }, allow_blank: true
 #  validates :esod_category, presence: true, inclusion: { in: Esodes::ALL_CATEGORIES_EXAMINATIONS }
 #  validate :check_exam_esod_category, if: "exam.present?"
+  validate :check_max_examinations_if_change_exam, unless: "new_record?"
+  validate :check_examination_result_and_empty_grades_if_change_exam, unless: "new_record?"
 
   # scopes
   scope :only_category_l, -> { where(category: "L") }
@@ -168,6 +169,22 @@ class Proposal < ActiveRecord::Base
     [PROPOSAL_STATUS_CREATED, PROPOSAL_STATUS_NOT_APPROVED, PROPOSAL_STATUS_ANNULLED, PROPOSAL_STATUS_CLOSED].exclude?(proposal_status_id) && ( examination.nil? || examination.examination_result.nil? )
   end
 
+  def can_edit_change_exam?
+    if ([PROPOSAL_STATUS_CREATED, PROPOSAL_STATUS_APPROVED].include?(proposal_status_id))
+      if examination.nil?
+        return true
+      else
+        if examination.examination_result.blank?
+          examination.grades.reject{ |x| x.grade_result.blank? }.empty?
+        else
+          return false
+        end
+      end
+    else
+      return false
+    end
+  end
+
   def is_in_examinations
     examinations = Examination.joins(:customer).where(proposal_id: nil, exam_id: self.exam_id, customers: {pesel: [self.pesel]}).references(:customer)
     if examinations.present?
@@ -210,6 +227,12 @@ class Proposal < ActiveRecord::Base
 
     def refresh_exam_proposals_important_count
       exam.refresh_proposals_important_count
+      if (exam_id != exam_id_was) 
+        if exam_id_was.present?
+          old_exam = Exam.find(exam_id_was)
+          old_exam.refresh_proposals_important_count if old_exam.present?
+        end
+      end
     end
 
     def destroy_examination_if_annuled
@@ -220,6 +243,30 @@ class Proposal < ActiveRecord::Base
       if (self.exam.proposals_important_count) >= (self.exam.max_examinations ||= 0) 
         errors[:base] << "Przekroczona maksymalna liczba miejsc w tej sesji egzaminacyjnej"
         false
+      end    
+    end
+
+    def check_max_examinations_if_change_exam
+      if exam_id != exam_id_was
+        if (self.exam.proposals_important_count) >= (self.exam.max_examinations ||= 0) 
+          errors[:base] << "Przekroczona maksymalna liczba miejsc w tej sesji egzaminacyjnej"
+          false
+        end
+      end    
+    end
+
+    def check_examination_result_and_empty_grades_if_change_exam
+      if exam_id != exam_id_was
+        if self.examination.present? 
+          if examination.grades.where.not(grade_result: "").any? 
+            errors[:base] << "Nie można zmienić sesji egzaminacyjnej jeżeli są już wpisane wyniki przedmiotów"
+            false
+          end
+          unless self.examination.examination_result.blank?
+            errors[:base] << "Nie można zmienić sesji egzaminacyjnej jeżeli są już wpisany wynik końcowy"
+            false            
+          end
+        end
       end    
     end
 

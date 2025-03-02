@@ -32,7 +32,7 @@ class Examination < ActiveRecord::Base
   scope :only_category_r, -> { where(category: "R") }
 
   # callbacks
-  after_save :close_proposal_if_change_examination_result, if: "proposal_id.present?"
+  after_save :close_proposal_if_change_examination_result, if: "proposal_id.present?", unless: "examination_result.blank?"
 
 
   def fullname

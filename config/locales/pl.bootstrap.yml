@@ -24,9 +24,9 @@ pl:
       confirm_closed: 'Na pewno chcesz zamknąć zgłoszenie: "%{data}"?'
       confirm_download_pdfs: 'Na pewno chcesz pobrać wyniki egzamiu: "%{data}" w postaci plików pdf?'
       confirm_activate_tests: 'Na pewno chcesz aktywować w Testportalu testy dla: "%{data}"?'
-      activate_tests: " Aktywuj testy w Testportalu"
+      activate_tests: " Aktywuj w Testportalu"
       download_pdfs: " Pobierz wyniki z TestPortalu (pliki *.pdf)"
-      force_destroy: " Usuń bez względu na wszystko!"
+      force_destroy: " Usuń !!!"
       destroy: " Usuń"
       destroy_account: "Usuń moje konto"
       new: " Nowy"
@@ -57,6 +57,7 @@ pl:
       proposal_approved: ' Zaakceptuj'
       proposal_not_approved: ' Odrzuć'
       proposal_closed: ' Zamknij'
+      proposal_change_exam: ' Zmiana Sesji'
       link_to_add_fields_nested: '[ + Dodaj ]'
       link_to_remove_fields_nested: '[ - Usuń ]'
     titles:

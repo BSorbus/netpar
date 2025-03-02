@@ -31,6 +31,8 @@ Rails.application.routes.draw do
       patch 'update_not_approved', on: :member
       get 'edit_closed', on: :member
       patch 'update_closed', on: :member
+      get 'edit_change_exam', on: :member
+      patch 'update_change_exam', on: :member
       post 'datatables_index', on: :collection
       post 'datatables_index_exam', on: :collection # for Exam
     end

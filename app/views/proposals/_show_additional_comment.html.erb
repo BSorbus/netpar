@@ -1,6 +1,10 @@
-<div class="row">
-  <div class="form-group col-sm-12">
-    <p><strong><%= Proposal.human_attribute_name(:not_approved_comment) %></strong></p>
-    <h5 class='text-danger'><%= partial_data.not_approved_comment.gsub(/\n/, '<br>').html_safe %></h5>
-  </div>
-</div> <!--/row -->
+<fieldset class="my-fieldset">
+  <legend class="my-fieldset"><%= Proposal.human_attribute_name(:not_approved_comment) %></legend>
+
+  <div class="row">
+    <div class="form-group col-sm-12">
+      <h5><%= "#{partial_data.not_approved_comment}".gsub(/\n/, '<br>').html_safe %></h5>
+    </div>
+  </div> <!--/row -->
+
+</fieldset>

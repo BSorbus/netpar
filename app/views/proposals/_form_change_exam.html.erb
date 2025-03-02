@@ -1,0 +1,60 @@
+<% input_disabled ||= false  
+   #if input_disabled is not passed to the partial it doesn't crash. 
+   # We default it to false 
+%>
+
+
+<%= f.hidden_field :division_id %> <!-- for select2 exam_select_... -->
+
+<%= form_errors_for @proposal %>
+
+<div class="row">
+  <div class="col-sm-12">
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <%= f.label :exam_id, class: "control-label" %>
+        <%= f.hidden_field :exam_id,
+                          class: "form-control input-sm exam_select_#{params[:category_service]}_for_update_proposal", 
+                          placeholder: "Wybierz Sesję",
+                          disabled: false,
+                          style: "width:100%" %>
+        <small class="help-block"><%=t 'help_block_text.select2_exam' %></small>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <%= f.label :not_approved_comment, class: 'control-label' %>
+        <%= f.text_area :not_approved_comment, :rows => 4, :cols => 50, class: 'form-control input-sm', disabled: false %>
+      </div>
+    </div>
+
+
+  </div> <!-- /col-sm-12 -->
+
+</div> <!-- /row -->
+
+<hr class="hr-without-top-margin">
+
+
+<% if input_disabled %>
+  <!-- for "Show" -->
+<% else %>
+  <!-- form "New"/"Edit" -->
+  <div class="row">
+
+    <%= link_to proposals_path(params[:category_service]), class: "btn btn-default" do %>
+      <span class="fa fa-list"></span>
+      <%= t("helpers.links.index") %>
+    <% end %>
+
+    <%= link_to proposal_path(params[:category_service], @proposal), class: "btn btn-default" do %>
+      <span class="fa fa-undo"></span>
+      <%= t("helpers.links.back") %>
+    <% end %>
+
+    <%= f.submit nil, data: { confirm: t('helpers.links.confirm_closed', data: @proposal.fullname) }, class: 'btn btn-success' %>
+
+  </div> <!-- /row -->
+<% end %>
