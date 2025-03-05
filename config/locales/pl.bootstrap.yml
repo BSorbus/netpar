@@ -22,6 +22,7 @@ pl:
       confirm_approved: 'Na pewno chcesz zaakceptować zgłoszenie: "%{data}"?'
       confirm_not_approved: 'Na pewno chcesz odrzucić zgłoszenie: "%{data}"?'
       confirm_closed: 'Na pewno chcesz zamknąć zgłoszenie: "%{data}"?'
+      confirm_change_exam: 'Na pewno chcesz zmienić sesję w zgłoszeniu: "%{data}"?'
       confirm_download_pdfs: 'Na pewno chcesz pobrać wyniki egzamiu: "%{data}" w postaci plików pdf?'
       confirm_activate_tests: 'Na pewno chcesz aktywować w Testportalu testy dla: "%{data}"?'
       activate_tests: " Aktywuj w Testportalu"
