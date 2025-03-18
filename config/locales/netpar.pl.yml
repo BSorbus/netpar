@@ -166,9 +166,13 @@ pl:
       model_icon: 'fa fa-podcast'
       index:
         title: 'Sesje RA'
+      statistic_filter:
+        title: 'Raport RA (2)'
     charts_certificates:
       model_icon: 'fa fa-line-chart'
     statistic_certificates:
+      model_icon: 'fa fa-list-ol'
+    statistic_examinations:
       model_icon: 'fa fa-list-ol'
     statistic_exams:
       model_icon: 'fa fa-signal'
@@ -326,6 +330,7 @@ pl:
     statistic_certificates_l: 'Raport LOT'
     statistic_certificates_m: 'Raport MOR'
     statistic_certificates_r: 'Raport RA'
+    statistic_examinations_r: 'Raport RA (2)'
     statistic_exams_l: 'Statystyka LOT'
     statistic_exams_m: 'Statystyka MOR'
     statistic_exams_r: 'Statystyka RA'

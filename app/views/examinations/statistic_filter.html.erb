@@ -1,0 +1,64 @@
+<br>
+<div class="panel-group" id="myaccordion">
+
+  <!-- Dane -->
+  <div class="row">
+    <div class="col-sm-12">
+
+      <div class="panel panel-exam">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_data">
+          <div class="panel-heading">
+            <div class="panel-title">
+              <span class='<%= t("pages.statistic_examinations.model_icon") %>'></span>&nbsp;
+              <span class='<%= t("pages.examination_#{params[:category_service]}.model_icon") %>'></span>&nbsp;
+              <%=t "pages.examination_#{params[:category_service]}.statistic_filter.title"%></span>
+              <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
+            </div> 
+          </div>
+        </a>
+        <div id="collapse_data" class="panel-collapse collapse in"> <!-- id="collapse_data" -->
+          <div class="panel-body">         
+            <div class="col-sm-11 col-sm-offset-1">
+              <%= form_tag({controller: "/examinations", category_service: params[:category_service], action: "statistic_to_pdf", format: "pdf"}, method: "get") do %>
+
+                <div class="row">
+
+                  <div class="col-sm-5">
+                    <blockquote class="bg-success">
+                      <p class="text-muted">Raport</p>
+                      <p class="bg-success">Wykaz zawiera listę osób (z podziałem na typy świadectw), które przystąpiły do egzaminu z datą sesji "Data od" - "Data do".
+                      </p>
+                    </blockquote>
+                  </div> <!-- /.col-sm-5 -->              
+
+                  <div class="col-sm-7">
+                    <div class="form-group col-sm-4">
+                      <%= label_tag :date_start, "Data od", :class => 'control-label' %><br>
+                      <%= text_field_tag :date_start, params[:date_start], :class => 'datepicker form-control input-sm' %>
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <%= label_tag :date_end, "Data do", :class => 'control-label' %><br>
+                      <%= text_field_tag :date_end, params[:date_end], :class => 'datepicker form-control input-sm' %>
+                    </div>
+                  </div> <!-- /.col-sm-7 -->              
+
+                </div>
+
+                <div class="col-sm-12">
+                  <%= button_tag nil, class: 'btn btn-primary pull-right', formtarget: "_blank" do %>
+                    <span class='fa fa-print'></span>&nbsp;
+                    <%= t("helpers.links.print") %>
+                  <% end %>
+
+                </div>
+
+              <% end %>
+
+            </div> <!--/col-sm-11 col-sm-offset-1-->    
+          </div> <!-- /panel-body -->
+        </div> <!-- /id="collapse_data" -->
+      </div> <!-- /panel -->
+    </div> <!-- /col-sm-12-->
+  </div> <!-- /row -->
+</div> <!-- /class="panel-group" id="myaccordion" -->
+

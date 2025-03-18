@@ -289,6 +289,33 @@ class ExaminationsController < ApplicationController
     end      
   end
 
+  def statistic_filter
+    examination_authorize(:examination, "print", params[:category_service])
+
+    respond_to do |format|
+      format.html { render :statistic_filter }
+    end
+  end
+
+  def statistic_to_pdf
+    examination_authorize(:examination, "print", params[:category_service])
+
+    if (params[:date_start]).blank? || (params[:date_end]).blank?
+      flash_message :error, 'Musisz zdefiniować parametry "Data od" i "Data do"'
+      render 'statistic_filter.html.erb'
+    else
+      respond_to do |format|
+        format.pdf do
+          pdf = PdfExaminationStatistic.new(params[:category_service], params[:date_start], params[:date_end], view_context)
+          send_data pdf.render,
+          filename: "Report_#{params[:category_service]}_#{params[:date_start]}_#{params[:date_end]}.pdf",
+          type: "application/pdf",
+          disposition: "inline"
+        end
+      end
+    end
+  end
+
   private
     def examination_authorize(model_class, action, category)
       unless ['index', 'show', 'new', 'create', 'edit', 'update', 'destroy', 'print', 'work'].include?(action)

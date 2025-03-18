@@ -82,6 +82,13 @@
           <% end %>
         </li>
       <% end %>
+      <% if policy(:exam).index_r? %>
+        <li><%= link_to statistic_filter_examinations_path(category_service: "r") do %>
+          <span class='<%= t("pages.statistic_examinations.model_icon") %>'></span>&nbsp;
+          <%=t "link_to.statistic_examinations_r" %>
+          <% end %>
+        </li>
+      <% end %>
 
 
 

@@ -5,7 +5,7 @@ $(function() {
       selectOtherMonths: false,
       changeMonth: true,
       changeYear: true,
-      yearRange: "1924:2024",
+      yearRange: "1900:2040",
       showAnim: "show",
 			closeText: 'Zamknij',
 			prevText: '&#x3C;Poprzedni',

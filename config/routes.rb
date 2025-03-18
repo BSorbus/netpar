@@ -70,6 +70,8 @@ Rails.application.routes.draw do
       get 'examination_card_to_pdf', on: :member
       patch 'certificate_generation', on: :member
       post 'esod_matter_link', on: :member
+      get 'statistic_filter', on: :collection
+      get 'statistic_to_pdf', on: :collection
     end
 
     resources :charts, only: [] do
