@@ -90,46 +90,69 @@ class PdfExaminationStatistic < Prawn::Document
   def display_total_table
     start_new_page 
 
-    examination_results = [ ['Negatywny bez prawa do poprawki', 'B'],
-                            ['Negatywny z prawem do poprawki', 'N'],
-                            ['Nieobecny', 'O'],
-                            ['Pozytywny', 'P'], 
-                            ['Zmiana terminu', 'Z'],
-                            ['nieokreślony', '?'] ]
-
     bounding_box([0, cursor], :width => 525, :height => 699 ) do
       move_down 15
-      text "Podsumowanie", size: 14, :align => :center
+      text "Podsumowanie", size: 13, :align => :center
 
       divisions = Division.where(id: @examinations.pluck(:division_id).uniq).order(:name)
       divisions.each_with_index do |division, i|
-        move_down 25
-        text_box "#{(i+1)}. #{division.name}:",   :at => [ 20, cursor], :width => 115, :height => 12, size: 10, :align => :left
+        move_down 20
+        text_box "#{(i+1)}. #{division.name}:",   :at => [ 20, cursor], :width => 400, :height => 12, size: 10, :align => :left
 
         esod_categories = @examinations.where(division: division).pluck(:esod_category).uniq
         esod_categories.each_with_index do |esod_category, y|
           move_down 20
           text_box "#{(i+1)}.#{(y+1)}. #{Esodes::esod_matter_iks_name(esod_category)}:",   :at => [ 35, cursor], :width => 200, :height => 12, size: 10, :align => :left
 
-          examination_results.each_with_index do |er, z|
-            move_down 12
-            if er == ['nieokreślony', '?']
-              examinations_count = @examinations.where(division: division).
-                                      where(esod_category: esod_category).all.select {|r| r.examination_result.blank? }.size
-            else
-              examinations_count = @examinations.where(division: division).
-                                      where(esod_category: esod_category).
-                                      where(examination_result: "#{er[1]}").all.size
-            end
-            text_box "#{(i+1)}.#{(y+1)}.#{(z+1)}.   #{er[1]} - #{er[0]}:",  :at => [ 50, cursor], :width => 250, :height => 12, size: 10, :align => :left 
-            text_box "#{examinations_count}",                               :at => [ 300, cursor], :width => 200, :height => 12, size: 10, :align => :left 
-          end
+          move_down 15
+          text_box "B:",                            :at => [ 60, cursor], :width => 20, :height => 12, size: 10, :align => :left
+          text_box "N:",                            :at => [120, cursor], :width => 20, :height => 12, size: 10, :align => :left
+          text_box "O:",                            :at => [180, cursor], :width => 20, :height => 12, size: 10, :align => :left
+          text_box "P:",                            :at => [240, cursor], :width => 20, :height => 12, size: 10, :align => :left
+          text_box "Z:",                            :at => [300, cursor], :width => 20, :height => 12, size: 10, :align => :left
+          text_box "brak wyniku:",                  :at => [360, cursor], :width => 120, :height => 12, size: 10, :align => :left
+
+          examination_result_B_size = @examinations.where(division: division).where(esod_category: esod_category).
+                                                    where(examination_result: "B").all.size
+          text_box "#{examination_result_B_size}",  :at => [ 75, cursor], :width => 20, :height => 12, size: 10, :align => :left, :style => :bold
+
+          examination_result_N_size = @examinations.where(division: division).where(esod_category: esod_category).
+                                                    where(examination_result: "N").all.size
+          text_box "#{examination_result_N_size}",  :at => [135, cursor], :width => 20, :height => 12, size: 10, :align => :left, :style => :bold
+
+          examination_result_O_size = @examinations.where(division: division).where(esod_category: esod_category).
+                                                    where(examination_result: "O").all.size
+          text_box "#{examination_result_O_size}",  :at => [195, cursor], :width => 20, :height => 12, size: 10, :align => :left, :style => :bold
+
+          examination_result_P_size = @examinations.where(division: division).where(esod_category: esod_category).
+                                                    where(examination_result: "P").all.size
+          text_box "#{examination_result_P_size}",  :at => [255, cursor], :width => 20, :height => 12, size: 10, :align => :left, :style => :bold
+
+          examination_result_Z_size = @examinations.where(division: division).where(esod_category: esod_category).
+                                                    where(examination_result: "Z").all.size
+          text_box "#{examination_result_Z_size}",  :at => [315, cursor], :width => 20, :height => 12, size: 10, :align => :left, :style => :bold
+
+          examination_result___size = @examinations.where(division: division).where(esod_category: esod_category).
+                                                    where.not(examination_result: ["B","N","O","P","Z"]).all.size
+          text_box "#{examination_result___size}",  :at => [430, cursor], :width => 20, :height => 12, size: 10, :align => :left, :style => :bold
+
         end
       end
 
       move_down 35
       exams_count = @examinations.pluck(:exam_id).uniq.size
-      text_box "Ilość sesji: #{exams_count}",      :at => [ 20, cursor], :width => 115, :height => 12, size: 10, :align => :left
+      text_box "Ilość sesji:",    :at => [ 20, cursor], :width => 100, :height => 12, size: 10, :align => :left
+      text_box "#{exams_count}",  :at => [ 80, cursor], :width => 100, :height => 12, size: 10, :align => :left, :style => :bold
+
+      move_down 35
+      text "legenda wyników:"
+      text "B - Negatywny bez prawa do poprawki"
+      text "N - Negatywny z prawem do poprawki"
+      text "O - Nieobecny"
+      text "P - Pozytywny (zaświadczenia)"
+      text "Z - Zmiana terminu (zgłoszenie zamknięto)"
+      text "brak wyniku - egzamin jeszcze się nie odbył lub wynik nie został wpisany"
+
     end
 
     #   move_down 7    
