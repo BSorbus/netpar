@@ -150,7 +150,7 @@ class PdfExaminationStatistic < Prawn::Document
         move_down 5
         table( table_data3,
               :header => 1,   # True or 1... ilość wierszy jako nagłowek
-              :column_widths => [33, 261, 33, 33, 33, 33, 33, 66],
+              :column_widths => [28, 263, 34, 34, 34, 34, 34, 64],
               #:row_colors => ["ffffff", "c2ced7"],
               :cell_style => { size: 9, :border_width => 0.5 }
             ) do
@@ -224,7 +224,7 @@ class PdfExaminationStatistic < Prawn::Document
     z_size = @examinations.reject{|r| r.examination_result != 'Z'}.size
     blank_size = @examinations.reject{|r| ['B','N','O','P','Z'].include?(r.examination_result) }.size
 
-    my_array_sub = ["", "","#{b_size}", "#{n_size}", "#{o_size}", "#{p_size}", "#{z_size}", "#{blank_size}"]
+    my_array_sub = ["", "RAZEM:","#{b_size}", "#{n_size}", "#{o_size}", "#{p_size}", "#{z_size}", "#{blank_size}"]
     my_array << my_array_sub
 
     # exam_places_array << ['', 'RAZEM:', exams.reject{|r| r.online == true }.size, exams.reject{|r| r.online != true }.size]
