@@ -27,6 +27,12 @@ class PdfExaminationStatistic < Prawn::Document
 
     display_data_table
 
+    start_new_page 
+    display_data_table2
+
+    start_new_page 
+    display_data_table3
+
     repeat(:all, :dynamic => true) do
       logo
       header_right_corner
@@ -44,7 +50,7 @@ class PdfExaminationStatistic < Prawn::Document
       else
         table( table_data,
               :header => 1,   # True or 1... ilość wierszy jako nagłowek
-              :column_widths => [33, 129, 66, 36, 225, 36],
+              :column_widths => [33, 149, 66, 36, 205, 36],
               #:row_colors => ["ffffff", "c2ced7"],
               :cell_style => { size: 9, :border_width => 0.5 }
             ) do
@@ -59,23 +65,186 @@ class PdfExaminationStatistic < Prawn::Document
           #row(0).columns(2).align = :left
         end             
       end
-      display_total_table  
+      # display_total_table  
     end  
   end
 
   def table_data
     @lp = 0
-    table_data ||= [
-                    ["Lp.", "Numer", "Data sesji", "Rodzaj świad.", "Nazwisko i imię", "Wynik"]
-                    ] + 
+    table_data ||= [["Lp.", "Numer", "Data sesji", "Rodzaj świad.", "Nazwisko i imię", "Wynik"]] + 
                      @examinations.map { |rec| [ 
                         next_lp, 
-                        rec.exam.number,
-                        rec.exam.date_exam.strftime("%Y-%m-%d"),
+                        session_name(rec),
+                        session_date(rec),
                         Esodes::RENEWING_EXAMINATIONS.include?(rec.esod_category) ? "#{rec.division.short_name}" + "\n" + "(PW)" : rec.division.short_name,
                         customer_name(rec),
                         rec.examination_result
                       ] }
+  end
+
+
+
+  def display_data_table2
+    bounding_box([0, 710], :width => 525, :height => 699) do 
+      if table_data2.empty?
+        text "Brak danych"
+      else
+        move_down 10
+        text "Sesje:", size: 13 #, :align => :center
+        move_down 5
+        table( table_data2,
+              :header => 1,   # True or 1... ilość wierszy jako nagłowek
+              :column_widths => [33, 288, 102, 102],
+              #:row_colors => ["ffffff", "c2ced7"],
+              :cell_style => { size: 9, :border_width => 0.5 }
+            ) do
+          columns(0).align = :right
+          columns(1).align = :left
+          #row(0).font_style = :bold 
+          row(0).size = 8 
+          row(0).background_color = "C0C0C0"
+
+          # ostatni wiersz
+          row(-1).columns(1).align = :right
+          row(-1).font_style = :bold
+          #row(0).columns(2).valign = :top
+          #row(0).columns(2).align = :left
+        end             
+      end
+      # display_total_table  
+    end  
+  end
+
+  def table_data2
+    @lp = 0
+    exams = Exam.where(id: @examinations.pluck(:exam_id).uniq)
+    exam_places = exams.pluck(:place_exam).uniq.sort
+    exam_places = exam_places.map(&:strip).uniq.sort
+
+    exam_places_array = exam_places.map { |place| 
+                          [ 
+                            next_lp, 
+                            "#{place}",
+                            exams.reject{|r| r.place_exam.strip != place }.reject{|r| r.online == true }.size,
+                            exams.reject{|r| r.place_exam.strip != place }.reject{|r| r.online != true }.size
+                          ] 
+                        }
+
+    exam_places_array << ['', 'RAZEM:', exams.reject{|r| r.online == true }.size, exams.reject{|r| r.online != true }.size]
+
+    # table_data2 ||= [["Lp.", "Miejsce", "Ilość sesji zwykłych", "Ilośc sesji online"]] + 
+    #                 [[1, 'Osielsko', 123, 456], [2, 'Wawa', 98, 76]]
+
+    table_data2 ||= [["Lp.", "Miejsce", "Ilość sesji zwykłych", "Ilośc sesji online"]] + exam_places_array
+  end
+
+
+
+  def display_data_table3
+    bounding_box([0, 710], :width => 525, :height => 699) do 
+      if table_data3.empty?
+        text "Brak danych"
+      else
+        move_down 10
+        text "wyniki:", size: 13 #, :align => :center
+        move_down 5
+        table( table_data3,
+              :header => 1,   # True or 1... ilość wierszy jako nagłowek
+              :column_widths => [33, 261, 33, 33, 33, 33, 33, 66],
+              #:row_colors => ["ffffff", "c2ced7"],
+              :cell_style => { size: 9, :border_width => 0.5 }
+            ) do
+          columns(0).align = :right
+          columns(1).align = :left
+          columns(1).size = 8 
+          columns(5).font_style = :bold
+          #row(0).font_style = :bold 
+          row(0).size = 8 
+          row(0).background_color = "C0C0C0"
+
+          # ostatni wiersz
+          row(-1).columns(1).align = :right
+          row(-1).font_style = :bold
+          #row(0).columns(2).valign = :top
+          #row(0).columns(2).align = :left
+        end             
+        move_down 25
+        text "legenda:"
+        text "B - Negatywny bez prawa do poprawki"
+        text "N - Negatywny z prawem do poprawki"
+        text "O - Nieobecny"
+        text "P - Pozytywny (zaświadczenia)", :style => :bold
+        text "Z - Zmiana terminu (zgłoszenie zamknięto)"
+        text "brak wyniku - egzamin jeszcze się nie odbył lub wynik nie został wpisany"
+      end
+      # display_total_table  
+    end  
+  end
+
+  def table_data3
+    my_array = []
+    divisions = Division.where(id: @examinations.pluck(:division_id).uniq).order(:name)
+    divisions.each_with_index do |division, i|
+      my_array_sub = [ "#{(i+1)}.", "#{division.name}","", "", "", "", "", ""]
+      my_array << my_array_sub
+
+      esod_categories = @examinations.where(division: division).pluck(:esod_category).uniq.sort
+      esod_categories.each_with_index do |esod_category, y|
+
+        examination_results = @examinations.reject{|r| r.division != division}.reject{|r| r.esod_category != esod_category}
+        b_size = examination_results.reject{|r| r.examination_result != 'B'}.size
+        n_size = examination_results.reject{|r| r.examination_result != 'N'}.size
+        o_size = examination_results.reject{|r| r.examination_result != 'O'}.size
+        p_size = examination_results.reject{|r| r.examination_result != 'P'}.size
+        z_size = examination_results.reject{|r| r.examination_result != 'Z'}.size
+        blank_size = examination_results.reject{|r| ['B','N','O','P','Z'].include?(r.examination_result) }.size
+
+        my_array_sub = ["", "#{(i+1)}.#{(y+1)}. #{Esodes::esod_matter_iks_name(esod_category)}","#{b_size}", "#{n_size}", "#{o_size}", "#{p_size}", "#{z_size}", "#{blank_size}"]
+        my_array << my_array_sub
+
+      end
+
+      examination_results = @examinations.reject{|r| r.division != division}
+      b_size = examination_results.reject{|r| r.examination_result != 'B'}.size
+      n_size = examination_results.reject{|r| r.examination_result != 'N'}.size
+      o_size = examination_results.reject{|r| r.examination_result != 'O'}.size
+      p_size = examination_results.reject{|r| r.examination_result != 'P'}.size
+      z_size = examination_results.reject{|r| r.examination_result != 'Z'}.size
+      blank_size = examination_results.reject{|r| ['B','N','O','P','Z'].include?(r.examination_result) }.size
+
+      my_array_sub = ["", "","#{b_size}", "#{n_size}", "#{o_size}", "#{p_size}", "#{z_size}", "#{blank_size}"]
+      my_array << my_array_sub
+
+    end
+
+    b_size = @examinations.reject{|r| r.examination_result != 'B'}.size
+    n_size = @examinations.reject{|r| r.examination_result != 'N'}.size
+    o_size = @examinations.reject{|r| r.examination_result != 'O'}.size
+    p_size = @examinations.reject{|r| r.examination_result != 'P'}.size
+    z_size = @examinations.reject{|r| r.examination_result != 'Z'}.size
+    blank_size = @examinations.reject{|r| ['B','N','O','P','Z'].include?(r.examination_result) }.size
+
+    my_array_sub = ["", "","#{b_size}", "#{n_size}", "#{o_size}", "#{p_size}", "#{z_size}", "#{blank_size}"]
+    my_array << my_array_sub
+
+    # exam_places_array << ['', 'RAZEM:', exams.reject{|r| r.online == true }.size, exams.reject{|r| r.online != true }.size]
+
+    # table_data3 ||= [["Lp.", "Miejsce", "Ilość sesji zwykłych", "Ilośc sesji online"]] + 
+    #                 [[1, 'Osielsko', 123, 456], [2, 'Wawa', 98, 76]]
+
+    table_data3 ||= [["", "Kategoria/Rodzaj wniosku", "B", "N", "O", "P", "Z", "brak wyniku"]] + my_array
+  end
+
+
+
+  def session_name(e)
+    "#{e.exam.number}" + "\n" + "#{e.exam.place_exam}"
+  end
+
+  def session_date(e)
+    str = "#{e.exam.date_exam.strftime("%Y-%m-%d")}"
+    str = str + "\n" + " - online -" if e.exam.online
+    return str
   end
 
   def customer_name(e)
