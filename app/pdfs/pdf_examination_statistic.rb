@@ -150,7 +150,7 @@ class PdfExaminationStatistic < Prawn::Document
         move_down 5
         table( table_data3,
               :header => 1,   # True or 1... ilość wierszy jako nagłowek
-              :column_widths => [28, 263, 34, 34, 34, 34, 34, 64],
+              :column_widths => [20, 264, 36, 36, 36, 36, 36, 61],
               #:row_colors => ["ffffff", "c2ced7"],
               :cell_style => { size: 9, :border_width => 0.5 }
             ) do
