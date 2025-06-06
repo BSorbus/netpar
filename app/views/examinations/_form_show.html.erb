@@ -152,6 +152,38 @@
 
     <% end %>
 
+
+    <% if @examination.proposal_id.present? %>
+      <% if proposal_policy_check(@examination.proposal, params[:category_service], 'unlock_testportal_tests_access') %>
+
+        <%= link_to unlock_testportal_tests_access_proposal_path(params[:category_service], @examination.proposal ),
+                            method: :patch,
+                            data: { confirm: t('helpers.links.confirm_unlock_testportal_tests_access', data: @examination.proposal.fullname) }, 
+                            class: "btn btn-warning" do %>
+          <span class="fa fa-unlock"></span>
+          <%= t("helpers.links.unlock_testportal_tests_access") %>
+        <% end %>
+
+      <% end %>
+    <% end %>
+
+    <% if @examination.proposal_id.present? %>
+      <% if proposal_policy_check(@examination.proposal, params[:category_service], 'lock_testportal_tests_access') %>
+
+        <%= link_to lock_testportal_tests_access_proposal_path(params[:category_service], @examination.proposal ),
+                            method: :patch,
+                            data: { confirm: t('helpers.links.confirm_lock_testportal_tests_access', data: @examination.proposal.fullname) }, 
+                            class: "btn btn-warning" do %>
+          <span class="fa fa-lock"></span>
+          <%= t("helpers.links.lock_testportal_tests_access") %>
+        <% end %>
+
+      <% end %>
+    <% end %>
+
+
+
+
 <!--
     <%# if @examination.examination_result == 'P' && @examination.certificate.blank? && certificate_policy_check(:certificate, params[:category_service], 'new') %>
       <button id="examination-certificate-generation-and-refresh" ajax-path="<%= certificate_generation_examination_path(params[:category_service], @examination) %>" class="btn btn-success glyphicon glyphicon-certificate pull-right"><%= t('Certificate Generation', default: t("link_to.certificate_generation")) %></button>

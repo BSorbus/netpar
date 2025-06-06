@@ -185,6 +185,46 @@ class Proposal < ActiveRecord::Base
     end
   end
 
+  def can_unlock_testportal_tests?
+    if Rails.application.secrets[:test_for_all_unlocked]
+      false
+    else
+      if (self.test_unlocked == true)
+        false
+      else
+        if (self.exam_date_exam < Time.zone.today)
+          false
+        else
+          unless self.examination.examination_result.blank?
+            false
+          else
+            !(self.examination.grades.where(grade_result: ['N','P']).any?)
+          end
+        end
+      end
+    end
+  end
+
+  def can_lock_testportal_tests?
+    if Rails.application.secrets[:test_for_all_unlocked]
+      false
+    else
+      if (self.test_unlocked == false)
+        false
+      else
+        if (self.exam_date_exam < Time.zone.today)
+          false
+        else
+          unless self.examination.examination_result.blank?
+            false
+          else
+            !(self.examination.grades.where(grade_result: ['N','P']).any?)
+          end
+        end
+      end
+    end
+  end
+
   def is_in_examinations
     examinations = Examination.joins(:customer).where(proposal_id: nil, exam_id: self.exam_id, customers: {pesel: [self.pesel]}).references(:customer)
     if examinations.present?

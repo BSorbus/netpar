@@ -3,7 +3,8 @@ class ProposalsController < ApplicationController
   after_action :verify_authorized, except: [:show_charts, :index, :datatables_index, :datatables_index_exam]
 
   before_action :set_proposal, only: [:show, :edit, :edit_approved, :edit_not_approved, :edit_closed, :edit_change_exam, 
-                                      :update, :update_approved, :update_not_approved, :update_closed, :update_change_exam]
+                                      :update, :update_approved, :update_not_approved, :update_closed, :update_change_exam, 
+                                      :unlock_testportal_tests_access, :lock_testportal_tests_access]
 
   # def show_charts
   #   respond_to do |format|
@@ -268,6 +269,67 @@ class ProposalsController < ApplicationController
     end
   end
 
+  def unlock_testportal_tests_access
+    proposal_authorize(@proposal, "unlock_testportal_tests_access", params[:category_service])
+
+    params[:proposal] ||= {}
+    params[:proposal][:user_id] ||= current_user.id
+    params[:proposal][:test_unlocked] ||= true
+
+    @proposal.user_id = current_user.id
+    @proposal.test_unlocked = true
+
+    respond_to do |format|
+      if @proposal.update_rec_and_push(proposal_test_locked_params)
+        @proposal.works.create!(trackable_url: "#{proposal_path(@proposal, category_service: params[:category_service])}", action: :test_unlocked, user: current_user, 
+          parameters: @proposal.to_json(except: {proposal: [:id, :proposal_status_id, :user_id]}, 
+                  include: { 
+                    exam: {
+                      only: [:id, :number, :date_exam, :place_exam] },
+                    proposal_status: {
+                      only: [:id, :name] },
+                    user: {
+                      only: [:id, :name, :email] } 
+                          }))
+
+        flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.fullname)
+
+        format.html { redirect_to examination_path(@proposal.examination, category_service: params[:category_service]) }
+      end
+    end
+  end
+
+  def lock_testportal_tests_access
+    proposal_authorize(@proposal, "lock_testportal_tests_access", params[:category_service])
+    
+    params[:proposal] ||= {}
+    params[:proposal][:user_id] ||= current_user.id
+    params[:proposal][:test_unlocked] ||= false
+
+    @proposal.user_id = current_user.id
+    @proposal.test_unlocked = false
+
+    respond_to do |format|
+      if @proposal.update_rec_and_push(proposal_test_locked_params)
+        @proposal.works.create!(trackable_url: "#{proposal_path(@proposal, category_service: params[:category_service])}", action: :test_locked, user: current_user, 
+          parameters: @proposal.to_json(except: {proposal: [:id, :proposal_status_id, :user_id]}, 
+                  include: { 
+                    exam: {
+                      only: [:id, :number, :date_exam, :place_exam] },
+                    proposal_status: {
+                      only: [:id, :name] },
+                    user: {
+                      only: [:id, :name, :email] } 
+                          }))
+
+        flash_message :success, t('activerecord.messages.successfull.updated', data: @proposal.fullname)
+
+        format.html { redirect_to examination_path(@proposal.examination, category_service: params[:category_service]) }
+      end
+    end
+    
+  end
+
   private
     def proposal_authorize(model_class, action, category_service)
       unless ['l', 'm', 'r'].include?(category_service)
@@ -275,7 +337,8 @@ class ProposalsController < ApplicationController
       end
       unless ['index', 'show', 'new', 'create', 'edit', 'update', 'destroy', 'print', 'work', 
               'edit_approved', 'edit_not_approved', 'edit_closed', 'edit_change_exam', 
-              'update_approved', 'update_not_approved', 'update_closed', 'update_change_exam'].include?(action)
+              'update_approved', 'update_not_approved', 'update_closed', 'update_change_exam',
+              'unlock_testportal_tests_access', 'lock_testportal_tests_access'].include?(action)
          raise "Ruby injection"
       end
       authorize model_class,"#{action}_#{category_service}?"      
@@ -305,5 +368,8 @@ class ProposalsController < ApplicationController
     end
     def proposal_change_exam_params
       params.require(:proposal).permit(:exam_id, :exam_fullname, :exam_date_exam, :not_approved_comment, :user_id)
+    end
+    def proposal_test_locked_params
+      params.require(:proposal).permit(:test_unlocked, :user_id)
     end
 end

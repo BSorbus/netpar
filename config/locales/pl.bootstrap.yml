@@ -25,6 +25,8 @@ pl:
       confirm_change_exam: 'Na pewno chcesz zmienić sesję w zgłoszeniu: "%{data}"?'
       confirm_download_pdfs: 'Na pewno chcesz pobrać wyniki egzamiu: "%{data}" w postaci plików pdf?'
       confirm_activate_tests: 'Na pewno chcesz aktywować w Testportalu testy dla: "%{data}"?'
+      confirm_unlock_testportal_tests_access: 'Na pewno chcesz w programie Egzaminy odblokować dostęp do testów: "%{data}"?'
+      confirm_lock_testportal_tests_access: 'Na pewno chcesz w programie Egzaminy zablokować dostęp do testów: "%{data}"?'
       activate_tests: " Aktywuj w Testportalu"
       download_pdfs: " Pobierz wyniki z TestPortalu (pliki *.pdf)"
       force_destroy: " Usuń !!!"
@@ -39,6 +41,8 @@ pl:
       print: " Wydruk"
       account_off: " Wyłącz konto"
       account_on: " Włącz konto"
+      unlock_testportal_tests_access: " Odblokuj testy"
+      lock_testportal_tests_access: " Zablokuj testy"
       new_exam: " Nowa sesja"
       new_examination: " Nowa osoba egzaminowana"
       new_certificate: " Nowe świadectwo"

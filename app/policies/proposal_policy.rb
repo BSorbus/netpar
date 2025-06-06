@@ -167,6 +167,14 @@ class ProposalPolicy < ApplicationPolicy
     edit_change_exam_r?
   end
 
+  def unlock_testportal_tests_access_r?
+    (@model.can_unlock_testportal_tests?) && (user_activities.include? 'proposal_r:update')
+  end
+
+  def lock_testportal_tests_access_r?
+    (@model.can_lock_testportal_tests?) && (user_activities.include? 'proposal_r:update')
+  end
+
   def update?
     edit?
   end

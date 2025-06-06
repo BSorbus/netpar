@@ -33,6 +33,8 @@ Rails.application.routes.draw do
       patch 'update_closed', on: :member
       get 'edit_change_exam', on: :member
       patch 'update_change_exam', on: :member
+      patch 'unlock_testportal_tests_access', on: :member
+      patch 'lock_testportal_tests_access', on: :member
       post 'datatables_index', on: :collection
       post 'datatables_index_exam', on: :collection # for Exam
     end

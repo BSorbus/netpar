@@ -6,7 +6,8 @@ module ProposalsHelper
     end
     unless ['index', 'show', 'new', 'create', 'edit', 'update', 'destroy', 'print', 'work', 
             'edit_approved', 'edit_not_approved', 'edit_closed', 'edit_change_exam', 
-            'update_approved', 'update_not_approved', 'update_closed', 'update_change_exam'].include?(action)
+            'update_approved', 'update_not_approved', 'update_closed', 'update_change_exam',
+            'unlock_testportal_tests_access', 'lock_testportal_tests_access'].include?(action)
        raise "Ruby injection"
     end
     return policy(proposal).send("#{action}_#{category_service}?")
