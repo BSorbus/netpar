@@ -538,16 +538,25 @@ class ApiTestportalTest
   def self.test_recreate_for_defined_in_netpar_testportal_test_id
     # check exist id_test and recereate if deleted
     puts "  # Call test_recreate_for_defined_in_netpar_testportal_test_id..."
-    ExamsDivisionsSubject.joins(:subject, [exams_division: :exam]).where(exams: {online: true}).where.not(testportal_test_id: "").reload.each do |eds|
+    date_from = Time.zone.today - 1.days
+    date_to = Time.zone.today + 1.weeks
+    ExamsDivisionsSubject.joins(:subject, [exams_division: :exam])
+        .where.not(testportal_test_id: "")
+        .where(exams: {online: true})
+        .where(exams: {date_exam: date_from..date_to})
+        .reload.each do |eds|
       eds.check_and_recreate_testportal_test_id
-    end    
+    end 
   end
 
   def self.test_sets_where_empty_in_netpar_testportal_test_id
     puts "  # Call test_sets_where_empty_in_netpar_testportal_test_id..."
-    ExamsDivisionsSubject.joins(:subject, [exams_division: :exam]).where(exams: {online: true}, testportal_test_id: "" ).reload.each do |eds|
+    ExamsDivisionsSubject.joins(:subject, [exams_division: :exam])
+      .where(testportal_test_id: "")
+      .where(exams: {online: true})
+      .reload.each do |eds|
       eds.set_testportal_test_id
-    end    
+    end
   end
 
   def self.access_code_recreate_for_defined_in_netpar_testportal_access_code_id
