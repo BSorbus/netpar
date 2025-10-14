@@ -164,6 +164,12 @@ class CreateRoleService
       role.save!
     end
   end
+  def proposal_r_manager_lock_unlock_user_test
+    role = Role.find_or_create_by!(name: "Menadżer Odblokowywania/Blokowania Indywidualnych Testów Użytkownika") do |role|
+      role.activities += %w(proposal_r:lock_unlock_user_test)
+      role.save!
+    end
+  end
 
   # examination_l
   def examination_l_manager
