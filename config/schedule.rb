@@ -15,7 +15,7 @@ every '30 6,11,17 * * 1-5' do
   rake "cronjobs:esod_sync_big"
 end
 
-every '15 */6 * * *' do
+every '15 6 * * *' do
   rake "cronjobs:testportal_set_tests"
 end
 every '30 5 * * *' do

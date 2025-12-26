@@ -97,7 +97,7 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
         :commune_code, :commune_name, :city_code, :city_name, :city_parent_code, :city_parent_name, :street_code, :street_name, :street_attribute,
         :c_address_house, :c_address_number, :c_address_postal_code,
         :esod_category, :exam_id, :exam_fullname, :exam_date_exam, :exam_online, :division_id, :division_fullname, :division_short_name, :division_min_years_old, 
-        :exam_fee_id, :exam_fee_price, :face_image_blob_path, :bank_pdf_blob_path, :consent_pdf_blob_path, :test_unlocked )
+        :exam_fee_id, :exam_fee_price, :face_image_blob_path, :bank_pdf_blob_path, :consent_pdf_blob_path, :other_pdf_blob_path, :test_unlocked )
     end
 
 end

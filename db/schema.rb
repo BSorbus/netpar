@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20250603052038) do
+ActiveRecord::Schema.define(version: 20251226104131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -653,6 +653,7 @@ ActiveRecord::Schema.define(version: 20250603052038) do
     t.string   "address_combine_id",     limit: 26,                          default: ""
     t.boolean  "exam_online",                                                default: false, null: false
     t.boolean  "test_unlocked"
+    t.text     "other_pdf_blob_path"
   end
 
   add_index "proposals", ["category"], name: "index_proposals_on_category", using: :btree

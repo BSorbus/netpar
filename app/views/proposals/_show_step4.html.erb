@@ -4,23 +4,30 @@
   <div class="row">
 
     <% unless partial_data.bank_pdf_blob_path.blank? %>
-      <div class="form-group col-sm-4">
+      <div class="form-group col-sm-3">
           <p><strong><%= Proposal.human_attribute_name(:bank_pdf) %></strong></p>
           <%= link_to( image_tag("bank_pdf.png", class: "img-thumbnail", height: '120', width: '87'), "#{Rails.application.secrets[:egzaminy_host]}#{partial_data.bank_pdf_blob_path}", target: "_blank") %>        
       </div>
     <% end %>
     
     <% unless partial_data.face_image_blob_path.blank? %>
-      <div class="form-group col-sm-4">
+      <div class="form-group col-sm-3">
         <p><strong><%= Proposal.human_attribute_name(:face_image) %></strong></p>
         <%= link_to( image_tag("no_photo.jpg", class: "img-thumbnail", height: '120', width: '95'), "#{Rails.application.secrets[:egzaminy_host]}#{partial_data.face_image_blob_path}", target: "_blank") %>
       </div>
     <% end %>
 
     <% unless partial_data.consent_pdf_blob_path.blank? %>
-      <div class="form-group col-sm-4">
+      <div class="form-group col-sm-3">
           <p><strong><%= Proposal.human_attribute_name(:consent_pdf) %></strong></p>
           <%= link_to( image_tag("consent_pdf.png", class: "img-thumbnail", height: '120', width: '87'), "#{Rails.application.secrets[:egzaminy_host]}#{partial_data.consent_pdf_blob_path}", target: "_blank") %>        
+      </div>
+    <% end %>
+    
+    <% unless partial_data.other_pdf_blob_path.blank? %>
+      <div class="form-group col-sm-3">
+          <p><strong><%= Proposal.human_attribute_name(:other_pdf) %></strong></p>
+          <%= link_to( image_tag("other_pdf.png", class: "img-thumbnail", height: '120', width: '87'), "#{Rails.application.secrets[:egzaminy_host]}#{partial_data.other_pdf_blob_path}", target: "_blank") %>        
       </div>
     <% end %>
     

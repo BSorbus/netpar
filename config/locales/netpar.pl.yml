@@ -601,6 +601,7 @@ pl:
         face_image: 'Zdjęcie'
         bank_pdf: 'Bankowe potwierdzenie wykonania przelewu'
         consent_pdf: 'Zgoda prawnego opiekuna'
+        other_pdf: 'Inny załącznik'
         confirm_that_the_data_is_correct: 'Dane powyższe są zgodne z prawdą, co potwierdzam'
         not_approved_comment: 'Powód odrzucenia/zamknięcia/zmiany zgłoszenia'
         created_at: 'Utworzono'
