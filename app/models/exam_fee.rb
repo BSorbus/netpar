@@ -28,7 +28,7 @@ class ExamFee < ActiveRecord::Base
   scope :current, -> { for_date(Time.zone.today) }
 
   def fullname
-    "#{division.category_fullname} - #{division.id_name} - #{esod_category_with_name}"
+    "#{division.category_fullname} - #{division.id_with_name_with_short} - #{esod_category_with_name}"
   end
 
   def esod_category_name
