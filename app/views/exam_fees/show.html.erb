@@ -30,7 +30,7 @@
 
 
   <% if policy(:exam_fee).work? %>
-    <%= render partial: "works/works_in_panel", locals: {trackable_type: 'Division', trackable_id: @exam_fee.id} %>
+    <%= render partial: "works/works_in_panel", locals: {trackable_type: 'ExamFee', trackable_id: @exam_fee.id} %>
   <% end %>
 
 

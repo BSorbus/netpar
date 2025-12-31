@@ -459,6 +459,7 @@ pl:
       user: 'Użytkownik'
       department: 'Oddział'
       division: 'Typ Świadectwa'
+      exam_fee: 'Stawka Opłaty'
       certificate: 'Świadectwo'
       exam: 'Sesja'
       exam/divisions: 'Dopuszczone typy świadectw w programie "Egzaminy"'
