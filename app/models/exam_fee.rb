@@ -31,6 +31,10 @@ class ExamFee < ActiveRecord::Base
     "#{division.category_fullname} - #{division.id_with_name_with_short} - #{esod_category_with_name}"
   end
 
+  def fullname_and_id
+    "#{fullname} (#{id})"
+  end
+
   def esod_category_name
     Esodes::esod_matter_iks_name(esod_category)
   end
