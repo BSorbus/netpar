@@ -76,6 +76,20 @@ class CreateRoleService
     end
   end
 
+  # exam_fee
+  def exam_fee_manager
+    role = Role.find_or_create_by!(name: "Menadżer Stawek Opłat") do |role|
+      role.activities += %w(exam_fee:index exam_fee:show exam_fee:create exam_fee:update exam_fee:delete exam_fee:print exam_fee:work)
+      role.save!
+    end
+  end
+  def exam_fee_observer
+    role = Role.find_or_create_by!(name: "Obserwator Stawek Opłat") do |role|
+      role.activities += %w(exam_fee:index exam_fee:show)
+      role.save!
+    end
+  end
+
   # exam_l
   def exam_l_manager
     role = Role.find_or_create_by!(name: "Menadżer Sesji Egzaminacyjnych Świadectw Lotniczych") do |role|
@@ -275,4 +289,9 @@ class CreateRoleService
       role.save!
     end
   end
+
+
 end
+
+
+

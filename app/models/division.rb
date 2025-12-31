@@ -45,8 +45,6 @@ class Division < ActiveRecord::Base
   # scopes
   scope :only_category_scope, ->(cat)  { where(category: cat.upcase) }
   scope :by_name, -> { order(:name) }
-  # scope :only_not_exclude, ->()  { where.not(id: DIVISION_EXCLUDE_FOR_NEW) }
-  # scope :only_not_exclude_for_internet, ->()  { where.not(id: DIVISION_EXCLUDE_FOR_INTERNET) }
   scope :only_not_exclude, ->()  { where(for_new_certificate: true) }
   scope :only_not_exclude_for_internet, ->()  { where(proposal_via_internet: true) }
 
@@ -88,6 +86,15 @@ class Division < ActiveRecord::Base
   def self.one_param_sql(query_str)
     escaped_query_str = sanitize("%#{query_str}%")
     "(" + %w(divisions.name divisions.short_name to_char(divisions.min_years_old,'9999')).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
+  end
+
+  def id_with_name_with_short
+    "[#{id}] #{name} ( #{short_name} )"
+  end
+
+  def category_fullname
+    translate = I18n.t ("activerecord.attributes.division.category_#{category.downcase}")
+    return '[' + category + '] ' + translate    
   end
 
 end

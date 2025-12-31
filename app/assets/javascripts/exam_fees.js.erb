@@ -1,0 +1,61 @@
+$(document).ready(function() {
+  var oExamFeeTable = $('#exam_fees').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: false,
+    deferRender: true,
+    ajax: { 
+      url: $('#exam_fees').data('source'),
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
+    columns: [
+      { data: 'id', 
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { data: 'division.category_fullname' }, 
+      { data: 'division.id_with_name_with_short' }, 
+      { data: 'esod_category_with_name',
+        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+          // sData - wartosc celi, oData - wiersza
+//        if (oData[2] == 'Wniosek o egzamin poprawkowy' ) {
+          if (oData.esod_category == 42 ) {
+            $(nTd).css('background-color', '#FFFFE0'); 
+          }
+//        else if (oData[2] == 'Wniosek o odnowienie z egzaminem' ) {
+          else if (oData.esod_category == 44 ) {
+            $(nTd).css('background-color', '#D8ECF3'); 
+          }
+//        else if (oData[2] == 'Wniosek o odnowienie z egzaminem, poprawkowy' ) {
+          else if (oData.esod_category == 49 ) {
+            $(nTd).css('background-color', '#FFFFE0'); 
+          }
+        }
+      },
+      { data: 'price', className: 'dt-right' }, 
+      { data: 'valid_from' }, 
+      { data: 'valid_to' }, 
+      { data: 'id',
+        render: function(id) {
+          return '<a href="/exam_fees/' + id + '" class="fa fa-eye" title="Pokaż"></a>';
+        }
+      }
+    ],
+    order: [[ 1, "asc" ], [ 2, "asc" ], [ 3, "asc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+ 
+  
+});

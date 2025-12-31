@@ -1,0 +1,45 @@
+<div class="col-sm-12">
+  <div class="row">
+    <h3 class="center">
+      <span class='<%= t("pages.exam_fee.model_icon") %> glyp-index-title' aria-hidden="true"></span>
+      <span class="index-title"><%= t "pages.exam_fee.index.title" %></span>
+    </h3>
+  </div> <!--/row -->
+</div> <!--/col-sm-12 -->
+
+
+<div class="col-sm-12">
+  <table id="exam_fees" class="hover cell-border" width="100%" 
+    data-source="<%= datatables_index_exam_fees_path(format: :json) %>">
+    <thead>
+      <tr>
+        <th> 0 ID </th>
+        <th><%= Division.human_attribute_name(:category) %></th>
+        <th><%= ExamFee.human_attribute_name(:division) %></th>
+        <th><%= ExamFee.human_attribute_name(:esod_category) %></th>
+        <th><%= ExamFee.human_attribute_name(:price) %></th>
+        <th><%= ExamFee.human_attribute_name(:valid_from) %></th>
+        <th><%= ExamFee.human_attribute_name(:valid_to) %></th>
+        <th>Akcje</th>
+      </tr>
+    </thead>
+
+    <tbody>
+       <!--data from JSON -->
+    </tbody>
+  </table>
+</div> <!--/col-sm-12 -->
+
+<div class="col-sm-12">
+  <% if policy(:exam_fee).new? %>
+
+    <%= link_to new_exam_fee_path(), class: "btn btn-primary" do %>
+      <span class="fa fa-plus"></span>
+      <%= t("helpers.links.new") %>
+    <% end %>
+
+  <% end %>
+</div> <!--/col-sm-12 -->
+
+
+

@@ -46,6 +46,16 @@ pl:
         title: 'Typ Świadectwa - edycja danych'
       new:
         title: 'Nowy Typ Świadectwa'
+    exam_fee:
+      model_icon: 'fa fa-money'
+      index:
+        title: 'Stawki Opłat'
+      show:
+        title: 'Stawka Opłaty'
+      edit:
+        title: 'Stawka Opłaty - edycja danych'
+      new:
+        title: 'Nowa Stawka Opłaty'
     certificate:
       model_icon: 'fa fa-certificate'
       index:
@@ -312,6 +322,7 @@ pl:
     roles: 'Role'
     departments: 'Oddziały'
     divisions: 'Typy Świadectw'
+    exam_fees: 'Stawki opłat'
     customers: 'Klienci'
     certificates: 'Świadectwa'
     certificates_l: 'Świadectwa LOT'
@@ -542,6 +553,17 @@ pl:
         face_image_required: 'Wymagane zdjęcie'
         for_new_certificate: 'Dozwolony dla nowych dokumentów'
         proposal_via_internet: 'Dozwolony dla zapisów przez internet'
+        category_l: 'Służba Lotnicza'
+        category_m: 'Służba Morska i Żeglugi Śródlądowej'
+        category_r: 'Służba Radioamatorska'
+        name_id: 'Nazwa [id]'
+      exam_fee:
+        esod_category: 'Rodzaj wniosku'
+        division_id: 'Typ świadectwa'
+        price: 'Opłata'
+        valid_from: 'Od'
+        valid_to: '...Do'
+        division: 'Typ świadectwa'
       document:
         fileattach: 'Załącznik'
         fileattach_filename: 'Nazwa pliku'

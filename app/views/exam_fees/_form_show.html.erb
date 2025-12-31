@@ -1,0 +1,92 @@
+<% input_disabled ||= false  
+   #if input_disabled is not passed to the partial it doesn't crash. 
+   # We default it to false 
+%>
+
+<%= form_errors_for @exam_fee %>
+
+<div class="row">
+  <div class="col-sm-12">
+
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <p><strong><%= Division.human_attribute_name(:category) %></strong></p>
+        <h5><%= @exam_fee.division.category_fullname %></h5>
+      </div>
+    </div>  <!-- /row -->
+
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <p><strong><%= Division.human_attribute_name(:name) %></strong></p>
+        <h5><%= @exam_fee.division.id_name %></h5>
+      </div>
+    </div>  <!-- /row -->
+
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <p><strong><%= ExamFee.human_attribute_name(:esod_category) %></strong></p>
+        <h5><%= @exam_fee.esod_category_with_name %></h5>
+      </div>
+    </div>  <!-- /row -->
+
+    <div class="row">
+      <div class="form-group col-sm-3">
+        <p><strong><%= ExamFee.human_attribute_name(:price) %></strong></p>
+        <h5><%= @exam_fee.price %></h5>
+      </div>
+      <div class="form-group col-sm-3">
+        <p><strong><%= ExamFee.human_attribute_name(:valid_from) %></strong></p>
+        <h5><%= @exam_fee.valid_from %></h5>
+      </div>
+      <div class="form-group col-sm-3">
+        <p><strong><%= ExamFee.human_attribute_name(:valid_to) %></strong></p>
+        <h5><%= @exam_fee.valid_to %></h5>
+      </div>
+    </div>  <!-- /row -->
+
+  </div>  <!-- /col-sm-12 -->
+</div>  <!-- /row -->
+
+<hr class="hr-without-top-margin">
+
+<% if input_disabled %>
+  <!-- for "Show" -->
+  <div class="row">
+    <%= link_to exam_fees_path(), class: "btn btn-default" do %>
+      <span class="fa fa-list"></span>
+      <%= t("helpers.links.index") %>
+    <% end %>
+
+    <%= link_to :back, class: "btn btn-default" do %>
+      <span class="fa fa-undo"></span>
+      <%= t("helpers.links.back") %>
+    <% end %>
+
+
+    <% if policy(@exam_fee).destroy? %>
+
+      <%= link_to exam_fee_path(@exam_fee),
+                          method: :delete,
+                          data: { confirm: t('helpers.links.confirm_destroy', data: @exam_fee.fullname) }, 
+                          class: "btn btn-danger" do %>
+        <span class="fa fa-trash-o"></span>
+        <%= t("helpers.links.destroy") %>
+      <% end %>
+
+    <% end %>
+
+    <% if policy(@exam_fee).edit? %>
+
+      <%= link_to edit_exam_fee_path(@exam_fee), class: "btn btn-primary" do %>
+        <span class="fa fa-edit"></span>
+        <%= t("helpers.links.edit") %>
+      <% end %>
+
+    <% end %>
+  </div> <!-- /row -->
+<% else %>
+  <!-- form "New"/"Edit" -->
+<% end %>
+  
+
+

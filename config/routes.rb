@@ -126,7 +126,12 @@ Rails.application.routes.draw do
   end
 
   resources :departments
-  resources :divisions
+  resources :divisions do
+    get 'select2_index', on: :collection
+  end
+  resources :exam_fees do
+    post 'datatables_index', on: :collection
+  end
 
   resources :roles do
     resources :users, only: [:create, :destroy], controller: 'roles/users'

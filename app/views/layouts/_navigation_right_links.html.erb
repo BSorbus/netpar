@@ -42,6 +42,13 @@
           </li>
         <% end %>
 
+        <% if policy(:exam_fee).index? %>
+          <li><%= link_to exam_fees_path do %>
+            <span class="<%= t('pages.exam_fee.model_icon') %>"></span>&nbsp;<%=t "link_to.exam_fees" %>
+            <% end %>
+          </li>
+        <% end %>
+
       </ul>
     </li>
   <% end %>

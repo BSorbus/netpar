@@ -1,0 +1,25 @@
+<br>
+<!-- Dane -->
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-exam_fee">
+      <div class="panel-heading">
+        <div class="panel-title">
+          <span class='<%= t("pages.exam_fee.model_icon") %>'>&nbsp;</span>
+          <span><%=t "pages.exam_fee.edit.title"%>:&nbsp;<%= @exam_fee.fullname %></span>    
+        </div>
+      </div>
+        <div class="panel-body">
+          <div class="col-sm-1">
+	        	<h1 class="center"><span class="fa fa-edit"></span></h1> 
+          </div> <!--/col-sm-1-->
+
+          <div class="col-sm-11">
+            <%= render 'form' %>
+          </div> <!--/col-sm-11 col-sm-offset-1-->
+    
+        </div>
+    </div> <!-- /panel -->
+  </div> <!-- /col-sm-12-->
+</div> <!-- /row -->
+

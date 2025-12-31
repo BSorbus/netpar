@@ -1,7 +1,13 @@
 <fieldset class="my-fieldset">
   <legend class="my-fieldset"><%= t('proposals.form_step4.fieldset_title') %></legend>
 
+
   <div class="row">
+
+    <div class="form-group col-sm-12">
+      <p><strong><%= Proposal.human_attribute_name(:exam_fee_price) %></strong><p>
+      <%= number_with_precision(partial_data.exam_fee_price, precision: 2, delimiter: ' ', separator: ',') %><span> PLN</span>
+    </div>
 
     <% unless partial_data.bank_pdf_blob_path.blank? %>
       <div class="form-group col-sm-3">

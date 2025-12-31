@@ -1,6 +1,6 @@
 class DivisionsController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, except: [:index]
+  after_action :verify_authorized, except: [:index, :select2_index]
 
   before_action :set_division, only: [:show, :edit, :update, :destroy]
 
@@ -11,12 +11,27 @@ class DivisionsController < ApplicationController
     authorize :division, :index?
   end
 
+  def select2_index
+    params[:q] = params[:q]
+    params[:category] = params[:category]
+    @divisions = Division.order(:category, :name).finder_division(params[:q], "#{params[:category]}".upcase)
+    @divisions_on_page = @divisions.page(params[:page]).per(params[:page_limit])
+
+    respond_to do |format|
+      format.json { 
+        render json: @divisions_on_page, each_serializer: DivisionSerializer, meta: {total_count: @divisions.count}
+      } 
+    end
+  end
+
   # GET /divisions/1
   # GET /divisions/1.json
   def show
     authorize @division, :show?
-    # przepych
-    # @division.works.create!(trackable_url: "#{division_path(@division)}", action: :show, user: current_user, parameters: {})
+    respond_to do |format|
+      format.json { render json: @division, root: false }
+      format.html { render :show, locals: { back_url: params[:back_url]} }
+    end
   end
 
   # GET /divisions/new

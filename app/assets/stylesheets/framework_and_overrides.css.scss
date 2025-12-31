@@ -149,7 +149,18 @@ img {
     text-decoration:none; 
   };
   .panel-heading {
-    background: #5d719e;
+    background: #62a3fc;
+    color: white;
+  } 
+}
+
+.panel-exam_fee {
+  border-color: #ddd;
+  a:link {
+    text-decoration:none; 
+  };
+  .panel-heading {
+    background: #cf644c;
     color: white;
   } 
 }

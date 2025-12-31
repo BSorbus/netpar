@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20251226104131) do
+ActiveRecord::Schema.define(version: 20251231024602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -447,9 +447,12 @@ ActiveRecord::Schema.define(version: 20251226104131) do
     t.decimal  "price",         precision: 8, scale: 2
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.date     "valid_from"
+    t.date     "valid_to"
+    t.integer  "user_id"
   end
 
-  add_index "exam_fees", ["division_id", "esod_category"], name: "index_exam_fees_on_division_id_and_esod_category", unique: true, using: :btree
+  add_index "exam_fees", ["user_id"], name: "index_exam_fees_on_user_id", using: :btree
 
   create_table "examinations", force: :cascade do |t|
     t.integer  "division_id"
@@ -781,6 +784,7 @@ ActiveRecord::Schema.define(version: 20251226104131) do
   add_foreign_key "esod_outgoing_letters_matters", "esod_matters"
   add_foreign_key "esod_outgoing_letters_matters", "esod_outgoing_letters"
   add_foreign_key "exam_fees", "divisions"
+  add_foreign_key "exam_fees", "users"
   add_foreign_key "examinations", "certificates"
   add_foreign_key "examinations", "customers"
   add_foreign_key "examinations", "divisions"

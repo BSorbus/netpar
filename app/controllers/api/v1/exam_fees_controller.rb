@@ -14,7 +14,8 @@ class Api::V1::ExamFeesController < Api::V1::BaseApiController
   end
 
   def find
-    exam_fee = ExamFee.find_by(division_id: params[:division_id], esod_category: params[:esod_category])
+    checked_date = params[:for_date] || Time.zone.today
+    exam_fee = ExamFee.for_date(checked_date).find_by(division_id: params[:division_id], esod_category: params[:esod_category])
     if exam_fee.present?
       render status: :ok, json: exam_fee, root: false
     else
