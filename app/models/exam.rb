@@ -1,6 +1,9 @@
 require 'esodes'
 
 class Exam < ActiveRecord::Base
+
+  include  ActionView::Helpers::NumberHelper
+
   belongs_to :user
  
   has_many :certificates, dependent: :destroy
@@ -298,9 +301,9 @@ class Exam < ActiveRecord::Base
         colAF = colV + colAA        # "AF Obecni suma" =[@[Obecni suma 1]]+[@[Obecni suma 3]]
         colAG = colW + colAB        # "AG Obecni i nieobecni suma" =[@[Obecni i nieobecni suma 1]]+[@[Obecni i nieobecni suma 3]]
         colAH = colK + colR         # "AH Pozytywni suma" =[@[Pozytywny 1]]+[@[Pozytywny 3]]
-        colAI = colAG.zero? ? nil : colAE.to_f / colAG.to_f # "AI % nieobecnych" =[@[Nieobecni i zmiana terminu suma]]/[@[Obecni i nieobecni suma]]
-        colAJ = rec.max_examinations.to_i         # "AJ Liczba miejsc"  
-        colAK = colAJ.zero? ? nil : colAG.to_f / colAJ.to_f # "AK % obłożenia" =[@[Obecni i nieobecni suma]]/[@[Liczba miejsc]]
+        colAI = colAG.zero? ? nil : number_to_percentage(colAE.to_f / colAG.to_f * 100, precision: 2) # "AI % nieobecnych" =[@[Nieobecni i zmiana terminu suma]]/[@[Obecni i nieobecni suma]]
+        colAJ = rec.max_examinations         # "AJ Liczba miejsc"  
+        colAK = colAJ.zero? ? nil : number_to_percentage(colAG.to_f / colAJ.to_f * 100, precision: 2) # "AK % obłożenia" =[@[Obecni i nieobecni suma]]/[@[Liczba miejsc]]
 
         csv << [ colA,colB,colC,colD,colE,colF,colG,colH,colI,colJ,colK,colL,colM,colN,colO,colP,colQ,colR,colS,colT,
                  colU,colV,colW,colX,colY,colZ,colAA,colAB,colAC,colAD,colAE,colAF,colAG,colAH,colAI,colAJ,colAK ]
