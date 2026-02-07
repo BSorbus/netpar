@@ -19,7 +19,7 @@
         <div id="collapse_data" class="panel-collapse collapse in"> <!-- id="collapse_data" -->
           <div class="panel-body">         
             <div class="col-sm-11 col-sm-offset-1">
-              <%= form_tag({controller: "/exams", category_service: params[:category_service], action: "statistic_to_pdf", format: "pdf"}, method: "get") do %>
+              <%= form_tag({controller: "/exams", category_service: params[:category_service], action: "statistic_to_pdf"}, method: "get") do %>
 
                 <div class="row">
                   <div class="col-sm-5">
@@ -33,14 +33,30 @@
                   </div> <!-- /.col-sm-5 -->              
 
                   <div class="col-sm-7">
-                    <div class="form-group col-sm-3">
-                      <%= label_tag :date_start, "Data od", :class => 'control-label' %><br>
-                      <%= text_field_tag :date_start, params[:date_start], :class => 'datepicker form-control input-sm' %>
+                    <div class="row">
+                      <div class="form-group col-sm-3">
+                        <%= label_tag :date_start, "Data od", :class => 'control-label' %><br>
+                        <%= text_field_tag :date_start, params[:date_start], :class => 'datepicker form-control input-sm' %>
+                      </div>
+                      <div class="form-group col-sm-3">
+                        <%= label_tag :date_end, "Data do", :class => 'control-label' %><br>
+                        <%= text_field_tag :date_end, params[:date_end], :class => 'datepicker form-control input-sm' %>
+                      </div>
                     </div>
-                    <div class="form-group col-sm-3">
-                      <%= label_tag :date_end, "Data do", :class => 'control-label' %><br>
-                      <%= text_field_tag :date_end, params[:date_end], :class => 'datepicker form-control input-sm' %>
+
+                    <div class="row">
+                      <div class="form-group col-sm-6">
+                        <%= label_tag :format, "Wydruk do:", :class => 'control-label' %><br>
+
+                        <%= radio_button_tag(:format, 'pdf', true) %>
+                        <%= label_tag :format_pdf, "pdf" %><br>
+
+                        <%= radio_button_tag(:format, 'csv') %>
+                        <%= label_tag :format_csv, "csv" %><br>
+                      </div>
                     </div>
+
+
                   </div> <!-- /.col-sm-7 -->              
 
                   <div class="col-sm-12">
@@ -66,30 +82,32 @@
                   </div> <!-- /.col-sm-5 -->              
 
                   <div class="col-sm-7">
-                    <div class="form-group col-sm-3">
-                      <%= label_tag :date_start2, "Data od", :class => 'control-label' %><br>
-                      <%= text_field_tag :date_start2, params[:date_start2], :class => 'datepicker form-control input-sm' %>
+                    <div class="row">
+                      <div class="form-group col-sm-3">
+                        <%= label_tag :date_start2, "Data od", :class => 'control-label' %><br>
+                        <%= text_field_tag :date_start2, params[:date_start2], :class => 'datepicker form-control input-sm' %>
+                      </div>
+                      <div class="form-group col-sm-3">
+                        <%= label_tag :date_end2, "Data do", :class => 'control-label' %><br>
+                        <%= text_field_tag :date_end2, params[:date_end2], :class => 'datepicker form-control input-sm' %>
+                      </div>
+
+
+                      <div class="form-group col-sm-3">
+                        <%= label_tag :max_day, "Ilość dni - wskaźnik", :class => 'control-label' %><br>
+                        <%= number_field_tag :max_day, 7, min: 1, max: 30, step: 1, :class => 'form-control input-sm' %>
+                      </div>                    
+
+                      <div class="form-group col-sm-6">
+                        <%= label_tag :theme, "Analizuj względem", :class => 'control-label' %><br>
+
+                        <%= radio_button_tag(:theme, 'sesja') %>
+                        <%= label_tag :theme_sesja, "sesja" %><br>
+
+                        <%= radio_button_tag(:theme, 'dokument') %>
+                        <%= label_tag :theme_dokument, "dokument" %><br>
+                      </div>
                     </div>
-                    <div class="form-group col-sm-3">
-                      <%= label_tag :date_end2, "Data do", :class => 'control-label' %><br>
-                      <%= text_field_tag :date_end2, params[:date_end2], :class => 'datepicker form-control input-sm' %>
-                    </div>
-
-
-                    <div class="form-group col-sm-3">
-                      <%= label_tag :max_day, "Ilość dni - wskaźnik", :class => 'control-label' %><br>
-                      <%= number_field_tag :max_day, 7, min: 1, max: 30, step: 1, :class => 'form-control input-sm' %>
-                    </div>                    
-
-                    <div class="form-group col-sm-6">
-                      <%= label_tag :theme, "Analizuj względem", :class => 'control-label' %><br>
-                      <%= radio_button_tag(:theme, 'sesja') %>
-                      <%= label_tag :theme_sesja, "sesja" %><br>
-                      <%= radio_button_tag(:theme, 'dokument') %>
-                      <%= label_tag :theme_dokument, "dokument" %><br>
-                    </div>
-
-
                   </div> <!-- /.col-sm-7 -->              
 
                   <div class="col-sm-12">

@@ -16,6 +16,8 @@ class Division < ActiveRecord::Base
   DIVISION_R_B = 19
   DIVISION_R_C = 20
   DIVISION_R_D = 21
+  DIVISION_R_1 = 22
+  DIVISION_R_3 = 23
 
 #  DIVISION_R_FOR_SHOW = [ DIVISION_R_A, DIVISION_R_C ]  
 

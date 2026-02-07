@@ -216,6 +216,100 @@ class Exam < ActiveRecord::Base
 
   end
 
+
+  def self.to_csv
+    CSV.generate(headers: false, col_sep: ';', converters: nil, skip_blanks: false, force_quotes: false) do |csv|
+      columns_header = [
+        "Lp.",
+        "Numer", 
+        "Data", 
+        "Miejsce", 
+        "Wniosek o wydanie świadectwa 1", 
+        "Wniosek o egzamin poprawkowy 1",
+        "Negatywny bez prawa do poprawki 1", 
+        "Negatywny z prawem do poprawki 1",
+        "Nieobecny 1", 
+        "Zmiana terminu 1", 
+        "pozytywny 1",
+        "Wniosek o wydanie świadectwa 3", 
+        "Wniosek o egzamin poprawkowy 3",
+        "Negatywny bez prawa do poprawki 3", 
+        "Negatywny z prawem do poprawki 3",
+        "Nieobecny 3", 
+        "Zmiana terminu 3", 
+        "pozytywny 3",
+        "Wnioski suma 1",
+        "Negatywni suma 1",
+        "Nieobecni i zmiana terminu suma 1",
+        "Obecni suma 1",
+        "Obecni i nieobecni suma 1",
+        "Wnioski suma 3",
+        "Negatywni suma 3",
+        "Nieobecni i zmiana terminu suma 3",
+        "Obecni suma 3",
+        "Obecni i nieobecni suma 3",
+        "Wnioski suma",
+        "Negatywni suma", 
+        "Nieobecni i zmiana terminu suma", 
+        "Obecni suma", 
+        "Obecni i nieobecni suma", 
+        "Pozytywni suma",
+        "% nieobecnych", 
+        "Liczba miejsc", 
+        "% obłożenia"
+      ]
+
+      csv << columns_header
+
+      colA = 0
+      all.each do |rec|
+        examinations = rec.examinations
+        colA += 1
+        colB  = "#{rec.number}"
+        colC  = "#{rec.date_exam}"
+        colD  = "#{rec.place_exam}"
+        colE  = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_R_1)}.size
+        colF  = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_R_1)}.size
+        colG  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_R_1)}.size
+        colH  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_R_1)}.size
+        colI  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_R_1)}.size
+        colJ  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_R_1)}.size
+        colK  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_R_1)}.size
+        colL  = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_R_3)}.size
+        colM  = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_R_3)}.size
+        colN  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_R_3)}.size
+        colO  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_R_3)}.size
+        colP  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_R_3)}.size
+        colQ  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_R_3)}.size
+        colR  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_R_3)}.size
+        colS  = colE + colF         # "S Wnioski suma 1"
+        colT  = colG + colH         # "T Negatywni suma 1"
+        colU  = colI + colJ         # "U Nieobecni i zmiana terminu suma 1"
+        colV  = colG + colH + colK  # "V Obecni suma 1"
+        colW  = colU + colV         # "W Obecni i nieobecni suma 1"
+        colX  = colL + colM         # "X Wnioski suma 3"
+        colY  = colN + colO         # "Y Negatywni suma 3"
+        colZ  = colP + colQ         # "Z Nieobecni i zmiana terminu suma 3"
+        colAA = colN + colO + colR  # "AA Obecni suma 3"
+        colAB = colZ + colAA        # "AB Obecni i nieobecni suma 3"
+        colAC = colS + colX         # "AC Wnioski suma" =[@[Wnioski suma 1]]+[@[Wnioski suma 3]]
+        colAD = colT + colY         # "AD Negatywni suma" =[@[Negatywni suma 1]]+[@[Negatywni suma 3]]
+        colAE = colU + colZ         # "AE Nieobecni i zmiana terminu suma" =[@[Nieobecni i zmiana terminu suma 1]]+[@[Nieobecni i zmiana terminu suma 3]]
+        colAF = colV + colAA        # "AF Obecni suma" =[@[Obecni suma 1]]+[@[Obecni suma 3]]
+        colAG = colW + colAB        # "AG Obecni i nieobecni suma" =[@[Obecni i nieobecni suma 1]]+[@[Obecni i nieobecni suma 3]]
+        colAH = colK + colR         # "AH Pozytywni suma" =[@[Pozytywny 1]]+[@[Pozytywny 3]]
+        colAI = colAG.zero? ? nil : colAE / colAG # "AI % nieobecnych" =[@[Nieobecni i zmiana terminu suma]]/[@[Obecni i nieobecni suma]]
+        colAJ = rec.max_examinations.to_i         # "AJ Liczba miejsc"  
+        colAK = colAJ.zero? ? nil : colAG / colAJ # "AK % obłożenia" =[@[Obecni i nieobecni suma]]/[@[Liczba miejsc]]
+
+        csv << [ colA,colB,colC,colD,colE,colF,colG,colH,colI,colJ,colK,colL,colM,colN,colO,colP,colQ,colR,colS,colT,
+                 colU,colV,colW,colX,colY,colZ,colAA,colAB,colAC,colAD,colAE,colAF,colAG,colAH,colAI,colAJ,colAK ]
+
+
+     end
+    end #.encode('WINDOWS-1250')
+  end
+
   def force_destroy
 
     self.esod_matters.each do |em|

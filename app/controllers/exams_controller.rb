@@ -242,6 +242,8 @@ class ExamsController < ApplicationController
   def statistic_to_pdf
     exam_authorize(:exam, "print", params[:category_service])
 
+    format = params[:format]
+
     if (params[:date_start]).blank? || (params[:date_end]).blank?
       flash_message :error, 'Musisz zdefiniować parametry "Data od" i "Data do"'
       render 'statistic_filter.html.erb'
@@ -253,6 +255,20 @@ class ExamsController < ApplicationController
           filename: "Statistic_#{params[:category_service]}_#{params[:date_start]}_#{params[:date_end]}.pdf",
           type: "application/pdf",
           disposition: "inline"
+        end
+        format.csv do
+          exams = Exam.includes(:examinations)
+                      .references(:examinations)
+                      .where( category: params[:category_service].upcase, 
+                              date_exam: params[:date_start]..params[:date_end] )
+                      .where.not(esod_category: Esodes::WITHOUT_EXAMINATIONS)
+                      .order(:date_exam, :number)
+
+          send_data exams.to_csv, 
+            filename: "Statistic_#{params[:category_service]}_#{params[:date_start]}_#{params[:date_end]}.csv", 
+            type: "text/csv",
+            dispostion: "attachment",
+            status: 200
         end
       end
     end

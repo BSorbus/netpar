@@ -1,6 +1,13 @@
 require 'esodes'
 
 class Examination < ActiveRecord::Base
+
+  EX_RESULT_NEGATYWNY_BEZ_PRAWA = 'B'
+  EX_RESULT_NEGATYWNY_Z_PRAWEM  = 'N'
+  EX_RESULT_NIEOBECNY           = 'O'
+  EX_RESULT_POZYTYWNY           = 'P'
+  EX_RESULT_ZMIANA_TERMINU      = 'Z'
+
   belongs_to :division
   belongs_to :exam, counter_cache: true
   belongs_to :customer
@@ -49,15 +56,15 @@ class Examination < ActiveRecord::Base
 
   def examination_result_name
     case examination_result
-    when 'B'
+    when EX_RESULT_NEGATYWNY_BEZ_PRAWA
       'Negatywny bez prawa do poprawki'
-    when 'N'
+    when EX_RESULT_NEGATYWNY_Z_PRAWEM
       'Negatywny z prawem do poprawki'
-    when 'O'
+    when EX_RESULT_NIEOBECNY
       'Nieobecny'
-    when 'P'
+    when EX_RESULT_POZYTYWNY
       'Pozytywny'
-    when 'Z'
+    when EX_RESULT_ZMIANA_TERMINU
       'Zmiana terminu'
     when '', nil
       ''
