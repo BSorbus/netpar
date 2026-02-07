@@ -1,9 +1,6 @@
 require 'esodes'
 
 class Exam < ActiveRecord::Base
-
-  include  ActionView::Helpers::NumberHelper
-
   belongs_to :user
  
   has_many :certificates, dependent: :destroy
@@ -219,6 +216,10 @@ class Exam < ActiveRecord::Base
 
   end
 
+  def self.percentage_in_csv(x, y) 
+    return nil if y.to_f.zero? 
+    ((x.to_f / y.to_f) * 100).round(2) 
+  end
 
   def self.to_csv
     CSV.generate(headers: false, col_sep: ';', converters: nil, skip_blanks: false, force_quotes: false) do |csv|
@@ -301,16 +302,16 @@ class Exam < ActiveRecord::Base
         colAF = colV + colAA        # "AF Obecni suma" =[@[Obecni suma 1]]+[@[Obecni suma 3]]
         colAG = colW + colAB        # "AG Obecni i nieobecni suma" =[@[Obecni i nieobecni suma 1]]+[@[Obecni i nieobecni suma 3]]
         colAH = colK + colR         # "AH Pozytywni suma" =[@[Pozytywny 1]]+[@[Pozytywny 3]]
-        colAI = colAG.zero? ? nil : number_to_percentage(colAE.to_f / colAG.to_f * 100, precision: 2) # "AI % nieobecnych" =[@[Nieobecni i zmiana terminu suma]]/[@[Obecni i nieobecni suma]]
-        colAJ = rec.max_examinations         # "AJ Liczba miejsc"  
-        colAK = colAJ.zero? ? nil : number_to_percentage(colAG.to_f / colAJ.to_f * 100, precision: 2) # "AK % obłożenia" =[@[Obecni i nieobecni suma]]/[@[Liczba miejsc]]
+        colAI = "#{percentage_in_csv(colAE, colAG)}%" # "AI % nieobecnych" =[@[Nieobecni i zmiana terminu suma]]/[@[Obecni i nieobecni suma]]
+        colAJ = rec.max_examinations.to_i      # "AJ Liczba miejsc"  
+        colAK = "#{percentage_in_csv(colAG, colAJ)}%" # "AK % obłożenia" =[@[Obecni i nieobecni suma]]/[@[Liczba miejsc]]
 
         csv << [ colA,colB,colC,colD,colE,colF,colG,colH,colI,colJ,colK,colL,colM,colN,colO,colP,colQ,colR,colS,colT,
                  colU,colV,colW,colX,colY,colZ,colAA,colAB,colAC,colAD,colAE,colAF,colAG,colAH,colAI,colAJ,colAK ]
 
 
      end
-    end #.encode('WINDOWS-1250')
+    end.encode('WINDOWS-1250')
   end
 
   def force_destroy
