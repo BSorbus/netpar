@@ -264,7 +264,7 @@ class ExamsController < ApplicationController
                       .where.not(esod_category: Esodes::WITHOUT_EXAMINATIONS)
                       .order(:date_exam, :number)
 
-          send_data exams.to_csv, 
+          send_data exams.to_csv(params[:category_service]), 
             filename: "Statistic_#{params[:category_service]}_#{params[:date_start]}_#{params[:date_end]}.csv", 
             type: "text/csv",
             dispostion: "attachment",

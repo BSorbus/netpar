@@ -216,102 +216,270 @@ class Exam < ActiveRecord::Base
 
   end
 
-  def self.percentage_in_csv(x, y) 
-    return nil if y.to_f.zero? 
-    ((x.to_f / y.to_f) * 100).round(2) 
-  end
+  def self.to_csv(category_service)
+    if category_service.downcase == 'm'
 
-  def self.to_csv
-    CSV.generate(headers: false, col_sep: ';', converters: nil, skip_blanks: false, force_quotes: false) do |csv|
-      columns_header = [
-        "Lp.",
-        "Numer", 
-        "Data", 
-        "Miejsce", 
-        "Wniosek o wydanie świadectwa 1", 
-        "Wniosek o egzamin poprawkowy 1",
-        "Negatywny bez prawa do poprawki 1", 
-        "Negatywny z prawem do poprawki 1",
-        "Nieobecny 1", 
-        "Zmiana terminu 1", 
-        "pozytywny 1",
-        "Wniosek o wydanie świadectwa 3", 
-        "Wniosek o egzamin poprawkowy 3",
-        "Negatywny bez prawa do poprawki 3", 
-        "Negatywny z prawem do poprawki 3",
-        "Nieobecny 3", 
-        "Zmiana terminu 3", 
-        "pozytywny 3",
-        "Wnioski suma 1",
-        "Negatywni suma 1",
-        "Nieobecni i zmiana terminu suma 1",
-        "Obecni suma 1",
-        "Obecni i nieobecni suma 1",
-        "Wnioski suma 3",
-        "Negatywni suma 3",
-        "Nieobecni i zmiana terminu suma 3",
-        "Obecni suma 3",
-        "Obecni i nieobecni suma 3",
-        "Wnioski suma",
-        "Negatywni suma", 
-        "Nieobecni i zmiana terminu suma", 
-        "Obecni suma", 
-        "Obecni i nieobecni suma", 
-        "Pozytywni suma",
-        "% nieobecnych", 
-        "Liczba miejsc", 
-        "% obłożenia"
-      ]
+      CSV.generate(headers: false, col_sep: ';', converters: nil, skip_blanks: false, force_quotes: false) do |csv|
+        columns_header = [
+          "Lp.",
+          "Numer", 
+          "Data", 
+          "Miejsce", 
+          "Wniosek o wydanie świadectwa G1E", 
+          "Wniosek o egzamin poprawkowy G1E",
+          "Negatywny bez prawa do poprawki G1E", 
+          "Negatywny z prawem do poprawki G1E",
+          "Nieobecny G1E", 
+          "Zmiana terminu G1E", 
+          "pozytywny G1E",
+          "Wniosek o wydanie świadectwa G2E", 
+          "Wniosek o egzamin poprawkowy G2E",
+          "Negatywny bez prawa do poprawki G2E", 
+          "Negatywny z prawem do poprawki G2E",
+          "Nieobecny G2E", 
+          "Zmiana terminu G2E", 
+          "pozytywny G2E",
+          "Wniosek o wydanie świadectwa GOC", 
+          "Wniosek o egzamin poprawkowy GOC",
+          "Negatywny bez prawa do poprawki GOC", 
+          "Negatywny z prawem do poprawki GOC",
+          "Nieobecny GOC", 
+          "Zmiana terminu GOC", 
+          "pozytywny GOC",
+          "Wniosek o wydanie świadectwa ROC", 
+          "Wniosek o egzamin poprawkowy ROC",
+          "Negatywny bez prawa do poprawki ROC", 
+          "Negatywny z prawem do poprawki ROC",
+          "Nieobecny ROC", 
+          "Zmiana terminu ROC", 
+          "pozytywny ROC",
+          "Wniosek o wydanie świadectwa LRC", 
+          "Wniosek o egzamin poprawkowy LRC",
+          "Negatywny bez prawa do poprawki LRC", 
+          "Negatywny z prawem do poprawki LRC",
+          "Nieobecny LRC", 
+          "Zmiana terminu LRC", 
+          "pozytywny LRC",
+          "Wniosek o wydanie świadectwa SRC", 
+          "Wniosek o egzamin poprawkowy SRC",
+          "Negatywny bez prawa do poprawki SRC", 
+          "Negatywny z prawem do poprawki SRC",
+          "Nieobecny SRC", 
+          "Zmiana terminu SRC", 
+          "pozytywny SRC",
+          "Wniosek o wydanie świadectwa VHF", 
+          "Wniosek o egzamin poprawkowy VHF",
+          "Negatywny bez prawa do poprawki VHF", 
+          "Negatywny z prawem do poprawki VHF",
+          "Nieobecny VHF", 
+          "Zmiana terminu VHF", 
+          "pozytywny VHF",
+          "Wniosek o wydanie świadectwa CSO", 
+          "Wniosek o egzamin poprawkowy CSO",
+          "Negatywny bez prawa do poprawki CSO", 
+          "Negatywny z prawem do poprawki CSO",
+          "Nieobecny CSO", 
+          "Zmiana terminu CSO", 
+          "pozytywny CSO",
+          "Wniosek o wydanie świadectwa IWC", 
+          "Wniosek o egzamin poprawkowy IWC",
+          "Negatywny bez prawa do poprawki IWC", 
+          "Negatywny z prawem do poprawki IWC",
+          "Nieobecny IWC", 
+          "Zmiana terminu IWC", 
+          "pozytywny IWC",
+          "Liczba miejsc" 
+        ]
 
-      csv << columns_header
+        csv << columns_header
 
-      colA = 0
-      all.each do |rec|
-        examinations = rec.examinations
-        colA += 1
-        colB  = "#{rec.number}"
-        colC  = "#{rec.date_exam}"
-        colD  = "#{rec.place_exam}"
-        colE  = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_R_1)}.size
-        colF  = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_R_1)}.size
-        colG  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_R_1)}.size
-        colH  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_R_1)}.size
-        colI  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_R_1)}.size
-        colJ  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_R_1)}.size
-        colK  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_R_1)}.size
-        colL  = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_R_3)}.size
-        colM  = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_R_3)}.size
-        colN  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_R_3)}.size
-        colO  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_R_3)}.size
-        colP  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_R_3)}.size
-        colQ  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_R_3)}.size
-        colR  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_R_3)}.size
-        colS  = colE + colF         # "S Wnioski suma 1"
-        colT  = colG + colH         # "T Negatywni suma 1"
-        colU  = colI + colJ         # "U Nieobecni i zmiana terminu suma 1"
-        colV  = colG + colH + colK  # "V Obecni suma 1"
-        colW  = colU + colV         # "W Obecni i nieobecni suma 1"
-        colX  = colL + colM         # "X Wnioski suma 3"
-        colY  = colN + colO         # "Y Negatywni suma 3"
-        colZ  = colP + colQ         # "Z Nieobecni i zmiana terminu suma 3"
-        colAA = colN + colO + colR  # "AA Obecni suma 3"
-        colAB = colZ + colAA        # "AB Obecni i nieobecni suma 3"
-        colAC = colS + colX         # "AC Wnioski suma" =[@[Wnioski suma 1]]+[@[Wnioski suma 3]]
-        colAD = colT + colY         # "AD Negatywni suma" =[@[Negatywni suma 1]]+[@[Negatywni suma 3]]
-        colAE = colU + colZ         # "AE Nieobecni i zmiana terminu suma" =[@[Nieobecni i zmiana terminu suma 1]]+[@[Nieobecni i zmiana terminu suma 3]]
-        colAF = colV + colAA        # "AF Obecni suma" =[@[Obecni suma 1]]+[@[Obecni suma 3]]
-        colAG = colW + colAB        # "AG Obecni i nieobecni suma" =[@[Obecni i nieobecni suma 1]]+[@[Obecni i nieobecni suma 3]]
-        colAH = colK + colR         # "AH Pozytywni suma" =[@[Pozytywny 1]]+[@[Pozytywny 3]]
-        colAI = "#{percentage_in_csv(colAE, colAG)}%" # "AI % nieobecnych" =[@[Nieobecni i zmiana terminu suma]]/[@[Obecni i nieobecni suma]]
-        colAJ = rec.max_examinations.to_i      # "AJ Liczba miejsc"  
-        colAK = "#{percentage_in_csv(colAG, colAJ)}%" # "AK % obłożenia" =[@[Obecni i nieobecni suma]]/[@[Liczba miejsc]]
+        colA = 0
+        all.each do |rec|
+          examinations = rec.examinations
+          colA += 1
+          colB  = "#{rec.number}"
+          colC  = "#{rec.date_exam}"
+          colD  = "#{rec.place_exam}"
 
-        csv << [ colA,colB,colC,colD,colE,colF,colG,colH,colI,colJ,colK,colL,colM,colN,colO,colP,colQ,colR,colS,colT,
-                 colU,colV,colW,colX,colY,colZ,colAA,colAB,colAC,colAD,colAE,colAF,colAG,colAH,colAI,colAJ,colAK ]
+          colE  = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_M_G1E)}.size
+          colF  = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_M_G1E)}.size
+          colG  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_M_G1E)}.size
+          colH  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_M_G1E)}.size
+          colI  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_M_G1E)}.size
+          colJ  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_M_G1E)}.size
+          colK  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_M_G1E)}.size
 
+          colL  = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_M_G2E)}.size
+          colM  = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_M_G2E)}.size
+          colN  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_M_G2E)}.size
+          colO  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_M_G2E)}.size
+          colP  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_M_G2E)}.size
+          colQ  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_M_G2E)}.size
+          colR  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_M_G2E)}.size
 
-     end
-    end.encode('WINDOWS-1250')
+          colS  = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_M_GOC)}.size
+          colT  = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_M_GOC)}.size
+          colU  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_M_GOC)}.size
+          colV  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_M_GOC)}.size
+          colW  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_M_GOC)}.size
+          colX  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_M_GOC)}.size
+          colY  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_M_GOC)}.size
+
+          colZ  = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_M_ROC)}.size
+          colAA = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_M_ROC)}.size
+          colAB = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_M_ROC)}.size
+          colAC = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_M_ROC)}.size
+          colAD = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_M_ROC)}.size
+          colAE = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_M_ROC)}.size
+          colAF = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_M_ROC)}.size
+
+          colAG = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_M_LRC)}.size
+          colAH = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_M_LRC)}.size
+          colAI = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_M_LRC)}.size
+          colAJ = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_M_LRC)}.size
+          colAK = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_M_LRC)}.size
+          colAL = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_M_LRC)}.size
+          colAM = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_M_LRC)}.size
+
+          colAN = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_M_SRC)}.size
+          colAO = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_M_SRC)}.size
+          colAP = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_M_SRC)}.size
+          colAQ = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_M_SRC)}.size
+          colAR = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_M_SRC)}.size
+          colAS = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_M_SRC)}.size
+          colAT = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_M_SRC)}.size
+
+          colAU = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_M_VHF)}.size
+          colAV = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_M_VHF)}.size
+          colAW = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_M_VHF)}.size
+          colAX = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_M_VHF)}.size
+          colAY = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_M_VHF)}.size
+          colAZ = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_M_VHF)}.size
+          colBA = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_M_VHF)}.size
+
+          colBB = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_M_CSO)}.size
+          colBC = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_M_CSO)}.size
+          colBD = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_M_CSO)}.size
+          colBE = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_M_CSO)}.size
+          colBF = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_M_CSO)}.size
+          colBG = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_M_CSO)}.size
+          colBH = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_M_CSO)}.size
+
+          colBI = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_M_IWC)}.size
+          colBJ = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_M_IWC)}.size
+          colBK = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_M_IWC)}.size
+          colBL = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_M_IWC)}.size
+          colBM = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_M_IWC)}.size
+          colBN = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_M_IWC)}.size
+          colBO = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_M_IWC)}.size
+
+          colZZ = rec.max_examinations.to_i 
+
+          csv << [ colA,colB,colC,colD, 
+                   colE,colF,colG,colH,colI,colJ,colK, 
+                   colL,colM,colN,colO,colP,colQ,colR,
+                   colS,colT,colU,colV,colW,colX,colY, 
+                   colZ,colAA,colAB,colAC,colAD,colAE,colAF, 
+                   colAG,colAH,colAI,colAJ,colAK,colAL,colAM, 
+                   colAN,colAO,colAP,colAQ,colAR,colAS,colAT, 
+                   colAU,colAV,colAW,colAX,colAY,colAZ,colBA, 
+                   colBB,colBC,colBD,colBE,colBF,colBG,colBH, 
+                   colBI,colBJ,colBK,colBL,colBM,colBN,colBO, 
+                   colZZ ]
+
+        end
+      end.encode('WINDOWS-1250')
+
+    elsif category_service.downcase == 'r'
+
+      CSV.generate(headers: false, col_sep: ';', converters: nil, skip_blanks: false, force_quotes: false) do |csv|
+        columns_header = [
+          "Lp.",
+          "Numer", 
+          "Data", 
+          "Miejsce", 
+          "Wniosek o wydanie świadectwa 1", 
+          "Wniosek o egzamin poprawkowy 1",
+          "Negatywny bez prawa do poprawki 1", 
+          "Negatywny z prawem do poprawki 1",
+          "Nieobecny 1", 
+          "Zmiana terminu 1", 
+          "pozytywny 1",
+          "Wniosek o wydanie świadectwa 3", 
+          "Wniosek o egzamin poprawkowy 3",
+          "Negatywny bez prawa do poprawki 3", 
+          "Negatywny z prawem do poprawki 3",
+          "Nieobecny 3", 
+          "Zmiana terminu 3", 
+          "pozytywny 3",
+          "Wniosek o wydanie świadectwa A", 
+          "Wniosek o egzamin poprawkowy A",
+          "Negatywny bez prawa do poprawki A", 
+          "Negatywny z prawem do poprawki A",
+          "Nieobecny A", 
+          "Zmiana terminu A", 
+          "pozytywny A",
+          "Wniosek o wydanie świadectwa C", 
+          "Wniosek o egzamin poprawkowy C",
+          "Negatywny bez prawa do poprawki C", 
+          "Negatywny z prawem do poprawki C",
+          "Nieobecny C", 
+          "Zmiana terminu C", 
+          "pozytywny C",
+          "Liczba miejsc" 
+        ]
+
+        csv << columns_header
+
+        colA = 0
+        all.each do |rec|
+          examinations = rec.examinations
+          colA += 1
+          colB  = "#{rec.number}"
+          colC  = "#{rec.date_exam}"
+          colD  = "#{rec.place_exam}"
+
+          colE  = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_R_1)}.size
+          colF  = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_R_1)}.size
+          colG  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_R_1)}.size
+          colH  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_R_1)}.size
+          colI  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_R_1)}.size
+          colJ  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_R_1)}.size
+          colK  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_R_1)}.size
+
+          colL  = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_R_3)}.size
+          colM  = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_R_3)}.size
+          colN  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_R_3)}.size
+          colO  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_R_3)}.size
+          colP  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_R_3)}.size
+          colQ  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_R_3)}.size
+          colR  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_R_3)}.size
+
+          colS  = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_R_A)}.size
+          colT  = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_R_A)}.size
+          colU  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_R_A)}.size
+          colV  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_R_A)}.size
+          colW  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_R_A)}.size
+          colX  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_R_A)}.size
+          colY  = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_R_A)}.size
+
+          colZ  = examinations.select{|e| (e.esod_category == Esodes::EGZAMIN)    && (e.division_id == Division::DIVISION_R_A)}.size
+          colAA = examinations.select{|e| (e.esod_category == Esodes::POPRAWKOWY) && (e.division_id == Division::DIVISION_R_A)}.size
+          colAB = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_BEZ_PRAWA) && (e.division_id == Division::DIVISION_R_A)}.size
+          colAC = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NEGATYWNY_Z_PRAWEM)  && (e.division_id == Division::DIVISION_R_A)}.size
+          colAD = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_NIEOBECNY)           && (e.division_id == Division::DIVISION_R_A)}.size
+          colAE = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_ZMIANA_TERMINU)      && (e.division_id == Division::DIVISION_R_A)}.size
+          colAF = examinations.select{|e| (e.examination_result == Examination::EX_RESULT_POZYTYWNY)           && (e.division_id == Division::DIVISION_R_A)}.size
+
+          colZZ = rec.max_examinations.to_i 
+
+          csv << [ colA,colB,colC,colD,colE,colF,colG,colH,colI,colJ,colK,colL,colM,colN,colO,colP,colQ,colR,colS,colT,
+                   colU,colV,colW,colX,colY,colZ,colAA,colAB,colAC,colAD,colAE,colAF,colZZ ]
+
+       end
+      end.encode('WINDOWS-1250')
+
+    end
   end
 
   def force_destroy
