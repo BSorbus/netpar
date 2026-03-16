@@ -65,7 +65,7 @@ class PdfExaminationProtocolR < Prawn::Document
     table_data ||= [
                     ["Lp.",
                      "Nazwisko i imię",
-                     "Rodzaj świad.",
+                     "Rodzaj zaśw.",
                      "Przedmioty w/g karty egzaminacyjnej - Ocena: [Pozytywna/Negatywna]",
                      "Wynik egzaminu"]
                     ] + 
@@ -172,7 +172,7 @@ class PdfExaminationProtocolR < Prawn::Document
     text "W SŁUŻBIE RADIOKOMUNIKACYJNEJ AMATORSKIEJ", size: 13, :align => :center    
     move_down 10    
     text "Egzamin przeprowadzono #{@exam.date_exam} w #{@exam.place_exam}", size: 9
-    text "Rodzaj świadectwa: #{@divisions_str}"
+    text "Rodzaj zaświadczenia: #{@divisions_str}"
   end
 
   def footer

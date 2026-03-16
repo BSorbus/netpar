@@ -112,7 +112,7 @@ class PdfExaminationCardsR < Prawn::Document
     move_down 20
     text "#{examination.customer.fullname}", size: 11, :style => :bold 
     move_down 5
-    text "ubiega się o #{examination.division.name}"
+    text "Przystępuje do egzaminu na #{examination.division.name}"
   end
 
 
@@ -128,10 +128,10 @@ class PdfExaminationCardsR < Prawn::Document
 
 
     draw_text "." * 100, :at => [20, 200], size: 6
-    draw_text "podpis osoby ubiegającej się o świadectwo", :at => [30, 190], size: 7, :style => :italic
+    draw_text "podpis osoby ubiegającej się o zaświadczenie", :at => [30, 190], size: 7, :style => :italic
 
     draw_text "." * 220, :at => [20, 150], size: 6
-    draw_text "data i podpis sekretarza sesji egzaminacyjnej w chwili odbioru karty od osoby ubiegającej się o świadectwo", :at => [30, 140], size: 7, :style => :italic
+    draw_text "data i podpis sekretarza sesji egzaminacyjnej w chwili odbioru karty od osoby ubiegającej się o zaświadczenie", :at => [30, 140], size: 7, :style => :italic
 
 
     draw_text "* Nr karty egzaminacyjnej wpisuje się zgodnie z liczbą przyporządkowaną w protokole sesji egzaminacyjnej.", :at => [5, 80], size: 8, :style => :italic
