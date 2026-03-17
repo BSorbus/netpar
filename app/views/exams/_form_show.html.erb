@@ -208,7 +208,9 @@
 
     <% end %>
 
-    <%# <% if exam_policy_check(@exam, params[:category_service], 'edit') %> %>
+<!--
+    <%# if exam_policy_check(@exam, params[:category_service], 'edit') %>
+-->
     <% if false %>
       <%= link_to committee_docx_exam_path(@exam, category_service: @exam.category.downcase, format: "docx"), class: 'btn btn-info pull-right' do %> 
         <span><%= icon('users') %></span>
