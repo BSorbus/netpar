@@ -120,7 +120,7 @@ class ExamFeesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def exam_fee_params
-      params.require(:exam_fee).permit(:division_id, :esod_category, :price, :valid_from, :valid_to)
+      params.require(:exam_fee).permit(:division_id, :esod_category, :price, :price_under18, :valid_from, :valid_to)
     end
 
 end

@@ -43,6 +43,7 @@ $(document).ready(function() {
         }
       },
       { data: 'price', className: 'dt-right' }, 
+      { data: 'price_under18', className: 'dt-right' }, 
       { data: 'valid_from' }, 
       { data: 'valid_to' }, 
       { data: 'id',
@@ -51,7 +52,7 @@ $(document).ready(function() {
         }
       }
     ],
-    order: [[ 1, "asc" ], [ 2, "asc" ], [ 3, "asc" ]],
+    order: [[ 1, "asc" ], [ 2, "asc" ], [ 3, "asc" ], [ 6, "asc" ]],
     language: {
       url: '<%= asset_path("pl.json.erb") %>'
     }

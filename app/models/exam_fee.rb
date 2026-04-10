@@ -16,6 +16,8 @@ class ExamFee < ActiveRecord::Base
 
   attr_accessor :category
 
+  before_validation :normalize_price
+  before_validation :normalize_price_under18
   after_create :close_previous_range
 
   scope :for_date, ->(date) {
@@ -95,4 +97,15 @@ class ExamFee < ActiveRecord::Base
       previous.update_column(:valid_to, new_valid_to)
     end
 
+  def normalize_price
+    if price_before_type_cast.is_a?(String)
+      self.price = price_before_type_cast.gsub(',', '.')
+    end
+  end
+
+  def normalize_price_under18
+    if price_under18_before_type_cast.is_a?(String)
+      self.price_under18 = price_under18_before_type_cast.gsub(',', '.')
+    end
+  end
 end

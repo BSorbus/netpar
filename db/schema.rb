@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20251231024602) do
+ActiveRecord::Schema.define(version: 20260410024602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -450,6 +450,7 @@ ActiveRecord::Schema.define(version: 20251231024602) do
     t.date     "valid_from"
     t.date     "valid_to"
     t.integer  "user_id"
+    t.decimal  "price_under18", precision: 8, scale: 2
   end
 
   add_index "exam_fees", ["user_id"], name: "index_exam_fees_on_user_id", using: :btree

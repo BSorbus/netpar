@@ -565,6 +565,7 @@ pl:
         valid_from: 'Od'
         valid_to: '...Do'
         division: 'Typ świadectwa'
+        price_under18: 'Opłata do lat 18'
       document:
         fileattach: 'Załącznik'
         fileattach_filename: 'Nazwa pliku'
