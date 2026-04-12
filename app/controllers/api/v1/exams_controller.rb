@@ -12,8 +12,11 @@ class Api::V1::ExamsController < Api::V1::BaseApiController
     params[:division_id] = params[:division_id]
     params[:category] = category_params_validate(params[:category])
 
+    days_offset = params[:category].downcase == 'r' ? 7.days : 14.days
     # date_exam_min = (Time.zone.today + 14.days).strftime("%Y-%m-%d")
-    date_exam_min = (Time.zone.today + 7.days).strftime("%Y-%m-%d")
+    # date_exam_min = (Time.zone.today + 7.days).strftime("%Y-%m-%d")
+    date_exam_min = (Time.zone.today + days_offset).strftime("%Y-%m-%d")
+
     # Pokaż tylko sesje typu EGZAMIN, które będą nie wcześniej niż za 7 dni oraz dla których są wolne miejsca
     extend_condition = "(exams.esod_category = #{Esodes::SESJA}) AND (exams.date_exam >= '#{date_exam_min}') AND (proposals_important_count < max_examinations)" 
 
