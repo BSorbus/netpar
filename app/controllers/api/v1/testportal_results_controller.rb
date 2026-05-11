@@ -13,7 +13,7 @@ class Api::V1::TestportalResultsController < Api::V1::BaseApiController
       grade = Grade.find_by(testportal_access_code_id: params[:testResult][:accessCode])
       if grade.present?
         # if grade.update(testportal_params)
-        grade.grade_result = (params[:testResult][:percents] >= 60) ? "P" : "N"
+        grade.grade_result = (params[:testResult][:percents] >= 75) ? "P" : "N"
         if grade.save
             render json: { message: "Result saved" }, status: :ok
         else
@@ -28,7 +28,7 @@ class Api::V1::TestportalResultsController < Api::V1::BaseApiController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def testportal_params
-      defaults = (params[:testResult][:percents] >= 60) ? { grade_result: "P" } : { grade_result: "N" }  
+      defaults = (params[:testResult][:percents] >= 75) ? { grade_result: "P" } : { grade_result: "N" }  
       params.require(:testResult).permit(:grade_result).reverse_merge(defaults)
     end
 
