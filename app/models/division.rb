@@ -49,6 +49,7 @@ class Division < ActiveRecord::Base
   scope :by_name, -> { order(:name) }
   scope :only_not_exclude, ->()  { where(for_new_certificate: true) }
   scope :only_not_exclude_for_internet, ->()  { where(proposal_via_internet: true) }
+  scope :only_enabled_in_confirmation, ->()  { where(enabled_in_confirmation: true) }
 
 
   # Scope for select2: "division_select"
@@ -59,6 +60,8 @@ class Division < ActiveRecord::Base
   #   * +scope+ -> collection 
   #
   scope :finder_division, ->(q, category) { where( create_sql_string("#{q}", "#{category}") ) }
+  # Wyszukiwanie jak w finder_division, bez warunku kategorii (każde słowo w nazwie, skrócie lub wieku).
+  scope :finder_query, ->(q) { where( "#{q}".split.map { |par| one_param_sql(par) }.join(" AND ") ) }
 
   # Method create SQL query string for finder select2: "division_select"
   # * parameters   :

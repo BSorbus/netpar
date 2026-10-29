@@ -554,6 +554,7 @@ pl:
         face_image_required: 'Wymagane zdjęcie'
         for_new_certificate: 'Dozwolony dla nowych dokumentów'
         proposal_via_internet: 'Dozwolony dla zapisów przez internet'
+        enabled_in_confirmation: 'Dozwolony dla weryfikacji w Confirmation'
         category_l: 'Służba Lotnicza'
         category_m: 'Służba Morska i Żeglugi Śródlądowej'
         category_r: 'Służba Radioamatorska'

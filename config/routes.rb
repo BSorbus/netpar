@@ -203,6 +203,9 @@ Rails.application.routes.draw do
         get 'find', on: :collection
       end
       resources :divisions, only: [:index, :show]
+      namespace :confirmation do
+        get 'certificates/search', to: 'certificates#search'
+      end
       resources :proposals, param: :multi_app_identifier, except: [:new, :edit] do
         get 'grades', on: :member
         get 'grades_with_result', on: :member

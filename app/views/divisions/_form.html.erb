@@ -72,6 +72,10 @@
           <%= f.check_box :face_image_required, disabled: input_disabled %>
         </div>
 
+      </div>  <!-- /row -->
+
+      <div class="row">
+
         <div class="form-group col-sm-3">
           <%= f.label :for_new_certificate, class: 'control-label' %><br>
           <%= f.check_box :for_new_certificate, disabled: input_disabled %>
@@ -80,6 +84,11 @@
         <div class="form-group col-sm-3">
           <%= f.label :proposal_via_internet, class: 'control-label' %><br>
           <%= f.check_box :proposal_via_internet, disabled: input_disabled %>
+        </div>
+
+        <div class="form-group col-sm-3">
+          <%= f.label :enabled_in_confirmation, class: 'control-label' %><br>
+          <%= f.check_box :enabled_in_confirmation, disabled: input_disabled %>
         </div>
 
       </div>  <!-- /row -->

@@ -38,4 +38,29 @@ RSpec.describe Division, type: :model do
       end
     end
   end
+
+  describe 'enabled_in_confirmation' do
+    it 'domyślnie wyłączone' do
+      expect(Division.new.enabled_in_confirmation).to be false
+    end
+
+    it 'scope only_enabled_in_confirmation' do
+      enabled = FactoryBot.create :division, short_name: 'e', english_name: 'E', enabled_in_confirmation: true
+      FactoryBot.create :division, short_name: 'd', english_name: 'D', enabled_in_confirmation: false
+
+      expect(Division.only_enabled_in_confirmation).to eq [enabled]
+    end
+  end
+
+  describe '.finder_query' do
+    it 'szuka każdego słowa w nazwie lub skrócie, bez warunku kategorii' do
+      src = FactoryBot.create :division, category: 'M', name: 'świadectwo operatora łączności bliskiego zasięgu SRC', short_name: 'SRC', english_name: 'SRC'
+      FactoryBot.create :division, category: 'L', name: 'świadectwo ogólne operatora radiotelefonisty', short_name: 'OR', english_name: 'OR'
+
+      expect(Division.finder_query('src')).to eq [src]
+      expect(Division.finder_query('operatora zasięgu')).to eq [src]
+      expect(Division.finder_query("x' OR '1'='1")).to be_empty
+    end
+  end
 end
+

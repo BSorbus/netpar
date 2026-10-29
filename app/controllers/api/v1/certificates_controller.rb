@@ -64,7 +64,7 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
       req_given_names = ActionController::Base.helpers.sanitize(params[:given_names]) 
       req_birth_date = ActionController::Base.helpers.sanitize(params[:birth_date])
 
-      certificate = Certificate.find_by("certificates.canceled = false AND certificates.category = 'M' AND TRIM(certificates.number) = '#{req_number}'")
+      certificate = Certificate.where(canceled: false, category: 'M').find_by("TRIM(certificates.number) = ?", req_number)
 
       if certificate.blank?
         render_not_found(requ_json)
