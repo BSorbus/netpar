@@ -74,4 +74,29 @@ class EgzaminyProposal
   end
 
 
+  # Szczegóły zgłoszenia z aplikacji Egzaminy (GET /api/v1/proposals/:multi_app_identifier): zgłoszenie, zgody RODO
+  # zgłaszającego i historia zgłoszenia. Wynik: [true, Hash] albo [false, opis błędu] (panel w szczegółach wniosku).
+  def self.find_details(multi_app_identifier)
+    uri = URI("#{Rails.application.secrets[:egzaminy_api_url]}/api/v1/proposals/#{multi_app_identifier}")
+    request = Net::HTTP::Get.new(uri)
+    request["Authorization"] = "Token token=#{EgzaminyUser.egzaminyuser_token}"
+    response = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https', :verify_mode => OpenSSL::SSL::VERIFY_NONE,
+                               :open_timeout => 5, :read_timeout => 10) do |http|
+      http.request(request)
+    end
+
+    case response
+    when Net::HTTPOK
+      [true, JSON.parse(response.body)]
+    when Net::HTTPNotFound
+      [false, I18n.t('pages.proposal_egzaminy.not_found')]
+    else
+      Rails.logger.error("API ERROR \"models/egzaminy_proposal/find_details\": code: #{response.code}, body: #{response.body.to_s[0, 300]}")
+      [false, "HTTP #{response.code}"]
+    end
+  rescue StandardError => e
+    Rails.logger.error("API ERROR \"models/egzaminy_proposal/find_details\": #{e.class}: #{e.message}")
+    [false, e.message]
+  end
+
 end

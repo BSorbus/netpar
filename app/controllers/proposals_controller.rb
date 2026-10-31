@@ -4,7 +4,7 @@ class ProposalsController < ApplicationController
 
   before_action :set_proposal, only: [:show, :edit, :edit_approved, :edit_not_approved, :edit_closed, :edit_change_exam, 
                                       :update, :update_approved, :update_not_approved, :update_closed, :update_change_exam, 
-                                      :unlock_testportal_tests_access, :lock_testportal_tests_access]
+                                      :unlock_testportal_tests_access, :lock_testportal_tests_access, :egzaminy_details]
 
   # def show_charts
   #   respond_to do |format|
@@ -55,6 +55,14 @@ class ProposalsController < ApplicationController
       format.html { render :show, locals: { back_url: params[:back_url]} }
       format.json { render json: @proposal, root: false, include: [] }
     end
+  end
+
+  # GET /proposals/1/egzaminy_details – sekcja „Aplikacja Egzaminy” w danych wniosku (ładowana w tle): zgody RODO i historia
+  # zgłoszenia z API Egzaminów; bez połączenia – komunikat w panelu.
+  def egzaminy_details
+    proposal_authorize(@proposal, "show", params[:category_service])
+    @egzaminy_ok, @egzaminy = EgzaminyProposal.find_details(@proposal.multi_app_identifier)
+    render partial: "egzaminy_details", layout: false
   end
 
   # GET /proposals/1/edit

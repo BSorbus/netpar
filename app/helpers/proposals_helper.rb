@@ -55,4 +55,48 @@ module ProposalsHelper
     t("proposals.status_id_#{data.proposal_status_id}_name")
   end
 
+  # Panel „Aplikacja Egzaminy”: data z API (ISO 8601) w formacie jak w NETPAR.
+  def egzaminy_time(value)
+    value.present? ? Time.zone.parse(value.to_s).strftime('%Y-%m-%d %H:%M:%S') : ''
+  end
+
+  # Panel „Aplikacja Egzaminy”: szczegóły zdarzenia z historii zgłoszenia (data z API) – czytelnie, z nazwami z NETPAR.
+  def egzaminy_event_details(event)
+    data = event['data'] || {}
+    scope = 'pages.proposal_egzaminy.details'
+    parts = []
+    case event['kind']
+    when 'submitted'
+      exam = Exam.find_by(id: data['exam_id'])
+      division = Division.find_by(id: data['division_id'])
+      parts << "#{t('exam', scope: scope)}: #{exam ? exam.number : data['exam_id']}" if data['exam_id'].present?
+      parts << "#{t('division', scope: scope)}: #{division ? division.short_name : data['division_id']}" if data['division_id'].present?
+    when 'mail'
+      template = t(data['template'].to_s, scope: 'pages.proposal_egzaminy.mail_templates', default: data['template'].to_s)
+      parts << "#{t('to', scope: scope)}: #{data['to']}" if data['to'].present?
+      parts << "#{t('mail', scope: scope)}: #{template}" if data['template'].present?
+    when 'netpar_update'
+      data.each do |key, value|
+        case key
+        when 'proposal_status_id'
+          status = ProposalStatus.find_by(id: value)
+          parts << "#{t('status', scope: scope)}: #{status ? status.name : value}"
+        when 'not_approved_comment'
+          parts << "#{t('comment', scope: scope)}: #{value}" if value.present?
+        when 'exam_fullname'
+          parts << "#{t('exam', scope: scope)}: #{value}"
+        when 'exam_date_exam'
+          parts << "#{t('exam_date', scope: scope)}: #{value}"
+        when 'test_unlocked'
+          parts << "#{t('test_unlocked', scope: scope)}: #{value ? t('pages.proposal_egzaminy.yes_label') : '–'}"
+        when 'exam_id'
+          next # sesja – w exam_fullname
+        else
+          parts << "#{key}: #{value}"
+        end
+      end
+    end
+    parts.join('; ')
+  end
+
 end

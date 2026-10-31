@@ -194,3 +194,15 @@ $(document).ready(function() {
   
 });
 
+// Sekcja „Aplikacja Egzaminy” w danych wniosku – zgody RODO i historia z API Egzaminów, pobierane w tle po wyświetleniu strony.
+$(document).ready(function () {
+  $('.egzaminy-details[data-source]').each(function () {
+    var box = $(this);
+    $.get(box.data('source'))
+      .done(function (html) { box.html(html); })
+      .fail(function (jqXHR) {
+        if (jqXHR.status == 401) { window.location.reload(); return; }
+        box.html('<div class="alert alert-danger"><%= I18n.t("pages.proposal_egzaminy.load_error") %> (HTTP ' + jqXHR.status + ')</div>');
+      });
+  });
+});

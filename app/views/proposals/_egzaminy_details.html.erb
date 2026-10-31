@@ -1,0 +1,68 @@
+<%# Sekcja „Aplikacja Egzaminy” w danych wniosku (_form_show): dane z API Egzaminów (EgzaminyProposal.find_details). %>
+<% unless @egzaminy_ok %>
+  <div class="alert alert-warning"><%=t "pages.proposal_egzaminy.unavailable" %>: <%= @egzaminy %></div>
+<% else %>
+  <div class="row">
+    <div class="form-group col-sm-4">
+      <p><strong><%=t "pages.proposal_egzaminy.created_at" %></strong></p>
+      <%= egzaminy_time(@egzaminy['created_at']) %>
+    </div>
+    <div class="form-group col-sm-4">
+      <p><strong><%=t "pages.proposal_egzaminy.submitted_at" %></strong></p>
+      <%= egzaminy_time(@egzaminy['submitted_at']) %>
+    </div>
+  </div>
+
+  <h5><strong><%=t "pages.proposal_egzaminy.consents_title" %></strong></h5>
+  <p class="text-muted"><%=t "pages.proposal_egzaminy.current_version", version: @egzaminy['privacy_current_version'] %></p>
+  <% consents = @egzaminy['privacy_consents'] || [] %>
+  <% if consents.empty? %>
+    <p><%=t "pages.proposal_egzaminy.no_consents" %></p>
+  <% else %>
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th><%=t "pages.proposal_egzaminy.consent_version" %></th>
+          <th><%=t "pages.proposal_egzaminy.consent_accepted_at" %></th>
+          <th><%=t "pages.proposal_egzaminy.consent_ip" %></th>
+          <th><%=t "pages.proposal_egzaminy.consent_at_submission" %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% consents.each do |consent| %>
+          <tr>
+            <td><%= consent['version'] %></td>
+            <td><%= egzaminy_time(consent['accepted_at']) %></td>
+            <td><%= consent['ip'] %></td>
+            <td><%= consent['valid_at_submission'] ? t("pages.proposal_egzaminy.yes_label") : '' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <h5><strong><%=t "pages.proposal_egzaminy.events_title" %></strong></h5>
+  <% events = @egzaminy['events'] || [] %>
+  <% if events.empty? %>
+    <p><%=t "pages.proposal_egzaminy.no_events" %></p>
+  <% else %>
+    <table class="table table-condensed table-striped">
+      <thead>
+        <tr>
+          <th><%=t "pages.proposal_egzaminy.event_date" %></th>
+          <th><%=t "pages.proposal_egzaminy.event_name" %></th>
+          <th><%=t "pages.proposal_egzaminy.event_details" %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% events.each do |event| %>
+          <tr>
+            <td><%= egzaminy_time(event['created_at']) %></td>
+            <td><%= event['name'] %></td>
+            <td><%= egzaminy_event_details(event) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>

@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       patch 'update_change_exam', on: :member
       patch 'unlock_testportal_tests_access', on: :member
       patch 'lock_testportal_tests_access', on: :member
+      get 'egzaminy_details', on: :member
       post 'datatables_index', on: :collection
       post 'datatables_index_exam', on: :collection # for Exam
     end
