@@ -29,6 +29,16 @@ RSpec.describe 'API v1 POST /proposals', type: :request do
     expect(Proposal.where(multi_app_identifier: uuid).count).to eq 1
   end
 
+  it "zwraca created_at zgłoszenia (Egzaminy zapisują je jako datę zgłoszenia), także przy ponownym wysłaniu" do
+    post_proposal(data.to_json)
+    created_at = Proposal.find_by(multi_app_identifier: uuid).created_at
+    expect(Time.zone.parse(json['proposal']['created_at']).to_i).to eq created_at.to_i
+
+    post_proposal(data.to_json)
+    expect(response).to have_http_status(:ok)
+    expect(Time.zone.parse(json['proposal']['created_at']).to_i).to eq created_at.to_i
+  end
+
   it "zapisuje wymóg zdjęcia przekazany przez Egzaminy (division_face_image_required)" do
     post_proposal(data.merge("division_face_image_required" => true).to_json)
 
