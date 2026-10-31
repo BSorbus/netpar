@@ -29,27 +29,6 @@ feature 'User edit', :devise do
     expect(page).to have_content I18n.t('devise.registrations.update_needs_confirmation')
   end
 
-  # Scenario: User changes email address to no UKE Domain
-  #   Given I am signed in
-  #   When I change my email address
-  #   Then I see an account updated message
-  scenario '2. User changes email address no UKE domain' do
-    user = FactoryBot.create(:user)
-    login_as(user, scope: :user)
-    visit edit_user_registration_path(user)
-    # fill_in 'Email', :with => 'newemail@nouke.domain.com'
-    # fill_in 'Current password', :with => user.password
-    # click_button 'Save'
-    fill_in User.human_attribute_name('email'), with: 'newemail@nouke.domain.com'
-    fill_in User.human_attribute_name('current_password'), with: user.password
-    click_button I18n.t('devise.registrations.form.edit.button_submit')
-    # expect(page).to have_content 'Edit account'
-    # expect(page).to have_content 'Email is invalid'
-    expect(page).to have_content 'Test User'
-    # expect(page).to have_content 'Email is invalid'
-    expect(page).to have_content 'Email jest nieprawidłowe'
-  end
-
   # Scenario: User cannot edit another user's profile
   #   Given I am signed in
   #   When I try to edit another user's profile

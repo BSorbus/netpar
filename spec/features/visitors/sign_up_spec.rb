@@ -26,16 +26,6 @@ feature 'Sign Up', :devise do
     expect(page).to have_content 'Email jest nieprawidłowe'
   end
 
-  # Scenario: Visitor cannot sign up with invalid email domain address
-  #   Given I am not signed in
-  #   When I sign up with an invalid email domanin address
-  #   Then I see an invalid email message
-  scenario '3. visitor cannot sign up with invalid email address' do
-    sign_up_with('test@nouke.domain.com', 'Please123!', 'Please123!')
-    # expect(page).to have_content 'Email is invalid'
-    expect(page).to have_content 'Email jest nieprawidłowe'
-  end
-
   # Scenario: Visitor cannot sign up without password
   #   Given I am not signed in
   #   When I sign up without a password

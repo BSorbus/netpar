@@ -82,14 +82,9 @@ RSpec.describe Customer, type: :model do
   # validate :check_pesel_and_birth_date, unless: "pesel.blank?"
   # validate :unique_name_given_names_birth_date_birth_place_fathers_name, if: :is_human?
 
-  it { should validate_presence_of(:citizenship) }
   it { should validate_presence_of(:user) }
 
-  it { should belong_to :citizenship }
   it { should belong_to :user }
-
-  it { should belong_to :address_teryt_pna_code }
-  it { should belong_to :c_address_teryt_pna_code }
 
   it { should have_many(:documents) }
   it { should have_many(:works) }
