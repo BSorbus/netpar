@@ -14,7 +14,7 @@ class Api::V1::ExamFeesController < Api::V1::BaseApiController
   end
 
   def find
-    checked_date = params[:for_date] || Time.zone.today
+    checked_date = params[:for_date].present? ? parse_date(params[:for_date]) : Time.zone.today
 
     exam_fee = ExamFee.for_date(checked_date)
       .find_by(
@@ -29,4 +29,10 @@ class Api::V1::ExamFeesController < Api::V1::BaseApiController
     end
   end
 
+  private
+    def parse_date(value)
+      Date.iso8601(value.to_s)
+    rescue ArgumentError
+      raise InvalidParameter, "Nieprawidłowa data (for_date, format RRRR-MM-DD)"
+    end
 end

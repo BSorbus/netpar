@@ -25,11 +25,12 @@ class Api::V1::DivisionsController < Api::V1::BaseApiController
            json: @divisions_on_page, meta: {total_count: @divisions.count}
   end
 
+  # GET /divisions/:id – pełny opis rodzaju (także niewłączonego) z przedmiotami egzaminu.
   def show
     #authorize :exam, :show?
     division = Division.find_by(id: params[:id])
     if division.present?
-      render status: :ok, json: division, root: false
+      render status: :ok, json: division, root: false, serializer: Api::V1::DivisionWithSubjectsSerializer
     else
       render status: :not_found,
              json: { error: "Brak rekordu dla Division.where(id: #{params[:id]})" }
@@ -58,7 +59,7 @@ class Api::V1::DivisionsController < Api::V1::BaseApiController
 
     def category_params_validate(category_service)
       unless ['l', 'm', 'r', 'L', 'M', 'R', '', nil].include?(category_service)
-        raise "Ruby injection"
+        raise InvalidParameter, "Nieprawidłowa kategoria (dozwolone: L, M, R)"
       end
       return category_service
     end

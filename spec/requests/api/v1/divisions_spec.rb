@@ -60,10 +60,11 @@ RSpec.describe 'API v1 divisions', type: :request do
       expect(ids).to be_empty
     end
 
-    it 'odrzuca nieznaną kategorię' do
-      expect {
-        get '/api/v1/divisions', { enabled_in_confirmation: 'true', category: "M' OR '1'='1" }, api_headers
-      }.to raise_error(RuntimeError, 'Ruby injection')
+    it 'odrzuca nieznaną kategorię (422)' do
+      get '/api/v1/divisions', { enabled_in_confirmation: 'true', category: "M' OR '1'='1" }, api_headers
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(json['error']).to include('Nieprawidłowa kategoria')
     end
   end
 
@@ -97,6 +98,25 @@ RSpec.describe 'API v1 divisions', type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(json).to include('id' => 16, 'short_name' => 'CSO', 'proposal_via_internet' => false, 'enabled_in_confirmation' => false)
+    end
+
+    it "zwraca przedmioty egzaminu (kolejność, kategorie ESOD, wzorzec testu)" do
+      Subject.create!(division: cso, item: 2, name: "Obsługa urządzeń", esod_categories: %w(41 42), test_template: "")
+      Subject.create!(division: cso, item: 1, name: "Wiedza ogólna", esod_categories: %w(41), test_template: "T-123")
+
+      get "/api/v1/divisions/16", {}, api_headers
+
+      expect(response).to have_http_status(:ok)
+      expect(json["subjects"]).to eq [
+        { "id" => Subject.find_by(item: 1).id, "item" => 1, "name" => "Wiedza ogólna", "esod_categories" => [41], "test_template" => "T-123" },
+        { "id" => Subject.find_by(item: 2).id, "item" => 2, "name" => "Obsługa urządzeń", "esod_categories" => [41, 42], "test_template" => "" }
+      ]
+    end
+
+    it "lista rodzajów – bez przedmiotów" do
+      get "/api/v1/divisions", { enabled_in_examination: "true" }, api_headers
+
+      expect(json["divisions"].first).not_to have_key("subjects")
     end
 
     it 'nieistniejący rodzaj: 404' do

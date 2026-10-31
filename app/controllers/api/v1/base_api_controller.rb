@@ -4,7 +4,14 @@ module Api
 
       include Authenticable
 
+      # Niepoprawny parametr zapytania (np. nieznana kategoria, zła data) – odpowiedź 422 zamiast błędu 500.
+      class InvalidParameter < StandardError; end
+
       before_action :authenticate_system_from_token, except: [:token]
+
+      rescue_from InvalidParameter do |e|
+        render json: { error: e.message }, status: :unprocessable_entity
+      end
       #protect_from_forgery with: :null_session
       #protect_from_forgery with: :exception
       protect_from_forgery unless: -> { request.format.json? }

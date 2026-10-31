@@ -11,6 +11,7 @@ class Api::V1::ExamsController < Api::V1::BaseApiController
     params[:page_limit] = params[:page_limit]
     params[:division_id] = params[:division_id]
     params[:category] = category_params_validate(params[:category])
+    raise InvalidParameter, "Brak kategorii (L, M, R)" if params[:category].blank?
 
     days_offset = params[:category].downcase == 'r' ? 7.days : 14.days
     # date_exam_min = (Time.zone.today + 14.days).strftime("%Y-%m-%d")
@@ -44,7 +45,7 @@ class Api::V1::ExamsController < Api::V1::BaseApiController
   private
     def category_params_validate(category_service)
       unless ['l', 'm', 'r', 'L', 'M', 'R', '', nil].include?(category_service)
-        raise "Ruby injection"
+        raise InvalidParameter, "Nieprawidłowa kategoria (dozwolone: L, M, R)"
       end
       return category_service
     end

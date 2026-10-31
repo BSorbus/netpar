@@ -2,14 +2,16 @@ module Api
   module V1
     module Authenticable
 
+      # Bez danych logowania – 401 (dawniej błąd 500); hasło porównywane w stałym czasie.
       def token
-        authenticate_with_http_basic do |username, password|
-          system_for_api = ApiKey.find_by(name: username)
-          if system_for_api && system_for_api.password == password
-            render json: { token: system_for_api.access_token }, status: 200
-          else
-            render json: { error: 'Incorrect credentials' }, status: 401
-          end
+        system_for_api = authenticate_with_http_basic do |username, password|
+          api_key = ApiKey.find_by(name: username)
+          api_key if api_key && ActiveSupport::SecurityUtils.secure_compare(api_key.password.to_s, password.to_s)
+        end
+        if system_for_api
+          render json: { token: system_for_api.access_token }, status: 200
+        else
+          render json: { error: 'Incorrect credentials' }, status: 401
         end
       end
 
