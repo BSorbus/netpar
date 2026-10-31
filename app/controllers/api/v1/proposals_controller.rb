@@ -1,25 +1,29 @@
 class Api::V1::ProposalsController < Api::V1::BaseApiController
 
   ANNULLABLE_STATUSES = [ ProposalStatus::PROPOSAL_STATUS_CREATED, ProposalStatus::PROPOSAL_STATUS_APPROVED ]
+  # Zgłoszenia „w toku” – na ten sam rodzaj świadectwa użytkownik może mieć tylko jedno (jak w aplikacji Egzaminy).
+  ACTIVE_STATUSES = [ ProposalStatus::PROPOSAL_STATUS_CREATED, ProposalStatus::PROPOSAL_STATUS_APPROVED ]
+  ACTIVE_FOR_DIVISION_MESSAGE = "Jest aktualnie procedowane zgłoszenie dla tego typu świadectwa"
 
   respond_to :json
 
+  # GET /proposals?creator_id=… – wszystkie zgłoszenia jednego użytkownika aplikacji Egzaminy (komplet pól, status,
+  # egzamin z ocenami – patrz proposal_json; wg id).
+  # creator_id wymagany – bez niego 422 (lista nie udostępnia zgłoszeń wszystkich użytkowników).
   def index
-    if params[:creator_id].blank?
-      proposals = Proposal.all
-    else
-      proposals = Proposal.where(creator_id: params[:creator_id])
-    end
+    raise InvalidParameter, "Brak parametru creator_id" if params[:creator_id].blank?
 
-    render json: proposals, status: :ok, root: true
+    proposals = Proposal.where(creator_id: params[:creator_id]).includes(:proposal_status, examination: { grades: :subject }).order(:id)
+    render json: { proposals: proposals.map { |proposal| proposal_json(proposal) }, meta: { total_count: proposals.size } }, status: :ok
   end
 
+  # GET /proposals/:multi_app_identifier – jedno zgłoszenie (jak w liście).
   def show
-    proposal = Proposal.find_by(id: params[:id])
+    proposal = existing_proposal(params[:multi_app_identifier])
     if proposal.present?
-      render json: proposal, status: :ok, root: false
+      render json: proposal_json(proposal), status: :ok
     else
-      render json: { error: "W systemie Netpar2015 brak Elektronicznego Zgłoszenia (id: #{params[:id]})" }, status: :not_found
+      render json: { error: "W systemie Netpar2015 brak Elektronicznego Zgłoszenia (multi_app_identifier: #{params[:multi_app_identifier]})" }, status: :not_found
     end
   end
 
@@ -31,6 +35,9 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
     params[:proposal] = parsed_proposal_param
     existing = existing_proposal(proposal_params[:multi_app_identifier])
     return render(json: existing, status: :ok) if existing
+    if active_proposal_for_division?(proposal_params)
+      return render json: { errors: [ ACTIVE_FOR_DIVISION_MESSAGE ] }, status: :unprocessable_entity
+    end
 
     proposal = Proposal.new(proposal_params.merge(proposal_status_id: ProposalStatus::PROPOSAL_STATUS_CREATED, test_unlocked: false))
     if proposal.save
@@ -125,6 +132,32 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
 
     def render_invalid_proposal_param
       render json: { error: "Niepoprawne dane zgłoszenia (parametr proposal)" }, status: :unprocessable_entity
+    end
+
+    # Zgłoszenie dla aplikacji Egzaminy: wszystkie kolumny, fullname, status (id i nazwa) oraz egzamin (po akceptacji w NETPAR)
+    # z wynikiem i ocenami z przedmiotów. Oceny – wprost z bazy (bez Api::V1::GradeSerializer, który odpytuje TestPortal).
+    def proposal_json(proposal)
+      data = proposal.as_json(methods: :fullname)
+      status = proposal.proposal_status
+      data["proposal_status"] = status && { "id" => status.id, "name" => status.name }
+      examination = proposal.examination
+      data["examination"] = examination && {
+        "id" => examination.id, "examination_result" => examination.examination_result, "certificate_id" => examination.certificate_id,
+        "created_at" => examination.created_at, "updated_at" => examination.updated_at,
+        "grades" => examination.grades.sort_by(&:id).map do |grade|
+          { "id" => grade.id, "subject_id" => grade.subject_id, "subject_item" => grade.subject.try(:item),
+            "subject_name" => grade.subject.try(:name), "grade_result" => grade.grade_result }
+        end
+      }
+      data
+    end
+
+    # Inne aktywne zgłoszenie tego samego użytkownika Egzaminów (creator_id) na ten sam rodzaj świadectwa.
+    def active_proposal_for_division?(attributes)
+      return false if attributes[:creator_id].blank? || attributes[:division_id].blank?
+
+      Proposal.where(creator_id: attributes[:creator_id], division_id: attributes[:division_id], proposal_status_id: ACTIVE_STATUSES)
+              .where.not(multi_app_identifier: attributes[:multi_app_identifier].to_s).exists?
     end
 
     def existing_proposal(multi_app_identifier)

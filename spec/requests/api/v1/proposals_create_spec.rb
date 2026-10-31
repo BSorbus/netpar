@@ -36,6 +36,40 @@ RSpec.describe 'API v1 POST /proposals', type: :request do
     expect(Proposal.find_by(multi_app_identifier: uuid).division_face_image_required).to eq true
   end
 
+  describe "jedno aktywne zgłoszenie użytkownika na rodzaj świadectwa" do
+    let(:active_data) { data.merge("creator_id" => 17) }
+
+    def previous(status)
+      Proposal.new(active_data.merge("multi_app_identifier" => SecureRandom.uuid, "proposal_status_id" => status))
+              .tap { |proposal| proposal.save!(validate: false) }
+    end
+
+    it "odrzuca drugie zgłoszenie, gdy poprzednie jest w toku (utworzone / zaakceptowane) – 422" do
+      previous(2)
+      post_proposal(active_data.to_json)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(json).to eq("errors" => ["Jest aktualnie procedowane zgłoszenie dla tego typu świadectwa"])
+      expect(Proposal.where(multi_app_identifier: uuid)).not_to exist
+    end
+
+    it "przyjmuje, gdy poprzednie jest zamknięte (np. anulowane) albo dotyczy innego rodzaju lub użytkownika" do
+      previous(5)
+      Proposal.new(active_data.merge("multi_app_identifier" => SecureRandom.uuid, "creator_id" => 18)).save!(validate: false)
+      post_proposal(active_data.to_json)
+
+      expect(response).to have_http_status(:created)
+    end
+
+    it "ponowne wysłanie tego samego zgłoszenia nie jest blokowane – zwraca istniejące" do
+      post_proposal(active_data.to_json)
+      post_proposal(active_data.to_json)
+
+      expect(response).to have_http_status(:ok)
+      expect(Proposal.where(multi_app_identifier: uuid).count).to eq 1
+    end
+  end
+
   it 'przyjmuje stary format (Hash#to_s z Egzaminów)' do
     post_proposal(data.to_s)
 
