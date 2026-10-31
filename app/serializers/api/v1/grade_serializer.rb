@@ -13,7 +13,9 @@ class Api::V1::GradeSerializer < ActiveModel::Serializer
     id_test = ExamsDivisionsSubject.joins(:exams_division, exams_division: [:exam]).
       where(subject_id: object.subject_id, 
             exams_divisions: {division_id: object.examination.division_id}, 
-            exams: {id: object.examination.exam.id}).first.testportal_test_id
+            exams: {id: object.examination.exam.id}).first.try(:testportal_test_id)
+    # Brak testu (np. sesja stacjonarna) – bez wywołania TestPortal: zapytanie z pustym id zwraca wszystkie testy konta.
+    return data if id_test.blank?
     api_call_correct, test_hash = ApiTestportalTest::test_info_in_testportal_where_test_id("#{id_test}")
     if api_call_correct
       data = test_hash unless test_hash.blank?

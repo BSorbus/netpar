@@ -75,4 +75,27 @@ RSpec.describe 'API v1 GET /proposals', type: :request do
       expect(json).to have_key('error')
     end
   end
+
+  describe 'oceny (grades)' do
+    it "TestPortal pytany tylko o przedmioty z testem; bez testu (np. sesja stacjonarna) – testportal_test_info pusty" do
+      proposal = create_proposal(creator_id: 17, proposal_status_id: 2)
+      with_test = Subject.new(division: division, item: 1, name: "Przepisy", esod_categories: %w(41)).tap { |s| s.save!(validate: false) }
+      without_test = Subject.new(division: division, item: 2, name: "Technika", esod_categories: %w(41)).tap { |s| s.save!(validate: false) }
+      exams_division = ExamsDivision.new(exam_id: exam.id, division_id: division.id).tap { |ed| ed.save!(validate: false) }
+      exams_division.exams_divisions_subjects.find_by(subject_id: with_test.id).update_columns(testportal_test_id: "T-1")
+      exams_division.exams_divisions_subjects.find_by(subject_id: without_test.id).update_columns(testportal_test_id: "")
+      examination = Examination.new(proposal_id: proposal.id, division_id: division.id, exam_id: exam.id, category: "R", esod_category: 41)
+                               .tap { |e| e.save!(validate: false) }
+      Grade.new(examination_id: examination.id, subject_id: with_test.id).save!(validate: false)
+      Grade.new(examination_id: examination.id, subject_id: without_test.id).save!(validate: false)
+      expect(ApiTestportalTest).to receive(:test_info_in_testportal_where_test_id).once.with("T-1").and_return([true, { "name" => "Test przepisy" }])
+
+      get "/api/v1/proposals/#{proposal.multi_app_identifier}/grades", {}, api_headers
+
+      expect(response).to have_http_status(:ok)
+      info = json["grades"].index_by { |g| g["subject_id"] }
+      expect(info[with_test.id]["testportal_test_info"]).to eq("name" => "Test przepisy")
+      expect(info[without_test.id]["testportal_test_info"]).to eq({})
+    end
+  end
 end
