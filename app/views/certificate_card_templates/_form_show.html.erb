@@ -41,7 +41,11 @@
 </div>
 
 <div class="row">
-  <div class="form-group col-sm-12">
+  <div class="form-group col-sm-6">
+    <p><strong><%= t('pages.certificate_card_template.layout.fields_count') %></strong></p>
+    <h5><%= tpl.fields.map(&:label).join(', ').presence || '–' %></h5>
+  </div>
+  <div class="form-group col-sm-6">
     <p><strong><%= t('pages.certificate_card_template.certificates_count') %></strong></p>
     <h5><%= tpl.certificates.count %></h5>
   </div>
@@ -68,7 +72,16 @@
     <% end %>
   <% end %>
 
+  <%= link_to preview_certificate_card_template_path(tpl, format: :pdf), class: "btn btn-info", target: "_blank" do %>
+    <span class="fa fa-file-pdf-o"></span>
+    <%= t("pages.certificate_card_template.layout.preview") %>
+  <% end %>
+
   <% if policy(tpl).edit? %>
+    <%= link_to layout_certificate_card_template_path(tpl), class: "btn btn-primary" do %>
+      <span class="fa fa-th-large"></span>
+      <%= t("pages.certificate_card_template.layout.link") %>
+    <% end %>
     <%= link_to edit_certificate_card_template_path(tpl), class: "btn btn-primary" do %>
       <span class="fa fa-edit"></span>
       <%= t("helpers.links.edit") %>

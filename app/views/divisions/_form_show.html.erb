@@ -37,6 +37,13 @@
       </div>
     </div>  <!-- /row -->
 
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <p><strong><%= Division.human_attribute_name(:card_print_text) %></strong></p>
+        <h5><%= @division.card_print_text.presence || '–' %></h5>
+      </div>
+    </div>  <!-- /row -->
+
   </div>  <!-- /col-sm-12 -->
 </div>  <!-- /row -->
 

@@ -112,7 +112,7 @@ class DivisionsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def division_params
       params.require(:division).permit(:short_name, :category, :number_prefix, :name, :english_name, :min_years_old, :face_image_required, 
-        :for_new_certificate, :proposal_via_internet, :enabled_in_confirmation, subjects_attributes: [:id, :item, :name, :esod_categories, :test_template, :_destroy])
+        :for_new_certificate, :proposal_via_internet, :enabled_in_confirmation, :card_print_text, subjects_attributes: [:id, :item, :name, :esod_categories, :test_template, :_destroy])
     end
 
     # def division_params

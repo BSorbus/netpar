@@ -63,6 +63,40 @@ pl:
         image_hint: 'Karta ID-1 (CR80) 85,6 × 54 mm, poziomo. Grafika PNG lub JPEG, co najmniej 1011 × 638 px (300 dpi), zalecane 2022 × 1276 px (600 dpi). Dane świadectwa nadrukowuje NETPAR.'
         replace: 'wybierz nowy plik, aby podmienić grafikę'
       current: 'obowiązuje'
+      layout: # nowe – edytor układu nadruku
+        title: 'Układ nadruku na karcie'
+        link: 'Układ nadruku'
+        preview: 'Podgląd wydruku (PDF)'
+        front: 'Awers'
+        back: 'Rewers'
+        hint: 'Zaznacz atrybut „ptaszkiem”, kliknij jego wiersz i narysuj myszką prostokąt na karcie (albo wpisz współrzędne w mm od lewego górnego rogu; karta 85,6 × 54 mm). Prostokąt można przesuwać i zmieniać jego rozmiar. Tekst zmniejsza się, gdy nie mieści się w obszarze; zdjęcie wpisuje się z zachowaniem proporcji.'
+        on_card: 'Na karcie'
+        attribute: 'Atrybut'
+        side: 'Strona'
+        x: 'X'
+        y: 'Y'
+        width: 'Szer.'
+        height: 'Wys.'
+        font_size: 'Czcionka (pt)'
+        bold: 'Pogr.'
+        align: 'Wyrównanie'
+        color: 'Kolor'
+        align_left: 'do lewej'
+        align_center: 'środek'
+        align_right: 'do prawej'
+        fields_count: 'Pola nadruku'
+      attributes: # nowe – atrybuty do nadruku na karcie
+        full_name: 'Imię i NAZWISKO'
+        birth_date: 'Data urodzenia'
+        birth_place: 'Miejsce urodzenia'
+        birth_date_and_place: 'Data i miejsce urodzenia'
+        number: 'Numer świadectwa'
+        date_of_issue: 'Data wydania'
+        place_of_issue: 'Miejsce wydania'
+        place_and_date_of_issue: 'Miejsce i data wydania'
+        valid_thru: 'Ważne do'
+        division_card_text: 'Rodzaj świadectwa (tekst na kartę z typu świadectwa; pusty – nazwa PL)'
+        photo: 'Zdjęcie'
       certificates_count: 'Świadectwa wydane w okresie wzoru (drukowane wg niego)'
       division:
         legend: 'Wzory kart plastikowych (HID FARGO HDP6600)'
@@ -623,6 +657,7 @@ pl:
         for_new_certificate: 'Dozwolony dla nowych dokumentów'
         proposal_via_internet: 'Dozwolony dla zapisów przez internet'
         enabled_in_confirmation: 'Dozwolony dla weryfikacji w Confirmation'
+        card_print_text: 'Tekst rodzaju na karcie plastikowej (PL, EN albo oba; pusty – nazwa PL)' # nowe
         category_l: 'Służba Lotnicza'
         category_m: 'Służba Morska i Żeglugi Śródlądowej'
         category_r: 'Służba Radioamatorska'
@@ -897,6 +932,7 @@ pl:
         overlapping: 'Okres nakłada się na wzór „%{name}” (%{period}).'
         certificates_issued: '– w tym okresie wydano już %{count} świadectw tego rodzaju (ostatnie %{last}); nowy wzór może obowiązywać najwcześniej od %{next}, żeby wydane świadectwa nie zmieniły wzoru.'
         certificates_change: 'Zmiana rodzaju lub okresu zmieniłaby wzór wydanych już świadectw – niedozwolone (grafikę można podmienić).'
+        field_outside: '– pole „%{label}” wychodzi poza kartę (85,6 × 54 mm)'
         certificates_destroy: 'Nie można usunąć wzoru – wg niego drukuje się %{count} wydanych świadectw (duplikaty, ponowne wydruki).'
       models:
         exam:
@@ -929,6 +965,7 @@ pl:
         short_name: 'np. GOC'
         number_prefix: 'np. GG-'
         name: 'świadectwo ogólne operatora GMDSS'
+        card_print_text: 'np. GMDSS General Operator’s Certificate / Świadectwo ogólne operatora GMDSS' # nowe
     exam_l:
       form:
         number: 'np. 123/2015/L'

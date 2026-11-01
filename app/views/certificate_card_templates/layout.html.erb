@@ -1,0 +1,173 @@
+<%# Układ nadruku na karcie: po lewej/górze karta (awers/rewers) z prostokątami pól, niżej lista atrybutów z „ptaszkiem”,
+    stroną, obszarem w mm (od lewego górnego rogu karty 85,6 × 54 mm) i czcionką – obie części zsynchronizowane. %>
+<% tpl = @certificate_card_template %>
+<br>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-certificate_card_template">
+      <div class="panel-heading">
+        <div class="panel-title">
+          <span class='<%= t("pages.certificate_card_template.model_icon") %>'>&nbsp;</span>
+          <span><%= t("pages.certificate_card_template.layout.title") %>:&nbsp;<%= tpl.fullname %></span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <%= form_errors_for tpl %>
+        <p class="help-block"><%= t("pages.certificate_card_template.layout.hint") %></p>
+
+        <div class="btn-group" role="group" id="card-sides">
+          <button type="button" class="btn btn-default active" data-side="front"
+                  data-src="<%= attachment_url(tpl, :card_front) %>"><%= t("pages.certificate_card_template.layout.front") %></button>
+          <button type="button" class="btn btn-default" data-side="back"
+                  data-src="<%= attachment_url(tpl, :card_back) %>"><%= t("pages.certificate_card_template.layout.back") %></button>
+        </div>
+        <%= link_to preview_certificate_card_template_path(tpl, format: :pdf), class: "btn btn-info", target: "_blank" do %>
+          <span class="fa fa-file-pdf-o"></span> <%= t("pages.certificate_card_template.layout.preview") %>
+        <% end %>
+
+        <div class="card-editor-wrap">
+          <div id="card-editor" class="card-editor" data-card-width="<%= CertificateCardTemplateField::CARD_WIDTH %>">
+            <%= image_tag attachment_url(tpl, :card_front), id: "card-editor-image", alt: "", draggable: false %>
+          </div>
+        </div>
+
+        <%= form_for tpl, url: update_layout_certificate_card_template_path(tpl), method: :patch, html: { role: 'form' } do |f| %>
+          <table class="table table-condensed card-fields" id="card-fields">
+            <thead>
+              <tr>
+                <th><%= t("pages.certificate_card_template.layout.on_card") %></th>
+                <th><%= t("pages.certificate_card_template.layout.attribute") %></th>
+                <th><%= t("pages.certificate_card_template.layout.side") %></th>
+                <th><%= t("pages.certificate_card_template.layout.x") %></th>
+                <th><%= t("pages.certificate_card_template.layout.y") %></th>
+                <th><%= t("pages.certificate_card_template.layout.width") %></th>
+                <th><%= t("pages.certificate_card_template.layout.height") %></th>
+                <th><%= t("pages.certificate_card_template.layout.font_size") %></th>
+                <th><%= t("pages.certificate_card_template.layout.bold") %></th>
+                <th><%= t("pages.certificate_card_template.layout.align") %></th>
+                <th><%= t("pages.certificate_card_template.layout.color") %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= f.fields_for :fields, @fields do |ff| %>
+                <% field = ff.object %>
+                <tr data-attribute="<%= field.attribute_name %>" data-label="<%= field.label %>">
+                  <td><%= ff.check_box :enabled, { checked: field.enabled, data: { f: 'enabled' } }, '1', '0' %><%= ff.hidden_field :attribute_name %></td>
+                  <td><%= field.label %></td>
+                  <td><%= ff.select :side, CertificateCardTemplateField::SIDES.map { |s| [t("pages.certificate_card_template.layout.#{s}"), s] }, {},
+                                    class: 'form-control input-sm', data: { f: 'side' } %></td>
+                  <% %w(x y width height).each do |name| %>
+                    <td><%= ff.number_field name, step: 0.1, min: 0, class: 'form-control input-sm', data: { f: name } %></td>
+                  <% end %>
+                  <% if field.image? %>
+                    <td colspan="4"></td>
+                  <% else %>
+                    <td><%= ff.number_field :font_size, step: 0.5, min: 4, max: 40, class: 'form-control input-sm' %></td>
+                    <td><%= ff.check_box :bold %></td>
+                    <td><%= ff.select :align, CertificateCardTemplateField::ALIGNS.map { |a| [t("pages.certificate_card_template.layout.align_#{a}"), a] }, {},
+                                      class: 'form-control input-sm' %></td>
+                    <td><%= ff.text_field :color, maxlength: 6, class: 'form-control input-sm' %></td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <%= link_to certificate_card_template_path(tpl), class: "btn btn-default" do %>
+                <span class="fa fa-undo"></span> <%= t("helpers.links.back") %>
+              <% end %>
+              <%= f.submit nil, class: "btn btn-success" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    var editor = $('#card-editor');
+    if (!editor.length) { return; }
+    var cardWidth = parseFloat(editor.data('card-width'));
+    var side = 'front';
+    var rows = $('#card-fields tbody tr[data-attribute]');
+
+    function mm() { return editor.width() / cardWidth; } // px na 1 mm
+    function rowFor(name) { return rows.filter('[data-attribute="' + name + '"]'); }
+    function num(row, f) { return parseFloat(String(row.find('[data-f="' + f + '"]').val()).replace(',', '.')) || 0; }
+    function put(row, f, value) { row.find('[data-f="' + f + '"]').val((Math.round(value * 10) / 10).toFixed(1)); }
+    function enabled(row) { return row.find('[data-f="enabled"]').is(':checked'); }
+
+    function activate(row) {
+      rows.removeClass('active');
+      row.addClass('active');
+      editor.find('.card-box').removeClass('active').filter('[data-attribute="' + row.data('attribute') + '"]').addClass('active');
+    }
+
+    function syncFromBox() {
+      var box = $(this), row = rowFor(box.data('attribute')), s = mm(), pos = box.position();
+      put(row, 'x', pos.left / s); put(row, 'y', pos.top / s);
+      put(row, 'width', box.outerWidth() / s); put(row, 'height', box.outerHeight() / s);
+    }
+
+    function render() {
+      editor.find('.card-box').remove();
+      var s = mm();
+      rows.each(function() {
+        var row = $(this);
+        if (!enabled(row) || row.find('[data-f="side"]').val() !== side) { return; }
+        var box = $('<div class="card-box"></div>').attr('data-attribute', row.data('attribute')).text(row.data('label'))
+          .css({ left: num(row, 'x') * s, top: num(row, 'y') * s, width: num(row, 'width') * s, height: num(row, 'height') * s });
+        if (row.hasClass('active')) { box.addClass('active'); }
+        editor.append(box);
+        box.draggable({ containment: 'parent', stop: syncFromBox })
+           .resizable({ containment: 'parent', handles: 'all', stop: syncFromBox })
+           .on('mousedown', function(e) { activate(row); e.stopPropagation(); });
+      });
+    }
+
+    // Rysowanie prostokąta dla aktywnego (klikniętego) atrybutu.
+    var start = null, ghost = null;
+    editor.on('mousedown', function(e) {
+      var row = rows.filter('.active');
+      if (!row.length || $(e.target).closest('.card-box').length) { return; }
+      var o = editor.offset();
+      start = { x: e.pageX - o.left, y: e.pageY - o.top };
+      ghost = $('<div class="card-box drawing"></div>').css({ left: start.x, top: start.y, width: 0, height: 0 });
+      editor.append(ghost);
+      e.preventDefault();
+    });
+    $(document).off('.cardeditor').on('mousemove.cardeditor', function(e) {
+      if (!start) { return; }
+      var o = editor.offset();
+      var x = Math.min(Math.max(e.pageX - o.left, 0), editor.width()), y = Math.min(Math.max(e.pageY - o.top, 0), editor.height());
+      ghost.css({ left: Math.min(x, start.x), top: Math.min(y, start.y), width: Math.abs(x - start.x), height: Math.abs(y - start.y) });
+    }).on('mouseup.cardeditor', function() {
+      if (!start) { return; }
+      var row = rows.filter('.active'), s = mm(), pos = ghost.position();
+      if (ghost.width() > 4 && ghost.height() > 4) {
+        row.find('[data-f="enabled"]').prop('checked', true);
+        row.find('[data-f="side"]').val(side);
+        put(row, 'x', pos.left / s); put(row, 'y', pos.top / s); put(row, 'width', ghost.width() / s); put(row, 'height', ghost.height() / s);
+      }
+      ghost.remove(); start = null; ghost = null;
+      render();
+    });
+
+    rows.on('mousedown', function() { activate($(this)); });
+    rows.find('input, select').on('change keyup', render);
+
+    $('#card-sides button').on('click', function() {
+      $('#card-sides button').removeClass('active');
+      $(this).addClass('active');
+      side = $(this).data('side');
+      $('#card-editor-image').attr('src', $(this).data('src'));
+    });
+    $('#card-editor-image').on('load', render);
+    $(window).off('resize.cardeditor').on('resize.cardeditor', render);
+    if ($('#card-editor-image')[0].complete) { render(); }
+  });
+</script>

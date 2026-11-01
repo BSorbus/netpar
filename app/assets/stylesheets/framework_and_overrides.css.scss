@@ -165,6 +165,20 @@ img {
   } 
 }
 
+// Edytor układu nadruku na karcie (wzory kart świadectw).
+.card-editor-wrap { margin: 15px 0; }
+.card-editor { position: relative; width: 100%; max-width: 856px; border: 1px solid #ccc; cursor: crosshair; user-select: none;
+  img { display: block; width: 100%; height: auto; pointer-events: none; }
+  .card-box { position: absolute; border: 1px dashed #1B3C8F; background: rgba(27, 60, 143, .18); color: #10265C;
+              font-size: 10px; line-height: 1.1; overflow: hidden; cursor: move; padding: 1px 2px; }
+  .card-box.active { border: 2px solid #d9534f; background: rgba(217, 83, 79, .18); }
+  .card-box.drawing { border-style: dotted; }
+}
+.card-fields {
+  tr.active { background: #fcf8e3; }
+  input.form-control, select.form-control { min-width: 60px; padding: 2px 4px; }
+}
+
 .panel-exam_fee {
   border-color: #ddd;
   a:link {

@@ -15,6 +15,10 @@ class CertificateCardTemplate < ActiveRecord::Base
   belongs_to :division
   belongs_to :user
   has_many :works, as: :trackable
+  # Układ nadruku (wersjonowany razem z grafiką wzoru).
+  has_many :fields, -> { order(:id) }, class_name: 'CertificateCardTemplateField', inverse_of: :template, dependent: :delete_all
+  accepts_nested_attributes_for :fields, allow_destroy: true,
+                                reject_if: ->(attributes) { attributes['id'].blank? && attributes['enabled'] != '1' }
 
   attachment :card_front, content_type: IMAGE_TYPES
   attachment :card_back, content_type: IMAGE_TYPES

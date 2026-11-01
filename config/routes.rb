@@ -135,6 +135,9 @@ Rails.application.routes.draw do
   end
   resources :certificate_card_templates do
     post 'datatables_index', on: :collection
+    get 'layout', on: :member
+    patch 'update_layout', on: :member
+    get 'preview', on: :member
   end
 
   resources :roles do

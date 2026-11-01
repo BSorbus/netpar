@@ -16,6 +16,8 @@
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require jquery-ui/datepicker
+//= require jquery-ui/draggable
+//= require jquery-ui/resizable
 //= require select2
 //= require select2_locale_pl
 //= require bootstrap-sprockets
