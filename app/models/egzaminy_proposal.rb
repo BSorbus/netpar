@@ -74,6 +74,12 @@ class EgzaminyProposal
   end
 
 
+  # Sekcja „Aplikacja Egzaminy” we wniosku – włączana w secrets.yml (egzaminy_details: true), gdy egzaminy_api_url wskazuje
+  # aplikację Egzaminy z API szczegółów zgłoszenia (examinations8). Stara aplikacja go nie ma (zawsze 404) – bez wpisu sekcji nie ma.
+  def self.details_enabled?
+    Rails.application.secrets[:egzaminy_details].to_s == 'true'
+  end
+
   # Szczegóły zgłoszenia z aplikacji Egzaminy (GET /api/v1/proposals/:multi_app_identifier): zgłoszenie, zgody RODO
   # zgłaszającego i historia zgłoszenia. Wynik: [true, Hash] albo [false, opis błędu] (panel w szczegółach wniosku).
   def self.find_details(multi_app_identifier)

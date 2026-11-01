@@ -58,9 +58,10 @@ class ProposalsController < ApplicationController
   end
 
   # GET /proposals/1/egzaminy_details – sekcja „Aplikacja Egzaminy” w danych wniosku (ładowana w tle): zgody RODO i historia
-  # zgłoszenia z API Egzaminów; bez połączenia – komunikat w panelu.
+  # zgłoszenia z API Egzaminów; bez połączenia – komunikat w panelu. Wyłączona (secrets: egzaminy_details) – 404.
   def egzaminy_details
     proposal_authorize(@proposal, "show", params[:category_service])
+    head :not_found and return unless EgzaminyProposal.details_enabled?
     @egzaminy_ok, @egzaminy = EgzaminyProposal.find_details(@proposal.multi_app_identifier)
     render partial: "egzaminy_details", layout: false
   end

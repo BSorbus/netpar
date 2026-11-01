@@ -10,13 +10,16 @@
 <%= render partial: "show_step3", locals: {partial_data: @proposal} %>
 <%= render partial: "show_step4", locals: {partial_data: @proposal} %>
 
-<%# Aplikacja Egzaminy: zgody RODO i historia zgłoszenia – z API Egzaminów, pobierane w tle po wyświetleniu strony. %>
+<%# Aplikacja Egzaminy: zgody RODO i historia zgłoszenia – z API Egzaminów, pobierane w tle po wyświetleniu strony.
+    Tylko przy egzaminy_details: true w secrets.yml (EgzaminyProposal.details_enabled?). %>
+<% if EgzaminyProposal.details_enabled? %>
 <fieldset class="my-fieldset">
   <legend class="my-fieldset"><%= t('pages.proposal_egzaminy.show.title') %></legend>
   <div class="egzaminy-details" data-source="<%= egzaminy_details_proposal_path(@proposal, category_service: params[:category_service]) %>">
     <p class="text-muted"><%= t('pages.proposal_egzaminy.loading') %></p>
   </div>
 </fieldset>
+<% end %>
 
 <%#= render partial: "show_additional_comment", locals: {partial_data: @proposal} if Proposal::PROPOSAL_STATUSES_WITH_COMMENT.include?(@proposal.proposal_status_id) %>
 

@@ -2,6 +2,17 @@ require 'rails_helper'
 
 # Odczyt szczegółów zgłoszenia z aplikacji Egzaminy (panel w szczegółach wniosku).
 RSpec.describe EgzaminyProposal, type: :model do
+  describe '.details_enabled?' do
+    before { allow(Rails.application.secrets).to receive(:[]).and_call_original }
+
+    it 'sekcja „Aplikacja Egzaminy” tylko przy egzaminy_details: true w secrets.yml (stara aplikacja Egzaminy nie ma API szczegółów)' do
+      { nil => false, false => false, true => true, 'true' => true }.each do |value, enabled|
+        allow(Rails.application.secrets).to receive(:[]).with(:egzaminy_details).and_return(value)
+        expect(EgzaminyProposal.details_enabled?).to eq enabled
+      end
+    end
+  end
+
   describe '.find_details' do
     before do
       allow(EgzaminyUser).to receive(:egzaminyuser_token).and_return('tok-1')
