@@ -1,5 +1,11 @@
-// Lista wzorów kart świadectw (jak stawki opłat): rodzaj, nazwa, okres, miniatura awersu; wzór obowiązujący dziś – wyróżniony.
+// Lista wzorów kart świadectw (jak stawki opłat): miniatury awersu i rewersu (kliknięcie – podgląd wzoru), rodzaj, nazwa,
+// okres; wzór obowiązujący dziś – wyróżniony.
 $(document).ready(function() {
+  function thumb(url, type, row) {
+    if (!url) { return ''; }
+    return '<a href="/certificate_card_templates/' + row.id + '" title="Pokaż"><img src="' + url + '" class="img-thumbnail" width="120"></a>';
+  }
+
   $('#certificate_card_templates').DataTable({
     responsive: true,
     processing: true,
@@ -16,6 +22,8 @@ $(document).ready(function() {
     lengthMenu: [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
     columns: [
       { data: 'id', "visible": false, "searchable": false, "sortable": false },
+      { data: 'card_front_thumb', "searchable": false, "sortable": false, render: thumb },
+      { data: 'card_back_thumb', "searchable": false, "sortable": false, render: thumb },
       { data: 'division.category_fullname' },
       { data: 'division.id_with_name_with_short' },
       { data: 'name' },
@@ -26,14 +34,11 @@ $(document).ready(function() {
           return row.current ? text + ' <span class="label label-success"><%= I18n.t("pages.certificate_card_template.current") %></span>' : text;
         }
       },
-      { data: 'card_front_thumb', "searchable": false, "sortable": false,
-        render: function(url) { return url ? '<img src="' + url + '" class="img-thumbnail" width="86">' : ''; }
-      },
       { data: 'id', "searchable": false, "sortable": false,
         render: function(id) { return '<a href="/certificate_card_templates/' + id + '" class="fa fa-eye" title="Pokaż"></a>'; }
       }
     ],
-    order: [[ 1, "asc" ], [ 2, "asc" ], [ 4, "asc" ]],
+    order: [[ 3, "asc" ], [ 4, "asc" ], [ 6, "asc" ]],
     language: { url: '<%= asset_path("pl.json.erb") %>' }
   });
 });
