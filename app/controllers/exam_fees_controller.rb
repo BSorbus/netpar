@@ -46,6 +46,7 @@ class ExamFeesController < ApplicationController
   # POST /exam_fees.json
   def create
     @exam_fee = ExamFee.new(exam_fee_params)
+    @exam_fee.user = current_user # także autor automatycznego zamknięcia poprzedniej stawki (historia operacji)
     authorize @exam_fee, :create?
 
     respond_to do |format|

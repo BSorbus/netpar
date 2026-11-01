@@ -63,6 +63,7 @@ class ExamFee < ActiveRecord::Base
       return unless valid_to.nil?
       existing = ExamFee.where(division_id: division_id, esod_category: esod_category, valid_to: nil)
                         .where.not(id: id)
+      existing = existing.where.not(id: previous_open.id) if previous_open # zostanie zamknięta
       errors.add(:valid_to, "nie może być NULL, ponieważ istnieje już taki wpis") if existing.exists?
     end
 
@@ -76,25 +77,35 @@ class ExamFee < ActiveRecord::Base
           (valid_from IS NULL OR valid_from <= ?) AND
           (valid_to   IS NULL OR valid_to   >= ?)
         ", valid_to || Date.new(9999,12,31), valid_from || Date.new(0,1,1))
+      overlapping = overlapping.where.not(id: previous_open.id) if previous_open # zostanie zamknięta
 
       errors.add(:base, "Zakres dat nakłada się na istniejący wpis") if overlapping.exists?
+    end
+
+    # Otwarta stawka (bez „Do”) tego samego rodzaju świadectwa i wniosku, zaczynająca się wcześniej niż nowa – nowa stawka
+    # zamyka ją dzień przed swoim „Od” (close_previous_range). Walidacje okresów traktują ją już jako zamkniętą – inaczej
+    # odrzucały nową stawkę („nakłada się”), zanim zamknięcie po zapisie miało szansę zadziałać.
+    def open_range_before(from)
+      ExamFee.where(division_id: division_id, esod_category: esod_category, valid_to: nil)
+             .where.not(id: id)
+             .where("valid_from IS NULL OR valid_from < ?", from)
+             .first
+    end
+
+    def previous_open
+      return unless new_record? && valid_from.present?
+      @previous_open ||= open_range_before(valid_from)
     end
 
     def close_previous_range
       return if valid_from.blank?
 
-      previous = ExamFee
-        .where(division_id: division_id, esod_category: esod_category)
-        .where("id < ?", id)                 # tylko starsze rekordy
-        .where(valid_to: nil)                # tylko otwarte zakresy
-        .order(id: :desc)                    # najnowszy z otwartych
-        .first
-
+      previous = open_range_before(valid_from)
       return unless previous                 # brak otwartego zakresu → nic nie robimy
 
-      new_valid_to = valid_from - 1.day
-
-      previous.update_column(:valid_to, new_valid_to)
+      previous.update_column(:valid_to, valid_from - 1.day)
+      previous.works.create!(trackable_url: Rails.application.routes.url_helpers.exam_fee_path(previous), action: :update, user: user,
+                             parameters: { valid_to: [nil, previous.valid_to], closed_by: { id: id, price: price.to_s } }.to_json)
     end
 
   def normalize_price
