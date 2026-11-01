@@ -1,9 +1,11 @@
 # Dane świadectwa do nadruku na karcie plastikowej (atrybuty CertificateCardTemplateField::ATTRIBUTES) – ze świadectwa
 # albo przykładowe (podgląd układu wzoru).
-# Zdjęcie: z wniosku z aplikacji Egzaminy (załącznik osoby egzaminowanej o nazwie pliku z face_image_blob_path wniosku),
-# a gdy go brak – załącznik świadectwa „face.png/jpg/jpeg” (dodany przez urzędnika).
+# Zdjęcie: 1) z wniosku z aplikacji Egzaminy (face_image_blob_path – NETPAR kopiuje plik do załączników osoby egzaminowanej),
+# 2) gdy wniosek go nie ma – ostatnio wgrany plik graficzny (PNG/JPEG) wśród załączników osoby egzaminowanej (dodanych
+# ręcznie w NETPAR).
 class CertificateCardData
-  FACE_FILE = /\Aface\.(png|jpe?g)\z/i
+  IMAGE_TYPES = %w(image/png image/jpeg image/jpg)
+  IMAGE_FILE = /\.(png|jpe?g)\z/i
 
   attr_reader :values
 
@@ -45,8 +47,16 @@ class CertificateCardData
   end
 
   def self.photo_for(certificate)
-    document = proposal_photo(certificate) || certificate.documents.detect { |d| d.fileattach_filename.to_s =~ FACE_FILE }
+    document = proposal_photo(certificate) || latest_examination_image(certificate)
     document.fileattach.read if document
+  end
+
+  # Ostatnio wgrany plik graficzny wśród załączników osoby egzaminowanej (dowolna nazwa).
+  def self.latest_examination_image(certificate)
+    examination = certificate.examination
+    return unless examination
+    examination.documents.select { |d| IMAGE_TYPES.include?(d.fileattach_content_type.to_s) || d.fileattach_filename.to_s =~ IMAGE_FILE }
+               .max_by { |d| [d.created_at, d.id] }
   end
 
   def self.proposal_photo(certificate)

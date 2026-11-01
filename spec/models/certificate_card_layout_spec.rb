@@ -55,21 +55,34 @@ RSpec.describe 'Karta plastikowa – układ, dane i wydruk', type: :model do
         .to eq ['Jan KOWALSKI', '06.07.1969 Więcbork', 'MS-777', '20.11.2026', '20.11.2031']
     end
 
-    it 'zdjęcie: najpierw z wniosku (załącznik egzaminowanego), a gdy go brak – załącznik „face.*” świadectwa' do
+    it 'zdjęcie: 1) z wniosku, 2) gdy wniosek go nie ma – ostatnio wgrany plik graficzny wśród załączników osoby egzaminowanej' do
       certificate = create_certificate(division: division, number: 'MS-778', date_of_issue: Date.new(2026, 11, 20))
-      face = Document.create!(documentable: certificate, fileattach: file('card_ok.png'), fileattach_filename: 'face.png')
-      expect(CertificateCardData.photo_for(certificate)).to eq face.fileattach.read
-
       ProposalStatus.new(name: 'Zaakceptowane').tap { |st| st.id = 2; st.save!(validate: false) }
       exam = FactoryBot.build(:exam, category: 'M', esod_category: 47, max_examinations: 10, date_exam: Date.today + 30).tap { |e| e.save!(validate: false) }
-      proposal = Proposal.new(exam: exam, division: division, category: 'M', multi_app_identifier: SecureRandom.uuid, proposal_status_id: 2,
-                              face_image_blob_path: '/rails/active_storage/blobs/redirect/abc/zdjecie_kandydata.jpg')
-      proposal.save!(validate: false)
-      examination = Examination.new(certificate: certificate, proposal: proposal, division: division)
-      examination.save!(validate: false)
+      new_proposal = lambda do |face_path|
+        Proposal.new(exam: exam, division: division, category: 'M', multi_app_identifier: SecureRandom.uuid, proposal_status_id: 2,
+                     face_image_blob_path: face_path).tap { |p| p.save!(validate: false) }
+      end
+
+      # wniosek ze zdjęciem: NETPAR skopiował je do załączników osoby egzaminowanej – to jest zdjęcie na kartę
+      examination = Examination.new(certificate: certificate, proposal: new_proposal.call('/rails/active_storage/blobs/redirect/abc/zdjecie_kandydata.jpg'),
+                                    division: division).tap { |e| e.save!(validate: false) }
       from_proposal = Document.create!(documentable: examination, fileattach: file('card_ok_600dpi.jpg', 'image/jpeg'),
-                                       fileattach_filename: 'zdjecie_kandydata.jpg')
+                                       fileattach_filename: 'zdjecie_kandydata.jpg', created_at: 3.days.ago)
+      Document.create!(documentable: examination, fileattach: file('card_square.png'), fileattach_filename: 'reczny.png')
       expect(CertificateCardData.photo_for(certificate.reload)).to eq from_proposal.fileattach.read
+
+      # wniosek bez zdjęcia: ostatni graficzny załącznik osoby egzaminowanej, dodany ręcznie (PDF/TXT pomijane)
+      examination.update_column(:proposal_id, new_proposal.call(nil).id)
+      Document.create!(documentable: examination, fileattach: file('card_text.txt', 'text/plain'), fileattach_filename: 'notatka.txt')
+      latest = examination.documents.select { |d| d.fileattach_filename =~ /\.(png|jpe?g)\z/ }.max_by(&:created_at)
+      expect(latest.fileattach_filename).to eq 'reczny.png'
+      expect(CertificateCardData.photo_for(certificate.reload)).to eq latest.fileattach.read
+
+      # bez osoby egzaminowanej – brak zdjęcia (załączniki świadectwa nie są brane)
+      other = create_certificate(division: division, number: 'MS-779', date_of_issue: Date.new(2026, 11, 20))
+      Document.create!(documentable: other, fileattach: file('card_ok.png'), fileattach_filename: 'face.png')
+      expect(CertificateCardData.photo_for(other)).to be_nil
     end
   end
 
