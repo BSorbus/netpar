@@ -49,6 +49,13 @@
           </li>
         <% end %>
 
+        <% if policy(:certificate_card_template).index? %>
+          <li><%= link_to certificate_card_templates_path do %>
+            <span class="<%= t('pages.certificate_card_template.model_icon') %>"></span>&nbsp;<%=t "link_to.certificate_card_templates" %>
+            <% end %>
+          </li>
+        <% end %>
+
       </ul>
     </li>
   <% end %>

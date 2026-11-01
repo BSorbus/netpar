@@ -73,6 +73,48 @@
   </div>  <!-- /col-sm-12 -->
 </div>  <!-- /row -->
 
+<%# Wzory kart plastikowych – świadectwo drukuje się wg wzoru obowiązującego w dniu wydania, bez wzoru – na blankiecie. %>
+<div class="row">
+  <div class="form-group col-sm-12">
+    <fieldset class="my-fieldset-short">
+      <legend class="my-fieldset"><%= t('pages.certificate_card_template.division.legend') %></legend>
+      <% templates = @division.certificate_card_templates.order(:valid_from) %>
+      <% if templates.empty? %>
+        <p><%= t('pages.certificate_card_template.division.none') %></p>
+      <% else %>
+        <table class="table table-condensed table-striped">
+          <thead>
+            <tr>
+              <th><%= CertificateCardTemplate.human_attribute_name(:card_front) %></th>
+              <th><%= CertificateCardTemplate.human_attribute_name(:name) %></th>
+              <th><%= CertificateCardTemplate.human_attribute_name(:valid_from) %></th>
+              <th><%= CertificateCardTemplate.human_attribute_name(:valid_to) %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% templates.each do |template| %>
+              <tr>
+                <td><%= attachment_image_tag(template, :card_front, :fit, 86, 54, class: 'img-thumbnail') %></td>
+                <td>
+                  <%= policy(template).show? ? link_to(template.name, certificate_card_template_path(template)) : template.name %>
+                  <% if template.current? %><span class="label label-success"><%= t('pages.certificate_card_template.current') %></span><% end %>
+                </td>
+                <td><%= template.valid_from %></td>
+                <td><%= template.valid_to || '…' %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+      <% if policy(:certificate_card_template).new? %>
+        <%= link_to new_certificate_card_template_path(division_id: @division.id), class: "btn btn-primary btn-sm" do %>
+          <span class="fa fa-plus"></span> <%= t('pages.certificate_card_template.division.add') %>
+        <% end %>
+      <% end %>
+    </fieldset>
+  </div>
+</div>
+
 
 <div class="row">
   <div class="form-group col-sm-12">

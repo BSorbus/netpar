@@ -1,0 +1,39 @@
+<div class="col-sm-12">
+  <div class="row">
+    <h3 class="center">
+      <span class='<%= t("pages.certificate_card_template.model_icon") %> glyp-index-title' aria-hidden="true"></span>
+      <span class="index-title"><%= t "pages.certificate_card_template.index.title" %></span>
+    </h3>
+    <p class="center text-muted"><%= t "pages.certificate_card_template.index.hint" %></p>
+  </div> <!--/row -->
+</div> <!--/col-sm-12 -->
+
+<div class="col-sm-12">
+  <table id="certificate_card_templates" class="hover cell-border" width="100%"
+    data-source="<%= datatables_index_certificate_card_templates_path(format: :json) %>">
+    <thead>
+      <tr>
+        <th> 0 ID </th>
+        <th><%= Division.human_attribute_name(:category) %></th>
+        <th><%= CertificateCardTemplate.human_attribute_name(:division) %></th>
+        <th><%= CertificateCardTemplate.human_attribute_name(:name) %></th>
+        <th><%= CertificateCardTemplate.human_attribute_name(:valid_from) %></th>
+        <th><%= CertificateCardTemplate.human_attribute_name(:valid_to) %></th>
+        <th><%= CertificateCardTemplate.human_attribute_name(:card_front) %></th>
+        <th>Akcje</th>
+      </tr>
+    </thead>
+    <tbody>
+       <!--data from JSON -->
+    </tbody>
+  </table>
+</div> <!--/col-sm-12 -->
+
+<div class="col-sm-12">
+  <% if policy(:certificate_card_template).new? %>
+    <%= link_to new_certificate_card_template_path, class: "btn btn-primary" do %>
+      <span class="fa fa-plus"></span>
+      <%= t("helpers.links.new") %>
+    <% end %>
+  <% end %>
+</div> <!--/col-sm-12 -->

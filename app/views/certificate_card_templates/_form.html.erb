@@ -1,0 +1,154 @@
+<%# Wzór karty świadectwa: rodzaj świadectwa, nazwa, okres obowiązywania (wg daty wydania świadectwa), awers i rewers. %>
+<% category = @certificate_card_template.division.try(:category).to_s %>
+<%= form_for @certificate_card_template, html: { role: 'form certificate_card_template', multipart: true } do |f| %>
+
+  <%= form_errors_for @certificate_card_template %>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <p class="help-block"><%= t('pages.certificate_card_template.form.hint') %></p>
+
+      <div class="row">
+        <div class="form-group col-sm-6">
+          <%= label_tag :category, Division.human_attribute_name(:category), class: 'control-label' %>
+          <%= select_tag :category,
+                options_for_select([['L - Świadectwo służby lotniczej', 'L'],
+                                    ['M - ' + Proposal::CATEGORY_NAME_M, 'M'],
+                                    ['R - ' + Proposal::CATEGORY_NAME_R, 'R']], category),
+                include_blank: true, class: 'form-control input-sm',
+                onchange: "card_template_category_changed(this.options[this.selectedIndex].value);" %>
+        </div>
+      </div>  <!-- /row -->
+
+      <div class="row">
+        <div class="form-group col-sm-6">
+          <%= f.label :division_id, class: "control-label" %>
+          <%= f.hidden_field :division_id, class: "form-control input-sm division_select", placeholder: "Wybierz Rodzaj",
+                             style: "width:100%", id: "certificate_card_template_division_id",
+                             readonly: category.blank?, "data-category": category %>
+        </div>
+      </div> <!--/row -->
+
+      <div class="row">
+        <div class="form-group col-sm-6">
+          <%= f.label :name, class: 'control-label' %>
+          <%= f.text_field :name, class: 'form-control input-sm', placeholder: t('pages.certificate_card_template.form.name_placeholder') %>
+        </div>
+        <div class="form-group col-sm-3">
+          <%= f.label :valid_from, class: 'control-label' %>
+          <%= f.text_field :valid_from, class: 'datepicker form-control input-sm' %>
+        </div>
+        <div class="form-group col-sm-3">
+          <%= f.label :valid_to, class: 'control-label' %>
+          <%= f.text_field :valid_to, class: 'datepicker form-control input-sm' %>
+        </div>
+      </div>  <!-- /row -->
+
+      <div class="row">
+        <% [:card_front, :card_back].each do |side| %>
+          <div class="form-group col-sm-6">
+            <%= f.label side, class: 'control-label' %>
+            <% if @certificate_card_template.public_send("#{side}_id").present? && @certificate_card_template.persisted? %>
+              <p>
+                <%= link_to attachment_url(@certificate_card_template, side), target: '_blank' do %>
+                  <%= attachment_image_tag(@certificate_card_template, side, :fit, 428, 270, class: 'img-thumbnail') %>
+                <% end %>
+              </p>
+              <p class="help-block"><%= @certificate_card_template.public_send("#{side}_filename") %> – <%= t('pages.certificate_card_template.form.replace') %></p>
+            <% end %>
+            <%= f.attachment_field side, accept: CertificateCardTemplate::IMAGE_TYPES.join(','), class: 'form-control input-sm' %>
+          </div>
+        <% end %>
+      </div>  <!-- /row -->
+      <p class="help-block"><%= t('pages.certificate_card_template.form.image_hint') %></p>
+
+    </div>  <!-- /col-sm-12 -->
+  </div>  <!-- /row -->
+
+  <hr class="hr-without-top-margin">
+
+  <div class="row">
+    <%= link_to certificate_card_templates_path, class: "btn btn-default" do %>
+      <span class="fa fa-list"></span>
+      <%= t("helpers.links.index") %>
+    <% end %>
+
+    <%= link_to :back, class: "btn btn-default" do %>
+      <span class="fa fa-undo"></span>
+      <%= t("helpers.links.back") %>
+    <% end %>
+
+    <%= f.submit nil, class: 'btn btn-success' %>
+  </div> <!-- /row -->
+<% end %>
+
+<script type="text/javascript">
+  // Służba → lista rodzajów świadectw tej służby (jak w stawkach opłat).
+  function card_template_category_changed(category_code) {
+    var division = $('#certificate_card_template_division_id');
+    if (category_code !== "") {
+      if (category_code !== division.data('category')) {
+        division.data('category', category_code);
+        division.select2("val", "");
+        division.select2("readonly", false);
+      };
+    } else {
+      division.data('category', "");
+      division.select2("val", "");
+      division.select2("readonly", true);
+    };
+  };
+
+  $(document).ready(function() {
+    function divisionFormatResult(division, container, query, escapeMarkup) {
+      if (division.id) {
+        return '<div>' + markMatch(division.data_obj.name, query.term) +
+               '<span class="pull-right">&nbsp[' + markMatch(division.data_obj.short_name, query.term) + ']</span></div>';
+      } else {
+        return "";
+      }
+    };
+
+    function divisionFormatSelection(division) {
+      if (division.id) {
+        return division.data_obj.category_fullname + ' ' + division.data_obj.id_with_name_with_short + ' [' + division.data_obj.short_name + ']';
+      } else {
+        return "";
+      }
+    };
+
+    $('#certificate_card_template_division_id').select2({
+      minimumInputLength: 0,
+      allowClear: false,
+      ajax: {
+        url: '/divisions/select2_index.json',
+        dataType: 'json',
+        quietMillis: 250,
+        type: 'GET',
+        data: function(term, page) {
+          return { category: $('#certificate_card_template_division_id').data('category'), q: term, page_limit: 10, page: page };
+        },
+        results: function(data, page) {
+          var more = (page * 10) < data.meta.total_count;
+          var divisions = $.map(data.divisions, function(division, i) { return { data_obj: division, id: division.id }; });
+          return { results: divisions, more: more };
+        }
+      },
+      formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+        if (jqXHR.status == 401) { window.location.reload(); } else { getErrorMessage(jqXHR, jqXHR.status); }
+        return errorThrown + " " + jqXHR.responseText;
+      },
+      initSelection: function(element, callback) {
+        var id = $(element).val();
+        if (id !== "") {
+          $.get("/divisions/" + id + ".json", function(data_from_json) {
+            if (data_from_json) { callback({ data_obj: data_from_json, id: data_from_json.id, text: data_from_json.fullname }); }
+          });
+        }
+      },
+      formatResult: divisionFormatResult,
+      formatSelection: divisionFormatSelection,
+      dropdownCssClass: "bigdrop"
+    });
+  });
+</script>

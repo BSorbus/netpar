@@ -46,6 +46,28 @@ pl:
         title: 'Typ Świadectwa - edycja danych'
       new:
         title: 'Nowy Typ Świadectwa'
+    certificate_card_template: # nowe – wzory kart plastikowych świadectw (HID FARGO HDP6600)
+      model_icon: 'fa fa-credit-card'
+      index:
+        title: 'Wzory kart świadectw'
+        hint: 'Świadectwo drukuje się na karcie wg wzoru obowiązującego w dniu jego wydania; bez wzoru na ten dzień – na blankiecie papierowym.'
+      show:
+        title: 'Wzór karty świadectwa'
+      edit:
+        title: 'Wzór karty świadectwa - edycja danych'
+      new:
+        title: 'Nowy wzór karty świadectwa'
+      form:
+        hint: 'Wzór obowiązuje dla świadectw wydanych w podanym okresie („Do” puste – bez końca). Dodanie nowego wzoru zamyka poprzedni otwarty: dostaje on datę „Do” na dzień przed „Od” nowego i dalej służy świadectwom wydanym w swoim okresie.'
+        name_placeholder: 'np. Karta 2026'
+        image_hint: 'Karta ID-1 (CR80) 85,6 × 54 mm, poziomo. Grafika PNG lub JPEG, co najmniej 1011 × 638 px (300 dpi), zalecane 2022 × 1276 px (600 dpi). Dane świadectwa nadrukowuje NETPAR.'
+        replace: 'wybierz nowy plik, aby podmienić grafikę'
+      current: 'obowiązuje'
+      certificates_count: 'Świadectwa wydane w okresie wzoru (drukowane wg niego)'
+      division:
+        legend: 'Wzory kart plastikowych (HID FARGO HDP6600)'
+        none: 'Brak wzorów – świadectwa drukowane na blankiecie papierowym.'
+        add: 'Dodaj wzór karty'
     exam_fee:
       model_icon: 'fa fa-money'
       index:
@@ -367,6 +389,7 @@ pl:
     departments: 'Oddziały'
     divisions: 'Typy Świadectw'
     exam_fees: 'Stawki opłat'
+    certificate_card_templates: 'Wzory kart świadectw' # nowe
     customers: 'Klienci'
     certificates: 'Świadectwa'
     certificates_l: 'Świadectwa LOT'
@@ -504,6 +527,7 @@ pl:
       department: 'Oddział'
       division: 'Typ Świadectwa'
       exam_fee: 'Stawka Opłaty'
+      certificate_card_template: 'Wzór karty świadectwa' # nowe
       certificate: 'Świadectwo'
       exam: 'Sesja'
       exam/divisions: 'Dopuszczone typy świadectw w programie "Egzaminy"'
@@ -603,6 +627,14 @@ pl:
         category_m: 'Służba Morska i Żeglugi Śródlądowej'
         category_r: 'Służba Radioamatorska'
         name_id: 'Nazwa [id]'
+      certificate_card_template: # nowe
+        division_id: 'Typ świadectwa'
+        division: 'Typ świadectwa'
+        name: 'Nazwa wzoru'
+        valid_from: 'Od (data wydania świadectwa)'
+        valid_to: '...Do'
+        card_front: 'Awers karty'
+        card_back: 'Rewers karty'
       exam_fee:
         esod_category: 'Rodzaj wniosku'
         division_id: 'Typ świadectwa'
@@ -857,6 +889,15 @@ pl:
         initialized_from_esod: 'Założona w ESOD?'
         netpar_user: 'NETPAR: User'
     errors:
+      certificate_card_template: # nowe
+        card_too_small: '– za mała rozdzielczość: %{size} px (minimum 1011 × 638 px – karta 85,6 × 54 mm w 300 dpi)'
+        card_wrong_ratio: '– niewłaściwe proporcje: %{size} px (karta 85,6 × 54 mm poziomo, np. 2022 × 1276 px)'
+        card_unreadable: 'Nie udało się odczytać grafiki karty: %{message}'
+        valid_to_before_valid_from: 'nie może być wcześniejsza niż data „Od”'
+        overlapping: 'Okres nakłada się na wzór „%{name}” (%{period}).'
+        certificates_issued: '– w tym okresie wydano już %{count} świadectw tego rodzaju (ostatnie %{last}); nowy wzór może obowiązywać najwcześniej od %{next}, żeby wydane świadectwa nie zmieniły wzoru.'
+        certificates_change: 'Zmiana rodzaju lub okresu zmieniłaby wzór wydanych już świadectw – niedozwolone (grafikę można podmienić).'
+        certificates_destroy: 'Nie można usunąć wzoru – wg niego drukuje się %{count} wydanych świadectw (duplikaty, ponowne wydruki).'
       models:
         exam:
           attributes:

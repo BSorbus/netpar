@@ -133,6 +133,9 @@ Rails.application.routes.draw do
   resources :exam_fees do
     post 'datatables_index', on: :collection
   end
+  resources :certificate_card_templates do
+    post 'datatables_index', on: :collection
+  end
 
   resources :roles do
     resources :users, only: [:create, :destroy], controller: 'roles/users'

@@ -28,6 +28,7 @@ class Division < ActiveRecord::Base
   has_many :exam_fees  
   has_many :certificates  
   has_many :subjects, dependent: :destroy  
+  has_many :certificate_card_templates # wzory kart plastikowych świadectw (wersjonowane w czasie)
 
   has_many :exams_divisions, dependent: :destroy
   has_many :exams, through: :exams_divisions

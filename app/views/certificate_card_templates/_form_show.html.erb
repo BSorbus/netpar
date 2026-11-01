@@ -1,0 +1,77 @@
+<%# Wzór karty świadectwa – podgląd: rodzaj, okres obowiązywania, grafika awersu i rewersu, świadectwa drukowane wg wzoru. %>
+<% tpl = @certificate_card_template %>
+<%= form_errors_for tpl %>
+
+<div class="row">
+  <div class="form-group col-sm-6">
+    <p><strong><%= Division.human_attribute_name(:category) %></strong></p>
+    <h5><%= tpl.division.category_fullname %></h5>
+  </div>
+  <div class="form-group col-sm-6">
+    <p><strong><%= CertificateCardTemplate.human_attribute_name(:division) %></strong></p>
+    <h5><%= link_to tpl.division.id_with_name_with_short, division_path(tpl.division) %></h5>
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col-sm-6">
+    <p><strong><%= CertificateCardTemplate.human_attribute_name(:name) %></strong></p>
+    <h5><%= tpl.name %></h5>
+  </div>
+  <div class="form-group col-sm-3">
+    <p><strong><%= CertificateCardTemplate.human_attribute_name(:valid_from) %></strong></p>
+    <h5><%= tpl.valid_from %></h5>
+  </div>
+  <div class="form-group col-sm-3">
+    <p><strong><%= CertificateCardTemplate.human_attribute_name(:valid_to) %></strong></p>
+    <h5><%= tpl.valid_to || '…' %><%= " (#{t('pages.certificate_card_template.current')})" if tpl.current? %></h5>
+  </div>
+</div>
+
+<div class="row">
+  <% [:card_front, :card_back].each do |side| %>
+    <div class="form-group col-sm-6">
+      <p><strong><%= CertificateCardTemplate.human_attribute_name(side) %></strong></p>
+      <%= link_to attachment_url(tpl, side), target: '_blank' do %>
+        <%= attachment_image_tag(tpl, side, :fit, 428, 270, class: 'img-thumbnail') %>
+      <% end %>
+      <p class="help-block"><%= tpl.public_send("#{side}_filename") %></p>
+    </div>
+  <% end %>
+</div>
+
+<div class="row">
+  <div class="form-group col-sm-12">
+    <p><strong><%= t('pages.certificate_card_template.certificates_count') %></strong></p>
+    <h5><%= tpl.certificates.count %></h5>
+  </div>
+</div>
+
+<hr class="hr-without-top-margin">
+
+<div class="row">
+  <%= link_to certificate_card_templates_path, class: "btn btn-default" do %>
+    <span class="fa fa-list"></span>
+    <%= t("helpers.links.index") %>
+  <% end %>
+
+  <%= link_to :back, class: "btn btn-default" do %>
+    <span class="fa fa-undo"></span>
+    <%= t("helpers.links.back") %>
+  <% end %>
+
+  <% if policy(tpl).destroy? %>
+    <%= link_to certificate_card_template_path(tpl), method: :delete,
+                data: { confirm: t('helpers.links.confirm_destroy', data: tpl.fullname) }, class: "btn btn-danger" do %>
+      <span class="fa fa-trash-o"></span>
+      <%= t("helpers.links.destroy") %>
+    <% end %>
+  <% end %>
+
+  <% if policy(tpl).edit? %>
+    <%= link_to edit_certificate_card_template_path(tpl), class: "btn btn-primary" do %>
+      <span class="fa fa-edit"></span>
+      <%= t("helpers.links.edit") %>
+    <% end %>
+  <% end %>
+</div>

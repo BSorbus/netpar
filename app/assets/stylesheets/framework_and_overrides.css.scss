@@ -154,6 +154,17 @@ img {
   } 
 }
 
+.panel-certificate_card_template {
+  border-color: #ddd;
+  a:link {
+    text-decoration:none; 
+  };
+  .panel-heading {
+    background: #1B3C8F; // granat UKE – wzory kart świadectw
+    color: white;
+  } 
+}
+
 .panel-exam_fee {
   border-color: #ddd;
   a:link {
