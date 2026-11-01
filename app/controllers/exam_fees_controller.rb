@@ -1,6 +1,6 @@
 class ExamFeesController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, except: [:datatables_index]
+  after_action :verify_authorized
 
   before_action :set_exam_fee, only: [:show, :edit, :update, :destroy]
 
@@ -11,6 +11,7 @@ class ExamFeesController < ApplicationController
   end
 
   def datatables_index
+    authorize :exam_fee, :index? # dane listy – jak lista (wcześniej bez sprawdzenia: każdy zalogowany)
     exam_fees = ExamFee.includes(:division).all 
 
     respond_to do |format|

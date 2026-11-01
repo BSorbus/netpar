@@ -90,6 +90,21 @@ class CreateRoleService
     end
   end
 
+  # certificate_card_template – wzory kart plastikowych świadectw
+  def certificate_card_template_manager
+    role = Role.find_or_create_by!(name: "Menadżer Wzorów Kart Świadectw") do |role|
+      role.activities += %w(certificate_card_template:index certificate_card_template:show certificate_card_template:create
+                            certificate_card_template:update certificate_card_template:delete certificate_card_template:work)
+      role.save!
+    end
+  end
+  def certificate_card_template_observer
+    role = Role.find_or_create_by!(name: "Obserwator Wzorów Kart Świadectw") do |role|
+      role.activities += %w(certificate_card_template:index certificate_card_template:show)
+      role.save!
+    end
+  end
+
   # exam_l
   def exam_l_manager
     role = Role.find_or_create_by!(name: "Menadżer Sesji Egzaminacyjnych Świadectw Lotniczych") do |role|

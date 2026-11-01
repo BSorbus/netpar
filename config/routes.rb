@@ -46,6 +46,7 @@ Rails.application.routes.draw do
       get 'select2_index', on: :collection
       get 'search', on: :collection
       get 'certificate_to_pdf', on: :member
+      get 'card_to_pdf', on: :member
       post 'esod_matter_link', on: :member
       get 'statistic_filter', on: :collection
       get 'statistic_to_pdf', on: :collection
@@ -57,6 +58,7 @@ Rails.application.routes.draw do
       get 'examination_attestations_to_pdf', on: :member
       get 'examination_protocol_to_pdf', on: :member
       get 'certificates_to_pdf', on: :member
+      get 'cards_to_pdf', on: :member
       get 'envelopes_to_pdf', on: :member
       get 'committee_docx', on: :member
       patch 'certificates_generation', on: :member

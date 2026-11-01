@@ -41,6 +41,24 @@ class CertificateCardTemplate < ActiveRecord::Base
     where(division_id: certificate.division_id).for_date(certificate.date_of_issue).first
   end
 
+  # Wydruk kart: [[[CertificateCardData, wzór], …], pominięte świadectwa – bez wzoru karty na dzień wydania].
+  # Ten sam wzór – jeden obiekt (grafika i układ wczytywane raz na dokument).
+  def self.card_items(certificates)
+    templates = {}
+    items = []
+    skipped = []
+    certificates.each do |certificate|
+      found = for_certificate(certificate)
+      if found
+        template = templates[found.id] ||= found
+        items << [CertificateCardData.from_certificate(certificate), template]
+      else
+        skipped << certificate
+      end
+    end
+    [items, skipped]
+  end
+
   # Świadectwa rodzaju wydane w podanym okresie (to – nil: bez końca).
   def self.certificates_in(division_id, from, to)
     scope = Certificate.where(division_id: division_id).where("date_of_issue >= ?", from)

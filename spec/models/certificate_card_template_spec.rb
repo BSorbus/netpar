@@ -82,6 +82,18 @@ RSpec.describe CertificateCardTemplate, type: :model do
     expect(unused.destroy).to be_truthy
   end
 
+  it 'wydruk kart: tylko świadectwa ze wzorem na dzień wydania, pozostałe – pominięte; ten sam wzór – jeden obiekt' do
+    old_cert = certificate(Date.new(2026, 11, 30))
+    a = template(name: 'A', valid_from: Date.new(2026, 12, 1)).tap(&:save!)
+    first = certificate(Date.new(2027, 2, 1))
+    second = certificate(Date.new(2027, 3, 1))
+
+    items, skipped = CertificateCardTemplate.card_items([old_cert, first, second])
+    expect(items.map { |data, tpl| [data.text('number'), tpl] }).to eq [[first.number, a], [second.number, a]]
+    expect(items.map(&:last).map(&:object_id).uniq.size).to eq 1
+    expect(skipped).to eq [old_cert]
+  end
+
   it 'wymaga awersu, rewersu i nazwy; grafika: proporcje karty od 300 dpi, PNG/JPEG' do
     empty = CertificateCardTemplate.new(division: division, valid_from: Date.new(2026, 12, 1))
     expect(empty).not_to be_valid

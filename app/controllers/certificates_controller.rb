@@ -2,7 +2,7 @@ class CertificatesController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:show_charts, :index, :datatables_index, :datatables_index_exam, :select2_index, :search]
 
-  before_action :set_certificate, only: [:show, :edit, :update, :destroy, :certificate_to_pdf, :esod_matter_link]
+  before_action :set_certificate, only: [:show, :edit, :update, :destroy, :certificate_to_pdf, :card_to_pdf, :esod_matter_link]
   before_action :set_esod_user_id, only: [:show]
 
 
@@ -66,6 +66,22 @@ class CertificatesController < ApplicationController
         } 
       }
     end
+  end
+
+  # Karta plastikowa świadectwa (dodatkowy wydruk obok świadectwa) – wg wzoru karty obowiązującego w dniu wydania.
+  def card_to_pdf
+    certificate_authorize(:certificate, "print", params[:category_service])
+
+    items, _skipped = CertificateCardTemplate.card_items([@certificate])
+    if items.empty?
+      redirect_to :back, alert: t('pages.certificate_card_template.print.no_template', date: @certificate.date_of_issue) and return
+    end
+    documentname = "Card_#{params[:category_service]}_#{@certificate.number.tr('/ ', '_-')}.pdf"
+    pdf = PdfCertificateCard.new(items, "#{current_user.name} (#{current_user.email})", documentname)
+    send_data pdf.render, filename: documentname, type: "application/pdf", disposition: "inline"
+    @certificate.works.create!(trackable_url: "#{certificate_path(@certificate, category_service: params[:category_service])}", action: :to_pdf,
+                               user: current_user, parameters: { pdf_type: 'certificate_card', filename: documentname,
+                                                                 template: items.first.last.name }.to_json)
   end
 
   def certificate_to_pdf

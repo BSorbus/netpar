@@ -110,6 +110,27 @@
               target: "_blank" %>
         <h5>Świadectwa</h5>
       </div><!-- /.col-sm-2 -->
+
+      <%# Karty plastikowe – dodatkowy wydruk: tylko świadectwa, których rodzaj ma wzór karty na dzień wydania. %>
+      <% card_items, card_skipped = CertificateCardTemplate.card_items(@exam.certificates.order(:id).to_a) %>
+      <% if card_items.any? || card_skipped.any? %>
+        <div class="col-sm-2 checked-scope-order-prn">
+          <div class="folded"><h3>Wszystkie</h3></div>
+          <div class="folded-purple"><h3>Nazwisko, Imię</h3></div>
+          <% if card_items.any? %>
+            <%= link_to image_tag("certificate_card.png", class: "img-thumbnail" ),
+                  cards_to_pdf_exam_path(@exam, category_service: @exam.category.downcase, format: "pdf"),
+                  target: "_blank" %>
+          <% else %>
+            <%= image_tag("certificate_card.png", class: "img-thumbnail", style: "opacity: .35;") %>
+          <% end %>
+          <h5><%= t('pages.certificate_card_template.print.tile') %></h5>
+          <p class="small"><%= t('pages.certificate_card_template.print.summary', cards: card_items.size, total: card_items.size + card_skipped.size) %></p>
+          <% if card_skipped.any? %>
+            <p class="small text-danger"><%= t('pages.certificate_card_template.print.skipped', numbers: card_skipped.map(&:number).join(', ')) %></p>
+          <% end %>
+        </div><!-- /.col-sm-2 -->
+      <% end %>
     <% end %>
 
 

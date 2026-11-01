@@ -1,7 +1,7 @@
 # Wzory kart plastikowych świadectw (HID FARGO HDP6600) – jak stawki opłat: lista, podgląd, dodanie, edycja, usunięcie.
 class CertificateCardTemplatesController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, except: [:datatables_index]
+  after_action :verify_authorized
 
   before_action :set_certificate_card_template, only: [:show, :edit, :update, :destroy, :layout, :update_layout, :preview]
 
@@ -10,6 +10,7 @@ class CertificateCardTemplatesController < ApplicationController
   end
 
   def datatables_index
+    authorize :certificate_card_template, :index?
     templates = CertificateCardTemplate.includes(:division).all
 
     respond_to do |format|

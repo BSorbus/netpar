@@ -5,7 +5,7 @@ class ExamsController < ApplicationController
   after_action :verify_authorized, except: [:index, :datatables_index, :select2_index, :certificates_generation]
 
   before_action :set_exam, only: [:show, :edit, :update, :destroy, :force_destroy, :download_testportal_pdfs, 
-    :examination_cards_to_pdf, :examination_attestations_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf, 
+    :examination_cards_to_pdf, :examination_attestations_to_pdf, :examination_protocol_to_pdf, :certificates_to_pdf, :cards_to_pdf, :envelopes_to_pdf, :exam_report_to_pdf, 
     :committee_docx, :esod_matter_link, :activate_testportal_tests]
   before_action :set_esod_user_id, only: [:show]
 
@@ -195,6 +195,27 @@ class ExamsController < ApplicationController
       @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :to_pdf, user: current_user, 
                         parameters: {pdf_type: 'certificates', filename: "#{documentname}"}.to_json)
     end 
+  end
+
+  # Karty plastikowe świadectw sesji (dodatkowy wydruk obok świadectw i kopert) – tylko świadectwa, których rodzaj ma wzór
+  # karty na dzień wydania; pominięte wymienia panel „Wydruki”. Filtr rodzaju i kolejność jak przy świadectwach.
+  def cards_to_pdf
+    exam_authorize(:certificate, "print", params[:category_service])
+
+    scope = Certificate.joins(:customer).references(:customer).where(exam_id: params[:id])
+    scope = scope.where(division_id: params[:prnscope]) if params[:prnscope].present? && params[:prnscope] != "0"
+    order = ['id', 'customers.name, customers.given_names'].include?(params[:prnorder]) ? params[:prnorder].gsub("id", "certificates.id") : "certificates.id"
+    items, skipped = CertificateCardTemplate.card_items(scope.order(order).to_a)
+
+    if items.empty?
+      redirect_to :back, alert: t('pages.certificate_card_template.print.none') and return
+    end
+    documentname = "Cards_#{params[:category_service]}_#{@exam.number.tr('/ ', '_-')}.pdf"
+    pdf = PdfCertificateCard.new(items, "#{current_user.name} (#{current_user.email})", documentname)
+    send_data pdf.render, filename: documentname, type: "application/pdf", disposition: "inline"
+    @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :to_pdf, user: current_user,
+                        parameters: { pdf_type: 'certificate_cards', filename: documentname, cards: items.size,
+                                      skipped: skipped.map(&:number) }.to_json)
   end
 
   def envelopes_to_pdf

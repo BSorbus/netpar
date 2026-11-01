@@ -85,6 +85,13 @@ pl:
         align_center: 'środek'
         align_right: 'do prawej'
         fields_count: 'Pola nadruku'
+      print: # nowe – wydruk kart w panelu „Wydruki” (dodatkowy, obok świadectw i kopert)
+        tile: 'Karty plastikowe'
+        tile_one: 'Karta plastikowa'
+        summary: 'Karty: %{cards} z %{total} świadectw'
+        skipped: 'Bez wzoru karty na dzień wydania (pominięte): %{numbers}'
+        none: 'Żadne świadectwo nie ma wzoru karty na dzień wydania – brak kart do wydruku.'
+        no_template: 'Brak wzoru karty na dzień wydania (%{date})'
       attributes: # nowe – atrybuty do nadruku na karcie
         full_name: 'Imię i NAZWISKO'
         birth_date: 'Data urodzenia'

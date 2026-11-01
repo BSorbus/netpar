@@ -25,6 +25,23 @@
 
         <h5>Świadectwo</h5>
       </div><!-- /.col-sm-2 -->
+
+      <%# Karta plastikowa – dodatkowy wydruk wg wzoru karty obowiązującego w dniu wydania świadectwa. %>
+      <% card_template = CertificateCardTemplate.for_certificate(@certificate) %>
+      <div class="col-sm-2">
+        <div class="folded"><h3><%= @certificate.number %></h3></div>
+        <% if card_template %>
+          <%= link_to image_tag("certificate_card.png", class: "img-thumbnail" ),
+                card_to_pdf_certificate_path(@certificate, category_service: @certificate.category.downcase, format: "pdf"),
+                target: "_blank" %>
+          <h5><%= t('pages.certificate_card_template.print.tile_one') %></h5>
+          <p class="small"><%= card_template.name %></p>
+        <% else %>
+          <%= image_tag("certificate_card.png", class: "img-thumbnail", style: "opacity: .35;") %>
+          <h5><%= t('pages.certificate_card_template.print.tile_one') %></h5>
+          <p class="small text-muted"><%= t('pages.certificate_card_template.print.no_template', date: @certificate.date_of_issue) %></p>
+        <% end %>
+      </div><!-- /.col-sm-2 -->
     <% end %>
 
   </div class="row">  <!--/dla Klienta -->

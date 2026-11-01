@@ -96,3 +96,8 @@ puts 'CREATED ROLE: ' << role.name
 role = CreateRoleService.new.exam_r_observer
 puts 'CREATED ROLE: ' << role.name
 
+# Wzory kart plastikowych świadectw
+role = CreateRoleService.new.certificate_card_template_manager
+puts 'CREATED ROLE: ' << role.name
+role = CreateRoleService.new.certificate_card_template_observer
+puts 'CREATED ROLE: ' << role.name
