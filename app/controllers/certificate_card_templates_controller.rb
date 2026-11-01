@@ -38,8 +38,10 @@ class CertificateCardTemplatesController < ApplicationController
 
     if @certificate_card_template.save
       @certificate_card_template.works.create!(trackable_url: certificate_card_template_path(@certificate_card_template), action: :create,
-                                               user: current_user, parameters: @certificate_card_template.attributes.to_json)
+                                               user: current_user, parameters: @certificate_card_template.attributes
+                                                 .merge('affected_certificates' => @certificate_card_template.affected_certificates_count).to_json)
       flash_message :success, t('activerecord.messages.successfull.created', data: @certificate_card_template.fullname)
+      warn_affected_certificates
       redirect_to @certificate_card_template
     else
       render :new
@@ -52,8 +54,10 @@ class CertificateCardTemplatesController < ApplicationController
 
     if @certificate_card_template.update(certificate_card_template_params)
       @certificate_card_template.works.create!(trackable_url: certificate_card_template_path(@certificate_card_template), action: :update,
-                                               user: current_user, parameters: @certificate_card_template.previous_changes.to_json)
+                                               user: current_user, parameters: @certificate_card_template.previous_changes
+                                                 .merge('affected_certificates' => @certificate_card_template.affected_certificates_count).to_json)
       flash_message :success, t('activerecord.messages.successfull.updated', data: @certificate_card_template.fullname)
+      warn_affected_certificates
       redirect_to @certificate_card_template
     else
       render :edit
@@ -102,6 +106,12 @@ class CertificateCardTemplatesController < ApplicationController
   end
 
   private
+    # Zapis przesunął wydane świadectwa do innego wzoru (albo z blankietu na kartę) – ostrzeżenie (zapis dozwolony).
+    def warn_affected_certificates
+      count = @certificate_card_template.affected_certificates_count.to_i
+      flash_message :warning, t('pages.certificate_card_template.affected', count: count) if count > 0
+    end
+
     def set_certificate_card_template
       @certificate_card_template = CertificateCardTemplate.find(params[:id])
     end

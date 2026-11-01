@@ -47,28 +47,36 @@ RSpec.describe CertificateCardTemplate, type: :model do
     expect(later.reload.valid_to).to be_nil
   end
 
-  it 'nie można dodać wzoru, pod który podpadłyby już wydane świadectwa – podpowiedź najwcześniejszej daty' do
+  it 'nowy wzór może objąć już wydane świadectwa – zapis dozwolony, z liczbą przejętych świadectw (ostrzeżenie)' do
     b = template(name: 'B', valid_from: Date.new(2028, 7, 1)).tap(&:save!)
+    expect(b.affected_certificates_count).to eq 0
+    certificate(Date.new(2028, 9, 1))
     certificate(Date.new(2029, 1, 10))
 
-    too_early = template(name: 'D', valid_from: Date.new(2029, 1, 1))
-    expect(too_early).not_to be_valid
-    expect(too_early.errors[:valid_from].join).to include 'wydano już 1 świadectw', 'najwcześniej od 2029-01-11'
-
-    template(name: 'D', valid_from: Date.new(2029, 1, 11)).save!
-    expect(b.reload.valid_to).to eq Date.new(2029, 1, 10)
+    d = template(name: 'D', valid_from: Date.new(2029, 1, 1))
+    expect(d.save).to be true
+    expect(d.affected_certificates_count).to eq 1 # świadectwo z 2029-01-10 przechodzi z B do D
+    expect(b.reload.valid_to).to eq Date.new(2028, 12, 31)
+    expect(CertificateCardTemplate.for_certificate(Certificate.find_by(number: 'MS-20290110'))).to eq d
+    expect(CertificateCardTemplate.for_certificate(Certificate.find_by(number: 'MS-20280901'))).to eq b
   end
 
-  it 'zmiana rodzaju lub okresu nie może zmienić wzoru wydanych świadectw; podmiana grafiki – dozwolona' do
+  it 'zmiana rodzaju lub okresu – dozwolona, z liczbą świadectw, które zmieniły wzór; podmiana grafiki – bez ostrzeżenia' do
     a = template(name: 'A', valid_from: Date.new(2026, 12, 1)).tap(&:save!)
     certificate(Date.new(2027, 3, 1))
+    certificate(Date.new(2027, 5, 1))
 
     a.valid_from = Date.new(2027, 4, 1)
-    expect(a).not_to be_valid
-    expect(a.errors[:base].join).to include 'zmieniłaby wzór wydanych już świadectw'
+    expect(a.save).to be true
+    expect(a.affected_certificates_count).to eq 1 # świadectwo z 2027-03-01 wypada ze wzoru (wraca do blankietu)
+
+    a.valid_from = Date.new(2026, 12, 1)
+    expect(a.save).to be true
+    expect(a.affected_certificates_count).to eq 1
 
     a.reload.card_front = card('card_ok_600dpi.jpg', 'image/jpeg')
     expect(a.save).to be true
+    expect(a.affected_certificates_count).to eq 0
     expect(a.reload.card_front_filename).to eq 'card_ok_600dpi.jpg'
   end
 
@@ -76,7 +84,7 @@ RSpec.describe CertificateCardTemplate, type: :model do
     used = template(name: 'A', valid_from: Date.new(2026, 12, 1)).tap(&:save!)
     certificate(Date.new(2027, 3, 1))
     expect(used.destroy).to be false
-    expect(used.errors[:base].join).to include 'drukuje się 1 wydanych świadectw'
+    expect(used.errors[:base].join).to include 'drukuje się 1 wydanych świadectw', 'zamknij wzór datą „Do”'
 
     unused = template(name: 'B', valid_from: Date.new(2030, 1, 1)).tap(&:save!)
     expect(unused.destroy).to be_truthy

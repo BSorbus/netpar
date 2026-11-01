@@ -4,8 +4,10 @@
 # Karta ID-1 (CR80) 85,6 × 54 mm, poziomo; awers i rewers – grafika karty (PNG/JPEG), dane świadectwa nadrukowuje NETPAR.
 #
 # Okresy wzorów jednego rodzaju nie nakładają się. Nowy wzór „zamyka” poprzedni otwarty (bez daty „do”): dostaje on datę
-# „do” = dzień przed „od” nowego i dalej służy świadectwom wydanym w swoim okresie. Wzoru nie można dodać, zmienić ani usunąć
-# tak, żeby którekolwiek wydane już świadectwo zmieniło wzór (można natomiast podmienić grafikę).
+# „do” = dzień przed „od” nowego i dalej służy świadectwom wydanym w swoim okresie. Dodanie albo zmiana wzoru, przez którą
+# wydane już świadectwa drukowałyby się wg innego wzoru, jest dozwolona (zarządzają tym wybrane osoby, faza wdrażania) –
+# liczbę takich świadectw podaje affected_certificates_count (ostrzeżenie i historia operacji). Wzoru, wg którego drukują
+# się wydane świadectwa, nie można usunąć (grafika i układ przepadłyby) – można go zamknąć datą „do”.
 class CertificateCardTemplate < ActiveRecord::Base
   IMAGE_TYPES = %w(image/png image/jpeg)
   RATIO = 85.6 / 54
@@ -27,9 +29,9 @@ class CertificateCardTemplate < ActiveRecord::Base
   validates :name, length: { maximum: 100 }
   validate :valid_from_not_after_valid_to
   validate :no_overlapping_ranges
-  validate :certificates_keep_their_template
   validate :images_size
 
+  before_save :count_affected_certificates
   after_create :close_previous_range
   before_destroy :ensure_no_certificates
 
@@ -82,6 +84,9 @@ class CertificateCardTemplate < ActiveRecord::Base
     valid_from <= Time.zone.today && (valid_to.nil? || valid_to >= Time.zone.today)
   end
 
+  # Wydane świadectwa, które po zapisie drukują się wg innego wzoru niż przed nim (ustawiane przy zapisie).
+  attr_reader :affected_certificates_count
+
   private
 
     # Poprzedni otwarty wzór tego rodzaju, który nowy wzór zamknie (dzień przed swoim „od”).
@@ -105,19 +110,20 @@ class CertificateCardTemplate < ActiveRecord::Base
       end
     end
 
-    def certificates_keep_their_template
-      return if division_id.blank? || valid_from.blank?
-      if new_record?
-        issued = self.class.certificates_in(division_id, valid_from, valid_to)
-        if issued.exists?
-          errors.add(:valid_from, I18n.t('activerecord.errors.certificate_card_template.certificates_issued',
-                                         count: issued.count, last: issued.maximum(:date_of_issue), next: issued.maximum(:date_of_issue) + 1.day))
+    # Nowy wzór przejmuje świadectwa wydane w swoim okresie (bez wzoru albo dotąd wg poprzedniego); zmiana rodzaju lub okresu –
+    # świadectwa, które wchodzą do wzoru albo z niego wychodzą.
+    def count_affected_certificates
+      @affected_certificates_count =
+        if new_record?
+          self.class.certificates_in(division_id, valid_from, valid_to).count
+        elsif division_id_changed? || valid_from_changed? || valid_to_changed?
+          before = self.class.certificates_in(division_id_was, valid_from_was, valid_to_was).pluck(:id)
+          after = self.class.certificates_in(division_id, valid_from, valid_to).pluck(:id)
+          ((before - after) | (after - before)).size
+        else
+          0
         end
-      elsif division_id_changed? || valid_from_changed? || valid_to_changed?
-        before = self.class.certificates_in(division_id_was, valid_from_was, valid_to_was).pluck(:id).sort
-        after = self.class.certificates_in(division_id, valid_from, valid_to).pluck(:id).sort
-        errors.add(:base, I18n.t('activerecord.errors.certificate_card_template.certificates_change')) if before != after
-      end
+      true
     end
 
     # Grafika karty: rozdzielczość co najmniej 300 dpi i proporcje karty 85,6 × 54 mm poziomo (tolerancja 2%).

@@ -78,11 +78,14 @@
   <% end %>
 
   <% if policy(tpl).edit? %>
-    <%= link_to layout_certificate_card_template_path(tpl), class: "btn btn-primary" do %>
+    <%# Wzór z wydanymi świadectwami – zmiana wpłynie na ich ponowne wydruki: pytanie przed edycją. %>
+    <% issued = tpl.certificates.count %>
+    <% confirm = issued > 0 ? { confirm: t('pages.certificate_card_template.confirm_edit', count: issued) } : {} %>
+    <%= link_to layout_certificate_card_template_path(tpl), class: "btn btn-primary", data: confirm do %>
       <span class="fa fa-th-large"></span>
       <%= t("pages.certificate_card_template.layout.link") %>
     <% end %>
-    <%= link_to edit_certificate_card_template_path(tpl), class: "btn btn-primary" do %>
+    <%= link_to edit_certificate_card_template_path(tpl), class: "btn btn-primary", data: confirm do %>
       <span class="fa fa-edit"></span>
       <%= t("helpers.links.edit") %>
     <% end %>

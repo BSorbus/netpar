@@ -58,11 +58,13 @@ pl:
       new:
         title: 'Nowy wzór karty świadectwa'
       form:
-        hint: 'Wzór obowiązuje dla świadectw wydanych w podanym okresie („Do” puste – bez końca). Dodanie nowego wzoru zamyka poprzedni otwarty: dostaje on datę „Do” na dzień przed „Od” nowego i dalej służy świadectwom wydanym w swoim okresie.'
+        hint: 'Wzór obowiązuje dla świadectw wydanych w podanym okresie („Do” puste – bez końca). Dodanie nowego wzoru zamyka poprzedni otwarty: dostaje on datę „Do” na dzień przed „Od” nowego i dalej służy świadectwom wydanym w swoim okresie. Jeśli zmiana obejmie wydane już świadectwa, po zapisie pojawi się ostrzeżenie z ich liczbą.'
         name_placeholder: 'np. Karta 2026'
         image_hint: 'Karta ID-1 (CR80) 85,6 × 54 mm, poziomo. Grafika PNG lub JPEG, co najmniej 1011 × 638 px (300 dpi), zalecane 2022 × 1276 px (600 dpi). Dane świadectwa nadrukowuje NETPAR.'
         replace: 'wybierz nowy plik, aby podmienić grafikę'
       current: 'obowiązuje'
+      confirm_edit: 'Uwaga! Czy na pewno chcesz edytować wzór karty, który być może był już używany przy wydrukach? (liczba świadectw wydanych w okresie wzoru: %{count})' # nowe
+      affected: 'Uwaga: zmiana dotyczy wydanych już świadectw (liczba: %{count}) – ich ponowne wydruki kart będą wg tego zapisu.' # nowe
       layout: # nowe – edytor układu nadruku
         title: 'Układ nadruku na karcie'
         link: 'Układ nadruku'
@@ -937,10 +939,8 @@ pl:
         card_unreadable: 'Nie udało się odczytać grafiki karty: %{message}'
         valid_to_before_valid_from: 'nie może być wcześniejsza niż data „Od”'
         overlapping: 'Okres nakłada się na wzór „%{name}” (%{period}).'
-        certificates_issued: '– w tym okresie wydano już %{count} świadectw tego rodzaju (ostatnie %{last}); nowy wzór może obowiązywać najwcześniej od %{next}, żeby wydane świadectwa nie zmieniły wzoru.'
-        certificates_change: 'Zmiana rodzaju lub okresu zmieniłaby wzór wydanych już świadectw – niedozwolone (grafikę można podmienić).'
         field_outside: '– pole „%{label}” wychodzi poza kartę (85,6 × 54 mm)'
-        certificates_destroy: 'Nie można usunąć wzoru – wg niego drukuje się %{count} wydanych świadectw (duplikaty, ponowne wydruki).'
+        certificates_destroy: 'Nie można usunąć wzoru – wg niego drukuje się %{count} wydanych świadectw (duplikaty, ponowne wydruki). Zamiast usuwać, zamknij wzór datą „Do”.'
       models:
         exam:
           attributes:
