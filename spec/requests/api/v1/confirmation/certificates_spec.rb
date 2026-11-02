@@ -33,6 +33,21 @@ RSpec.describe 'API v1 confirmation/certificates/search', type: :request do
     expect(ConfirmationLog.last.remote_ip).to eq '203.0.113.5'
   end
 
+  it 'zwraca adres do kodu QR zaświadczenia (verification_url) – z danych świadectwa, jak dotąd budował confirmation8' do
+    search
+    expect(json['certificates'].first['verification_url'])
+      .to eq 'https://confirmation.uke.gov.pl/certificates/new?number_prefix=GG-&number=05998&date_of_issue=2018-08-30' \
+             '&valid_thru=2028-08-30&name=Koz%C5%82owski&given_names=Jan+Maria&birth_date=1969-07-06'
+
+    create_certificate(division: goc, number: 'GG-07777', valid_thru: nil)
+    search(number: '07777', valid_thru: '')
+    expect(json['certificates'].first['verification_url']).to include '&number=07777&date_of_issue=2018-08-30&valid_thru=&'
+
+    allow(Rails.application.secrets).to receive(:confirmation_search_url).and_return('https://confirmation-test2.uke.gov.pl/certificates/new')
+    search
+    expect(json['certificates'].first['verification_url']).to start_with 'https://confirmation-test2.uke.gov.pl/certificates/new?number_prefix=GG-&'
+  end
+
   it 'świadectwo bezterminowe: pusta valid_thru' do
     create_certificate(division: goc, number: 'GG-07777', valid_thru: nil)
 
@@ -55,6 +70,7 @@ RSpec.describe 'API v1 confirmation/certificates/search', type: :request do
     search
     expect(response).to have_http_status(:ok)
     expect(json['certificates'].first['customer']['name']).to eq 'Kozłowski'
+    expect(json['certificates'].first['verification_url']).to include '&name=Koz%C5%82owski&' # dane z historii, jak w odpowiedzi
   end
 
   it 'kategorie L i R przez ten sam endpoint' do

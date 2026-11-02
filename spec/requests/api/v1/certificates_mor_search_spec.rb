@@ -14,6 +14,7 @@ RSpec.describe 'API v1 certificates/mor_search_by_multi_params', type: :request 
     get '/api/v1/certificates/mor_search_by_multi_params', params, api_headers
 
     expect(response).to have_http_status(:ok)
+    expect(json['certificates'].first).not_to have_key('verification_url') # stare confirmation – odpowiedź bez zmian
     expect(json['certificates'].first['number']).to eq 'GG-05998'
   end
 

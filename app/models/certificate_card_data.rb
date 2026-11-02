@@ -3,12 +3,10 @@
 # Zdjęcie: 1) z wniosku z aplikacji Egzaminy (face_image_blob_path – NETPAR kopiuje plik do załączników osoby egzaminowanej),
 # 2) gdy wniosek go nie ma – ostatnio wgrany plik graficzny (PNG/JPEG) wśród załączników osoby egzaminowanej (dodanych
 # ręcznie w NETPAR).
-# Kod QR: ten sam adres co na zaświadczeniu z confirmation/confirmation8 (formularz weryfikacji z wypełnionymi danymi).
+# Kod QR: adres weryfikacji w confirmation (CertificateVerificationUrl – ten sam co na zaświadczeniu z confirmation8).
 class CertificateCardData
   IMAGE_TYPES = %w(image/png image/jpeg image/jpg)
   IMAGE_FILE = /\.(png|jpe?g)\z/i
-  # Adres formularza weryfikacji w kodzie QR – secrets.yml: confirmation_search_url (np. serwer testowy), domyślnie produkcja.
-  CONFIRMATION_SEARCH_URL = 'https://confirmation.uke.gov.pl/certificates/new'
 
   attr_reader :values
 
@@ -31,7 +29,7 @@ class CertificateCardData
           'place_and_date_of_issue' => "#{place} #{issued}".strip,
           'valid_thru' => certificate.valid_thru.present? ? certificate.valid_thru.strftime('%d.%m.%Y') : '',
           'division_card_text' => card_text(division),
-          'qr_code' => qr_code_url(number_prefix: division.number_prefix, number: certificate.number,
+          'qr_code' => CertificateVerificationUrl.build(number_prefix: division.number_prefix, number: certificate.number,
                                    date_of_issue: certificate.date_of_issue, valid_thru: certificate.valid_thru,
                                    name: customer.name, given_names: customer.given_names, birth_date: customer.birth_date) },
         photo_for(certificate))
@@ -47,24 +45,9 @@ class CertificateCardData
           'place_and_date_of_issue' => "Warszawa #{today.strftime('%d.%m.%Y')}",
           'valid_thru' => (today + 5.years).strftime('%d.%m.%Y'),
           'division_card_text' => card_text(division),
-          'qr_code' => qr_code_url(number_prefix: division.number_prefix, number: "#{division.number_prefix}12345",
+          'qr_code' => CertificateVerificationUrl.build(number_prefix: division.number_prefix, number: "#{division.number_prefix}12345",
                                    date_of_issue: today, valid_thru: today + 5.years,
                                    name: 'Kowalski-Nowakowski', given_names: 'Jan Maria', birth_date: Date.new(1969, 7, 6)) })
-  end
-
-  # Adres w kodzie QR – parametry jak w confirmation8 (PdfStatement#qrcode_content): numer bez prefiksu, daty RRRR-MM-DD,
-  # brak daty ważności – pusty parametr.
-  def self.qr_code_url(number_prefix:, number:, date_of_issue:, valid_thru:, name:, given_names:, birth_date:)
-    prefix = number_prefix.to_s
-    number = number.to_s
-    number = number[prefix.length..-1] if prefix.present? && number.start_with?(prefix)
-    "#{confirmation_search_url}?" + URI.encode_www_form(
-      number_prefix: prefix, number: number, date_of_issue: date_of_issue.to_s, valid_thru: valid_thru.to_s,
-      name: name.to_s, given_names: given_names.to_s, birth_date: birth_date.to_s)
-  end
-
-  def self.confirmation_search_url
-    Rails.application.secrets.confirmation_search_url.presence || CONFIRMATION_SEARCH_URL
   end
 
   # Rodzaj świadectwa na karcie: tekst z typu świadectwa (card_print_text – PL, EN albo oba), a gdy pusty – nazwa PL.
