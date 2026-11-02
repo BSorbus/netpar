@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe 'API v1 confirmation/certificates/search', type: :request do
+# Weryfikacja po danych z formularza – confirmation8.
+RSpec.describe 'API v1 certificates/search', type: :request do
   let!(:goc) { create_division(category: 'M', short_name: 'GOC', name: 'świadectwo ogólne operatora GMDSS', number_prefix: 'GG-', enabled_in_confirmation: true) }
   let!(:cso) { create_division(category: 'M', short_name: 'CSO', name: 'świadectwo operatora stacji nadbrzeżnej CSO', number_prefix: 'GC-', enabled_in_confirmation: false) }
   let!(:or_l) { create_division(category: 'L', short_name: 'OR', name: 'świadectwo ogólne operatora radiotelefonisty', number_prefix: 'L-', enabled_in_confirmation: true) }
@@ -12,11 +13,11 @@ RSpec.describe 'API v1 confirmation/certificates/search', type: :request do
   end
 
   def search(overrides = {})
-    get '/api/v1/confirmation/certificates/search', params.merge(overrides), api_headers('HTTP_X_REAL_IP' => '203.0.113.5')
+    get '/api/v1/certificates/search', params.merge(overrides), api_headers('HTTP_X_REAL_IP' => '203.0.113.5')
   end
 
   it 'wymaga tokenu' do
-    get '/api/v1/confirmation/certificates/search', params
+    get '/api/v1/certificates/search', params
     expect(response).to have_http_status(:unauthorized)
   end
 
@@ -33,19 +34,19 @@ RSpec.describe 'API v1 confirmation/certificates/search', type: :request do
     expect(ConfirmationLog.last.remote_ip).to eq '203.0.113.5'
   end
 
-  it 'zwraca adres do kodu QR zaświadczenia (verification_url) – z danych świadectwa, jak dotąd budował confirmation8' do
+  it 'zwraca adres do kodu QR zaświadczenia (verification_url) – krótki adres z kodem świadectwa, bez danych osobowych' do
     search
-    expect(json['certificates'].first['verification_url'])
-      .to eq 'https://confirmation.uke.gov.pl/certificates/new?number_prefix=GG-&number=05998&date_of_issue=2018-08-30' \
-             '&valid_thru=2028-08-30&name=Koz%C5%82owski&given_names=Jan+Maria&birth_date=1969-07-06'
-
-    create_certificate(division: goc, number: 'GG-07777', valid_thru: nil)
-    search(number: '07777', valid_thru: '')
-    expect(json['certificates'].first['verification_url']).to include '&number=07777&date_of_issue=2018-08-30&valid_thru=&'
+    url = json['certificates'].first['verification_url']
+    expect(url).to eq "https://confirmation.uke.gov.pl/qrc/#{certificate.reload.verification_code}"
+    expect(url).not_to include 'Koz', '1969', '05998'
 
     allow(Rails.application.secrets).to receive(:confirmation_search_url).and_return('https://confirmation-test2.uke.gov.pl/certificates/new')
     search
-    expect(json['certificates'].first['verification_url']).to start_with 'https://confirmation-test2.uke.gov.pl/certificates/new?number_prefix=GG-&'
+    expect(json['certificates'].first['verification_url']).to eq "https://confirmation-test2.uke.gov.pl/qrc/#{certificate.verification_code}"
+  end
+
+  it 'stary adres (api/v1/confirmation/certificates/search) – usunięty' do
+    expect { get '/api/v1/confirmation/certificates/search', params, api_headers }.to raise_error(ActionController::RoutingError)
   end
 
   it 'świadectwo bezterminowe: pusta valid_thru' do
@@ -70,7 +71,7 @@ RSpec.describe 'API v1 confirmation/certificates/search', type: :request do
     search
     expect(response).to have_http_status(:ok)
     expect(json['certificates'].first['customer']['name']).to eq 'Kozłowski'
-    expect(json['certificates'].first['verification_url']).to include '&name=Koz%C5%82owski&' # dane z historii, jak w odpowiedzi
+    expect(json['certificates'].first['verification_url']).to eq certificate.reload.qr_code_url # kod świadectwa, dane z historii w odpowiedzi
   end
 
   it 'kategorie L i R przez ten sam endpoint' do

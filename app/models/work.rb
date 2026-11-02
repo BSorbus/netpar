@@ -10,6 +10,8 @@ class Work < ActiveRecord::Base
       'zmodyfikował kartotekę'
     when 'destroy'
       'usunął kartotekę'
+    when 'regenerate_verification_code'
+      'nadał nowy kod weryfikacji (QR karty)'
     else
       'Error action value !'
     end  

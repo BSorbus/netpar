@@ -194,28 +194,18 @@ Rails.application.routes.draw do
     #namespace :v1 do
       #mount Refile.app, at: "attachments", as: :refile_app
       mount Refile.app, at: Refile.mount_point, as: :refile_app
-      resources :certificates, only: [:show] do
-        get 'lot', on: :collection
-        get 'mor', on: :collection
-        get 'ra', on: :collection
-        get 'lot_search_by_number', on: :collection
-        get 'mor_search_by_number', on: :collection
-        get 'ra_search_by_number', on: :collection
-        get 'all_search_by_number', on: :collection
-        get 'lot_search_by_customer_pesel', on: :collection
-        get 'mor_search_by_customer_pesel', on: :collection
-        get 'ra_search_by_customer_pesel', on: :collection
-        get 'all_search_by_customer_pesel', on: :collection
-        get 'mor_search_by_multi_params', on: :collection
+      # Stare API świadectw: tylko weryfikacja dla STAREGO confirmation (show, lot, mor, ra i wyszukiwania po numerze/PESEL
+      # usunięte 2026-11 – nieużywane wg logów produkcji z roku).
+      resources :certificates, only: [] do
+        get 'mor_search_by_multi_params', on: :collection # STARE confirmation
+        get 'search', on: :collection                     # confirmation8: weryfikacja po danych z formularza
+        get 'search_by_code', on: :collection             # confirmation8: weryfikacja po kodzie (QR /qrc/<kod>)
       end
       resources :exams, only: [:index, :show]
       resources :exam_fees, only: [:show] do
         get 'find', on: :collection
       end
       resources :divisions, only: [:index, :show]
-      namespace :confirmation do
-        get 'certificates/search', to: 'certificates#search'
-      end
       resources :proposals, param: :multi_app_identifier, except: [:new, :edit] do
         get 'grades', on: :member
         get 'grades_with_result', on: :member

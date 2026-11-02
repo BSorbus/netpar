@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-# Endpoint używany przez dotychczasową aplikację Confirmation – zostaje do czasu przełączenia na confirmation/certificates/search.
+# Endpoint używany przez dotychczasową aplikację Confirmation – zostaje do czasu wyłączenia starego confirmation (confirmation8 – certificates/search).
 RSpec.describe 'API v1 certificates/mor_search_by_multi_params', type: :request do
   let!(:goc) { create_division(category: 'M', short_name: 'GOC', name: 'świadectwo ogólne operatora GMDSS', number_prefix: 'GG-') }
   let!(:certificate) { create_certificate(division: goc, number: 'GG-05998') }
@@ -22,5 +22,11 @@ RSpec.describe 'API v1 certificates/mor_search_by_multi_params', type: :request 
     get '/api/v1/certificates/mor_search_by_multi_params', params.merge(number: "x' OR '1'='1"), api_headers
 
     expect(response).to have_http_status(:not_found)
+  end
+
+  it 'usunięte akcje starego API (show, lot, mor, ra, wyszukiwania po numerze i PESEL) – brak trasy' do
+    %w(123 lot mor ra lot_search_by_number all_search_by_number mor_search_by_customer_pesel all_search_by_customer_pesel).each do |path|
+      expect { get "/api/v1/certificates/#{path}", {}, api_headers }.to raise_error(ActionController::RoutingError)
+    end
   end
 end

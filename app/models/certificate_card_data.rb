@@ -3,8 +3,9 @@
 # Zdjęcie: 1) z wniosku z aplikacji Egzaminy (face_image_blob_path – NETPAR kopiuje plik do załączników osoby egzaminowanej),
 # 2) gdy wniosek go nie ma – ostatnio wgrany plik graficzny (PNG/JPEG) wśród załączników osoby egzaminowanej (dodanych
 # ręcznie w NETPAR).
-# Kod QR: adres weryfikacji w confirmation (CertificateVerificationUrl – ten sam co na zaświadczeniu z confirmation8).
+# Kod QR: Certificate#qr_code_url (<confirmation>/qrc/<kod>). Świadectwo bez kodu – karta bez QR (zamiast niedziałającego).
 class CertificateCardData
+  SAMPLE_VERIFICATION_CODE = '7KD3M9QX2PNAHT5V' # podgląd wzoru – nie zapisywany
   IMAGE_TYPES = %w(image/png image/jpeg image/jpg)
   IMAGE_FILE = /\.(png|jpe?g)\z/i
 
@@ -29,9 +30,7 @@ class CertificateCardData
           'place_and_date_of_issue' => "#{place} #{issued}".strip,
           'valid_thru' => certificate.valid_thru.present? ? certificate.valid_thru.strftime('%d.%m.%Y') : '',
           'division_card_text' => card_text(division),
-          'qr_code' => CertificateVerificationUrl.build(number_prefix: division.number_prefix, number: certificate.number,
-                                   date_of_issue: certificate.date_of_issue, valid_thru: certificate.valid_thru,
-                                   name: customer.name, given_names: customer.given_names, birth_date: customer.birth_date) },
+          'qr_code' => certificate.qr_code_url.to_s },
         photo_for(certificate))
   end
 
@@ -45,9 +44,7 @@ class CertificateCardData
           'place_and_date_of_issue' => "Warszawa #{today.strftime('%d.%m.%Y')}",
           'valid_thru' => (today + 5.years).strftime('%d.%m.%Y'),
           'division_card_text' => card_text(division),
-          'qr_code' => CertificateVerificationUrl.build(number_prefix: division.number_prefix, number: "#{division.number_prefix}12345",
-                                   date_of_issue: today, valid_thru: today + 5.years,
-                                   name: 'Kowalski-Nowakowski', given_names: 'Jan Maria', birth_date: Date.new(1969, 7, 6)) })
+          'qr_code' => Certificate.qr_code_url_for(SAMPLE_VERIFICATION_CODE) })
   end
 
   # Rodzaj świadectwa na karcie: tekst z typu świadectwa (card_print_text – PL, EN albo oba), a gdy pusty – nazwa PL.

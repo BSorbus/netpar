@@ -90,22 +90,56 @@ RSpec.describe 'Karta plastikowa – układ, dane i wydruk', type: :model do
         .to eq ['Jan KOWALSKI', '06.07.1969 Więcbork', 'MS-777', '20.11.2026', '20.11.2031']
     end
 
-    it 'kod QR: adres formularza weryfikacji z tymi samymi parametrami co na zaświadczeniu z confirmation (numer bez prefiksu, daty RRRR-MM-DD)' do
+    it 'kod QR: krótki adres /qrc/ z kodem świadectwa – bez danych osobowych; ten sam kod przy każdym wydruku' do
       certificate = create_certificate(division: division, number: 'MS-00777', date_of_issue: Date.new(2026, 11, 20), valid_thru: Date.new(2031, 11, 20),
                                        customer: { name: 'Jarząb', given_names: 'Bogdan Jan', birth_date: Date.new(1969, 7, 6) })
       allow(CertificateCardData).to receive(:photo_for).and_return(nil)
+      code = certificate.verification_code
+      expect(code).to match Certificate::VERIFICATION_CODE_FORMAT # nadany przy utworzeniu świadectwa
+
       url = CertificateCardData.from_certificate(certificate).text('qr_code')
-      expect(url).to start_with 'https://confirmation.uke.gov.pl/certificates/new?'
-      expect(Rack::Utils.parse_query(URI.parse(url).query))
-        .to eq('number_prefix' => 'MS-', 'number' => '00777', 'date_of_issue' => '2026-11-20', 'valid_thru' => '2031-11-20',
-               'name' => 'Jarząb', 'given_names' => 'Bogdan Jan', 'birth_date' => '1969-07-06')
+      expect(url).to eq "https://confirmation.uke.gov.pl/qrc/#{code}"
+      expect(url).not_to include 'Jarz', '1969', '00777'
+      expect(CertificateCardData.from_certificate(Certificate.find(certificate.id)).text('qr_code')).to eq url # ponowny wydruk – ten sam kod
 
-      certificate.update_column(:valid_thru, nil) # bezterminowe – pusty parametr, jak w confirmation
-      expect(Rack::Utils.parse_query(URI.parse(CertificateCardData.from_certificate(certificate.reload).text('qr_code')).query)['valid_thru']).to eq ''
-
-      allow(Rails.application.secrets).to receive(:confirmation_search_url).and_return('https://confirmation-test2.uke.gov.pl/certificates/new')
-      expect(CertificateCardData.sample(division).text('qr_code')).to start_with 'https://confirmation-test2.uke.gov.pl/certificates/new?number_prefix=MS-&number=12345&'
+      allow(Rails.application.secrets).to receive(:confirmation_search_url).and_return('http://localhost:3000/certificates/new')
+      expect(CertificateCardData.sample(division).text('qr_code')).to eq 'http://localhost:3000/qrc/7KD3M9QX2PNAHT5V' # podgląd – kod przykładowy
       expect(field(attribute_name: 'qr_code')).to be_image
+    end
+
+    it 'kod weryfikacji: nadawany przy utworzeniu świadectwa, 16 znaków bez I, L, O, U, unikalny (przy kolizji – nowe losowanie)' do
+      expect(CertificateCardData::SAMPLE_VERIFICATION_CODE).to match Certificate::VERIFICATION_CODE_FORMAT # podgląd – kod poprawny
+      codes = Array.new(200) { Certificate.generate_verification_code }
+      expect(codes).to all(match Certificate::VERIFICATION_CODE_FORMAT)
+      expect(codes.join).not_to match(/[ILOU]/)
+      expect(codes.uniq.size).to eq 200
+
+      taken = create_certificate(division: division, number: 'MS-00778')
+      allow(Certificate).to receive(:generate_verification_code).and_return(taken.verification_code, 'BBBBBBBBBBBBBBBB')
+      expect(create_certificate(division: division, number: 'MS-00779').reload.verification_code).to eq 'BBBBBBBBBBBBBBBB'
+      expect(taken.reload.verification_code).not_to eq 'BBBBBBBBBBBBBBBB' # istniejący kod bez zmian
+    end
+
+    it 'kod weryfikacji: nowy kod tylko przez administratora z konsoli – stary nieważny, wpis w historii bez kodu' do
+      certificate = create_certificate(division: division, number: 'MS-00780')
+      old_code = certificate.verification_code
+      admin = FactoryBot.create(:user)
+      expect { certificate.regenerate_verification_code!(nil) }.to raise_error(ArgumentError)
+
+      new_code = certificate.regenerate_verification_code!(admin)
+      expect(new_code).to match(Certificate::VERIFICATION_CODE_FORMAT).and(satisfy { |c| c != old_code })
+      expect(certificate.reload.verification_code).to eq new_code
+      expect(Certificate.find_by(verification_code: old_code)).to be_nil
+      work = certificate.works.last
+      expect([work.action, work.user, work.action_name]).to eq ['regenerate_verification_code', admin, 'nadał nowy kod weryfikacji (QR karty)']
+      expect(work.parameters).not_to include new_code, old_code
+    end
+
+    it 'świadectwo bez kodu – karta bez QR (zamiast niedziałającego kodu)' do
+      certificate = create_certificate(division: division, number: 'MS-00781')
+      certificate.update_column(:verification_code, nil)
+      allow(CertificateCardData).to receive(:photo_for).and_return(nil)
+      expect(CertificateCardData.from_certificate(certificate.reload).text('qr_code')).to eq ''
     end
 
     it 'zdjęcie: 1) z wniosku, 2) gdy wniosek go nie ma – ostatnio wgrany plik graficzny wśród załączników osoby egzaminowanej' do
@@ -152,6 +186,27 @@ RSpec.describe 'Karta plastikowa – układ, dane i wydruk', type: :model do
       expect(pdf.scan(%r{/Type /Page\b}).size).to eq 4
       width, height = pdf[%r{/MediaBox \[0 0 ([\d.]+) ([\d.]+)\]}, 1].to_f, pdf[%r{/MediaBox \[0 0 ([\d.]+) ([\d.]+)\]}, 2].to_f
       expect([width.round(1), height.round(1)]).to eq [242.6, 153.1]
+    end
+
+    it 'tło karty osadzane najwyżej w 600 dpi drukarki (2022 × 1276 px); mniejsza grafika – bez zmian' do
+      # wymiary obrazów osadzonych w PDF
+      sizes = ->(pdf) { pdf.scan(%r{/Subtype /Image[^>]*?/Width (\d+)\s*/Height (\d+)}m).map { |w, h| [w.to_i, h.to_i] } }
+      small_template = template # wzór od 2020 – przed wzorem od 2030 (okresy nie mogą się nakładać)
+      big = Rails.root.join('tmp', "card_1300dpi_#{SecureRandom.hex(4)}.png").to_s
+      begin
+        MiniMagick::Tool::Convert.new { |c| c.size '4370x2754'; c << 'xc:#1B3C8F'; c << big }
+        big_template = CertificateCardTemplate.create!(division: division, name: 'Karta 1300 dpi', valid_from: Date.new(2030, 1, 1),
+                                                       card_front: Rack::Test::UploadedFile.new(big, 'image/png'), card_back: file('card_ok.png'))
+        pdf = PdfCertificateCard.new([[CertificateCardData.sample(division), big_template]], 'test', 'Karty').render
+        expect(PdfCertificateCard::BACKGROUND_MAX).to eq [2022, 1276]
+        expect(sizes.call(pdf).first).to eq [2022, 1274] # 4370 × 2754 zmniejszone z zachowaniem proporcji
+      ensure
+        File.delete(big) if File.exist?(big)
+      end
+
+      small = PdfCertificateCard.new([[CertificateCardData.sample(division), small_template.reload]], 'test', 'Karty').render
+      original = MiniMagick::Image.open(Rails.root.join('spec', 'fixtures', 'files', 'card_ok.png').to_s)
+      expect(sizes.call(small).first).to eq [original.width, original.height]
     end
 
     it 'kod QR – kwadrat wpisany w obszar pola, na białym tle; bez adresu – pomijany' do

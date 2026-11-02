@@ -141,7 +141,7 @@ pl:
         valid_thru: 'certificate.valid_thru'
         division_card_text: 'division.card_print_text, gdy puste – division.name'
         photo: 'proposal.face_image_blob_path (kopia w examination.documents), gdy brak – ostatni PNG/JPEG z examination.documents'
-        qr_code: 'adres formularza confirmation + division.number_prefix, certificate.number, certificate.date_of_issue, certificate.valid_thru, customer.name, customer.given_names, customer.birth_date'
+        qr_code: 'adres confirmation /qrc/ + certificate.verification_code (nadawany przy utworzeniu świadectwa)'
       certificates_count: 'Świadectwa wydane w okresie wzoru (drukowane wg niego)'
       division:
         legend: 'Wzory kart plastikowych (HID FARGO HDP6600)'

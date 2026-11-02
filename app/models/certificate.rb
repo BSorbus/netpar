@@ -1,8 +1,20 @@
 require 'esodes'
 
 class Certificate < ActiveRecord::Base
+  # Kod weryfikacji świadectwa (QR karty plastikowej i zaświadczenia z confirmation: qr_code_url): 16 losowych
+  # znaków bez mylących się (I, L, O, U) – ok. 80 bitów; nie wynika z numeru ani danych osoby, więc nie da się go odgadnąć.
+  # Nadawany przy utworzeniu świadectwa (before_create; istniejące – migracja 20261102150000), potem stały – każdy wydruk
+  # i duplikat karty ma ten sam kod. Zmiana kodu – tylko administrator z konsoli (regenerate_verification_code!).
+  VERIFICATION_CODE_ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ'.chars.freeze
+  VERIFICATION_CODE_LENGTH = 16
+  VERIFICATION_CODE_FORMAT = /\A[0-9A-HJKMNP-TV-Z]{16}\z/
+  # Serwer confirmation, gdy w secrets.yml brak confirmation_search_url (np. https://confirmation-test2.uke.gov.pl/certificates/new).
+  CONFIRMATION_DEFAULT_URL = 'https://confirmation.uke.gov.pl'
+
   belongs_to :division
   belongs_to :exam, counter_cache: true
+
+  before_create :assign_verification_code
   belongs_to :customer
   belongs_to :user
 
@@ -41,6 +53,53 @@ class Certificate < ActiveRecord::Base
 	scope :only_category_l, -> { where(category: "L") }
 	scope :only_category_m, -> { where(category: "M") }
 	scope :only_category_r, -> { where(category: "R") }
+
+  def self.generate_verification_code
+    Array.new(VERIFICATION_CODE_LENGTH) { VERIFICATION_CODE_ALPHABET[SecureRandom.random_number(VERIFICATION_CODE_ALPHABET.size)] }.join
+  end
+
+  # Kod nieużywany przez żadne świadectwo (kolizja przy 80 bitach praktycznie niemożliwa – sprawdzamy dla porządku).
+  def self.generate_unique_verification_code
+    loop do
+      code = generate_verification_code
+      return code unless exists?(verification_code: code)
+    end
+  end
+
+  # Adres w kodzie QR – JEDYNE miejsce jego budowania: karta plastikowa (CertificateCardData) i zaświadczenie z confirmation
+  # (verification_url w API search / search_by_code). Krótki adres z kodem – mały kod QR, bez danych osobowych.
+  def self.qr_code_url_for(code)
+    "#{confirmation_url}/qrc/#{code}"
+  end
+
+  # Serwer confirmation z secrets.yml (confirmation_search_url – adres formularza; bierzemy z niego schemat, host i port).
+  def self.confirmation_url
+    configured = Rails.application.secrets.confirmation_search_url.presence
+    return CONFIRMATION_DEFAULT_URL unless configured
+    uri = URI(configured)
+    port = uri.port == uri.default_port ? '' : ":#{uri.port}"
+    "#{uri.scheme}://#{uri.host}#{port}"
+  end
+
+  def qr_code_url
+    self.class.qr_code_url_for(verification_code) if verification_code.present?
+  end
+
+  # TYLKO DLA ADMINISTRATORA Z KONSOLI (rails console) – celowo bez przycisku w interfejsie.
+  # Nowy kod weryfikacji, np. po zgubieniu albo kradzieży karty: stary kod przestaje działać – także w QR wcześniej
+  # wydrukowanych kart tego świadectwa, trzeba wydrukować nową kartę. Wpis w historii świadectwa (bez samego kodu –
+  # historię widzą użytkownicy NETPAR, a kod jest kluczem dostępu do danych). Przykład:
+  #   Certificate.find_by(number: 'GG-05998').regenerate_verification_code!(User.find_by(email: 'admin@uke.gov.pl'))
+  def regenerate_verification_code!(user)
+    raise ArgumentError, 'Podaj użytkownika (administratora), który zmienia kod' unless user.is_a?(User)
+    transaction do
+      update_column(:verification_code, self.class.generate_unique_verification_code)
+      works.create!(trackable_url: Rails.application.routes.url_helpers.certificate_path(self, category_service: category.downcase),
+                    action: :regenerate_verification_code, user: user,
+                    parameters: { verification_code: 'nadano nowy kod – poprzedni (QR wydrukowanych kart) nieważny' }.to_json)
+    end
+    verification_code
+  end
 
   def fullname
     "#{number}, z dn. #{date_of_issue}"
@@ -167,4 +226,9 @@ class Certificate < ActiveRecord::Base
     end
   end
 
+  private
+
+    def assign_verification_code
+      self.verification_code = self.class.generate_unique_verification_code if verification_code.blank?
+    end
 end

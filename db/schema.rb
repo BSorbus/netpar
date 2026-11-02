@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20261029120000) do
+ActiveRecord::Schema.define(version: 20261102150000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,45 @@ ActiveRecord::Schema.define(version: 20261029120000) do
 
   add_index "api_keys", ["name"], name: "index_api_keys_on_name", unique: true, using: :btree
 
+  create_table "certificate_card_template_fields", force: :cascade do |t|
+    t.integer  "certificate_card_template_id",                                              null: false
+    t.string   "attribute_name",                                                            null: false
+    t.string   "side",                                                 default: "front",    null: false
+    t.decimal  "x",                            precision: 6, scale: 2,                      null: false
+    t.decimal  "y",                            precision: 6, scale: 2,                      null: false
+    t.decimal  "width",                        precision: 6, scale: 2,                      null: false
+    t.decimal  "height",                       precision: 6, scale: 2,                      null: false
+    t.decimal  "font_size",                    precision: 4, scale: 1, default: 10.0,       null: false
+    t.boolean  "bold",                                                 default: false,      null: false
+    t.string   "align",                                                default: "left",     null: false
+    t.string   "color",                                                default: "000000",   null: false
+    t.datetime "created_at",                                                                null: false
+    t.datetime "updated_at",                                                                null: false
+    t.string   "letter_case",                                          default: "original", null: false
+  end
+
+  add_index "certificate_card_template_fields", ["certificate_card_template_id", "attribute_name"], name: "index_card_template_fields_on_template_and_attribute", unique: true, using: :btree
+
+  create_table "certificate_card_templates", force: :cascade do |t|
+    t.integer  "division_id",             null: false
+    t.string   "name",                    null: false
+    t.date     "valid_from",              null: false
+    t.date     "valid_to"
+    t.string   "card_front_id"
+    t.string   "card_front_filename"
+    t.string   "card_front_content_type"
+    t.integer  "card_front_size"
+    t.string   "card_back_id"
+    t.string   "card_back_filename"
+    t.string   "card_back_content_type"
+    t.integer  "card_back_size"
+    t.integer  "user_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "certificate_card_templates", ["division_id", "valid_from"], name: "index_certificate_card_templates_on_division_id_and_valid_from", unique: true, using: :btree
+
   create_table "certificates", force: :cascade do |t|
     t.string   "number",             limit: 30, default: "",    null: false
     t.date     "date_of_issue"
@@ -43,6 +82,7 @@ ActiveRecord::Schema.define(version: 20261029120000) do
     t.datetime "updated_at",                                    null: false
     t.boolean  "canceled",                      default: false
     t.integer  "esod_category"
+    t.string   "verification_code",  limit: 16
   end
 
   add_index "certificates", ["category"], name: "index_certificates_on_category", using: :btree
@@ -53,6 +93,7 @@ ActiveRecord::Schema.define(version: 20261029120000) do
   add_index "certificates", ["number", "category"], name: "index_certificates_on_number_and_category", unique: true, using: :btree
   add_index "certificates", ["number"], name: "index_certificates_on_number", using: :btree
   add_index "certificates", ["user_id"], name: "index_certificates_on_user_id", using: :btree
+  add_index "certificates", ["verification_code"], name: "index_certificates_on_verification_code", unique: true, using: :btree
 
   create_table "confirmation_logs", force: :cascade do |t|
     t.string   "remote_ip"
@@ -174,6 +215,7 @@ ActiveRecord::Schema.define(version: 20261029120000) do
     t.boolean  "for_new_certificate",               default: true,  null: false
     t.boolean  "proposal_via_internet",             default: true,  null: false
     t.boolean  "enabled_in_confirmation",           default: false, null: false
+    t.string   "card_print_text"
   end
 
   add_index "divisions", ["name", "category"], name: "index_divisions_on_name_and_category", unique: true, using: :btree
@@ -607,21 +649,21 @@ ActiveRecord::Schema.define(version: 20261029120000) do
   end
 
   create_table "proposals", force: :cascade do |t|
-    t.uuid     "multi_app_identifier",                                                       null: false
+    t.uuid     "multi_app_identifier",                                                             null: false
     t.integer  "proposal_status_id"
-    t.string   "category",               limit: 1,                                           null: false
+    t.string   "category",                     limit: 1,                                           null: false
     t.integer  "user_id"
     t.integer  "creator_id"
-    t.string   "name",                   limit: 160,                         default: "",    null: false
-    t.string   "given_names",            limit: 50,                          default: "",    null: false
-    t.string   "pesel",                  limit: 11,                          default: ""
+    t.string   "name",                         limit: 160,                         default: "",    null: false
+    t.string   "given_names",                  limit: 50,                          default: "",    null: false
+    t.string   "pesel",                        limit: 11,                          default: ""
     t.date     "birth_date"
-    t.string   "birth_place",            limit: 50,                          default: ""
-    t.string   "phone",                  limit: 50,                          default: ""
-    t.string   "email",                  limit: 50,                          default: "",    null: false
-    t.string   "c_address_house",        limit: 10,                          default: ""
-    t.string   "c_address_number",       limit: 10,                          default: ""
-    t.string   "c_address_postal_code",  limit: 10,                          default: ""
+    t.string   "birth_place",                  limit: 50,                          default: ""
+    t.string   "phone",                        limit: 50,                          default: ""
+    t.string   "email",                        limit: 50,                          default: "",    null: false
+    t.string   "c_address_house",              limit: 10,                          default: ""
+    t.string   "c_address_number",             limit: 10,                          default: ""
+    t.string   "c_address_postal_code",        limit: 10,                          default: ""
     t.integer  "esod_category"
     t.integer  "exam_id"
     t.string   "exam_fullname"
@@ -629,7 +671,7 @@ ActiveRecord::Schema.define(version: 20261029120000) do
     t.integer  "division_id"
     t.string   "division_fullname"
     t.integer  "exam_fee_id"
-    t.decimal  "exam_fee_price",                     precision: 8, scale: 2, default: 0.0
+    t.decimal  "exam_fee_price",                           precision: 8, scale: 2, default: 0.0
     t.text     "face_image_blob_path"
     t.text     "bank_pdf_blob_path"
     t.text     "not_approved_comment"
@@ -638,27 +680,28 @@ ActiveRecord::Schema.define(version: 20261029120000) do
     t.integer  "division_min_years_old"
     t.string   "division_short_name"
     t.integer  "customer_id"
-    t.string   "family_name",                                                default: ""
-    t.string   "citizenship_code",                                           default: ""
+    t.string   "family_name",                                                      default: ""
+    t.string   "citizenship_code",                                                 default: ""
     t.text     "consent_pdf_blob_path"
     t.boolean  "lives_in_poland"
-    t.string   "province_code",          limit: 20,                          default: ""
-    t.string   "province_name",          limit: 50,                          default: ""
-    t.string   "district_code",          limit: 20,                          default: ""
-    t.string   "district_name",          limit: 50,                          default: ""
-    t.string   "commune_code",           limit: 20,                          default: ""
-    t.string   "commune_name",           limit: 50,                          default: ""
-    t.string   "city_code",              limit: 20,                          default: ""
-    t.string   "city_name",              limit: 50,                          default: ""
-    t.string   "city_parent_code",       limit: 20,                          default: ""
-    t.string   "city_parent_name",       limit: 50,                          default: ""
-    t.string   "street_code",            limit: 20,                          default: ""
-    t.string   "street_name",            limit: 50,                          default: ""
-    t.string   "street_attribute",       limit: 20,                          default: ""
-    t.string   "address_combine_id",     limit: 26,                          default: ""
-    t.boolean  "exam_online",                                                default: false, null: false
+    t.string   "province_code",                limit: 20,                          default: ""
+    t.string   "province_name",                limit: 50,                          default: ""
+    t.string   "district_code",                limit: 20,                          default: ""
+    t.string   "district_name",                limit: 50,                          default: ""
+    t.string   "commune_code",                 limit: 20,                          default: ""
+    t.string   "commune_name",                 limit: 50,                          default: ""
+    t.string   "city_code",                    limit: 20,                          default: ""
+    t.string   "city_name",                    limit: 50,                          default: ""
+    t.string   "city_parent_code",             limit: 20,                          default: ""
+    t.string   "city_parent_name",             limit: 50,                          default: ""
+    t.string   "street_code",                  limit: 20,                          default: ""
+    t.string   "street_name",                  limit: 50,                          default: ""
+    t.string   "street_attribute",             limit: 20,                          default: ""
+    t.string   "address_combine_id",           limit: 26,                          default: ""
+    t.boolean  "exam_online",                                                      default: false, null: false
     t.boolean  "test_unlocked"
     t.text     "other_pdf_blob_path"
+    t.boolean  "division_face_image_required",                                     default: false, null: false
   end
 
   add_index "proposals", ["category"], name: "index_proposals_on_category", using: :btree
@@ -667,6 +710,7 @@ ActiveRecord::Schema.define(version: 20261029120000) do
   add_index "proposals", ["exam_fee_id"], name: "index_proposals_on_exam_fee_id", using: :btree
   add_index "proposals", ["exam_id"], name: "index_proposals_on_exam_id", using: :btree
   add_index "proposals", ["multi_app_identifier"], name: "index_proposals_on_multi_app_identifier", using: :btree
+  add_index "proposals", ["multi_app_identifier"], name: "index_proposals_on_multi_app_identifier_unique_new", unique: true, where: "(created_at >= '2026-10-29 23:11:29'::timestamp without time zone)", using: :btree
   add_index "proposals", ["pesel"], name: "index_proposals_on_pesel", using: :btree
   add_index "proposals", ["proposal_status_id"], name: "index_proposals_on_proposal_status_id", using: :btree
   add_index "proposals", ["user_id"], name: "index_proposals_on_user_id", using: :btree
