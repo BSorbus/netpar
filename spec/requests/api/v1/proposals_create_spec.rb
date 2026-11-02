@@ -108,6 +108,26 @@ RSpec.describe 'API v1 POST /proposals', type: :request do
     end
   end
 
+  describe "licznik miejsc w sesji (0 wolnych – proposals_important_count >= max_examinations)" do
+    it "odrzuca zgłoszenie na pełną sesję – 422, bez zapisu" do
+      exam.update_column(:max_examinations, 1)
+      Proposal.new(data.merge("multi_app_identifier" => SecureRandom.uuid)).save!(validate: false) # zajmuje jedyne miejsce
+      exam.refresh_proposals_important_count
+      post_proposal(data.to_json)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(json["errors"]["base"].join).to include "Przekroczona maksymalna liczba miejsc w tej sesji egzaminacyjnej"
+      expect(Proposal.where(multi_app_identifier: uuid)).not_to exist
+    end
+
+    it "przyjmuje, gdy w sesji są wolne miejsca" do
+      exam.update_column(:max_examinations, 5)
+      post_proposal(data.to_json)
+
+      expect(response).to have_http_status(:created)
+    end
+  end
+
   it 'przyjmuje stary format (Hash#to_s z Egzaminów)' do
     post_proposal(data.to_s)
 
