@@ -68,13 +68,15 @@ class CertificatesController < ApplicationController
     end
   end
 
-  # Karta plastikowa świadectwa (dodatkowy wydruk obok świadectwa) – wg wzoru karty obowiązującego w dniu wydania.
+  # Karta plastikowa świadectwa (dodatkowy wydruk obok świadectwa) – wg wzoru karty obowiązującego w dniu wydania; bez wzoru
+  # albo bez zdjęcia – komunikat zamiast karty.
   def card_to_pdf
     certificate_authorize(:certificate, "print", params[:category_service])
 
-    items, _skipped = CertificateCardTemplate.card_items([@certificate])
+    items, skipped = CertificateCardTemplate.card_items([@certificate])
     if items.empty?
-      redirect_to :back, alert: t('pages.certificate_card_template.print.no_template', date: @certificate.date_of_issue) and return
+      reason = skipped.first.last
+      redirect_to :back, alert: t("pages.certificate_card_template.print.#{reason}", date: @certificate.date_of_issue) and return
     end
     documentname = "Card_#{params[:category_service]}_#{@certificate.number.tr('/ ', '_-')}.pdf"
     pdf = PdfCertificateCard.new(items, "#{current_user.name} (#{current_user.email})", documentname)

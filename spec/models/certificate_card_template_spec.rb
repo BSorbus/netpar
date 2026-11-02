@@ -90,16 +90,24 @@ RSpec.describe CertificateCardTemplate, type: :model do
     expect(unused.destroy).to be_truthy
   end
 
-  it 'wydruk kart: tylko świadectwa ze wzorem na dzień wydania, pozostałe – pominięte; ten sam wzór – jeden obiekt' do
+  it 'wydruk kart: tylko świadectwa ze wzorem na dzień wydania i ze zdjęciem, pozostałe – pominięte z powodem; ten sam wzór – jeden obiekt' do
     old_cert = certificate(Date.new(2026, 11, 30))
     a = template(name: 'A', valid_from: Date.new(2026, 12, 1)).tap(&:save!)
     first = certificate(Date.new(2027, 2, 1))
     second = certificate(Date.new(2027, 3, 1))
+    no_photo = certificate(Date.new(2027, 4, 1))
+    photo = Document.new(fileattach_filename: 'zdjecie_na_karte.png')
+    allow(CertificateCardData).to receive(:photo_document) { |c| c == no_photo ? nil : photo }
+    allow(CertificateCardData).to receive(:photo_for).and_return(nil)
 
-    items, skipped = CertificateCardTemplate.card_items([old_cert, first, second])
+    printable, plan_skipped = CertificateCardTemplate.card_plan([old_cert, first, second, no_photo])
+    expect(printable).to eq [[first, a], [second, a]]
+    expect(plan_skipped).to eq [[old_cert, :no_template], [no_photo, :no_photo]]
+
+    items, skipped = CertificateCardTemplate.card_items([old_cert, first, second, no_photo])
     expect(items.map { |data, tpl| [data.text('number'), tpl] }).to eq [[first.number, a], [second.number, a]]
     expect(items.map(&:last).map(&:object_id).uniq.size).to eq 1
-    expect(skipped).to eq [old_cert]
+    expect(skipped).to eq plan_skipped
   end
 
   it 'wymaga awersu, rewersu i nazwy; grafika: proporcje karty od 300 dpi, PNG/JPEG' do

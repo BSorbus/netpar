@@ -43,22 +43,32 @@ class CertificateCardTemplate < ActiveRecord::Base
     where(division_id: certificate.division_id).for_date(certificate.date_of_issue).first
   end
 
-  # Wydruk kart: [[[CertificateCardData, wzór], …], pominięte świadectwa – bez wzoru karty na dzień wydania].
+  SKIP_REASONS = %i(no_template no_photo)
+
+  # Plan wydruku kart bez wczytywania plików (panel „Wydruki”): [[[świadectwo, wzór], …], [[świadectwo, powód], …]];
+  # powód pominięcia: :no_template – brak wzoru karty na dzień wydania, :no_photo – brak zdjęcia (CertificateCardData).
   # Ten sam wzór – jeden obiekt (grafika i układ wczytywane raz na dokument).
-  def self.card_items(certificates)
+  def self.card_plan(certificates)
     templates = {}
-    items = []
+    printable = []
     skipped = []
     certificates.each do |certificate|
       found = for_certificate(certificate)
-      if found
-        template = templates[found.id] ||= found
-        items << [CertificateCardData.from_certificate(certificate), template]
+      if !found
+        skipped << [certificate, :no_template]
+      elsif !CertificateCardData.photo_document(certificate)
+        skipped << [certificate, :no_photo]
       else
-        skipped << certificate
+        printable << [certificate, templates[found.id] ||= found]
       end
     end
-    [items, skipped]
+    [printable, skipped]
+  end
+
+  # Wydruk kart: [[[CertificateCardData, wzór], …], pominięte jak w card_plan] – dane (ze zdjęciem) tylko dla drukowanych.
+  def self.card_items(certificates)
+    printable, skipped = card_plan(certificates)
+    [printable.map { |certificate, template| [CertificateCardData.from_certificate(certificate), template] }, skipped]
   end
 
   # Świadectwa rodzaju wydane w podanym okresie (to – nil: bez końca).

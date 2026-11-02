@@ -109,9 +109,11 @@ pl:
         tile: 'Karty plastikowe'
         tile_one: 'Karta plastikowa'
         summary: 'Karty: %{cards} z %{total} świadectw'
-        skipped: 'Bez wzoru karty na dzień wydania (pominięte): %{numbers}'
-        none: 'Żadne świadectwo nie ma wzoru karty na dzień wydania – brak kart do wydruku.'
+        skipped_no_template: 'Bez wzoru karty na dzień wydania (pominięte): %{numbers}'
+        skipped_no_photo: 'Bez zdjęcia (pominięte): %{numbers}'
+        none: 'Brak kart do wydruku – świadectwa bez wzoru karty na dzień wydania albo bez zdjęcia.'
         no_template: 'Brak wzoru karty na dzień wydania (%{date})'
+        no_photo: 'Brak zdjęcia na kartę – zdjęcie ze zgłoszenia albo załącznik osoby egzaminowanej z „zdjęcie na kartę” w nazwie pliku.'
       attributes: # nowe – atrybuty do nadruku na karcie
         surname: 'Nazwisko' # nowe
         given_names: 'Imiona' # nowe

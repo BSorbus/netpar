@@ -197,8 +197,8 @@ class ExamsController < ApplicationController
     end 
   end
 
-  # Karty plastikowe świadectw sesji (dodatkowy wydruk obok świadectw i kopert) – tylko świadectwa, których rodzaj ma wzór
-  # karty na dzień wydania; pominięte wymienia panel „Wydruki”. Filtr rodzaju i kolejność jak przy świadectwach.
+  # Karty plastikowe świadectw sesji (dodatkowy wydruk obok świadectw i kopert) – tylko świadectwa ze wzorem karty na dzień
+  # wydania i ze zdjęciem; pominięte (z powodem) wymienia panel „Wydruki”. Filtr rodzaju i kolejność jak przy świadectwach.
   def cards_to_pdf
     exam_authorize(:certificate, "print", params[:category_service])
 
@@ -215,7 +215,7 @@ class ExamsController < ApplicationController
     send_data pdf.render, filename: documentname, type: "application/pdf", disposition: "inline"
     @exam.works.create!(trackable_url: "#{exam_path(@exam, category_service: params[:category_service])}", action: :to_pdf, user: current_user,
                         parameters: { pdf_type: 'certificate_cards', filename: documentname, cards: items.size,
-                                      skipped: skipped.map(&:number) }.to_json)
+                                      skipped: skipped.map { |certificate, reason| { number: certificate.number, reason: reason } } }.to_json)
   end
 
   def envelopes_to_pdf
