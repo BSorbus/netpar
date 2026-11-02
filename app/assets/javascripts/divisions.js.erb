@@ -1,16 +1,17 @@
 // Lista typów świadectw (jak stawki opłat i wzory kart): służba, skrót, prefiks, nazwa PL/EN, minimalny wiek, przełączniki
 // (zdjęcie, nowe świadectwa, zapisy przez internet, weryfikacja w Confirmation) jako etykiety i wzór karty obowiązujący dziś.
-// Etykiety tylko do wyświetlenia – sortowanie i wyszukiwanie po wartości (tak/nie).
+// Nowe świadectwa, zapisy przez internet i weryfikacja w Confirmation – jednakowo: zielone „tak” / czerwone „blokada”.
 $(document).ready(function() {
   if (!$('#divisions').length) { return; }
 
   function escapeHtml(text) { return $('<div>').text(text == null ? '' : String(text)).html(); }
 
-  // yes/no – [klasa etykiety, tekst] dla true i false.
+  // yes/no – [klasa etykiety, tekst] dla true i false (null – pusta komórka). Wyszukiwanie i sortowanie po tym samym
+  // tekście, który widać w etykiecie (np. „blokada”).
   function flag(yes, no) {
     return function(value, type) {
-      if (type !== 'display') { return value ? '<%= I18n.t("pages.division.index.flags.yes") %>' : '<%= I18n.t("pages.division.index.flags.no") %>'; }
       var item = value ? yes : no;
+      if (type !== 'display') { return item ? item[1] : ''; }
       return item ? '<span class="label ' + item[0] + '">' + item[1] + '</span>' : '';
     };
   }
@@ -58,7 +59,7 @@ $(document).ready(function() {
       { data: 'proposal_via_internet', className: 'dt-center',
         render: flag(['label-success', '<%= I18n.t("pages.division.index.flags.yes") %>'], ['label-danger', '<%= I18n.t("pages.division.index.flags.blocked") %>']) },
       { data: 'enabled_in_confirmation', className: 'dt-center',
-        render: flag(['label-success', '<%= I18n.t("pages.division.index.flags.yes") %>'], ['label-default', '<%= I18n.t("pages.division.index.flags.no") %>']) },
+        render: flag(['label-success', '<%= I18n.t("pages.division.index.flags.yes") %>'], ['label-danger', '<%= I18n.t("pages.division.index.flags.blocked") %>']) },
       { data: 'card_template_name',
         render: function(value, type, row) {
           if (type !== 'display') { return value || '<%= I18n.t("pages.division.index.paper_blank") %>'; }
