@@ -32,7 +32,10 @@ class PdfCertificateCard < Prawn::Document
       background = template.public_send("card_#{side}")
       image(StringIO.new(jpeg(background.id, background)), at: [0, bounds.top], width: bounds.width, height: bounds.height) if background
       template.fields.select { |field| field.side == side }.each do |field|
-        field.image? ? photo_field(field, data) : text_field(field, data)
+        if field.qr_code? then qr_code_field(field, data)
+        elsif field.image? then photo_field(field, data)
+        else text_field(field, data)
+        end
       end
     end
 
@@ -61,6 +64,20 @@ class PdfCertificateCard < Prawn::Document
           stroke_color '000000'
         end
       end
+    end
+
+    # Kod QR (prawn-qrcode, poziom korekcji M jak na zaświadczeniu) – kwadrat wpisany w obszar pola, wyśrodkowany,
+    # na białym tle (z marginesem ciszy) – czytelny także na kolorowej grafice karty.
+    def qr_code_field(field, data)
+      content = data.text('qr_code')
+      return if content.blank?
+      side = [field.width.to_f, field.height.to_f].min.mm
+      x = field.x.to_f.mm + (field.width.to_f.mm - side) / 2
+      y = bounds.top - field.y.to_f.mm - (field.height.to_f.mm - side) / 2
+      fill_color 'FFFFFF'
+      fill_rectangle [x, y], side, side
+      print_qr_code(content, pos: [x, y], extent: side, stroke: false, level: :m)
+      fill_color '000000'
     end
 
     # Grafika jako JPEG (bez przeplotu i przezroczystości – Prawn szybko i pewnie osadza JPEG); każda tylko raz na dokument.

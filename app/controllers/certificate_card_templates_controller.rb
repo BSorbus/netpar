@@ -116,12 +116,14 @@ class CertificateCardTemplatesController < ApplicationController
       @certificate_card_template = CertificateCardTemplate.find(params[:id])
     end
 
+    LAYOUT_DEFAULT_SIZES = { 'photo' => { width: 20, height: 25 }, 'qr_code' => { width: 20, height: 20 } }
+
     # Wszystkie atrybuty w kolejności katalogu: zapisane pola wzoru i (niezaznaczone) propozycje dla pozostałych.
     def layout_fields
       CertificateCardTemplateField::ATTRIBUTES.map do |name|
         @certificate_card_template.fields.detect { |field| field.attribute_name == name } ||
-          @certificate_card_template.fields.build(attribute_name: name, side: 'front', x: 5, y: 5, width: name == 'photo' ? 20 : 40,
-                                                  height: name == 'photo' ? 25 : 6, font_size: 10, enabled: false)
+          @certificate_card_template.fields.build({ attribute_name: name, side: 'front', x: 5, y: 5, width: 40, height: 6, font_size: 10,
+                                                    enabled: false }.merge(LAYOUT_DEFAULT_SIZES.fetch(name, {})))
       end
     end
 

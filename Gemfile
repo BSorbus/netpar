@@ -58,6 +58,10 @@ gem 'ajax-datatables-rails', '0.3.1'
 
 gem 'prawn', '2.1.0'
 gem 'prawn-table', '0.2.2'
+# Kod QR na karcie plastikowej (jak w confirmation/confirmation8: prawn-qrcode + rqrcode). 0.3.1 – ostatnia wersja dla
+# Ruby 2.2 (od 0.4.0 wymaga rqrcode >= 1.0, a ten Ruby >= 2.3).
+gem 'prawn-qrcode', '0.3.1'
+gem 'rqrcode', '0.10.1'
 
 gem 'pesel' # https://github.com/macuk/pesel
 # gem 'geocoder'

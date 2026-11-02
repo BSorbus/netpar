@@ -90,6 +90,24 @@ RSpec.describe 'Karta plastikowa – układ, dane i wydruk', type: :model do
         .to eq ['Jan KOWALSKI', '06.07.1969 Więcbork', 'MS-777', '20.11.2026', '20.11.2031']
     end
 
+    it 'kod QR: adres formularza weryfikacji z tymi samymi parametrami co na zaświadczeniu z confirmation (numer bez prefiksu, daty RRRR-MM-DD)' do
+      certificate = create_certificate(division: division, number: 'MS-00777', date_of_issue: Date.new(2026, 11, 20), valid_thru: Date.new(2031, 11, 20),
+                                       customer: { name: 'Jarząb', given_names: 'Bogdan Jan', birth_date: Date.new(1969, 7, 6) })
+      allow(CertificateCardData).to receive(:photo_for).and_return(nil)
+      url = CertificateCardData.from_certificate(certificate).text('qr_code')
+      expect(url).to start_with 'https://confirmation.uke.gov.pl/certificates/new?'
+      expect(Rack::Utils.parse_query(URI.parse(url).query))
+        .to eq('number_prefix' => 'MS-', 'number' => '00777', 'date_of_issue' => '2026-11-20', 'valid_thru' => '2031-11-20',
+               'name' => 'Jarząb', 'given_names' => 'Bogdan Jan', 'birth_date' => '1969-07-06')
+
+      certificate.update_column(:valid_thru, nil) # bezterminowe – pusty parametr, jak w confirmation
+      expect(Rack::Utils.parse_query(URI.parse(CertificateCardData.from_certificate(certificate.reload).text('qr_code')).query)['valid_thru']).to eq ''
+
+      allow(Rails.application.secrets).to receive(:confirmation_search_url).and_return('https://confirmation-test2.uke.gov.pl/certificates/new')
+      expect(CertificateCardData.sample(division).text('qr_code')).to start_with 'https://confirmation-test2.uke.gov.pl/certificates/new?number_prefix=MS-&number=12345&'
+      expect(field(attribute_name: 'qr_code')).to be_image
+    end
+
     it 'zdjęcie: 1) z wniosku, 2) gdy wniosek go nie ma – ostatnio wgrany plik graficzny wśród załączników osoby egzaminowanej' do
       certificate = create_certificate(division: division, number: 'MS-778', date_of_issue: Date.new(2026, 11, 20))
       ProposalStatus.new(name: 'Zaakceptowane').tap { |st| st.id = 2; st.save!(validate: false) }
@@ -134,6 +152,14 @@ RSpec.describe 'Karta plastikowa – układ, dane i wydruk', type: :model do
       expect(pdf.scan(%r{/Type /Page\b}).size).to eq 4
       width, height = pdf[%r{/MediaBox \[0 0 ([\d.]+) ([\d.]+)\]}, 1].to_f, pdf[%r{/MediaBox \[0 0 ([\d.]+) ([\d.]+)\]}, 2].to_f
       expect([width.round(1), height.round(1)]).to eq [242.6, 153.1]
+    end
+
+    it 'kod QR – kwadrat wpisany w obszar pola, na białym tle; bez adresu – pomijany' do
+      field(attribute_name: 'qr_code', side: 'back', x: 60, y: 25, width: 22, height: 26).save!
+      expect(template.reload.fields.first).to be_qr_code
+      document = PdfCertificateCard.new([[CertificateCardData.sample(division), template]], 'test', 'Karty')
+      expect(document.render).to start_with '%PDF'
+      expect(PdfCertificateCard.new([[CertificateCardData.new({}), template]], 'test', 'Karty').render).to start_with '%PDF'
     end
   end
 end

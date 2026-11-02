@@ -113,6 +113,7 @@ pl:
         valid_thru: 'Ważne do'
         division_card_text: 'Rodzaj świadectwa (tekst na kartę z typu świadectwa; pusty – nazwa PL)'
         photo: 'Zdjęcie'
+        qr_code: 'Kod QR (weryfikacja świadectwa w confirmation)' # nowe
       sources: # nowe – źródło wartości atrybutu (edytor układu); customer., certificate., division., examination., proposal. → nazwa modelu
         surname: 'customer.name'
         given_names: 'customer.given_names'
@@ -127,6 +128,7 @@ pl:
         valid_thru: 'certificate.valid_thru'
         division_card_text: 'division.card_print_text, gdy puste – division.name'
         photo: 'proposal.face_image_blob_path (kopia w examination.documents), gdy brak – ostatni PNG/JPEG z examination.documents'
+        qr_code: 'adres formularza confirmation + division.number_prefix, certificate.number, certificate.date_of_issue, certificate.valid_thru, customer.name, customer.given_names, customer.birth_date'
       certificates_count: 'Świadectwa wydane w okresie wzoru (drukowane wg niego)'
       division:
         legend: 'Wzory kart plastikowych (HID FARGO HDP6600)'

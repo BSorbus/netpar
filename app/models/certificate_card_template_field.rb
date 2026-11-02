@@ -11,8 +11,9 @@ class CertificateCardTemplateField < ActiveRecord::Base
   LETTER_CASES = %w(original upper lower capitalize)
   # Atrybuty do nadruku (wartości – CertificateCardData), w kolejności listy w edytorze układu.
   ATTRIBUTES = %w(surname given_names full_name birth_date birth_place birth_date_and_place number date_of_issue place_of_issue
-                  place_and_date_of_issue valid_thru division_card_text photo)
-  IMAGE_ATTRIBUTES = %w(photo)
+                  place_and_date_of_issue valid_thru division_card_text photo qr_code)
+  # Pola graficzne (bez czcionki): zdjęcie i kod QR weryfikacji świadectwa (kwadrat wpisany w obszar).
+  IMAGE_ATTRIBUTES = %w(photo qr_code)
 
   belongs_to :template, class_name: 'CertificateCardTemplate', foreign_key: :certificate_card_template_id, inverse_of: :fields
 
@@ -36,6 +37,10 @@ class CertificateCardTemplateField < ActiveRecord::Base
 
   def image?
     IMAGE_ATTRIBUTES.include?(attribute_name)
+  end
+
+  def qr_code?
+    attribute_name == 'qr_code'
   end
 
   def label
