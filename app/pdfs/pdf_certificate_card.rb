@@ -37,7 +37,7 @@ class PdfCertificateCard < Prawn::Document
     end
 
     def text_field(field, data)
-      value = data.text(field.attribute_name)
+      value = field.formatted(data.text(field.attribute_name))
       return if value.blank?
       fill_color field.color
       text_box value, at: [field.x.to_f.mm, bounds.top - field.y.to_f.mm], width: field.width.to_f.mm, height: field.height.to_f.mm,

@@ -95,4 +95,26 @@ RSpec.describe Customer, type: :model do
   it { should have_many(:certificated_documentable) }
   it { should have_many(:examinationed_documentable) }
   it { should have_many(:examed_documentable) }
+
+  # Zgłoszenia z aplikacji Egzaminy – imiona i nazwisko często wielkimi literami; korekta w danych osoby (strona wniosku).
+  describe 'imiona i nazwisko' do
+    it 'name_case: tekst wielkimi (albo małymi) literami – pierwsza wielka, także po łączniku; inny bez zmian' do
+      expect(Customer.name_case('BOGDAN')).to eq 'Bogdan'
+      expect(Customer.name_case(' JARZĄB ')).to eq 'Jarząb'
+      expect(Customer.name_case('KOWALSKI-NOWAK')).to eq 'Kowalski-Nowak'
+      expect(Customer.name_case('ŁUKASZ ŻÓŁTY')).to eq 'Łukasz Żółty'
+      expect(Customer.name_case('jan maria')).to eq 'Jan Maria'
+      expect(Customer.name_case('McDonald')).to eq 'McDonald'
+      expect(Customer.name_case('Jarzab')).to eq 'Jarzab' # brakujących polskich znaków nie da się odtworzyć
+      expect(Customer.name_case(nil)).to eq ''
+    end
+
+    it 'name_in_capitals? i certificate_name (jak na świadectwie i karcie)' do
+      expect(Customer.new(name: 'JARZĄB', given_names: 'Bogdan').name_in_capitals?).to be true
+      expect(Customer.new(name: 'Jarząb', given_names: 'BOGDAN').name_in_capitals?).to be true
+      expect(Customer.new(name: 'Jarząb', given_names: 'Bogdan').name_in_capitals?).to be false
+      expect(Customer.new(name: 'Ng', given_names: 'Li').name_in_capitals?).to be false
+      expect(Customer.new(name: 'Jarząb', given_names: 'Bogdan').certificate_name).to eq 'Bogdan JARZĄB'
+    end
+  end
 end

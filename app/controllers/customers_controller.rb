@@ -160,7 +160,7 @@ class CustomersController < ApplicationController
                           }))
 
         flash_message :success, t('activerecord.messages.successfull.created', data: @customer.fullname)
-        format.html { redirect_to @customer }
+        format.html { redirect_to local_back_url || @customer }
         format.json { render :show, status: :created, location: @customer }
       else
         format.html { render :new }
@@ -185,7 +185,7 @@ class CustomersController < ApplicationController
                           }))
 
         flash_message :success, t('activerecord.messages.successfull.updated', data: @customer.fullname)
-        format.html { redirect_to @customer }
+        format.html { redirect_to local_back_url || @customer }
         format.json { render :show, status: :ok, location: @customer }
       else
         format.html { render :edit }
@@ -222,6 +222,12 @@ class CustomersController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
+    # Powrót po zapisie (np. do wniosku, z którego poprawiano dane osoby) – tylko adres w tej aplikacji.
+    def local_back_url
+      url = params[:back_url].to_s
+      url if url.start_with?('/') && !url.start_with?('//')
+    end
+
     def customer_params
       params.require(:customer).permit(:human, :name, :given_names, 
         :address_city, :address_street, :address_house, :address_number, :address_postal_code, 

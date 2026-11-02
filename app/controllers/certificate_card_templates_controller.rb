@@ -129,7 +129,7 @@ class CertificateCardTemplatesController < ApplicationController
     def layout_params
       fields = params.require(:certificate_card_template).fetch(:fields_attributes, {})
       fields.keys.map do |key| # fields[key] – Parameters (values w Rails 4.2 zwraca zwykłe hashe)
-        permitted = fields[key].permit(:id, :enabled, :attribute_name, :side, :x, :y, :width, :height, :font_size, :bold, :align, :color)
+        permitted = fields[key].permit(:id, :enabled, :attribute_name, :side, :x, :y, :width, :height, :font_size, :bold, :align, :color, :letter_case)
         permitted[:_destroy] = '1' if permitted[:id].present? && permitted[:enabled] != '1'
         permitted
       end

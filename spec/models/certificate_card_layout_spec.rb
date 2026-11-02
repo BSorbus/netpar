@@ -40,7 +40,42 @@ RSpec.describe 'Karta plastikowa – układ, dane i wydruk', type: :model do
     end
   end
 
+  describe 'wielkość liter pola' do
+    it 'oryginał (domyślnie), WIELKIE, małe, Pierwsza Wielka w każdym słowie – z polskimi znakami' do
+      expect(field.letter_case).to eq 'original'
+      expect(field.formatted('Bogdan JARZĄB')).to eq 'Bogdan JARZĄB'
+      expect(field(letter_case: 'upper').formatted('Łukasz żółty')).to eq 'ŁUKASZ ŻÓŁTY'
+      expect(field(letter_case: 'lower').formatted('ŁUKASZ ŻÓŁTY')).to eq 'łukasz żółty'
+      expect(field(letter_case: 'capitalize').formatted('JAN MARIA KOWALSKI-NOWAK')).to eq 'Jan Maria Kowalski-Nowak'
+      expect(field(letter_case: 'capitalize').formatted("BOGDAN o'CONNOR")).to eq "Bogdan O'Connor"
+      expect(field(letter_case: 'mixed')).not_to be_valid
+    end
+
+    it 'zapis z edytora układu' do
+      template.update!(fields_attributes: [{ attribute_name: 'full_name', enabled: '1', side: 'front', x: 5, y: 5, width: 40, height: 6,
+                                             font_size: 10, letter_case: 'capitalize' }])
+      expect(template.fields.reload.first.letter_case).to eq 'capitalize'
+    end
+  end
+
   describe 'dane do nadruku' do
+    it 'nazwisko i imiona – osobne atrybuty z danych osoby (bez zmiany wielkości liter), obok „Imię i NAZWISKO”' do
+      customer = Customer.new(name: 'Jarząb', given_names: 'Bogdan Jan', birth_date: Date.new(1969, 7, 6))
+      certificate = Certificate.new(division: division, customer: customer, number: 'MS-1', date_of_issue: Date.new(2026, 12, 2))
+      allow(CertificateCardData).to receive(:photo_for).and_return(nil)
+      data = CertificateCardData.from_certificate(certificate)
+      expect([data.text('surname'), data.text('given_names'), data.text('full_name')]).to eq ['Jarząb', 'Bogdan Jan', 'Bogdan Jan JARZĄB']
+      expect(field(attribute_name: 'surname', letter_case: 'upper').formatted(data.text('surname'))).to eq 'JARZĄB'
+      expect(CertificateCardTemplateField::ATTRIBUTES.first(3)).to eq %w(surname given_names full_name)
+    end
+
+    it 'źródło wartości każdego atrybutu – model (nazwa z tłumaczeń) i kolumna' do
+      expect(field(attribute_name: 'given_names').source).to eq '(Klient).given_names'
+      expect(field(attribute_name: 'date_of_issue').source).to eq '(Świadectwo).date_of_issue'
+      expect(field(attribute_name: 'division_card_text').source).to eq '(Typ Świadectwa).card_print_text, gdy puste – (Typ Świadectwa).name'
+      expect(CertificateCardTemplateField::ATTRIBUTES.map { |name| field(attribute_name: name).source }).to all(be_present)
+    end
+
     it 'rodzaj świadectwa: tekst na kartę z typu świadectwa, a gdy pusty – nazwa PL' do
       expect(CertificateCardData.sample(division).text('division_card_text')).to eq 'świadectwo SRC'
       division.update_column(:card_print_text, 'SRC – Short Range Certificate')

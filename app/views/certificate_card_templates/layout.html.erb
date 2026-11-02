@@ -46,6 +46,7 @@
                 <th><%= t("pages.certificate_card_template.layout.bold") %></th>
                 <th><%= t("pages.certificate_card_template.layout.align") %></th>
                 <th><%= t("pages.certificate_card_template.layout.color") %></th>
+                <th><%= t("pages.certificate_card_template.layout.letter_case") %></th>
               </tr>
             </thead>
             <tbody>
@@ -53,20 +54,25 @@
                 <% field = ff.object %>
                 <tr data-attribute="<%= field.attribute_name %>" data-label="<%= field.label %>">
                   <td><%= ff.check_box :enabled, { checked: field.enabled, data: { f: 'enabled' } }, '1', '0' %><%= ff.hidden_field :attribute_name %></td>
-                  <td><%= field.label %></td>
+                  <td><%= field.label %><br><small class="text-muted"><code><%= field.source %></code></small></td>
                   <td><%= ff.select :side, CertificateCardTemplateField::SIDES.map { |s| [t("pages.certificate_card_template.layout.#{s}"), s] }, {},
                                     class: 'form-control input-sm', data: { f: 'side' } %></td>
                   <% %w(x y width height).each do |name| %>
                     <td><%= ff.number_field name, step: 0.1, min: 0, class: 'form-control input-sm', data: { f: name } %></td>
                   <% end %>
                   <% if field.image? %>
-                    <td colspan="4"></td>
+                    <td colspan="5"></td>
                   <% else %>
                     <td><%= ff.number_field :font_size, step: 0.5, min: 4, max: 40, class: 'form-control input-sm' %></td>
                     <td><%= ff.check_box :bold %></td>
                     <td><%= ff.select :align, CertificateCardTemplateField::ALIGNS.map { |a| [t("pages.certificate_card_template.layout.align_#{a}"), a] }, {},
                                       class: 'form-control input-sm' %></td>
                     <td><%= ff.text_field :color, maxlength: 6, class: 'form-control input-sm' %></td>
+                    <td class="card-letter-case">
+                      <% CertificateCardTemplateField::LETTER_CASES.each do |letter_case| %>
+                        <label class="radio-inline"><%= ff.radio_button :letter_case, letter_case %> <%= t("pages.certificate_card_template.layout.letter_case_#{letter_case}") %></label>
+                      <% end %>
+                    </td>
                   <% end %>
                 </tr>
               <% end %>

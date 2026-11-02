@@ -83,6 +83,11 @@ pl:
         bold: 'Pogr.'
         align: 'Wyrównanie'
         color: 'Kolor'
+        letter_case: 'Wielkość liter' # nowe
+        letter_case_original: 'oryginał' # nowe
+        letter_case_upper: 'WIELKIE' # nowe
+        letter_case_lower: 'małe' # nowe
+        letter_case_capitalize: 'Pierwsza Wielka' # nowe
         align_left: 'do lewej'
         align_center: 'środek'
         align_right: 'do prawej'
@@ -95,6 +100,8 @@ pl:
         none: 'Żadne świadectwo nie ma wzoru karty na dzień wydania – brak kart do wydruku.'
         no_template: 'Brak wzoru karty na dzień wydania (%{date})'
       attributes: # nowe – atrybuty do nadruku na karcie
+        surname: 'Nazwisko' # nowe
+        given_names: 'Imiona' # nowe
         full_name: 'Imię i NAZWISKO'
         birth_date: 'Data urodzenia'
         birth_place: 'Miejsce urodzenia'
@@ -106,6 +113,20 @@ pl:
         valid_thru: 'Ważne do'
         division_card_text: 'Rodzaj świadectwa (tekst na kartę z typu świadectwa; pusty – nazwa PL)'
         photo: 'Zdjęcie'
+      sources: # nowe – źródło wartości atrybutu (edytor układu); customer., certificate., division., examination., proposal. → nazwa modelu
+        surname: 'customer.name'
+        given_names: 'customer.given_names'
+        full_name: 'customer.given_names + customer.name (WIELKIE)'
+        birth_date: 'customer.birth_date'
+        birth_place: 'customer.birth_place'
+        birth_date_and_place: 'customer.birth_date + customer.birth_place'
+        number: 'certificate.number'
+        date_of_issue: 'certificate.date_of_issue'
+        place_of_issue: 'certificate.user.department.address_city'
+        place_and_date_of_issue: 'certificate.user.department.address_city + certificate.date_of_issue'
+        valid_thru: 'certificate.valid_thru'
+        division_card_text: 'division.card_print_text, gdy puste – division.name'
+        photo: 'proposal.face_image_blob_path (kopia w examination.documents), gdy brak – ostatni PNG/JPEG z examination.documents'
       certificates_count: 'Świadectwa wydane w okresie wzoru (drukowane wg niego)'
       division:
         legend: 'Wzory kart plastikowych (HID FARGO HDP6600)'
@@ -287,6 +308,14 @@ pl:
         title: 'Elektroniczne Zgłoszenia RA'
       show:
         title: 'Elektroniczne Zgłoszenie RA'
+    proposal_customer: # nowe – sekcja w danych wniosku: osoba egzaminowana powiązana ze zgłoszeniem
+      title: 'Osoba egzaminowana w NETPAR (dane na świadectwo i kartę)'
+      certificate_name: 'Na świadectwie i karcie'
+      capitals: 'Imiona lub nazwisko zapisane wielkimi literami – popraw dane osoby (np. „Bogdan”, „Kowalski-Nowak”).'
+      hint: 'Świadectwo, karta plastikowa i koperty drukują się z danych osoby, nie ze zgłoszenia. Sprawdź wielkość liter i polskie znaki (np. „Jarzab” → „Jarząb”).'
+      show_link: 'Pokaż osobę'
+      edit_link: 'Popraw dane osoby'
+      none: 'Zgłoszenie nie jest jeszcze powiązane z osobą egzaminowaną (powiązanie przy akceptacji zgłoszenia).'
     proposal_egzaminy: # nowe – sekcja w danych wniosku: dane z aplikacji Egzaminy (API)
       show:
         title: 'Aplikacja Egzaminy: zgody RODO i historia zgłoszenia'

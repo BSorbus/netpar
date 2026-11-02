@@ -49,8 +49,9 @@
 
     <% if policy(:customer).new? %>
 
-       <%= link_to new_customer_path(customer: { name: f.object.name, 
-                                                given_names: f.object.given_names,
+       <%# Imiona i nazwisko pisane w zgłoszeniu wielkimi literami – w nowej osobie od razu poprawione (Customer.name_case). %>
+       <%= link_to new_customer_path(customer: { name: Customer.name_case(f.object.name), 
+                                                given_names: Customer.name_case(f.object.given_names),
                                                 pesel: f.object.pesel,
                                                 birth_date: f.object.birth_date,
                                                 birth_place: f.object.birth_place,

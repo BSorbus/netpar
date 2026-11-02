@@ -1,0 +1,42 @@
+<%# Osoba egzaminowana powiązana ze zgłoszeniem (przy akceptacji) – jej dane idą na świadectwo, karty i koperty. Zgłoszenia
+    z aplikacji Egzaminy mają często imiona i nazwisko wielkimi literami albo bez polskich znaków – poprawia się je w danych osoby. %>
+<% customer = @proposal.customer %>
+<fieldset class="my-fieldset">
+  <legend class="my-fieldset"><%= t('pages.proposal_customer.title') %></legend>
+  <% if customer %>
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <p><strong><%= Customer.human_attribute_name(:name) %></strong></p>
+        <h5><%= customer.name %></h5>
+      </div>
+      <div class="form-group col-sm-4">
+        <p><strong><%= Customer.human_attribute_name(:given_names) %></strong></p>
+        <h5><%= customer.given_names %></h5>
+      </div>
+      <div class="form-group col-sm-4">
+        <p><strong><%= t('pages.proposal_customer.certificate_name') %></strong></p>
+        <h5><%= customer.certificate_name %></h5>
+      </div>
+    </div>
+    <% if customer.name_in_capitals? %>
+      <div class="alert alert-warning"><%= t('pages.proposal_customer.capitals') %></div>
+    <% end %>
+    <p class="text-muted"><%= t('pages.proposal_customer.hint') %></p>
+    <div class="row">
+      <div class="col-sm-12">
+        <%= link_to customer_path(customer, back_url: request.fullpath), class: "btn btn-default btn-sm" do %>
+          <span class="fa fa-user"></span>
+          <%= t('pages.proposal_customer.show_link') %>
+        <% end %>
+        <% if policy(customer).edit? %>
+          <%= link_to edit_customer_path(customer, back_url: request.fullpath), class: "btn btn-primary btn-sm" do %>
+            <span class="fa fa-pencil"></span>
+            <%= t('pages.proposal_customer.edit_link') %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <p class="text-muted"><%= t('pages.proposal_customer.none') %></p>
+  <% end %>
+</fieldset>

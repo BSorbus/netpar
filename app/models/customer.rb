@@ -65,6 +65,28 @@ class Customer < ActiveRecord::Base
     "#{name} #{given_names}"
   end
 
+  # Imiona i nazwisko jak na świadectwie i karcie plastikowej (pdf_certificates_m/r, CertificateCardData).
+  def certificate_name
+    "#{given_names} #{name.to_s.mb_chars.upcase}"
+  end
+
+  # Imiona lub nazwisko zapisane w całości wielkimi literami (częste w zgłoszeniach z aplikacji Egzaminy) – do poprawy.
+  def name_in_capitals?
+    [name, given_names].any? { |value| self.class.capitals?(value) }
+  end
+
+  def self.capitals?(value)
+    value.to_s =~ /[[:alpha:]]{2}/ && value.to_s == value.to_s.mb_chars.upcase.to_s
+  end
+
+  # „BOGDAN” → „Bogdan”, „KOWALSKI-NOWAK” → „Kowalski-Nowak” – tylko tekst w całości wielkimi albo małymi literami;
+  # inny zostaje bez zmian (np. „McDonald”). Polskich znaków, których brak w zgłoszeniu, nie da się odtworzyć.
+  def self.name_case(value)
+    text = value.to_s.strip
+    return text unless capitals?(text) || text == text.mb_chars.downcase.to_s
+    text.split(/([\s\-']+)/).map { |part| part.mb_chars.capitalize.to_s }.join
+  end
+
   def fullname_and_id
     "#{name} #{given_names} (#{id})"
   end

@@ -177,6 +177,8 @@ img {
 .card-fields {
   tr.active { background: #fcf8e3; }
   input.form-control, select.form-control { min-width: 60px; padding: 2px 4px; }
+  // Wielkość liter – opcje jedna pod drugą (wąska kolumna tabeli).
+  .card-letter-case label.radio-inline { display: block; margin: 0; padding-top: 0; white-space: nowrap; font-size: 12px; }
 }
 
 .panel-exam_fee {

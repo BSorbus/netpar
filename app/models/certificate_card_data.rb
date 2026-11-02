@@ -20,7 +20,8 @@ class CertificateCardData
     place = certificate.user && certificate.user.department ? certificate.user.department.address_city.to_s : ''
     birth_date = customer.birth_date.present? ? customer.birth_date.strftime('%d.%m.%Y') : ''
     issued = certificate.date_of_issue.present? ? certificate.date_of_issue.strftime('%d.%m.%Y') : ''
-    new({ 'full_name' => "#{customer.given_names} #{customer.name.to_s.mb_chars.upcase}",
+    new({ 'surname' => customer.name.to_s, 'given_names' => customer.given_names.to_s, # jak w danych osoby (wielkość liter – pole wzoru)
+          'full_name' => "#{customer.given_names} #{customer.name.to_s.mb_chars.upcase}",
           'birth_date' => birth_date, 'birth_place' => customer.birth_place.to_s,
           'birth_date_and_place' => customer.birth_date_and_place.to_s,
           'number' => certificate.number.to_s, 'date_of_issue' => issued, 'place_of_issue' => place,
@@ -33,7 +34,8 @@ class CertificateCardData
   # Podgląd układu: przykładowe dane (długie nazwisko – sprawdzenie dopasowania tekstu), bez zdjęcia (ramka zastępcza).
   def self.sample(division)
     today = Time.zone.today
-    new({ 'full_name' => 'Jan Maria KOWALSKI-NOWAKOWSKI', 'birth_date' => '06.07.1969', 'birth_place' => 'Więcbork',
+    new({ 'surname' => 'Kowalski-Nowakowski', 'given_names' => 'Jan Maria',
+          'full_name' => 'Jan Maria KOWALSKI-NOWAKOWSKI', 'birth_date' => '06.07.1969', 'birth_place' => 'Więcbork',
           'birth_date_and_place' => '06.07.1969 Więcbork', 'number' => "#{division.number_prefix}12345",
           'date_of_issue' => today.strftime('%d.%m.%Y'), 'place_of_issue' => 'Warszawa',
           'place_and_date_of_issue' => "Warszawa #{today.strftime('%d.%m.%Y')}",

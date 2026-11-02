@@ -6,8 +6,11 @@ class CertificateCardTemplateField < ActiveRecord::Base
   CARD_HEIGHT = 54.0
   SIDES = %w(front back)
   ALIGNS = %w(left center right)
+  # Wielkość liter tekstu: bez zmian, WIELKIE, małe, Pierwsza Wielka w każdym słowie (także po łączniku i apostrofie:
+  # „JAN MARIA KOWALSKI-NOWAK” → „Jan Maria Kowalski-Nowak”).
+  LETTER_CASES = %w(original upper lower capitalize)
   # Atrybuty do nadruku (wartości – CertificateCardData), w kolejności listy w edytorze układu.
-  ATTRIBUTES = %w(full_name birth_date birth_place birth_date_and_place number date_of_issue place_of_issue
+  ATTRIBUTES = %w(surname given_names full_name birth_date birth_place birth_date_and_place number date_of_issue place_of_issue
                   place_and_date_of_issue valid_thru division_card_text photo)
   IMAGE_ATTRIBUTES = %w(photo)
 
@@ -19,6 +22,7 @@ class CertificateCardTemplateField < ActiveRecord::Base
   validates :attribute_name, inclusion: { in: ATTRIBUTES }, uniqueness: { scope: :certificate_card_template_id }
   validates :side, inclusion: { in: SIDES }
   validates :align, inclusion: { in: ALIGNS }
+  validates :letter_case, inclusion: { in: LETTER_CASES }
   validates :color, format: { with: /\A[0-9A-Fa-f]{6}\z/ }
   validates :x, :width, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: CARD_WIDTH }
   validates :y, :height, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: CARD_HEIGHT }
@@ -36,6 +40,26 @@ class CertificateCardTemplateField < ActiveRecord::Base
 
   def label
     I18n.t(attribute_name, scope: 'pages.certificate_card_template.attributes')
+  end
+
+  SOURCE_MODELS = %w(customer certificate division examination proposal)
+
+  # Skąd pochodzi wartość (edytor układu): „(Klient).given_names”, „(Świadectwo).date_of_issue” – nazwy modeli z tłumaczeń,
+  # kolumny jak w bazie (opis w pages.certificate_card_template.sources).
+  def source
+    I18n.t(attribute_name, scope: 'pages.certificate_card_template.sources', default: '')
+        .gsub(/\b(#{SOURCE_MODELS.join('|')})\./) { "(#{Regexp.last_match(1).camelize.constantize.model_name.human})." }
+  end
+
+  # Tekst do nadruku wg wybranej wielkości liter (mb_chars – polskie znaki w Ruby 2.2).
+  def formatted(value)
+    text = value.to_s
+    case letter_case
+    when 'upper' then text.mb_chars.upcase.to_s
+    when 'lower' then text.mb_chars.downcase.to_s
+    when 'capitalize' then text.split(/([\s\-']+)/).map { |part| part.mb_chars.capitalize.to_s }.join
+    else text
+    end
   end
 
   private

@@ -6,6 +6,8 @@
   %>
 
   <%= form_errors_for @customer %>
+  <%# Powrót po zapisie (np. do wniosku) – CustomersController#local_back_url. %>
+  <%= hidden_field_tag :back_url, params[:back_url] if params[:back_url].present? %>
 
   <div class="row">
     <div class="col-sm-12">
@@ -316,7 +318,7 @@
         <%= t("helpers.links.index") %>
       <% end %>
 
-      <%= link_to :back, class: "btn btn-default" do %>
+      <%= link_to (params[:back_url].to_s.start_with?('/') ? params[:back_url] : :back), class: "btn btn-default" do %>
         <span class="fa fa-undo"></span>
         <%= t("helpers.links.back") %>
       <% end %>
