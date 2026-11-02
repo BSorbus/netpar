@@ -5,6 +5,11 @@ require "prawn/measurement_extensions"
 # items – [[CertificateCardData, CertificateCardTemplate], …].
 class PdfCertificateCard < Prawn::Document
   SIZE = [CertificateCardTemplateField::CARD_WIDTH.mm, CertificateCardTemplateField::CARD_HEIGHT.mm]
+  # Tło karty osadzane najwyżej w rozdzielczości drukarki (600 dpi → 2022 × 1276 px). Większa grafika wzoru (np. 1300 dpi)
+  # nie poprawia wydruku – sterownik i tak ją zmniejsza – a powiększa PDF. Oryginał wzoru w bazie bez zmian.
+  PRINTER_DPI = 600
+  BACKGROUND_MAX = [(CertificateCardTemplateField::CARD_WIDTH / 25.4 * PRINTER_DPI).round,
+                    (CertificateCardTemplateField::CARD_HEIGHT / 25.4 * PRINTER_DPI).round]
 
   def initialize(items, author, title)
     super(page_size: SIZE, margin: 0, info: { Title: title, Author: author, Subject: '', CreationDate: Time.now })
@@ -30,7 +35,7 @@ class PdfCertificateCard < Prawn::Document
 
     def card_side(data, template, side)
       background = template.public_send("card_#{side}")
-      image(StringIO.new(jpeg(background.id, background)), at: [0, bounds.top], width: bounds.width, height: bounds.height) if background
+      image(StringIO.new(jpeg(background.id, background, BACKGROUND_MAX)), at: [0, bounds.top], width: bounds.width, height: bounds.height) if background
       template.fields.select { |field| field.side == side }.each do |field|
         if field.qr_code? then qr_code_field(field, data)
         elsif field.image? then photo_field(field, data)
@@ -81,13 +86,15 @@ class PdfCertificateCard < Prawn::Document
     end
 
     # Grafika jako JPEG (bez przeplotu i przezroczystości – Prawn szybko i pewnie osadza JPEG); każda tylko raz na dokument.
-    def jpeg(key, source)
+    # max – [szer., wys.] w px: większa grafika jest zmniejszana (z zachowaniem proporcji), mniejsza – bez zmian.
+    def jpeg(key, source, max = nil)
       @images[key] ||= begin
         blob = source.respond_to?(:read) ? source.read : source
         image = MiniMagick::Image.read(blob)
         image.combine_options do |c|
           c.background 'white'
           c.flatten
+          c.resize "#{max[0]}x#{max[1]}>" if max
           c.interlace 'none'
         end
         image.format 'jpg'
