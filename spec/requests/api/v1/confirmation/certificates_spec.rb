@@ -80,11 +80,20 @@ RSpec.describe 'API v1 confirmation/certificates/search', type: :request do
     end
   end
 
-  it 'rodzaj niewłączony do weryfikacji: 404 jak brak danych' do
+  it 'rodzaj niewłączony do weryfikacji, dane zgodne: 403 „typ spoza weryfikacji internetowej” (po pełnym dopasowaniu)' do
     create_certificate(division: cso, number: 'GC-00001')
 
-    search(number_prefix: 'GC-', number: '00001')
+    expect { search(number_prefix: 'GC-', number: '00001') }.to change(ConfirmationLog, :count).by(1)
+    expect(response).to have_http_status(:forbidden)
+    expect(json['error']).to include 'Rodzaj świadectwa nie podlega weryfikacji internetowej'
+  end
+
+  it 'rodzaj niewłączony, ale dane NIEzgodne: 404 jak brak danych (bez ujawniania istnienia świadectwa)' do
+    create_certificate(division: cso, number: 'GC-00001')
+
+    search(number_prefix: 'GC-', number: '00001', name: 'kowalski')
     expect(response).to have_http_status(:not_found)
+    expect(json).to eq('error' => 'Brak danych / No data')
   end
 
   it 'świadectwo anulowane: 404' do
