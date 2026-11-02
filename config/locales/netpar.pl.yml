@@ -40,6 +40,20 @@ pl:
       model_icon: 'fa fa-address-card'
       index:
         title: 'Typy Świadectw'
+        hint: 'Kliknij służbę albo skrót, aby zobaczyć szczegóły typu. Karta plastikowa – wzór obowiązujący dziś (brak – wydruk na blankiecie).' # nowe
+        columns: # nowe – krótkie nagłówki listy
+          min_years_old: 'Min. wiek'
+          face_image_required: 'Zdjęcie'
+          for_new_certificate: 'Nowe świadectwa'
+          proposal_via_internet: 'Zapisy przez internet'
+          enabled_in_confirmation: 'Weryfikacja Confirmation'
+          card_template: 'Karta plastikowa (dziś)'
+        flags: # nowe
+          'yes': 'tak'
+          'no': 'nie'
+          required: 'wymagane'
+          blocked: 'blokada'
+        paper_blank: 'blankiet'
       show:
         title: 'Typ Świadectwa'
       edit:

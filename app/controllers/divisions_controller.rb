@@ -7,8 +7,17 @@ class DivisionsController < ApplicationController
   # GET /divisions
   # GET /divisions.json
   def index
-    @divisions = Division.order(:id).all
     authorize :division, :index?
+  end
+
+  # Dane listy typów świadectw (DataTables, jak stawki opłat i wzory kart) – z wzorem karty obowiązującym dziś.
+  def datatables_index
+    authorize :division, :index?
+    divisions = Division.includes(:certificate_card_templates).order(:category, :name)
+
+    respond_to do |format|
+      format.json { render json: divisions, each_serializer: DivisionListSerializer, root: 'data' }
+    end
   end
 
   def select2_index

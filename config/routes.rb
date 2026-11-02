@@ -131,6 +131,7 @@ Rails.application.routes.draw do
   resources :departments
   resources :divisions do
     get 'select2_index', on: :collection
+    post 'datatables_index', on: :collection
   end
   resources :exam_fees do
     post 'datatables_index', on: :collection

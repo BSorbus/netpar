@@ -1,0 +1,77 @@
+// Lista typów świadectw (jak stawki opłat i wzory kart): służba, skrót, prefiks, nazwa PL/EN, minimalny wiek, przełączniki
+// (zdjęcie, nowe świadectwa, zapisy przez internet, weryfikacja w Confirmation) jako etykiety i wzór karty obowiązujący dziś.
+// Etykiety tylko do wyświetlenia – sortowanie i wyszukiwanie po wartości (tak/nie).
+$(document).ready(function() {
+  if (!$('#divisions').length) { return; }
+
+  function escapeHtml(text) { return $('<div>').text(text == null ? '' : String(text)).html(); }
+
+  // yes/no – [klasa etykiety, tekst] dla true i false.
+  function flag(yes, no) {
+    return function(value, type) {
+      if (type !== 'display') { return value ? '<%= I18n.t("pages.division.index.flags.yes") %>' : '<%= I18n.t("pages.division.index.flags.no") %>'; }
+      var item = value ? yes : no;
+      return item ? '<span class="label ' + item[0] + '">' + item[1] + '</span>' : '';
+    };
+  }
+
+  $('#divisions').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: false,
+    deferRender: true,
+    ajax: {
+      url: $('#divisions').data('source'),
+      type: "POST",
+      error: function (jqXHR, exception) {
+        if (jqXHR.status == 401) { window.location.reload(); } else { getErrorMessage(jqXHR, exception); }
+      }
+    },
+    pagingType: "full_numbers",
+    pageLength: 50,
+    lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Wszystkie"]],
+    columns: [
+      { data: 'id', "visible": false, "searchable": false, "sortable": false },
+      { data: 'category_fullname',
+        render: function(value, type, row) {
+          return type === 'display' ? '<a href="/divisions/' + row.id + '">' + escapeHtml(value) + '</a>' : value;
+        }
+      },
+      { data: 'short_name',
+        render: function(value, type, row) {
+          return type === 'display' ? '<a href="/divisions/' + row.id + '"><strong>' + escapeHtml(value) + '</strong></a>' : value;
+        }
+      },
+      { data: 'number_prefix', render: function(value, type) { return type === 'display' ? '<code>' + escapeHtml(value) + '</code>' : value; } },
+      { data: 'name',
+        render: function(value, type, row) {
+          if (type !== 'display') { return value + ' ' + (row.english_name || ''); }
+          var english = row.english_name ? '<br><small class="text-muted">' + escapeHtml(row.english_name) + '</small>' : '';
+          return escapeHtml(value) + english;
+        }
+      },
+      { data: 'min_years_old', className: 'dt-center' },
+      { data: 'face_image_required', className: 'dt-center',
+        render: flag(['label-info', '<%= I18n.t("pages.division.index.flags.required") %>'], null) },
+      { data: 'for_new_certificate', className: 'dt-center',
+        render: flag(['label-success', '<%= I18n.t("pages.division.index.flags.yes") %>'], ['label-danger', '<%= I18n.t("pages.division.index.flags.blocked") %>']) },
+      { data: 'proposal_via_internet', className: 'dt-center',
+        render: flag(['label-success', '<%= I18n.t("pages.division.index.flags.yes") %>'], ['label-danger', '<%= I18n.t("pages.division.index.flags.blocked") %>']) },
+      { data: 'enabled_in_confirmation', className: 'dt-center',
+        render: flag(['label-success', '<%= I18n.t("pages.division.index.flags.yes") %>'], ['label-default', '<%= I18n.t("pages.division.index.flags.no") %>']) },
+      { data: 'card_template_name',
+        render: function(value, type, row) {
+          if (type !== 'display') { return value || '<%= I18n.t("pages.division.index.paper_blank") %>'; }
+          return row.card_template_id
+            ? '<a href="/certificate_card_templates/' + row.card_template_id + '"><span class="fa fa-credit-card"></span> ' + escapeHtml(value) + '</a>'
+            : '<span class="text-muted"><%= I18n.t("pages.division.index.paper_blank") %></span>';
+        }
+      },
+      { data: 'id', "searchable": false, "sortable": false,
+        render: function(id) { return '<a href="/divisions/' + id + '" class="fa fa-eye" title="Pokaż"></a>'; }
+      }
+    ],
+    order: [[ 1, "asc" ], [ 4, "asc" ]],
+    language: { url: '<%= asset_path("pl.json.erb") %>' }
+  });
+});
