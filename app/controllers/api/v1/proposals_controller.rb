@@ -4,6 +4,10 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
   # Zgłoszenia „w toku” – na ten sam rodzaj świadectwa użytkownik może mieć tylko jedno (jak w aplikacji Egzaminy).
   ACTIVE_STATUSES = [ ProposalStatus::PROPOSAL_STATUS_CREATED, ProposalStatus::PROPOSAL_STATUS_APPROVED ]
   ACTIVE_FOR_DIVISION_MESSAGE = "Jest aktualnie procedowane zgłoszenie dla tego typu świadectwa"
+  # Zapisy przez internet dla rodzaju świadectwa można wyłączyć w NETPAR (divisions.proposal_via_internet = false) – taki
+  # rodzaj nie trafia na listę w aplikacji Egzaminy, ale zgłoszenie i tak nie może powstać (zabezpieczenie po stronie API,
+  # np. gdy rodzaj wyłączono w trakcie wypełniania wniosku).
+  DIVISION_BLOCKED_MESSAGE = "Dla tego typu świadectwa zapisy przez internet są wyłączone"
 
   respond_to :json
 
@@ -37,6 +41,9 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
     return render(json: existing, status: :ok) if existing
     if active_proposal_for_division?(proposal_params)
       return render json: { errors: [ ACTIVE_FOR_DIVISION_MESSAGE ] }, status: :unprocessable_entity
+    end
+    if division_blocked_for_internet?(proposal_params)
+      return render json: { errors: [ DIVISION_BLOCKED_MESSAGE ] }, status: :unprocessable_entity
     end
 
     proposal = Proposal.new(proposal_params.merge(proposal_status_id: ProposalStatus::PROPOSAL_STATUS_CREATED, test_unlocked: false))
@@ -158,6 +165,13 @@ class Api::V1::ProposalsController < Api::V1::BaseApiController
 
       Proposal.where(creator_id: attributes[:creator_id], division_id: attributes[:division_id], proposal_status_id: ACTIVE_STATUSES)
               .where.not(multi_app_identifier: attributes[:multi_app_identifier].to_s).exists?
+    end
+
+    # Rodzaj świadectwa z wyłączonymi zapisami przez internet (divisions.proposal_via_internet = false). Gdy rodzaju nie ma
+    # albo nie podano – false (brak/obecność rodzaju rozstrzyga walidacja modelu Proposal).
+    def division_blocked_for_internet?(attributes)
+      division = Division.find_by(id: attributes[:division_id])
+      division.present? && !division.proposal_via_internet
     end
 
     def existing_proposal(multi_app_identifier)

@@ -80,6 +80,34 @@ RSpec.describe 'API v1 POST /proposals', type: :request do
     end
   end
 
+  describe "typ świadectwa z wyłączonymi zapisami przez internet (divisions.proposal_via_internet = false)" do
+    it "odrzuca zgłoszenie – 422, bez zapisu (zabezpieczenie, gdy rodzaj wyłączono w trakcie wypełniania)" do
+      division.update_column(:proposal_via_internet, false)
+      post_proposal(data.to_json)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(json).to eq("errors" => ["Dla tego typu świadectwa zapisy przez internet są wyłączone"])
+      expect(Proposal.where(multi_app_identifier: uuid)).not_to exist
+    end
+
+    it "przyjmuje, gdy zapisy przez internet są włączone (domyślnie)" do
+      post_proposal(data.to_json)
+
+      expect(response).to have_http_status(:created)
+    end
+
+    it "ponowne wysłanie już utworzonego zgłoszenia nie jest blokowane, nawet po wyłączeniu rodzaju – zwraca istniejące" do
+      post_proposal(data.to_json)
+      expect(response).to have_http_status(:created)
+
+      division.update_column(:proposal_via_internet, false)
+      post_proposal(data.to_json)
+
+      expect(response).to have_http_status(:ok)
+      expect(Proposal.where(multi_app_identifier: uuid).count).to eq 1
+    end
+  end
+
   it 'przyjmuje stary format (Hash#to_s z Egzaminów)' do
     post_proposal(data.to_s)
 
