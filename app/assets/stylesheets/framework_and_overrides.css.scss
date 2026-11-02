@@ -173,6 +173,22 @@ img {
               font-size: 10px; line-height: 1.1; overflow: hidden; cursor: move; padding: 1px 2px; }
   .card-box.active { border: 2px solid #d9534f; background: rgba(217, 83, 79, .18); }
   .card-box.drawing { border-style: dotted; }
+  // Uchwyty zmiany rozmiaru (jQuery UI resizable) – domyślnie wystają 5 px poza pole, a .card-box ma overflow: hidden,
+  // więc zostawał niewidoczny pasek ~2 px. Tu: uchwyty WEWNĄTRZ pola, krawędzie 6 px, narożniki – widoczne kwadraty.
+  .card-box .ui-resizable-handle { z-index: 2; }
+  .card-box .ui-resizable-n { top: 0; height: 6px; }
+  .card-box .ui-resizable-s { bottom: 0; height: 6px; }
+  .card-box .ui-resizable-e { right: 0; width: 6px; }
+  .card-box .ui-resizable-w { left: 0; width: 6px; }
+  .card-box .ui-resizable-ne, .card-box .ui-resizable-nw, .card-box .ui-resizable-se, .card-box .ui-resizable-sw {
+    width: 8px; height: 8px; background: #1B3C8F; border: 1px solid #fff; z-index: 3;
+  }
+  .card-box .ui-resizable-ne { top: 0; right: 0; }
+  .card-box .ui-resizable-nw { top: 0; left: 0; }
+  .card-box .ui-resizable-se { bottom: 0; right: 0; background-image: none; text-indent: 0; }
+  .card-box .ui-resizable-sw { bottom: 0; left: 0; }
+  .card-box.active .ui-resizable-ne, .card-box.active .ui-resizable-nw,
+  .card-box.active .ui-resizable-se, .card-box.active .ui-resizable-sw { background: #d9534f; }
 }
 .card-fields {
   tr.active { background: #fcf8e3; }

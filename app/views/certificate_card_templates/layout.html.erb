@@ -173,7 +173,9 @@
       $('#card-editor-image').attr('src', $(this).data('src'));
     });
     $('#card-editor-image').on('load', render);
-    $(window).off('resize.cardeditor').on('resize.cardeditor', render);
+    // Tylko zmiana rozmiaru OKNA. Zdarzenie „resize” jQuery UI resizable (zmiana rozmiaru pola) bąbelkuje aż do window –
+    // bez tego warunku render() przebudowywał pola w trakcie zmiany rozmiaru i prostokąt wracał do starych wymiarów.
+    $(window).off('resize.cardeditor').on('resize.cardeditor', function(e) { if (e.target === window) { render(); } });
     if ($('#card-editor-image')[0].complete) { render(); }
   });
 </script>
