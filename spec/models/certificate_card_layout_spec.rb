@@ -149,7 +149,7 @@ RSpec.describe 'Karta plastikowa – układ, dane i wydruk', type: :model do
       expect(CertificateCardData.from_certificate(certificate.reload).text('qr_code')).to eq ''
     end
 
-    it 'zdjęcie: 1) z wniosku, 2) gdy wniosek go nie ma – plik graficzny osoby egzaminowanej z „zdjęcie na kartę” w nazwie' do
+    it 'zdjęcie z wniosku; bez niego – plik graficzny osoby egzaminowanej z „zdjęcie na kartę” w nazwie (najnowszy)' do
       certificate = create_certificate(division: division, number: 'MS-778', date_of_issue: Date.new(2026, 11, 20))
       ProposalStatus.new(name: 'Zaakceptowane').tap { |st| st.id = 2; st.save!(validate: false) }
       exam = FactoryBot.build(:exam, category: 'M', esod_category: 47, max_examinations: 10, date_exam: Date.today + 30).tap { |e| e.save!(validate: false) }
@@ -181,10 +181,34 @@ RSpec.describe 'Karta plastikowa – układ, dane i wydruk', type: :model do
       examination.documents.where(id: [marked.id, newer.id]).delete_all
       expect(CertificateCardData.photo_document(certificate.reload)).to be_nil
 
-      # bez osoby egzaminowanej – brak zdjęcia (załączniki świadectwa nie są brane)
+      # bez osoby egzaminowanej i bez oznaczonych plików – brak zdjęcia (obraz bez frazy, np. „face.png”, nie wystarcza)
       other = create_certificate(division: division, number: 'MS-779', date_of_issue: Date.new(2026, 11, 20))
       Document.create!(documentable: other, fileattach: file('card_ok.png'), fileattach_filename: 'face.png')
       expect(CertificateCardData.photo_for(other)).to be_nil
+    end
+
+    it 'kolejność: 1) zgłoszenie, 2) załącznik świadectwa, 3) osoby egzaminowanej, 4) klienta – w 2–4 tylko obraz z „zdjęcie na kartę”' do
+      certificate = create_certificate(division: division, number: 'MS-780', date_of_issue: Date.new(2026, 11, 20))
+      examination = Examination.new(certificate: certificate, customer: certificate.customer, division: division).tap { |e| e.save!(validate: false) }
+      customer = certificate.customer
+      mark = ->(owner, name, at = Time.now) { Document.create!(documentable: owner, fileattach: file('card_ok.png'), fileattach_filename: name, created_at: at) }
+
+      # same pliki bez frazy (skany, zdjęcia bez oznaczenia, PDF z frazą) – brak zdjęcia
+      mark.(certificate, 'skan swiadectwa.png'); mark.(examination, 'wniosek.jpg'); mark.(customer, 'dowod.png')
+      Document.create!(documentable: certificate, fileattach: file('card_text.txt', 'text/plain'), fileattach_filename: 'zdjecie na karte.pdf')
+      expect(CertificateCardData.photo_document(certificate.reload)).to be_nil
+
+      from_customer = mark.(customer, 'zdjęcie_na_kartę.png')
+      expect(CertificateCardData.photo_document(certificate.reload)).to eq from_customer           # 4) klient
+
+      from_examination = mark.(examination, 'Kowalski - zdjecie-na-karte.jpg', 1.day.ago)
+      expect(CertificateCardData.photo_document(certificate.reload)).to eq from_examination        # 3) osoba egzaminowana przed klientem
+
+      from_certificate = mark.(certificate, 'ZDJĘCIE NA KARTĘ.png', 2.days.ago)
+      expect(CertificateCardData.photo_document(certificate.reload)).to eq from_certificate        # 2) świadectwo przed osobą egzaminowaną
+
+      allow(CertificateCardData).to receive(:proposal_photo).and_return(:ze_zgloszenia)
+      expect(CertificateCardData.photo_document(certificate.reload)).to eq :ze_zgloszenia          # 1) zgłoszenie przed wszystkim
     end
   end
 

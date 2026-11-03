@@ -112,7 +112,7 @@
       </div><!-- /.col-sm-2 -->
 
       <%# Karty plastikowe – dodatkowy wydruk: tylko świadectwa ze wzorem karty na dzień wydania i ze zdjęciem (plan bez wczytywania plików). %>
-      <% card_items, card_skipped = CertificateCardTemplate.card_plan(@exam.certificates.includes(examination: [:proposal, :documents]).order(:id).to_a) %>
+      <% card_items, card_skipped = CertificateCardTemplate.card_plan(@exam.certificates.includes(:documents, customer: :documents, examination: [:proposal, :documents]).order(:id).to_a) %>
       <% if card_items.any? || card_skipped.any? %>
         <div class="col-sm-2 checked-scope-order-prn">
           <div class="folded"><h3>Wszystkie</h3></div>

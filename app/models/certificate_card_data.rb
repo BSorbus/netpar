@@ -1,10 +1,11 @@
 # Dane świadectwa do nadruku na karcie plastikowej (atrybuty CertificateCardTemplateField::ATTRIBUTES) – ze świadectwa
 # albo przykładowe (podgląd układu wzoru).
-# Zdjęcie (photo_document): 1) z wniosku z aplikacji Egzaminy (face_image_blob_path – NETPAR kopiuje plik do załączników osoby
-# egzaminowanej), 2) gdy wniosek go nie ma – plik graficzny (PNG/JPEG) w załącznikach osoby egzaminowanej z frazą
-# „zdjęcie na kartę” w nazwie (pracownik wgrywa go ręcznie; porównanie bez wielkości liter i polskich znaków, „_”, „-”, „.” jak
-# spacja, fraza może być częścią nazwy, np. „Kowalski Jan - zdjęcie na kartę.jpg”; kilka – ostatnio wgrany). Bez zdjęcia
-# karta nie jest drukowana (CertificateCardTemplate.card_plan – „brak zdjęcia”).
+# Zdjęcie (photo_document) – pierwsze znalezione:
+#   1) z wniosku z aplikacji Egzaminy (face_image_blob_path – NETPAR kopiuje plik do załączników osoby egzaminowanej),
+#   2) załącznik świadectwa, 3) załącznik osoby egzaminowanej, 4) załącznik klienta – plik graficzny (PNG/JPEG) z frazą
+#      „zdjęcie na kartę” w nazwie (pracownik wgrywa go ręcznie; bez wielkości liter i polskich znaków, „_”, „-”, „.” jak spacja,
+#      fraza może być częścią nazwy, np. „Kowalski Jan - zdjęcie na kartę.jpg”; kilka w jednym miejscu – ostatnio wgrany).
+# Bez zdjęcia karta nie jest drukowana (CertificateCardTemplate.card_plan – „brak zdjęcia”).
 # Kod QR: Certificate#qr_code_url (<confirmation>/qrc/<kod>). Świadectwo bez kodu – karta bez QR (zamiast niedziałającego).
 class CertificateCardData
   SAMPLE_VERIFICATION_CODE = '7KD3M9QX2PNAHT5V' # podgląd wzoru – nie zapisywany
@@ -57,7 +58,12 @@ class CertificateCardData
 
   # Dokument ze zdjęciem na kartę (bez wczytywania pliku) albo nil – wtedy karta nie jest drukowana.
   def self.photo_document(certificate)
-    proposal_photo(certificate) || card_photo_attachment(certificate)
+    examination = certificate.examination
+    customer = certificate.customer
+    proposal_photo(certificate) ||
+      card_photo_in(certificate.documents) ||
+      (examination && card_photo_in(examination.documents)) ||
+      (customer && card_photo_in(customer.documents))
   end
 
   def self.photo_for(certificate)
@@ -65,11 +71,9 @@ class CertificateCardData
     document.fileattach.read if document
   end
 
-  # Plik graficzny z frazą „zdjęcie na kartę” w nazwie wśród załączników osoby egzaminowanej (ostatnio wgrany).
-  def self.card_photo_attachment(certificate)
-    examination = certificate.examination
-    return unless examination
-    examination.documents.select { |d| image?(d) && card_photo_name?(d.fileattach_filename) }.max_by { |d| [d.created_at, d.id] }
+  # Plik graficzny z frazą „zdjęcie na kartę” w nazwie wśród podanych załączników (ostatnio wgrany) albo nil.
+  def self.card_photo_in(documents)
+    documents.select { |d| image?(d) && card_photo_name?(d.fileattach_filename) }.max_by { |d| [d.created_at, d.id] }
   end
 
   def self.image?(document)

@@ -113,7 +113,7 @@ pl:
         skipped_no_photo: 'Bez zdjęcia (pominięte): %{numbers}'
         none: 'Brak kart do wydruku – świadectwa bez wzoru karty na dzień wydania albo bez zdjęcia.'
         no_template: 'Brak wzoru karty na dzień wydania (%{date})'
-        no_photo: 'Brak zdjęcia na kartę – zdjęcie ze zgłoszenia albo załącznik osoby egzaminowanej z „zdjęcie na kartę” w nazwie pliku.'
+        no_photo: 'Brak zdjęcia na kartę – zdjęcie ze zgłoszenia albo załącznik świadectwa, osoby egzaminowanej lub klienta z „zdjęcie na kartę” w nazwie pliku.'
       attributes: # nowe – atrybuty do nadruku na karcie
         surname: 'Nazwisko' # nowe
         given_names: 'Imiona' # nowe
