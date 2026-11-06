@@ -51,7 +51,7 @@ class PdfCertificatesL < Prawn::Document
 
 
   def data(certificate)
-    text_box "No. #{certificate.number}",                             :at => [  10, 245], :width => 200, :height => 14, size: 14, :align => :left, :style => :bold
+    text_box "Nr/No. #{certificate.number}",                          :at => [  10, 245], :width => 200, :height => 14, size: 14, :align => :left, :style => :bold
     text_box "Zaświadcza się niniejszym, że",           				      :at => [ 180, 251], :width => 200, :height => 10, size:  8, :align => :left
     text_box "This is to certify that",              						      :at => [ 180, 242], :width => 200, :height => 10, size:  8, :align => :left
 
