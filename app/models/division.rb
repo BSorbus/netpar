@@ -52,6 +52,16 @@ class Division < ActiveRecord::Base
   scope :only_not_exclude_for_internet, ->()  { where(proposal_via_internet: true) }
   scope :only_enabled_in_confirmation, ->()  { where(enabled_in_confirmation: true) }
 
+  # Weryfikacja w Confirmation tylko świadectw wydanych od confirmation_issued_from (włącznie; puste – wszystkich).
+  # date_of_issue – Date albo tekst RRRR-MM-DD z formularza; niepoprawny tekst – false (rozstrzygnie dalsze porównanie).
+  def issued_before_confirmation_limit?(date_of_issue)
+    return false if confirmation_issued_from.blank? || date_of_issue.blank?
+    date = date_of_issue.is_a?(Date) ? date_of_issue : Date.iso8601(date_of_issue.to_s)
+    date < confirmation_issued_from
+  rescue ArgumentError
+    false
+  end
+
 
   # Scope for select2: "division_select"
   # * parameters   :

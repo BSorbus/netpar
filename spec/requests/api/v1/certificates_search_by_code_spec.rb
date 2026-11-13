@@ -68,9 +68,23 @@ RSpec.describe 'API v1 certificates/search_by_code', type: :request do
     search_by_code(other.verification_code)
     expect(response).to have_http_status(:forbidden)
     expect(json['error']).to include 'Rodzaj świadectwa nie podlega weryfikacji internetowej'
+    expect(json['reason']).to eq 'type_not_verifiable'
   end
 
   it 'stary adres (api/v1/confirmation/codes/:code) – usunięty' do
     expect { get "/api/v1/confirmation/codes/#{certificate.verification_code}", {}, api_headers }.to raise_error(ActionController::RoutingError)
   end
+
+  it 'świadectwo wydane przed datą, od której rodzaj podlega weryfikacji: 403 issued_before_limit z datą' do
+    goc.update_columns(confirmation_issued_from: Date.new(2018, 9, 1))
+
+    expect { search_by_code(certificate.verification_code) }.to change(ConfirmationLog, :count).by(1)
+    expect(response).to have_http_status(:forbidden)
+    expect(json).to include('reason' => 'issued_before_limit', 'verifiable_from' => '2018-09-01')
+
+    goc.update_columns(confirmation_issued_from: Date.new(2018, 8, 30)) # wydane w dniu granicznym – weryfikowane
+    search_by_code(certificate.verification_code)
+    expect(response).to have_http_status(:ok)
+  end
+
 end

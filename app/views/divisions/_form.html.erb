@@ -99,6 +99,12 @@
           <%= f.check_box :enabled_in_confirmation, disabled: input_disabled %>
         </div>
 
+        <div class="form-group col-sm-3">
+          <%= f.label :confirmation_issued_from, class: 'control-label' %>
+          <%= f.text_field :confirmation_issued_from, class: 'datepicker form-control input-sm', disabled: input_disabled,
+                           placeholder: t('placeholder_text.division.form.confirmation_issued_from') %>
+        </div>
+
       </div>  <!-- /row -->
 
     </div>  <!-- /col-sm-12 -->

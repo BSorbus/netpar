@@ -53,6 +53,7 @@ pl:
           required: 'wymagane'
           blocked: 'blokada'
         paper_blank: 'blankiet'
+        issued_from: 'wydane od' # nowe
       show:
         title: 'Typ Świadectwa'
       edit:
@@ -712,6 +713,7 @@ pl:
         for_new_certificate: 'Dozwolony dla nowych dokumentów'
         proposal_via_internet: 'Dozwolony dla zapisów przez internet'
         enabled_in_confirmation: 'Dozwolony dla weryfikacji w Confirmation'
+        confirmation_issued_from: 'Weryfikacja świadectw wydanych od' # nowe
         card_print_text: 'Tekst rodzaju na karcie plastikowej (PL, EN albo oba; pusty – nazwa PL)' # nowe
         category_l: 'Służba Lotnicza'
         category_m: 'Służba Morska i Żeglugi Śródlądowej'
@@ -1019,6 +1021,7 @@ pl:
         number_prefix: 'np. GG-'
         name: 'świadectwo ogólne operatora GMDSS'
         card_print_text: 'np. GMDSS General Operator’s Certificate / Świadectwo ogólne operatora GMDSS' # nowe
+        confirmation_issued_from: 'puste – wszystkie' # nowe
     exam_l:
       form:
         number: 'np. 123/2015/L'

@@ -2,9 +2,13 @@
 # - mor_search_by_multi_params – STARE confirmation (tylko świadectwa morskie; do usunięcia razem ze starym confirmation);
 # - search – confirmation8: weryfikacja po danych z formularza (L, M, R), porównanie z bieżącym świadectwem i historią zmian;
 # - search_by_code – confirmation8: weryfikacja po kodzie świadectwa (QR karty i zaświadczenia: <confirmation>/qrc/<kod>).
-# search i search_by_code: ten sam format odpowiedzi; 403 – rodzaj wyłączony z weryfikacji internetowej
-# (divisions.enabled_in_confirmation), w search dopiero po pełnym dopasowaniu danych (po samym numerze nie da się wykryć
-# istnienia świadectwa); verification_url – adres do kodu QR zaświadczenia (Certificate#qr_code_url).
+# search i search_by_code: ten sam format odpowiedzi; verification_url – adres do kodu QR zaświadczenia
+# (Certificate#qr_code_url). 403 z polem reason:
+# - type_not_verifiable – rodzaj wyłączony z weryfikacji internetowej (divisions.enabled_in_confirmation), w search dopiero
+#   po pełnym dopasowaniu danych (po samym numerze nie da się wykryć istnienia świadectwa);
+# - issued_before_limit – świadectwo wydane przed datą, od której rodzaj podlega weryfikacji
+#   (divisions.confirmation_issued_from, pole verifiable_from); w search od razu, wg daty wydania z zapytania – odpowiedź
+#   zależy tylko od danych zapytania, więc nie zdradza istnienia świadectwa; w search_by_code – wg daty świadectwa.
 # Akcje show, lot, mor, ra usunięte 2026-11 (nieużywane wg logów produkcji z roku).
 class Api::V1::CertificatesController < Api::V1::BaseApiController
 
@@ -64,6 +68,11 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
       req_given_names = ActionController::Base.helpers.sanitize(params[:given_names])
       req_birth_date = ActionController::Base.helpers.sanitize(params[:birth_date])
 
+      division = Division.where(category: params[:category], number_prefix: params[:number_prefix]).first
+      if division && division.issued_before_confirmation_limit?(req_date_of_issue)
+        return render_issued_before_limit(requ_json, division)
+      end
+
       certificate = Certificate.joins(:division)
                                .where(canceled: false, category: params[:category])
                                .find_by("TRIM(certificates.number) = ?", req_number)
@@ -97,6 +106,8 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
       render_not_found(requ_json)
     elsif !certificate.division.enabled_in_confirmation
       render_type_not_verifiable(requ_json)
+    elsif certificate.division.issued_before_confirmation_limit?(certificate.date_of_issue)
+      render_issued_before_limit(requ_json, certificate.division)
     else
       render_data_is_equal(requ_json, certificate_found_json(certificate))
     end
@@ -107,7 +118,18 @@ class Api::V1::CertificatesController < Api::V1::BaseApiController
     # Dane świadectwa zgadzają się (search) albo kod znaleziony (search_by_code), ale rodzaj nie jest dopuszczony
     # do weryfikacji internetowej (divisions.enabled_in_confirmation = false) – osobny komunikat (403).
     def render_type_not_verifiable(requ_json)
-      resp_json = { error: "Rodzaj świadectwa nie podlega weryfikacji internetowej / Certificate type is not subject to online verification" }
+      resp_json = { error: "Rodzaj świadectwa nie podlega weryfikacji internetowej / Certificate type is not subject to online verification",
+                    reason: "type_not_verifiable" }
+      ConfirmationLog.create!(remote_ip: "#{request.headers['X-Real-IP']}", request_json: "#{requ_json}", response_json: "#{resp_json}")
+      render status: :forbidden, json: resp_json
+    end
+
+    # Świadectwo wydane przed datą, od której rodzaj podlega weryfikacji (divisions.confirmation_issued_from) – osobny
+    # komunikat (403), nie „brak danych”: prawdziwe stare świadectwo nie może wyglądać na nieistniejące.
+    def render_issued_before_limit(requ_json, division)
+      from = division.confirmation_issued_from.to_s
+      resp_json = { error: "Świadectwa wydane przed #{from} nie podlegają weryfikacji internetowej / Certificates issued before #{from} are not subject to online verification",
+                    reason: "issued_before_limit", verifiable_from: from }
       ConfirmationLog.create!(remote_ip: "#{request.headers['X-Real-IP']}", request_json: "#{requ_json}", response_json: "#{resp_json}")
       render status: :forbidden, json: resp_json
     end

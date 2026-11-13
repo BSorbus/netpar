@@ -59,7 +59,12 @@ $(document).ready(function() {
       { data: 'proposal_via_internet', className: 'dt-center',
         render: flag(['label-success', '<%= I18n.t("pages.division.index.flags.yes") %>'], ['label-danger', '<%= I18n.t("pages.division.index.flags.blocked") %>']) },
       { data: 'enabled_in_confirmation', className: 'dt-center',
-        render: flag(['label-success', '<%= I18n.t("pages.division.index.flags.yes") %>'], ['label-danger', '<%= I18n.t("pages.division.index.flags.blocked") %>']) },
+        render: function(value, type, row) {
+          var label = flag(['label-success', '<%= I18n.t("pages.division.index.flags.yes") %>'], ['label-danger', '<%= I18n.t("pages.division.index.flags.blocked") %>'])(value, type, row);
+          if (!value || !row.confirmation_issued_from) { return label; }
+          return type === 'display' ? label + '<br><small class="text-muted"><%= I18n.t("pages.division.index.issued_from") %> ' + row.confirmation_issued_from + '</small>'
+                                    : label + ' ' + row.confirmation_issued_from;
+        } },
       { data: 'card_template_name',
         render: function(value, type, row) {
           if (type !== 'display') { return value || '<%= I18n.t("pages.division.index.paper_blank") %>'; }

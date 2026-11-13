@@ -75,6 +75,10 @@
         <p><strong><%= Division.human_attribute_name(:enabled_in_confirmation) %></strong></p>
         <h5><%= @division.enabled_in_confirmation? ? 'Tak' : 'Nie' %></h5>
       </div>
+      <div class="form-group col-sm-3">
+        <p><strong><%= Division.human_attribute_name(:confirmation_issued_from) %></strong></p>
+        <h5><%= @division.confirmation_issued_from || 'wszystkie' %></h5>
+      </div>
     </div>
 
   </div>  <!-- /col-sm-12 -->

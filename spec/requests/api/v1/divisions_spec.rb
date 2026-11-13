@@ -32,8 +32,16 @@ RSpec.describe 'API v1 divisions', type: :request do
         'id' => 11, 'name' => 'świadectwo ogólne operatora GMDSS', 'english_name' => 'EN GOC', 'short_name' => 'GOC',
         'number_prefix' => 'GG-', 'category' => 'M', 'min_years_old' => 18, 'face_image_required' => true,
         'for_new_certificate' => true, 'proposal_via_internet' => false, 'enabled_in_confirmation' => true,
-        'fullname' => 'świadectwo ogólne operatora GMDSS, [GOC][ukończone 18 lat]'
+        'confirmation_issued_from' => '2000-01-01', 'fullname' => 'świadectwo ogólne operatora GMDSS, [GOC][ukończone 18 lat]'
       )
+    end
+
+    it 'podaje datę, od której wydane świadectwa podlegają weryfikacji (RRRR-MM-DD; domyślnie 2000-01-01, puste – null)' do
+      goc.update_columns(confirmation_issued_from: Date.new(2015, 11, 1))
+      src.update_columns(confirmation_issued_from: nil)
+      get '/api/v1/divisions', { enabled_in_confirmation: 'true', category: 'M' }, api_headers
+
+      expect(json['divisions'].map { |d| d['confirmation_issued_from'] }).to eq ['2015-11-01', nil]
     end
 
     it 'filtruje po kategorii (wielkość liter bez znaczenia)' do

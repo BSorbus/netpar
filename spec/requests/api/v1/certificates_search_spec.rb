@@ -103,6 +103,48 @@ RSpec.describe 'API v1 certificates/search', type: :request do
     expect { search(number_prefix: 'GC-', number: '00001') }.to change(ConfirmationLog, :count).by(1)
     expect(response).to have_http_status(:forbidden)
     expect(json['error']).to include 'Rodzaj świadectwa nie podlega weryfikacji internetowej'
+    expect(json['reason']).to eq 'type_not_verifiable'
+  end
+
+  describe 'data, od której rodzaj podlega weryfikacji (divisions.confirmation_issued_from)' do
+    before { goc.update_columns(confirmation_issued_from: Date.new(2018, 9, 1)) }
+
+    it 'świadectwo wydane wcześniej: 403 issued_before_limit z datą (nie „brak danych”), zapis w logu' do
+      expect { search }.to change(ConfirmationLog, :count).by(1)
+
+      expect(response).to have_http_status(:forbidden)
+      expect(json).to include('reason' => 'issued_before_limit', 'verifiable_from' => '2018-09-01')
+      expect(json['error']).to include 'Świadectwa wydane przed 2018-09-01 nie podlegają weryfikacji internetowej'
+    end
+
+    it 'decyzja wg daty z zapytania – także gdy świadectwa nie ma (nic nie zdradza o jego istnieniu)' do
+      search(number: '99999', name: 'kowalski')
+      expect(response).to have_http_status(:forbidden)
+      expect(json['reason']).to eq 'issued_before_limit'
+    end
+
+    it 'dzień graniczny i późniejsze – zwykła weryfikacja' do
+      certificate.update_columns(date_of_issue: Date.new(2018, 9, 1))
+      search(date_of_issue: '2018-09-01')
+      expect(response).to have_http_status(:ok)
+
+      search(date_of_issue: '2018-09-02')
+      expect(response).to have_http_status(:not_found) # dane niezgodne – jak zawsze
+    end
+
+    it 'ograniczenie dotyczy tylko swojego rodzaju; niepoprawna data – bez 403 (rozstrzyga porównanie)' do
+      or_l.update_columns(confirmation_issued_from: Date.new(2030, 1, 1))
+      search
+      expect(response).to have_http_status(:forbidden) # GOC: 2018-08-30 < 2018-09-01
+
+      goc.update_columns(confirmation_issued_from: nil)
+      search
+      expect(response).to have_http_status(:ok) # ograniczenie rodzaju L nie dotyczy GOC
+
+      goc.update_columns(confirmation_issued_from: Date.new(2018, 9, 1))
+      search(date_of_issue: '30.08.2018')
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   it 'rodzaj niewłączony, ale dane NIEzgodne: 404 jak brak danych (bez ujawniania istnienia świadectwa)' do
